@@ -26,8 +26,8 @@ return array(
 	|
 	*/
 
-	'url' => 'http://localhost/GTS/public',
-	'inside_url' => '/GTS/public/',
+	'url' => 'http://localhost/GTSlaravel/public',
+	'inside_url' => '/GTSlaravel/public/',
 
 	/*
 	|--------------------------------------------------------------------------
