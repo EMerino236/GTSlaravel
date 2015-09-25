@@ -43,6 +43,9 @@
             <li>
                 <a href="{{ URL::to('user/list_users') }}"><i class="fa fa-user fa-fw"></i> Usuarios</a>
             </li>
+            <li>
+                <a href="{{ URL::to('configuraciones/') }}"><i class="fa fa-gear fa-fw"></i> Configuraciones</a>
+            </li>
             <li class="divider"></li>
             <li>
                 <a href="{{ URL::to('logout') }}"><i class="fa fa-sign-out fa-fw"></i> Cerrar Sesión</a>
