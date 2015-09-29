@@ -64,7 +64,7 @@
 				</div>
 			</div>
 			<div class="row">
-				{{ Form::label('fecha_nacimiento','Cambiar fecha de nacimiento') }}
+				{{ Form::label('fecha_nacimiento','Fecha de nacimiento') }}
 				<div id="datetimepicker1" class="form-group input-group date col-xs-8 @if($errors->first('fecha_nacimiento')) has-error has-feedback @endif">
 					
 					{{ Form::text('fecha_nacimiento',Input::old('fecha_nacimiento'),array('class'=>'form-control','readonly'=>'')) }}

@@ -19,6 +19,7 @@ class ActivosController extends BaseController
 			$data["servicios"] = Servicio::lists('nombre','idservicio');
 			$data["marcas"]	= Marca::lists('nombre','idmarca');
 			$data["centro_costos"]	= CentroCosto::lists('nombre','idcentro_costo');
+			$data["tipo_documento"] = TipoDocumento::lists('nombre','idtipo_documento');	
 			return View::make('activos/createActivo',$data);
 		}
 		

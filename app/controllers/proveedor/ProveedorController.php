@@ -2,17 +2,18 @@
 
 class ProveedorController extends BaseController {
 
-	public function render_create_user()
+	private static $nombre_tabla = 'estado_general';
+
+	public function render_create_proveedor()
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
-				$data["tipos_documento"] = TipoDocumento::lists('nombre','idtipo_documento');
-				$data["areas"] = Area::lists('nombre','idarea');
-				$data["roles"] = Rol::lists('nombre','idrol');
-				return View::make('user/createUser',$data);
+				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
+				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
+				return View::make('proveedor/createProveedor',$data);
 			}else{
 				return View::make('error/error');
 			}
@@ -22,7 +23,7 @@ class ProveedorController extends BaseController {
 		}
 	}
 
-	public function submit_create_user()
+	public function submit_create_proveedor()
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
@@ -31,47 +32,27 @@ class ProveedorController extends BaseController {
 			if($data["user"]->idrol == 1){
 				// Validate the info, create rules for the inputs
 				$rules = array(
-							'username' => 'required|min:6|max:45|unique:users',
+							'razon_social' => 'required|max:100|unique:proveedores',
 							'email' => 'required|email|max:45',
-							'genero' => 'required',
-							'fecha_nacimiento' => 'required',
-							'nombre' => 'required|alpha_spaces|min:2|max:45',
-							'apellido_pat' => 'required|alpha_spaces|min:2|max:45',
-							'apellido_mat' => 'required|alpha_spaces|min:2|max:45',
-							'tipo_documento' => 'required',
-							'numero_doc_identidad' => 'required|numeric|digits_between:8,16',
-							'idarea' => 'required',
-							'idrol' => 'required',
+							'telefono' => 'required|max:45',
+							'ruc' => 'required|numeric|digits_between:8,16',
+							'idestado' => 'required'
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
-					return Redirect::to('user/create_user')->withErrors($validator)->withInput(Input::all());
+					return Redirect::to('proveedores/create_proveedor')->withErrors($validator)->withInput(Input::all());
 				}else{
-					$password = Str::random(8);
-					$user = new User;
-					$user->username = Input::get('username');
-					$user->password = Hash::make($password);
-					$user->email = Input::get('email');
-					$user->nombre = Input::get('nombre');
-					$user->apellido_pat = Input::get('apellido_pat');
-					$user->apellido_mat = Input::get('apellido_mat');
-					$user->idtipo_documento = Input::get('tipo_documento');
-					$user->numero_doc_identidad = Input::get('numero_doc_identidad');
-					$user->idarea = Input::get('idarea');
-					$user->idrol = Input::get('idrol');
-					$user->genero = Input::get('genero');
-					$user->fecha_nacimiento = Input::get('fecha_nacimiento');
-					$user->save();
-					Mail::send('emails.user_registration',array('user'=> $user,'password'=>$password),function($message) use ($user)
-					{
-						$message->to($user->email, $user->name)
-								->subject('Registro de nuevo usuario');
-					});
-					Session::flash('message', 'Se registró correctamente al usuario.');
-					
-					return Redirect::to('user/create_user');
+					$proveedor = new Proveedor;
+					$proveedor->razon_social = Input::get('razon_social');
+					$proveedor->email = Input::get('email');
+					$proveedor->telefono = Input::get('telefono');
+					$proveedor->ruc = Input::get('ruc');
+					$proveedor->idestado = Input::get('idestado');
+					$proveedor->save();
+					Session::flash('message', 'Se creó correctamente el proveedor.');
+					return Redirect::to('proveedores/create_proveedor');
 				}
 			}else{
 				return View::make('error/error');
@@ -90,8 +71,8 @@ class ProveedorController extends BaseController {
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
 				$data["search"] = null;
-				$data["users_data"] = Proveedor::getUsersInfo()->paginate(10);
-				return View::make('user/listProveedores',$data);
+				$data["proveedores_data"] = Proveedor::getProveedoresInfo()->paginate(10);
+				return View::make('proveedor/listProveedores',$data);
 			}else{
 				return View::make('error/error');
 			}
@@ -101,22 +82,21 @@ class ProveedorController extends BaseController {
 		}
 	}
 
-	public function render_edit_user($id=null)
+	public function render_edit_proveedor($id=null)
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if(($data["user"]->idrol == 1) && $id){
-				$data["tipos_documento"] = TipoDocumento::lists('nombre','idtipo_documento');
-				$data["areas"] = Area::lists('nombre','idarea');
-				$data["roles"] = Rol::lists('nombre','idrol');
-				$data["user_info"] = User::searchUserById($id)->get();
-				if($data["user_info"]->isEmpty()){
-					return Redirect::to('user/list_user');
+				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
+				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
+				$data["proveedor_info"] = Proveedor::searchProveedorById($id)->get();
+				if($data["proveedor_info"]->isEmpty()){
+					return Redirect::to('user/list_proveedores');
 				}
-				$data["user_info"] = $data["user_info"][0];
-				return View::make('user/editUser',$data);
+				$data["proveedor_info"] = $data["proveedor_info"][0];
+				return View::make('proveedor/editProveedor',$data);
 			}else{
 				return View::make('error/error');
 			}
@@ -125,7 +105,7 @@ class ProveedorController extends BaseController {
 		}
 	}
 
-	public function submit_edit_user()
+	public function submit_edit_proveedor()
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
@@ -135,44 +115,27 @@ class ProveedorController extends BaseController {
 				// Validate the info, create rules for the inputs
 				$rules = array(
 							'email' => 'required|email|max:45',
-							'genero' => 'required',
-							'fecha_nacimiento' => 'required',
-							'password' => 'min:6|max:30|confirmed',
-							'password_confirmation' => 'min:6|max:30',
-							'nombre' => 'required|alpha_spaces|min:2|max:45',
-							'apellido_pat' => 'required|alpha_spaces|min:2|max:45',
-							'apellido_mat' => 'required|alpha_spaces|min:2|max:45',
-							'tipo_documento' => 'required',
-							'numero_doc_identidad' => 'required|numeric|digits_between:8,16',
-							'idarea' => 'required',
-							'idrol' => 'required',
+							'telefono' => 'required|max:45',
+							'ruc' => 'required|numeric|digits_between:8,16',
+							'idestado' => 'required'
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
-					$user_id = Input::get('user_id');
-					$url = "user/edit_user"."/".$user_id;
+					$proveedor_id = Input::get('proveedor_id');
+					$url = "proveedores/edit_proveedor/".$proveedor_id;
 					return Redirect::to($url)->withErrors($validator)->withInput(Input::all());
 				}else{
-					$user_id = Input::get('user_id');
-					$url = "user/edit_user"."/".$user_id;
-					$user = User::find($user_id);
-					$user->email = Input::get('email');
-					$user->nombre = Input::get('nombre');
-					$user->apellido_pat = Input::get('apellido_pat');
-					$user->apellido_mat = Input::get('apellido_mat');
-					$user->idtipo_documento = Input::get('tipo_documento');
-					$user->numero_doc_identidad = Input::get('numero_doc_identidad');
-					$user->idarea = Input::get('idarea');
-					$user->idrol = Input::get('idrol');
-					$user->genero = Input::get('genero');
-					$user->fecha_nacimiento = Input::get('fecha_nacimiento');
-					$password = Input::get('password');
-					if(!empty($password))
-						$user->password = Hash::make($password);
-					$user->save();
-					Session::flash('message', 'Se editó correctamente al usuario.');
+					$proveedor_id = Input::get('proveedor_id');
+					$url = "proveedores/edit_proveedor/".$proveedor_id;
+					$proveedor = Proveedor::find($proveedor_id);
+					$proveedor->email = Input::get('email');
+					$proveedor->telefono = Input::get('telefono');
+					$proveedor->ruc = Input::get('ruc');
+					$proveedor->idestado = Input::get('idestado');
+					$proveedor->save();
+					Session::flash('message', 'Se editó correctamente el proveedor.');
 					return Redirect::to($url);
 				}
 			}else{
@@ -184,18 +147,18 @@ class ProveedorController extends BaseController {
 		}
 	}
 
-	public function submit_disable_user()
+	public function submit_disable_proveedor()
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
-				$user_id = Input::get('user_id');
-				$url = "user/edit_user"."/".$user_id;
-				$user = User::find($user_id);
-				$user->delete();
-				Session::flash('message', 'Se inhabilitó correctamente al usuario.');
+				$proveedor_id = Input::get('proveedor_id');
+				$url = "proveedores/edit_proveedor/".$proveedor_id;
+				$proveedor = Proveedor::find($proveedor_id);
+				$proveedor->delete();
+				Session::flash('message', 'Se inhabilitó correctamente al proveedor.');
 				return Redirect::to($url);
 			}else{
 				return View::make('error/error');
@@ -205,18 +168,18 @@ class ProveedorController extends BaseController {
 		}
 	}
 
-	public function submit_enable_user()
+	public function submit_enable_proveedor()
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
-				$user_id = Input::get('user_id');
-				$url = "user/edit_user"."/".$user_id;
-				$user = User::withTrashed()->find($user_id);
-				$user->restore();
-				Session::flash('message', 'Se habilitó correctamente al usuario.');
+				$proveedor_id = Input::get('proveedor_id');
+				$url = "proveedores/edit_proveedor/".$proveedor_id;
+				$proveedor = Proveedor::withTrashed()->find($proveedor_id);
+				$proveedor->restore();
+				Session::flash('message', 'Se habilitó correctamente al proveedor.');
 				return Redirect::to($url);
 			}else{
 				return View::make('error/error');
@@ -226,7 +189,7 @@ class ProveedorController extends BaseController {
 		}
 	}
 
-	public function search_user()
+	public function search_proveedor()
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
@@ -234,8 +197,8 @@ class ProveedorController extends BaseController {
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
 				$data["search"] = Input::get('search');
-				$data["users_data"] = User::searchUsers($data["search"])->paginate(10);
-				return View::make('user/listUsers',$data);
+				$data["proveedores_data"] = Proveedor::searchProveedores($data["search"])->paginate(10);
+				return View::make('proveedor/listProveedores',$data);
 			}else{
 				return View::make('error/error');
 			}
