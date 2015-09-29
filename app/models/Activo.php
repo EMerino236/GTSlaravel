@@ -19,6 +19,7 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 	 */
 	protected $table = 'activos';
 
+
 	/**
 	 * The attributes excluded from the model's JSON form.
 	 *
@@ -38,6 +39,42 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 		$query->withTrashed()
 			  ->where('activos.codigo_patrimonial','=',$search_criteria);
 		return $query;	
+	}
+
+	public function scopeGetActivosByGrupoId($query,$search_criteria){
+		$query->withTrashed()
+			  ->join('familia_activos','familia_activos.idfamilia_activo','=','activos.idfamilia_activo')
+			  ->whereNested(function($query) use($search_criteria){
+			  		$query->where('activos.idgrupo','LIKE',"%$search_criteria%");
+			  })
+			  ->select('familia_activos.nombre_equipo as nombre_equipo','activos.*');
+		return $query;
+	}
+	
+	public function scopeGetActivosByServicioId($query,$search_criteria){
+		$query->withTrashed()
+			  ->join('familia_activos','familia_activos.idfamilia_activo','=','activos.idfamilia_activo')
+			  ->whereNested(function($query) use($search_criteria){
+			  		$query->where('activos.idservicio','LIKE',"%$search_criteria%");
+			  })
+			  ->select('familia_activos.nombre_equipo as nombre_equipo','activos.*');
+		return $query;
+	}
+
+	public function scopeGetEquiposActivosByServicioId($query,$idservicio){
+		$query->whereNested(function($query) use($idservicio){
+			  		$query->where('idservicio','LIKE',"%$idservicio%");
+			  })
+			  ->select('activos.*');
+		return $query;
+	}
+
+	public function scopeGetEquiposActivosByGrupoId($query,$idgrupo){
+		$query->whereNested(function($query) use($idgrupo){
+			  		$query->where('idgrupo','LIKE',"%$idgrupo%");
+			  })
+			  ->select('activos.*');
+		return $query;
 	}
 
 	
