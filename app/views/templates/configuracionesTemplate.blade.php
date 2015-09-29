@@ -76,10 +76,17 @@
                                 <!-- /.nav-third-level -->
                             </li>
                             <li>
+                                <a href="#">Marcas <span class="fa arrow"></span></a>
+                                <ul class="nav nav-third-level">
+                                    <li>{{ HTML::link('/marcas/create_marca','Nueva Marca') }}</li>
+                                    <li>{{ HTML::link('/marcas/list_marcas','Buscar Marca') }}</li>
+                                </ul>
+                            </li>
+                            <li>
                                 <a href="#">Familias de Equipos <span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">
-                                    <li>{{ HTML::link('/#','Nueva Familia de Equipo') }}</li>
-                                    <li>{{ HTML::link('/#','Buscar Familia de Equipo') }}</li>
+                                    <li>{{ HTML::link('/familiaactivos/create_familiaactivo','Nueva Familia de Equipo') }}</li>
+                                    <li>{{ HTML::link('/familiaactivos/list_familiaactivos','Buscar Familia de Equipo') }}</li>
                                 </ul>
                                 <!-- /.nav-third-level -->
                             </li>
