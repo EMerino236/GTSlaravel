@@ -39,6 +39,8 @@
     <!-- Custom Theme JavaScript -->
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
     <script src="{{ asset('js/bienes/reportes_incumplimiento.js') }}"></script>
+    <script src="{{ asset('js/bienes/bienes.js') }}"></script>
+
 </head>
 
 <body>
@@ -48,6 +50,7 @@
 		<div class="navbar-default sidebar" role="navigation">
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
+                    <li>{{ HTML::link('/sot/list_sots','Solicitud de Orden de Trabajo') }}</li>
                     <li>
                         <a href="#">Gestión documentaria<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
@@ -85,9 +88,9 @@
                                 <a href="#">Proveedores <span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">
 									<li>{{ HTML::link('/#','Reporte de supervisión') }}</li>
-									<li>{{ HTML::link('/#','Directorio') }}</li>
+                                    <li>{{ HTML::link('/proveedores/list_proveedores','Directorio') }}</li>
 									<li>{{ HTML::link('/reportes_incumplimiento/list_reportes','Reporte de incumplimiento') }}</li>
-									<li>{{ HTML::link('/#','Acta de conformidad') }}</li>
+                        			<li>{{ HTML::link('/#','Acta de conformidad') }}</li>
 									<li>{{ HTML::link('/#','Indicadores') }}</li>
                                 </ul>
                                 <!-- /.nav-third-level -->
@@ -145,8 +148,6 @@
         	@yield('content')
         </div>
 	</div>
-
-
 
 
 </body>

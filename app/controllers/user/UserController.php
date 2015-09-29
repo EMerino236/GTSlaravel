@@ -62,7 +62,7 @@ class UserController extends BaseController {
 					$user->idarea = Input::get('idarea');
 					$user->idrol = Input::get('idrol');
 					$user->genero = Input::get('genero');
-					$user->fecha_nacimiento = Input::get('fecha_nacimiento');
+					$user->fecha_nacimiento = date('Y-m-d H:i:s',strtotime(Input::get('fecha_nacimiento')));
 					$user->save();
 					Mail::send('emails.user_registration',array('user'=> $user,'password'=>$password),function($message) use ($user)
 					{
@@ -167,7 +167,7 @@ class UserController extends BaseController {
 					$user->idarea = Input::get('idarea');
 					$user->idrol = Input::get('idrol');
 					$user->genero = Input::get('genero');
-					$user->fecha_nacimiento = Input::get('fecha_nacimiento');
+					$user->fecha_nacimiento = date('Y-m-d H:i:s',strtotime(Input::get('fecha_nacimiento')));
 					$password = Input::get('password');
 					if(!empty($password))
 						$user->password = Hash::make($password);
