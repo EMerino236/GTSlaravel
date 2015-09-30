@@ -54,7 +54,7 @@
                     <li>
                         <a href="#">Gestión documentaria<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-							<li>{{ HTML::link('/equipos/','Directorio de equipos') }}</li>
+							<li>{{ HTML::link('/equipos/list_equipos','Directorio de equipos') }}</li>
 							<li>{{ HTML::link('/#','Lista de inventario') }}</li>
 							<li>{{ HTML::link('/#','Registro histórico de OT') }}</li>
 							<li>{{ HTML::link('/#','Servicio de búsqueda de información') }}</li>

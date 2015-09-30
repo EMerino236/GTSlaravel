@@ -25,6 +25,20 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 	 *
 	 * @var array
 	 */
+
+	public function scopeGetActivosInfo($query)
+	{
+		$query->withTrashed()
+			  ->join('ubicacion_fisicas','ubicacion_fisicas.idubicacion_fisica','=','activos.idubicacion_fisica')
+			  ->join('servicios','servicios.idservicio','=','ubicacion_fisicas.idubicacion_fisica')
+			  ->join('grupos','grupos.idgrupo','=','activos.idgrupo')
+			  ->join('familia_activos','familia_activos.idfamilia_activo','=','activos.idfamilia_activo')
+			  ->join('marcas','marcas.idmarca','=','familia_activos.idmarca')
+			  ->join('proveedores','proveedores.idproveedor','=','activos.idproveedor')
+			  ->select('servicios.nombre as nombre_servicio','ubicacion_fisicas.nombre as nombre_ubicacion_fisica','grupos.nombre as nombre_grupo','familia_activos.nombre_equipo as nombre_equipo',
+			  		   'familia_activos.modelo as activo_modelo','marcas.nombre as nombre_marca','proveedores.razon_social as nombre_proveedor','activos.*');
+		return $query;
+	}
 	
 
 	public function scopeSearchActivosById($query,$search_criteria)

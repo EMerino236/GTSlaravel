@@ -23,7 +23,7 @@
 		<div class="alert alert-danger">{{ Session::get('error') }}</div>
 	@endif
 
-	{{ Form::open(array('url'=>'familiaactivos/submit_edit_familiaactivo', 'role'=>'form')) }}
+	{{ Form::open(array('url'=>'familia_activos/submit_edit_familia_activo', 'role'=>'form')) }}
 		{{ Form::hidden('familia_activo_id', $familiaactivo_info->idfamilia_activo) }}
 
 		<div class="col-xs-6">

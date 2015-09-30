@@ -23,7 +23,7 @@
 		<div class="alert alert-danger">{{ Session::get('error') }}</div>
 	@endif
 
-	{{ Form::open(array('url'=>'familiaactivos/submit_create_familiaactivo', 'role'=>'form')) }}
+	{{ Form::open(array('url'=>'familia_activos/submit_create_familia_activo', 'role'=>'form')) }}
 		<div class="col-xs-6">
 			<div class="row">
 				<div class="form-group col-xs-8 @if($errors->first('idtipo_activo')) has-error has-feedback @endif">

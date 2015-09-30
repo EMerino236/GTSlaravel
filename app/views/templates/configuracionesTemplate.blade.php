@@ -87,8 +87,8 @@
                             <li>
                                 <a href="#">Familias de Equipos <span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">
-                                    <li>{{ HTML::link('/familiaactivos/create_familiaactivo','Nueva Familia de Equipo') }}</li>
-                                    <li>{{ HTML::link('/familiaactivos/list_familiaactivos','Buscar Familia de Equipo') }}</li>
+                                    <li>{{ HTML::link('/familia_activos/create_familia_activo','Nueva Familia de Equipo') }}</li>
+                                    <li>{{ HTML::link('/familia_activos/list_familia_activos','Buscar Familia de Equipo') }}</li>
                                 </ul>
                                 <!-- /.nav-third-level -->
                             </li>

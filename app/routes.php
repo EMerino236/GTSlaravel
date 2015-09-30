@@ -71,21 +71,22 @@ Route::group(array('prefix'=>'marcas', 'before'=>'auth'),function(){
 });
 
 /* Familia de Activos */
-Route::group(array('prefix'=>'familiaactivos', 'before'=>'auth'),function(){
-	Route::get('/list_familiaactivos','FamiliaActivosController@list_familiaactivos');
-	Route::get('/search_familiaactivos','FamiliaActivosController@search_familiaactivos');
-	Route::get('/create_familiaactivo','FamiliaActivosController@render_create_familiaactivo');
-	Route::post('/submit_create_familiaactivo','FamiliaActivosController@submit_create_familiaactivo');
-	Route::get('/edit_familiaactivo/{id}','FamiliaActivosController@render_edit_familiaactivo');
-	Route::post('/submit_edit_familiaactivo','FamiliaActivosController@submit_edit_familiaactivo');
+Route::group(array('prefix'=>'familia_activos', 'before'=>'auth'),function(){
+	Route::get('/list_familia_activos','FamiliaActivosController@list_familia_activos');
+	Route::get('/search_familia_activos','FamiliaActivosController@search_familia_activos');
+	Route::get('/create_familia_activo','FamiliaActivosController@render_create_familia_activo');
+	Route::post('/submit_create_familia_activo','FamiliaActivosController@submit_create_familia_activo');
+	Route::get('/edit_familia_activo/{id}','FamiliaActivosController@render_edit_familia_activo');
+	Route::post('/submit_edit_familia_activo','FamiliaActivosController@submit_edit_familia_activo');
 });
 
 /*Activos*/
 Route::group(array('prefix'=>'equipos','before'=>'auth'),function(){
 	Route::get('/','ActivosController@home');
-	Route::get('/createEquipo','ActivosController@render_create_activo');
-	Route::get('/submitEquipo','ActivosController@submit_create_activo');
-	Route::get('/searchEquipo','ActivosController@home');
+	Route::get('/list_equipos','ActivosController@list_activos');
+	Route::get('/create_equipo','ActivosController@render_create_activo');
+	Route::get('/submit_equipo','ActivosController@submit_create_activo');
+	Route::get('/search_equipos','ActivosController@home');
 });
 
 /*Configuraciones*/
