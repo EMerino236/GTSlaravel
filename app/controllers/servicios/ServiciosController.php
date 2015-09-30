@@ -55,9 +55,10 @@ class ServiciosController extends BaseController
 			{	
 				$data["tipo_servicios"] = TipoServicio::lists('nombre','idtipo_servicios');
 				$data["servicio_info"] = Servicio::searchServicioById($idservicio)->get();	
-				$idarea = Servicio::find($idservicio)->idarea;		
+				$servicio = Servicio::withTrashed()->find($idservicio);
+				$idarea = $servicio->idarea;
 				$data["areas"] = Area::lists('nombre','idarea');
-				$data["personal"] = Area::getUserList($idarea);
+				$data["personal"] = Area::getUserList($servicio->idarea);
 				array_unshift($data["tipo_servicios"], "");
 				array_unshift($data["areas"], "");
 				$data["activos_servicio"] = Activo::getActivosByServicioId($idservicio)->get();

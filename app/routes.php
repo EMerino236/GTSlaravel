@@ -135,7 +135,9 @@ Route::group(array('prefix'=>'grupos','before'=>'auth'),function(){
 Route::group(array('prefix'=>'reportes_incumplimiento','before'=>'auth'),function(){
 	Route::post('/return_resp_servicio/{postData}','ReportesIncumplimientoController@return_responsable_servicio');
 	Route::post('/return_contacto_proveedor/{postData}','ReportesIncumplimientoController@return_contacto_proveedor');
+	Route::post('/return_name_responsable/{postData}','ReportesIncumplimientoController@return_name_responsable');
 	Route::get('/list_reportes','ReportesIncumplimientoController@list_reportes_incumplimiento');	
 	Route::get('/search_reporte','ReportesIncumplimientoController@search_reporte');
 	Route::get('/create_reporte','ReportesIncumplimientoController@render_create_reporte');
+	Route::post('/submit_reporte','ReportesIncumplimientoController@submit_create_reporte');
 });

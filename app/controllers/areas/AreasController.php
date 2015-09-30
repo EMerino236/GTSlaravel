@@ -203,7 +203,8 @@ class AreasController extends BaseController
 				$url = "areas/edit_area"."/".$area_id;
 				$area = Area::find($area_id);
 				$usuarios_activos = User::searchPersonalActivoByIdArea($area_id)->get();
-				if(count($usuarios_activos)==0){					
+				if(count($usuarios_activos)==0){
+										
 					$area->delete();
 					Session::flash('message','Se inhabilitó correctamente el área.' );
 				}

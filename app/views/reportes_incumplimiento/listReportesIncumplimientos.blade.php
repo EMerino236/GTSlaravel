@@ -52,11 +52,16 @@
 				<th>Fecha de Registro</th>
 				<th>Servicio</th>
 				<th>Proveedor</th>
-			</tr>				
+			</tr>
+							
 		</table>
 	</div>
 	<div class="row">
 		<a class="btn btn-primary" href="{{URL::to('/reportes_incumplimiento/create_reporte/')}}">Crear</a>
 	</div>
-	
+	@if($search)
+		{{ $areas_data->appends(array('search' => $search))->links() }}
+	@else	
+		{{ $areas_data->links()}}
+	@endif
 @stop

@@ -17,4 +17,16 @@ class ReporteIncumplimiento extends Eloquent{
 			  ->select('servicios.nombre as nomb_servicio','proveedores.nombre as nomb_proveedor','ordenes_trabajo.*');
 		return $query;
 	}
+
+	public function scopeSearchReportes($query,$fecha_desde,$fecha_hasta,$proveedor,$tipo){
+		$query->withTrashed()
+			  ->whereNested(function($query) use($fecha_desde,$fecha_hasta,$proveedor,$tipo){
+			  		$query->where('fecha','>',$fecha_desde)
+			  			  ->where('fecha','<',$fecha_hasta)
+			  			  ->where('idproveedor','=',$proveedor)
+			  			  ->where('tipo_reporte','=',$tipo);
+			  })
+			  ->select('reporte_incumplimientos.*');
+		return $query;
+	}
 }
