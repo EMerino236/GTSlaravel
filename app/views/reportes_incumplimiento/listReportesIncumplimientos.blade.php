@@ -7,11 +7,11 @@
         <!-- /.col-lg-12 -->
     </div>
 
-    {{ Form::open(array('url'=>'/reportes_incumplimiento/search_reporte','method'=>'get' ,'role'=>'form', 'id'=>'search-form','class' => 'form-inline')) }}
+    {{ Form::open(array('url'=>'/reportes_incumplimiento/search_reporte','method'=>'get' ,'role'=>'form', 'id'=>'search-form','class' => 'form-group')) }}
 	
 		<div class="searchbar">
 			<div class="row">
-				<div class="col-xs-5">
+				<div class="form-group col-xs-2">
 					{{ Form::label('fecha_desde','Fecha Desde:')}}
 					<div id="datetimepicker1" class="form-group input-group date">					
 						{{ Form::text('fecha_desde',Input::old('fecha_desde'),array('class'=>'form-control','readonly'=>'')) }}
@@ -20,7 +20,7 @@
 		                </span>
 		            </div>
 	        	</div>
-	        	<div class="col-xs-5">
+	        	<div class="form-group col-xs-2">
 				{{ Form::label('fecha_hasta','Fecha Hasta:')}}
 					<div id="datetimepicker2" class="form-group input-group date">					
 								{{ Form::text('fecha_hasta',Input::old('fecha_hasta'),array('class'=>'form-control','readonly'=>'')) }}
@@ -29,19 +29,20 @@
 			                    </span>
 					</div>
 				</div>
-			</div>
-			<br>
-			<div class="row">
-				<div class="col-xs-4">					
-				{{ Form::label('proveedor','Proveedor:')}}
-				{{ Form::select('proveedor',$proveedor, Input::old('idproveedor'),array('class'=>'form-control')) }}
+				<div class="form-group col-xs-2">					
+					{{ Form::label('proveedor','Proveedor:')}}
+					{{ Form::select('proveedor',$proveedor, Input::old('idproveedor'),array('class'=>'form-control')) }}
 				</div>
-				<div class="col-xs-4">
-				{{ Form::label('tipo_reporte','Tipo Reporte:')}}
-				{{ Form::select('tipo_reporte',['0'=>'', '1'=>'Por Servicio','2'=>'Por Equipo'], Input::old('idtipo_reporte'),array('class'=>'form-control')) }}
+				<div class="form-group col-xs-2">
+					{{ Form::label('tipo_reporte','Tipo Reporte:')}}
+					{{ Form::select('tipo_reporte',['0'=>'--Seleccione--', '1'=>'Por Servicio','2'=>'Por Equipo'], Input::old('idtipo_reporte'),array('class'=>'form-control')) }}
 				</div>
-				{{ Form::submit('Buscar',array('id'=>'submit-search-form','class'=>'btn btn-info')) }}			
-			</div>
+				<div class="form-group col-xs-4" style="margin-top:25px">	
+					{{ Form::submit('Buscar',array('id'=>'submit-search-form','class'=>'btn btn-info')) }}			
+				</div>
+			</div>	
+				
+			
 	{{ Form::close() }}</br>
  	<div class="row">
 		<table class="table">
@@ -51,8 +52,7 @@
 				<th>Fecha de Registro</th>
 				<th>Servicio</th>
 				<th>Proveedor</th>
-			</tr>
-				
+			</tr>				
 		</table>
 	</div>
 	<div class="row">

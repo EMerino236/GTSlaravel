@@ -57,7 +57,6 @@ function fill_responsable_servicio(){
 
 function fill_contacto_proveedor(){       
         var val = document.getElementById("proveedor").value;
-        alert(val);
         $.ajax({
             url: inside_url+'reportes_incumplimiento/return_contacto_proveedor/'+val,
             type: 'POST',
@@ -76,10 +75,9 @@ function fill_contacto_proveedor(){
             success: function(response){
                 if(response.success){
                     var prov = response['proveedor'];
-                    alert(prov);
                     if(prov != null){
                         $("#contacto_proveedor").val("");
-                       // $("#contacto_proveedor").val(proveedor.nombre_contacto);            
+                        $("#contacto_proveedor").val(prov.nombre_contacto);            
                     }
                     else{
                        $("#contacto_proveedor").val("");
@@ -92,5 +90,4 @@ function fill_contacto_proveedor(){
                 alert('La petición no se pudo completar, inténtelo de nuevo.');
             }
         });
-
 }

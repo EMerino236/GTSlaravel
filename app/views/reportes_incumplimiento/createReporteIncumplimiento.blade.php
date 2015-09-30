@@ -44,11 +44,7 @@
 						</div>						
 					</div>
 					<div class="row">
-						<div class="form-group col-xs-2 col-xs-offset-1 @if($errors->first('tipo_documento')) has-error has-feedback @endif">
-							{{ Form::label('tipo_documento','Tipo Documento') }}
-							{{ Form::select('tipo_documento',$tipo_documento,Input::old('idtipo_documento'),['class' => 'form-control'])}}
-						</div>
-						<div class="form-group col-xs-2 @if($errors->first('numero_doc')) has-error has-feedback @endif">
+						<div class="form-group col-xs-2 col-xs-offset-1 @if($errors->first('numero_doc')) has-error has-feedback @endif">
 							{{ Form::label('numero_doc','Número Documento') }}
 							{{ Form::text('numero_doc',Input::old('numero_doc'),['class' => 'form-control'])}}
 						</div>
@@ -84,7 +80,7 @@
 		        	<div class="row">
 						<div class="col-xs-8 col-xs-offset-1 @if($errors->first('descripcion')) has-error has-feedback @endif">
 			        		{{ Form::label('descripcion','Descripción del Servicio o Producto no conforme') }}
-							{{ Form::textarea('descripcion',Input::old('descripcion'),['class' => 'form-control'])}}
+							{{ Form::textarea('descripcion',Input::old('descripcion'),['class' => 'form-control','style'=>'resize:none;'])}}
 		        		</div>
 		        	</div>
 		        	<br>
@@ -105,9 +101,83 @@
 						</div>
 						<div class="form-group col-xs-4  @if($errors->first('contacto_proveedor')) has-error has-feedback @endif">
 							{{ Form::label('contacto_proveedor','Contacto de Proveedor') }}
-							{{ Form::text('contacto_proveedor',Input::old('contacto_proveedor'),['class' => 'form-control','id'=>'contacto_proveedor'])}}
+							{{ Form::text('contacto_proveedor',Input::old('contacto_proveedor'),['class' => 'form-control','id'=>'contacto_proveedor','disabled'=>'disabled'])}}
 						</div>
 		        	</div>
+		        	<div class="row">
+						<div class="col-xs-4 col-xs-offset-1 @if($errors->first('costo')) has-error has-feedback @endif">
+			        		{{ Form::label('costo','Costos Generados') }}
+							{{ Form::text('costo',Input::old('costo'),['class' => 'form-control'])}}
+		        		</div>
+		        	</div>
+		        	<br>
+		        	<div class="row">
+						<div class="col-xs-8 col-xs-offset-1 @if($errors->first('accion_generada')) has-error has-feedback @endif">
+			        		{{ Form::label('accion_generada','Acción Correctiva Generada') }}
+							{{ Form::text('accion_generada',Input::old('accion_generada'),['class' => 'form-control'])}}
+		        		</div>
+		        	</div>
+		        	<br>
+		        	<div class="row">
+						<div class="col-xs-8 col-xs-offset-1 @if($errors->first('accion_generada')) has-error has-feedback @endif">
+			        		{{ Form::label('reincidente','¿Es reincidente?') }}
+							{{ Form::radio('reincidente', '1') }}SI{{ Form::radio('reincidente', '0', true) }}NO
+						</div> 
+					</div>
+
+					<div class="row">
+						<div class="col-xs-8 col-xs-offset-1 @if($errors->first('acciones')) has-error has-feedback @endif">
+			        		{{ Form::label('acciones','Acciones a seguir de acuerdo a la disposición determinada') }}
+							{{ Form::textarea('acciones',Input::old('acciones'),['class' => 'form-control','style'=>'resize:none;'])}}
+		        		</div>
+		        	</div>
+		        	<br>
+		        	<div class="row">
+						<div class="col-xs-8 col-xs-offset-1 @if($errors->first('descripcion')) has-error has-feedback @endif">
+			        		{{ Form::label('resultados_conclusiones','Resultados / Conclusiones con respecto al servicio') }}
+							{{ Form::textarea('resultados_conclusiones',Input::old('descripcion'),['class' => 'form-control','style'=>'resize:none;'])}}
+		        		</div>
+		        	</div>
+		        	<br>
+		        	<div class="row">
+						<div class="col-xs-8 col-xs-offset-1 @if($errors->first('descripcion')) has-error has-feedback @endif">
+			        		{{ Form::label('documento','Documento Contrato') }}
+							
+		        		</div>
+		        	</div>
+		        	<br>
+		        	<div class="row">
+						<div class="form-group col-xs-2 col-xs-offset-1 @if($errors->first('numero_doc')) has-error has-feedback @endif">
+							{{ Form::label('numero_doc2','Número Documento') }}
+							{{ Form::text('numero_doc2',Input::old('numero_doc2'),['class' => 'form-control'])}}
+						</div>
+						<div class="form-group col-xs-1" style="margin-top:25px">
+							<a class="btn btn-default">Agregar</a>
+						</div>
+						<div class="form-group col-xs-1" style="margin-top:25px">
+							<a class="btn btn-default">Limpiar</a>
+						</div>
+						<div class="form-group col-xs-5">
+							{{ Form::label('autorizado','Autorizado por') }}
+							{{ Form::text('autorizado',Input::old('autorizado'),['class' => 'form-control'])}}
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-xs-2 col-xs-offset-1 @if($errors->first('numero_doc')) has-error has-feedback @endif">
+							{{ Form::label('numero_doc','Número Documento') }}
+							{{ Form::text('numero_doc',Input::old('numero_doc'),['class' => 'form-control'])}}
+						</div>
+						<div class="form-group col-xs-1" style="margin-top:25px">
+							<a class="btn btn-default">Agregar</a>
+						</div>
+						<div class="form-group col-xs-1" style="margin-top:25px">
+							<a class="btn btn-default">Limpiar</a>
+						</div>
+						<div class="form-group col-xs-5">
+							{{ Form::label('elaborado','Elaborado por') }}
+							{{ Form::text('elaborado',Input::old('elaborado'),['class' => 'form-control'])}}
+						</div>
+					</div>
 				</div>			
 			</div>
 		</div>

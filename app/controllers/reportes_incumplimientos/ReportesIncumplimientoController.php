@@ -11,8 +11,7 @@ class ReportesIncumplimientoController extends BaseController
 			if($data["user"]->idrol == 1){
 				$data["search"] = null;
 				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
-				array_unshift($data["proveedor"], "");
-
+				array_unshift($data["proveedor"], "--Seleccione--");
 				return View::make('reportes_incumplimiento/listReportesIncumplimientos',$data);
 			}else{
 				return View::make('error/error');
@@ -105,10 +104,10 @@ class ReportesIncumplimientoController extends BaseController
 			$data = Input::get('selected_id');
 			if($data !=0){
 				$proveedor = Proveedor::find($data);				
-			}/*else{
+			}else{
 				$proveedor = null;
-			}*/
-			return Response::json(array( 'success' => true, 'proveedor' => $data),200);
+			}
+			return Response::json(array( 'success' => true, 'proveedor' => $proveedor),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
 		}

@@ -188,7 +188,7 @@ class ProveedorController extends BaseController {
 			return View::make('error/error');
 		}
 	}
-
+	
 	public function search_proveedor()
 	{
 		if(Auth::check()){
