@@ -53,7 +53,7 @@
 			<div class="row">
 				<div class="form-group col-xs-8 @if($errors->first('idestado')) has-error has-feedback @endif">
 					{{ Form::label('idestado','Estado') }}
-					{{ Form::select('idestado',$estados,Input::old('idestado'),['class' => 'form-control','readonly'=>'']) }}
+					{{ Form::select('idestado',$estados,Input::old('idestado'),['class' => 'form-control','readonly'=>'','disabled'=>'']) }}
 				</div>
 			</div>
 			<div class="row">

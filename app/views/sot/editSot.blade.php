@@ -24,6 +24,7 @@
 	@endif
 
 	{{ Form::open(array('url'=>'sot/submit_edit_sot', 'role'=>'form')) }}
+		{{ Form::hidden('sot_id', $sot_info->idsolicitud_orden_trabajo) }}
 		<div class="col-xs-12">
 			<div class="row">
 				<div class="form-group col-xs-10">

@@ -37,6 +37,28 @@ Route::group(array('prefix'=>'user', 'before'=>'auth'),function(){
 	Route::get('/search_user','UserController@search_user');
 });
 
+/* Proveedores */
+Route::group(array('prefix'=>'proveedores', 'before'=>'auth'),function(){
+	Route::get('/list_proveedores','ProveedorController@list_proveedores');
+	Route::get('/edit_proveedor/{id}','ProveedorController@render_edit_proveedor');
+	Route::post('/submit_edit_proveedor','ProveedorController@submit_edit_proveedor');
+	Route::get('/create_proveedor','ProveedorController@render_create_proveedor');
+	Route::post('/submit_create_proveedor','ProveedorController@submit_create_proveedor');
+	Route::post('/submit_disable_proveedor','ProveedorController@submit_disable_proveedor');
+	Route::post('/submit_enable_proveedor','ProveedorController@submit_enable_proveedor');
+	Route::get('/search_proveedor','ProveedorController@search_proveedor');
+});
+
+/* SOT */
+Route::group(array('prefix'=>'sot', 'before'=>'auth'),function(){
+	Route::get('/list_sots','SotController@list_sots');
+	Route::get('/edit_sot/{id}','SotController@render_edit_sot');
+	Route::post('/submit_edit_sot','SotController@submit_edit_sot');
+	Route::get('/create_sot','SotController@render_create_sot');
+	Route::post('/submit_create_sot','SotController@submit_create_sot');
+	Route::post('/submit_disable_sot','SotController@submit_disable_sot');
+	Route::get('/search_sot','SotController@search_sot');
+});
 
 /* Marcas */
 Route::group(array('prefix'=>'marcas', 'before'=>'auth'),function(){

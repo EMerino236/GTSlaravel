@@ -31,7 +31,7 @@ class SolicitudOrdenTrabajo extends Eloquent{
 			  			  ->orWhere('users.apellido_pat','LIKE',"%$search%")
 			  			  ->orWhere('users.apellido_mat','LIKE',"%$search%");
 			  });
-		if($search_estado != "16")
+		if($search_estado != "0")
 			$query->where('solicitud_orden_trabajos.idestado','=',$search_estado);
 		if($search_ini != "")
 			$query->where('solicitud_orden_trabajos.fecha_solicitud','>=',$search_ini);
