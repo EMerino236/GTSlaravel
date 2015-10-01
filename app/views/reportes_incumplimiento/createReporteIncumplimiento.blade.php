@@ -152,10 +152,20 @@
 		        	</div>
 		        	<br>
 		        	<div class="row">
-						<div class="col-xs-8 col-xs-offset-1 @if($errors->first('documento')) has-error has-feedback @endif">
-			        		{{ Form::label('documento','Documento Contrato') }}
-							
-		        		</div>
+						<div class="form-group col-xs-2 col-xs-offset-1 @if($errors->first('numero_contrato')) has-error has-feedback @endif">
+							{{ Form::label('numero_contrato','Cód. Archivamiento') }}
+							{{ Form::text('numero_contrato',Input::old('numero_contrato'),['class' => 'form-control','id'=>'numero_contrato'])}}
+						</div>
+						<div class="form-group col-xs-1" style="margin-top:25px">
+							<a class="btn btn-default" onclick="fill_name_contrato()">Agregar</a>
+						</div>
+						<div class="form-group col-xs-1" style="margin-top:25px">
+							<a class="btn btn-default" onclick="clean_name_contrato()">Limpiar</a>
+						</div>
+						<div class="form-group col-xs-5">
+							{{ Form::label('nombre_contrato','Nombre del Documento') }}
+							{{ Form::text('nombre_contrato',Input::old('nombre_contrato'),['class' => 'form-control','id'=>'nombre_contrato'])}}
+						</div>
 		        	</div>
 		        	<br>
 		        	<div class="row">
@@ -194,4 +204,5 @@
 			</div>
 		</div>
 		{{ Form::close() }}
+		
 @stop
