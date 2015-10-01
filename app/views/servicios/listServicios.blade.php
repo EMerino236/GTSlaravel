@@ -10,7 +10,7 @@
     {{ Form::open(array('url'=>'/servicios/search_servicio','method'=>'get' ,'role'=>'form', 'id'=>'search-form','class' => 'form-inline')) }}
 		<div class="search_bar">
 			{{ Form::label('tipo_servicio','Tipo de Servicio:')}}
-			{{ Form::select('search',$tipo_servicio,Input::old('search'),['class' => 'form-control']) }}
+			{{ Form::select('search',array('0'=> 'Seleccione')+$tipo_servicio,Input::old('search'),['class' => 'form-control']) }}
 			{{ Form::submit('Buscar',array('id'=>'submit-search-form','class'=>'btn btn-info')) }}
 		</div>	
 	{{ Form::close() }}</br>

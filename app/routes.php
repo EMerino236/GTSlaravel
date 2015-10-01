@@ -138,10 +138,10 @@ Route::group(array('prefix'=>'reportes_incumplimiento','before'=>'auth'),functio
 	Route::post('/return_name_responsable/{postData}','ReportesIncumplimientoController@return_name_responsable');
 	Route::get('/list_reportes','ReportesIncumplimientoController@list_reportes_incumplimiento');	
 	Route::get('/search_reporte','ReportesIncumplimientoController@search_reporte');
+	Route::get('/edit_reporte/{id}','ReportesIncumplimientoController@render_edit_reporte');
 	Route::get('/create_reporte','ReportesIncumplimientoController@render_create_reporte');
 	Route::post('/submit_reporte','ReportesIncumplimientoController@submit_create_reporte');
 });
-
 /* Tipo de Tareas */
 Route::group(array('prefix'=>'tipoTarea', 'before'=>'auth'),function(){
 	Route::get('/list_tipoTareas','TipoTareaController@list_tipoTareas');

@@ -94,6 +94,9 @@ function fill_contacto_proveedor(){
 
 function fill_name_responsable(id){
         var val = document.getElementById("numero_doc"+id).value;
+        if(val=="")
+            val = "vacio";
+        
         $.ajax({
             url: inside_url+'reportes_incumplimiento/return_name_responsable/'+val,
             type: 'POST',
@@ -112,18 +115,24 @@ function fill_name_responsable(id){
             success: function(response){
                 if(response.success){
                     var resp = response['responsable'];
-                    if(resp[0] != null){
-                        $("#nombre_responsable"+id).val("");
-                        $("#nombre_responsable"+id).css('background-color','#5cb85c');
-                        $("#nombre_responsable"+id).css('color','white');
-                        $("#nombre_responsable"+id).val(resp[0].nombre+" "+resp[0].apellido_pat+" "+resp[0].apellido_mat);
+                    if(resp!="vacio"){
+                        if(resp[0] != null){
+                            $("#nombre_responsable"+id).val("");
+                            $("#nombre_responsable"+id).css('background-color','#5cb85c');
+                            $("#nombre_responsable"+id).css('color','white');
+                            $("#nombre_responsable"+id).val(resp[0].nombre+" "+resp[0].apellido_pat+" "+resp[0].apellido_mat);
 
-                    }
-                    else{
+                        }
+                        else{
+                            $("#nombre_responsable"+id).val("Usuario no registrado");
+                            $("#nombre_responsable"+id).css('background-color','#d9534f');
+                            $("#nombre_responsable"+id).css('color','white');
+                        } 
+                    }else{
                         $("#nombre_responsable"+id).val("Usuario no registrado");
                         $("#nombre_responsable"+id).css('background-color','#d9534f');
                         $("#nombre_responsable"+id).css('color','white');
-                    }                
+                    }               
                 }else{
                     alert('La petición no se pudo completar, inténtelo de nuevo.');
                 }

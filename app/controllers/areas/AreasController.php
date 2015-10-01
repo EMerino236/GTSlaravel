@@ -11,10 +11,7 @@ class AreasController extends BaseController
 			if($data["user"]->idrol == 1){
 				$data["search"] = null;
 				$data["tipo_area"] = TipoArea::lists('nombre','idtipo_area');
-				array_unshift($data["tipo_area"], "Todos");
-				/*echo '<pre>';
-				print_r($data["tipo_area"]);
-				exit;*/
+				
 				$data["areas_data"] = Area::getAreasInfo()->paginate(10);
 				return View::make('areas/listAreas',$data);
 			}else{
@@ -33,7 +30,6 @@ class AreasController extends BaseController
 			if($data["user"]->idrol == 1){
 				$data["search"] = Input::get('search');
 				$data["tipo_area"] = TipoArea::lists('nombre','idtipo_area'); 
-				array_unshift($data["tipo_area"], "Todos");
 				$data["areas_data"] = Area::searchAreas($data["search"])->paginate(10);
 				if($data["search"]==0){
 					return Redirect::to('areas/list_areas');
@@ -58,8 +54,7 @@ class AreasController extends BaseController
 
 				$data["tipo_areas"] = TipoArea::lists('nombre','idtipo_area');
 				$data["centro_costos"] = CentroCosto::lists('nombre','idcentro_costo');
-				array_unshift($data["tipo_areas"], "");
-				array_unshift($data["centro_costos"], "");
+				
 				return View::make('areas/createArea',$data);
 			}else{
 				return View::make('error/error');
