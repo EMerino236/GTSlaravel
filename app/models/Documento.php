@@ -29,6 +29,13 @@ class Documento extends Eloquent implements UserInterface, RemindableInterface {
 		return $query;
 	}	
 
+	public function scopeSearchDocumentoByCodigoArchivamiento($query,$search_criteria)
+	{
+		$query->withTrashed()
+			  ->where('codigo_archivamiento','=',$search_criteria);
+		return $query;
+	}		
+
 	public function scopeSearchDocumentos($query,$search_nombre,$search_autor,$search_codigo_archivamiento,$search_ubicacion,$search_tipo_documento)
 	{
 		$query->withTrashed()
