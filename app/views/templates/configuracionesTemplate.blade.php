@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="robots" content="noindex, follow">
+    <meta name="_token" content="{!! csrf_token() !!}"/>
     <title>Configuraciones</title>
     <!-- Bootstrap Core CSS -->
     <link href="{{ asset('bower_components/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -39,6 +40,7 @@
     <!-- Custom Theme JavaScript -->
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
     <script src="{{ asset('js/user/user.js') }}"></script>
+    <script src="{{ asset('js/configuraciones/configuraciones.js') }}"></script>
 </head>
 
 <body>
@@ -62,24 +64,31 @@
                             <li>
                                 <a href="#">Servicios <span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">
-                                    <li>{{ HTML::link('/#','Nuevo Servicio') }}</li>
-                                    <li>{{ HTML::link('/#','Buscar Servicio') }}</li>
+                                    <li>{{ HTML::link('/servicios/create_servicio','Nuevo Servicio') }}</li>
+                                    <li>{{ HTML::link('/servicios/list_servicios','Buscar Servicio') }}</li>
                                 </ul>
                                 <!-- /.nav-third-level -->
                             </li>
                             <li>
                                 <a href="#">Grupos <span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">
-                                    <li>{{ HTML::link('/#','Nuevo Grupo') }}</li>
-                                    <li>{{ HTML::link('/#','Buscar Grupo') }}</li>
+                                    <li>{{ HTML::link('/grupos/create_grupo','Nuevo Grupo') }}</li>
+                                    <li>{{ HTML::link('/grupos/list_grupos','Buscar Grupo') }}</li>
                                 </ul>
                                 <!-- /.nav-third-level -->
                             </li>
                             <li>
+                                <a href="#">Marcas <span class="fa arrow"></span></a>
+                                <ul class="nav nav-third-level">
+                                    <li>{{ HTML::link('/marcas/create_marca','Nueva Marca') }}</li>
+                                    <li>{{ HTML::link('/marcas/list_marcas','Buscar Marca') }}</li>
+                                </ul>
+                            </li>
+                            <li>
                                 <a href="#">Familias de Equipos <span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">
-                                    <li>{{ HTML::link('/#','Nueva Familia de Equipo') }}</li>
-                                    <li>{{ HTML::link('/#','Buscar Familia de Equipo') }}</li>
+                                    <li>{{ HTML::link('/familia_activos/create_familia_activo','Nueva Familia de Equipo') }}</li>
+                                    <li>{{ HTML::link('/familia_activos/list_familia_activos','Buscar Familia de Equipo') }}</li>
                                 </ul>
                                 <!-- /.nav-third-level -->
                             </li>

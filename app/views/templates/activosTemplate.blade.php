@@ -48,8 +48,8 @@
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
-                        <li>{{ HTML::link('/equipos/createEquipo','Nuevo Equipo') }}</li>
-                        <li>{{ HTML::link('/equipos/searchEquipo','Buscar Equipo') }}</li>
+                        <li>{{ HTML::link('/equipos/create_equipo','Nuevo Equipo') }}</li>
+                        <li>{{ HTML::link('/equipos/list_equipos','Buscar Equipo') }}</li>
                     </ul>
                 </div>
             </div>

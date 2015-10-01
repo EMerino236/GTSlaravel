@@ -3,11 +3,12 @@
 
 <head>
 	<meta charset="UTF-8">
-	<meta name="robots" content="noindex, follow">
-	<title>Bienes</title>
-
-	<!-- Bootstrap Core CSS -->
+    <meta name="robots" content="noindex, follow">
+    <title>Bienes</title>
+    <!-- Bootstrap Core CSS -->
     <link href="{{ asset('bower_components/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+    <!-- Datepicker CSS-->
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-datetimepicker.min.css') }}">
     <!-- MetisMenu CSS -->
     <link href="{{ asset('bower_components/metisMenu/dist/metisMenu.min.css') }}" rel="stylesheet">
     <!-- Timeline CSS -->
@@ -19,8 +20,27 @@
     <!-- Custom Fonts -->
     <link href="{{ asset('bower_components/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
     <script type="text/javascript">
-		var inside_url = "{{$inside_url}}";
-	</script>
+        var inside_url = "{{$inside_url}}";
+    </script>
+
+    <!-- jQuery -->
+    <script src="{{ asset('bower_components/jquery/dist/jquery.min.js') }}"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{{ asset('bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    <!-- Moment JavaScript -->
+    <script type="text/javascript" src="{{ asset('js/moment.min.js') }}"></script>
+    <!-- Bootstrap Datepicker JavaScript -->
+    <script type="text/javascript" src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="{{ asset('bower_components/metisMenu/dist/metisMenu.min.js') }}"></script>
+    <!-- Morris Charts JavaScript -->
+    <script src="{{ asset('bower_components/raphael/raphael-min.js') }}"></script>
+    <script src="{{ asset('bower_components/morrisjs/morris.min.js') }}"></script>
+    <!-- Custom Theme JavaScript -->
+    <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
+    <script src="{{ asset('js/bienes/reportes_incumplimiento.js') }}"></script>
+    <script src="{{ asset('js/bienes/bienes.js') }}"></script>
+
 </head>
 
 <body>
@@ -30,10 +50,11 @@
 		<div class="navbar-default sidebar" role="navigation">
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
+                    <li>{{ HTML::link('/sot/list_sots','Solicitud de Orden de Trabajo') }}</li>
                     <li>
                         <a href="#">Gestión documentaria<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-							<li>{{ HTML::link('/equipos/','Directorio de equipos') }}</li>
+							<li>{{ HTML::link('/equipos/list_equipos','Directorio de equipos') }}</li>
 							<li>{{ HTML::link('/#','Lista de inventario') }}</li>
 							<li>{{ HTML::link('/#','Registro histórico de OT') }}</li>
 							<li>{{ HTML::link('/#','Servicio de búsqueda de información') }}</li>
@@ -67,9 +88,9 @@
                                 <a href="#">Proveedores <span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">
 									<li>{{ HTML::link('/#','Reporte de supervisión') }}</li>
-									<li>{{ HTML::link('/#','Directorio') }}</li>
-									<li>{{ HTML::link('/#','Reporte de incumplimiento') }}</li>
-									<li>{{ HTML::link('/#','Acta de conformidad') }}</li>
+                                    <li>{{ HTML::link('/proveedores/list_proveedores','Directorio') }}</li>
+									<li>{{ HTML::link('/reportes_incumplimiento/list_reportes','Reporte de incumplimiento') }}</li>
+                        			<li>{{ HTML::link('/#','Acta de conformidad') }}</li>
 									<li>{{ HTML::link('/#','Indicadores') }}</li>
                                 </ul>
                                 <!-- /.nav-third-level -->
@@ -127,20 +148,5 @@
         	@yield('content')
         </div>
 	</div>
-
-
-
-<!-- jQuery -->
-<script src="{{ asset('bower_components/jquery/dist/jquery.min.js') }}"></script>
-<!-- Bootstrap Core JavaScript -->
-<script src="{{ asset('bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-<!-- Metis Menu Plugin JavaScript -->
-<script src="{{ asset('bower_components/metisMenu/dist/metisMenu.min.js') }}"></script>
-<!-- Morris Charts JavaScript -->
-<script src="{{ asset('bower_components/raphael/raphael-min.js') }}"></script>
-<script src="{{ asset('bower_components/morrisjs/morris.min.js') }}"></script>
-<script src="{{ asset('js/morris-data.js') }}"></script>
-<!-- Custom Theme JavaScript -->
-<script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
 </body>
 </html>

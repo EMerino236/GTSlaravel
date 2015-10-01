@@ -57,4 +57,30 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $query;
 	}
 
+	public function scopeSearchPersonalByIdArea($query,$search_criteria){
+		$query->withTrashed()
+			  ->join('roles','roles.idrol','=','users.idrol')
+			  ->whereNested(function($query) use($search_criteria){
+			  		$query->where('users.idarea','LIKE',"%$search_criteria%");
+			  })
+			  ->select('roles.nombre as nombre_rol','users.*');
+		return $query;
+	}
+
+	public function scopeSearchPersonalActivoByIdArea($query,$search_criteria){
+		$query->whereNested(function($query) use($search_criteria){
+			  		$query->where('users.idarea','LIKE',"%$search_criteria%");
+			  })
+			  ->select(DB::raw('CONCAT(users.nombre," ",users.apellido_pat) as nombre_responsable'), 'id')
+			  ->lists('nombre_responsable','id');
+		return $query;
+	}
+
+	public function scopeSearchPersonalByNumeroDoc($query,$search_criteria){
+		$query->withTrashed()
+			  ->where('users.numero_doc_identidad','=',$search_criteria);			  	   
+		return $query;
+	}
+
+	
 }
