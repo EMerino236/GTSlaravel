@@ -99,7 +99,7 @@
 		        	<div class="row">
 		        		<div class="form-group col-xs-4 col-xs-offset-1 @if($errors->first('servicio')) has-error has-feedback @endif">
 							{{ Form::label('servicio','Servicio Clínico') }}
-							{{ Form::select('servicio',$servicios,Input::old('idservicio'),['class' => 'form-control',"onchange" => "fill_responsable_servicio()",'id'=>'servicio'])}}
+							{{ Form::select('servicio',array('0'=> 'Seleccione')+$servicios,$servicios,['class' => 'form-control',"onchange" => "fill_responsable_servicio()",'id'=>'servicio'])}}
 						</div>
 						<div class="form-group col-xs-4  @if($errors->first('responsable_servicio')) has-error has-feedback @endif">
 							{{ Form::label('responsable_servicio','Responsable del Servicio') }}
@@ -109,7 +109,7 @@
 		        	<div class="row">
 		        		<div class="form-group col-xs-4 col-xs-offset-1 @if($errors->first('proveedor')) has-error has-feedback @endif">
 							{{ Form::label('proveedor','Proveedor') }}
-							{{ Form::select('proveedor',$proveedor,Input::old('idproveedor'),['class' => 'form-control',"onchange" => "fill_contacto_proveedor()",'id'=>'proveedor'])}}
+							{{ Form::select('proveedor',array('0'=> 'Seleccione')+$proveedor,Input::old('idproveedor'),['class' => 'form-control',"onchange" => "fill_contacto_proveedor()",'id'=>'proveedor'])}}
 						</div>
 						<div class="form-group col-xs-4  @if($errors->first('contacto_proveedor')) has-error has-feedback @endif">
 							{{ Form::label('contacto_proveedor','Contacto de Proveedor') }}

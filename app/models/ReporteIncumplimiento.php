@@ -14,19 +14,44 @@ class ReporteIncumplimiento extends Eloquent{
 			  ->join('servicios','servicios.idservicio','=','reporte_incumplimientos.idservicio')
 			  ->join('proveedores','proveedores.idproveedor','=','reporte_incumplimientos.idproveedor')
 			  ->join('ordenes_trabajos','ordenes_trabajos.idordenes_trabajo','=','reporte_incumplimientos.idordenes_trabajo')
-			  ->select('servicios.nombre as nomb_servicio','proveedores.nombre as nomb_proveedor','ordenes_trabajo.*');
+			  ->select('servicios.nombre as nomb_servicio','proveedores.razon_social as nomb_proveedor','reporte_incumplimientos.*');
+		return $query;
+	}
+
+	public function scopeGetReporteIncumplimientoById($query,$idreporte)
+	{
+		$query->withTrashed()
+			  ->join('servicios','servicios.idservicio','=','reporte_incumplimientos.idservicio')
+			  ->join('proveedores','proveedores.idproveedor','=','reporte_incumplimientos.idproveedor')
+			  ->join('ordenes_trabajos','ordenes_trabajos.idordenes_trabajo','=','reporte_incumplimientos.idordenes_trabajo')
+			   ->whereNested(function($query) use($idreporte){
+			  		$query->where('reporte_incumplimientos.idreporte_incumplimiento','=',$idreporte);	 			  			  
+			  })
+			  ->select('servicios.nombre as nomb_servicio','proveedores.razon_social as nomb_proveedor','reporte_incumplimientos.*');
 		return $query;
 	}
 
 	public function scopeSearchReportes($query,$fecha_desde,$fecha_hasta,$proveedor,$tipo){
 		$query->withTrashed()
+			  ->join('servicios','servicios.idservicio','=','reporte_incumplimientos.idservicio')
+			  ->join('proveedores','proveedores.idproveedor','=','reporte_incumplimientos.idproveedor')
+			  ->join('ordenes_trabajos','ordenes_trabajos.idordenes_trabajo','=','reporte_incumplimientos.idordenes_trabajo')
 			  ->whereNested(function($query) use($fecha_desde,$fecha_hasta,$proveedor,$tipo){
-			  		$query->where('fecha','>',$fecha_desde)
-			  			  ->where('fecha','<',$fecha_hasta)
-			  			  ->where('idproveedor','=',$proveedor)
-			  			  ->where('tipo_reporte','=',$tipo);
-			  })
-			  ->select('reporte_incumplimientos.*');
+			  		$query->where('reporte_incumplimientos.fecha','>',$fecha_desde);	 			  			  
+			  });
+			  if($fecha_hasta != '1969-12-31 19:00:00')
+			  {
+			  	$query->where('reporte_incumplimientos.fecha','<',$fecha_hasta);
+			  }
+			  if($proveedor != '0')
+			  {
+			  	$query->where('reporte_incumplimientos.idproveedor','=',$proveedor);
+			  }
+			  if($tipo != '0')
+			  {
+			  	$query->where('reporte_incumplimientos.tipo_reporte','=',$tipo);
+			  }
+			  $query->select('servicios.nombre as nomb_servicio','proveedores.razon_social as nomb_proveedor','reporte_incumplimientos.*');
 		return $query;
 	}
 }

@@ -9,8 +9,12 @@ class ReportesIncumplimientoController extends BaseController
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
-				$data["search"] = null;
 				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
+				$data["search_proveedor"] = null;
+				$data["fecha_desde"] = null;
+				$data["fecha_hasta"] = null;
+				$data["search_tipo_reporte"] = null;
+				$data["reportes_data"] = ReporteIncumplimiento::getReporteIncumplimientoInfo()->paginate(10);
 				array_unshift($data["proveedor"], "Seleccione");
 				return View::make('reportes_incumplimiento/listReportesIncumplimientos',$data);
 			}else{
@@ -27,19 +31,13 @@ class ReportesIncumplimientoController extends BaseController
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
-				$data["fecha_desde"] = date('Y-m-d H:i:s',strtotime(Input::get('fecha_desde')));
+				$data["fecha_desde"] = date('Y-m-d H:i:s',strtotime(Input::get('fecha_desde')));				
 				$data["fecha_hasta"] = date('Y-m-d H:i:s',strtotime(Input::get('fecha_hasta')));
-				$data["proveedor"] = Input::get('proveedor');
-				$data["tipo_reporte"] = Input::get('tipo_reporte');
-				$data["reportes_data"] = ReporteIncumplimiento::searchReportes($data["fecha_desde"],$data["fecha_hasta"],$data["proveedor"],$data["tipo_reporte"])->paginate(10);
-				/*$data["tipo_servicio"] = TipoServicio::lists('nombre','idtipo_servicios'); 
-				array_unshift($data["tipo_servicio"], "Todos");
-				$data["servicios_data"] = Servicio::searchServicios($data["search"])->paginate(10);*/
-				//if($data["search"]==0){
-					//return Redirect::to('reportes_incumplimiento/list_reportes');
-				//}else{
-					return View::make('reportes_incumplimiento/listReportesIncumplimientos',$data);	
-				//}
+				$data["search_proveedor"] = Input::get('search_proveedor');
+				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
+				$data["search_tipo_reporte"] = Input::get('search_tipo_reporte');
+				$data["reportes_data"] = ReporteIncumplimiento::searchReportes($data["fecha_desde"],$data["fecha_hasta"],$data["search_proveedor"],$data["search_tipo_reporte"])->paginate(10);
+				return View::make('reportes_incumplimiento/listReportesIncumplimientos',$data);	
 			}else{
 				return View::make('error/error');
 			}
@@ -58,10 +56,7 @@ class ReportesIncumplimientoController extends BaseController
 				$data["tipo_documento"] = TipoDocumento::lists('nombre','idtipo_documento');
 				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
 				$data["servicios"] = Servicio::searchServiciosClinicos(1)->lists('nombre','idservicio');
-				array_unshift($data["tipo_documento"], "");
-				array_unshift($data["proveedor"], "");
-				array_unshift($data["servicios"], "");
-				
+			
 				return View::make('reportes_incumplimiento/createReporteIncumplimiento',$data);
 			}else{
 				return View::make('error/error');
@@ -70,6 +65,34 @@ class ReportesIncumplimientoController extends BaseController
 		}else{
 			return View::make('error/error');
 		}
+	}
+
+	public function render_edit_reporte($idreporte=null){
+		
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if(($data["user"]->idrol == 1) && $idreporte)
+			{	
+				$data["reporte_data"] = ReporteIncumplimiento::getReporteIncumplimientoById($idreporte)->get();
+				
+				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
+				$data["servicios"] = Servicio::searchServiciosClinicos(1)->lists('nombre','idservicio');
+				//$data["usuario_revision"] = User::searchUserById()
+				if($data["reporte_data"]->isEmpty()){
+					return Redirect::to('reportes_incumplimiento/list_reportes');
+				}
+				$data["reporte_data"] = $data["reporte_data"][0];
+
+				return View::make('reportes_incumplimiento/editReporteIncumplimiento',$data);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+
 	}
 
 	public function return_responsable_servicio(){
@@ -127,7 +150,11 @@ class ReportesIncumplimientoController extends BaseController
 		if($data["user"]->idrol == 1){
 			// Check if the current user is the "System Admin"
 			$data = Input::get('selected_id');
-			$responsable = User::searchPersonalByNumeroDoc($data)->get();
+			if($data!="vacio")
+				$responsable = User::searchPersonalByNumeroDoc($data)->get();
+			else{
+				$responsable = "vacio";
+			}
 								
 			return Response::json(array( 'success' => true, 'responsable' => $responsable),200);
 		}else{

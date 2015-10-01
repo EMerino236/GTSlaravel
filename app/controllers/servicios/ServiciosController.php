@@ -11,7 +11,6 @@ class ServiciosController extends BaseController
 			if($data["user"]->idrol == 1){
 				$data["search"] = null;
 				$data["tipo_servicio"] = TipoServicio::lists('nombre','idtipo_servicios');
-				array_unshift($data["tipo_servicio"], "Todos");
 				$data["servicios_data"] = Servicio::getServiciosInfo()->paginate(10);
 				return View::make('servicios/listServicios',$data);
 			}else{
@@ -30,7 +29,6 @@ class ServiciosController extends BaseController
 			if($data["user"]->idrol == 1){
 				$data["search"] = Input::get('search');
 				$data["tipo_servicio"] = TipoServicio::lists('nombre','idtipo_servicios'); 
-				array_unshift($data["tipo_servicio"], "Todos");
 				$data["servicios_data"] = Servicio::searchServicios($data["search"])->paginate(10);
 				if($data["search"]==0){
 					return Redirect::to('servicios/list_servicios');
