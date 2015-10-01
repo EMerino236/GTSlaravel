@@ -83,13 +83,20 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="form-group col-xs-8 @if($errors->first('tipo_documentos')) has-error has-feedback @endif">
-					{{ Form::label('tipo_documentos','Tipo de documento') }}
+				<div class="form-group col-xs-8">
+					{{ Form::label('fecha_creacion','Fecha de Creación') }}
+					{{ Form::text('fecha_creacion',$documento_info->created_at,array('class'=>'form-control','readonly'=>'')) }}					
+				</div>
+			</div>
+			<!--
+			<div class="row">
+				<div class="form-group col-xs-8 @if($errors->first('idtipo_documento')) has-error has-feedback @endif">
+					{{ Form::label('idtipo_documento','Tipo de Documento') }}
 					@if($documento_info->deleted_at)
-						{{ Form::select('tipo_documento', $tipo_documentos,$documento_info->idtipo_documento,['class' => 'form-control','readonly'=>'']) }}
+						{{ Form::select('idtipo_documento',$tipo_documentos,Input::old('idtipo_documento'),['class' => 'form-control','readonly'=>'']) }}
 					@else
-						{{ Form::select('tipo_documento', $tipo_documentos,$documento_info->idtipo_documento,['class' => 'form-control']) }}
-					@endif
+						{{ Form::select('idtipo_documento',$tipo_documentos,Input::old('idtipo_documento'),['class' => 'form-control']) }}	
+					@endif	
 				</div>
 			</div>	
 			<div class="row">
@@ -98,6 +105,7 @@
   					{{ Form::file('archivo','',array('id'=>'archivo','class'=>'')) }}
 				</div>
 			</div>	
+			-->
 			
 			@if(!$documento_info->deleted_at)
 				{{ Form::submit('Guardar',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}

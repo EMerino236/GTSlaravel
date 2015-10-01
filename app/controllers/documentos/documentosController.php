@@ -75,25 +75,6 @@ class DocumentoController extends BaseController {
 		}
 	}
 
-	public function list_documentos()
-	{
-		if(Auth::check()){
-			$data["inside_url"] = Config::get('app.inside_url');
-			$data["user"] = Session::get('user');
-			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
-				$data["search"] = null;
-				$data["documentos_data"] = Documento::getDocumentosInfo()->paginate(10);
-				return View::make('documentos/listDocumentos',$data);
-			}else{
-				return View::make('error/error');
-			}
-
-		}else{
-			return View::make('error/error');
-		}
-	}
-
 	public function render_edit_documento($id=null)
 	{
 		if(Auth::check()){
@@ -125,15 +106,11 @@ class DocumentoController extends BaseController {
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
 				// Validate the info, create rules for the inputs
-				echo "<pre>";
-				print_r(Input::file('archivo'));
-				exit;
 				$rules = array(
 							'descripcion' => 'required|max:200',
 							'autor' => 'required|max:100',
 							'codigo_archivamiento' => 'required|max:100',
-							'ubicacion' => 'required|max:100',	
-							'archivo' => 'max:15360|mimes:png,jpe,jpeg,jpg,gif,bmp,zip,rar,pdf,doc,docx,xls,xlsx,ppt,pptx',				
+							'ubicacion' => 'required|max:100',				
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules);
@@ -143,31 +120,68 @@ class DocumentoController extends BaseController {
 					$url = "documento/edit_documento"."/".$iddocumento;
 					return Redirect::to($url)->withErrors($validator)->withInput(Input::all());
 				}else{
-					$data["tipo_documentos"] = TipoDocumentos::searchTipoDocumentosById(Input::get('idtipo_documento'))->get();	
+					$data["tipo_documentos"] = TipoDocumentos::searchTipoDocumentosById(Input::get('idtipo_documento'))->get();
+					$data["documento_info"] = Documento::searchDocumentoById(Input::get('documento_id'))->get();
+					/*
+					if(!Input::file('archivo')){
+						$archivo = readfile($data["documento_info"][0]->url);
+						echo "<pre>";						
+						print_r($archivo);
+						exit;
+				        $rutaDestino = 'documentos/' . $data["tipo_documentos"][0]->nombre . '/';
+				        $nombreArchivo        = basename($data["documento_info"][0]->url);
+				        $uploadSuccess   = $archivo->move($rutaDestino, $nombreArchivo);
+					}
 				    $rutaDestino ='';
-				    $nombreArchivo        ='';	
-
-				    if (Input::hasFile('archivo')) {				    
+				    $nombreArchivo        ='';		    
+				    if (Input::hasFile('archivo')) {
 				        $archivo            = Input::file('archivo');
 				        $rutaDestino = 'documentos/' . $data["tipo_documentos"][0]->nombre . '/';
 				        $nombreArchivo        = $archivo->getClientOriginalName();
 				        $uploadSuccess   = $archivo->move($rutaDestino, $nombreArchivo);
 				    }
+				    */
 
 					$iddocumento = Input::get('documento_id');
 					$url = "documento/edit_documento"."/".$iddocumento;
 					$documento = Documento::find($iddocumento);
+					$documento->nombre = Input::get('nombre');
 					$documento->descripcion = Input::get('descripcion');
 					$documento->autor = Input::get('autor');
 					$documento->codigo_archivamiento = Input::get('codigo_archivamiento');
 					$documento->ubicacion = Input::get('ubicacion');
-					$documento->url = $rutaDestino . $nombreArchivo;
-					$documento->idtipo_documento = Input::get('tipo_documento');
+					$documento->url = $data["documento_info"][0]->url;
+					$documento->idtipo_documento = $data["documento_info"][0]->idtipo_documento;
 					$documento->idestado = 1;
 					$documento->save();
 					Session::flash('message', 'Se editó correctamente el Documento.');
 					return Redirect::to($url);
 				}
+			}else{
+				return View::make('error/error');
+			}
+
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function list_documentos()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1){
+				$data["tipo_documentos"] = TipoDocumentos::lists('nombre','idtipo_documento');
+
+				$data["search_nombre"] = null;
+				$data["search_autor"] = null;
+				$data["search_codigo_archivamiento"] = null;
+				$data["search_ubicacion"] = null;
+				$data["search_tipo_documento"] = null;
+				$data["documentos_data"] = Documento::getDocumentosInfo()->paginate(10);
+				return View::make('documentos/listDocumentos',$data);
 			}else{
 				return View::make('error/error');
 			}
@@ -184,9 +198,17 @@ class DocumentoController extends BaseController {
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
-				$data["search"] = Input::get('search');
-				$data["tipoTareas_data"] = TipoTarea::searchTipoTareas($data["search"])->paginate(10);
-				return View::make('tipoTarea/listTipoTareas',$data);
+				$data["tipo_documentos"] = TipoDocumentos::lists('nombre','idtipo_documento');
+
+				$data["search_nombre"] = Input::get('search_nombre');
+				$data["search_autor"] = Input::get('search_autor');
+				$data["search_codigo_archivamiento"] = Input::get('search_codigo_archivamiento');
+				$data["search_ubicacion"] = Input::get('search_ubicacion');
+				$data["search_tipo_documento"] = Input::get('search_tipo_documento');
+
+				$data["documentos_data"] = Documento::searchDocumentos($data["search_nombre"],$data["search_autor"],$data["search_codigo_archivamiento"],
+										$data["search_ubicacion"],$data["search_tipo_documento"])->paginate(10);
+				return View::make('documentos/listDocumentos',$data);
 			}else{
 				return View::make('error/error');
 			}

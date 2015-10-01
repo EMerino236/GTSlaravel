@@ -18,7 +18,7 @@ class Documento extends Eloquent implements UserInterface, RemindableInterface {
 	{
 		$query->withTrashed()
 			  ->join('tipo_documentos','tipo_documentos.idtipo_documento','=','documentos.idtipo_documento')
-			  ->select('tipo_documentos.nombre as tipo_documento','documentos.*');
+			  ->select('tipo_documentos.nombre as nombre_tipo_documento','documentos.*');
 		return $query;
 	}
 
@@ -29,11 +29,37 @@ class Documento extends Eloquent implements UserInterface, RemindableInterface {
 		return $query;
 	}	
 
-	public function scopeSearchDocumentos($query,$search_criteria)
+	public function scopeSearchDocumentos($query,$search_nombre,$search_autor,$search_codigo_archivamiento,$search_ubicacion,$search_tipo_documento)
 	{
 		$query->withTrashed()
-			  ->where('nombre','LIKE',"%$search_criteria%")
-			  ->select('nombre','descripcion');
+			  ->join('tipo_documentos','tipo_documentos.idtipo_documento','=','documentos.idtipo_documento');
+			  
+			  if($search_nombre != "")
+			  {
+			  	$query->where('documentos.nombre','LIKE',"%$search_nombre%");
+			  }
+
+			  if($search_autor != "")
+			  {
+			  	$query->where('documentos.autor','LIKE',"%$search_autor%");
+			  }
+
+			  if($search_codigo_archivamiento != "")
+			  {
+			  	$query->where('documentos.codigo_archivamiento','LIKE',"%$search_codigo_archivamiento%");
+			  }
+
+			  if($search_ubicacion != "")
+			  {
+			  	$query->where('documentos.ubicacion','LIKE',"%$search_ubicacion%");
+			  }
+
+			  if($search_tipo_documento != '0')
+			  {
+			  	$query->where('documentos.idtipo_documento','=',$search_tipo_documento);
+			  }
+
+			  $query->select('tipo_documentos.nombre as nombre_tipo_documento','documentos.*');
 		return $query;
 	}	
 }
