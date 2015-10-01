@@ -84,9 +84,9 @@ Route::group(array('prefix'=>'familia_activos', 'before'=>'auth'),function(){
 Route::group(array('prefix'=>'equipos','before'=>'auth'),function(){
 	Route::get('/','ActivosController@home');
 	Route::get('/list_equipos','ActivosController@list_activos');
+	Route::get('/search_equipos','ActivosController@search_activos');
 	Route::get('/create_equipo','ActivosController@render_create_activo');
-	Route::get('/submit_equipo','ActivosController@submit_create_activo');
-	Route::get('/search_equipos','ActivosController@home');
+	Route::get('/submit_equipo','ActivosController@submit_create_activo');	
 });
 
 /*Configuraciones*/
