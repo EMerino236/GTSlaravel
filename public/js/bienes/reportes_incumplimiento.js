@@ -13,7 +13,13 @@ $( document ).ready(function(){
     });
     $("#datetimepicker2").on("dp.change", function (e) {
         $('#datetimepicker1').data("DateTimePicker").maxDate(e.date);
-    });	
+    });
+    fill_responsable_servicio();
+    fill_contacto_proveedor();
+    fill_name_responsable(1);
+    fill_name_responsable(2);
+    fill_name_responsable(3);
+
 });
 
 function fill_responsable_servicio(){       
@@ -144,8 +150,66 @@ function fill_name_responsable(id){
 
 }
 
+function fill_name_contrato(){
+        var val = document.getElementById("numero_contrato").value;
+        if(val=="")
+            val = "vacio";    
+        alert(val);    
+        $.ajax({
+            url: inside_url+'reportes_incumplimiento/return_name_contrato/'+val,
+            type: 'POST',
+            data: { 'selected_id' : val },
+            beforeSend: function(){
+                $("#delete-selected-profiles").addClass("disabled");
+                $("#delete-selected-profiles").hide();
+                $(".loader_container").show();
+            },
+            complete: function(){
+                $(".loader_container").hide();
+                $("#delete-selected-profiles").removeClass("disabled");
+                $("#delete-selected-profiles").show();
+                delete_selected_profiles = true;
+            },
+            success: function(response){
+                if(response.success){
+                    var resp = response['contrato'];
+                    if(resp!="vacio"){
+                        if(resp[0] != null){
+                            $("#nombre_contrato").val("");
+                            $("#nombre_contrato").css('background-color','#5cb85c');
+                            $("#nombre_contrato").css('color','white');
+                            $("#nombre_contrato").val(resp[0].titulo);
+
+                        }
+                        else{
+                            $("#nombre_contrato").val("Usuario no registrado");
+                            $("#nombre_contrato").css('background-color','#d9534f');
+                            $("#nombre_contrato").css('color','white');
+                        } 
+                    }else{
+                        $("#nombre_contrato").val("Usuario no registrado");
+                        $("#nombre_contrato").css('background-color','#d9534f');
+                        $("#nombre_contrato").css('color','white');
+                    }               
+                }else{
+                    alert('La petición no se pudo completar, inténtelo de nuevo.');
+                }
+            },
+            error: function(){
+                alert('La petición no se pudo completar, inténtelo de nuevo.');
+            }
+        });
+
+}
+
 function clean_name_responsable(id){
     $("#nombre_responsable"+id).val("");
     $("#numero_doc"+id).val("");
     $("#nombre_responsable"+id).css('background-color','white');
+}
+
+function clean_name_contrato(){
+    $("#nombre_contrato").val("");
+    $("#numero_contrato").val("");
+    $("#nombre_contrato").css('background-color','white');
 }

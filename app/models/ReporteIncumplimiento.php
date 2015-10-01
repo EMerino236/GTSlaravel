@@ -7,6 +7,7 @@ class ReporteIncumplimiento extends Eloquent{
 	protected $softDelete = true;
 
 	protected $table = 'reporte_incumplimientos';
+	protected $primaryKey = 'idreporte_incumplimiento';
 
 	public function scopeGetReporteIncumplimientoInfo($query)
 	{
