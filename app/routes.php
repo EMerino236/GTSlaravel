@@ -154,6 +154,7 @@ Route::group(array('prefix'=>'reportes_incumplimiento','before'=>'auth'),functio
 
 
 });
+});
 /* Mantenimiento Correctivo */
 Route::group(array('prefix'=>'mant_correctivo','before'=>'auth'),function(){
 	Route::get('/programacion/{id}','OtController@render_program_ot_mant_correctivo');
@@ -162,6 +163,7 @@ Route::group(array('prefix'=>'mant_correctivo','before'=>'auth'),function(){
 	Route::get('/list_mant_correctivo','OtController@list_mant_correctivo');
 	Route::get('/search_ot_mant_correctivo','OtController@search_ot_mant_correctivo');
 	Route::get('/create_ot/{id}','OtController@render_create_ot');
+
 });
 /* Tipo de Tareas */
 Route::group(array('prefix'=>'tipoTarea', 'before'=>'auth'),function(){
