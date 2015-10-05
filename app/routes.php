@@ -58,6 +58,7 @@ Route::group(array('prefix'=>'sot', 'before'=>'auth'),function(){
 	Route::post('/submit_create_sot','SotController@submit_create_sot');
 	Route::post('/submit_disable_sot','SotController@submit_disable_sot');
 	Route::get('/search_sot','SotController@search_sot');
+	Route::post('/submit_program_ot','SotController@submit_program_ot');
 });
 
 /* Marcas */
@@ -143,10 +144,24 @@ Route::group(array('prefix'=>'reportes_incumplimiento','before'=>'auth'),functio
 	Route::get('/search_reporte','ReportesIncumplimientoController@search_reporte');
 	Route::get('/edit_reporte/{id}','ReportesIncumplimientoController@render_edit_reporte');
 	Route::get('/create_reporte','ReportesIncumplimientoController@render_create_reporte');
+	Route::post('/return_contacto_proveedor/{postData}','ReportesIncumplimientoController@return_contacto_proveedor');
+	Route::get('/list_reportes','ReportesIncumplimientoController@list_reportes_incumplimiento');	
+	Route::get('/create_reporte','ReportesIncumplimientoController@render_create_reporte');
 	Route::post('/submit_reporte','ReportesIncumplimientoController@submit_create_reporte');
 	Route::post('/submit_edit_reporte','ReportesIncumplimientoController@submit_edit_reporte');	
 	Route::post('/submit_disable_reporte','ReportesIncumplimientoController@submit_disable_reporte');
 	Route::post('/submit_enable_reporte','ReportesIncumplimientoController@submit_enable_reporte');
+
+
+});
+/* Mantenimiento Correctivo */
+Route::group(array('prefix'=>'mant_correctivo','before'=>'auth'),function(){
+	Route::get('/programacion/{id}','OtController@render_program_ot_mant_correctivo');
+	Route::post('/submit_programacion','OtController@submit_program_ot_mant_correctivo');
+	Route::post('/calendario_ot_mant_correctivo','OtController@calendario_ot_mant_correctivo_ajax');
+	Route::get('/list_mant_correctivo','OtController@list_mant_correctivo');
+	Route::get('/search_ot_mant_correctivo','OtController@search_ot_mant_correctivo');
+	Route::get('/create_ot/{id}','OtController@render_create_ot');
 });
 /* Tipo de Tareas */
 Route::group(array('prefix'=>'tipoTarea', 'before'=>'auth'),function(){
@@ -169,7 +184,7 @@ Route::group(array('prefix'=>'documento', 'before'=>'auth'),function(){
 	Route::post('/download_documento','DocumentoController@download_documento');
 });
 
-/* Documentos */
+/* Solicitudes Compra */
 Route::group(array('prefix'=>'solicitudes_compra', 'before'=>'auth'),function(){
 	Route::get('/list_solicitudes','SolicitudesController@list_solicitudes');
 	Route::get('/search_solicitud','SolicitudesController@search_solicitud');

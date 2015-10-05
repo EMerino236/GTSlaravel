@@ -18,7 +18,10 @@ class SolicitudOrdenTrabajo extends Eloquent{
 	
 	public function scopeSearchSotById($query,$search_criteria)
 	{
-		$query->where('idsolicitud_orden_trabajo','=',$search_criteria);
+		$query->join('activos','activos.idactivo','=','solicitud_orden_trabajos.idactivo')
+			  ->join('users','users.id','=','solicitud_orden_trabajos.id')
+			  ->where('idsolicitud_orden_trabajo','=',$search_criteria)
+			  ->select('activos.idactivo','activos.codigo_patrimonial','users.nombre','users.apellido_pat','users.apellido_mat','solicitud_orden_trabajos.*');
 		return $query;
 	}
 	
@@ -34,9 +37,9 @@ class SolicitudOrdenTrabajo extends Eloquent{
 		if($search_estado != "0")
 			$query->where('solicitud_orden_trabajos.idestado','=',$search_estado);
 		if($search_ini != "")
-			$query->where('solicitud_orden_trabajos.fecha_solicitud','>=',$search_ini);
+			$query->where('solicitud_orden_trabajos.fecha_solicitud','>=',date('Y-m-d H:i:s',strtotime($search_ini)));
 		if($search_fin != "")
-			$query->where('solicitud_orden_trabajos.fecha_solicitud','<=',$search_fin);
+			$query->where('solicitud_orden_trabajos.fecha_solicitud','<=',date('Y-m-d H:i:s',strtotime($search_fin)));
 		$query->select('estados.nombre as nombre_estado','users.nombre','users.apellido_pat','users.apellido_mat','solicitud_orden_trabajos.*');
 		return $query;
 	}

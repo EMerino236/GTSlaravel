@@ -13,6 +13,7 @@
 			<p><strong>{{ $errors->first('telefono') }}</strong></p>
 			<p><strong>{{ $errors->first('email') }}</strong></p>
 			<p><strong>{{ $errors->first('idestado') }}</strong></p>
+			<p><strong>{{ $errors->first('nombre_contacto') }}</strong></p>
 		</div>
 	@endif
 
@@ -38,15 +39,21 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="form-group col-xs-8 @if($errors->first('idestado')) has-error has-feedback @endif">
-					{{ Form::label('idestado','Área') }}
-					{{ Form::select('idestado',$estados,Input::old('idestado'),['class' => 'form-control']) }}
+				<div class="form-group col-xs-8 @if($errors->first('nombre_contacto')) has-error has-feedback @endif">
+					{{ Form::label('nombre_contacto','Nombre del contácto') }}
+					{{ Form::text('nombre_contacto',Input::old('nombre_contacto'),array('class'=>'form-control')) }}
 				</div>
 			</div>
 			{{ Form::submit('Crear',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}
 			{{ HTML::link('/proveedores/list_proveedores','Cancelar',array('class'=>'')) }}
 		</div>
 		<div class="col-xs-6">
+			<div class="row">
+				<div class="form-group col-xs-8 @if($errors->first('idestado')) has-error has-feedback @endif">
+					{{ Form::label('idestado','Estado') }}
+					{{ Form::select('idestado',$estados,Input::old('idestado'),['class' => 'form-control']) }}
+				</div>
+			</div>
 			<div class="row">
 				<div class="form-group col-xs-8 @if($errors->first('telefono')) has-error has-feedback @endif">
 					{{ Form::label('telefono','Teléfono') }}

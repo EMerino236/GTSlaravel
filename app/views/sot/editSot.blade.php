@@ -3,6 +3,16 @@
 	<div class="row">
         <div class="col-lg-12">
             <h3 class="page-header">Solicitud de Orden de Trabajo</h3>
+            {{ Form::open(array('url'=>'sot/submit_program_ot', 'role'=>'form')) }}
+	            <div class="col-xs-12">
+					<div class="row">
+						<div class="form-group col-xs-6">
+							{{ Form::hidden('sot_id', $sot_info->idsolicitud_orden_trabajo) }}
+			            	{{ Form::submit('Programar OT',array('id'=>'submit-edit', 'class'=>'btn btn-success')) }}
+			            </div>
+		            </div>
+	            </div>
+            {{ Form::close() }}
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -25,14 +35,13 @@
 
 	{{ Form::open(array('url'=>'sot/submit_edit_sot', 'role'=>'form')) }}
 		{{ Form::hidden('sot_id', $sot_info->idsolicitud_orden_trabajo) }}
-		<div class="col-xs-12">
+		<div class="col-xs-6">
 			<div class="row">
-				<div class="form-group col-xs-10">
-					{{ Form::label('solicitante','Usuario solicitante: '.$user->apellido_pat." ".$user->apellido_mat.", ".$user->nombre." ") }}
+				<div class="form-group col-xs-8">
+					{{ Form::label('solicitante','Usuario solicitante') }}
+					{{ Form::text('solicitante',$sot_info->apellido_pat." ".$sot_info->apellido_mat.", ".$sot_info->nombre,array('class'=>'form-control','disabled'=>'')) }}
 				</div>
 			</div>
-		</div>
-		<div class="col-xs-6">
 			<div class="row">
 				<div class="form-group col-xs-8">
 					{{ Form::label('fecha_solicitud','Fecha de solicitud') }}
@@ -47,6 +56,12 @@
 			</div>
 		</div>
 		<div class="col-xs-6">
+			<div class="row">
+				<div class="form-group col-xs-8">
+					{{ Form::label('activo','Código de activo involucrado') }}
+					{{ Form::text('activo',$sot_info->codigo_patrimonial,array('class'=>'form-control','disabled'=>'')) }}
+				</div>
+			</div>
 			<div class="row">
 				<div class="form-group col-xs-8 @if($errors->first('idestado')) has-error has-feedback @endif">
 					{{ Form::label('idestado','Estado') }}

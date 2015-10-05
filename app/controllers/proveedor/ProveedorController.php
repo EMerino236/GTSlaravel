@@ -32,6 +32,7 @@ class ProveedorController extends BaseController {
 			if($data["user"]->idrol == 1){
 				// Validate the info, create rules for the inputs
 				$rules = array(
+							'nombre_contacto' => 'required|max:200',
 							'razon_social' => 'required|max:100|unique:proveedores',
 							'email' => 'required|email|max:45',
 							'telefono' => 'required|max:45',
@@ -46,6 +47,7 @@ class ProveedorController extends BaseController {
 				}else{
 					$proveedor = new Proveedor;
 					$proveedor->razon_social = Input::get('razon_social');
+					$proveedor->nombre_contacto = Input::get('nombre_contacto');
 					$proveedor->email = Input::get('email');
 					$proveedor->telefono = Input::get('telefono');
 					$proveedor->ruc = Input::get('ruc');
@@ -114,6 +116,7 @@ class ProveedorController extends BaseController {
 			if($data["user"]->idrol == 1){
 				// Validate the info, create rules for the inputs
 				$rules = array(
+							'nombre_contacto' => 'required|max:200',
 							'email' => 'required|email|max:45',
 							'telefono' => 'required|max:45',
 							'ruc' => 'required|numeric|digits_between:8,16',
@@ -130,6 +133,7 @@ class ProveedorController extends BaseController {
 					$proveedor_id = Input::get('proveedor_id');
 					$url = "proveedores/edit_proveedor/".$proveedor_id;
 					$proveedor = Proveedor::find($proveedor_id);
+					$proveedor->nombre_contacto = Input::get('nombre_contacto');
 					$proveedor->email = Input::get('email');
 					$proveedor->telefono = Input::get('telefono');
 					$proveedor->ruc = Input::get('ruc');

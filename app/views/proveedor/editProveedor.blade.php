@@ -27,7 +27,16 @@
 		{{ Form::hidden('proveedor_id', $proveedor_info->idproveedor) }}
 
 		<div class="col-xs-6">
-
+			<div class="row">
+				<div class="form-group col-xs-8 @if($errors->first('nombre_contacto')) has-error has-feedback @endif">
+					{{ Form::label('nombre_contacto','Nombre del contácto') }}
+					@if($proveedor_info->deleted_at)
+						{{ Form::text('nombre_contacto',$proveedor_info->nombre_contacto,array('class'=>'form-control','readonly'=>'')) }}
+					@else
+						{{ Form::text('nombre_contacto',$proveedor_info->nombre_contacto,array('class'=>'form-control')) }}
+					@endif
+				</div>
+			</div>
 			<div class="row">
 				<div class="form-group col-xs-8 @if($errors->first('ruc')) has-error has-feedback @endif">
 					{{ Form::label('ruc','RUC') }}
@@ -41,7 +50,7 @@
 
 			<div class="row">
 				<div class="form-group col-xs-8 @if($errors->first('idestado')) has-error has-feedback @endif">
-					{{ Form::label('idestado','Área') }}
+					{{ Form::label('idestado','Estado') }}
 					@if($proveedor_info->deleted_at)
 						{{ Form::select('idestado', $estados,$proveedor_info->idestado,['class' => 'form-control','readonly'=>'']) }}
 					@else
