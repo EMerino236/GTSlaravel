@@ -26,9 +26,10 @@ class GruposController extends BaseController
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
-				$data["search"] = Input::get('search'); 
+				$data["search"] = Input::get('search');
+
 				$data["grupos_data"] = Grupo::searchGrupos($data["search"])->paginate(10);
-				if($data["search"]==0){
+				if($data["search"]==""){
 					return Redirect::to('grupos/list_grupos');
 				}else{
 					return View::make('grupos/listGrupos',$data);	

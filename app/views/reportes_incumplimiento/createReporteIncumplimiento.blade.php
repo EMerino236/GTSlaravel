@@ -66,9 +66,9 @@
 						<div class="form-group col-xs-1" style="margin-top:25px">
 							<a class="btn btn-default" onclick="clean_name_responsable(1)">Limpiar</a>
 						</div>
-						<div class="form-group col-xs-5">
+						<div class="form-group col-xs-3">
 							{{ Form::label('responsable','Responsable de la Revisión') }}
-							{{ Form::text('responsable',Input::old('responsable'),['class' => 'form-control','id'=>'nombre_responsable1'])}}
+							{{ Form::text('responsable',Input::old('responsable'),['class' => 'form-control','id'=>'nombre_responsable1','disabled'=>'disabled'])}}
 						</div>
 					</div>
 					<div class="row">
@@ -152,23 +152,6 @@
 		        	</div>
 		        	<br>
 		        	<div class="row">
-						<div class="form-group col-xs-2 col-xs-offset-1 @if($errors->first('numero_contrato')) has-error has-feedback @endif">
-							{{ Form::label('numero_contrato','Cód. Archivamiento') }}
-							{{ Form::text('numero_contrato',Input::old('numero_contrato'),['class' => 'form-control','id'=>'numero_contrato'])}}
-						</div>
-						<div class="form-group col-xs-1" style="margin-top:25px">
-							<a class="btn btn-default" onclick="fill_name_contrato()">Agregar</a>
-						</div>
-						<div class="form-group col-xs-1" style="margin-top:25px">
-							<a class="btn btn-default" onclick="clean_name_contrato()">Limpiar</a>
-						</div>
-						<div class="form-group col-xs-5">
-							{{ Form::label('nombre_contrato','Nombre del Documento') }}
-							{{ Form::text('nombre_contrato',Input::old('nombre_contrato'),['class' => 'form-control','id'=>'nombre_contrato'])}}
-						</div>
-		        	</div>
-		        	<br>
-		        	<div class="row">
 						<div class="form-group col-xs-2 col-xs-offset-1 @if($errors->first('numero_doc2')) has-error has-feedback @endif">
 							{{ Form::label('numero_doc2','Número Documento') }}
 							{{ Form::text('numero_doc2',Input::old('numero_doc2'),['class' => 'form-control','id'=>'numero_doc2'])}}
@@ -179,9 +162,9 @@
 						<div class="form-group col-xs-1" style="margin-top:25px">
 							<a class="btn btn-default" onclick="clean_name_responsable(2)">Limpiar</a>
 						</div>
-						<div class="form-group col-xs-5">
+						<div class="form-group col-xs-3">
 							{{ Form::label('autorizado','Autorizado por') }}
-							{{ Form::text('autorizado',Input::old('autorizado'),['class' => 'form-control','id'=>'nombre_responsable2'])}}
+							{{ Form::text('autorizado',Input::old('autorizado'),['class' => 'form-control','id'=>'nombre_responsable2','disabled'=>'disabled'])}}
 						</div>
 					</div>
 					<div class="row">
@@ -195,14 +178,51 @@
 						<div class="form-group col-xs-1" style="margin-top:25px">
 							<a class="btn btn-default"onclick="clean_name_responsable(3)">Limpiar</a>
 						</div>
-						<div class="form-group col-xs-5">
+						<div class="form-group col-xs-3">
 							{{ Form::label('elaborado','Elaborado por') }}
-							{{ Form::text('elaborado',Input::old('elaborado'),['class' => 'form-control','id'=>'nombre_responsable3'])}}
+							{{ Form::text('elaborado',Input::old('elaborado'),['class' => 'form-control','id'=>'nombre_responsable3','disabled'=>'disabled'])}}
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-xs-1"></div>
+						<div class="col-xs-10">
+							<div class="panel panel-default">
+				  				<div class="panel-heading">Documento Relacionado</div>
+				  				<div class="panel-body">
+									<div class="row">
+											
+										<div class="form-group col-xs-3 @if($errors->first('numero_contrato')) has-error has-feedback @endif">
+											{{ Form::label('numero_contrato','Cód. Archivamiento') }}
+											{{ Form::text('numero_contrato',Input::old('numero_contrato'),['class' => 'form-control','id'=>'numero_contrato'])}}
+										</div>
+										<div class="form-group col-xs-1" style="margin-top:25px">
+											<a class="btn btn-default" onclick="fill_name_contrato()">Agregar</a>
+										</div>
+										<div class="form-group col-xs-1" style="margin-top:25px; margin-left:15px">
+											<a class="btn btn-default" onclick="clean_name_contrato()">Limpiar</a>
+										</div>
+										<div class="form-group col-xs-3"  style="margin-left:15px">
+											{{ Form::label('nombre_contrato','Documento') }}
+											{{ Form::text('nombre_contrato',Input::old('nombre_contrato'),['class' => 'form-control','id'=>'nombre_contrato','disabled'=>'disabled'])}}
+										</div>	
+										{{ Form::close()}}									
+										<div class="form-group col-xs-2">
+											{{ Form::open(array('url'=>'reportes_incumplimiento/download_contrato', 'role'=>'form')) }}
+											{{ Form::hidden('numero_contrato_hidden',null)}}
+											{{ Form::submit('Descargar',array('id'=>'btn_descarga', 'class'=>'btn btn-primary','style'=>'margin-top:25px;')) }}
+											{{ Form::close() }}
+										</div>
+									
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>			
 			</div>
 		</div>
-		{{ Form::close() }}
+		
+		
 		
 @stop

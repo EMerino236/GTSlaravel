@@ -40,6 +40,7 @@
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
     <script src="{{ asset('js/bienes/reportes_incumplimiento.js') }}"></script>
     <script src="{{ asset('js/bienes/bienes.js') }}"></script>
+    <script src="{{ asset('js/bienes/solicitudes_compra.js') }}"></script>
 
 </head>
 
@@ -79,7 +80,7 @@
 							<li>
                                 <a href="#">Requerimiento <span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">
-									<li>{{ HTML::link('/#','Listado de requerimientos') }}</li>
+									<li>{{ HTML::link('/solicitudes_compra/list_solicitudes','Listado de requerimientos') }}</li>
 									<li>{{ HTML::link('/#','Indicadores') }}</li>
                                 </ul>
                                 <!-- /.nav-third-level -->

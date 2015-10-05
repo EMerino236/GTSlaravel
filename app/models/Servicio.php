@@ -43,6 +43,18 @@ class Servicio extends Eloquent{
 		return $query;
 	}
 
+	public function scopeSearchServiciosClinicosByIdArea($query,$search_criteria){
+		$query->join('tipo_servicios','tipo_servicios.idtipo_servicios','=','servicios.idtipo_servicios')
+			  ->whereNested(function($query) use($search_criteria){
+			  		$query->where('servicios.idarea','=',$search_criteria)
+			  			  ->where('servicios.idtipo_servicios','=',1);
+			  })
+			  ->select('servicios.nombre','idservicio');
+		return $query;
+	}
+
+
+
 	
 
 

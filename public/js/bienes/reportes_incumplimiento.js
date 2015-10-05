@@ -19,6 +19,8 @@ $( document ).ready(function(){
     fill_name_responsable(1);
     fill_name_responsable(2);
     fill_name_responsable(3);
+    fill_name_contrato();
+    $('#btn_descarga').hide();
 
 });
 
@@ -154,7 +156,6 @@ function fill_name_contrato(){
         var val = document.getElementById("numero_contrato").value;
         if(val=="")
             val = "vacio";    
-        alert(val);    
         $.ajax({
             url: inside_url+'reportes_incumplimiento/return_name_contrato/'+val,
             type: 'POST',
@@ -178,18 +179,25 @@ function fill_name_contrato(){
                             $("#nombre_contrato").val("");
                             $("#nombre_contrato").css('background-color','#5cb85c');
                             $("#nombre_contrato").css('color','white');
-                            $("#nombre_contrato").val(resp[0].titulo);
-
+                            $("#nombre_contrato").val(resp[0].nombre);
+                            $("#btn_descarga").show();
+                            $("input[name=numero_contrato_hidden]").val(val);
+                            
                         }
                         else{
-                            $("#nombre_contrato").val("Usuario no registrado");
+                            $("#nombre_contrato").val("Documento no registrado");
                             $("#nombre_contrato").css('background-color','#d9534f');
                             $("#nombre_contrato").css('color','white');
+                            $("#btn_descarga").hide();
+                            $("input[name=numero_contrato_hidden]").val(null);
+
                         } 
                     }else{
-                        $("#nombre_contrato").val("Usuario no registrado");
+                        $("#nombre_contrato").val("Documento no registrado");
                         $("#nombre_contrato").css('background-color','#d9534f');
                         $("#nombre_contrato").css('color','white');
+                        $("#btn_descarga").hide();
+                        $("input[name=numero_contrato_hidden]").val(null);
                     }               
                 }else{
                     alert('La petición no se pudo completar, inténtelo de nuevo.');
@@ -212,4 +220,6 @@ function clean_name_contrato(){
     $("#nombre_contrato").val("");
     $("#numero_contrato").val("");
     $("#nombre_contrato").css('background-color','white');
+    $("#btn_descarga").hide();
 }
+

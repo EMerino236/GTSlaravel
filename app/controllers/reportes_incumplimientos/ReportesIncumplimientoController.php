@@ -59,6 +59,7 @@ class ReportesIncumplimientoController extends BaseController
 				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
 				$data["servicios"] = Servicio::searchServiciosClinicos(1)->lists('nombre','idservicio');
 				$data["search"] = null;
+				$data["documento_info"] =null;
 				return View::make('reportes_incumplimiento/createReporteIncumplimiento',$data);
 			}else{
 				return View::make('error/error');
@@ -85,6 +86,8 @@ class ReportesIncumplimientoController extends BaseController
 					return Redirect::to('reportes_incumplimiento/list_reportes');
 				}
 				$data["reporte_data"] = $data["reporte_data"][0];
+				$data["documento_info"] = Documento::searchDocumentoByIdReporteIncumplimiento($data["reporte_data"]->idreporte_incumplimiento)->get();
+				$data["documento_info"] = $data["documento_info"][0];
 				$data["usuario_revision"] = User::searchUserById($data["reporte_data"]->id_responsable)->get();
 				$data["usuario_autorizado"] = User::searchUserById($data["reporte_data"]->id_autorizado)->get();
 				$data["usuario_elaborado"] = User::searchUserById($data["reporte_data"]->id_elaborado)->get();
@@ -112,7 +115,7 @@ class ReportesIncumplimientoController extends BaseController
 			// Check if the current user is the "System Admin"
 			$data = Input::get('selected_id');
 			if($data !="vacio"){
-				$documento = Documento::searchDocumentos($data)->get();
+				$documento = Documento::searchDocumentoByCodigoArchivamiento($data)->get();
 			}else{
 				$documento = null;
 			}
@@ -264,8 +267,25 @@ class ReportesIncumplimientoController extends BaseController
 						$reporte->id_elaborado = $usuario_elaborador[0]->id;
 					}
 					$reporte->idestado = 1;
-					$reporte->save();
-					Session::flash('message', 'Se registró correctamente el area.');
+					$documento_actual = Documento::searchDocumentoByIdReporteIncumplimiento($reporte->idreporte_incumplimiento)->get();
+					$documento_actual = $documento_actual[0];
+					$codigo_archivamiento = Input::get('numero_contrato');
+					$documento = Documento::searchDocumentoByCodigoArchivamiento($codigo_archivamiento)->get();
+					if($documento->isEmpty()){
+						Session::flash('error', 'No se pudo registrar los cambios, el documento no existe');
+						return Redirect::to($url);
+					}
+					$documento = $documento[0];
+					//se realizará la modificación siempre y cuando se cambie el documento por otro.
+					if($documento_actual->iddocumento<>$documento->iddocumento){
+						$documento_actual->idreporte_incumplimiento = null;
+						$documento->idreporte_incumplimiento = $reporte->idreporte_incumplimiento;
+						$documento_actual->save();
+						$documento->save();
+					}		
+					$reporte->save();													
+					
+					Session::flash('message', 'Se modificó correctamente el reporte.');
 					return Redirect::to($url);
 				}
 			}else{
@@ -300,6 +320,7 @@ class ReportesIncumplimientoController extends BaseController
 							'resultados' => 'required',				
 							'numero_doc2' => 'required',
 							'numero_doc3' => 'required',
+							'numero_contrato' => 'required',
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules);
@@ -346,15 +367,106 @@ class ReportesIncumplimientoController extends BaseController
 					}else{
 						$reporte->id_elaborado = $usuario_elaborador[0]->id;
 					}
-					$reporte->idestado = 1;
+					$reporte->idestado = 1;					
 					$reporte->save();
-					Session::flash('message', 'Se registró correctamente el area.');
+					$idReporte = $reporte->idreporte_incumplimiento;
+					$codigo_archivamiento = Input::get('numero_contrato');
+					$documento = Documento::searchDocumentoByCodigoArchivamiento($codigo_archivamiento)->get();
+					$documento = $documento[0];
+					$documento->idreporte_incumplimiento = $idReporte;
+					$documento->save();
+					Session::flash('message', 'Se registró correctamente el reporte de incumplimiento.');
 					return Redirect::to('reportes_incumplimiento/create_reporte');
 				}
 			}else{
 				return View::make('error/error');
 			}
 
+		}else{
+			return View::make('error/error');
+		}
+	}	
+
+	public function get_codigoArchivamento(){
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$id = Auth::id();
+		$data["inside_url"] = Config::get('app.inside_url');
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1){
+			// Check if the current user is the "System Admin"
+			$data = Input::get('selected_id');
+			if($data !="vacio"){
+				$documento = Documento::searchDocumentoByCodigoArchivamiento($data)->get();
+				$url = $documento[0]->url;
+			}else{
+				$documento = null;
+			}
+			return Response::json(array( 'success' => true, 'url' => $url ),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
+	public function download_contrato()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1){
+				$codigo = Input::get('numero_contrato_hidden');		
+				$documento = Documento::searchDocumentoByCodigoArchivamiento($codigo)->get();
+				$file= $documento[0]->url;
+				$headers = array(
+		              'Content-Type',mime_content_type($file),
+	            );
+		        return Response::download($file,basename($file),$headers);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+
+	public function submit_enable_reporte(){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1){
+				$reporte_id = Input::get('reporte_id');
+				$url = "reportes_incumplimiento/edit_reporte"."/".$reporte_id;
+				$reporte = ReporteIncumplimiento::withTrashed()->find($reporte_id);
+				$reporte->restore();
+				Session::flash('message', 'Se habilitó correctamente el reporte de incumplimiento.');
+				return Redirect::to($url);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function submit_disable_reporte(){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1){
+				$reporte_id = Input::get('reporte_id');
+				$url = "reportes_incumplimiento/edit_reporte"."/".$reporte_id;
+				$reporte = ReporteIncumplimiento::withTrashed()->find($reporte_id);
+				$reporte->delete();
+				Session::flash('message','Se inhabilitó correctamente el reporte.' );
+				return Redirect::to($url);
+			}else{
+				return View::make('error/error');
+			}
 		}else{
 			return View::make('error/error');
 		}

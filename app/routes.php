@@ -137,12 +137,16 @@ Route::group(array('prefix'=>'reportes_incumplimiento','before'=>'auth'),functio
 	Route::post('/return_contacto_proveedor/{postData}','ReportesIncumplimientoController@return_contacto_proveedor');
 	Route::post('/return_name_responsable/{postData}','ReportesIncumplimientoController@return_name_responsable');
 	Route::post('/return_name_contrato/{postData}','ReportesIncumplimientoController@return_name_contrato');
+	Route::post('/download_contract/{postData}','ReportesIncumplimientoController@get_codigoArchivamento');
+	Route::post('/download_contrato','ReportesIncumplimientoController@download_contrato');
 	Route::get('/list_reportes','ReportesIncumplimientoController@list_reportes_incumplimiento');	
 	Route::get('/search_reporte','ReportesIncumplimientoController@search_reporte');
 	Route::get('/edit_reporte/{id}','ReportesIncumplimientoController@render_edit_reporte');
 	Route::get('/create_reporte','ReportesIncumplimientoController@render_create_reporte');
 	Route::post('/submit_reporte','ReportesIncumplimientoController@submit_create_reporte');
-	Route::post('/submit_edit_reporte','ReportesIncumplimientoController@submit_edit_reporte');
+	Route::post('/submit_edit_reporte','ReportesIncumplimientoController@submit_edit_reporte');	
+	Route::post('/submit_disable_reporte','ReportesIncumplimientoController@submit_disable_reporte');
+	Route::post('/submit_enable_reporte','ReportesIncumplimientoController@submit_enable_reporte');
 });
 /* Tipo de Tareas */
 Route::group(array('prefix'=>'tipoTarea', 'before'=>'auth'),function(){
@@ -163,4 +167,11 @@ Route::group(array('prefix'=>'documento', 'before'=>'auth'),function(){
 	Route::post('/submit_create_documento','DocumentoController@submit_create_documento');
 	Route::get('/search_documento','DocumentoController@search_documento');
 	Route::post('/download_documento','DocumentoController@download_documento');
+});
+
+/* Documentos */
+Route::group(array('prefix'=>'solicitudes_compra', 'before'=>'auth'),function(){
+	Route::get('/list_solicitudes','SolicitudesController@list_solicitudes');
+	Route::get('/search_solicitud','SolicitudesController@search_solicitud');
+	Route::post('/return_servicios/{postData}','SolicitudesController@return_servicio');
 });

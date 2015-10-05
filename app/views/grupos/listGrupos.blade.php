@@ -9,7 +9,7 @@
 
     {{ Form::open(array('url'=>'/grupos/search_grupo','method'=>'get' ,'role'=>'form', 'id'=>'search-form','class' => 'form-inline')) }}
 		<div class="search_bar">
-			
+			{{ Form::text('search',$search,array('class'=>'form-control','placeholder'=>'Ingrese Nombre del Grupo'))}}
 			{{ Form::submit('Buscar',array('id'=>'submit-search-form','class'=>'btn btn-info')) }}
 		</div>	
 	{{ Form::close() }}</br>
@@ -32,7 +32,7 @@
 				</a>
 			</td>
 			<td>
-				{{$grupo_data->nombre_resp}} {{$grupo_data->apellido_pat_responsable}}
+				{{$grupo_data->nombre_reponsable}} {{$grupo_data->apellido_pat_responsable}} {{$grupo_data->apellido_mat_responsable}}
 			</td>
 			<td>
 				{{$grupo_data->created_at->format('d-m-Y')}}

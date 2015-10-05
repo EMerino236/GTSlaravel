@@ -81,12 +81,12 @@
 						<div class="form-group col-xs-1" style="margin-top:25px">
 							<a class="btn btn-default" onclick="clean_name_responsable(1)">Limpiar</a>
 						</div>
-						<div class="form-group col-xs-5">
+						<div class="form-group col-xs-4">
 							{{ Form::label('responsable','Responsable de la Revisión') }}
 							@if($reporte_data->deleted_at)
-								{{ Form::text('responsable',$usuario_revision->nombre,array('class'=>'form-control','readonly'=>'','id'=>'nombre_responsable1')) }}
+								{{ Form::text('responsable',$usuario_revision->nombre,array('class'=>'form-control','readonly'=>'','id'=>'nombre_responsable1','disabled'=>'disabled')) }}
 							@else
-								{{ Form::text('responsable',$usuario_revision->nombre,array('class'=>'form-control','id'=>'nombre_responsable1')) }}
+								{{ Form::text('responsable',$usuario_revision->nombre,array('class'=>'form-control','id'=>'nombre_responsable1','disabled'=>'disabled')) }}
 							@endif							
 						</div>
 					</div>
@@ -191,7 +191,6 @@
 							
 						</div> 
 					</div>
-
 					<div class="row">
 						<div class="col-xs-8 col-xs-offset-1 @if($errors->first('acciones')) has-error has-feedback @endif">
 			        		{{ Form::label('acciones','Acciones a seguir de acuerdo a la disposición determinada') }}
@@ -215,13 +214,6 @@
 		        	</div>
 		        	<br>
 		        	<div class="row">
-						<div class="col-xs-8 col-xs-offset-1 @if($errors->first('documento')) has-error has-feedback @endif">
-			        		{{ Form::label('documento','Documento Contrato') }}
-							{{ Form::file('documento',array('class'=>'form-group')) }}
-		        		</div>
-		        	</div>
-		        	<br>
-		        	<div class="row">
 						<div class="form-group col-xs-2 col-xs-offset-1 @if($errors->first('numero_doc2')) has-error has-feedback @endif">
 							{{ Form::label('numero_doc2','Número Documento') }}
 							@if($reporte_data->deleted_at)
@@ -236,12 +228,12 @@
 						<div class="form-group col-xs-1" style="margin-top:25px">
 							<a class="btn btn-default" onclick="clean_name_responsable(2)">Limpiar</a>
 						</div>
-						<div class="form-group col-xs-5">
+						<div class="form-group col-xs-4">
 							{{ Form::label('autorizado','Autorizado por') }}
 							@if($reporte_data->deleted_at)
-								{{ Form::text('autorizado',$usuario_autorizado->nombre,array('class'=>'form-control','readonly'=>'','id'=>'nombre_responsable2')) }}
+								{{ Form::text('autorizado',$usuario_autorizado->nombre,array('class'=>'form-control','readonly'=>'','id'=>'nombre_responsable2','disabled'=>'disabled')) }}
 							@else
-								{{ Form::text('autorizado',$usuario_autorizado->nombre,array('class'=>'form-control','id'=>'nombre_responsable2')) }}
+								{{ Form::text('autorizado',$usuario_autorizado->nombre,array('class'=>'form-control','id'=>'nombre_responsable2','disabled'=>'disabled')) }}
 							@endif
 						</div>
 					</div>
@@ -261,17 +253,81 @@
 						<div class="form-group col-xs-1" style="margin-top:25px">
 							<a class="btn btn-default"onclick="clean_name_responsable(3)">Limpiar</a>
 						</div>
-						<div class="form-group col-xs-5">
+						<div class="form-group col-xs-4">
 							{{ Form::label('elaborado','Elaborado por') }}
 							@if($reporte_data->deleted_at)
-								{{ Form::text('elaborado',$usuario_elaborado->nombre,array('class'=>'form-control','readonly'=>'','id'=>'nombre_responsable3')) }}
+								{{ Form::text('elaborado',$usuario_elaborado->nombre,array('class'=>'form-control','readonly'=>'','id'=>'nombre_responsable3','disabled'=>'disabled')) }}
 							@else
-								{{ Form::text('elaborado',$usuario_elaborado->nombre,array('class'=>'form-control','id'=>'nombre_responsable3')) }}
+								{{ Form::text('elaborado',$usuario_elaborado->nombre,array('class'=>'form-control','id'=>'nombre_responsable3','disabled'=>'disabled')) }}
 							@endif
 						</div>
 					</div>
+					<div class="row">
+						<div class="col-xs-1"></div>
+						<div class="col-xs-8">
+							<div class="panel panel-default">
+				  				<div class="panel-heading">Documento Relacionado</div>
+				  				<div class="panel-body">
+									<div class="row">											
+										<div class="form-group col-xs-3 @if($errors->first('numero_contrato')) has-error has-feedback @endif">
+											{{ Form::label('numero_contrato','Cód. Archivamiento') }}
+											@if($reporte_data->deleted_at)
+												{{ Form::text('numero_contrato',$documento_info->codigo_archivamiento,array('class'=>'form-control','readonly'=>'','id'=>'numero_contrato')) }}
+											@else
+												{{ Form::text('numero_contrato',$documento_info->codigo_archivamiento,array('class'=>'form-control','id'=>'numero_contrato')) }}
+											@endif
+											
+										</div>
+										<div class="form-group col-xs-1" style="margin-top:25px">
+											<a class="btn btn-default" onclick="fill_name_contrato()">Agregar</a>
+										</div>
+										<div class="form-group col-xs-1" style="margin-top:25px; margin-left:30px">
+											<a class="btn btn-default" onclick="clean_name_contrato()">Limpiar</a>
+										</div>
+										<div class="form-group col-xs-3"  style="margin-left:30px">
+											{{ Form::label('nombre_contrato','Documento') }}
+											{{ Form::text('nombre_contrato',Input::old('nombre_contrato'),['class' => 'form-control','id'=>'nombre_contrato','disabled'=>'disabled'])}}
+										</div>	
+										{{ Form::close()}}									
+										<div class="form-group col-xs-2">
+											{{ Form::open(array('url'=>'reportes_incumplimiento/download_contrato', 'role'=>'form')) }}
+											{{ Form::hidden('numero_contrato_hidden',null)}}
+											{{ Form::submit('Descargar',array('id'=>'btn_descarga', 'class'=>'btn btn-primary','style'=>'margin-top:25px;')) }}
+											{{ Form::close() }}
+										</div>
+									
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-1"></div>
+						@if($reporte_data->deleted_at)
+						{{ Form::open(array('url'=>'reportes_incumplimiento/submit_enable_reporte', 'role'=>'form')) }}
+							{{ Form::hidden('reporte_id', $reporte_data->idreporte_incumplimiento) }}
+							<div class="col-xs-6">
+								<div class="row">
+									<div class="form-group col-xs-8">
+										{{ Form::submit('Habilitar',array('id'=>'submit-delete', 'class'=>'btn btn-success')) }}
+									</div>
+								</div>	
+							</div>	
+						{{ Form::close() }}
+						@else
+						{{ Form::open(array('url'=>'reportes_incumplimiento/submit_disable_reporte', 'role'=>'form')) }}
+							{{ Form::hidden('reporte_id', $reporte_data->idreporte_incumplimiento) }}
+							<div class="col-xs-6">
+								<div class="row">
+									<div class="form-group col-xs-8">
+										{{ Form::submit('Inhabilitar',array('id'=>'submit-delete', 'class'=>'btn btn-danger')) }}	
+									</div>
+								</div>	
+							</div>	
+						{{ Form::close() }}
+						@endif
+					</div>
 				</div>			
 			</div>
-		</div>
-	{{ Form::close() }}
+		</div>	
 @stop
