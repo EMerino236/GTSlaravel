@@ -152,8 +152,6 @@ Route::group(array('prefix'=>'reportes_incumplimiento','before'=>'auth'),functio
 	Route::post('/submit_disable_reporte','ReportesIncumplimientoController@submit_disable_reporte');
 	Route::post('/submit_enable_reporte','ReportesIncumplimientoController@submit_enable_reporte');
 
-
-});
 });
 /* Mantenimiento Correctivo */
 Route::group(array('prefix'=>'mant_correctivo','before'=>'auth'),function(){
