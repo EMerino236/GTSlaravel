@@ -4,11 +4,9 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="robots" content="noindex, follow">
-	<title>Directorio de Equipo</title>
+	<title>Tipos de Tareas</title>
 	<!-- Bootstrap Core CSS -->
     <link href="{{ asset('bower_components/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
-    <!-- Datepicker CSS-->
-    <link rel="stylesheet" href="{{ asset('css/bootstrap-datetimepicker.min.css') }}">
     <!-- MetisMenu CSS -->
     <link href="{{ asset('bower_components/metisMenu/dist/metisMenu.min.css') }}" rel="stylesheet">
     <!-- Timeline CSS -->
@@ -48,8 +46,8 @@
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
-                        <li>{{ HTML::link('/equipos/create_equipo','Nuevo Equipo') }}</li>
-                        <li>{{ HTML::link('/equipos/list_equipos','Buscar Equipo') }}</li>
+                        <li>{{ HTML::link('/tipoTarea/create_tipoTarea','Crear Tipos de Tareas') }}</li>
+                        <li>{{ HTML::link('/tipoTarea/list_tipoTareas','Listar Tipo de Tareas') }}</li>
                     </ul>
                 </div>
             </div>

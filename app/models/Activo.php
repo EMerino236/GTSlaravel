@@ -26,6 +26,66 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 	 *
 	 * @var array
 	 */
+
+	public function scopeGetActivosInfo($query)
+	{
+		$query->withTrashed()
+			  ->join('ubicacion_fisicas','ubicacion_fisicas.idubicacion_fisica','=','activos.idubicacion_fisica')
+			  ->join('servicios','servicios.idservicio','=','ubicacion_fisicas.idubicacion_fisica')
+			  ->join('grupos','grupos.idgrupo','=','activos.idgrupo')
+			  ->join('familia_activos','familia_activos.idfamilia_activo','=','activos.idfamilia_activo')
+			  ->join('marcas','marcas.idmarca','=','familia_activos.idmarca')
+			  ->join('proveedores','proveedores.idproveedor','=','activos.idproveedor')
+			  ->select('servicios.nombre as nombre_servicio','ubicacion_fisicas.nombre as nombre_ubicacion_fisica','grupos.nombre as nombre_grupo','familia_activos.nombre_equipo as nombre_equipo',
+			  		   'familia_activos.modelo as activo_modelo','marcas.nombre as nombre_marca','proveedores.razon_social as nombre_proveedor','activos.*');
+		return $query;
+	}
+
+	public function scopesearchActivos($query,$search_grupo,$search_servico,$search_nombre_equipo,$search_marca,$search_modelo,
+									$search_serie)
+	{
+		$query->withTrashed()
+			  ->join('ubicacion_fisicas','ubicacion_fisicas.idubicacion_fisica','=','activos.idubicacion_fisica')
+			  ->join('servicios','servicios.idservicio','=','ubicacion_fisicas.idubicacion_fisica')
+			  ->join('grupos','grupos.idgrupo','=','activos.idgrupo')
+			  ->join('familia_activos','familia_activos.idfamilia_activo','=','activos.idfamilia_activo')
+			  ->join('marcas','marcas.idmarca','=','familia_activos.idmarca')
+			  ->join('proveedores','proveedores.idproveedor','=','activos.idproveedor');
+			  
+			  if($search_grupo != '0')
+			  {
+			  	$query->where('activos.idgrupo','=',$search_grupo);
+			  }
+
+			  if($search_servico != '0')
+			  {
+			  	$query->where('activos.idservicio','=',$search_servico);
+			  }
+
+			  if($search_nombre_equipo != "")
+			  {
+			  	$query->where('familia_activos.nombre_equipo','LIKE',"%$search_nombre_equipo%");
+			  }
+
+			  if($search_marca != '0')
+			  {
+			  	$query->where('familia_activos.idmarca','=',$search_marca);
+			  }
+
+			  if($search_modelo != "")
+			  {
+			  	$query->where('familia_activos.modelo','LIKE',"%$search_modelo%");
+			  }
+
+			   if($search_serie != "")
+			  {
+			  	$query->where('activos.numero_serie','LIKE',"%$search_serie%");
+			  }
+
+			  $query->select('servicios.nombre as nombre_servicio','ubicacion_fisicas.nombre as nombre_ubicacion_fisica','grupos.nombre as nombre_grupo','familia_activos.nombre_equipo as nombre_equipo',
+			  		   'familia_activos.modelo as activo_modelo','marcas.nombre as nombre_marca','proveedores.razon_social as nombre_proveedor','activos.*');
+		return $query;
+	}
 	
 
 	public function scopeSearchActivosById($query,$search_criteria)

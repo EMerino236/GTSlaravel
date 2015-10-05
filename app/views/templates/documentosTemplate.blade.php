@@ -4,11 +4,9 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="robots" content="noindex, follow">
-	<title>Directorio de Equipo</title>
+	<title>Documentos</title>
 	<!-- Bootstrap Core CSS -->
     <link href="{{ asset('bower_components/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
-    <!-- Datepicker CSS-->
-    <link rel="stylesheet" href="{{ asset('css/bootstrap-datetimepicker.min.css') }}">
     <!-- MetisMenu CSS -->
     <link href="{{ asset('bower_components/metisMenu/dist/metisMenu.min.css') }}" rel="stylesheet">
     <!-- Timeline CSS -->
@@ -48,8 +46,8 @@
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
-                        <li>{{ HTML::link('/equipos/create_equipo','Nuevo Equipo') }}</li>
-                        <li>{{ HTML::link('/equipos/list_equipos','Buscar Equipo') }}</li>
+                        <li>{{ HTML::link('/documento/create_documento','Crear Documentos') }}</li>
+                        <li>{{ HTML::link('/documento/list_documentos','Listar Documentos') }}</li>
                     </ul>
                 </div>
             </div>

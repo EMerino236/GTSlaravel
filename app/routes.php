@@ -72,21 +72,22 @@ Route::group(array('prefix'=>'marcas', 'before'=>'auth'),function(){
 });
 
 /* Familia de Activos */
-Route::group(array('prefix'=>'familiaactivos', 'before'=>'auth'),function(){
-	Route::get('/list_familiaactivos','FamiliaActivosController@list_familiaactivos');
-	Route::get('/search_familiaactivos','FamiliaActivosController@search_familiaactivos');
-	Route::get('/create_familiaactivo','FamiliaActivosController@render_create_familiaactivo');
-	Route::post('/submit_create_familiaactivo','FamiliaActivosController@submit_create_familiaactivo');
-	Route::get('/edit_familiaactivo/{id}','FamiliaActivosController@render_edit_familiaactivo');
-	Route::post('/submit_edit_familiaactivo','FamiliaActivosController@submit_edit_familiaactivo');
+Route::group(array('prefix'=>'familia_activos', 'before'=>'auth'),function(){
+	Route::get('/list_familia_activos','FamiliaActivosController@list_familia_activos');
+	Route::get('/search_familia_activos','FamiliaActivosController@search_familia_activos');
+	Route::get('/create_familia_activo','FamiliaActivosController@render_create_familia_activo');
+	Route::post('/submit_create_familia_activo','FamiliaActivosController@submit_create_familia_activo');
+	Route::get('/edit_familia_activo/{id}','FamiliaActivosController@render_edit_familia_activo');
+	Route::post('/submit_edit_familia_activo','FamiliaActivosController@submit_edit_familia_activo');
 });
 
 /*Activos*/
 Route::group(array('prefix'=>'equipos','before'=>'auth'),function(){
 	Route::get('/','ActivosController@home');
-	Route::get('/createEquipo','ActivosController@render_create_activo');
-	Route::get('/submitEquipo','ActivosController@submit_create_activo');
-	Route::get('/searchEquipo','ActivosController@home');
+	Route::get('/list_equipos','ActivosController@list_activos');
+	Route::get('/search_equipos','ActivosController@search_activos');
+	Route::get('/create_equipo','ActivosController@render_create_activo');
+	Route::get('/submit_equipo','ActivosController@submit_create_activo');	
 });
 
 /*Configuraciones*/
@@ -135,9 +136,13 @@ Route::group(array('prefix'=>'grupos','before'=>'auth'),function(){
 Route::group(array('prefix'=>'reportes_incumplimiento','before'=>'auth'),function(){
 	Route::post('/return_resp_servicio/{postData}','ReportesIncumplimientoController@return_responsable_servicio');
 	Route::post('/return_contacto_proveedor/{postData}','ReportesIncumplimientoController@return_contacto_proveedor');
+	Route::post('/return_name_responsable/{postData}','ReportesIncumplimientoController@return_name_responsable');
+	Route::post('/return_name_contrato/{postData}','ReportesIncumplimientoController@return_name_contrato');
 	Route::get('/list_reportes','ReportesIncumplimientoController@list_reportes_incumplimiento');	
 	Route::get('/search_reporte','ReportesIncumplimientoController@search_reporte');
+	Route::get('/edit_reporte/{id}','ReportesIncumplimientoController@render_edit_reporte');
 	Route::get('/create_reporte','ReportesIncumplimientoController@render_create_reporte');
+<<<<<<< HEAD
 });
 
 /* Mantenimiento Correctivo */
@@ -153,4 +158,28 @@ Route::group(array('prefix'=>'mant_correctivo','before'=>'auth'),function(){
 	Route::get('/list_reportes','ReportesIncumplimientoController@list_reportes_incumplimiento');	
 	Route::get('/create_reporte','ReportesIncumplimientoController@render_create_reporte');
 	*/
+=======
+	Route::post('/submit_reporte','ReportesIncumplimientoController@submit_create_reporte');
+	Route::post('/submit_edit_reporte','ReportesIncumplimientoController@submit_edit_reporte');
+});
+/* Tipo de Tareas */
+Route::group(array('prefix'=>'tipoTarea', 'before'=>'auth'),function(){
+	Route::get('/list_tipoTareas','TipoTareaController@list_tipoTareas');
+	Route::get('/edit_tipoTarea/{id}','TipoTareaController@render_edit_tipoTarea');
+	Route::post('/submit_edit_tipoTarea','TipoTareaController@submit_edit_tipoTarea');
+	Route::get('/create_tipoTarea','TipoTareaController@render_create_tipoTarea');
+	Route::post('/submit_create_tipoTarea','TipoTareaController@submit_create_tipoTarea');
+	Route::get('/search_tipoTarea','TipoTareaController@search_tipoTarea');
+});
+
+/* Documentos */
+Route::group(array('prefix'=>'documento', 'before'=>'auth'),function(){
+	Route::get('/list_documentos','DocumentoController@list_documentos');
+	Route::get('/edit_documento/{id}','DocumentoController@render_edit_documento');
+	Route::post('/submit_edit_documento','DocumentoController@submit_edit_documento');
+	Route::get('/create_documento','DocumentoController@render_create_documento');
+	Route::post('/submit_create_documento','DocumentoController@submit_create_documento');
+	Route::get('/search_documento','DocumentoController@search_documento');
+	Route::post('/download_documento','DocumentoController@download_documento');
+>>>>>>> origin/master
 });

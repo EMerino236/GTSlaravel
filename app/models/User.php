@@ -76,5 +76,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $query;
 	}
 
+	public function scopeSearchPersonalByNumeroDoc($query,$search_criteria){
+		$query->withTrashed()
+			  ->where('users.numero_doc_identidad','=',$search_criteria);			  	   
+		return $query;
+	}
+
 	
 }

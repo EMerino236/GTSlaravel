@@ -35,10 +35,11 @@
 		<div class="alert alert-danger">{{ Session::get('error') }}</div>
 	@endif
 
-	{{ Form::open(array('url'=>'reportes_incumplimiento/submit_reporte', 'role'=>'form')) }}
+	{{ Form::open(array('url'=>'reportes_incumplimiento/submit_edit_reporte', 'role'=>'form')) }}
+		{{Form::hidden('reporte_id',$reporte_data->idreporte_incumplimiento) }}
 		<div class="row">
 			<div class="form-group col-xs-3 col-xs-offset-10">
-				{{ Form::submit('Guardar',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}	
+				{{ Form::submit('Guardar',array('idreporte'=>'submit-edit', 'class'=>'btn btn-primary')) }}	
 			</div>
 		</div>	
 		<div class="row">
@@ -48,17 +49,31 @@
 					<div class="row">								
 						<div class="form-group col-xs-2 col-xs-offset-1 @if($errors->first('numero_ot')) has-error has-feedback @endif">
 							{{ Form::label('numero_ot','Número de OT') }}
-							{{ Form::text('numero_ot',Input::old('numero_ot'),['class' => 'form-control'])}}
+							@if($reporte_data->deleted_at)
+								{{ Form::text('numero_ot',$reporte_data->idordenes_trabajo,array('class'=>'form-control','readonly'=>'')) }}
+							@else
+								{{ Form::text('numero_ot',$reporte_data->idordenes_trabajo,array('class'=>'form-control')) }}
+							@endif
+							
 						</div>
 						<div class="form-group col-xs-2 @if($errors->first('tipo_reporte')) has-error has-feedback @endif">
 							{{ Form::label('tipo_reporte','Tipo') }}
-							{{ Form::select('tipo_reporte',['0'=>'','1'=>'Por Servicio','2'=>'Por Equipo'],Input::old('idtipo_reporte'),['class' => 'form-control'])}}
+							@if($reporte_data->deleted_at)
+								{{ Form::select('tipo_reporte',['0'=>'Seleccione','1'=>'Por Servicio','2'=>'Por Equipo'],$reporte_data->tipo_reporte,array('class'=>'form-control','readonly'=>'')) }}
+							@else
+								{{ Form::select('tipo_reporte',['0'=>'Seleccione','1'=>'Por Servicio','2'=>'Por Equipo'],$reporte_data->tipo_reporte,array('class'=>'form-control')) }}
+							@endif
+							
 						</div>						
 					</div>
 					<div class="row">
 						<div class="form-group col-xs-2 col-xs-offset-1 @if($errors->first('numero_doc1')) has-error has-feedback @endif">
 							{{ Form::label('numero_doc1','Número Documento') }}
-							{{ Form::text('numero_doc1',Input::old('numero_doc1'),['class' => 'form-control','id'=>'numero_doc1'])}}
+							@if($reporte_data->deleted_at)
+								{{ Form::text('numero_doc1',$usuario_revision->numero_doc_identidad,array('class'=>'form-control','readonly'=>'','id'=>'numero_doc1')) }}
+							@else
+								{{ Form::text('numero_doc1',$usuario_revision->numero_doc_identidad,array('class'=>'form-control','id'=>'numero_doc1')) }}
+							@endif							
 						</div>
 						<div class="form-group col-xs-1" style="margin-top:25px">
 							<a class="btn btn-default" onclick="fill_name_responsable(1)">Agregar</a>
@@ -68,14 +83,18 @@
 						</div>
 						<div class="form-group col-xs-5">
 							{{ Form::label('responsable','Responsable de la Revisión') }}
-							{{ Form::text('responsable',Input::old('responsable'),['class' => 'form-control','id'=>'nombre_responsable1'])}}
+							@if($reporte_data->deleted_at)
+								{{ Form::text('responsable',$usuario_revision->nombre,array('class'=>'form-control','readonly'=>'','id'=>'nombre_responsable1')) }}
+							@else
+								{{ Form::text('responsable',$usuario_revision->nombre,array('class'=>'form-control','id'=>'nombre_responsable1')) }}
+							@endif							
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-xs-4 col-xs-offset-1">
 							{{ Form::label('fecha','Fecha')}}
 							<div id="datetimepicker1" class="form-group input-group date @if($errors->first('fecha')) has-error has-feedback @endif">					
-								{{ Form::text('fecha',Input::old('fecha'),array('class'=>'form-control','readonly'=>'')) }}
+								{{ Form::text('fecha',date('d-m-Y',strtotime($reporte_data->fecha)),array('class'=>'form-control','readonly'=>'')) }}
 								<span class="input-group-addon">
 				                    <span class="glyphicon glyphicon-calendar"></span>
 				                </span>
@@ -85,93 +104,131 @@
 		        	<div class="row">		        		
 						<div class="col-xs-4 col-xs-offset-1 @if($errors->first('descripcion_corta')) has-error has-feedback @endif">
 		        			{{ Form::label('descripcion_corta','Descripción Corta') }}
-							{{ Form::text('descripcion_corta',Input::old('descripcion_corta'),['class' => 'form-control'])}}
+							@if($reporte_data->deleted_at)
+								{{ Form::text('descripcion_corta',$reporte_data->descripcion_corta,array('class'=>'form-control','readonly'=>'')) }}
+							@else
+								{{ Form::text('descripcion_corta',$reporte_data->descripcion_corta,array('class'=>'form-control')) }}
+							@endif		        			
 		        		</div>
 		        	</div>
 		        	<br>
 		        	<div class="row">
 						<div class="col-xs-8 col-xs-offset-1 @if($errors->first('descripcion')) has-error has-feedback @endif">
 			        		{{ Form::label('descripcion','Descripción del Servicio o Producto no conforme') }}
-							{{ Form::textarea('descripcion',Input::old('descripcion'),['class' => 'form-control','style'=>'resize:none;'])}}
+							@if($reporte_data->deleted_at)
+								{{ Form::textarea('descripcion',$reporte_data->descripcion_servicio,array('class'=>'form-control','readonly'=>'','style'=>'resize:none;')) }}
+							@else
+								{{ Form::textarea('descripcion',$reporte_data->descripcion_servicio,array('class'=>'form-control','style'=>'resize:none;')) }}
+							@endif
 		        		</div>
 		        	</div>
 		        	<br>
 		        	<div class="row">
 		        		<div class="form-group col-xs-4 col-xs-offset-1 @if($errors->first('servicio')) has-error has-feedback @endif">
 							{{ Form::label('servicio','Servicio Clínico') }}
-							{{ Form::select('servicio',array('0'=> 'Seleccione')+$servicios,$servicios,['class' => 'form-control',"onchange" => "fill_responsable_servicio()",'id'=>'servicio'])}}
+							@if($reporte_data->deleted_at)
+								{{ Form::select('servicio',array('0'=> 'Seleccione')+$servicios,$reporte_data->idservicio,array('class'=>'form-control','readonly'=>'',"onchange" => "fill_responsable_servicio()",'id'=>'servicio')) }}
+							@else
+								{{ Form::select('servicio',array('0'=> 'Seleccione')+$servicios,$reporte_data->idservicio,array('class'=>'form-control',"onchange" => "fill_responsable_servicio()",'id'=>'servicio')) }}
+							@endif
 						</div>
 						<div class="form-group col-xs-4  @if($errors->first('responsable_servicio')) has-error has-feedback @endif">
 							{{ Form::label('responsable_servicio','Responsable del Servicio') }}
-							{{ Form::text('responsable_servicio',Input::old('idresponsable'),['class' => 'form-control','id'=>'servicio_resp','disabled'=>'disabled'])}}
+							@if($reporte_data->deleted_at)
+								{{ Form::text('responsable_servicio',Input::old('idresponsable'),array('class'=>'form-control','readonly'=>'','disabled'=>'disabled','id'=>'servicio_resp')) }}
+							@else
+								{{ Form::text('responsable_servicio',Input::old('idresponsable'),array('class'=>'form-control','disabled'=>'disabled','id'=>'servicio_resp')) }}
+							@endif							
 						</div>
 		        	</div>
 		        	<div class="row">
 		        		<div class="form-group col-xs-4 col-xs-offset-1 @if($errors->first('proveedor')) has-error has-feedback @endif">
 							{{ Form::label('proveedor','Proveedor') }}
-							{{ Form::select('proveedor',array('0'=> 'Seleccione')+$proveedor,Input::old('idproveedor'),['class' => 'form-control',"onchange" => "fill_contacto_proveedor()",'id'=>'proveedor'])}}
+							@if($reporte_data->deleted_at)
+								{{ Form::select('proveedor',array('0'=> 'Seleccione')+$proveedor,$reporte_data->idproveedor,array('class'=>'form-control','readonly'=>'',"onchange" => "fill_contacto_proveedor()",'id'=>'proveedor')) }}
+							@else
+								{{ Form::select('proveedor',array('0'=> 'Seleccione')+$proveedor,$reporte_data->idproveedor,array('class'=>'form-control',"onchange" => "fill_contacto_proveedor()",'id'=>'proveedor')) }}
+							@endif							
 						</div>
 						<div class="form-group col-xs-4  @if($errors->first('contacto_proveedor')) has-error has-feedback @endif">
 							{{ Form::label('contacto_proveedor','Contacto de Proveedor') }}
-							{{ Form::text('contacto_proveedor',Input::old('contacto_proveedor'),['class' => 'form-control','id'=>'contacto_proveedor','disabled'=>'disabled'])}}
+							@if($reporte_data->deleted_at)
+								{{ Form::text('contacto_proveedor',Input::old('contacto_proveedor'),array('class'=>'form-control','readonly'=>'','id'=>'contacto_proveedor','disabled'=>'disabled')) }}
+							@else
+								{{ Form::text('contacto_proveedor',Input::old('contacto_proveedor'),array('class'=>'form-control','id'=>'contacto_proveedor','disabled'=>'disabled')) }}
+							@endif
 						</div>
 		        	</div>
 		        	<div class="row">
 						<div class="col-xs-4 col-xs-offset-1 @if($errors->first('costo')) has-error has-feedback @endif">
 			        		{{ Form::label('costo','Costos Generados') }}
-							{{ Form::text('costo',Input::old('costo'),['class' => 'form-control'])}}
+							@if($reporte_data->deleted_at)
+								{{ Form::text('costo',$reporte_data->costo_generado,array('class'=>'form-control','readonly'=>'')) }}
+							@else
+								{{ Form::text('costo',$reporte_data->costo_generado,array('class'=>'form-control')) }}
+							@endif
 		        		</div>
 		        	</div>
 		        	<br>
 		        	<div class="row">
 						<div class="col-xs-8 col-xs-offset-1 @if($errors->first('accion_generada')) has-error has-feedback @endif">
 			        		{{ Form::label('accion_generada','Acción Correctiva Generada') }}
-							{{ Form::text('accion_generada',Input::old('accion_generada'),['class' => 'form-control'])}}
-		        		</div>
+							@if($reporte_data->deleted_at)
+								{{ Form::text('accion_generada',$reporte_data->accion_correctiva,array('class'=>'form-control','readonly'=>'')) }}
+							@else
+								{{ Form::text('accion_generada',$reporte_data->accion_correctiva,array('class'=>'form-control')) }}
+							@endif
 		        	</div>
 		        	<br>
 		        	<div class="row">
 						<div class="col-xs-8 col-xs-offset-1 @if($errors->first('reincidente')) has-error has-feedback @endif">
 			        		{{ Form::label('reincidente','¿Es reincidente?') }}
-							{{ Form::radio('reincidente', '1') }}SI{{ Form::radio('reincidente', '0', true) }}NO
+			        			@if($reporte_data->flag_reincidente == 1)
+			        				{{ Form::radio('reincidente', '1',true) }}SI{{ Form::radio('reincidente', '0') }}NO
+			        			@else
+			        				{{ Form::radio('reincidente', '1') }}SI{{ Form::radio('reincidente', '0', true) }}NO
+								@endif
+							
 						</div> 
 					</div>
 
 					<div class="row">
 						<div class="col-xs-8 col-xs-offset-1 @if($errors->first('acciones')) has-error has-feedback @endif">
 			        		{{ Form::label('acciones','Acciones a seguir de acuerdo a la disposición determinada') }}
-							{{ Form::textarea('acciones',Input::old('acciones'),['class' => 'form-control','style'=>'resize:none;'])}}
+							@if($reporte_data->deleted_at)
+								{{ Form::textarea('acciones',$reporte_data->acciones,array('class'=>'form-control','readonly'=>'','style'=>'resize:none;')) }}
+							@else
+								{{ Form::textarea('acciones',$reporte_data->acciones,array('class'=>'form-control','style'=>'resize:none;')) }}
+							@endif
 		        		</div>
 		        	</div>
 		        	<br>
 		        	<div class="row">
 						<div class="col-xs-8 col-xs-offset-1 @if($errors->first('resultados')) has-error has-feedback @endif">
 			        		{{ Form::label('resultados','Resultados / Conclusiones con respecto al servicio') }}
-							{{ Form::textarea('resultados',Input::old('resultados'),['class' => 'form-control','style'=>'resize:none;'])}}
+							@if($reporte_data->deleted_at)
+								{{ Form::textarea('resultados',$reporte_data->resultados,array('class'=>'form-control','readonly'=>'','style'=>'resize:none;')) }}
+							@else
+								{{ Form::textarea('resultados',$reporte_data->resultados,array('class'=>'form-control','style'=>'resize:none;')) }}
+							@endif
 		        		</div>
 		        	</div>
 		        	<br>
 		        	<div class="row">
-						<div class="form-group col-xs-2 col-xs-offset-1 @if($errors->first('numero_contrato')) has-error has-feedback @endif">
-							{{ Form::label('numero_contrato','Cód. Archivamiento') }}
-							{{ Form::text('numero_contrato',Input::old('numero_contrato'),['class' => 'form-control','id'=>'numero_contrato'])}}
-						</div>
-						<div class="form-group col-xs-1" style="margin-top:25px">
-							<a class="btn btn-default" onclick="fill_name_contrato()">Agregar</a>
-						</div>
-						<div class="form-group col-xs-1" style="margin-top:25px">
-							<a class="btn btn-default" onclick="clean_name_contrato()">Limpiar</a>
-						</div>
-						<div class="form-group col-xs-5">
-							{{ Form::label('nombre_contrato','Nombre del Documento') }}
-							{{ Form::text('nombre_contrato',Input::old('nombre_contrato'),['class' => 'form-control','id'=>'nombre_contrato'])}}
-						</div>
+						<div class="col-xs-8 col-xs-offset-1 @if($errors->first('documento')) has-error has-feedback @endif">
+			        		{{ Form::label('documento','Documento Contrato') }}
+							{{ Form::file('documento',array('class'=>'form-group')) }}
+		        		</div>
 		        	</div>
 		        	<br>
 		        	<div class="row">
 						<div class="form-group col-xs-2 col-xs-offset-1 @if($errors->first('numero_doc2')) has-error has-feedback @endif">
 							{{ Form::label('numero_doc2','Número Documento') }}
-							{{ Form::text('numero_doc2',Input::old('numero_doc2'),['class' => 'form-control','id'=>'numero_doc2'])}}
+							@if($reporte_data->deleted_at)
+								{{ Form::text('numero_doc2',$usuario_autorizado->numero_doc_identidad,array('class'=>'form-control','readonly'=>'','id'=>'numero_doc2')) }}
+							@else
+								{{ Form::text('numero_doc2',$usuario_autorizado->numero_doc_identidad,array('class'=>'form-control','id'=>'numero_doc2')) }}
+							@endif	
 						</div>
 						<div class="form-group col-xs-1" style="margin-top:25px">
 							<a class="btn btn-default" onclick="fill_name_responsable(2)">Agregar</a>
@@ -181,13 +238,22 @@
 						</div>
 						<div class="form-group col-xs-5">
 							{{ Form::label('autorizado','Autorizado por') }}
-							{{ Form::text('autorizado',Input::old('autorizado'),['class' => 'form-control','id'=>'nombre_responsable2'])}}
+							@if($reporte_data->deleted_at)
+								{{ Form::text('autorizado',$usuario_autorizado->nombre,array('class'=>'form-control','readonly'=>'','id'=>'nombre_responsable2')) }}
+							@else
+								{{ Form::text('autorizado',$usuario_autorizado->nombre,array('class'=>'form-control','id'=>'nombre_responsable2')) }}
+							@endif
 						</div>
 					</div>
 					<div class="row">
 						<div class="form-group col-xs-2 col-xs-offset-1 @if($errors->first('numero_doc3')) has-error has-feedback @endif">
 							{{ Form::label('numero_doc3','Número Documento') }}
-							{{ Form::text('numero_doc3',Input::old('numero_doc3'),['class' => 'form-control','id'=>'numero_doc3'])}}
+							@if($reporte_data->deleted_at)
+								{{ Form::text('numero_doc3',$usuario_elaborado->numero_doc_identidad,array('class'=>'form-control','readonly'=>'','id'=>'numero_doc3')) }}
+							@else
+								{{ Form::text('numero_doc3',$usuario_elaborado->numero_doc_identidad,array('class'=>'form-control','id'=>'numero_doc3')) }}
+							@endif
+
 						</div>
 						<div class="form-group col-xs-1" style="margin-top:25px">
 							<a class="btn btn-default" onclick="fill_name_responsable(3)">Agregar</a>
@@ -197,12 +263,15 @@
 						</div>
 						<div class="form-group col-xs-5">
 							{{ Form::label('elaborado','Elaborado por') }}
-							{{ Form::text('elaborado',Input::old('elaborado'),['class' => 'form-control','id'=>'nombre_responsable3'])}}
+							@if($reporte_data->deleted_at)
+								{{ Form::text('elaborado',$usuario_elaborado->nombre,array('class'=>'form-control','readonly'=>'','id'=>'nombre_responsable3')) }}
+							@else
+								{{ Form::text('elaborado',$usuario_elaborado->nombre,array('class'=>'form-control','id'=>'nombre_responsable3')) }}
+							@endif
 						</div>
 					</div>
 				</div>			
 			</div>
 		</div>
-		{{ Form::close() }}
-		
+	{{ Form::close() }}
 @stop

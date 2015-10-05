@@ -10,7 +10,7 @@
     {{ Form::open(array('url'=>'/areas/search_area','method'=>'get' ,'role'=>'form', 'id'=>'search-form','class' => 'form-inline')) }}
 		<div class="search_bar">
 			{{ Form::label('tipo_area','Tipo de Área:')}}
-			{{ Form::select('search',$tipo_area,Input::old('search'),['class' => 'form-control']) }}
+			{{ Form::select('search',array('0'=> 'Seleccione') + $tipo_area,Input::old('search'),['class' => 'form-control']) }}
 			{{ Form::submit('Buscar',array('id'=>'submit-search-form','class'=>'btn btn-info')) }}
 		</div>	
 	{{ Form::close() }}</br>
@@ -49,6 +49,5 @@
 		{{ $areas_data->appends(array('search' => $search))->links() }}
 	@else	
 		{{ $areas_data->links()}}
-	@endif
-	
+	@endif	
 @stop

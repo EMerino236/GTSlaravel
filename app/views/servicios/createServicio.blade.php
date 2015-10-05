@@ -44,17 +44,17 @@
 
 						<div class="form-group col-xs-2 @if($errors->first('tipo_servicio')) has-error has-feedback @endif">
 							{{ Form::label('tipo_servicio','Tipo de Servicio') }}
-							{{ Form::select('tipo_servicio',$tipo_servicios, Input::old('idtipo_servicios'),array('class'=>'form-control'))}}
+							{{ Form::select('tipo_servicio',array('0'=> 'Seleccione')+$tipo_servicios, Input::old('idtipo_servicios'),array('class'=>'form-control'))}}
 						</div>
 					</div>
 					<div class="row">
 						<div class="form-group col-xs-3 col-xs-offset-1 @if($errors->first('area')) has-error has-feedback @endif">
 							{{ Form::label('area','Area') }}
-							{{ Form::select('area',$areas, Input::old('idarea'),array('class'=>'form-control',"onchange" => "fill_usuario_responsable_servicio()",'id'=>'area'))}}
+							{{ Form::select('area',array('0'=> 'Seleccione')+$areas, Input::old('idarea'),array('class'=>'form-control',"onchange" => "fill_usuario_responsable_servicio()",'id'=>'area'))}}
 						</div>
 						<div class="form-group col-xs-4 @if($errors->first('personal')) has-error has-feedback @endif">
 							{{ Form::label('personal','Usuario Responsable') }}
-							{{ Form::select('personal',$personal, Input::old('id_usuario_responsable'),array('class'=>'form-control','id'=>'usuario'))}}
+							{{ Form::select('personal',array('0'=> 'Seleccione')+$personal, Input::old('id_usuario_responsable'),array('class'=>'form-control','id'=>'usuario'))}}
 						</div>
 					</div>
 				</div>			

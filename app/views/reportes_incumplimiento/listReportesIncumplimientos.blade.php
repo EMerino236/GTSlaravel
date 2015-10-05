@@ -14,7 +14,7 @@
 				<div class="form-group col-xs-2">
 					{{ Form::label('fecha_desde','Fecha Desde:')}}
 					<div id="datetimepicker1" class="form-group input-group date">					
-						{{ Form::text('fecha_desde',Input::old('fecha_desde'),array('class'=>'form-control','readonly'=>'')) }}
+						{{ Form::text('fecha_desde',$fecha_desde,array('class'=>'form-control','readonly'=>'')) }}
 						<span class="input-group-addon">
 		                    <span class="glyphicon glyphicon-calendar"></span>
 		                </span>
@@ -23,19 +23,19 @@
 	        	<div class="form-group col-xs-2">
 				{{ Form::label('fecha_hasta','Fecha Hasta:')}}
 					<div id="datetimepicker2" class="form-group input-group date">					
-								{{ Form::text('fecha_hasta',Input::old('fecha_hasta'),array('class'=>'form-control','readonly'=>'')) }}
+								{{ Form::text('fecha_hasta',$fecha_hasta,array('class'=>'form-control','readonly'=>'')) }}
 								<span class="input-group-addon">
 			                        <span class="glyphicon glyphicon-calendar"></span>
 			                    </span>
 					</div>
 				</div>
 				<div class="form-group col-xs-2">					
-					{{ Form::label('proveedor','Proveedor:')}}
-					{{ Form::select('proveedor',$proveedor, Input::old('idproveedor'),array('class'=>'form-control')) }}
+					{{ Form::label('search_proveedor','Proveedor:')}}
+					{{ Form::select('search_proveedor',array('0' => 'Seleccione')+$proveedor, $search_proveedor,array('class'=>'form-control')) }}
 				</div>
 				<div class="form-group col-xs-2">
-					{{ Form::label('tipo_reporte','Tipo Reporte:')}}
-					{{ Form::select('tipo_reporte',['0'=>'--Seleccione--', '1'=>'Por Servicio','2'=>'Por Equipo'], Input::old('idtipo_reporte'),array('class'=>'form-control')) }}
+					{{ Form::label('search_tipo_reporte','Tipo Reporte:')}}
+					{{ Form::select('search_tipo_reporte',['0'=>'Seleccione', '1'=>'Por Servicio','2'=>'Por Equipo'], $search_tipo_reporte,array('class'=>'form-control')) }}
 				</div>
 				<div class="form-group col-xs-4" style="margin-top:25px">	
 					{{ Form::submit('Buscar',array('id'=>'submit-search-form','class'=>'btn btn-info')) }}			
@@ -52,7 +52,21 @@
 				<th>Fecha de Registro</th>
 				<th>Servicio</th>
 				<th>Proveedor</th>
-			</tr>				
+			</tr>
+			@foreach($reportes_data as $index => $reporte_data)
+				<tr>
+					<td>{{$index+1}}</td>
+					<td>
+						<a href="{{URL::to('/reportes_incumplimiento/edit_reporte/')}}/{{$reporte_data->idreporte_incumplimiento}}">
+						{{$reporte_data->idreporte_incumplimiento}}
+						</a>
+					</td>
+					
+					<td>{{$reporte_data->created_at}}</td>
+					<td>{{$reporte_data->nomb_servicio}}</td>
+					<td>{{$reporte_data->nomb_proveedor}}</td>
+				</tr>
+			@endforeach				
 		</table>
 	</div>
 	<div class="row">

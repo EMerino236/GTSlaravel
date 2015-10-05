@@ -11,7 +11,6 @@ class ServiciosController extends BaseController
 			if($data["user"]->idrol == 1){
 				$data["search"] = null;
 				$data["tipo_servicio"] = TipoServicio::lists('nombre','idtipo_servicios');
-				array_unshift($data["tipo_servicio"], "Todos");
 				$data["servicios_data"] = Servicio::getServiciosInfo()->paginate(10);
 				return View::make('servicios/listServicios',$data);
 			}else{
@@ -30,7 +29,6 @@ class ServiciosController extends BaseController
 			if($data["user"]->idrol == 1){
 				$data["search"] = Input::get('search');
 				$data["tipo_servicio"] = TipoServicio::lists('nombre','idtipo_servicios'); 
-				array_unshift($data["tipo_servicio"], "Todos");
 				$data["servicios_data"] = Servicio::searchServicios($data["search"])->paginate(10);
 				if($data["search"]==0){
 					return Redirect::to('servicios/list_servicios');
@@ -55,9 +53,10 @@ class ServiciosController extends BaseController
 			{	
 				$data["tipo_servicios"] = TipoServicio::lists('nombre','idtipo_servicios');
 				$data["servicio_info"] = Servicio::searchServicioById($idservicio)->get();	
-				$idarea = Servicio::find($idservicio)->idarea;		
+				$servicio = Servicio::withTrashed()->find($idservicio);
+				$idarea = $servicio->idarea;
 				$data["areas"] = Area::lists('nombre','idarea');
-				$data["personal"] = Area::getUserList($idarea);
+				$data["personal"] = Area::getUserList($servicio->idarea);
 				array_unshift($data["tipo_servicios"], "");
 				array_unshift($data["areas"], "");
 				$data["activos_servicio"] = Activo::getActivosByServicioId($idservicio)->get();
