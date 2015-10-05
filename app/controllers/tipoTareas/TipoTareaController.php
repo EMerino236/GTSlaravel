@@ -62,7 +62,7 @@ class TipoTareaController extends BaseController {
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
 				$data["search"] = null;
-				$data["tipoTareas_data"] = TipoTarea::paginate(10);
+				$data["tipoTareas_data"] = TipoTarea::GetTipoTareasInfo()->paginate(10);
 				return View::make('tipoTarea/listTipoTareas',$data);
 			}else{
 				return View::make('error/error');
@@ -187,7 +187,7 @@ class TipoTareaController extends BaseController {
 					Session::flash('message','Se inhabilitó correctamente el tipo de tarea.' );
 				}
 				else{
-					Session::flash('error', 'El tipo de tarea cuenta con tarea activa. Acción no realizada.' );
+					Session::flash('error', 'El tipo de tarea cuenta con una tarea asociada. Acción no realizada.' );
 				}				
 				return Redirect::to($url);
 			}else{
