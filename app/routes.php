@@ -142,7 +142,6 @@ Route::group(array('prefix'=>'reportes_incumplimiento','before'=>'auth'),functio
 	Route::get('/search_reporte','ReportesIncumplimientoController@search_reporte');
 	Route::get('/edit_reporte/{id}','ReportesIncumplimientoController@render_edit_reporte');
 	Route::get('/create_reporte','ReportesIncumplimientoController@render_create_reporte');
-<<<<<<< HEAD
 });
 
 /* Mantenimiento Correctivo */
@@ -158,28 +157,4 @@ Route::group(array('prefix'=>'mant_correctivo','before'=>'auth'),function(){
 	Route::get('/list_reportes','ReportesIncumplimientoController@list_reportes_incumplimiento');	
 	Route::get('/create_reporte','ReportesIncumplimientoController@render_create_reporte');
 	*/
-=======
-	Route::post('/submit_reporte','ReportesIncumplimientoController@submit_create_reporte');
-	Route::post('/submit_edit_reporte','ReportesIncumplimientoController@submit_edit_reporte');
-});
-/* Tipo de Tareas */
-Route::group(array('prefix'=>'tipoTarea', 'before'=>'auth'),function(){
-	Route::get('/list_tipoTareas','TipoTareaController@list_tipoTareas');
-	Route::get('/edit_tipoTarea/{id}','TipoTareaController@render_edit_tipoTarea');
-	Route::post('/submit_edit_tipoTarea','TipoTareaController@submit_edit_tipoTarea');
-	Route::get('/create_tipoTarea','TipoTareaController@render_create_tipoTarea');
-	Route::post('/submit_create_tipoTarea','TipoTareaController@submit_create_tipoTarea');
-	Route::get('/search_tipoTarea','TipoTareaController@search_tipoTarea');
-});
-
-/* Documentos */
-Route::group(array('prefix'=>'documento', 'before'=>'auth'),function(){
-	Route::get('/list_documentos','DocumentoController@list_documentos');
-	Route::get('/edit_documento/{id}','DocumentoController@render_edit_documento');
-	Route::post('/submit_edit_documento','DocumentoController@submit_edit_documento');
-	Route::get('/create_documento','DocumentoController@render_create_documento');
-	Route::post('/submit_create_documento','DocumentoController@submit_create_documento');
-	Route::get('/search_documento','DocumentoController@search_documento');
-	Route::post('/download_documento','DocumentoController@download_documento');
->>>>>>> origin/master
 });
