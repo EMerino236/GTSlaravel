@@ -24,40 +24,45 @@
 	@endif
 
 	{{ Form::open(array('url'=>'familia_activos/submit_create_familia_activo', 'role'=>'form')) }}
-		<div class="col-xs-6">
-			<div class="row">
-				<div class="form-group col-xs-8 @if($errors->first('idtipo_activo')) has-error has-feedback @endif">
-					{{ Form::label('idtipo_activo','Tipo de Activo') }}
-					{{ Form::select('idtipo_activo',$tipo_activo,Input::old('idtipo_activo'),['class' => 'form-control']) }}
-				</div>
-			</div>
-			<div class="row">
-				<div class="form-group col-xs-8 @if($errors->first('nombre_equipo')) has-error has-feedback @endif">
-					{{ Form::label('nombre_equipo','Nombre de Equipo') }}
-					{{ Form::text('nombre_equipo',Input::old('nombre_equipo'),array('class'=>'form-control')) }}
+			<div class="panel panel-default">
+			  	<div class="panel-heading">Datos Generales</div>
+			  	<div class="panel-body">
+					<div class="col-xs-6">
+						<div class="row">
+							<div class="form-group col-xs-8 @if($errors->first('idtipo_activo')) has-error has-feedback @endif">
+								{{ Form::label('idtipo_activo','Tipo de Activo') }}
+								{{ Form::select('idtipo_activo',$tipo_activo,Input::old('idtipo_activo'),['class' => 'form-control']) }}
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-xs-8 @if($errors->first('nombre_equipo')) has-error has-feedback @endif">
+								{{ Form::label('nombre_equipo','Nombre de Equipo') }}
+								{{ Form::text('nombre_equipo',Input::old('nombre_equipo'),array('class'=>'form-control')) }}
+							</div>
+						</div>	
+					</div>
+
+					<div class="col-xs-6">
+						<div class="row">
+							<div class="form-group col-xs-8 @if($errors->first('idmarca')) has-error has-feedback @endif">
+								{{ Form::label('idmarca','Marca') }}
+								{{ Form::select('idmarca', $marca,Input::old('idmarca'),['class' => 'form-control']) }}
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="form-group col-xs-8 @if($errors->first('modelo')) has-error has-feedback @endif">
+								{{ Form::label('modelo','Modelo') }}
+								{{ Form::text('modelo',Input::old('modelo'),array('class'=>'form-control')) }}
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 			<div class="row">
 				<div class="form-group col-xs-8">
 					{{ Form::submit('Crear',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}	
 				</div>
-			</div>		
-		</div>
-
-		<div class="col-xs-6">
-			<div class="row">
-				<div class="form-group col-xs-8 @if($errors->first('idmarca')) has-error has-feedback @endif">
-					{{ Form::label('idmarca','Marca') }}
-					{{ Form::select('idmarca', $marca,Input::old('idmarca'),['class' => 'form-control']) }}
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="form-group col-xs-8 @if($errors->first('modelo')) has-error has-feedback @endif">
-					{{ Form::label('modelo','Modelo') }}
-					{{ Form::text('modelo',Input::old('modelo'),array('class'=>'form-control')) }}
-				</div>
-			</div>
-		</div>
+			</div>	
 	{{ Form::close() }}
 @stop

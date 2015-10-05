@@ -25,13 +25,18 @@
 
 		<div class="col-xs-6">
 			<div class="row">
-				<div class="form-group col-xs-8 @if($errors->first('email')) has-error has-feedback @endif">
-					{{ Form::label('nombre','Nombre de Marca') }}
-					@if($marca_info->deleted_at)
-						{{ Form::text('nombre',$marca_info->nombre,array('class'=>'form-control','readonly'=>'')) }}
-					@else
-						{{ Form::text('nombre',$marca_info->nombre,array('class'=>'form-control')) }}
-					@endif
+				<div class="panel panel-default">
+			  		<div class="panel-heading">Datos Generales</div>
+			  		<div class="panel-body">
+						<div class="form-group col-xs-8 @if($errors->first('email')) has-error has-feedback @endif">
+							{{ Form::label('nombre','Nombre de Marca') }}
+							@if($marca_info->deleted_at)
+								{{ Form::text('nombre',$marca_info->nombre,array('class'=>'form-control','readonly'=>'')) }}
+							@else
+								{{ Form::text('nombre',$marca_info->nombre,array('class'=>'form-control')) }}
+							@endif
+						</div>
+					</div>
 				</div>
 			</div>
 			@if(!$marca_info->deleted_at)
