@@ -150,4 +150,51 @@ class TipoTareaController extends BaseController {
 			return View::make('error/error');
 		}
 	}
+
+	public function submit_enable_tipoTarea(){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1){
+				$tipoTarea_id = Input::get('tipoTarea_id');
+				$url = "tipoTarea/edit_tipoTarea"."/".$tipoTarea_id;
+				$tipoTarea = TipoTarea::withTrashed()->find($tipoTarea_id);
+				$tipoTarea->restore();
+				Session::flash('message', 'Se habilitó correctamente el tipo de tarea.');
+				return Redirect::to($url);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function submit_disable_tipoTarea(){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1){
+				$tipoTarea_id = Input::get("tipoTarea_id");
+				$url = "tipoTarea/edit_tipoTarea"."/".$tipoTarea_id;
+				$tipoTarea = TipoTarea::find($tipoTarea_id);
+				$tareas = Tarea::SearchTareaByIdTipoTarea($tipoTarea_id)->get();
+				if(count($tareas)==0){
+										
+					$tipoTarea->delete();
+					Session::flash('message','Se inhabilitó correctamente el tipo de tarea.' );
+				}
+				else{
+					Session::flash('error', 'El tipo de tarea cuenta con tarea activa. Acción no realizada.' );
+				}				
+				return Redirect::to($url);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
 }

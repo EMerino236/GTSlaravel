@@ -25,11 +25,6 @@
 	{{ Form::open(array('url'=>'grupos/submit_edit_grupo', 'role'=>'form')) }}
 	{{ Form::hidden('grupo_id', $grupo_info->idgrupo) }}
 		<div class="row">
-			<div class="form-group col-xs-3 col-xs-offset-10">
-				{{ Form::submit('Guardar',array('idgrupo'=>'submit-edit', 'class'=>'btn btn-primary')) }}	
-			</div>
-		</div>	
-		<div class="row">
 			<div class="panel panel-default">
 			  	<div class="panel-heading">Datos Generales</div>
 			  	<div class="panel-body">	
@@ -97,6 +92,9 @@
 			{{ Form::hidden('grupo_id', $grupo_info->idgrupo) }}
 			<div class="col-xs-6">
 				<div class="row">
+					<div class="form-group col-xs-3">
+						{{ Form::submit('Guardar',array('idgrupo'=>'submit-edit', 'class'=>'btn btn-primary')) }}	
+					</div>
 					<div class="form-group col-xs-8">
 						{{ Form::submit('Habilitar',array('id'=>'submit-delete', 'class'=>'btn btn-success')) }}
 					</div>
@@ -108,6 +106,9 @@
 			{{ Form::hidden('grupo_id', $grupo_info->idgrupo) }}
 			<div class="col-xs-6">
 				<div class="row">
+					<div class="form-group col-xs-3">
+						{{ Form::submit('Guardar',array('idgrupo'=>'submit-edit', 'class'=>'btn btn-primary')) }}	
+					</div>
 					<div class="form-group col-xs-8">
 						{{ Form::submit('Inhabilitar',array('id'=>'submit-delete', 'class'=>'btn btn-danger')) }}	
 					</div>

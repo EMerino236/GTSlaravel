@@ -1,4 +1,4 @@
-@extends('templates/tipoTareaTemplate')
+@extends('templates/configuracionesTemplate')
 @section('content')
 	<div class="row">
         <div class="col-lg-12">

@@ -37,24 +37,23 @@
 				{{ Form::submit('Crear',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}	
 			</div>
 		</div>	
-		<div class="row">
-			<div class="col-xs-1"></div>
-			<div class="col-xs-10">
+		<div class="row">			
+			<div class="col-xs-12">
 				<div class="panel panel-default">
 		  		<div class="panel-heading">Datos Generales</div>
 		  			<div class="panel-body">	
 						<div class="row">								
-							<div class="form-group col-xs-2 @if($errors->first('group')) has-error has-feedback @endif">
-								{{ Form::label('grupo','Grupo') }}
-								{{ Form::select('grupo',$grupos,Input::old('idgrupo'),['class' => 'form-control'])}}
-							</div>
-							<div class="form-group col-xs-4">
+							<div class="form-group col-xs-4 @if($errors->first('group')) has-error has-feedback @endif">
 								{{ Form::label('servicio_clinico','Servicio Clínico') }}
-								{{ Form::select('servicio_clinico',$servicios,Input::old('idservicio'),['class' => 'form-control'])}}
+								{{ Form::select('servicio_clinico',array('0' => 'Seleccione') + $servicios,Input::old('idservicio'),['class' => 'form-control'])}}								
 							</div>
 							<div class="form-group col-xs-4">
 								{{ Form::label('ubicacion_fisica','Ubicación Física') }}
-								{{ Form::text('ubicacion_fisica',Input::old('ubicacion_fisica'),array('class'=>'form-control'))}}
+								{{ Form::select('ubicacion_fisica',array('0' => 'Seleccione') + $ubicacion_fisica,Input::old('ubicacion_fisica'),array('class'=>'form-control'))}}
+							</div>
+							<div class="form-group col-xs-4">
+								{{ Form::label('grupo','Grupo') }}
+								{{ Form::select('grupo',array('0' => 'Seleccione') + $grupos,Input::old('idgrupo'),['class' => 'form-control'])}}								
 							</div>				
 						</div>
 						<div class="row">
@@ -111,9 +110,8 @@
 			</div>
 		</div>
 
-		<div class="row">
-			<div class="col-xs-1"></div>
-			<div class="col-xs-10">
+		<div class="row">			
+			<div class="col-xs-12">
 				<div class="panel panel-default">
 					<div class="panel-body">
 						<div class="row">
@@ -164,9 +162,8 @@
 			</div>
 		</div>
 
-		<div class="row">
-			<div class="col-xs-1"></div>
-			<div class="col-xs-10">
+		<div class="row">			
+			<div class="col-xs-12">
 				<div class="panel panel-default">
 					<div class="panel-heading">Soporte Técnico</div>
 					<table class="table table-bordered">
@@ -181,9 +178,8 @@
 			</div>
 		</div>
 
-		<div class="row">
-			<div class="col-xs-1"></div>
-			<div class="col-xs-10">
+		<div class="row">			
+			<div class="col-xs-12">
 				<div class="panel panel-default">
 					<div class="panel-body">
 						<div class="row">
@@ -194,9 +190,8 @@
 			</div>
 		</div>
 
-		<div class="row">
-			<div class="col-xs-1"></div>
-			<div class="col-xs-10">
+		<div class="row">			
+			<div class="col-xs-12">
 				<div class="panel panel-default">
 					<div class="panel-heading">Ficha Técnica del Equipo</div>
 					<br>	

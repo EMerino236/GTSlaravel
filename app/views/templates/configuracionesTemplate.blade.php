@@ -92,6 +92,14 @@
                                 </ul>
                                 <!-- /.nav-third-level -->
                             </li>
+                            <li>
+                                <a href="#">Tipos de Tareas<span class="fa arrow"></span></a>
+                                <ul class="nav nav-third-level">
+                                    <li>{{ HTML::link('/tipoTarea/create_tipoTarea','Nuevo Tipo de Tarea') }}</li>
+                                    <li>{{ HTML::link('/tipoTarea/list_tipoTareas','Buscar Tipo de Tarea') }}</li>
+                                </ul>
+                                <!-- /.nav-third-level -->
+                            </li>
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>

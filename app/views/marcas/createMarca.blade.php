@@ -23,9 +23,14 @@
 	{{ Form::open(array('url'=>'marcas/submit_create_marca', 'role'=>'form')) }}
 		<div class="col-xs-6">
 			<div class="row">
-				<div class="form-group col-xs-8 @if($errors->first('nombre')) has-error has-feedback @endif">
-					{{ Form::label('nombre','Nombre de Marca') }}
-					{{ Form::text('nombre',Input::old('nombre'),array('class'=>'form-control')) }}
+				<div class="panel panel-default">
+			  		<div class="panel-heading">Datos Generales</div>
+			  		<div class="panel-body">
+						<div class="form-group col-xs-8 @if($errors->first('nombre')) has-error has-feedback @endif">
+							{{ Form::label('nombre','Nombre de Marca') }}
+							{{ Form::text('nombre',Input::old('nombre'),array('class'=>'form-control')) }}
+						</div>
+					</div>
 				</div>
 			</div>
 

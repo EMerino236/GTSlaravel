@@ -87,7 +87,8 @@ Route::group(array('prefix'=>'equipos','before'=>'auth'),function(){
 	Route::get('/list_equipos','ActivosController@list_activos');
 	Route::get('/search_equipos','ActivosController@search_activos');
 	Route::get('/create_equipo','ActivosController@render_create_activo');
-	Route::get('/submit_equipo','ActivosController@submit_create_activo');	
+	Route::get('/submit_equipo','ActivosController@submit_create_activo');
+	Route::post('/search_ubicacion_ajax','ActivosController@search_ubicacion_ajax');
 });
 
 /*Configuraciones*/
@@ -171,6 +172,8 @@ Route::group(array('prefix'=>'tipoTarea', 'before'=>'auth'),function(){
 	Route::get('/create_tipoTarea','TipoTareaController@render_create_tipoTarea');
 	Route::post('/submit_create_tipoTarea','TipoTareaController@submit_create_tipoTarea');
 	Route::get('/search_tipoTarea','TipoTareaController@search_tipoTarea');
+	Route::post('/submit_disable_tipoTarea','TipoTareaController@submit_disable_tipoTarea');
+	Route::post('/submit_enable_tipoTarea','TipoTareaController@submit_enable_tipoTarea');	
 });
 
 /* Documentos */
