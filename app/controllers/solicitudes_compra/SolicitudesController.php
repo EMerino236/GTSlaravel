@@ -76,4 +76,25 @@ class SolicitudesController extends BaseController
 			return Response::json(array( 'success' => false ),200);
 		}
 	}
+
+	public function render_create_solicitud(){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1){	
+				/*$data["tipo_documento"] = TipoDocumento::lists('nombre','idtipo_documento');
+				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
+				$data["servicios"] = Servicio::searchServiciosClinicos(1)->lists('nombre','idservicio');
+				$data["search"] = null;
+				$data["documento_info"] =null;*/
+				return View::make('solicitudes_compra/createSolicitudCompra',$data);
+			}else{
+				return View::make('error/error');
+			}
+
+		}else{
+			return View::make('error/error');
+		}
+	}
 }

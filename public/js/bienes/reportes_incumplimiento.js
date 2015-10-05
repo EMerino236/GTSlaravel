@@ -25,7 +25,10 @@ $( document ).ready(function(){
 });
 
 function fill_responsable_servicio(){       
-        var val = document.getElementById("servicio").value;
+        var val = $("#servicio").val();
+        if(val == null){
+            return;
+        }
         $.ajax({
             url: inside_url+'reportes_incumplimiento/return_resp_servicio/'+val,
             type: 'POST',
@@ -64,7 +67,10 @@ function fill_responsable_servicio(){
 }
 
 function fill_contacto_proveedor(){       
-        var val = document.getElementById("proveedor").value;
+        var val = $("#proveedor").val();
+        if(val == null){
+            return;
+        }
         $.ajax({
             url: inside_url+'reportes_incumplimiento/return_contacto_proveedor/'+val,
             type: 'POST',
@@ -101,7 +107,7 @@ function fill_contacto_proveedor(){
 }
 
 function fill_name_responsable(id){
-        var val = document.getElementById("numero_doc"+id).value;
+        var val = $("#numero_doc"+id).val();
         if(val=="")
             val = "vacio";
         
@@ -153,7 +159,7 @@ function fill_name_responsable(id){
 }
 
 function fill_name_contrato(){
-        var val = document.getElementById("numero_contrato").value;
+        var val = $("#numero_contrato").val();
         if(val=="")
             val = "vacio";    
         $.ajax({
