@@ -18,6 +18,7 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 	 * @var string
 	 */
 	protected $table = 'activos';
+	protected $primaryKey = 'idactivo';
 
 
 	/**

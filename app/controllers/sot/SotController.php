@@ -13,6 +13,7 @@ class SotController extends BaseController {
 			if($data["user"]->idrol == 1){
 				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
 				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
+				$data["activos"] = Activo::lists('codigo_patrimonial','idactivo');
 				return View::make('sot/createSot',$data);
 			}else{
 				return View::make('error/error');
@@ -32,6 +33,7 @@ class SotController extends BaseController {
 			if($data["user"]->idrol == 1){
 				// Validate the info, create rules for the inputs
 				$rules = array(
+							'idactivo' => 'required',
 							'fecha_solicitud' => 'required',
 							'especificacion_servicio' => 'required|max:100',
 							'idestado' => 'required',
@@ -48,6 +50,7 @@ class SotController extends BaseController {
 					$sot->fecha_solicitud = date('Y-m-d H:i:s',strtotime(Input::get('fecha_solicitud')));
 					$sot->especificacion_servicio = Input::get('especificacion_servicio');
 					$sot->idestado = Input::get('idestado');
+					$sot->idactivo = Input::get('idactivo');
 					$sot->motivo = Input::get('motivo');
 					$sot->justificacion = Input::get('justificacion');
 					$sot->id = $data["user"]->id;
@@ -73,7 +76,6 @@ class SotController extends BaseController {
 			if($data["user"]->idrol == 1){
 				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
 				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
-				array_push($data["estados"],"Todos");
 				$data["search"] = null;
 				$data["search_estado"] = null;
 				$data["search_ini"] = null;
@@ -182,7 +184,6 @@ class SotController extends BaseController {
 
 				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
 				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
-				array_push($data["estados"],"Todos");
 				$data["search"] = Input::get('search');
 				$data["search_estado"] = Input::get('search_estado');
 				$data["search_ini"] = Input::get('search_ini');
@@ -192,6 +193,29 @@ class SotController extends BaseController {
 			}else{
 				return View::make('error/error');
 			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function submit_program_ot()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2){
+				$sot_id = Input::get('sot_id');
+				$url = "mant_correctivo/programacion/".$sot_id;
+				$sot = SolicitudOrdenTrabajo::find($sot_id);
+				$sot->idestado = 13; // Estado de Aprobado
+				$sot->save();
+				Session::flash('message', 'La solicitud se cambió a Aprobada, proceda a programar la OT');
+				return Redirect::to($url);
+			}else{
+				return View::make('error/error');
+			}
+
 		}else{
 			return View::make('error/error');
 		}

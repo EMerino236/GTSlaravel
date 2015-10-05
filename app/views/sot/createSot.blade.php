@@ -32,6 +32,14 @@
 				</div>
 			</div>
 		</div>
+		<div class="col-xs-12">
+			<div class="row">
+				<div class="form-group col-xs-4">
+					{{ Form::label('idactivo','Activo') }}
+					{{ Form::select('idactivo',$activos,Input::old('idactivo'),['class' => 'form-control']) }}
+				</div>
+			</div>
+		</div>
 		<div class="col-xs-6">
 			<div class="row">
 				{{ Form::label('fecha_solicitud','Fecha de solicitud') }}
@@ -53,7 +61,7 @@
 			<div class="row">
 				<div class="form-group col-xs-8 @if($errors->first('idestado')) has-error has-feedback @endif">
 					{{ Form::label('idestado','Estado') }}
-					{{ Form::select('idestado',$estados,Input::old('idestado'),['class' => 'form-control','readonly'=>'','disabled'=>'']) }}
+					{{ Form::select('idestado',$estados,Input::old('idestado'),['class' => 'form-control','readonly'=>'']) }}
 				</div>
 			</div>
 			<div class="row">

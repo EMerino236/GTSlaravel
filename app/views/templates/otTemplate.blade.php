@@ -9,6 +9,8 @@
     <link href="{{ asset('bower_components/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- Datepicker CSS-->
     <link rel="stylesheet" href="{{ asset('css/bootstrap-datetimepicker.min.css') }}">
+    <!-- Calendar CSS-->
+    <link rel="stylesheet" href="{{ asset('css/responsive-calendar.css') }}">
     <!-- MetisMenu CSS -->
     <link href="{{ asset('bower_components/metisMenu/dist/metisMenu.min.css') }}" rel="stylesheet">
     <!-- Timeline CSS -->
@@ -31,6 +33,8 @@
     <script type="text/javascript" src="{{ asset('js/moment.min.js') }}"></script>
     <!-- Bootstrap Datepicker JavaScript -->
     <script type="text/javascript" src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
+    <!-- Bootstrap Calendar JavaScript -->
+    <script type="text/javascript" src="{{ asset('js/responsive-calendar.min.js') }}"></script>
     <!-- Metis Menu Plugin JavaScript -->
     <script src="{{ asset('bower_components/metisMenu/dist/metisMenu.min.js') }}"></script>
     <!-- Morris Charts JavaScript -->
@@ -39,7 +43,7 @@
     <!-- Custom Theme JavaScript -->
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
     <script src="{{ asset('js/bienes/reportes_incumplimiento.js') }}"></script>
-    <script src="{{ asset('js/bienes/bienes.js') }}"></script>
+    <script src="{{ asset('js/bienes/ot.js') }}"></script>
 
 </head>
 
@@ -102,8 +106,8 @@
 									<li>{{ HTML::link('/#','Inspecciones y MP de ambientes y servicios no clínicos') }}</li>
 									<li>{{ HTML::link('/#','Inspecciones de servicios clínicos') }}</li>
 									<li>{{ HTML::link('/#','Verificación metrológica') }}</li>
-									<li>{{ HTML::link('/mant_correctivo/list_mant_correctivo','MC TS') }}</li>
-									<li>{{ HTML::link('/mant_correctivo/list_mant_correctivo','MC bienes') }}</li>
+                                    <li>{{ HTML::link('/mant_correctivo/list_mant_correctivo','MC TS') }}</li>
+                                    <li>{{ HTML::link('/mant_correctivo/list_mant_correctivo','MC bienes') }}</li>
                                 </ul>
                                 <!-- /.nav-third-level -->
                             </li>
