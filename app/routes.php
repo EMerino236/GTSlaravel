@@ -171,6 +171,8 @@ Route::group(array('prefix'=>'tipoTarea', 'before'=>'auth'),function(){
 	Route::get('/create_tipoTarea','TipoTareaController@render_create_tipoTarea');
 	Route::post('/submit_create_tipoTarea','TipoTareaController@submit_create_tipoTarea');
 	Route::get('/search_tipoTarea','TipoTareaController@search_tipoTarea');
+	Route::post('/submit_disable_tipoTarea','TipoTareaController@submit_disable_tipoTarea');
+	Route::post('/submit_enable_tipoTarea','TipoTareaController@submit_enable_tipoTarea');	
 });
 
 /* Documentos */
