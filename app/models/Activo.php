@@ -41,8 +41,8 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 		return $query;
 	}
 
-	public function scopesearchActivos($query,$search_grupo,$search_servico,$search_nombre_equipo,$search_marca,$search_modelo,
-									$search_serie)
+	public function scopesearchActivos($query,$search_grupo,$search_servico,$search_ubicacion,$search_nombre_equipo,$search_marca,$search_modelo,
+									$search_serie, $search_proveedor,$search_codigo_compra,$search_codigo_patrimonial)
 	{
 		$query->withTrashed()
 			  ->join('ubicacion_fisicas','ubicacion_fisicas.idubicacion_fisica','=','activos.idubicacion_fisica')
@@ -62,6 +62,11 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 			  	$query->where('activos.idservicio','=',$search_servico);
 			  }
 
+			  if($search_ubicacion != '0')
+			  {
+			  	$query->where('activos.idubicacion_fisica','=',$search_ubicacion);
+			  }
+
 			  if($search_nombre_equipo != "")
 			  {
 			  	$query->where('familia_activos.nombre_equipo','LIKE',"%$search_nombre_equipo%");
@@ -77,10 +82,26 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 			  	$query->where('familia_activos.modelo','LIKE',"%$search_modelo%");
 			  }
 
-			   if($search_serie != "")
+			  if($search_serie != "")
 			  {
 			  	$query->where('activos.numero_serie','LIKE',"%$search_serie%");
 			  }
+
+			  if($search_proveedor != "0")
+			  {
+			  	$query->where('activos.idproveedor','=',$search_proveedor);
+			  }
+
+			  if($search_codigo_compra != "")
+			  {
+			  	$query->where('activos.codigo_compra','LIKE',"%$search_codigo_compra%");
+			  }
+
+			  if($search_codigo_patrimonial != "")
+			  {
+			  	$query->where('activos.codigo_patrimonial','LIKE',"%$search_codigo_patrimonial%");
+			  }
+
 
 			  $query->select('servicios.nombre as nombre_servicio','ubicacion_fisicas.nombre as nombre_ubicacion_fisica','grupos.nombre as nombre_grupo','familia_activos.nombre_equipo as nombre_equipo',
 			  		   'familia_activos.modelo as activo_modelo','marcas.nombre as nombre_marca','proveedores.razon_social as nombre_proveedor','activos.*');

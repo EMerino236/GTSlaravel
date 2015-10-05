@@ -23,7 +23,8 @@
 				{{ Form::select('search_servicio', array('0' => 'Seleccione') + $servicio,$search_servicio,['class' => 'form-control']) }}
 			</div>
 			<div class="col-xs-4">
-				
+				{{ Form::label('search_ubicacion','Ubicación') }}
+				{{ Form::select('search_ubicacion', array('0' => 'Seleccione'),$search_ubicacion,['class' => 'form-control']) }}
 			</div>
 		</div>
 
@@ -45,19 +46,31 @@
 		<div class="form-group row">
 			<div class="col-xs-4">
 				{{ Form::label('search_serie','Número de Serie') }}				
-				{{ Form::text('search_serie',$search_serie,array('class'=>'form-control','placeholder'=>'Nombre de Equipo')) }}
+				{{ Form::text('search_serie',$search_serie,array('class'=>'form-control','placeholder'=>'Número de Serie')) }}
 			</div>
 			<div class="col-xs-4">
-								
+				{{ Form::label('search_proveedor','Proveedor') }}
+				{{ Form::select('search_proveedor', array('0' => 'Seleccione') + $proveedor,$search_proveedor,['class' => 'form-control']) }}								
 			</div>
 			<div class="col-xs-4">
-				
+				{{ Form::label('search_codigo_compra','Código de Compra') }}				
+				{{ Form::text('search_codigo_compra',$search_codigo_compra,array('class'=>'form-control','placeholder'=>'Código de Compra')) }}
 			</div>
-		</div>	
+		</div>
 
 		<div class="form-group row">
 			<div class="col-xs-4">
-				{{ Form::submit('Buscar',array('id'=>'submit-search-form','class'=>'btn btn-info')) }}
+				{{ Form::label('search_codigo_patrimonial','Código Patrimonial') }}				
+				{{ Form::text('search_codigo_patrimonial',$search_codigo_patrimonial,array('class'=>'form-control','placeholder'=>'Código Patrimonial')) }}
+			</div>			
+		</div>		
+
+		<div class="form-group row">
+			<div class="col-xs-2 col-xs-offset-8">
+				{{ Form::submit('Buscar',array('id'=>'submit-search-form','class'=>'btn btn-info btn-block')) }}				
+			</div>
+			<div class="col-xs-2">
+				<div class="btn btn-default btn-block" id="btnLimpiar">Limpiar</div>				
 			</div>
 		</div>
 
