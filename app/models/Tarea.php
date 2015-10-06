@@ -12,5 +12,11 @@ class Tarea extends Eloquent{
 	{
 		$query->where('idtipo_tarea','=',$search_criteria);
 		return $query;
-	}	
+	}
+
+	public function scopeGetTareasByFamiliaActivo($query,$idfamilia_activo)
+	{
+		$query->where('idfamilia_activo','=',$idfamilia_activo);
+		return $query;
+	}
 }

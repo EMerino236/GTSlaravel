@@ -140,18 +140,129 @@
 			</div>
 		</div>
 
-		<div class="col-xs-12">
-			<div class="row">
-				<div class="form-group col-xs-4 @if($errors->first('prioridades')) has-error has-feedback @endif">
-					{{ Form::label('prioridades','Prioridad') }}
-					{{ Form::select('prioridades', $prioridades,$ot_info->idprioridad,['class' => 'form-control']) }}
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Estado de la Orden de Trabajo</h3>
+			</div>
+			<div class="panel-body">
+				<div class="col-xs-12">
+					<div class="row">
+						<div class="form-group col-xs-4 @if($errors->first('prioridades')) has-error has-feedback @endif">
+							{{ Form::label('prioridades','Prioridad') }}
+							{{ Form::select('prioridades', $prioridades,$ot_info->idprioridad,['class' => 'form-control']) }}
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="form-group col-xs-4 @if($errors->first('equipo_noint')) has-error has-feedback @endif">
+							{{ Form::label('equipo_noint','Equipo No Intervenido') }}
+							{{ Form::select('equipo_noint', $estado_equipo_noint,$ot_info->idestado_equipo_noint,['class' => 'form-control']) }}
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-xs-12 @if($errors->first('descripcion_problema')) has-error has-feedback @endif">
+							{{ Form::label('descripcion_problema','Descripción del Problema') }}
+							{{ Form::textarea('descripcion_problema', $ot_info->descripcion_problema,array('class'=>'form-control')) }}
+						</div>
+					</div>
 				</div>
 			</div>
+		</div>
 
-			<div class="row">
-				<div class="form-group col-xs-4 @if($errors->first('equipo_noint')) has-error has-feedback @endif">
-					{{ Form::label('equipo_noint','Equipo No Intervenido') }}
-					{{ Form::select('equipo_noint', $estado_equipo_noint,$ot_info->idestado_equipo_noint,['class' => 'form-control']) }}
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Datos del diagnóstico y programación</h3>
+			</div>
+			<div class="panel-body">
+				<div class="col-xs-12">
+					<div class="row">
+						<div class="form-group col-xs-12 @if($errors->first('descripcion_problema')) has-error has-feedback @endif">
+							{{ Form::label('descripcion_problema','Descripción del Problema') }}
+							{{ Form::textarea('descripcion_problema', $ot_info->descripcion_problema,array('class'=>'form-control')) }}
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-12">
+					<div class="row">
+						<div class="form-group col-xs-4 @if($errors->first('tipo_falla')) has-error has-feedback @endif">
+							{{ Form::label('tipo_falla','Tipo de Falla') }}
+							{{ Form::select('tipo_falla', $tipo_fallas,$ot_info->tipo_falla,array('class'=>'form-control')) }}
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-12">
+					<div class="row">
+						<div class="form-group col-xs-4 @if($errors->first('idestado_inicial')) has-error has-feedback @endif">
+							{{ Form::label('idestado_inicial','Estado Inicial del Activo') }}
+							{{ Form::select('idestado_inicial', $estado_activo,$ot_info->idestado_inicial,array('class'=>'form-control')) }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Datos generales de la Orden de Trabajo de Mantenimiento</h3>
+			</div>
+			<div class="panel-body">
+				<table class="table">
+					<tr class="info">
+						<th>Actividad</th>
+						<th>Descripción</th>
+						<th>Realizada</th>
+					</tr>
+					@foreach($tareas as $tarea)
+					<tr>
+						<td>{{$tarea->nombre_tarea}}</td>
+						<td>{{$tarea->descripcion_tarea}}</td>
+						@if($tarea->idestado_realizado == 25)
+							<td>{{ Form::button('Marcar realizada',array('id'=>'submit-edit', 'class'=>'btn btn-default')) }}</td>
+						@endif
+					</tr>
+					@endforeach
+				</table>
+						
+				<div class="col-xs-6">
+					<div class="row">
+						{{ Form::label('fecha_inicio_ejecucion','Fecha de Inicio') }}
+						<div id="datetimepicker1" class="form-group input-group date col-xs-8 @if($errors->first('fecha_inicio_ejecucion')) has-error has-feedback @endif">
+							{{ Form::text('fecha_inicio_ejecucion',null,array('class'=>'form-control','readonly'=>'')) }}
+							<span class="input-group-addon">
+		                        <span class="glyphicon glyphicon-calendar"></span>
+		                    </span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-xs-8 @if($errors->first('garantia')) has-error has-feedback @endif">
+							{{ Form::label('garantia','Garantía') }}
+							{{ Form::text('garantia', $ot_info->garantia,array('class'=>'form-control')) }}
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-xs-8 @if($errors->first('idestado_final')) has-error has-feedback @endif">
+							{{ Form::label('idestado_final','Estado Final del Activo') }}
+							{{ Form::select('idestado_final', $estado_activo,$ot_info->idestado_final,array('class'=>'form-control')) }}
+						</div>
+					</div>
+				</div>
+						
+				<div class="col-xs-6">
+					<div class="row">
+						{{ Form::label('fecha_termino_ejecucion','Fecha de Término') }}
+						<div id="datetimepicker1" class="form-group input-group date col-xs-8 @if($errors->first('fecha_termino_ejecucion')) has-error has-feedback @endif">
+							{{ Form::text('fecha_termino_ejecucion',null,array('class'=>'form-control','readonly'=>'')) }}
+							<span class="input-group-addon">
+		                        <span class="glyphicon glyphicon-calendar"></span>
+		                    </span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-xs-8 @if($errors->first('sin_interrupcion_servicio')) has-error has-feedback @endif">
+							{{ Form::label('sin_interrupcion_servicio','Sin Interrupción al Servicio') }}
+							{{ Form::select('sin_interrupcion_servicio', ['0'=>'No','1'=>'Si'],$ot_info->sin_interrupcion_servicio,array('class'=>'form-control')) }}
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

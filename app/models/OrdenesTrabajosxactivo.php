@@ -19,4 +19,11 @@ class OrdenesTrabajosxactivo extends Eloquent{
 		return $query;
 	}
 
+	public function scopeGetOtXActivo($query,$idordenes_trabajo,$idactivo)
+	{
+		$query->where('ordenes_trabajosxactivos.idordenes_trabajo','=',$idordenes_trabajo)
+			  ->where('ordenes_trabajosxactivos.idactivo','=',$idactivo);
+		return $query;
+	}
+
 }

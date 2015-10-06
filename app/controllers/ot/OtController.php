@@ -4,6 +4,7 @@ class OtController extends BaseController {
 
 	private static $nombre_tabla = 'estado_ot';
 	private static $equipo_noint = 'estado_equipo_noint';
+	private static $estado_activo = 'estado_activo';
 
 	public function render_program_ot_mant_correctivo($id=null)
 	{
@@ -70,10 +71,20 @@ class OtController extends BaseController {
 
 					$otxa = new OrdenesTrabajosxactivo;
 					$otxa->idordenes_trabajo = $ot->idordenes_trabajo;
-					$otxa->idactivo = Input::get('idactivo');
+					$otxa->idactivo = $idactivo;
 					$otxa->idestado = 9;
 					$otxa->save();
 					$url = "mant_correctivo/list_mant_correctivo";
+
+					// Asigno las tareas
+					$tareas = Tarea::getTareasByFamiliaActivo($activo->idfamilia_activo)->get();
+					foreach($tareas as $tarea){
+						$otxacxta = new OrdenesTrabajosxactivoxtarea;
+						$otxacxta->idorden_trabajoxactivo = $otxa->idorden_trabajoxactivo;
+						$otxacxta->idtarea = $tarea->idtareas;
+						$otxacxta->idestado_realizado = 25; // Estado de tarea no realizada
+						$otxacxta->save();
+					}
 					Session::flash('message', 'Se programó correctamente la OT.');
 					return Redirect::to($url);
 				}
@@ -98,7 +109,7 @@ class OtController extends BaseController {
 			$fecha_ini = null;
 			$fecha_fin = null;
 			$this->calcular_trimestre($fecha_ini,$fecha_fin);
-			$data['programaciones'] = OrdenesTrabajosxactivo::getOtXActivoXPeriodo(1,9,$fecha_ini,$fecha_fin)->get()->toArray();
+			$data['programaciones'] = OrdenesTrabajosxactivo::getOtXActivoXPeriodo($idactivo,9,$fecha_ini,$fecha_fin)->get()->toArray();
 			$programaciones = [];
 			$length = sizeof($data['programaciones']);
 			for($i=0;$i<$length;$i++){
@@ -206,14 +217,24 @@ class OtController extends BaseController {
 			if(($data["user"]->idrol == 1) && $id){
 				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
 				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
-				$data["ot_info"] = OrdenesTrabajo::searchOtById($id)->get();
 				$data["prioridades"] = Prioridad::lists('nombre','idprioridad');
+				$data["tipo_fallas"] = TipoFalla::lists('nombre','idtipo_falla');
 				$tabla_equipo_noint = Tabla::getTablaByNombre(self::$equipo_noint)->get();
 				$data["estado_equipo_noint"] = Estado::where('idtabla','=',$tabla_equipo_noint[0]->idtabla)->lists('nombre','idestado');
+				$tabla_estado_activo = Tabla::getTablaByNombre(self::$estado_activo)->get();
+				$data["estado_activo"] = Estado::where('idtabla','=',$tabla_estado_activo[0]->idtabla)->lists('nombre','idestado');
+				
+				$data["ot_info"] = OrdenesTrabajo::searchOtById($id)->get();
 				if($data["ot_info"]->isEmpty()){
 					return Redirect::to('ot/createOtMantCo');
 				}
 				$data["ot_info"] = $data["ot_info"][0];
+				$otxact = OrdenesTrabajosxactivo::getOtXActivo($id,$data["ot_info"]->idactivo)->get();
+				if($otxact->isEmpty()){
+					$data["tareas"] = array();
+				}else{
+					$data["tareas"] = OrdenesTrabajosxactivoxtarea::getTareasXOtXActi($otxact[0]->idorden_trabajoxactivo)->get();
+				}
 				return View::make('ot/createOtMantCo',$data);
 			}else{
 				return View::make('error/error');
