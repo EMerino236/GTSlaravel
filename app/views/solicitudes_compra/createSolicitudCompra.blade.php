@@ -27,7 +27,7 @@
 		</div>	
 		<div class="row">
 			<div class="panel panel-default">
-			  	<div class="panel-heading">Datos Generales</div>
+			  	<div class="panel-heading">Agregar Detalle de Requerimiento</div>
 			  	<div class="panel-body">	
 					<div class="row">								
 						<div class="form-group col-xs-2 col-xs-offset-1 @if($errors->first('nombre')) has-error has-feedback @endif">

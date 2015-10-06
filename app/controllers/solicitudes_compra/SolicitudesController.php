@@ -10,20 +10,15 @@ class SolicitudesController extends BaseController
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
 				$data["search_tipo_solicitud"]=null;
-				$data["tipos"] = TipoSolicitudCompra::lists('nombre','idtipo_solicitud_compra');
-				$data["search_marca"]=null;
-				$data["search_departamento"]=null;
+				$data["tipos"] = TipoSolicitudCompra::lists('nombre','idtipo_solicitud_compra');				
 				$data["search_servicio"]=null;
 				$data["search_estado"]=null;
-				$data["search_modelo"]=null;
 				$data["search_nombre_equipo"]=null;
-				$data["search_serie"]=null;
-				$data["marcas"]=Marca::lists('nombre','idmarca');
-				$data["departamentos"] = Area::lists('nombre','idarea');
 				$data["servicios"] = array(0=>"");
 				$data["estados"] = array(0=>"");
-
-				//$data["areas_data"] = Area::getAreasInfo()->paginate(10);
+				$data["fecha_desde"] = null;
+				$data["fecha_hasta"] = null;
+				$data["solicitudes_data"] = SolicitudCompra::getSolicitudesInfo()->paginate(10);
 				return View::make('solicitudes_compra/listSolicitudesCompra',$data);
 			}else{
 				return View::make('error/error');
@@ -39,14 +34,19 @@ class SolicitudesController extends BaseController
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
-				/*$data["search"] = Input::get('search');
-				$data["tipo_area"] = TipoArea::lists('nombre','idtipo_area'); 
-				$data["areas_data"] = Area::searchAreas($data["search"])->paginate(10);*/
-				if($data["search"]==0){
-					return Redirect::to('areas/list_areas');
-				}else{
+				$data["search_tipo_solicitud"] = Input::get('search_tipo_solicitud');
+				$data["search_servicio"]=Input::get('search_servicio');
+				$data["search_estado"]=Input::get('search_estado');
+				$data["search_nombre_equipo"]=Input::get('search_nombre_equipo');
+				$data["fecha_desde"] = Input::get('fecha_desde');
+				$data["fecha_hasta"] = Input::get('fecha_hasta');
+				$data["solicitudes_data"] = SolicitudCompra::searchAreas($data["search_tipo_solicitud"],$data["search_servicio"],
+					$data["search_estado"],$data["search_nombre_equipo"],$data["fecha_desde"],$data["fecha_hasta"])->paginate(10);
+				//if($data["search"]==0){
+					return Redirect::to('solicitudes_compra/list_solicitudes',$data);
+				/*}else{
 					return View::make('areas/listAreas',$data);	
-				}
+				}*/
 			}else{
 				return View::make('error/error');
 			}

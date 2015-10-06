@@ -23,10 +23,10 @@
 	        	<div class="form-group col-xs-2">
 				{{ Form::label('fecha_hasta','Fecha Hasta:')}}
 					<div id="datetimepicker2" class="form-group input-group date">					
-								{{ Form::text('fecha_hasta',$fecha_hasta,array('class'=>'form-control','readonly'=>'')) }}
-								<span class="input-group-addon">
-			                        <span class="glyphicon glyphicon-calendar"></span>
-			                    </span>
+						{{ Form::text('fecha_hasta',$fecha_hasta,array('class'=>'form-control','readonly'=>'')) }}
+						<span class="input-group-addon">
+	                        <span class="glyphicon glyphicon-calendar"></span>
+	                    </span>
 					</div>
 				</div>
 				<div class="form-group col-xs-2">					
