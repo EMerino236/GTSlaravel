@@ -1,7 +1,10 @@
 <?php
 
 class SolicitudesController extends BaseController
+
+
 {
+	private static $nombre_tabla = 'estado_solicitud_compra';
 	public function list_solicitudes()
 	{
 		if(Auth::check()){
@@ -9,13 +12,14 @@ class SolicitudesController extends BaseController
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
+				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
+				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
 				$data["search_tipo_solicitud"]=null;
 				$data["tipos"] = TipoSolicitudCompra::lists('nombre','idtipo_solicitud_compra');				
 				$data["search_servicio"]=null;
 				$data["search_estado"]=null;
 				$data["search_nombre_equipo"]=null;
-				$data["servicios"] = array(0=>"");
-				$data["estados"] = array(0=>"");
+				$data["servicios"] = Servicio::lists('nombre','idservicio');
 				$data["fecha_desde"] = null;
 				$data["fecha_hasta"] = null;
 				$data["solicitudes_data"] = SolicitudCompra::getSolicitudesInfo()->paginate(10);
@@ -34,16 +38,19 @@ class SolicitudesController extends BaseController
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
-				$data["search_tipo_solicitud"] = Input::get('search_tipo_solicitud');
+				$data["search_tipo_solicitud"] = Input::get('search_tipo_solicitud');				
+				$data["servicios"] = Servicio::lists('nombre','idservicio');
+				$data["tipos"] = TipoSolicitudCompra::lists('nombre','idtipo_solicitud_compra');
 				$data["search_servicio"]=Input::get('search_servicio');
 				$data["search_estado"]=Input::get('search_estado');
 				$data["search_nombre_equipo"]=Input::get('search_nombre_equipo');
 				$data["fecha_desde"] = Input::get('fecha_desde');
 				$data["fecha_hasta"] = Input::get('fecha_hasta');
-				$data["solicitudes_data"] = SolicitudCompra::searchAreas($data["search_tipo_solicitud"],$data["search_servicio"],
-					$data["search_estado"],$data["search_nombre_equipo"],$data["fecha_desde"],$data["fecha_hasta"])->paginate(10);
+				$data["solicitudes_data"] = SolicitudCompra::searchSolicitudes($data["search_tipo_solicitud"],$data["search_servicio"],$data["search_estado"],$data["search_nombre_equipo"],$data["fecha_desde"],$data["fecha_hasta"])->paginate(10);
+				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
+				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
 				//if($data["search"]==0){
-					return Redirect::to('solicitudes_compra/list_solicitudes',$data);
+					return View::make('solicitudes_compra/listSolicitudesCompra',$data);
 				/*}else{
 					return View::make('areas/listAreas',$data);	
 				}*/
@@ -55,7 +62,7 @@ class SolicitudesController extends BaseController
 		}
 	}
 
-	public function return_servicio(){
+	public function search_equipos_ajax(){
 		if(!Request::ajax() || !Auth::check()){
 			return Response::json(array( 'success' => false ),200);
 		}
@@ -66,12 +73,12 @@ class SolicitudesController extends BaseController
 			// Check if the current user is the "System Admin"
 			$data = Input::get('selected_id');
 			if($data !=0){
-				$servicios = Servicio::searchServiciosClinicosByIdArea($data)->get();
+				$equipos = FamiliaActivo::searchFamiliaActivo("",$data)->get();
 			}else{
-				$servicios = null;
+				$equipos = null;
 			}
 
-			return Response::json(array( 'success' => true, 'servicios' => $servicios ),200);
+			return Response::json(array( 'success' => true, 'list_equipos' => $equipos ),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
 		}
@@ -83,16 +90,16 @@ class SolicitudesController extends BaseController
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){	
-				/*$data["tipo_documento"] = TipoDocumento::lists('nombre','idtipo_documento');
-				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
+				$data["tipos"] = TipoSolicitudCompra::lists('nombre','idtipo_solicitud_compra');
 				$data["servicios"] = Servicio::searchServiciosClinicos(1)->lists('nombre','idservicio');
-				$data["search"] = null;
-				$data["documento_info"] =null;*/
+				$data["centro_costos"] = CentroCosto::lists('nombre','idcentro_costo');
+				$data["marcas"] = Marca::lists('nombre','idmarca');
+				$data["nombre_equipos"] = array('0'=>'Seleccione');
+				$data["usuarios_responsable"] = User::getJefes()->get();
 				return View::make('solicitudes_compra/createSolicitudCompra',$data);
 			}else{
 				return View::make('error/error');
 			}
-
 		}else{
 			return View::make('error/error');
 		}

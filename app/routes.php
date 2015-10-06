@@ -193,6 +193,8 @@ Route::group(array('prefix'=>'documento', 'before'=>'auth'),function(){
 /* Solicitudes Compra */
 Route::group(array('prefix'=>'solicitudes_compra', 'before'=>'auth'),function(){
 	Route::get('/list_solicitudes','SolicitudesController@list_solicitudes');
-	Route::get('/search_solicitud','SolicitudesController@search_solicitud');
-	Route::post('/return_servicios/{postData}','SolicitudesController@return_servicio');
+	Route::get('/search_solicitudes','SolicitudesController@search_solicitud');	
+	Route::get('/create_solicitud','SolicitudesController@render_create_solicitud');
+	Route::post('/submit_create_solicitud','SolicitudesController@submit_create_solicitud');
+	Route::post('/return_equipos','SolicitudesController@search_equipos_ajax');
 });

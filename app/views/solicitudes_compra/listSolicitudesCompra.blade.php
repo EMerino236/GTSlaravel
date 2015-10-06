@@ -16,7 +16,7 @@
 			<div class="form-group row">
 				<div class="col-md-4">
 					{{ Form::label('search_tipo_solicitud','Tipo:')}}
-					{{ Form::select('search_tipo_solicitud',array('0' => 'Seleccione')+$tipos, $search_tipo_solicitud,array('class'=>'form-control')) }}
+					{{ Form::select('search_tipo_solicitud',array('0' => 'Seleccione')+ $tipos, $search_tipo_solicitud,array('class'=>'form-control')) }}
 				</div>					
 				<div class="col-md-4">
 					{{ Form::label('search_nombre_equipo','Nombre de Equipo:')}}
@@ -24,14 +24,14 @@
 				</div>
 				<div class="col-md-4">
 					{{ Form::label('search_servicio','Servicio Clínico:')}}
-					{{ Form::select('search_servicio',array('0' => 'Seleccione')+$servicios, $search_servicio,array('class'=>'form-control','id'=>'servicio_clinico')) }}
+					{{ Form::select('search_servicio',array('0' => 'Seleccione')+ $servicios, $search_servicio,array('class'=>'form-control','id'=>'servicio_clinico')) }}
 				</div>
 			</div>
 			<div class="form-group row">			
 				
 				<div class="col-md-4">
 					{{ Form::label('search_estado','Estado:')}}
-					{{ Form::select('search_estado',array('0' => 'Seleccione')+$estados, $search_estado,array('class'=>'form-control')) }}
+					{{ Form::select('search_estado',array('0' => 'Seleccione')+ $estados, $search_estado,array('class'=>'form-control')) }}
 				</div>				
 				<div class="col-md-4">
 					{{ Form::label('fecha_desde','Fecha Desde:')}}
@@ -63,10 +63,15 @@
 		</div>	
 	</div>		
 	{{ Form::close() }}
-	</br>
+	<div class="container-fluid row form-group">
+		<div class="col-md-2 col-md-offset-10">	
+			<a class="btn btn-primary btn-block" href="{{URL::to('/solicitudes_compra/create_solicitud')}}"><span class="glyphicon glyphicon-plus"></span>Agregar</a>
+		</div>
+	</div>
 	<div class="table-responsive">
 		<table class="table">
 			<tr class="info">
+				<th>N°</th>
 				<th>Código de Requerimiento</th>
 				<th>Tipo</th>
 				<th>Nombre de Equipo</th>
@@ -77,15 +82,14 @@
 			@foreach($solicitudes_data as $index => $solicitud_data)
 				<tr>
 					<td>{{$index+1}}</td>
-					<td>
-						
+					<td>						
 						{{$solicitud_data->idsolicitud_compra}}
-						</a>
 					</td>					
-					<td>{{$solicitud_data->idtipo_solicitud_compra}}</td>
-					<td>{{$solicitud_data->idfamilia_activo}}</td>
+					<td>{{$solicitud_data->nombre_tipo}}</td>
+					<td>{{$solicitud_data->nombre_equipo}}</td>
+					<td>{{$solicitud_data->nombre_servicio}}</td>
 					<td>{{$solicitud_data->idordenes_trabajo}}</td>
-					<td>{{$solicitud_data->idestado}}</td>
+					<td>{{$solicitud_data->nombre_estado}}</td>
 				</tr>
 			@endforeach	
 		</table>
