@@ -82,5 +82,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $query;
 	}
 
+	public function scopeGetJefes($query){
+		$query->where('users.idrol','=',2)
+			  ->orWhere('users.idrol','=',3);			  	   
+		return $query;
+	}
+
 	
 }

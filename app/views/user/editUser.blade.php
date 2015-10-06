@@ -21,6 +21,7 @@
 			<p><strong>{{ $errors->first('fecha_nacimiento') }}</strong></p>
 			<p><strong>{{ $errors->first('password') }}</strong></p>
 			<p><strong>{{ $errors->first('password_confirmation') }}</strong></p>
+			<p><strong>{{ $errors->first('telefono') }}</strong></p>
 		</div>
 	@endif
 
@@ -95,6 +96,16 @@
 						{{ Form::password('password_confirmation',array('class'=>'form-control','readonly'=>'')) }}
 					@else
 						{{ Form::password('password_confirmation',array('class'=>'form-control')) }}
+					@endif
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group col-xs-8 @if($errors->first('telefono')) has-error has-feedback @endif">
+					{{ Form::label('telefono','Teléfono/Anexo') }}
+					@if($user_info->deleted_at)
+						{{ Form::text('telefono',$user_info->telefono,array('class'=>'form-control')) }}
+					@else
+						{{ Form::text('telefono',$user_info->telefono,array('class'=>'form-control')) }}
 					@endif
 				</div>
 			</div>

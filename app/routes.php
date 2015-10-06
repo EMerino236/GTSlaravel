@@ -162,6 +162,7 @@ Route::group(array('prefix'=>'mant_correctivo','before'=>'auth'),function(){
 	Route::get('/list_mant_correctivo','OtController@list_mant_correctivo');
 	Route::get('/search_ot_mant_correctivo','OtController@search_ot_mant_correctivo');
 	Route::get('/create_ot/{id}','OtController@render_create_ot');
+	Route::post('/submit_create_ot','OtController@submit_create_ot');
 
 });
 /* Tipo de Tareas */

@@ -42,6 +42,7 @@ class UserController extends BaseController {
 							'numero_doc_identidad' => 'required|numeric|digits_between:8,16',
 							'idarea' => 'required',
 							'idrol' => 'required',
+							'telefono' => 'min:7|max:20',
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules);
@@ -62,6 +63,7 @@ class UserController extends BaseController {
 					$user->idarea = Input::get('idarea');
 					$user->idrol = Input::get('idrol');
 					$user->genero = Input::get('genero');
+					$user->telefono = Input::get('telefono');
 					$user->fecha_nacimiento = date('Y-m-d H:i:s',strtotime(Input::get('fecha_nacimiento')));
 					$user->save();
 					Mail::send('emails.user_registration',array('user'=> $user,'password'=>$password),function($message) use ($user)
@@ -146,6 +148,7 @@ class UserController extends BaseController {
 							'numero_doc_identidad' => 'required|numeric|digits_between:8,16',
 							'idarea' => 'required',
 							'idrol' => 'required',
+							'telefono' => 'min:7|max:20',
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules);
@@ -167,6 +170,7 @@ class UserController extends BaseController {
 					$user->idarea = Input::get('idarea');
 					$user->idrol = Input::get('idrol');
 					$user->genero = Input::get('genero');
+					$user->telefono = Input::get('telefono');
 					$user->fecha_nacimiento = date('Y-m-d H:i:s',strtotime(Input::get('fecha_nacimiento')));
 					$password = Input::get('password');
 					if(!empty($password))

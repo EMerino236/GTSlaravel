@@ -20,6 +20,7 @@
 			<p><strong>{{ $errors->first('idrol') }}</strong></p>
 			<p><strong>{{ $errors->first('genero') }}</strong></p>
 			<p><strong>{{ $errors->first('fecha_nacimiento') }}</strong></p>
+			<p><strong>{{ $errors->first('telefono') }}</strong></p>
 		</div>
 	@endif
 
@@ -44,7 +45,6 @@
 					{{ Form::text('email',Input::old('email'),array('class'=>'form-control')) }}
 				</div>
 			</div>
-
 			<div class="row">
 				<div class="form-group col-xs-8 @if($errors->first('idarea')) has-error has-feedback @endif">
 					{{ Form::label('idarea','Área') }}
@@ -116,6 +116,12 @@
 				<div class="form-group col-xs-8 @if($errors->first('numero_doc_identidad')) has-error has-feedback @endif">
 					{{ Form::label('numero_doc_identidad','No. Documento de identidad') }}
 					{{ Form::text('numero_doc_identidad',Input::old('numero_doc_identidad'),array('class'=>'form-control')) }}
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group col-xs-8 @if($errors->first('telefono')) has-error has-feedback @endif">
+					{{ Form::label('telefono','Teléfono/Anexo') }}
+					{{ Form::text('telefono',Input::old('telefono'),array('class'=>'form-control')) }}
 				</div>
 			</div>
 		</div>

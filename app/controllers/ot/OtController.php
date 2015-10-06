@@ -3,6 +3,7 @@
 class OtController extends BaseController {
 
 	private static $nombre_tabla = 'estado_ot';
+	private static $equipo_noint = 'estado_equipo_noint';
 
 	public function render_program_ot_mant_correctivo($id=null)
 	{
@@ -18,6 +19,7 @@ class OtController extends BaseController {
 				$this->calcular_trimestre($trimestre_ini,$trimestre_fin);
 				$data['mes'] = OrdenesTrabajosxactivo::getOtXActivoXPeriodo(1,9,$mes_ini,$mes_fin)->get()->count();
 				$data['trimestre'] = OrdenesTrabajosxactivo::getOtXActivoXPeriodo(1,9,$trimestre_ini,$trimestre_fin)->get()->count();
+				$data['solicitantes'] = User::getJefes()->get();
 				$data["sot_info"] = SolicitudOrdenTrabajo::searchSotById($id)->get();
 				if($data["sot_info"]->isEmpty()){
 					return Redirect::to('sot/list_sots');
@@ -44,6 +46,7 @@ class OtController extends BaseController {
 				// Validate the info, create rules for the inputs
 				$rules = array(
 							'fecha_programacion' => 'required',
+							'solicitante' => 'required',
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules);
@@ -62,6 +65,7 @@ class OtController extends BaseController {
 					$ot->idtipo_ordenes_trabajo = 1; // A mejorar este hardcode :/
 					$ot->idestado = 9; // A mejorar este hardcode :/
 					$ot->id_usuarioelaborado = $data["user"]->id;
+					$ot->id_usuariosolicitante = Input::get('solicitante');
 					$ot->save();
 
 					$otxa = new OrdenesTrabajosxactivo;
@@ -203,10 +207,13 @@ class OtController extends BaseController {
 				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
 				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
 				$data["ot_info"] = OrdenesTrabajo::searchOtById($id)->get();
+				$data["prioridades"] = Prioridad::lists('nombre','idprioridad');
+				$tabla_equipo_noint = Tabla::getTablaByNombre(self::$equipo_noint)->get();
+				$data["estado_equipo_noint"] = Estado::where('idtabla','=',$tabla_equipo_noint[0]->idtabla)->lists('nombre','idestado');
 				if($data["ot_info"]->isEmpty()){
-					return Redirect::to('mant_correctivo/list_mant_correctivo');
+					return Redirect::to('ot/createOtMantCo');
 				}
-				$data["sot_info"] = $data["sot_info"][0];
+				$data["ot_info"] = $data["ot_info"][0];
 				return View::make('ot/createOtMantCo',$data);
 			}else{
 				return View::make('error/error');

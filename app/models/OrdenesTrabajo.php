@@ -61,7 +61,7 @@ class OrdenesTrabajo extends Eloquent{
 	  	return $query;
 	}
 
-	public function scopeSearchOtsById($query,$search_criteria)
+	public function scopeSearchOtById($query,$search_criteria)
 	{
 		$query->join('estados','estados.idestado','=','ordenes_trabajos.idestado')
 			  ->join('servicios','servicios.idservicio','=','ordenes_trabajos.idservicio')
@@ -71,10 +71,13 @@ class OrdenesTrabajo extends Eloquent{
 			  ->join('ubicacion_fisicas','ubicacion_fisicas.idubicacion_fisica','=','activos.idubicacion_fisica')
 			  ->join('proveedores','proveedores.idproveedor','=','activos.idproveedor')
 			  ->join('familia_activos','familia_activos.idfamilia_activo','=','activos.idfamilia_activo')
+			  ->join('marcas','marcas.idmarca','=','familia_activos.idmarca')
 			  ->join('grupos','grupos.idgrupo','=','activos.idgrupo')
-			  ->join('users','users.id','=','grupos.id_responsable')
+			  ->join('users as ingeniero','ingeniero.id','=','grupos.id_responsable')
+			  ->join('users as solicitante','solicitante.id','=','grupos.id_responsable')
+			  ->join('solicitud_orden_trabajos','solicitud_orden_trabajos.idsolicitud_orden_trabajo','=','ordenes_trabajos.idsolicitud_orden_trabajo')
 			  ->where('ordenes_trabajos.idordenes_trabajo','=',$search_criteria)
-			  ->select('ubicacion_fisicas.nombre as nombre_ubicacion','areas.nombre as nombre_area','users.nombre as nombre_user','users.apellido_pat','users.apellido_mat','servicios.nombre as nombre_servicio','estados.nombre as nombre_estado','ordenes_trabajos.*');
+			  ->select('solicitud_orden_trabajos.fecha_solicitud','activos.numero_serie','activos.codigo_patrimonial','marcas.nombre as nombre_marca','familia_activos.nombre_equipo','familia_activos.modelo','ubicacion_fisicas.nombre as nombre_ubicacion','areas.nombre as nombre_area','ingeniero.nombre as nombre_ingeniero','ingeniero.apellido_pat as apat_ingeniero','ingeniero.apellido_mat as amat_ingeniero','solicitante.nombre as nombre_solicitante','solicitante.apellido_pat as apat_solicitante','solicitante.apellido_mat as amat_solicitante','servicios.nombre as nombre_servicio','estados.nombre as nombre_estado','ordenes_trabajos.*');
 	  	return $query;
 	}
 

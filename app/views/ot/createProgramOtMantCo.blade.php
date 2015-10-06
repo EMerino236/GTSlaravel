@@ -49,6 +49,16 @@
 				</div>
 			</div>
 			<div class="row">
+				<div class="form-group col-xs-8">
+					{{ Form::label('solicitante','Usuario solicitante') }}
+					<select name="solicitante" class="form-control">
+						@foreach($solicitantes as $solicitante)
+							<option value="{{ $solicitante->id }}">{{ $solicitante->apellido_pat }} {{ $solicitante->apellido_mat }}, {{ $solicitante->nombre }}</option>
+						@endforeach
+					</select>
+				</div>
+			</div>
+			<div class="row">
 				{{ Form::label('fecha_programacion','Ingrese fecha de programación') }}
 				<div id="datetimepicker3" class="form-group input-group date col-xs-8 @if($errors->first('fecha_programacion')) has-error has-feedback @endif">
 					{{ Form::text('fecha_programacion',null,array('class'=>'form-control','readonly'=>'')) }}
@@ -60,7 +70,7 @@
 			{{ Form::submit('Programar',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}
 		</div>
 		<div class="col-xs-4">
-			<h3 class="text-center">Programaciones del trimestre</h3>
+			<h3 class="text-center">Programaciones del mes</h3>
 			<!-- Responsive calendar - START -->
 			<div class="responsive-calendar">
 			  <div class="controls">
