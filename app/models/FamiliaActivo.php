@@ -18,7 +18,7 @@ class FamiliaActivo extends Eloquent{
 	    return $query;
 	}
 
-	public function scopesearchFamiliaActivo($query,$search_nombreequipo,$search_marca)
+	public function scopeSearchFamiliaActivo($query,$search_nombreequipo,$search_marca)
 	{
 		$query->withTrashed()
 			  ->join('tipo_activos','tipo_activos.idtipo_activo','=','familia_activos.idtipo_activo')
@@ -42,6 +42,12 @@ class FamiliaActivo extends Eloquent{
 		$query->withTrashed()
 			  ->where('familia_activos.idfamilia_activo',"=",$search_criteria);
 		return $query;
+	}
+
+	public function scopeSearchFamiliaActivoByMarca($query,$search_criteria)
+	{
+		$query->withTrashed()
+			  ->where('familia_activos.idmarca','=',$search_criteria);
 	}
 
 }

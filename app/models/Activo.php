@@ -62,7 +62,7 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 			  	$query->where('activos.idservicio','=',$search_servico);
 			  }
 
-			  if($search_ubicacion != '0')
+			  if($search_ubicacion != '0' && $search_ubicacion != null)
 			  {
 			  	$query->where('activos.idubicacion_fisica','=',$search_ubicacion);
 			  }

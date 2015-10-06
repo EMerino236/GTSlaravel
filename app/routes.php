@@ -87,8 +87,10 @@ Route::group(array('prefix'=>'equipos','before'=>'auth'),function(){
 	Route::get('/list_equipos','ActivosController@list_activos');
 	Route::get('/search_equipos','ActivosController@search_activos');
 	Route::get('/create_equipo','ActivosController@render_create_activo');
-	Route::get('/submit_equipo','ActivosController@submit_create_activo');
-	Route::post('/search_ubicacion_ajax','ActivosController@search_ubicacion_ajax');
+	Route::post('/submit_create_equipo','ActivosController@submit_create_activo');
+	Route::post('/search_list_ubicacion_ajax','ActivosController@search_ubicacion_ajax');
+	Route::post('/search_create_ubicacion_ajax','ActivosController@search_ubicacion_ajax');
+	Route::post('/search_nombre_equipo_ajax','ActivosController@search_nombre_equipo_ajax');	
 });
 
 /*Configuraciones*/

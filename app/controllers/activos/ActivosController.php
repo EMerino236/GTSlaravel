@@ -74,25 +74,82 @@ class ActivosController extends BaseController
 
 	public function render_create_activo()
 	{
-		$data["inside_url"] = Config::get('app.inside_url');
-		$data["user"]= Session::get('user');
-		if($data["user"]->idrol == 1){
-			$data["grupos"] = Grupo::lists('nombre','idgrupo');
-			$data["servicios"] = Servicio::lists('nombre','idservicio');
-			$data["ubicacion_fisica"] = UbicacionFisica::lists('nombre','idUbicacion_fisica');
-			$data["marcas"]	= Marca::lists('nombre','idmarca');
-			$data["centro_costos"]	= CentroCosto::lists('nombre','idcentro_costo');
-			$data["tipo_documento"] = TipoDocumento::lists('nombre','idtipo_documento');	
-			return View::make('activos/createActivo',$data);
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"]= Session::get('user');
+
+			if($data["user"]->idrol == 1){
+				$data["grupos"] = Grupo::lists('nombre','idgrupo');
+				$data["servicios"] = Servicio::lists('nombre','idservicio');			
+				$data["marcas"]	= Marca::lists('nombre','idmarca');
+				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
+				$data["centro_costos"]	= CentroCosto::lists('nombre','idcentro_costo');			
+				return View::make('activos/createActivo',$data);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
 		}
-		
 	}
 
 	public function submit_create_activo()
 	{
-		$data["inside_url"] = Config::get('app.inside_url');
-		$data["user"]= Session::get('user');
-		return View::make('activos/createActivo',$data);
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"]= Session::get('user');
+
+			if($data["user"]->idrol	== 1){
+
+				$rules = array(
+					'servicio_clinico' => 'required',
+					'ubicacion_fisica' => 'required',
+					'grupo' => 'required',
+					'marca' => 'required',
+					'nombre_equipo' => 'required',
+					'numero_serie' => 'required',
+					'proveedor' => 'required',
+					'codigo_compra' => 'required'
+					,
+					'codigo_patrimonial' => 'required',
+					'fecha_adquisicion' => 'required',
+					'centro_costo' => 'required',
+					'garantia' => 'required'
+					);
+
+				$validator = Validator::make(Input::all(), $rules);
+
+				if($validator->fails()){
+					return Redirect::to('equipos/create_equipo')->withErrors($validator)->withInput(Input::all());
+				}else{
+
+					$activo = new Activo;
+					$activo->codigo_patrimonial = Input::get('codigo_patrimonial');
+					$activo->numero_serie = Input::get('numero_serie');
+					$activo->anho_adquisicion = Input::get('fecha_adquisicion');
+					$activo->garantia = Input::get('garantia');	
+					$activo->codigo_compra = Input::get('codigo_compra');
+					$activo->idgrupo = Input::get('grupo');
+					$activo->idfamilia_activo = Input::get('nombre_equipo');
+					$activo->idservicio = Input::get('servicio_clinico');
+					$activo->idcentro_costo = Input::get('centro_costo');
+					$activo->idproveedor = Input::get('proveedor');
+					$activo->idreporte_instalacion = 1;
+					$activo->idestado = 1;
+					$activo->idubicacion_fisica = Input::get('ubicacion_fisica');
+
+					$activo->save();
+
+					Session::flash('message', 'Se registró correctamente el activo.');
+
+					return Redirect::to('equipos/create_equipo');
+				}
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
 	}
 
 	public function search_ubicacion_ajax()
@@ -116,6 +173,31 @@ class ActivosController extends BaseController
 			}
 
 			return Response::json(array( 'success' => true, 'ubicacion' => $ubicacion ),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
+	public function search_nombre_equipo_ajax()
+	{
+		if(!Request::ajax() || !Auth::check())
+		{
+			return Response::json(array( 'success' => false ),200);
+		}
+
+		$id = Auth::id();
+		$data["inside_url"] = Config::get('app.inside_url');
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1){
+			// Check if the current user is the "System Admin"
+			$data = Input::get('selected_id');			
+			if($data !=0){
+				$familia_activo = FamiliaActivo::searchFAmiliaActivoByMarca($data)->get();
+			}else{
+				$familia_activo = array();
+			}
+
+			return Response::json(array( 'success' => true, 'nombre_equipo' => $familia_activo ),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
 		}
