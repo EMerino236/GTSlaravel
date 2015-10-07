@@ -152,6 +152,32 @@ class ActivosController extends BaseController
 		}
 	}
 
+	public function render_edit_marca($idequipo=null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if(($data["user"]->idrol == 1) && $idequipo){
+				$data["equipo_info"] = Activo::searchActivosById($idequipo)->get();
+				if($data["equipo_info"]->isEmpty()){
+					return Redirect::to('equipos/list_equipos');
+				}
+				$data["equipo_info"] = $data["equipo_info"][0];
+				$data["grupos"] = Grupo::lists('nombre','idgrupo');
+				$data["servicios"] = Servicio::lists('nombre','idservicio');			
+				$data["marcas"]	= Marca::lists('nombre','idmarca');
+				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
+				$data["centro_costos"]	= CentroCosto::lists('nombre','idcentro_costo');			
+				return View::make('activos/editActivo',$data);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
 	public function search_ubicacion_ajax()
 	{
 

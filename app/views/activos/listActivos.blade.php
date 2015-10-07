@@ -135,7 +135,7 @@
 							{{$activo_data->codigo_compra}}
 						</td>
 						<td>
-							{{$activo_data->codigo_patrimonial}}
+							<a href="{{URL::to('/equipos/edit_equipo/')}}/{{$activo_data->idactivo}}">{{$activo_data->codigo_patrimonial}}</a>							
 						</td>
 					</tr>
 					@endforeach				

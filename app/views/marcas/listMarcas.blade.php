@@ -24,8 +24,7 @@
 					{{$index + 1}}
 				</td>	
 				<td>
-					<a href="{{URL::to('/marcas/edit_marca/')}}/{{$marca_data->idmarca}}">{{$marca_data->nombre}}</a>
-					
+					<a href="{{URL::to('/marcas/edit_marca/')}}/{{$marca_data->idmarca}}">{{$marca_data->nombre}}</a>					
 				</td>
 				<td>
 					{{$marca_data->created_at}}

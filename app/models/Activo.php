@@ -112,7 +112,12 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 	public function scopeSearchActivosById($query,$search_criteria)
 	{
 		$query->withTrashed()
-			  ->where('activos.idactivo','=',$search_criteria);
+			  ->join('familia_activos','familia_activos.idfamilia_activo','=','activos.idfamilia_activo');
+
+		$query->where('activos.idactivo','=',$search_criteria);
+
+		$query->select('familia_activos.idmarca as idmarca','activos.*');
+
 		return $query;
 	}
 
@@ -156,6 +161,13 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 			  		$query->where('idgrupo','LIKE',"%$idgrupo%");
 			  })
 			  ->select('activos.*');
+		return $query;
+	}
+
+	public function scopeSearchActivosByFamilia($query,$idfamilia){
+		$query->withTrashed();
+		$query->where('activos.idfamilia_activo','=',$idfamilia);
+
 		return $query;
 	}
 

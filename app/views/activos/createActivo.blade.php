@@ -115,7 +115,7 @@
 				{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Crear', array('id'=>'submit-edit', 'type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}
 			</div>
 			<div class="form-group col-md-2">
-				<div id="btnCancelar" class="btn btn-default btn-block">Cancelar</div>
+				<a class="btn btn-default btn-block" href="{{URL::to('/equipos/list_equipos')}}">Cancelar</a>				
 			</div>
 		</div>		
 		
