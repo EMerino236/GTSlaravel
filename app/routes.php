@@ -199,4 +199,5 @@ Route::group(array('prefix'=>'solicitudes_compra', 'before'=>'auth'),function(){
 	Route::get('/create_solicitud','SolicitudesController@render_create_solicitud');
 	Route::post('/submit_create_solicitud','SolicitudesController@submit_create_solicitud');
 	Route::post('/return_equipos','SolicitudesController@search_equipos_ajax');
+	Route::post('/return_equipos2','SolicitudesController@search_equipos_acces_comp_consum_ajax');
 });

@@ -42,13 +42,13 @@
 							{{ Form::label('centro_costo','Centro de Costo') }}
 							{{ Form::select('centro_costo',array('0'=> 'Seleccione')+ $centro_costos, Input::old('centro_costo'),array('class'=>'form-control'))}}
 						</div>
-						<div class="form-group col-md-4 @if($errors->first('marca')) has-error has-feedback @endif">
-							{{ Form::label('marca','Marca:') }}
-							{{ Form::select('marca',array('0'=>'Seleccione')+ $marcas,Input::old('marca'),array('class'=>'form-control','id'=>'marca'))}}
+						<div class="form-group col-md-4 @if($errors->first('marca1')) has-error has-feedback @endif">
+							{{ Form::label('marca1','Marca:') }}
+							{{ Form::select('marca1',array('0'=>'Seleccione')+ $marcas1,Input::old('marca1'),array('class'=>'form-control','id'=>'marca1'))}}
 						</div>
-						<div class="form-group col-md-4 @if($errors->first('nombre_equipo')) has-error has-feedback @endif">
-							{{ Form::label('nombre_equipo','Equipo:') }}
-							{{ Form::select('nombre_equipo',$nombre_equipos, Input::old('nombre_equipo'), array('class'=>'form-control','id'=>'equipo')) }}
+						<div class="form-group col-md-4 @if($errors->first('nombre_equipo1')) has-error has-feedback @endif">
+							{{ Form::label('nombre_equipo1','Equipo:') }}
+							{{ Form::select('nombre_equipo1',$nombre_equipos1, Input::old('nombre_equipo1'), array('class'=>'form-control','id'=>'equipo1')) }}
 						</div>
 						<div class="form-group col-md-4 @if($errors->first('nombre_equipo')) has-error has-feedback @endif">
 							{{ Form::label('usuario_responsable','Usuario Responsable:') }}
@@ -84,9 +84,41 @@
 							{{ Form::label('descripcion','Descripción:') }}
 							{{ Form::text('descripcion',Input::old('descripcion'),['class' => 'form-control'])}}
 						</div>
+						<div class="form-group col-md-4 @if($errors->first('marca2')) has-error has-feedback @endif">
+							{{ Form::label('marca2','Marca:') }}
+							{{ Form::select('marca2',array('0'=>'Seleccione')+ $marcas2,Input::old('marca2'),array('class'=>'form-control','id'=>'marca2'))}}
+						</div>
+						<div class="form-group col-md-4 @if($errors->first('nombre_equipo2')) has-error has-feedback @endif">
+							{{ Form::label('nombre_equipo2','Equipo:') }}
+							{{ Form::select('nombre_equipo2',$nombre_equipos2, Input::old('nombre_equipo2'), array('class'=>'form-control','id'=>'equipo2')) }}
+						</div>
+						<div class="form-group col-md-4 @if($errors->first('numero_serie')) has-error has-feedback @endif">
+							{{ Form::label('numero_serie','Equipo:') }}
+							{{ Form::select('numero_serie',$numero_series, Input::old('numero_serie'), array('class'=>'form-control','id'=>'numero_serie')) }}
+						</div>
+						<div class="form-group col-md-4 @if($errors->first('cantidad')) has-error has-feedback @endif">
+							{{ Form::label('cantidad','Cantidad:') }}
+							{{ Form::text('cantidad',Input::old('cantidad'),['class' => 'form-control'])}}
+						</div>
 			  		</div>
 			  	</div>
 			</div>
+		</div>
+		<div class="container-fluid row form-group">
+			<div class="col-md-2 col-md-offset-10">
+					<div class="btn btn-primary btn-block" id="btnAgregar"><span class="glyphicon glyphicon-plus"></span>Agregar</div>				
+			</div>
+		</div>
+		<div class="table-responsive">
+			<table class="table">
+				<tr class="info">
+					<th>Descripción</th>
+					<th>Marca</th>
+					<th>Modelo</th>
+					<th>Serie/Número de Parte</th>
+					<th>Cantidad</th>
+				</tr>
+			</table>
 		</div>
 	{{Form::close()}}
 @stop

@@ -15,20 +15,24 @@ $( document ).ready(function(){
         $('#datetimepicker1').data("DateTimePicker").maxDate(e.date);
     });
 
-    $('#marca').change(function(){
-        search_equipos_ajax();
+    $('#marca1').change(function(){
+        search_equipos_ajax(1);
+    });
+    $('#marca2').change(function(){
+        search_equipos_ajax(2);
     });
 
-    $('#equipo').prop('disabled',true);
+    $('#equipo1').prop('disabled',true);
+    $('#equipo2').prop('disabled',true);
 
 });
 
-function search_equipos_ajax(){       
-        var val = $('#marca').val();
+function search_equipos_ajax(id){       
+        var val = $('#marca'+id).val();
         if(val == 0){
-            $("#equipo").empty();
-            $("#equipo").append('<option value='+0+'>Seleccione</option>');
-            $('#equipo').prop('disabled',true);
+            $("#equipo"+id).empty();
+            $("#equipo"+id).append('<option value='+0+'>Seleccione</option>');
+            $('#equipo'+id).prop('disabled',true);
             return;
         }
         $.ajax({
@@ -50,10 +54,10 @@ function search_equipos_ajax(){
                 if(response.success){
                     var list_equipos = response['list_equipos'];
                     var tamano = list_equipos.length;
-                    $('#equipo').empty();
-                    $('#equipo').prop('disabled',false);
+                    $('#equipo'+id).empty();
+                    $('#equipo'+id).prop('disabled',false);
                     for(i = 0;i<tamano;i++){
-                        $("#equipo").append('<option value='+list_equipos[i].idfamilia_activo+'>'+list_equipos[i].nombre_equipo+'</option>');
+                        $("#equipo"+id).append('<option value='+list_equipos[i].idfamilia_activo+'>'+list_equipos[i].nombre_equipo+'</option>');
                     }                   
                 }else{
                     alert('La petición no se pudo completar, inténtelo de nuevo.');
@@ -65,3 +69,4 @@ function search_equipos_ajax(){
         });
 
 }
+
