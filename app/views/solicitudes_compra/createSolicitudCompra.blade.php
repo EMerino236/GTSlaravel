@@ -82,35 +82,38 @@
 			  		<div class="form-group row">
 			  			<div class="form-group col-md-4 @if($errors->first('descripcion')) has-error has-feedback @endif">
 							{{ Form::label('descripcion','Descripción:') }}
-							{{ Form::text('descripcion',Input::old('descripcion'),['class' => 'form-control'])}}
+							{{ Form::text('descripcion',Input::old('descripcion'),['class' => 'form-control','id'=>'descripcion'])}}
 						</div>
 						<div class="form-group col-md-4 @if($errors->first('marca2')) has-error has-feedback @endif">
 							{{ Form::label('marca2','Marca:') }}
-							{{ Form::select('marca2',array('0'=>'Seleccione')+ $marcas2,Input::old('marca2'),array('class'=>'form-control','id'=>'marca2'))}}
+							{{ Form::text('marca2',Input::old('marca2'),array('class'=>'form-control','id'=>'marca2'))}}
 						</div>
 						<div class="form-group col-md-4 @if($errors->first('nombre_equipo2')) has-error has-feedback @endif">
 							{{ Form::label('nombre_equipo2','Equipo:') }}
-							{{ Form::select('nombre_equipo2',$nombre_equipos2, Input::old('nombre_equipo2'), array('class'=>'form-control','id'=>'equipo2')) }}
+							{{ Form::text('nombre_equipo2', Input::old('nombre_equipo2'), array('class'=>'form-control','id'=>'nombre_equipo2')) }}
 						</div>
-						<div class="form-group col-md-4 @if($errors->first('numero_serie')) has-error has-feedback @endif">
-							{{ Form::label('numero_serie','Equipo:') }}
-							{{ Form::select('numero_serie',$numero_series, Input::old('numero_serie'), array('class'=>'form-control','id'=>'numero_serie')) }}
+						<div class="form-group col-md-4 @if($errors->first('serie_parte')) has-error has-feedback @endif">
+							{{ Form::label('serie_parte','Número de Serie / Parte:') }}
+							{{ Form::text('serie_parte', Input::old('numero_serie'), array('class'=>'form-control','id'=>'serie_parte')) }}
 						</div>
 						<div class="form-group col-md-4 @if($errors->first('cantidad')) has-error has-feedback @endif">
 							{{ Form::label('cantidad','Cantidad:') }}
-							{{ Form::text('cantidad',Input::old('cantidad'),['class' => 'form-control'])}}
+							{{ Form::text('cantidad',Input::old('cantidad'),['class' => 'form-control','id'=>'cantidad'])}}
 						</div>
 			  		</div>
 			  	</div>
 			</div>
 		</div>
 		<div class="container-fluid row form-group">
-			<div class="col-md-2 col-md-offset-10">
+			<div class="col-md-2 col-md-offset-8">
 					<div class="btn btn-primary btn-block" id="btnAgregar"><span class="glyphicon glyphicon-plus"></span>Agregar</div>				
+			</div>
+			<div class="col-md-2">
+					<div class="btn btn-default btn-block" id="btnLimpiar"><span class="glyphicon glyphicon-refresh"></span>Limpiar</div>				
 			</div>
 		</div>
 		<div class="table-responsive">
-			<table class="table">
+			<table class="table" id="table_solicitud">
 				<tr class="info">
 					<th>Descripción</th>
 					<th>Marca</th>

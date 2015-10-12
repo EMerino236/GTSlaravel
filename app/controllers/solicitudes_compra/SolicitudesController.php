@@ -95,12 +95,12 @@ class SolicitudesController extends BaseController
 			// Check if the current user is the "System Admin"
 			$data = Input::get('selected_id');
 			if($data !=0){
-				$equipos = Activo::searchFamiliaActivo("",$data)->get();
+				$activos = Activo::searchActivosByFamilia($data)->get();
 			}else{
-				$equipos = null;
+				$activos = null;
 			}
 
-			return Response::json(array( 'success' => true, 'list_equipos' => $equipos ),200);
+			return Response::json(array( 'success' => true, 'list_activos' => $activos ),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
 		}
@@ -117,9 +117,7 @@ class SolicitudesController extends BaseController
 				$data["servicios"] = Servicio::searchServiciosClinicos(1)->lists('nombre','idservicio');
 				$data["centro_costos"] = CentroCosto::lists('nombre','idcentro_costo');
 				$data["marcas1"] = Marca::lists('nombre','idmarca');
-				$data["marcas2"] = Marca::lists('nombre','idmarca');
 				$data["nombre_equipos1"] = array('0'=>'Seleccione');
-				$data["nombre_equipos2"] = array('0'=>'Seleccione');
 				$data["usuarios_responsable"] = User::getJefes()->get();
 				return View::make('solicitudes_compra/createSolicitudCompra',$data);
 			}else{

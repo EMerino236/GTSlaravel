@@ -132,7 +132,7 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 		$query->withTrashed()
 			  ->join('familia_activos','familia_activos.idfamilia_activo','=','activos.idfamilia_activo')
 			  ->whereNested(function($query) use($search_criteria){
-			  		$query->where('activos.idgrupo','LIKE',"%$search_criteria%");
+			  		$query->where('activos.idgrupo','=',$search_criteria);
 			  })
 			  ->select('familia_activos.nombre_equipo as nombre_equipo','activos.*');
 		return $query;
@@ -142,7 +142,7 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 		$query->withTrashed()
 			  ->join('familia_activos','familia_activos.idfamilia_activo','=','activos.idfamilia_activo')
 			  ->whereNested(function($query) use($search_criteria){
-			  		$query->where('activos.idservicio','LIKE',"%$search_criteria%");
+			  		$query->where('activos.idservicio','=',$search_criteria);
 			  })
 			  ->select('familia_activos.nombre_equipo as nombre_equipo','activos.*');
 		return $query;
@@ -150,7 +150,7 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 
 	public function scopeGetEquiposActivosByServicioId($query,$idservicio){
 		$query->whereNested(function($query) use($idservicio){
-			  		$query->where('idservicio','LIKE',"%$idservicio%");
+			  		$query->where('idservicio','=',$idservicio);
 			  })
 			  ->select('activos.*');
 		return $query;
@@ -158,7 +158,7 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 
 	public function scopeGetEquiposActivosByGrupoId($query,$idgrupo){
 		$query->whereNested(function($query) use($idgrupo){
-			  		$query->where('idgrupo','LIKE',"%$idgrupo%");
+			  		$query->where('idgrupo','=',$idgrupo);
 			  })
 			  ->select('activos.*');
 		return $query;
@@ -167,7 +167,6 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 	public function scopeSearchActivosByFamilia($query,$idfamilia){
 		$query->withTrashed();
 		$query->where('activos.idfamilia_activo','=',$idfamilia);
-
 		return $query;
 	}
 

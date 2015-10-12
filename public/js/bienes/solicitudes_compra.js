@@ -18,12 +18,12 @@ $( document ).ready(function(){
     $('#marca1').change(function(){
         search_equipos_ajax(1);
     });
-    $('#marca2').change(function(){
-        search_equipos_ajax(2);
+
+    $('#btnAgregar').click(function(){
+        addRowDetalle();
     });
 
     $('#equipo1').prop('disabled',true);
-    $('#equipo2').prop('disabled',true);
 
 });
 
@@ -54,8 +54,9 @@ function search_equipos_ajax(id){
                 if(response.success){
                     var list_equipos = response['list_equipos'];
                     var tamano = list_equipos.length;
-                    $('#equipo'+id).empty();
                     $('#equipo'+id).prop('disabled',false);
+                    $("#equipo"+id).empty();
+                    $("#equipo"+id).append('<option value='+0+'>Seleccione</option>');
                     for(i = 0;i<tamano;i++){
                         $("#equipo"+id).append('<option value='+list_equipos[i].idfamilia_activo+'>'+list_equipos[i].nombre_equipo+'</option>');
                     }                   
@@ -70,3 +71,19 @@ function search_equipos_ajax(id){
 
 }
 
+function addRowDetalle(){
+    var descripcion = $('#descripcion').val();
+    var marca = $('#marca2').val();
+    var modelo = $('#nombre_equipo2').val();
+    var serie_parte = $('#serie_parte').val();
+    var cantidad = $('#cantidad').val();
+    var cantidad_filas = $("#table_solicitud tr").length;
+    $('#table_solicitud').append("<tr id=\"idRow\">"+
+                        '<td>'+descripcion+'</td>'+
+                        '<td>'+marca+'</td>'+
+                        '<td>'+modelo+'</td>'+
+                        '<td>'+serie_parte+'</td>'+
+                        '<td>'+cantidad+'</td>'+
+                        '<td><a class="btn btn-danger btn-block"  onClick="$(this).closest(\'tr\').remove();" id="btnRemove">Quitar</a></td>'
+                        +"</tr>");
+}
