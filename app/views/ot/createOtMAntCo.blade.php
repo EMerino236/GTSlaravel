@@ -122,7 +122,7 @@
 					<div class="row">
 						@if(!$ot_info->fecha_conformidad)
 						{{ Form::label('fecha_conformidad','Fecha de Conformidad') }}
-						<div id="datetimepicker1" class="form-group input-group date col-xs-8 @if($errors->first('fecha_conformidad')) has-error has-feedback @endif">
+						<div class="datetimepicker form-group input-group date col-xs-8 @if($errors->first('fecha_conformidad')) has-error has-feedback @endif">
 							{{ Form::text('fecha_conformidad',null,array('class'=>'form-control','readonly'=>'')) }}
 							<span class="input-group-addon">
 		                        <span class="glyphicon glyphicon-calendar"></span>
@@ -216,9 +216,13 @@
 					<tr>
 						<td>{{$tarea->nombre_tarea}}</td>
 						<td>{{$tarea->descripcion_tarea}}</td>
-						@if($tarea->idestado_realizado == 25)
-							<td>{{ Form::button('Marcar realizada',array('id'=>'submit-edit', 'class'=>'btn btn-default')) }}</td>
-						@endif
+						<td>
+							@if($tarea->idestado_realizado == 25)
+								{{ Form::button('Marcar realizada',array('class'=>'btn btn-default boton-tarea','data-id'=>$tarea->idorden_trabajoxactivoxtarea)) }}
+							@else
+								Realizada
+							@endif
+						</td>
 					</tr>
 					@endforeach
 				</table>
@@ -226,7 +230,7 @@
 				<div class="col-xs-6">
 					<div class="row">
 						{{ Form::label('fecha_inicio_ejecucion','Fecha de Inicio') }}
-						<div id="datetimepicker1" class="form-group input-group date col-xs-8 @if($errors->first('fecha_inicio_ejecucion')) has-error has-feedback @endif">
+						<div class="datetimepicker form-group input-group date col-xs-8 @if($errors->first('fecha_inicio_ejecucion')) has-error has-feedback @endif">
 							{{ Form::text('fecha_inicio_ejecucion',null,array('class'=>'form-control','readonly'=>'')) }}
 							<span class="input-group-addon">
 		                        <span class="glyphicon glyphicon-calendar"></span>
@@ -250,7 +254,7 @@
 				<div class="col-xs-6">
 					<div class="row">
 						{{ Form::label('fecha_termino_ejecucion','Fecha de Término') }}
-						<div id="datetimepicker1" class="form-group input-group date col-xs-8 @if($errors->first('fecha_termino_ejecucion')) has-error has-feedback @endif">
+						<div class="datetimepicker form-group input-group date col-xs-8 @if($errors->first('fecha_termino_ejecucion')) has-error has-feedback @endif">
 							{{ Form::text('fecha_termino_ejecucion',null,array('class'=>'form-control','readonly'=>'')) }}
 							<span class="input-group-addon">
 		                        <span class="glyphicon glyphicon-calendar"></span>

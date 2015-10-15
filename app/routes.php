@@ -167,7 +167,11 @@ Route::group(array('prefix'=>'mant_correctivo','before'=>'auth'),function(){
 	Route::get('/search_ot_mant_correctivo','OtController@search_ot_mant_correctivo');
 	Route::get('/create_ot/{id}','OtController@render_create_ot');
 	Route::post('/submit_create_ot','OtController@submit_create_ot');
+});
 
+/* Marcar Tareas */
+Route::group(array('prefix'=>'marcar_tarea','before'=>'auth'),function(){
+	Route::post('/submit_marcar_tarea_ajax','OtController@submit_marcar_tarea_ajax');
 });
 /* Tipo de Tareas */
 Route::group(array('prefix'=>'tipoTarea', 'before'=>'auth'),function(){

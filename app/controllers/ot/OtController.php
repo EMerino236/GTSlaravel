@@ -310,4 +310,22 @@ class OtController extends BaseController {
 			return View::make('error/error');
 		}
 	}
+
+	public function submit_marcar_tarea_ajax()
+	{
+		// If there was an error, respond with 404 status
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1){
+			$idotxactxta = Input::get('idotxactxta');
+			$otxactxta = OrdenesTrabajosxactivoxtarea::find($idotxactxta);
+			$otxactxta->idestado_realizado = 24;
+			$otxactxta->save();
+			return Response::json(array( 'success' => true),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
 }

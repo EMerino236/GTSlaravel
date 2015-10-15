@@ -7,6 +7,13 @@ $( document ).ready(function(){
 		sideBySide: true
 	});
 
+	$(".datetimepicker").datetimepicker({
+		defaultDate: false,
+		ignoreReadonly: true,
+		format: 'DD-MM-YYYY HH:ss',
+		sideBySide: true
+	});
+
 	var idactivo = $("input[name=idactivo]").val();
 	$.ajax({
 		url: inside_url+'mant_correctivo/calendario_ot_mant_correctivo',
@@ -27,6 +34,28 @@ $( document ).ready(function(){
 			initialize_calendar(programaciones);
 		},
 		error: function(){
+		}
+	});
+
+	$(".boton-tarea").click(function(e){
+		e.preventDefault;
+		if (confirm('¿Está seguro de esta acción?')){
+			console.log($(this).data('id'));
+			$.ajax({
+				url: inside_url+'marcar_tarea/submit_marcar_tarea_ajax',
+				type: 'POST',
+				data: { 'idotxactxta' : $(this).data('id') },
+				beforeSend: function(){
+				},
+				complete: function(){
+				},
+				success: function(response){
+					console.log(response);
+					$(this).prop('disabled',true);
+				},
+				error: function(){
+				}
+			});
 		}
 	});
     
