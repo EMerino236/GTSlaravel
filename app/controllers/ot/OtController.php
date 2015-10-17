@@ -73,6 +73,8 @@ class OtController extends BaseController {
 					$otxa->idordenes_trabajo = $ot->idordenes_trabajo;
 					$otxa->idactivo = $idactivo;
 					$otxa->idestado = 9;
+					$otxa->costo_total_repuestos = 0.0;
+					$otxa->costo_total_personal = 0.0;
 					$otxa->save();
 					$url = "mant_correctivo/list_mant_correctivo";
 
@@ -229,11 +231,14 @@ class OtController extends BaseController {
 					return Redirect::to('ot/createOtMantCo');
 				}
 				$data["ot_info"] = $data["ot_info"][0];
-				$otxact = OrdenesTrabajosxactivo::getOtXActivo($id,$data["ot_info"]->idactivo)->get();
-				if($otxact->isEmpty()){
+				$data["otxact"] = OrdenesTrabajosxactivo::getOtXActivo($id,$data["ot_info"]->idactivo)->get();
+				if($data["otxact"]->isEmpty()){
 					$data["tareas"] = array();
+					$data["repuestos"] = array();
 				}else{
-					$data["tareas"] = OrdenesTrabajosxactivoxtarea::getTareasXOtXActi($otxact[0]->idorden_trabajoxactivo)->get();
+					$data["otxact"] = $data["otxact"][0];
+					$data["tareas"] = OrdenesTrabajosxactivoxtarea::getTareasXOtXActi($data["otxact"]->idorden_trabajoxactivo)->get();
+					$data["repuestos"] = RepuestosOt::getRepuestosXOtXActi($data["otxact"]->idorden_trabajoxactivo)->get();
 				}
 				return View::make('ot/createOtMantCo',$data);
 			}else{
@@ -323,6 +328,32 @@ class OtController extends BaseController {
 			$otxactxta = OrdenesTrabajosxactivoxtarea::find($idotxactxta);
 			$otxactxta->idestado_realizado = 24;
 			$otxactxta->save();
+			return Response::json(array( 'success' => true),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
+	public function submit_create_repuesto_ajax()
+	{
+		// If there was an error, respond with 404 status
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1){
+
+			$repuesto = new RepuestosOt;
+			$repuesto->nombre = Input::get('nombre_repuesto');
+			$repuesto->codigo = Input::get('codigo_repuesto');
+			$repuesto->cantidad = Input::get('cantidad_repuesto');
+			$repuesto->costo = Input::get('costo_repuesto');
+			$repuesto->idorden_trabajoxactivo = Input::get('idorden_trabajoxactivo');
+			$repuesto->save();
+			/*
+			$otxact = OrdenesTrabajoxactivo::find(Input::get('idorden_trabajoxactivo'));
+			$otxact->costo_total_repuestos += Input::get('cantidad_repuesto')*Input::get('costo_repuesto');
+			$otxact->save();*/
 			return Response::json(array( 'success' => true),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);

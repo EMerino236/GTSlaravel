@@ -21,7 +21,8 @@
 	@endif
 
 	{{ Form::open(array('url'=>'mant_correctivo/submit_create_ot', 'role'=>'form')) }}
-		{{ Form::hidden('idactivo', $ot_info->idactivo) }}
+		{{ Form::hidden('idactivo', $ot_info->idactivo) }}otxact
+		{{ Form::hidden('idorden_trabajoxactivo', $otxact->idorden_trabajoxactivo) }}
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">Datos de la OT</h3>
@@ -267,6 +268,54 @@
 							{{ Form::select('sin_interrupcion_servicio', ['0'=>'No','1'=>'Si'],$ot_info->sin_interrupcion_servicio,array('class'=>'form-control')) }}
 						</div>
 					</div>
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Datos de repuestos</h3>
+			</div>
+			<div class="panel-body">
+				<div class="col-xs-12">
+					<div class="row">
+						<div class="form-group col-xs-4">
+							{{ Form::text('nombre_repuesto', null,array('class'=>'form-control','placeholder'=>'Nombre y características técnicas')) }}
+						</div>
+						<div class="form-group col-xs-2">
+							{{ Form::text('codigo_repuesto', null,array('class'=>'form-control','placeholder'=>'Código')) }}
+						</div>
+						<div class="form-group col-xs-2">
+							{{ Form::text('cantidad_repuesto', null,array('class'=>'form-control','placeholder'=>'Cantidad')) }}
+						</div>
+						<div class="form-group col-xs-2">
+							{{ Form::text('costo_repuesto', null,array('class'=>'form-control','placeholder'=>'Costo')) }}
+						</div>
+						<div class="form-group col-xs-2">
+							{{ Form::button('Agregar',array('id'=>'submit-repuesto', 'class'=>'btn btn-primary')) }}
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-12">
+					<table class="table">
+						<tr class="info">
+							<th>Nombre</th>
+							<th>Código</th>
+							<th>Cantidad</th>
+							<th>Costo</th>
+							<th>Operaciones</th>
+						</tr>
+						@foreach($repuestos as $repuesto)
+						<tr id="repuestos-table">
+							<td>{{$repuesto->nombre}}</td>
+							<td>{{$repuesto->codigo}}</td>
+							<td>{{$repuesto->cantidad}}</td>
+							<td>{{$repuesto->costo}}</td>
+							<td>
+								{{ Form::button('Eliminar',array('class'=>'btn btn-danger boton-eliminar-repuesto','data-id'=>$repuesto->idrepuestos_ot)) }}
+							</td>
+						</tr>
+						@endforeach
+					</table>
 				</div>
 			</div>
 		</div>
