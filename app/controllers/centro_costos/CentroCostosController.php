@@ -1,8 +1,8 @@
 <?php
 
-class AreasController extends BaseController
+class CentroCostosController extends BaseController
 {	
-	public function list_areas()
+	public function list_centros_costos()
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
@@ -10,9 +10,8 @@ class AreasController extends BaseController
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
 				$data["search"] = null;
-				$data["tipo_area"] = TipoArea::lists('nombre','idtipo_area');				
-				$data["areas_data"] = Area::getAreasInfo()->paginate(10);
-				return View::make('areas/listAreas',$data);
+				$data["centro_costos"] = CentroCosto::getCentroCostosInfo()->paginate(10);
+				return View::make('centro_costos/listCentroCostos',$data);
 			}else{
 				return View::make('error/error');
 			}
@@ -21,19 +20,18 @@ class AreasController extends BaseController
 		}
 	}
 
-	public function search_area(){
+	public function search_centro_costo(){
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
 				$data["search"] = Input::get('search');
-				$data["tipo_area"] = TipoArea::lists('nombre','idtipo_area'); 
-				$data["areas_data"] = Area::searchAreas($data["search"])->paginate(10);
-				if($data["search"]==0){
-					return Redirect::to('areas/list_areas');
+				$data["centro_costos"] = CentroCosto::searchCentroCostos($data["search"])->paginate(10);
+				if($data["search"]==""){
+					return Redirect::to('centro_costos/list_centros_costos');
 				}else{
-					return View::make('areas/listAreas',$data);	
+					return View::make('centro_costos/listCentroCostos',$data);	
 				}
 			}else{
 				return View::make('error/error');
@@ -43,18 +41,14 @@ class AreasController extends BaseController
 		}
 	}
 
-	public function render_create_area()
+	public function render_create_centro_costo()
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
-
-				$data["tipo_areas"] = TipoArea::lists('nombre','idtipo_area');
-				$data["centro_costos"] = CentroCosto::lists('nombre','idcentro_costo');
-				
-				return View::make('areas/createArea',$data);
+			if($data["user"]->idrol == 1){				
+				return View::make('centro_costos/createCentroCosto',$data);
 			}else{
 				return View::make('error/error');
 			}
@@ -64,24 +58,21 @@ class AreasController extends BaseController
 		}
 	}
 
-	public function render_edit_area($idarea=null){
+	public function render_edit_centro_costo($idcentro_costo=null){
 		
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if(($data["user"]->idrol == 1) && $idarea)
+			if(($data["user"]->idrol == 1) && $idcentro_costo)
 			{	
-				$data["tipo_areas"] = TipoArea::lists('nombre','idtipo_area');
-				$data["centro_costos"] = CentroCosto::lists('nombre','idcentro_costo');
-				$data["area_info"] = Area::searchAreaById($idarea)->get();
-				$data["personal"] = User::searchPersonalByIdArea($idarea)->get();
-				if($data["area_info"]->isEmpty()){
-					return Redirect::to('areas/list_areas');
+				$data["centro_costo_info"] = CentroCosto::searchCentroCostoById($idcentro_costo)->get();
+				if($data["centro_costo_info"]->isEmpty()){
+					return Redirect::to('centro_costos/listCentroCostos');
 				}
-				$data["area_info"] = $data["area_info"][0];
+				$data["centro_costo_info"] = $data["centro_costo_info"][0];
 
-				return View::make('areas/editArea',$data);
+				return View::make('centro_costos/editCentroCosto',$data);
 			}else{
 				return View::make('error/error');
 			}
@@ -100,26 +91,24 @@ class AreasController extends BaseController
 				// Validate the info, create rules for the inputs
 				$rules = array(
 							'nombre' => 'required|max:100|unique:areas',
-							'descripcion' => 'required|max:200',
-							'tipo_area' => 'required',
-							'centro_costo' => 'required',						
+							'descripcion' => 'max:200',
+							'presupuesto' => 'required',					
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
-					return Redirect::to('areas/create_area')->withErrors($validator)->withInput(Input::all());
+					return Redirect::to('centro_costos/create_centro_costo')->withErrors($validator)->withInput(Input::all());
 				}else{
-					$area = new Area;
-					$area->nombre = Input::get('nombre');
-					$area->descripcion = Input::get('descripcion');
-					$area->idtipo_area = Input::get('tipo_area');
-					$area->idcentro_costo = Input::get('centro_costo');
-					$area->idestado = 1;
-					$area->save();
-					Session::flash('message', 'Se registró correctamente el area.');
+					$centro_costo = new CentroCosto;
+					$centro_costo->nombre = Input::get('nombre');
+					$centro_costo->descripcion = Input::get('descripcion');
+					$centro_costo->presupuesto = Input::get('presupuesto');
+					$centro_costo->idestado = 1;
+					$centro_costo->save();
+					Session::flash('message', 'Se registró correctamente el centro de costo.');
 					
-					return Redirect::to('areas/list_areas');
+					return Redirect::to('centro_costo/list_centro_costos');
 				}
 			}else{
 				return View::make('error/error');
@@ -130,7 +119,7 @@ class AreasController extends BaseController
 		}
 	}	
 
-	public function submit_edit_area(){
+	public function submit_edit_centro_costo(){
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
@@ -139,23 +128,25 @@ class AreasController extends BaseController
 				// Validate the info, create rules for the inputs
 				$rules = array(
 							'nombre' => 'required|max:100',
-							'descripcion' => 'required|max:200',
+							'descripcion' => 'max:200',
+							'presupuesto' => 'required',
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
-					$area_id = Input::get('area_id');
-					$url = "areas/edit_area"."/".$area_id;
+					$centro_id = Input::get('centro_id');
+					$url = "centro_costos/edit_centro_costo"."/".$centro_id;
 					return Redirect::to($url)->withErrors($validator)->withInput(Input::all());
 				}else{	
-					$area_id = Input::get('area_id');				
-					$url = "areas/edit_area"."/".$area_id;					
-					$area = Area::find($area_id);
-					$area->nombre = Input::get('nombre');
-					$area->descripcion = Input::get('descripcion');
-					$area->save();
-					Session::flash('message', 'Se editó correctamente el area.');
+					$centro_id = Input::get('centro_id');				
+					$url = "centro_costos/edit_centro_costo"."/".$centro_id;
+					$centro_costo = CentroCosto::find($centro_id);
+					$centro_costo->nombre = Input::get('nombre');
+					$centro_costo->descripcion = Input::get('descripcion');
+					$centro_costo->presupuesto = Input::get('presupuesto');
+					$centro_costo->save();
+					Session::flash('message', 'Se editó correctamente el centro de costo.');
 					return Redirect::to($url);
 				}
 			}else{
@@ -167,17 +158,17 @@ class AreasController extends BaseController
 		}
 	}
 
-	public function submit_enable_area(){
+	public function submit_enable_centro_costo(){
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
-				$area_id = Input::get('area_id');
-				$url = "areas/edit_area"."/".$area_id;
-				$area = Area::withTrashed()->find($area_id);
-				$area->restore();
-				Session::flash('message', 'Se habilitó correctamente el área.');
+				$centro_id = Input::get('centro_id');
+				$url = "centro_costos/edit_centro_costo"."/".$centro_id;
+				$centro_costo = CentroCosto::withTrashed()->find($centro_id);
+				$centro_costo->restore();
+				Session::flash('message', 'Se habilitó correctamente el centro de costo.');
 				return Redirect::to($url);
 			}else{
 				return View::make('error/error');
@@ -187,23 +178,23 @@ class AreasController extends BaseController
 		}
 	}
 
-	public function submit_disable_area(){
+	public function submit_disable_centro_costo(){
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
-				$area_id = Input::get("area_id");
-				$url = "areas/edit_area"."/".$area_id;
-				$area = Area::find($area_id);
-				$usuarios_activos = User::searchPersonalActivoByIdArea($area_id)->get();
-				if(count($usuarios_activos)==0){
-										
-					$area->delete();
-					Session::flash('message','Se inhabilitó correctamente el área.' );
+				$centro_id = Input::get("centro_id");
+				$url = "centro_costos/edit_centro_costo"."/".$centro_id;
+				$centro_costo = CentroCosto::find($centro_id);
+				$areasActivas = Area::searchAreaActivoByIdCentroCosto($centro_id)->get();
+				$serviciosActivos = Servicio::searchServicioActivoByIdCentroCosto($centro_id)->get();
+				if(count($areasActivas)==0 && count($serviciosActivos)==0 ){			
+					$centro_costo->delete();
+					Session::flash('message','Se inhabilitó correctamente el centro de costo.' );
 				}
 				else{
-					Session::flash('error', 'El área cuenta con personal activo. Acción no realizada.' );
+					Session::flash('error', 'El centro de costo tiene un área/servicio activo. Acción no realizada.' );
 				}				
 				return Redirect::to($url);
 			}else{

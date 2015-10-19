@@ -19,7 +19,6 @@ function fill_usuario_responsable_servicio(){
 				if(response.success){
 					var arreglo_usuarios = response['usuarios_resp'];
 					var tamano = arreglo_usuarios.length;
-					alert(arreglo_usuarios[0]);
 					$("#usuario").empty();
 					for(i = 0;i<tamano;i++){
 						$("#usuario").append('<option value='+arreglo_usuarios[i].id+'>'+arreglo_usuarios[i].nombre_responsable+'</option>');

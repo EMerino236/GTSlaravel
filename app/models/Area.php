@@ -51,6 +51,13 @@ class Area extends Eloquent{
    			 	->lists('nombre_responsable', 'id');
 	}
 
+	public function scopeSearchAreaActivoByIdCentroCosto($query,$idcentro_costo){
+		$query->where("areas.idcentro_costo",'=',$idcentro_costo)
+			  ->select('areas.*');
+		return $query;
+	}
+
+	
 
 
 	

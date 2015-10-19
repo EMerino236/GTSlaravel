@@ -70,6 +70,14 @@
                                 <!-- /.nav-third-level -->
                             </li>
                             <li>
+                                <a href="#">Centro de Costos <span class="fa arrow"></span></a>
+                                <ul class="nav nav-third-level">
+                                    <li>{{ HTML::link('/centro_costos/create_centro_costo','Nuevo Centro de Costo') }}</li>
+                                    <li>{{ HTML::link('/centro_costos/list_centros_costos','Buscar Centro de Costo') }}</li>
+                                </ul>
+                                <!-- /.nav-third-level -->
+                            </li>
+                            <li>
                                 <a href="#">Grupos <span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">
                                     <li>{{ HTML::link('/grupos/create_grupo','Nuevo Grupo') }}</li>

@@ -205,4 +205,19 @@ Route::group(array('prefix'=>'solicitudes_compra', 'before'=>'auth'),function(){
 	Route::post('/submit_create_solicitud','SolicitudesController@submit_create_solicitud');
 	Route::post('/return_equipos','SolicitudesController@search_equipos_ajax');
 	Route::post('/return_activos','SolicitudesController@search_activos_ajax');
+	Route::post('/download_reporte','SolicitudesController@download_reporte');
+	Route::post('/validate_ot','SolicitudesController@validate_ot');
+	Route::post('/return_name_reporte','SolicitudesController@return_name_reporte');
+});
+
+/*Centro De Costo*/
+Route::group(array('prefix'=>'centro_costos','before'=>'auth'),function(){
+	Route::get('/list_centros_costos','CentroCostosController@list_centros_costos');	
+	Route::get('/create_centro_costo','CentroCostosController@render_create_centro_costo');
+	Route::post('/submit_centro_costo','CentroCostosController@submit_create_centro_costo');
+	Route::get('/edit_centro_costo/{id}','CentroCostosController@render_edit_centro_costo');
+	Route::get('/search_centro_costo','CentroCostosController@search_centro_costo');
+	Route::post('/submit_edit_centro_costo','CentroCostosController@submit_edit_centro_costo');
+	Route::post('/submit_disable_centro_costo','CentroCostosController@submit_disable_centro_costo');
+	Route::post('/submit_enable_centro_costo','CentroCostosController@submit_enable_centro_costo');
 });
