@@ -82,7 +82,7 @@ class CentroCostosController extends BaseController
 
 	}
 
-	public function submit_create_area(){
+	public function submit_create_centro_costo(){
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
@@ -90,7 +90,7 @@ class CentroCostosController extends BaseController
 			if($data["user"]->idrol == 1){
 				// Validate the info, create rules for the inputs
 				$rules = array(
-							'nombre' => 'required|max:100|unique:areas',
+							'nombre' => 'required|max:100|unique:centro_costos',
 							'descripcion' => 'max:200',
 							'presupuesto' => 'required',					
 						);
@@ -107,8 +107,7 @@ class CentroCostosController extends BaseController
 					$centro_costo->idestado = 1;
 					$centro_costo->save();
 					Session::flash('message', 'Se registró correctamente el centro de costo.');
-					
-					return Redirect::to('centro_costo/list_centro_costos');
+					return Redirect::to('centro_costos/list_centros_costos');
 				}
 			}else{
 				return View::make('error/error');

@@ -29,7 +29,7 @@
 			  	<div class="panel-heading">Datos Generales</div>
 			  	<div class="panel-body">	
 					<div class="row">								
-						<div class="form-group col-xs-3 @if($errors->first('nombre')) has-error has-feedback @endif">
+						<div class="form-group col-md-4 @if($errors->first('nombre')) has-error has-feedback @endif">
 							{{ Form::label('nombre','Nombre del Grupo') }}
 							@if($grupo_info->deleted_at)
 								{{ Form::text('nombre',$grupo_info->nombre,array('class'=>'form-control','readonly'=>'')) }}
@@ -37,7 +37,7 @@
 								{{ Form::text('nombre',$grupo_info->nombre,array('class'=>'form-control')) }}
 							@endif
 						</div>
-						<div class="form-group col-xs-4 @if($errors->first('descripcion')) has-error has-feedback @endif">
+						<div class="form-group col-md-4 @if($errors->first('descripcion')) has-error has-feedback @endif">
 							{{ Form::label('descripcion','Descripción') }}
 							@if($grupo_info->deleted_at)
 								{{ Form::text('descripcion',$grupo_info->descripcion,array('class'=>'form-control','readonly'=>'')) }}
@@ -45,7 +45,7 @@
 								{{ Form::text('descripcion',$grupo_info->descripcion,array('class'=>'form-control')) }}
 							@endif							
 						</div>
-						<div class="form-group col-xs-4 @if($errors->first('usuario_responsable')) has-error has-feedback @endif">
+						<div class="form-group col-md-4 @if($errors->first('usuario_responsable')) has-error has-feedback @endif">
 							{{ Form::label('usuario_responsable','Usuario Responsable') }}
 							@if($grupo_info->deleted_at)
 								{{ Form::text('usuario_responsable',$grupo_info->usuario_responsable,array('class'=>'form-control','readonly'=>'')) }}
@@ -63,8 +63,8 @@
 			  	<div class="panel-heading">Lista de Equipos</div>
 			  	<div class="panel-body">
 			  		<div class="row">
-			  			<div class="col-xs-1"></div>
-			  			<div class="col-xs-12">
+			  			<div class="col-md-1"></div>
+			  			<div class="col-md-10">
 				  			<table class="table">
 				  				<tr>
 				  					<th>Código Patrimonial</th>
@@ -85,35 +85,28 @@
 			  	</div>
 			</div>
 		</div>
-		
+		<div class="row">
+			<div class="col-md-4 form-group">
+				@if(!$grupo_info->deleted_at)
+						{{ Form::submit('Guardar',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}
+						{{ HTML::link('/grupos/list_grupos','Cancelar',array('class'=>'')) }}
+				@endif
+			</div>
 	{{ Form::close() }}
 		@if($grupo_info->deleted_at)
 		{{ Form::open(array('url'=>'grupos/submit_enable_grupo', 'role'=>'form')) }}
 			{{ Form::hidden('grupo_id', $grupo_info->idgrupo) }}
-			<div class="col-xs-6">
-				<div class="row">
-					<div class="form-group col-xs-3">
-						{{ Form::submit('Guardar',array('idgrupo'=>'submit-edit', 'class'=>'btn btn-primary')) }}	
-					</div>
-					<div class="form-group col-xs-8">
-						{{ Form::submit('Habilitar',array('id'=>'submit-delete', 'class'=>'btn btn-success')) }}
-					</div>
-				</div>	
-			</div>	
+				<div class="form-group col-md-2 col-md-offset-6">
+					{{ Form::submit('Habilitar',array('id'=>'submit-delete', 'class'=>'btn btn-success')) }}
+				</div>
 		{{ Form::close() }}
 		@else
 		{{ Form::open(array('url'=>'grupos/submit_disable_grupo', 'role'=>'form')) }}
 			{{ Form::hidden('grupo_id', $grupo_info->idgrupo) }}
-			<div class="col-xs-6">
-				<div class="row">
-					<div class="form-group col-xs-3">
-						{{ Form::submit('Guardar',array('idgrupo'=>'submit-edit', 'class'=>'btn btn-primary')) }}	
-					</div>
-					<div class="form-group col-xs-8">
-						{{ Form::submit('Inhabilitar',array('id'=>'submit-delete', 'class'=>'btn btn-danger')) }}	
-					</div>
-				</div>	
-			</div>	
+				<div class="form-group col-md-2 col-md-offset-6">
+					{{ Form::submit('Inhabilitar',array('id'=>'submit-delete', 'class'=>'btn btn-danger')) }}	
+				</div>
 		{{ Form::close() }}
 		@endif
+		</div>
 @stop

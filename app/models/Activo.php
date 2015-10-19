@@ -138,22 +138,22 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 	public function scopeGetActivosByGrupoId($query,$search_criteria)
 	{
 		$query->withTrashed()
-			  ->join('familia_activos','familia_activos.idfamilia_activo','=','activos.idfamilia_activo')
+			   ->join('modelo_activos','modelo_activos.idmodelo_equipo','=','activos.idmodelo_equipo')
 			  ->whereNested(function($query) use($search_criteria){
 			  		$query->where('activos.idgrupo','=',$search_criteria);
 			  })
-			  ->select('familia_activos.nombre_equipo as nombre_equipo','activos.*');
+			  ->select('modelo_activos.nombre as nombre_equipo','activos.*');
 		return $query;
 	}
 	
 	public function scopeGetActivosByServicioId($query,$search_criteria)
 	{
 		$query->withTrashed()
-			  ->join('familia_activos','familia_activos.idfamilia_activo','=','activos.idfamilia_activo')
+			  ->join('modelo_activos','modelo_activos.idmodelo_equipo','=','activos.idmodelo_equipo')
 			  ->whereNested(function($query) use($search_criteria){
 			  		$query->where('activos.idservicio','=',$search_criteria);
 			  })
-			  ->select('familia_activos.nombre_equipo as nombre_equipo','activos.*');
+			  ->select('modelo_activos.nombre as nombre_equipo','activos.*');
 		return $query;
 	}
 

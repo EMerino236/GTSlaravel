@@ -52,7 +52,7 @@
 								@if($centro_costo_info->deleted_at)
 									{{ Form::text('presupuesto',$centro_costo_info->presupuesto,array('class'=>'form-control','readonly'=>'','disabled'=>'disabled')) }}
 								@else
-									{{ Form::text('presupuesto',$centro_costo_info->presupuesto,array('class'=>'form-control' ,'disabled'=>'disabled')) }}
+									{{ Form::text('presupuesto',$centro_costo_info->presupuesto,array('class'=>'form-control')) }}
 								@endif
 							</div>				
 						</div>
@@ -60,35 +60,28 @@
 				</div>			
 			</div>
 		</div>
+		<div class="row">
+			<div class="col-md-4 form-group">
+				@if(!$centro_costo_info->deleted_at)
+						{{ Form::submit('Guardar',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}
+						{{ HTML::link('/centro_costos/list_centros_costos','Cancelar',array('class'=>'')) }}
+				@endif
+			</div>
 		
 	{{ Form::close() }}
 		@if($centro_costo_info->deleted_at)
 		{{ Form::open(array('url'=>'centro_costos/submit_enable_centro_costo', 'role'=>'form')) }}
 			{{ Form::hidden('centro_id', $centro_costo_info->idcentro_costo) }}
-			<div class="col-md-6">
-				<div class="row">
-					<div class="form-group col-md-3">
-						{{ Form::submit('Guardar',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}	
-					</div>
-					<div class="form-group col-md-8">
-						{{ Form::submit('Habilitar',array('id'=>'submit-delete', 'class'=>'btn btn-success')) }}
-					</div>
-				</div>	
-			</div>	
+				<div class="form-group col-md-2 col-md-offset-6">
+					{{ Form::submit('Habilitar',array('id'=>'submit-delete', 'class'=>'btn btn-success')) }}
+				</div>
 		{{ Form::close() }}
 		@else
 		{{ Form::open(array('url'=>'centro_costos/submit_disable_centro_costo', 'role'=>'form')) }}
 			{{ Form::hidden('centro_id', $centro_costo_info->idcentro_costo) }}
-			<div class="col-md-6">
-				<div class="row">
-					<div class="form-group col-md-3">
-						{{ Form::submit('Guardar',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}	
-					</div>
-					<div class="form-group col-md-8">
-						{{ Form::submit('Inhabilitar',array('id'=>'submit-delete', 'class'=>'btn btn-danger')) }}	
-					</div>
-				</div>	
-			</div>	
+				<div class="form-group col-md-2 col-md-offset-6">
+					{{ Form::submit('Inhabilitar',array('id'=>'submit-delete', 'class'=>'btn btn-danger')) }}	
+				</div>
 		{{ Form::close() }}
 		@endif
 @stop

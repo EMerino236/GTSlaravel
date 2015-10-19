@@ -100,35 +100,28 @@
 				</div>
 			</div>
 		</div>
-		
+		<div class="row">
+			<div class="col-md-4 form-group">
+				@if(!$servicio_info->deleted_at)
+						{{ Form::submit('Guardar',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}
+						{{ HTML::link('/servicios/list_servicios','Cancelar',array('class'=>'')) }}
+				@endif
+			</div>		
 	{{ Form::close() }}
 		@if($servicio_info->deleted_at)
 		{{ Form::open(array('url'=>'servicios/submit_enable_servicio', 'role'=>'form')) }}
 			{{ Form::hidden('servicio_id', $servicio_info->idservicio) }}
-			<div class="col-md-6">
-				<div class="row">
-					<div class="form-group col-md-3">
-						{{ Form::submit('Guardar',array('idservicio'=>'submit-edit', 'class'=>'btn btn-primary')) }}	
-					</div>
-					<div class="form-group col-md-8">
-						{{ Form::submit('Habilitar',array('id'=>'submit-delete', 'class'=>'btn btn-success')) }}
-					</div>
-				</div>	
-			</div>	
+				<div class="form-group col-md-2 col-md-offset-6">
+					{{ Form::submit('Habilitar',array('id'=>'submit-delete', 'class'=>'btn btn-success')) }}
+				</div>
 		{{ Form::close() }}
 		@else
 		{{ Form::open(array('url'=>'servicios/submit_disable_servicio', 'role'=>'form')) }}
 			{{ Form::hidden('servicio_id', $servicio_info->idservicio) }}
-			<div class="col-md-6">
-				<div class="row">
-					<div class="form-group col-md-3">
-						{{ Form::submit('Guardar',array('idservicio'=>'submit-edit', 'class'=>'btn btn-primary')) }}	
-					</div>
-					<div class="form-group col-md-8">
-						{{ Form::submit('Inhabilitar',array('id'=>'submit-delete', 'class'=>'btn btn-danger')) }}	
-					</div>
-				</div>	
-			</div>	
+				<div class="form-group col-md-2 col-md-offset-6">
+					{{ Form::submit('Inhabilitar',array('id'=>'submit-delete', 'class'=>'btn btn-danger')) }}	
+				</div>
 		{{ Form::close() }}
 		@endif
+		</div>
 @stop

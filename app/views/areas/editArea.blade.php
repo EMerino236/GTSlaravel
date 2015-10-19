@@ -98,34 +98,29 @@
 			 	</div>
 			</div>
 		</div>
-	{{ Form::close() }}
+		<div class="row">
+			<div class="col-md-4 form-group">
+				@if(!$area_info->deleted_at)
+						{{ Form::submit('Guardar',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}
+						{{ HTML::link('/areas/list_areas','Cancelar',array('class'=>'')) }}
+				@endif
+			</div>
+		{{ Form::close() }}
 		@if($area_info->deleted_at)
 		{{ Form::open(array('url'=>'areas/submit_enable_area', 'role'=>'form')) }}
 			{{ Form::hidden('area_id', $area_info->idarea) }}
-			<div class="col-md-6">
-				<div class="row">
-					<div class="form-group col-md-3">
-						{{ Form::submit('Guardar',array('idarea'=>'submit-edit', 'class'=>'btn btn-primary')) }}	
-					</div>
-					<div class="form-group col-md-8">
-						{{ Form::submit('Habilitar',array('id'=>'submit-delete', 'class'=>'btn btn-success')) }}
-					</div>
-				</div>	
-			</div>	
+				<div class="form-group col-md-2 col-md-offset-6">
+					{{ Form::submit('Habilitar',array('id'=>'submit-delete', 'class'=>'btn btn-success')) }}
+				</div>
+					
 		{{ Form::close() }}
 		@else
 		{{ Form::open(array('url'=>'areas/submit_disable_area', 'role'=>'form')) }}
 			{{ Form::hidden('area_id', $area_info->idarea) }}
-			<div class="col-md-6">
-				<div class="row">
-					<div class="form-group col-md-3">
-						{{ Form::submit('Guardar',array('idarea'=>'submit-edit', 'class'=>'btn btn-primary')) }}	
-					</div>
-					<div class="form-group col-md-8">
-						{{ Form::submit('Inhabilitar',array('id'=>'submit-delete', 'class'=>'btn btn-danger')) }}	
-					</div>
-				</div>	
-			</div>	
+				<div class="form-group col-md-2 col-md-offset-6">
+					{{ Form::submit('Inhabilitar',array('id'=>'submit-delete', 'class'=>'btn btn-danger')) }}	
+				</div>
 		{{ Form::close() }}
 		@endif
+		</div>
 @stop
