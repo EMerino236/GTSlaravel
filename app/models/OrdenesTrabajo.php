@@ -31,7 +31,11 @@ class OrdenesTrabajo extends Eloquent{
 			  ->join('activos','activos.idactivo','=','ordenes_trabajosxactivos.idactivo')
 			  ->join('ubicacion_fisicas','ubicacion_fisicas.idubicacion_fisica','=','activos.idubicacion_fisica')
 			  ->join('proveedores','proveedores.idproveedor','=','activos.idproveedor')
+			  ->join('modelo_activos','modelo_activos.idmodelo_equipo','=','activos.idmodelo_equipo')
+			  ->join('familia_activos','familia_activos.idfamilia_activo','=','modelo_activos.idfamilia_activo')
+			  /*
 			  ->join('familia_activos','familia_activos.idfamilia_activo','=','activos.idfamilia_activo')
+			  */
 			  ->join('grupos','grupos.idgrupo','=','activos.idgrupo')
 			  ->join('users','users.id','=','grupos.id_responsable')
 			  ->whereNested(function($query) use($search_ing){
@@ -70,14 +74,19 @@ class OrdenesTrabajo extends Eloquent{
 			  ->join('activos','activos.idactivo','=','ordenes_trabajosxactivos.idactivo')
 			  ->join('ubicacion_fisicas','ubicacion_fisicas.idubicacion_fisica','=','activos.idubicacion_fisica')
 			  ->join('proveedores','proveedores.idproveedor','=','activos.idproveedor')
+			  ->join('modelo_activos','modelo_activos.idmodelo_equipo','=','activos.idmodelo_equipo')
+			  ->join('familia_activos','familia_activos.idfamilia_activo','=','modelo_activos.idfamilia_activo')
+
+			  /*
 			  ->join('familia_activos','familia_activos.idfamilia_activo','=','activos.idfamilia_activo')
+				*/
 			  ->join('marcas','marcas.idmarca','=','familia_activos.idmarca')
 			  ->join('grupos','grupos.idgrupo','=','activos.idgrupo')
 			  ->join('users as ingeniero','ingeniero.id','=','grupos.id_responsable')
 			  ->join('users as solicitante','solicitante.id','=','grupos.id_responsable')
 			  ->join('solicitud_orden_trabajos','solicitud_orden_trabajos.idsolicitud_orden_trabajo','=','ordenes_trabajos.idsolicitud_orden_trabajo')
 			  ->where('ordenes_trabajos.idordenes_trabajo','=',$search_criteria)
-			  ->select('solicitud_orden_trabajos.fecha_solicitud','activos.garantia','activos.idactivo','activos.numero_serie','activos.codigo_patrimonial','marcas.nombre as nombre_marca','familia_activos.nombre_equipo','familia_activos.modelo','ubicacion_fisicas.nombre as nombre_ubicacion','areas.nombre as nombre_area','ingeniero.nombre as nombre_ingeniero','ingeniero.apellido_pat as apat_ingeniero','ingeniero.apellido_mat as amat_ingeniero','solicitante.nombre as nombre_solicitante','solicitante.apellido_pat as apat_solicitante','solicitante.apellido_mat as amat_solicitante','servicios.nombre as nombre_servicio','estados.nombre as nombre_estado','ordenes_trabajos.*');
+			  ->select('solicitud_orden_trabajos.fecha_solicitud','activos.garantia','activos.idactivo','activos.numero_serie','activos.codigo_patrimonial','marcas.nombre as nombre_marca','familia_activos.nombre_equipo','modelo_activos.nombre as modelo','ubicacion_fisicas.nombre as nombre_ubicacion','areas.nombre as nombre_area','ingeniero.nombre as nombre_ingeniero','ingeniero.apellido_pat as apat_ingeniero','ingeniero.apellido_mat as amat_ingeniero','solicitante.nombre as nombre_solicitante','solicitante.apellido_pat as apat_solicitante','solicitante.apellido_mat as amat_solicitante','servicios.nombre as nombre_servicio','estados.nombre as nombre_estado','ordenes_trabajos.*');
 	  	return $query;
 	}
 

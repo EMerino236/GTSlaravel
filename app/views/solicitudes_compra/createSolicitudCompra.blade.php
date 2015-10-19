@@ -9,6 +9,15 @@
 
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
+			<p><strong>{{ $errors->first('numero_ot') }}</strong></p>
+			<p><strong>{{ $errors->first('servicio') }}</strong></p>
+			<p><strong>{{ $errors->first('centro_costo') }}</strong></p>
+			<p><strong>{{ $errors->first('marca1') }}</strong></p>
+			<p><strong>{{ $errors->first('nombre_equipo1') }}</strong></p>
+			<p><strong>{{ $errors->first('usuario_responsable') }}</strong></p>
+			<p><strong>{{ $errors->first('tipo') }}</strong></p>
+			<p><strong>{{ $errors->first('fecha') }}</strong></p>
+			<p><strong>{{ $errors->first('numero_reporte') }}</strong></p>
 		</div>
 	@endif
 
@@ -19,20 +28,16 @@
 		<div class="alert alert-danger">{{ Session::get('error') }}</div>
 	@endif
 
-	{{ Form::open(array('url'=>'solicitudes_comprar/submit_create_solicitud', 'role'=>'form')) }}
+	{{ Form::open(array('url'=>'solicitudes_comprar/submit_create_solicitud', 'role'=>'form')) }}		
 		<div class="row">
-			<div class="form-group col-md-3 col-md-offset-10">
-				{{ Form::submit('Guardar',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}	
-			</div>
-		</div>	
-		<div class="row">
-			<div class="panel panel-default">
+			<div class="col-md-12">
+				<div class="panel panel-default">
 			  	<div class="panel-heading">Datos Generales</div>
 			  	<div class="panel-body">	
 					<div class="form-group row">								
 						<div class="form-group col-md-4 @if($errors->first('numero_ot')) has-error has-feedback @endif">
 							{{ Form::label('numero_ot','Número de OT:') }}
-							{{ Form::text('numero_ot',Input::old('numero_ot'),['class' => 'form-control'])}}
+							{{ Form::text('numero_ot',Input::old('numero_ot'),['class' => 'form-control','id'=>'numero_ot'])}}
 						</div>
 						<div class="form-group col-md-4 @if($errors->first('servicio')) has-error has-feedback @endif">
 							{{ Form::label('servicio','Servicio:') }}
@@ -42,13 +47,13 @@
 							{{ Form::label('centro_costo','Centro de Costo') }}
 							{{ Form::select('centro_costo',array('0'=> 'Seleccione')+ $centro_costos, Input::old('centro_costo'),array('class'=>'form-control'))}}
 						</div>
-						<div class="form-group col-md-4 @if($errors->first('marca')) has-error has-feedback @endif">
-							{{ Form::label('marca','Marca:') }}
-							{{ Form::select('marca',array('0'=>'Seleccione')+ $marcas,Input::old('marca'),array('class'=>'form-control','id'=>'marca'))}}
+						<div class="form-group col-md-4 @if($errors->first('marca1')) has-error has-feedback @endif">
+							{{ Form::label('marca1','Marca:') }}
+							{{ Form::select('marca1',array('0'=>'Seleccione')+ $marcas1,Input::old('marca1'),array('class'=>'form-control','id'=>'marca1'))}}
 						</div>
-						<div class="form-group col-md-4 @if($errors->first('nombre_equipo')) has-error has-feedback @endif">
-							{{ Form::label('nombre_equipo','Equipo:') }}
-							{{ Form::select('nombre_equipo',$nombre_equipos, Input::old('nombre_equipo'), array('class'=>'form-control','id'=>'equipo')) }}
+						<div class="form-group col-md-4 @if($errors->first('nombre_equipo1')) has-error has-feedback @endif">
+							{{ Form::label('nombre_equipo1','Equipo:') }}
+							{{ Form::select('nombre_equipo1',$nombre_equipos1, Input::old('nombre_equipo1'), array('class'=>'form-control','id'=>'equipo1')) }}
 						</div>
 						<div class="form-group col-md-4 @if($errors->first('nombre_equipo')) has-error has-feedback @endif">
 							{{ Form::label('usuario_responsable','Usuario Responsable:') }}
@@ -73,20 +78,155 @@
         				</div>
 					</div>
 				</div>			
+				</div>
 			</div>
 		</div>
 		<div class="row">
-			<div class="panel panel-default">
+			<div class="col-md-12">
+				<div class="panel panel-default">
+				  	<div class="panel-heading">Sustento</div>
+				  	<div class="panel-body">
+				  		<div class="form-group row">
+				  			<div class="form-group col-md-12 @if($errors->first('sustento')) has-error has-feedback @endif">
+					  			{{ Form::label('sustento','Sustento de la solicitud:') }}
+								{{ Form::textarea('sustento',Input::old('sustento'),['class' => 'form-control','style'=>'resize:none;','placeholder'=>'Texto para explicar nueva adquisición'])}}
+				  			</div>
+				  		</div>
+				  	</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-default">
+	  				<div class="panel-heading">Documento Relacionado</div>
+	  				<div class="panel-body">
+						<div class="row">								
+							<div class="form-group col-xs-3 @if($errors->first('numero_reporte')) has-error has-feedback @endif">
+								{{ Form::label('numero_reporte','N° Reporte Necesidad:') }}
+								{{ Form::text('numero_reporte',Input::old('numero_reporte'),['class' => 'form-control','id'=>'numero_reporte'])}}
+							</div>
+							<div class="form-group col-xs-1" style="margin-top:25px">
+								<a class="btn btn-default" id="btnAgregarReporte">Agregar</a>
+							</div>
+							<div class="form-group col-xs-1" style="margin-top:25px; margin-left:15px">
+								<a class="btn btn-default" id="btnLimpiarReporte">Limpiar</a>
+							</div>
+							<div class="form-group col-xs-3"  style="margin-left:15px">
+								{{ Form::label('nombre_reporte','Documento') }}
+								{{ Form::text('nombre_reporte',Input::old('nombre_reporte'),['class' => 'form-control','id'=>'nombre_reporte','disabled'=>'disabled'])}}
+							</div>	
+							{{ Form::close()}}									
+							<div class="form-group col-xs-2">
+								{{ Form::open(array('url'=>'solicitudes_compra/download_reporte', 'role'=>'form')) }}
+								{{ Form::hidden('numero_reporte_hidden',null)}}
+								{{ Form::submit('Descargar',array('id'=>'btn_descarga', 'class'=>'btn btn-primary','style'=>'margin-top:25px;')) }}
+								{{ Form::close() }}
+							</div>									
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-default">
 			  	<div class="panel-heading">Datos del Detalle de Solicitud</div>
 			  	<div class="panel-body">
 			  		<div class="form-group row">
 			  			<div class="form-group col-md-4 @if($errors->first('descripcion')) has-error has-feedback @endif">
 							{{ Form::label('descripcion','Descripción:') }}
-							{{ Form::text('descripcion',Input::old('descripcion'),['class' => 'form-control'])}}
+							{{ Form::text('descripcion',Input::old('descripcion'),['class' => 'form-control','id'=>'descripcion'])}}
+						</div>
+						<div class="form-group col-md-4 @if($errors->first('marca2')) has-error has-feedback @endif">
+							{{ Form::label('marca2','Marca:') }}
+							{{ Form::text('marca2',Input::old('marca2'),array('class'=>'form-control','id'=>'marca2'))}}
+						</div>
+						<div class="form-group col-md-4 @if($errors->first('nombre_equipo2')) has-error has-feedback @endif">
+							{{ Form::label('nombre_equipo2','Equipo:') }}
+							{{ Form::text('nombre_equipo2', Input::old('nombre_equipo2'), array('class'=>'form-control','id'=>'nombre_equipo2')) }}
+						</div>
+						<div class="form-group col-md-4 @if($errors->first('serie_parte')) has-error has-feedback @endif">
+							{{ Form::label('serie_parte','Número de Serie / Parte:') }}
+							{{ Form::text('serie_parte', Input::old('numero_serie'), array('class'=>'form-control','id'=>'serie_parte')) }}
+						</div>
+						<div class="form-group col-md-4 @if($errors->first('cantidad')) has-error has-feedback @endif">
+							{{ Form::label('cantidad','Cantidad:') }}
+							{{ Form::text('cantidad',Input::old('cantidad'),['class' => 'form-control','id'=>'cantidad'])}}
 						</div>
 			  		</div>
 			  	</div>
+				</div>
 			</div>
 		</div>
-	{{Form::close()}}
+		<div class="container-fluid row form-group">
+			<div class="col-md-2 col-md-offset-8">
+					<div class="btn btn-primary btn-block" id="btnAgregar"><span class="glyphicon glyphicon-plus"></span>Agregar</div>				
+			</div>
+			<div class="col-md-2">
+					<div class="btn btn-default btn-block" id="btnLimpiar"><span class="glyphicon glyphicon-refresh"></span>Limpiar</div>				
+			</div>
+		</div>
+		<div class="container-fluid row">
+			<div class="col-md-12">
+				<div class="table-responsive">
+				<table class="table" id="table_solicitud">
+					<tr class="info">
+						<th>Descripción</th>
+						<th>Marca</th>
+						<th>Modelo</th>
+						<th>Serie/Número de Parte</th>
+						<th>Cantidad</th>
+					</tr>
+				</table>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="form-group col-md-2 col-md-offset-10">
+				{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Crear', array('id'=>'submit-edit', 'type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}
+			</div>
+		</div>	
+	{{Form::close()}}		
 @stop
+<div class="container">
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-sm">    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header bg-danger">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Advertencia</h4>
+        </div>
+        <div class="modal-body">
+          <p>Ingresar todos los campos completos.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>      
+    </div>
+  </div>  
+</div>
+<div class="container">
+  <!-- Modal -->
+  <div class="modal fade" id="modalOT" role="dialog">
+    <div class="modal-dialog modal-md">    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header bg-danger">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Advertencia</h4>
+        </div>
+        <div class="modal-body">
+          <p>Orden de Trabajo de Mantenimiento no existe. Ingrese una Orden de Trabajo de Mantenimiento válido</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>      
+    </div>
+  </div>  
+</div>

@@ -212,8 +212,7 @@
 											{{ Form::hidden('numero_contrato_hidden',null)}}
 											{{ Form::submit('Descargar',array('id'=>'btn_descarga', 'class'=>'btn btn-primary','style'=>'margin-top:25px;')) }}
 											{{ Form::close() }}
-										</div>
-									
+										</div>									
 									</div>
 								</div>
 							</div>

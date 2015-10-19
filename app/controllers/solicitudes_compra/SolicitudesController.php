@@ -84,6 +84,29 @@ class SolicitudesController extends BaseController
 		}
 	}
 
+	public function search_activos_ajax(){
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$id = Auth::id();
+		$data["inside_url"] = Config::get('app.inside_url');
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1){
+			// Check if the current user is the "System Admin"
+			$data = Input::get('selected_id');
+			if($data !=0){
+				$activos = Activo::searchActivosByFamilia($data)->get();
+			}else{
+				$activos = null;
+			}
+
+			return Response::json(array( 'success' => true, 'list_activos' => $activos ),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
+
 	public function render_create_solicitud(){
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
@@ -93,10 +116,76 @@ class SolicitudesController extends BaseController
 				$data["tipos"] = TipoSolicitudCompra::lists('nombre','idtipo_solicitud_compra');
 				$data["servicios"] = Servicio::searchServiciosClinicos(1)->lists('nombre','idservicio');
 				$data["centro_costos"] = CentroCosto::lists('nombre','idcentro_costo');
-				$data["marcas"] = Marca::lists('nombre','idmarca');
-				$data["nombre_equipos"] = array('0'=>'Seleccione');
+				$data["marcas1"] = Marca::lists('nombre','idmarca');
+				$data["nombre_equipos1"] = array('0'=>'Seleccione');
 				$data["usuarios_responsable"] = User::getJefes()->get();
 				return View::make('solicitudes_compra/createSolicitudCompra',$data);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function return_name_reporte(){
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$id = Auth::id();
+		$data["inside_url"] = Config::get('app.inside_url');
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1){
+			// Check if the current user is the "System Admin"
+			$data = Input::get('selected_id');
+			if($data !="vacio"){
+				$documento = Documento::searchDocumentoByCodigoArchivamiento($data)->get();
+			}else{
+				$documento = null;
+			}
+
+			return Response::json(array( 'success' => true, 'reporte' => $documento ),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
+	public function validate_ot(){
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$id = Auth::id();
+		$data["inside_url"] = Config::get('app.inside_url');
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1){
+			// Check if the current user is the "System Admin"
+			$data = Input::get('selected_id');
+			if($data !="vacio"){
+				$ot = OrdenesTrabajo::searchOtById($data)->get();
+			}else{
+				$ot = null;
+			}
+
+			return Response::json(array( 'success' => true, 'ot' => $ot ),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
+	public function download_reporte()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1){
+				$codigo = Input::get('numero_reporte_hidden');		
+				$documento = Documento::searchDocumentoByCodigoArchivamiento($codigo)->get();
+				$file= $documento[0]->url;
+				$headers = array(
+		              'Content-Type',mime_content_type($file),
+	            );
+		        return Response::download($file,basename($file),$headers);
 			}else{
 				return View::make('error/error');
 			}

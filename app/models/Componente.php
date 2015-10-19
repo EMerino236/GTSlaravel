@@ -8,4 +8,5 @@ class Componente extends Eloquent{
 
 	protected $table = 'componentes';
 	protected $primaryKey = 'idcomponente';
+
 }
