@@ -79,6 +79,15 @@ Route::group(array('prefix'=>'familia_activos', 'before'=>'auth'),function(){
 	Route::post('/submit_create_familia_activo','FamiliaActivosController@submit_create_familia_activo');
 	Route::get('/edit_familia_activo/{id}','FamiliaActivosController@render_edit_familia_activo');
 	Route::post('/submit_edit_familia_activo','FamiliaActivosController@submit_edit_familia_activo');
+	Route::get('/view_familia_activo/{id}','FamiliaActivosController@render_view_familia_activo');
+
+	Route::get('/create_modelo_familia_activo/{id}','ModeloActivosController@render_create_modelo_familia_activo');
+	Route::post('/submit_create_modelo_familia_activo','ModeloActivosController@submit_create_modelo_familia_activo');
+	Route::get('/edit_modelo_familia_activo/{id}','ModeloActivosController@render_edit_modelo_familia_activo');
+	Route::post('/submit_edit_modelo_familia_activo','ModeloActivosController@submit_edit_modelo_familia_activo');
+	Route::get('/create_accesorio_modelo_familia_activo/{id}','ModeloActivosController@render_create_accesorio_modelo_familia_activo');
+	Route::get('/create_componente_modelo_familia_activo/{id}','ModeloActivosController@render_create_componente_modelo_familia_activo');
+	Route::get('/create_consumible_modelo_familia_activo/{id}','ModeloActivosController@render_create_consumible_modelo_familia_activo');
 });
 
 /*Activos*/
@@ -89,7 +98,7 @@ Route::group(array('prefix'=>'equipos','before'=>'auth'),function(){
 	Route::get('/create_equipo','ActivosController@render_create_activo');
 	Route::post('/submit_create_equipo','ActivosController@submit_create_activo');
 	Route::get('/edit_equipo/{id}','ActivosController@render_edit_marca');
-	Route::post('/submit_edit_equipo','ActivosController@#');
+	Route::post('/submit_edit_equipo','ActivosController@submit_edit_equipo');
 	Route::post('/search_list_ubicacion_ajax','ActivosController@search_ubicacion_ajax');
 	Route::post('/search_create_ubicacion_ajax','ActivosController@search_ubicacion_ajax');
 	Route::post('/search_nombre_equipo_ajax','ActivosController@search_nombre_equipo_ajax');	

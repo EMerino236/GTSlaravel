@@ -33,22 +33,24 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 			  ->join('ubicacion_fisicas','ubicacion_fisicas.idubicacion_fisica','=','activos.idubicacion_fisica')
 			  ->join('servicios','servicios.idservicio','=','ubicacion_fisicas.idubicacion_fisica')
 			  ->join('grupos','grupos.idgrupo','=','activos.idgrupo')
-			  ->join('familia_activos','familia_activos.idfamilia_activo','=','activos.idfamilia_activo')
+			  ->join('modelo_activos','modelo_activos.idmodelo_equipo','=','activos.idmodelo_equipo')
+			  ->join('familia_activos','familia_activos.idfamilia_activo','=','modelo_activos.idfamilia_activo')			  
 			  ->join('marcas','marcas.idmarca','=','familia_activos.idmarca')
 			  ->join('proveedores','proveedores.idproveedor','=','activos.idproveedor')
 			  ->select('servicios.nombre as nombre_servicio','ubicacion_fisicas.nombre as nombre_ubicacion_fisica','grupos.nombre as nombre_grupo','familia_activos.nombre_equipo as nombre_equipo',
-			  		   'familia_activos.modelo as activo_modelo','marcas.nombre as nombre_marca','proveedores.razon_social as nombre_proveedor','activos.*');
+			  		   'familia_activos.nombre_siga as nombre_siga','modelo_activos.nombre as modelo','marcas.nombre as nombre_marca','proveedores.razon_social as nombre_proveedor','activos.*');
 		return $query;
 	}
 
-	public function scopesearchActivos($query,$search_grupo,$search_servico,$search_ubicacion,$search_nombre_equipo,$search_marca,$search_modelo,
+	public function scopesearchActivos($query,$search_grupo,$search_servico,$search_ubicacion,$search_nombre_siga,$search_nombre_equipo,$search_marca,$search_modelo,
 									$search_serie, $search_proveedor,$search_codigo_compra,$search_codigo_patrimonial)
 	{
 		$query->withTrashed()
 			  ->join('ubicacion_fisicas','ubicacion_fisicas.idubicacion_fisica','=','activos.idubicacion_fisica')
 			  ->join('servicios','servicios.idservicio','=','ubicacion_fisicas.idubicacion_fisica')
 			  ->join('grupos','grupos.idgrupo','=','activos.idgrupo')
-			  ->join('familia_activos','familia_activos.idfamilia_activo','=','activos.idfamilia_activo')
+			  ->join('modelo_activos','modelo_activos.idmodelo_equipo','=','activos.idmodelo_equipo')
+			  ->join('familia_activos','familia_activos.idfamilia_activo','=','modelo_activos.idfamilia_activo')
 			  ->join('marcas','marcas.idmarca','=','familia_activos.idmarca')
 			  ->join('proveedores','proveedores.idproveedor','=','activos.idproveedor');
 			  
@@ -67,6 +69,11 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 			  	$query->where('activos.idubicacion_fisica','=',$search_ubicacion);
 			  }
 
+			  if($search_nombre_siga)
+			  {
+			  	$query->where('familia_activos.nombre_siga','LIKE',"%$search_nombre_siga%");
+			  }
+
 			  if($search_nombre_equipo != "")
 			  {
 			  	$query->where('familia_activos.nombre_equipo','LIKE',"%$search_nombre_equipo%");
@@ -79,7 +86,7 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 
 			  if($search_modelo != "")
 			  {
-			  	$query->where('familia_activos.modelo','LIKE',"%$search_modelo%");
+			  	$query->where('modelo_activos.nombre','LIKE',"%$search_modelo%");
 			  }
 
 			  if($search_serie != "")
@@ -104,7 +111,7 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 
 
 			  $query->select('servicios.nombre as nombre_servicio','ubicacion_fisicas.nombre as nombre_ubicacion_fisica','grupos.nombre as nombre_grupo','familia_activos.nombre_equipo as nombre_equipo',
-			  		   'familia_activos.modelo as activo_modelo','marcas.nombre as nombre_marca','proveedores.razon_social as nombre_proveedor','activos.*');
+			  		   'familia_activos.nombre_siga as nombre_siga','modelo_activos.nombre as modelo','marcas.nombre as nombre_marca','proveedores.razon_social as nombre_proveedor','activos.*');
 		return $query;
 	}
 	
@@ -116,7 +123,7 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 
 		$query->where('activos.idactivo','=',$search_criteria);
 
-		$query->select('familia_activos.idmarca as idmarca','activos.*');
+		$query->select('familia_activos.idmarca as idmarca','familia_activos.modelo as modelo','activos.*');
 
 		return $query;
 	}
@@ -128,7 +135,8 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 		return $query;	
 	}
 
-	public function scopeGetActivosByGrupoId($query,$search_criteria){
+	public function scopeGetActivosByGrupoId($query,$search_criteria)
+	{
 		$query->withTrashed()
 			  ->join('familia_activos','familia_activos.idfamilia_activo','=','activos.idfamilia_activo')
 			  ->whereNested(function($query) use($search_criteria){
@@ -138,7 +146,8 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 		return $query;
 	}
 	
-	public function scopeGetActivosByServicioId($query,$search_criteria){
+	public function scopeGetActivosByServicioId($query,$search_criteria)
+	{
 		$query->withTrashed()
 			  ->join('familia_activos','familia_activos.idfamilia_activo','=','activos.idfamilia_activo')
 			  ->whereNested(function($query) use($search_criteria){
@@ -148,7 +157,8 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 		return $query;
 	}
 
-	public function scopeGetEquiposActivosByServicioId($query,$idservicio){
+	public function scopeGetEquiposActivosByServicioId($query,$idservicio)
+	{
 		$query->whereNested(function($query) use($idservicio){
 			  		$query->where('idservicio','LIKE',"%$idservicio%");
 			  })
@@ -156,7 +166,8 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 		return $query;
 	}
 
-	public function scopeGetEquiposActivosByGrupoId($query,$idgrupo){
+	public function scopeGetEquiposActivosByGrupoId($query,$idgrupo)
+	{
 		$query->whereNested(function($query) use($idgrupo){
 			  		$query->where('idgrupo','LIKE',"%$idgrupo%");
 			  })
@@ -164,13 +175,12 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 		return $query;
 	}
 
-	public function scopeSearchActivosByFamilia($query,$idfamilia){
+	public function scopeSearchActivosByFamilia($query,$idfamilia)
+	{
 		$query->withTrashed();
 		$query->where('activos.idfamilia_activo','=',$idfamilia);
 
 		return $query;
 	}
-
-	
 
 }

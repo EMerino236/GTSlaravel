@@ -119,8 +119,19 @@ class MarcasController extends BaseController
 			if($data["user"]->idrol == 1){
 				// Validate the info, create rules for the inputs
 				$rules = array(
-							'nombre' => 'required|min:1|max:45'
-						);
+					'servicio_clinico' => 'required',
+					'ubicacion_fisica' => 'required',
+					'grupo' => 'required',
+					'marca' => 'required',
+					'nombre_equipo' => 'required',
+					'numero_serie' => 'required',
+					'proveedor' => 'required',
+					'codigo_compra' => 'required',
+					'codigo_patrimonial' => 'required',
+					'fecha_adquisicion' => 'required',
+					'centro_costo' => 'required',
+					'garantia' => 'required'
+					);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules);
 				// If the validator fails, redirect back to the form

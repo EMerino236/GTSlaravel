@@ -41,6 +41,8 @@
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
     <script src="{{ asset('js/user/user.js') }}"></script>
     <script src="{{ asset('js/configuraciones/configuraciones.js') }}"></script>
+    <script src="{{ asset('js/familia_activos/listFamiliaActivos.js') }}"></script>
+    <script src="{{ asset('js/familia_activos/editFamiliaActivos.js') }}"></script>
 </head>
 
 <body>

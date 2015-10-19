@@ -14,6 +14,7 @@ class ActivosController extends BaseController
 				$data["search_servicio"] = null;
 				$data["search_nombre_equipo"] =null;
 				$data["search_marca"] = null;
+				$data["search_nombre_siga"] = null;
 				$data["search_modelo"] = null;
 				$data["search_serie"] = null;
 				$data["search_proveedor"] = null;
@@ -55,12 +56,13 @@ class ActivosController extends BaseController
 				$data["search_nombre_equipo"] = Input::get('search_nombre_equipo');
 				$data["search_marca"] = Input::get('search_marca');
 				$data["search_modelo"] = Input::get('search_modelo');
+				$data["search_nombre_siga"] = Input::get('search_nombre_siga');
 				$data["search_serie"] = Input::get('search_serie');
 				$data["search_proveedor"] = Input::get('search_proveedor');
 				$data["search_codigo_compra"] = Input::get('search_codigo_compra');
 				$data["search_codigo_patrimonial"] = Input::get('search_codigo_patrimonial');
 
-				$data["activos_data"] = Activo::searchActivos($data["search_grupo"],$data["search_servicio"],$data["search_ubicacion"],$data["search_nombre_equipo"],
+				$data["activos_data"] = Activo::searchActivos($data["search_grupo"],$data["search_servicio"],$data["search_ubicacion"],$data["search_nombre_siga"],$data["search_nombre_equipo"],
 										$data["search_marca"],$data["search_modelo"],$data["search_serie"],$data["search_proveedor"],
 										$data["search_codigo_compra"],$data["search_codigo_patrimonial"])->paginate(10);
 				return View::make('activos/listActivos',$data);
@@ -109,8 +111,7 @@ class ActivosController extends BaseController
 					'nombre_equipo' => 'required',
 					'numero_serie' => 'required',
 					'proveedor' => 'required',
-					'codigo_compra' => 'required'
-					,
+					'codigo_compra' => 'required',
 					'codigo_patrimonial' => 'required',
 					'fecha_adquisicion' => 'required',
 					'centro_costo' => 'required',
@@ -165,14 +166,76 @@ class ActivosController extends BaseController
 				}
 				$data["equipo_info"] = $data["equipo_info"][0];
 				$data["grupos"] = Grupo::lists('nombre','idgrupo');
-				$data["servicios"] = Servicio::lists('nombre','idservicio');			
+				$data["servicios"] = Servicio::lists('nombre','idservicio');
+				$data["ubicaciones"] = UbicacionFisica::where('idservicio','=',$data["equipo_info"]->idservicio)->lists('nombre','idubicacion_fisica');
+				$data["nombre_equipo"] = FamiliaActivo::where('idmarca','=',$data["equipo_info"]->idmarca)->lists('nombre_equipo','idfamilia_activo');
 				$data["marcas"]	= Marca::lists('nombre','idmarca');
 				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
-				$data["centro_costos"]	= CentroCosto::lists('nombre','idcentro_costo');			
+				$data["centro_costos"]	= CentroCosto::lists('nombre','idcentro_costo');
 				return View::make('activos/editActivo',$data);
 			}else{
 				return View::make('error/error');
 			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function submit_edit_equipo()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1){
+				// Validate the info, create rules for the inputs
+				$rules = array(
+					'servicio_clinico' => 'required',
+					'ubicacion_fisica' => 'required',
+					'grupo' => 'required',
+					'marca' => 'required',
+					'nombre_equipo' => 'required',
+					'numero_serie' => 'required',
+					'proveedor' => 'required',
+					'codigo_compra' => 'required',
+					'codigo_patrimonial' => 'required',
+					'fecha_adquisicion' => 'required',
+					'centro_costo' => 'required',
+					'garantia' => 'required'
+					);
+				// Run the validation rules on the inputs from the form
+				$validator = Validator::make(Input::all(), $rules);
+				// If the validator fails, redirect back to the form
+				if($validator->fails()){
+					$equipo_id = Input::get('equipo_id');
+					$url = "equipos/edit_equipo"."/".$equipo_id;
+					return Redirect::to($url)->withErrors($validator)->withInput(Input::all());
+				}else{
+					$equipo_id = Input::get('equipo_id');
+					$url = "equipos/edit_equipo"."/".$equipo_id;
+					$activo = Activo::find($equipo_id);
+					$activo->codigo_patrimonial = Input::get('codigo_patrimonial');
+					$activo->numero_serie = Input::get('numero_serie');
+					$activo->anho_adquisicion = Input::get('fecha_adquisicion');
+					$activo->garantia = Input::get('garantia');	
+					$activo->codigo_compra = Input::get('codigo_compra');
+					$activo->idgrupo = Input::get('grupo');
+					$activo->idfamilia_activo = Input::get('nombre_equipo');
+					$activo->idservicio = Input::get('servicio_clinico');
+					$activo->idcentro_costo = Input::get('centro_costo');
+					$activo->idproveedor = Input::get('proveedor');
+					$activo->idreporte_instalacion = 1;
+					$activo->idestado = 1;
+					$activo->idubicacion_fisica = Input::get('ubicacion_fisica');	
+
+					$activo->save();
+					Session::flash('message', 'Se editó correctamente el equipo.');
+					return Redirect::to($url);
+				}
+			}else{
+				return View::make('error/error');
+			}
+
 		}else{
 			return View::make('error/error');
 		}

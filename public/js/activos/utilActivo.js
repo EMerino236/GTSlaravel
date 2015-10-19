@@ -1,6 +1,8 @@
 $( document ).ready(function(){
- 	$('#ubicacion_fisica').prop('disabled',true);
- 	$('#nombre_equipo').prop('disabled',true);
+
+	init();
+
+ 	
  	$('#modelo').prop('disabled',true);
 
  	$('#servicio_clinico').change(function(){
@@ -16,6 +18,24 @@ $( document ).ready(function(){
  	});
 
 });
+
+function init(){
+
+	var val_servicio = $('#servicio_clinico').val();
+	var val_marca = $('#marca').val();
+
+	if(val_servicio == '0'){
+		$('#ubicacion_fisica').prop('disabled',true);
+	}else{
+		$('#ubicacion_fisica').prop('disabled',false);
+	}
+
+	if(val_marca == '0'){
+		$('#nombre_equipo').prop('disabled',true);
+	}else{
+		$('#nombre_equipo').prop('disabled',false);
+	}
+}
 
 function search_create_ubicacion_ajax(){
 

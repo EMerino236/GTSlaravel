@@ -16,7 +16,7 @@ function init(){
 	var val = $('#search_servicio').val();
 
 	if(val == '0'){
-		$('#search_ubicacion').prop('disabled',true);
+		$('#search_ubicacion').prop('disabled',false);
 	}else{
 		search_list_ubicacion_ajax();
 	}
@@ -26,8 +26,7 @@ function limpiar_criterios(){
 
 	$('#search_grupo').prop('selectedIndex','0');
 	$('#search_servicio').prop('selectedIndex','0');
-	$('#search_ubicacion').prop('selectedIndex','0');
-	$('#search_ubicacion').prop('disabled',true);
+	$('#search_ubicacion').prop('selectedIndex','0');	
 	$('#search_marca').prop('selectedIndex','0');
 	$('#search_proveedor').prop('selectedIndex','0');
 
@@ -36,6 +35,7 @@ function limpiar_criterios(){
 	$('#search_serie').val("");
 	$('#search_codigo_compra').val("");
 	$('#search_codigo_patrimonial').val("");
+	$('#search_nombre_siga').val("");
 };
 
 function search_list_ubicacion_ajax(){
@@ -77,7 +77,7 @@ function search_list_ubicacion_ajax(){
 	            }
 	            else
 	            {	            	
-	            	select.prop('disabled',true);
+	            	select.prop('disabled',false);
 	            }
 	            
 	        }

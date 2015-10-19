@@ -40,7 +40,7 @@
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
     <script src="{{ asset('js/user/user.js') }}"></script>
     <script src="{{ asset('js/activos/listActivos.js') }}"></script>
-    <script src="{{ asset('js/activos/createActivo.js') }}"></script>
+    <script src="{{ asset('js/activos/utilActivo.js') }}"></script>
 </head>
 
 <body>

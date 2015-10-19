@@ -10,7 +10,7 @@ class UbicacionFisica extends Eloquent{
 	protected $primaryKey = 'idubicacion_fisica';
 
 	public function scopeSearchUbicacionByServicio($query,$search_criteria)
-	{
+	{		
 		$query->withTrashed()
 			  ->where('ubicacion_fisicas.idservicio',"=",$search_criteria);
 		return $query;

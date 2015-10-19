@@ -10,8 +10,10 @@ class FamiliaActivosController extends BaseController
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
-				$data["search_nombreequipo"] = null;
+				$data["search_nombre_equipo"] = null;
 				$data["search_marca"] = null;
+				$data["search_nombre_siga"] = null;
+
 				$data["marca"] = Marca::lists('nombre','idmarca');
 				$data["familiaactivos_data"] = FamiliaActivo::getFamiliaActivosInfo()->paginate(10);
 				return View::make('familia_activos/listFamiliaActivos',$data);
@@ -31,9 +33,12 @@ class FamiliaActivosController extends BaseController
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
 				$data["marca"] = Marca::lists('nombre','idmarca');
-				$data["search_nombreequipo"] = Input::get('search_nombreequipo');
+
+				$data["search_nombre_equipo"] = Input::get('search_nombre_equipo');
 				$data["search_marca"] = Input::get('search_marca');
-				$data["familiaactivos_data"] = FamiliaActivo::searchFamiliaActivo($data["search_nombreequipo"],$data["search_marca"])->paginate(10);
+				$data["search_nombre_siga"] = Input::get('search_nombre_siga');
+
+				$data["familiaactivos_data"] = FamiliaActivo::searchFamiliaActivo($data["search_nombre_equipo"],$data["search_marca"])->paginate(10);
 				return View::make('familia_activos/listFamiliaActivos',$data);
 			}else{
 				return View::make('error/error');
@@ -71,7 +76,7 @@ class FamiliaActivosController extends BaseController
 				// Validate the info, create rules for the inputs
 				$rules = array(
 							'nombre_equipo' => 'required|min:1|max:100',
-							'modelo' => 'required|min:1|max:100',
+							'nombre_siga' => 'required|min:1|max:100',
 							'idtipo_activo' => 'required',
 							'idmarca' =>'required',
 
@@ -84,7 +89,7 @@ class FamiliaActivosController extends BaseController
 				}else{					
 					$famila_activo = new FamiliaActivo;
 					$famila_activo->nombre_equipo = Input::get('nombre_equipo');
-					$famila_activo->modelo = Input::get('modelo');
+					$famila_activo->nombre_siga = Input::get('nombre_siga');
 					$famila_activo->idtipo_activo = Input::get('idtipo_activo');
 					$famila_activo->idmarca = Input::get('idmarca');
 					$famila_activo->idestado = 1;
@@ -111,11 +116,13 @@ class FamiliaActivosController extends BaseController
 			if(($data["user"]->idrol == 1) && $idfamilia_activo){
 				$data["tipo_activo"] = TipoActivo::lists('nombre','idtipo_activo');
 				$data["marca"] = Marca::lists('nombre','idmarca');			
-				$data["familiaactivo_info"] = FamiliaActivo::searchFamiliaActivoById($idfamilia_activo)->get();
-				if($data["familiaactivo_info"]->isEmpty()){
+				$data["familiaactivo_info"] = FamiliaActivo::find($idfamilia_activo);
+				$data["modelo_equipo_info"] = ModeloActivo::getModeloByFamiliaActivo($idfamilia_activo)->get();				
+
+				if($data["familiaactivo_info"] == null){
 					return Redirect::to('familia_activos/list_familia_activos');
 				}
-				$data["familiaactivo_info"] = $data["familiaactivo_info"][0];
+				$data["familiaactivo_info"] = $data["familiaactivo_info"];
 				return View::make('familia_activos/editFamiliaActivo',$data);
 			}else{
 				return View::make('error/error');
@@ -162,6 +169,31 @@ class FamiliaActivosController extends BaseController
 				return View::make('error/error');
 			}
 
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function render_view_familia_activo($idfamilia_activo=null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if(($data["user"]->idrol == 1) && $idfamilia_activo){
+				$data["tipo_activo"] = TipoActivo::lists('nombre','idtipo_activo');
+				$data["marca"] = Marca::lists('nombre','idmarca');			
+				$data["familiaactivo_info"] = FamiliaActivo::find($idfamilia_activo);
+				$data["modelo_equipo_info"] = ModeloActivo::getModeloByFamiliaActivo($idfamilia_activo)->get();				
+
+				if($data["familiaactivo_info"] == null){
+					return Redirect::to('familia_activos/list_familia_activos');
+				}
+				$data["familiaactivo_info"] = $data["familiaactivo_info"];
+				return View::make('familia_activos/viewFamiliaActivo',$data);
+			}else{
+				return View::make('error/error');
+			}
 		}else{
 			return View::make('error/error');
 		}
