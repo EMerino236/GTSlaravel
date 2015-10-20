@@ -50,8 +50,7 @@ class ReportesInstalacionController extends BaseController {
 						$cant = count($details_tarea);
 						if($cant>0){
 							$reporte = new ReporteInstalacion;
-							
-							if(Input::get('idtipo_reporte_instalacion'==1))
+							if(Input::get('idtipo_reporte_instalacion')==1)
 								$abreviatura = "IE";
 							else 
 								$abreviatura = "IF";
@@ -98,7 +97,7 @@ class ReportesInstalacionController extends BaseController {
 									Session::flash('error', 'Reporte de Entorno Concluido no existe.');
 									return Redirect::to('rep_instalacion/create_rep_instalacion')->withInput(Input::all());
 								}else{
-									$reporte->idreporte_instalacion_entorno_concluido = $rep_ent_concluido->idreporte_instalacion;
+									$reporte->idreporte_instalacion_entorno_concluido = $rep_ent_concluido[0]->idreporte_instalacion;
 								}						
 							}
 							
