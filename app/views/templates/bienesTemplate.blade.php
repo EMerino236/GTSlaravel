@@ -42,6 +42,7 @@
     <script src="{{ asset('js/reportes_incumplimientos/list_reportes_incumplimiento.js') }}"></script>
     <script src="{{ asset('js/bienes/bienes.js') }}"></script>
     <script src="{{ asset('js/bienes/solicitudes_compra.js') }}"></script>
+    <script src="{{ asset('js/bienes/reporte_instalacion.js') }}"></script>
 
 </head>
 
@@ -67,7 +68,7 @@
                     <li>
                         <a href="#">Gestión de bienes e inspección<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-							<li>{{ HTML::link('/#','Entorno') }}</li>
+							<li>{{ HTML::link('/rep_instalacion/list_rep_instalacion','Entorno') }}</li>
 							<li>{{ HTML::link('/#','TS funcional') }}</li>
 							<li>
                                 <a href="#">Retiro TS <span class="fa arrow"></span></a>
