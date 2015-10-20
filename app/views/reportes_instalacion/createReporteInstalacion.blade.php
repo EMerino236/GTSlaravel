@@ -1,4 +1,4 @@
-@extends('templates/bienesTemplate')
+@extends('templates/reporteInstalacionTemplate')
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
@@ -126,7 +126,7 @@
 		    	<h3 class="panel-title">Tareas</h3>
 		  	</div>
   			<div class="panel-body">
-		  		<table class="table table-hover">
+		  		<table class="table">
 					<tr class="info">
 						<th>Tarea</th>
 						<th>Estado de Tarea</th>
@@ -140,13 +140,13 @@
 					<?php for($i=0;$i<$count;$i++){ ?>
 					<tr>
 						<td>
-							<input name='details_tarea[]' value='{{ $details_tarea[$i] }}' readonly/>
+							<input style="border:0" name='details_tarea[]' value='{{ $details_tarea[$i] }}' readonly/>
 						</td>
 						<td>
-							<input name='details_estado[]' value='{{ $details_estado[$i] }}' readonly/>
+							<input style="border:0" name='details_estado[]' value='{{ $details_estado[$i] }}' readonly/>
 						</td>
 						<td>
-							<a href='' class='btn btn-default delete-detail' onclick='deleteRow(event,this)'>X</a>
+							<a href='' class='btn btn-default delete-detail' onclick='deleteRow(event,this)'>Eliminar</a>
 						</td>						
 					</tr>
 					<?php } ?>

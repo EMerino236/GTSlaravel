@@ -50,10 +50,28 @@ class ReportesInstalacionController extends BaseController {
 						$cant = count($details_tarea);
 						if($cant>0){
 							$reporte = new ReporteInstalacion;
+							
+							if(Input::get('idtipo_reporte_instalacion'==1))
+								$abreviatura = "IE";
+							else 
+								$abreviatura = "IF";
+					
+							$name_controller = "ReporteInstalacion";
+							// Algoritmo para añadir numeros correlativos
+							$string = $this->getCorrelativeReportNumber($name_controller,Input::get('idtipo_reporte_instalacion'));
+							//Get Año Actual
+							$anho = date('y');
+
+							$reporte->numero_reporte_abreviatura = $abreviatura;
+							$reporte->numero_reporte_correlativo = $string;
+							$reporte->numero_reporte_anho = $anho;
+							
 							$reporte->idtipo_reporte_instalacion = Input::get('idtipo_reporte_instalacion'); 
+							/*
 							$reporte->numero_reporte_abreviatura = 'EC';
 							$reporte->numero_reporte_correlativo = '0001';
 							$reporte->numero_reporte_anho = '15';
+							*/
 							$reporte->descripcion = Input::get('descripcion');
 							$reporte->fecha = date('Y-m-d H:i:s',strtotime(Input::get('fecha')));
 							$reporte->idarea = Input::get('idarea');
@@ -64,11 +82,26 @@ class ReportesInstalacionController extends BaseController {
 							$usuario_responsable = User::searchPersonalByNumeroDoc($id_usuario_responsable)->get();
 							if($usuario_responsable->isEmpty()){
 								Session::flash('error', 'Usuario revisión no existe.');
-								return Redirect::to('rep_instalacion/create_rep_instalacion');
+								return Redirect::to('rep_instalacion/create_rep_instalacion')->withInput(Input::all());
 							}else{
 								$reporte->id_responsable = $usuario_responsable[0]->id;
 								
 							}
+
+							if(Input::get('idtipo_reporte_instalacion')==2){
+								$num_rep_entorno_concluido = Input::get('numero_reporte_entorno_concluido');
+								$abreviatura = mb_substr($num_rep_entorno_concluido,0,2);
+								$correlativo = mb_substr($num_rep_entorno_concluido,2,4);
+								$anho = mb_substr($num_rep_entorno_concluido,7,2);
+								$rep_ent_concluido = ReporteInstalacion::searchReporteEntornoConcluidoByNumeroReporte($abreviatura,$correlativo,$anho)->get();								
+								if($rep_ent_concluido->isEmpty()){
+									Session::flash('error', 'Reporte de Entorno Concluido no existe.');
+									return Redirect::to('rep_instalacion/create_rep_instalacion')->withInput(Input::all());
+								}else{
+									$reporte->idreporte_instalacion_entorno_concluido = $rep_ent_concluido->idreporte_instalacion;
+								}						
+							}
+							
 							$reporte->save();
 
 							$idReporte = $reporte->idreporte_instalacion;
@@ -123,11 +156,11 @@ class ReportesInstalacionController extends BaseController {
 							return Redirect::to('rep_instalacion/create_rep_instalacion');
 						}else{
 							Session::flash('error', 'Ingrese por lo menos una tarea.');
-							return Redirect::to('rep_instalacion/create_rep_instalacion');		
+							return Redirect::to('rep_instalacion/create_rep_instalacion')->withInput(Input::all());		
 						}
 					}else{
 							Session::flash('error', 'Solo se puede crear Reporte de Equipo Funcional si ha sido creado el Reporte de Entorno Concluido');
-							return Redirect::to('rep_instalacion/create_rep_instalacion');	
+							return Redirect::to('rep_instalacion/create_rep_instalacion')->withInput(Input::all());	
 					}
 				}
 			}else{
@@ -258,6 +291,22 @@ class ReportesInstalacionController extends BaseController {
 		}else{
 			return Response::json(array( 'success' => false ),200);
 		}
+	}
+
+	public function getCorrelativeReportNumber($name_controller,$idtipo_reporte_instalacion){
+		$reporte_ultimo = $name_controller::getUltimoCodigoByTipoReporte($idtipo_reporte_instalacion)->first();
+		$string = "";
+		if($reporte_ultimo!=null){	
+			$numero = $reporte_ultimo->numero_reporte_correlativo;
+			$cantidad_digitos = strlen($numero+1);						
+			for($i=0;$i<4-$cantidad_digitos;$i++){
+				$string = $string."0";
+			}
+			$string = $string.($numero+1);					
+		}else{
+			$string = "0001";
+		}
+		return $string;
 	}
 	
 }

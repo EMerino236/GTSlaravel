@@ -23,4 +23,11 @@ class ReporteInstalacion extends Eloquent{
 			  ->where('numero_reporte_anho','=',$anho);
 		return $query;
 	}	
+
+	public function scopeGetUltimoCodigoByTipoReporte($query,$tipo_reporte)
+	{
+		$query->where('idtipo_reporte_instalacion','=',$tipo_reporte)
+			  ->orderBy('created_at','desc');
+		return $query;
+	}	
 }

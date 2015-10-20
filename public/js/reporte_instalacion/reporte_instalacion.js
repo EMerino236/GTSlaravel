@@ -21,7 +21,7 @@ $( document ).ready(function(){
         }, false);
 
     var select = document.getElementById('idtipo_reporte_instalacion');
-        select.onchange = function(){   
+        select.onchange = function(){
             //this.form.submit();
         };
 
@@ -37,7 +37,7 @@ $( document ).ready(function(){
                 limpiar_nombre_doc_relacionado(4);
         }
         else{
-                if($("#panel-documentos-relacionados").is(":hidden"))
+            if($("#panel-documentos-relacionados").is(":hidden"))
                 $("#panel-documentos-relacionados").toggle();
         }
     });
@@ -69,8 +69,8 @@ $( document ).ready(function(){
             return alert("Ingrese el nombre de la tarea.");
         }
 
-        var str = "<tr><td><label style= \"font-weight:normal\" name='details_tarea[]' value='"+tarea+"' >"+tarea+"</label></td>";
-        str += "<td><a name='details_estado[]' value='"+estado+"' >"+estado+"</td>";
+        var str = "<tr><td><input style=\"border:0\" name='details_tarea[]' value='"+tarea+"' readonly/></td>";
+        str += "<td><input style=\"border:0\" name='details_estado[]' value='"+estado+"' readonly/></td>";
         str += "<td><a href='' class='btn btn-default delete-detail' onclick='deleteRow(event,this)'>Eliminar</a></td></tr>";
         $("table").append(str);
         
