@@ -329,6 +329,17 @@ class ReportesIncumplimientoController extends BaseController
 					return Redirect::to('reportes_incumplimiento/create_reporte')->withErrors($validator)->withInput(Input::all());
 				}else{
 					$reporte = new ReporteIncumplimiento;
+					$abreviatura = "RI";
+					
+					$name_controller = "ReporteIncumplimiento";
+					// Algoritmo para añadir numeros correlativos
+					$string = $this->getCorrelativeReportNumber($name_controller);
+					//Get Año Actual
+					$anho = date('y');
+					//---------------------------------------------------------------
+					$reporte->numero_reporte_abreviatura = $abreviatura;
+					$reporte->numero_reporte_correlativo = $string;
+					$reporte->numero_reporte_anho = $anho;
 					$reporte->idordenes_trabajo = Input::get('numero_ot'); 
 					$reporte->tipo_reporte = Input::get('tipo_reporte');
 					$reporte->fecha = date('Y-m-d H:i:s',strtotime(Input::get('fecha')));
@@ -470,5 +481,22 @@ class ReportesIncumplimientoController extends BaseController
 		}else{
 			return View::make('error/error');
 		}
-	}	
+	}
+
+	public function getCorrelativeReportNumber($name_controller){
+		$reporte_ultimo = $name_controller::orderBy('created_at','desc')->first();
+		$string = "";
+		if($reporte_ultimo!=null){	
+			$numero = $reporte_ultimo->numero_reporte_correlativo;
+			$cantidad_digitos = strlen($numero+1);						
+			for($i=0;$i<4-$cantidad_digitos;$i++){
+				$string = $string."0";
+			}
+			$string = $string.($numero+1);					
+		}else{
+			$string = "0001";
+		}
+		return $string;
+	}
+
 }

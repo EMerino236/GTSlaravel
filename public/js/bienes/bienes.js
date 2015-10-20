@@ -10,4 +10,8 @@ $( document ).ready(function(){
 		ignoreReadonly: true,
 		format: 'DD-MM-YYYY'
 	});
+
+	$('#btnLimpiar').click(function(){
+		limpiar_criterios();
+	});
 });

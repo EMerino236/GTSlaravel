@@ -60,28 +60,31 @@
 				</div>			
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-md-4 form-group">
-				@if(!$centro_costo_info->deleted_at)
-						{{ Form::submit('Guardar',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}
-						{{ HTML::link('/centro_costos/list_centros_costos','Cancelar',array('class'=>'')) }}
-				@endif
+		<div class="container-fluid row">			
+			@if(!$centro_costo_info->deleted_at)
+			<div class="col-md-2 form-group">
+				{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit-edit', 'type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}						
+			</div>
+			@endif
+			<div class="col-md-2 form-group">
+				<a class="btn btn-default btn-block" href="{{URL::to('/centro_costos/list_centros_costos')}}">Cancelar</a>
 			</div>
 		
 	{{ Form::close() }}
 		@if($centro_costo_info->deleted_at)
 		{{ Form::open(array('url'=>'centro_costos/submit_enable_centro_costo', 'role'=>'form')) }}
 			{{ Form::hidden('centro_id', $centro_costo_info->idcentro_costo) }}
-				<div class="form-group col-md-2 col-md-offset-6">
-					{{ Form::submit('Habilitar',array('id'=>'submit-delete', 'class'=>'btn btn-success')) }}
+				<div class="form-group col-md-2 col-md-offset-8">
+					{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-up"></span> Habilitar', array('id'=>'submit-delete', 'type' => 'submit', 'class' => 'btn btn-success btn-block')) }}
 				</div>
 		{{ Form::close() }}
 		@else
 		{{ Form::open(array('url'=>'centro_costos/submit_disable_centro_costo', 'role'=>'form')) }}
 			{{ Form::hidden('centro_id', $centro_costo_info->idcentro_costo) }}
 				<div class="form-group col-md-2 col-md-offset-6">
-					{{ Form::submit('Inhabilitar',array('id'=>'submit-delete', 'class'=>'btn btn-danger')) }}	
+					{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-down"></span> Inhabilitar', array('id'=>'submit-delete', 'type' => 'submit', 'class' => 'btn btn-danger btn-block')) }}
 				</div>
 		{{ Form::close() }}
 		@endif
+		</div>
 @stop

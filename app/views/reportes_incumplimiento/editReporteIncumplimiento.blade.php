@@ -1,4 +1,4 @@
-@extends('templates/bienesTemplate')
+@extends('templates/reporteIncumplimientoTemplate')
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
@@ -37,37 +37,40 @@
 
 	{{ Form::open(array('url'=>'reportes_incumplimiento/submit_edit_reporte', 'role'=>'form')) }}
 		{{Form::hidden('reporte_id',$reporte_data->idreporte_incumplimiento) }}
-		<div class="row">
-			<div class="form-group col-xs-3 col-xs-offset-10">
-				{{ Form::submit('Guardar',array('idreporte'=>'submit-edit', 'class'=>'btn btn-primary')) }}	
+		<div class="container-fluid row">
+			<div class="form-group col-md-2 col-md-offset-8">
+			@if(!$reporte_data->deleted_at)				
+				{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit-edit', 'type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}
+			@endif
 			</div>
-		</div>	
+			<div class="form-group col-md-2">				
+				<a class="btn btn-default btn-block" href="{{URL::to('/reportes_incumplimiento/list_reportes')}}">Cancelar</a>
+			</div>
+		</div>
 		<div class="row">
 			<div class="panel panel-default">
 			  	<div class="panel-heading">Datos</div>
 			  	<div class="panel-body">	
 					<div class="row">								
-						<div class="form-group col-xs-2 col-xs-offset-1 @if($errors->first('numero_ot')) has-error has-feedback @endif">
+						<div class="form-group col-md-4 @if($errors->first('numero_ot')) has-error has-feedback @endif">
 							{{ Form::label('numero_ot','Número de OT') }}
 							@if($reporte_data->deleted_at)
 								{{ Form::text('numero_ot',$reporte_data->idordenes_trabajo,array('class'=>'form-control','readonly'=>'')) }}
 							@else
 								{{ Form::text('numero_ot',$reporte_data->idordenes_trabajo,array('class'=>'form-control')) }}
-							@endif
-							
+							@endif							
 						</div>
-						<div class="form-group col-xs-2 @if($errors->first('tipo_reporte')) has-error has-feedback @endif">
+						<div class="form-group col-md-4 @if($errors->first('tipo_reporte')) has-error has-feedback @endif">
 							{{ Form::label('tipo_reporte','Tipo') }}
 							@if($reporte_data->deleted_at)
 								{{ Form::select('tipo_reporte',['0'=>'Seleccione','1'=>'Por Servicio','2'=>'Por Equipo'],$reporte_data->tipo_reporte,array('class'=>'form-control','readonly'=>'')) }}
 							@else
 								{{ Form::select('tipo_reporte',['0'=>'Seleccione','1'=>'Por Servicio','2'=>'Por Equipo'],$reporte_data->tipo_reporte,array('class'=>'form-control')) }}
-							@endif
-							
+							@endif							
 						</div>						
 					</div>
 					<div class="row">
-						<div class="form-group col-xs-2 col-xs-offset-1 @if($errors->first('numero_doc1')) has-error has-feedback @endif">
+						<div class="form-group col-md-2 @if($errors->first('numero_doc1')) has-error has-feedback @endif">
 							{{ Form::label('numero_doc1','Número Documento') }}
 							@if($reporte_data->deleted_at)
 								{{ Form::text('numero_doc1',$usuario_revision->numero_doc_identidad,array('class'=>'form-control','readonly'=>'','id'=>'numero_doc1')) }}
@@ -75,13 +78,14 @@
 								{{ Form::text('numero_doc1',$usuario_revision->numero_doc_identidad,array('class'=>'form-control','id'=>'numero_doc1')) }}
 							@endif							
 						</div>
-						<div class="form-group col-xs-1" style="margin-top:25px">
-							<a class="btn btn-default" onclick="fill_name_responsable(1)">Agregar</a>
+						<div class="form-group col-md-2" style="margin-top:25px">
+							<a class="btn btn-primary btn-block" onclick="fill_name_responsable(1)">
+							<span class="glyphicon glyphicon-plus"></span> Agregar</a>
 						</div>
-						<div class="form-group col-xs-1" style="margin-top:25px">
-							<a class="btn btn-default" onclick="clean_name_responsable(1)">Limpiar</a>
+						<div class="form-group col-md-2" style="margin-top:25px">
+							<div class="btn btn-default btn-block" onclick="clean_name_responsable(1)"><span class="glyphicon glyphicon-refresh"></span> Limpiar</div>				
 						</div>
-						<div class="form-group col-xs-4">
+						<div class="form-group col-md-4">
 							{{ Form::label('responsable','Responsable de la Revisión') }}
 							@if($reporte_data->deleted_at)
 								{{ Form::text('responsable',$usuario_revision->nombre,array('class'=>'form-control','readonly'=>'','id'=>'nombre_responsable1','disabled'=>'disabled')) }}
@@ -91,7 +95,7 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-xs-4 col-xs-offset-1">
+						<div class="col-md-4">
 							{{ Form::label('fecha','Fecha')}}
 							<div id="datetimepicker1" class="form-group input-group date @if($errors->first('fecha')) has-error has-feedback @endif">					
 								{{ Form::text('fecha',date('d-m-Y',strtotime($reporte_data->fecha)),array('class'=>'form-control','readonly'=>'')) }}
@@ -102,7 +106,7 @@
 				        </div>
 		        	</div>
 		        	<div class="row">		        		
-						<div class="col-xs-4 col-xs-offset-1 @if($errors->first('descripcion_corta')) has-error has-feedback @endif">
+						<div class="col-md-4 @if($errors->first('descripcion_corta')) has-error has-feedback @endif">
 		        			{{ Form::label('descripcion_corta','Descripción Corta') }}
 							@if($reporte_data->deleted_at)
 								{{ Form::text('descripcion_corta',$reporte_data->descripcion_corta,array('class'=>'form-control','readonly'=>'')) }}
@@ -113,7 +117,7 @@
 		        	</div>
 		        	<br>
 		        	<div class="row">
-						<div class="col-xs-8 col-xs-offset-1 @if($errors->first('descripcion')) has-error has-feedback @endif">
+						<div class="col-md-8 @if($errors->first('descripcion')) has-error has-feedback @endif">
 			        		{{ Form::label('descripcion','Descripción del Servicio o Producto no conforme') }}
 							@if($reporte_data->deleted_at)
 								{{ Form::textarea('descripcion',$reporte_data->descripcion_servicio,array('class'=>'form-control','readonly'=>'','style'=>'resize:none;')) }}
@@ -124,7 +128,7 @@
 		        	</div>
 		        	<br>
 		        	<div class="row">
-		        		<div class="form-group col-xs-4 col-xs-offset-1 @if($errors->first('servicio')) has-error has-feedback @endif">
+		        		<div class="form-group col-md-4 @if($errors->first('servicio')) has-error has-feedback @endif">
 							{{ Form::label('servicio','Servicio Clínico') }}
 							@if($reporte_data->deleted_at)
 								{{ Form::select('servicio',array('0'=> 'Seleccione')+$servicios,$reporte_data->idservicio,array('class'=>'form-control','readonly'=>'',"onchange" => "fill_responsable_servicio()",'id'=>'servicio')) }}
@@ -132,7 +136,7 @@
 								{{ Form::select('servicio',array('0'=> 'Seleccione')+$servicios,$reporte_data->idservicio,array('class'=>'form-control',"onchange" => "fill_responsable_servicio()",'id'=>'servicio')) }}
 							@endif
 						</div>
-						<div class="form-group col-xs-4  @if($errors->first('responsable_servicio')) has-error has-feedback @endif">
+						<div class="form-group col-md-4  @if($errors->first('responsable_servicio')) has-error has-feedback @endif">
 							{{ Form::label('responsable_servicio','Responsable del Servicio') }}
 							@if($reporte_data->deleted_at)
 								{{ Form::text('responsable_servicio',Input::old('idresponsable'),array('class'=>'form-control','readonly'=>'','disabled'=>'disabled','id'=>'servicio_resp')) }}
@@ -142,7 +146,7 @@
 						</div>
 		        	</div>
 		        	<div class="row">
-		        		<div class="form-group col-xs-4 col-xs-offset-1 @if($errors->first('proveedor')) has-error has-feedback @endif">
+		        		<div class="form-group col-md-4 @if($errors->first('proveedor')) has-error has-feedback @endif">
 							{{ Form::label('proveedor','Proveedor') }}
 							@if($reporte_data->deleted_at)
 								{{ Form::select('proveedor',array('0'=> 'Seleccione')+$proveedor,$reporte_data->idproveedor,array('class'=>'form-control','readonly'=>'',"onchange" => "fill_contacto_proveedor()",'id'=>'proveedor')) }}
@@ -150,7 +154,7 @@
 								{{ Form::select('proveedor',array('0'=> 'Seleccione')+$proveedor,$reporte_data->idproveedor,array('class'=>'form-control',"onchange" => "fill_contacto_proveedor()",'id'=>'proveedor')) }}
 							@endif							
 						</div>
-						<div class="form-group col-xs-4  @if($errors->first('contacto_proveedor')) has-error has-feedback @endif">
+						<div class="form-group col-md-4  @if($errors->first('contacto_proveedor')) has-error has-feedback @endif">
 							{{ Form::label('contacto_proveedor','Contacto de Proveedor') }}
 							@if($reporte_data->deleted_at)
 								{{ Form::text('contacto_proveedor',Input::old('contacto_proveedor'),array('class'=>'form-control','readonly'=>'','id'=>'contacto_proveedor','disabled'=>'disabled')) }}
@@ -160,7 +164,7 @@
 						</div>
 		        	</div>
 		        	<div class="row">
-						<div class="col-xs-4 col-xs-offset-1 @if($errors->first('costo')) has-error has-feedback @endif">
+						<div class="col-md-4 form-group @if($errors->first('costo')) has-error has-feedback @endif">
 			        		{{ Form::label('costo','Costos Generados') }}
 							@if($reporte_data->deleted_at)
 								{{ Form::text('costo',$reporte_data->costo_generado,array('class'=>'form-control','readonly'=>'')) }}
@@ -168,20 +172,17 @@
 								{{ Form::text('costo',$reporte_data->costo_generado,array('class'=>'form-control')) }}
 							@endif
 		        		</div>
-		        	</div>
-		        	<br>
-		        	<div class="row">
-						<div class="col-xs-8 col-xs-offset-1 @if($errors->first('accion_generada')) has-error has-feedback @endif">
+						<div class="col-md-4 form-group @if($errors->first('accion_generada')) has-error has-feedback @endif">
 			        		{{ Form::label('accion_generada','Acción Correctiva Generada') }}
 							@if($reporte_data->deleted_at)
 								{{ Form::text('accion_generada',$reporte_data->accion_correctiva,array('class'=>'form-control','readonly'=>'')) }}
 							@else
 								{{ Form::text('accion_generada',$reporte_data->accion_correctiva,array('class'=>'form-control')) }}
 							@endif
+		        		</div>
 		        	</div>
-		        	<br>
 		        	<div class="row">
-						<div class="col-xs-8 col-xs-offset-1 @if($errors->first('reincidente')) has-error has-feedback @endif">
+						<div class="col-md-8 @if($errors->first('reincidente')) has-error has-feedback @endif">
 			        		{{ Form::label('reincidente','¿Es reincidente?') }}
 			        			@if($reporte_data->flag_reincidente == 1)
 			        				{{ Form::radio('reincidente', '1',true) }}SI{{ Form::radio('reincidente', '0') }}NO
@@ -192,7 +193,7 @@
 						</div> 
 					</div>
 					<div class="row">
-						<div class="col-xs-8 col-xs-offset-1 @if($errors->first('acciones')) has-error has-feedback @endif">
+						<div class="col-md-8 form-group @if($errors->first('acciones')) has-error has-feedback @endif">
 			        		{{ Form::label('acciones','Acciones a seguir de acuerdo a la disposición determinada') }}
 							@if($reporte_data->deleted_at)
 								{{ Form::textarea('acciones',$reporte_data->acciones,array('class'=>'form-control','readonly'=>'','style'=>'resize:none;')) }}
@@ -203,7 +204,7 @@
 		        	</div>
 		        	<br>
 		        	<div class="row">
-						<div class="col-xs-8 col-xs-offset-1 @if($errors->first('resultados')) has-error has-feedback @endif">
+						<div class="col-md-8 form-group @if($errors->first('resultados')) has-error has-feedback @endif">
 			        		{{ Form::label('resultados','Resultados / Conclusiones con respecto al servicio') }}
 							@if($reporte_data->deleted_at)
 								{{ Form::textarea('resultados',$reporte_data->resultados,array('class'=>'form-control','readonly'=>'','style'=>'resize:none;')) }}
@@ -212,9 +213,8 @@
 							@endif
 		        		</div>
 		        	</div>
-		        	<br>
 		        	<div class="row">
-						<div class="form-group col-xs-2 col-xs-offset-1 @if($errors->first('numero_doc2')) has-error has-feedback @endif">
+						<div class="form-group col-md-2 @if($errors->first('numero_doc2')) has-error has-feedback @endif">
 							{{ Form::label('numero_doc2','Número Documento') }}
 							@if($reporte_data->deleted_at)
 								{{ Form::text('numero_doc2',$usuario_autorizado->numero_doc_identidad,array('class'=>'form-control','readonly'=>'','id'=>'numero_doc2')) }}
@@ -222,13 +222,14 @@
 								{{ Form::text('numero_doc2',$usuario_autorizado->numero_doc_identidad,array('class'=>'form-control','id'=>'numero_doc2')) }}
 							@endif	
 						</div>
-						<div class="form-group col-xs-1" style="margin-top:25px">
-							<a class="btn btn-default" onclick="fill_name_responsable(2)">Agregar</a>
+						<div class="form-group col-md-2" style="margin-top:25px">
+							<a class="btn btn-primary btn-block" onclick="fill_name_responsable(2)">
+							<span class="glyphicon glyphicon-plus"></span> Agregar</a>
 						</div>
-						<div class="form-group col-xs-1" style="margin-top:25px">
-							<a class="btn btn-default" onclick="clean_name_responsable(2)">Limpiar</a>
+						<div class="form-group col-md-2" style="margin-top:25px">
+							<div class="btn btn-default btn-block" onclick="clean_name_responsable(2)"><span class="glyphicon glyphicon-refresh"></span> Limpiar</div>				
 						</div>
-						<div class="form-group col-xs-4">
+						<div class="form-group col-md-4">
 							{{ Form::label('autorizado','Autorizado por') }}
 							@if($reporte_data->deleted_at)
 								{{ Form::text('autorizado',$usuario_autorizado->nombre,array('class'=>'form-control','readonly'=>'','id'=>'nombre_responsable2','disabled'=>'disabled')) }}
@@ -238,7 +239,7 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="form-group col-xs-2 col-xs-offset-1 @if($errors->first('numero_doc3')) has-error has-feedback @endif">
+						<div class="form-group col-md-2 @if($errors->first('numero_doc3')) has-error has-feedback @endif">
 							{{ Form::label('numero_doc3','Número Documento') }}
 							@if($reporte_data->deleted_at)
 								{{ Form::text('numero_doc3',$usuario_elaborado->numero_doc_identidad,array('class'=>'form-control','readonly'=>'','id'=>'numero_doc3')) }}
@@ -247,13 +248,14 @@
 							@endif
 
 						</div>
-						<div class="form-group col-xs-1" style="margin-top:25px">
-							<a class="btn btn-default" onclick="fill_name_responsable(3)">Agregar</a>
+						<div class="form-group col-md-2" style="margin-top:25px">
+							<a class="btn btn-primary btn-block" onclick="fill_name_responsable(3)">
+							<span class="glyphicon glyphicon-plus"></span> Agregar</a>
 						</div>
-						<div class="form-group col-xs-1" style="margin-top:25px">
-							<a class="btn btn-default"onclick="clean_name_responsable(3)">Limpiar</a>
+						<div class="form-group col-md-2" style="margin-top:25px">
+							<div class="btn btn-default btn-block" onclick="clean_name_responsable(3)"><span class="glyphicon glyphicon-refresh"></span> Limpiar</div>				
 						</div>
-						<div class="form-group col-xs-4">
+						<div class="form-group col-md-4">
 							{{ Form::label('elaborado','Elaborado por') }}
 							@if($reporte_data->deleted_at)
 								{{ Form::text('elaborado',$usuario_elaborado->nombre,array('class'=>'form-control','readonly'=>'','id'=>'nombre_responsable3','disabled'=>'disabled')) }}
@@ -263,36 +265,35 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-xs-1"></div>
-						<div class="col-xs-8">
+						<div class="col-md-12">
 							<div class="panel panel-default">
 				  				<div class="panel-heading">Documento Relacionado</div>
 				  				<div class="panel-body">
 									<div class="row">											
-										<div class="form-group col-xs-3 @if($errors->first('numero_contrato')) has-error has-feedback @endif">
+										<div class="form-group col-md-2 @if($errors->first('numero_contrato')) has-error has-feedback @endif">
 											{{ Form::label('numero_contrato','Cód. Archivamiento') }}
 											@if($reporte_data->deleted_at)
 												{{ Form::text('numero_contrato',$documento_info->codigo_archivamiento,array('class'=>'form-control','readonly'=>'','id'=>'numero_contrato')) }}
 											@else
 												{{ Form::text('numero_contrato',$documento_info->codigo_archivamiento,array('class'=>'form-control','id'=>'numero_contrato')) }}
-											@endif
-											
+											@endif											
 										</div>
-										<div class="form-group col-xs-1" style="margin-top:25px">
-											<a class="btn btn-default" onclick="fill_name_contrato()">Agregar</a>
+										<div class="col-md-2" style="margin-top:25px">
+											<a class="btn btn-primary btn-block" onclick="fill_name_contrato()">
+											<span class="glyphicon glyphicon-plus"></span> Agregar</a>
 										</div>
-										<div class="form-group col-xs-1" style="margin-top:25px; margin-left:30px">
-											<a class="btn btn-default" onclick="clean_name_contrato()">Limpiar</a>
+										<div class="col-md-2" style="margin-top:25px">
+											<div class="btn btn-default btn-block" onclick="clean_name_contrato()"><span class="glyphicon glyphicon-refresh"></span> Limpiar</div>
 										</div>
-										<div class="form-group col-xs-3"  style="margin-left:30px">
+										<div class="form-group col-md-4">
 											{{ Form::label('nombre_contrato','Documento') }}
 											{{ Form::text('nombre_contrato',Input::old('nombre_contrato'),['class' => 'form-control','id'=>'nombre_contrato','disabled'=>'disabled'])}}
 										</div>	
 										{{ Form::close()}}									
-										<div class="form-group col-xs-2">
+										<div class="form-group col-md-2">
 											{{ Form::open(array('url'=>'reportes_incumplimiento/download_contrato', 'role'=>'form')) }}
 											{{ Form::hidden('numero_contrato_hidden',null)}}
-											{{ Form::submit('Descargar',array('id'=>'btn_descarga', 'class'=>'btn btn-primary','style'=>'margin-top:25px;')) }}
+											{{ Form::button('<span class="glyphicon glyphicon-download"></span> Descargar', array('id'=>'btn_descarga', 'type' => 'submit', 'class' => 'btn btn-primary btn-block','style'=>'margin-top:25px')) }}
 											{{ Form::close() }}
 										</div>
 									
@@ -302,14 +303,13 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-xs-1"></div>
 						@if($reporte_data->deleted_at)
 						{{ Form::open(array('url'=>'reportes_incumplimiento/submit_enable_reporte', 'role'=>'form')) }}
 							{{ Form::hidden('reporte_id', $reporte_data->idreporte_incumplimiento) }}
-							<div class="col-xs-6">
+							<div class="col-md-6">
 								<div class="row">
-									<div class="form-group col-xs-8">
-										{{ Form::submit('Habilitar',array('id'=>'submit-delete', 'class'=>'btn btn-success')) }}
+									<div class="form-group col-md-6">
+										{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-up"></span> Habilitar', array('id'=>'submit-delete', 'type' => 'submit', 'class' => 'btn btn-success btn-block')) }}
 									</div>
 								</div>	
 							</div>	
@@ -317,10 +317,10 @@
 						@else
 						{{ Form::open(array('url'=>'reportes_incumplimiento/submit_disable_reporte', 'role'=>'form')) }}
 							{{ Form::hidden('reporte_id', $reporte_data->idreporte_incumplimiento) }}
-							<div class="col-xs-6">
+							<div class="col-md-6">
 								<div class="row">
-									<div class="form-group col-xs-8">
-										{{ Form::submit('Inhabilitar',array('id'=>'submit-delete', 'class'=>'btn btn-danger')) }}	
+									<div class="form-group col-md-6">
+										{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-down"></span> Inhabilitar', array('id'=>'submit-delete', 'type' => 'submit', 'class' => 'btn btn-danger btn-block')) }}
 									</div>
 								</div>	
 							</div>	

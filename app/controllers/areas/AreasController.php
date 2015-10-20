@@ -140,6 +140,8 @@ class AreasController extends BaseController
 				$rules = array(
 							'nombre' => 'required|max:100',
 							'descripcion' => 'required|max:200',
+							'tipo_area' => 'required',
+							'centro_costo' => 'required',		
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules);
@@ -154,6 +156,8 @@ class AreasController extends BaseController
 					$area = Area::find($area_id);
 					$area->nombre = Input::get('nombre');
 					$area->descripcion = Input::get('descripcion');
+					$area->idtipo_area = Input::get('tipo_area');
+					$area->idcentro_costo = Input::get('centro_costo');
 					$area->save();
 					Session::flash('message', 'Se editó correctamente el area.');
 					return Redirect::to($url);

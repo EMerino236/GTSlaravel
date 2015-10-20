@@ -52,10 +52,13 @@
 				</div>
 			</div>
 		</div>
-		<div class="row">
-			<div class="form-group col-xs-3">
-				{{ Form::submit('Guardar',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}	
+		<div class="container-fluid row">
+			<div class="form-group col-md-2 col-md-offset-8">				
+				{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Crear', array('id'=>'submit-create', 'type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}
 			</div>
-		</div>	
+			<div class="form-group col-md-2">
+				<a class="btn btn-default btn-block" href="{{URL::to('/areas/list_areas')}}">Cancelar</a>				
+			</div>
+		</div>
 		{{ Form::close() }}
 @stop

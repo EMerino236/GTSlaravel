@@ -38,7 +38,8 @@
     <script src="{{ asset('bower_components/morrisjs/morris.min.js') }}"></script>
     <!-- Custom Theme JavaScript -->
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
-    <script src="{{ asset('js/bienes/reportes_incumplimiento.js') }}"></script>
+    <script src="{{ asset('js/reportes_incumplimientos/reportes_incumplimiento.js') }}"></script>
+    <script src="{{ asset('js/reportes_incumplimientos/list_reportes_incumplimiento.js') }}"></script>
     <script src="{{ asset('js/bienes/bienes.js') }}"></script>
     <script src="{{ asset('js/bienes/solicitudes_compra.js') }}"></script>
 

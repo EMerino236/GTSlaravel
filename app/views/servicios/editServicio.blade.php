@@ -100,26 +100,28 @@
 				</div>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-md-4 form-group">
-				@if(!$servicio_info->deleted_at)
-						{{ Form::submit('Guardar',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}
-						{{ HTML::link('/servicios/list_servicios','Cancelar',array('class'=>'')) }}
-				@endif
-			</div>		
+		<div class="container-fluid row">			
+			@if(!$servicio_info->deleted_at)
+			<div class="col-md-2 form-group">
+				{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit-edit', 'type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}						
+			</div>
+			@endif
+			<div class="col-md-2 form-group">
+				<a class="btn btn-default btn-block" href="{{URL::to('/servicios/list_servicios')}}">Cancelar</a>
+			</div>	
 	{{ Form::close() }}
 		@if($servicio_info->deleted_at)
 		{{ Form::open(array('url'=>'servicios/submit_enable_servicio', 'role'=>'form')) }}
 			{{ Form::hidden('servicio_id', $servicio_info->idservicio) }}
-				<div class="form-group col-md-2 col-md-offset-6">
-					{{ Form::submit('Habilitar',array('id'=>'submit-delete', 'class'=>'btn btn-success')) }}
+				<div class="form-group col-md-2 col-md-offset-8">
+					{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-up"></span> Habilitar', array('id'=>'submit-delete', 'type' => 'submit', 'class' => 'btn btn-success btn-block')) }}
 				</div>
 		{{ Form::close() }}
 		@else
 		{{ Form::open(array('url'=>'servicios/submit_disable_servicio', 'role'=>'form')) }}
 			{{ Form::hidden('servicio_id', $servicio_info->idservicio) }}
 				<div class="form-group col-md-2 col-md-offset-6">
-					{{ Form::submit('Inhabilitar',array('id'=>'submit-delete', 'class'=>'btn btn-danger')) }}	
+					{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-down"></span> Inhabilitar', array('id'=>'submit-delete', 'type' => 'submit', 'class' => 'btn btn-danger btn-block')) }}
 				</div>
 		{{ Form::close() }}
 		@endif

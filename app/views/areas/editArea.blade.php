@@ -53,7 +53,7 @@
 								@if($area_info->deleted_at)
 									{{ Form::select('tipo_area',$tipo_areas,$area_info->idtipo_area,array('class'=>'form-control','readonly'=>'','disabled'=>'disabled')) }}
 								@else
-									{{ Form::select('tipo_area',$tipo_areas,$area_info->idtipo_area,array('class'=>'form-control' ,'disabled'=>'disabled')) }}
+									{{ Form::select('tipo_area',$tipo_areas,$area_info->idtipo_area,array('class'=>'form-control' )) }}
 								@endif
 							</div>
 							<div class="form-group col-md-4 @if($errors->first('centro_costo')) has-error has-feedback @endif">
@@ -61,7 +61,7 @@
 								@if($area_info->deleted_at)
 									{{ Form::select('centro_costo',$centro_costos, Input::old('idcentro_costo'),array('class'=>'form-control','readonly'=>'','disabled'=>'disabled')) }}
 								@else
-									{{ Form::select('centro_costo',$centro_costos, Input::old('idcentro_costo'),array('class'=>'form-control','disabled'=>'disabled'))}}
+									{{ Form::select('centro_costo',$centro_costos, Input::old('idcentro_costo'),array('class'=>'form-control'))}}
 								@endif	
 							</div>					
 						</div>
@@ -98,27 +98,28 @@
 			 	</div>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-md-4 form-group">
-				@if(!$area_info->deleted_at)
-						{{ Form::submit('Guardar',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}
-						{{ HTML::link('/areas/list_areas','Cancelar',array('class'=>'')) }}
-				@endif
+		<div class="container-fluid row">
+			@if(!$area_info->deleted_at)
+				<div class="col-md-2 form-group">				
+					{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit-edit', 'type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}	
+				</div>
+			@endif
+			<div class="col-md-2 form-group">
+				<a class="btn btn-default btn-block" href="{{URL::to('/areas/list_areas')}}">Cancelar</a>
 			</div>
 		{{ Form::close() }}
 		@if($area_info->deleted_at)
 		{{ Form::open(array('url'=>'areas/submit_enable_area', 'role'=>'form')) }}
 			{{ Form::hidden('area_id', $area_info->idarea) }}
-				<div class="form-group col-md-2 col-md-offset-6">
-					{{ Form::submit('Habilitar',array('id'=>'submit-delete', 'class'=>'btn btn-success')) }}
-				</div>
-					
+				<div class="form-group col-md-2 col-md-offset-8">
+					{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-up"></span> Habilitar', array('id'=>'submit-delete', 'type' => 'submit', 'class' => 'btn btn-success btn-block')) }}
+				</div>					
 		{{ Form::close() }}
 		@else
 		{{ Form::open(array('url'=>'areas/submit_disable_area', 'role'=>'form')) }}
 			{{ Form::hidden('area_id', $area_info->idarea) }}
 				<div class="form-group col-md-2 col-md-offset-6">
-					{{ Form::submit('Inhabilitar',array('id'=>'submit-delete', 'class'=>'btn btn-danger')) }}	
+					{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-down"></span> Inhabilitar', array('id'=>'submit-delete', 'type' => 'submit', 'class' => 'btn btn-danger btn-block')) }}
 				</div>
 		{{ Form::close() }}
 		@endif
