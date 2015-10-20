@@ -1,4 +1,4 @@
-@extends('templates/bienesTemplate')
+@extends('templates/solicitudCompraTemplate')
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
@@ -7,7 +7,6 @@
         <!-- /.col-lg-12 -->
     </div>
 	{{ Form::open(array('url'=>'/solicitudes_compra/search_solicitudes','method'=>'get' ,'role'=>'form', 'id'=>'search-form','class' => 'form-group')) }}
-	
 	<div class="panel panel-default">
 	  <div class="panel-heading">
 	    <h3 class="panel-title">Búsqueda</h3>

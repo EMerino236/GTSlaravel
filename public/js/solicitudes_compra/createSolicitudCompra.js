@@ -110,9 +110,7 @@ function addRowDetalle(){
         refresh();
     }else{
         $('#myModal').modal('show');       
-    }
-
-    
+    }    
 }
 
 function refresh(){
@@ -145,15 +143,14 @@ function fill_name_reporte(){
             success: function(response){
                 if(response.success){
                     var resp = response['reporte'];
-                    if(resp!="vacio"){
+                    if(val!="vacio"){
                         if(resp[0] != null){
                             $("#nombre_reporte").val("");
                             $("#nombre_reporte").css('background-color','#5cb85c');
                             $("#nombre_reporte").css('color','white');
                             $("#nombre_reporte").val(resp[0].nombre);
                             $("#btn_descarga").show();
-                            $("input[name=numero_reporte_hidden]").val(val);
-                            
+                            $("input[name=numero_reporte_hidden]").val(val);                            
                         }
                         else{
                             $("#nombre_reporte").val("Documento no registrado");
@@ -161,7 +158,6 @@ function fill_name_reporte(){
                             $("#nombre_reporte").css('color','white');
                             $("#btn_descarga").hide();
                             $("input[name=numero_reporte_hidden]").val(null);
-
                         } 
                     }else{
                         $("#nombre_reporte").val("Documento no registrado");
@@ -228,6 +224,14 @@ function validate_ot(){
 }
 
 function getTableDetallesSolicitudHTML(){
+    var obj = new Object();
+    obj.ot = $("#numero_ot").val();
+    obj.servicio = $("#servicio").val();
+    var jsonString= JSON.stringify(obj);
+    alert(jsonString);
+
+
+
     var table = document.getElementById('table_solicitud');
     var rowLength = table.rows.length;
     var matriz_detalle = [];
@@ -242,7 +246,6 @@ function getTableDetallesSolicitudHTML(){
       }
       matriz_detalle.push(arrayDetalle);
     }
-
     return matriz_detalle;
 }
 
