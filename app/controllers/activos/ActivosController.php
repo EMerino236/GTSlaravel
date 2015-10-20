@@ -292,5 +292,30 @@ class ActivosController extends BaseController
 		}
 	}
 
+	public function search_modelo_equipo_ajax()
+	{
+		if(!Request::ajax() || !Auth::check())
+		{
+			return Response::json(array( 'success' => false ),200);
+		}
+
+		$id = Auth::id();
+		$data["inside_url"] = Config::get('app.inside_url');
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1){
+			// Check if the current user is the "System Admin"
+			$data = Input::get('selected_id');			
+			if($data !=0){
+				$modelo_equipo = ModeloActivo::getModeloByFamiliaActivo($data)->get();
+			}else{
+				$modelo_equipo = array();
+			}
+
+			return Response::json(array( 'success' => true, 'modelo_equipo' => $modelo_equipo ),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
 	
 }

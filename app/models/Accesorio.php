@@ -9,9 +9,8 @@ class Accesorio extends Eloquent{
 	protected $table = 'accesorios';
 	protected $primaryKey = 'idaccesorio';
 
-	public function scopeGetAccesorioByModelo($query,$idmodelo)
+	public function scopeGetAccesorioByModelo($query,$idmodelo_equipo)
 	{
-		$query->withTrashed()
-			  ->where('accesorios.idmodelo_equipo','=',$idmodelo);
+		$query->where('accesorios.idmodelo_equipo','=',$idmodelo_equipo);
 	}
 }

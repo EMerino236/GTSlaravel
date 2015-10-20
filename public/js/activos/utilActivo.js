@@ -2,9 +2,6 @@ $( document ).ready(function(){
 
 	init();
 
- 	
- 	$('#modelo').prop('disabled',true);
-
  	$('#servicio_clinico').change(function(){
  		search_create_ubicacion_ajax();
  	});
@@ -14,7 +11,7 @@ $( document ).ready(function(){
  	});
 
  	$('#nombre_equipo').change(function(){
- 		fill_modelo();
+ 		search_modelo_equipo_ajax();
  	});
 
 });
@@ -23,21 +20,29 @@ function init(){
 
 	var val_servicio = $('#servicio_clinico').val();
 	var val_marca = $('#marca').val();
+	var val_modelo = $('#modelo').val();
 
-	if(val_servicio == '0'){
+	if(val_servicio == ''){
 		$('#ubicacion_fisica').prop('disabled',true);
 	}else{
 		$('#ubicacion_fisica').prop('disabled',false);
 	}
 
-	if(val_marca == '0'){
+	if(val_marca == ''){
 		$('#nombre_equipo').prop('disabled',true);
 	}else{
 		$('#nombre_equipo').prop('disabled',false);
 	}
+
+	if(val_modelo == ''){
+		$('#modelo').prop('disabled',true);
+	}else{
+		$('#modelo').prop('disabled',false);
+	}
 }
 
-function search_create_ubicacion_ajax(){
+function search_create_ubicacion_ajax()
+{
 
 	var val = $("#servicio_clinico").val();	
 
@@ -92,8 +97,8 @@ function search_create_ubicacion_ajax(){
 };
 
 var nombre_equipo;
-function search_nombre_equipo_ajax(){
-
+function search_nombre_equipo_ajax()
+{
 	var val = $('#marca').val();
 
 	$.ajax({
@@ -123,7 +128,7 @@ function search_nombre_equipo_ajax(){
 	            if(size != 0)
 	            {					
 					$.each(nombre_equipo, function(index,value) {
-						var option = "<option value=" + nombre_equipo[index].idfamilia_activo + ">" +nombre_equipo[index].nombre_equipo + " - " + nombre_equipo[index].modelo + "</option>";
+						var option = "<option value=" + nombre_equipo[index].idfamilia_activo + ">" +nombre_equipo[index].nombre_equipo + "</option>";
 				    	select.append(option);
 					});
 
@@ -146,7 +151,62 @@ function search_nombre_equipo_ajax(){
 	});
 };
 
-function fill_modelo(){
+function search_modelo_equipo_ajax()
+{
+	var val = $('#nombre_equipo').val();
+
+	$.ajax({
+	    url: inside_url + '/equipos/search_modelo_equipo_ajax',
+	    type: 'POST',
+	    data: { 'selected_id' : val },
+	    beforeSend: function(){
+	        $("#delete-selected-profiles").addClass("disabled");
+	        $("#delete-selected-profiles").hide();
+	        $(".loader_container").show();
+	    },
+	    complete: function(){
+	        $(".loader_container").hide();
+	        $("#delete-selected-profiles").removeClass("disabled");
+	        $("#delete-selected-profiles").show();
+	        delete_selected_profiles = true;
+	    },
+	    success: function(response){	    	
+	        if(response.success)
+	        {
+	            var select = $('#modelo');
+	        	select.empty().append('<option value="">Seleccione</option>');
+
+	            modelo_equipo = response['modelo_equipo'];
+	            var size = modelo_equipo.length;
+
+	            if(size != 0)
+	            {					
+					$.each(modelo_equipo, function(index,value) {
+						var option = "<option value=" + modelo_equipo[index].idmodelo_equipo + ">" + modelo_equipo[index].nombre + "</option>";
+				    	select.append(option);
+					});
+
+	            	select.prop('disabled',false);
+	            }
+	            else
+	            {	            	
+	            	select.prop('disabled',true);
+	            }
+	            
+	        }
+	        else
+	        {
+            	alert('La petición no se pudo completar, inténtelo de nuevo. asdasd');
+	        }
+	    },
+	    error: function(){
+	        alert('La petición no se pudo completar, inténtelo de nuevo.');
+		}
+	});
+}
+
+function fill_modelo()
+{
 	
 	var val_selected = $('#nombre_equipo').prop('selectedIndex');
 
@@ -155,5 +215,4 @@ function fill_modelo(){
  		}else{
  			$('#modelo').val(nombre_equipo[val_selected - 1].modelo);
  		}
-
 };

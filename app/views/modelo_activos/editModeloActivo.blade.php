@@ -22,13 +22,13 @@
 
 	{{ Form::open(array('url'=>'familia_activos/submit_edit_modelo_familia_activo', 'role'=>'form')) }}
 	{{ Form::hidden('familia_activo_id',$familia_activo_info->idfamilia_activo)}}
-	{{ Form::hidden('modelo_id', $modelo_info->idmodelo_equipo) }}
+	{{ Form::hidden('idmodelo_equipo', $modelo_info->idmodelo_equipo) }}
 			<div class="panel panel-default">
 			  	<div class="panel-heading">Datos Generales</div>
 			  	<div class="panel-body">
 			  		<div class="row">
 			  			<div class="form-group col-md-6 @if($errors->first('nombre_modelo')) has-error has-feedback @endif">
-							{{ Form::label('nombre_modelo','Modelo') }}
+							{{ Form::label('nombre_modelo','Modelo') }}<span style="color:red">*</span>
 							{{ Form::text('nombre_modelo',$modelo_info->nombre,array('class'=>'form-control')) }}
 						</div>
 			  		</div>

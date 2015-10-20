@@ -94,10 +94,8 @@ class FamiliaActivosController extends BaseController
 					$famila_activo->idmarca = Input::get('idmarca');
 					$famila_activo->idestado = 1;
 					$famila_activo->save();
-										
-					Session::flash('message', 'Se registró correctamente la Familia de Activo.');
 					
-					return Redirect::to('familia_activos/create_familia_activo');
+					return Redirect::to('familia_activos/list_familia_activos')->with('message', 'Se registró correctamente la Familia de Activo.');
 				}
 			}else{
 				return View::make('error/error');
@@ -142,7 +140,7 @@ class FamiliaActivosController extends BaseController
 				// Validate the info, create rules for the inputs
 				$rules = array(
 							'nombre_equipo' => 'required|min:1|max:100',
-							'modelo' => 'required|min:1|max:100',
+							'nombre_siga' => 'required|min:1|max:100',
 							'idtipo_activo' => 'required',
 							'idmarca' =>'required',
 						);
@@ -158,12 +156,12 @@ class FamiliaActivosController extends BaseController
 					$url = "familia_activos/edit_familia_activo"."/".$familia_activo_id;
 					$familia_activo = FamiliaActivo::find($familia_activo_id);
 					$familia_activo->nombre_equipo = Input::get('nombre_equipo');
-					$familia_activo->modelo = Input::get('modelo');
+					$familia_activo->nombre_siga = Input::get('nombre_siga');
 					$familia_activo->idtipo_activo = Input::get('idtipo_activo');
 					$familia_activo->idmarca = Input::get('idmarca');
 					$familia_activo->save();
-					Session::flash('message', 'Se editó correctamente la Familia de Activo.');
-					return Redirect::to($url);
+					
+					return Redirect::to('familia_activos/list_familia_activos')->with('message', 'Se editó correctamente la Familia de Activo.');
 				}
 			}else{
 				return View::make('error/error');

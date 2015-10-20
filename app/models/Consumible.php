@@ -8,4 +8,10 @@ class Consumible extends Eloquent{
 
 	protected $table = 'consumibles';
 	protected $primaryKey = 'idconsumible';
+
+		public function scopeGetConsumibleByModelo($query,$idmodelo_equipo)
+	{
+		$query->withTrashed()
+			  ->where('consumibles.idmodelo_equipo','=',$idmodelo_equipo);
+	}
 }

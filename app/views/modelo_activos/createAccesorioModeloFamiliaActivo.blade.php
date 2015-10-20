@@ -9,19 +9,28 @@
 
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
-			<p><strong>{{ $errors->first('nombre_modelo') }}</strong></p>			
+			<p><strong>{{ $errors->first('nombre_accesorio') }}</strong></p>
+			<p><strong>{{ $errors->first('modelo_accesorio') }}</strong></p>
+			<p><strong>{{ $errors->first('costo_accesorio') }}</strong></p>
+			<p><strong>{{ $errors->first('numero_pieza') }}</strong></p>
 		</div>
 	@endif
 
 	@if (Session::has('message'))
-		<div class="alert alert-success">{{ Session::get('message') }}</div>
+		<div class="alert alert-success alert-dissmisable">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('message') }}
+		</div>
 	@endif
 	@if (Session::has('error'))
-		<div class="alert alert-danger">{{ Session::get('error') }}</div>
+		<div class="alert alert-success alert-dissmisable">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('error') }}
+		</div>
 	@endif
 
-	{{ Form::open(array('url'=>'', 'role'=>'form')) }}
-	{{ Form::hidden('id_modelo', $modelo_info->idmodelo_equipo) }}
+	{{ Form::open(array('url'=>'familia_activos/submit_create_accesorio_modelo_familia_activo', 'role'=>'form')) }}
+	{{ Form::hidden('idmodelo_equipo', $modelo_info->idmodelo_equipo,array('id' => 'idmodelo_equipo')) }}
 		<div class="panel panel-default">
 		  	<div class="panel-heading">Nuevo Accesorio</div>
 		  	<div class="panel-body">
@@ -64,14 +73,30 @@
 				<th>Numero de Pieza</th>
 				<th>Nombre</th>
 				<th>Modelo</th>				
-				<th>Costo</th>
+				<th>Costo (S/.)</th>
 				<th>Eliminar</th>
 			</tr>
-			@foreach($accesorios_info as $index => $accesorio_info
+			@foreach($accesorios_info as $index => $accesorio_info)
 			<tr>
-				<th>
+				<td>
 					{{$index + 1}}
-				</th>
+				</td>
+				<td>
+					{{$accesorio_info->numero_pieza}}
+				</td>
+				<td>
+					{{$accesorio_info->nombre}}
+				</td>
+				<td>
+					{{$accesorio_info->modelo}}
+				</td>
+				<td>
+					{{number_format($accesorio_info->costo,2)}}
+				</td>
+				<td>
+					<button class="btnEliminarAccesorio btn btn-danger btn-block btn-sm" data-value="{{$accesorio_info->idaccesorio}}">
+					<span class="glyphicon glyphicon-trash"></span> Eliminar</button>
+				</td>
 			</tr>
 			@endforeach
 		</table>

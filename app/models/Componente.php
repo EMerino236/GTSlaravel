@@ -9,4 +9,10 @@ class Componente extends Eloquent{
 	protected $table = 'componentes';
 	protected $primaryKey = 'idcomponente';
 
+	public function scopeGetComponenteByModelo($query,$idmodelo_equipo)
+	{
+		$query->withTrashed()
+			  ->where('componentes.idmodelo_equipo','=',$idmodelo_equipo);
+	}
+
 }

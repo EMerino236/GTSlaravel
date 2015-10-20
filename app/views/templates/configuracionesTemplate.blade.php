@@ -43,6 +43,7 @@
     <script src="{{ asset('js/configuraciones/configuraciones.js') }}"></script>
     <script src="{{ asset('js/familia_activos/listFamiliaActivos.js') }}"></script>
     <script src="{{ asset('js/familia_activos/editFamiliaActivos.js') }}"></script>
+    <script src="{{ asset('js/modelo_activos/utilModeloActivos.js') }}"></script>
 </head>
 
 <body>

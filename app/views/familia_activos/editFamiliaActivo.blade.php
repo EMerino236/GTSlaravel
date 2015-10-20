@@ -17,13 +17,13 @@
 	@endif
 
 	@if (Session::has('message'))
-		<div class="alert alert-success alert-dismissible">
+		<div class="alert alert-success alert-dissmisable">
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			{{ Session::get('message') }}
 		</div>
 	@endif
 	@if (Session::has('error'))
-		<div class="alert alert-danger alert-dismissible">
+		<div class="alert alert-success alert-dissmisable">
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			{{ Session::get('error') }}
 		</div>
@@ -36,7 +36,7 @@
 			  	<div class="panel-body">
 			  		<div class="row">
 			  			<div class="form-group col-md-6 @if($errors->first('idtipo_activo')) has-error has-feedback @endif">
-							{{ Form::label('idtipo_activo','Tipo de Activo') }}
+							{{ Form::label('idtipo_activo','Tipo de Activo') }}<span style="color:red">*</span>
 							@if($familiaactivo_info->deleted_at)
 								{{ Form::select('idtipo_activo',array('' => 'Seleccione') + $tipo_activo,$familiaactivo_info->idtipo_activo,array('class'=>'form-control','readonly'=>'')) }}
 							@else
@@ -44,7 +44,7 @@
 							@endif
 						</div>
 						<div class="form-group col-md-6 @if($errors->first('idmarca')) has-error has-feedback @endif">
-							{{ Form::label('idmarca','Marca') }}
+							{{ Form::label('idmarca','Marca') }}<span style="color:red">*</span>
 							@if($familiaactivo_info->deleted_at)
 								{{ Form::select('idmarca',array('' => 'Seleccione') + $marca,$familiaactivo_info->idmarca,array('class'=>'form-control','readonly'=>'')) }}
 							@else
@@ -55,7 +55,7 @@
 
 					<div class="row">
 						<div class="form-group col-md-6 @if($errors->first('nombre_equipo')) has-error has-feedback @endif">
-							{{ Form::label('nombre_equipo','Nombre de Equipo') }}
+							{{ Form::label('nombre_equipo','Nombre de Equipo') }}<span style="color:red">*</span>
 							@if($familiaactivo_info->deleted_at)
 								{{ Form::text('nombre_equipo',$familiaactivo_info->nombre_equipo,['class' => 'form-control','readonly'=>'']) }}
 							@else
@@ -63,7 +63,7 @@
 							@endif
 						</div>
 						<div class="form-group col-md-6 @if($errors->first('nombre_siga')) has-error has-feedback @endif">
-							{{ Form::label('nombre_siga','Nombre SIGA') }}
+							{{ Form::label('nombre_siga','Nombre SIGA') }}<span style="color:red">*</span>
 							@if($familiaactivo_info->deleted_at)
 								{{ Form::text('nombre_siga',$familiaactivo_info->nombre_siga,['class' => 'form-control','readonly'=>'']) }}
 							@else

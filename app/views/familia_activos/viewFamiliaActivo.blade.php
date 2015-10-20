@@ -81,7 +81,7 @@
 						{{$index + 1}}
 					</td>
 					<td>
-						{{$modelo->nombre}}
+						<a href="{{URL::to('/familia_activos/view_modelo_familia_activo')}}/{{$modelo->idmodelo_equipo}}">{{$modelo->nombre}}</a>
 					</td>
 					<td>
 						{{$modelo->created_at->format('d-m-Y')}}

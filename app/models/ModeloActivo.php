@@ -11,7 +11,7 @@ class ModeloActivo extends Eloquent{
 
 	public function scopeGetModeloByFamiliaActivo($query,$search_idfamilia)
 	{
-		$query->withTrashed()
-			  ->where('modelo_activos.idfamilia_activo','=',$search_idfamilia);
+		$query->where('modelo_activos.idfamilia_activo','=',$search_idfamilia);
 	}
+	
 }
