@@ -53,67 +53,62 @@
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
-                        <li>
-                        <a href="#">Mantenimientos<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
                             <li>
                                 <a href="#">Áreas <span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
+                                <ul class="nav nav-second-level">
                                     <li>{{ HTML::link('/areas/create_area','Nueva Área') }}</li>
                                     <li>{{ HTML::link('/areas/list_areas','Buscar Área') }}</li>
                                 </ul>
-                                <!-- /.nav-third-level -->
+                                <!-- /.nav-second-level -->
                             </li>
                             <li>
                                 <a href="#">Servicios <span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
+                                <ul class="nav nav-second-level">
                                     <li>{{ HTML::link('/servicios/create_servicio','Nuevo Servicio') }}</li>
                                     <li>{{ HTML::link('/servicios/list_servicios','Buscar Servicio') }}</li>
                                 </ul>
-                                <!-- /.nav-third-level -->
+                                <!-- /.nav-second-level -->
                             </li>
                             <li>
                                 <a href="#">Centro de Costos <span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
+                                <ul class="nav nav-second-level">
                                     <li>{{ HTML::link('/centro_costos/create_centro_costo','Nuevo Centro de Costo') }}</li>
                                     <li>{{ HTML::link('/centro_costos/list_centros_costos','Buscar Centro de Costo') }}</li>
                                 </ul>
-                                <!-- /.nav-third-level -->
+                                <!-- /.nav-second-level -->
                             </li>
                             <li>
                                 <a href="#">Grupos <span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
+                                <ul class="nav nav-second-level">
                                     <li>{{ HTML::link('/grupos/create_grupo','Nuevo Grupo') }}</li>
                                     <li>{{ HTML::link('/grupos/list_grupos','Buscar Grupo') }}</li>
                                 </ul>
-                                <!-- /.nav-third-level -->
+                                <!-- /.nav-second-level -->
                             </li>
                             <li>
                                 <a href="#">Marcas <span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
+                                <ul class="nav nav-second-level">
                                     <li>{{ HTML::link('/marcas/create_marca','Nueva Marca') }}</li>
                                     <li>{{ HTML::link('/marcas/list_marcas','Buscar Marca') }}</li>
                                 </ul>
                             </li>
                             <li>
                                 <a href="#">Familias de Equipos <span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
+                                <ul class="nav nav-second-level">
                                     <li>{{ HTML::link('/familia_activos/create_familia_activo','Nueva Familia de Equipo') }}</li>
                                     <li>{{ HTML::link('/familia_activos/list_familia_activos','Buscar Familia de Equipo') }}</li>
                                 </ul>
-                                <!-- /.nav-third-level -->
+                                <!-- /.nav-second-level -->
                             </li>
                             <li>
                                 <a href="#">Tipos de Tareas<span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
+                                <ul class="nav nav-second-level">
                                     <li>{{ HTML::link('/tipoTarea/create_tipoTarea','Nuevo Tipo de Tarea') }}</li>
                                     <li>{{ HTML::link('/tipoTarea/list_tipoTareas','Buscar Tipo de Tarea') }}</li>
                                 </ul>
-                                <!-- /.nav-third-level -->
+                                <!-- /.nav-second-level -->
                             </li>
                         </ul>
-                        <!-- /.nav-second-level -->
-                    </li>
                     </ul>
                 </div>
             </div>

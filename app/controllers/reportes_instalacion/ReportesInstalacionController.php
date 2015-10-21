@@ -66,11 +66,6 @@ class ReportesInstalacionController extends BaseController {
 							$reporte->numero_reporte_anho = $anho;
 							
 							$reporte->idtipo_reporte_instalacion = Input::get('idtipo_reporte_instalacion'); 
-							/*
-							$reporte->numero_reporte_abreviatura = 'EC';
-							$reporte->numero_reporte_correlativo = '0001';
-							$reporte->numero_reporte_anho = '15';
-							*/
 							$reporte->descripcion = Input::get('descripcion');
 							$reporte->fecha = date('Y-m-d H:i:s',strtotime(Input::get('fecha')));
 							$reporte->idarea = Input::get('idarea');

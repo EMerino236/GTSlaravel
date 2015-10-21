@@ -68,8 +68,7 @@
                     <li>
                         <a href="#">Gestión de bienes e inspección<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-							<li>{{ HTML::link('/rep_instalacion/list_rep_instalacion','Entorno') }}</li>
-							<li>{{ HTML::link('/#','TS funcional') }}</li>
+							<li>{{ HTML::link('/rep_instalacion/list_rep_instalacion','Reporte de Instalación') }}</li>
 							<li>
                                 <a href="#">Retiro TS <span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">
@@ -105,8 +104,7 @@
 									<li>{{ HTML::link('/#','Inspecciones y MP de ambientes y servicios no clínicos') }}</li>
 									<li>{{ HTML::link('/#','Inspecciones de servicios clínicos') }}</li>
 									<li>{{ HTML::link('/#','Verificación metrológica') }}</li>
-									<li>{{ HTML::link('/mant_correctivo/list_mant_correctivo','MC TS') }}</li>
-									<li>{{ HTML::link('/mant_correctivo/list_mant_correctivo','MC bienes') }}</li>
+									<li>{{ HTML::link('/mant_correctivo/list_mant_correctivo','Mantenimiento Correctivo') }}</li>
                                 </ul>
                                 <!-- /.nav-third-level -->
                             </li>

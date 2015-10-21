@@ -33,7 +33,7 @@
 						<div class="form-group col-xs-8 @if($errors->first('nombre')) has-error has-feedback @endif">
 							{{ Form::label('nombre','Nombre') }}
 							@if($tipoTarea_info->deleted_at)
-								{{ Form::text('nombre',$tipoTarea_info->nombre,array('class'=>'form-control')) }}
+								{{ Form::text('nombre',$tipoTarea_info->nombre,array('class'=>'form-control','readonly'=>'')) }}
 							@else
 								{{ Form::text('nombre',$tipoTarea_info->nombre,array('class'=>'form-control')) }}
 							@endif
@@ -43,7 +43,7 @@
 						<div class="form-group col-xs-8 @if($errors->first('descripcion')) has-error has-feedback @endif">
 							{{ Form::label('descripcion','Descripción') }}
 							@if($tipoTarea_info->deleted_at)
-								{{ Form::text('descripcion',$tipoTarea_info->descripcion,array('class'=>'form-control')) }}
+								{{ Form::text('descripcion',$tipoTarea_info->descripcion,array('class'=>'form-control','readonly'=>'')) }}
 							@else
 								{{ Form::text('descripcion',$tipoTarea_info->descripcion,array('class'=>'form-control')) }}
 							@endif
@@ -54,34 +54,31 @@
 		</div>
 		<div class="row">
 		</div>
+
+		<div class="container-fluid row">			
+			@if(!$tipoTarea_info->deleted_at)
+			<div class="col-md-2 form-group">
+				{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit-edit', 'type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}						
+			</div>
+			@endif
+			<div class="col-md-2 form-group">
+				<a class="btn btn-default btn-block" href="{{URL::to('/tipoTarea/list_tipoTareas')}}">Cancelar</a>
+			</div>	
 	{{ Form::close() }}
 		@if($tipoTarea_info->deleted_at)
-			{{ Form::open(array('url'=>'tipoTarea/submit_enable_tipoTarea', 'role'=>'form')) }}
-				{{ Form::hidden('tipoTarea_id', $tipoTarea_info->idtipo_tarea) }}
-				<div class="col-xs-6">
-					<div class="row">
-						<div class="form-group col-xs-3">
-							{{ Form::submit('Guardar',array('idtipo_tarea'=>'submit-edit', 'class'=>'btn btn-primary')) }}	
-						</div>
-						<div class="form-group col-xs-8">
-							{{ Form::submit('Habilitar',array('id'=>'submit-delete', 'class'=>'btn btn-success')) }}
-						</div>
-					</div>	
-				</div>	
-			{{ Form::close() }}
-			@else
-			{{ Form::open(array('url'=>'tipoTarea/submit_disable_tipoTarea', 'role'=>'form')) }}
-				{{ Form::hidden('tipoTarea_id', $tipoTarea_info->idtipo_tarea) }}
-				<div class="col-xs-6">
-					<div class="row">
-						<div class="form-group col-xs-3">
-							{{ Form::submit('Guardar',array('idtipo_tarea'=>'submit-edit', 'class'=>'btn btn-primary')) }}	
-						</div>
-						<div class="form-group col-xs-8">
-							{{ Form::submit('Inhabilitar',array('id'=>'submit-delete', 'class'=>'btn btn-danger')) }}	
-						</div>
-					</div>	
-				</div>	
-			{{ Form::close() }}
+		{{ Form::open(array('url'=>'tipoTarea/submit_enable_tipoTarea', 'role'=>'form')) }}
+			{{ Form::hidden('tipoTarea_id', $tipoTarea_info->idtipo_tarea) }}
+				<div class="form-group col-md-2 col-md-offset-8">
+					{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-up"></span> Habilitar', array('id'=>'submit-delete', 'type' => 'submit', 'class' => 'btn btn-success btn-block')) }}
+				</div>
+		{{ Form::close() }}
+		@else
+		{{ Form::open(array('url'=>'tipoTarea/submit_disable_tipoTarea', 'role'=>'form')) }}
+			{{ Form::hidden('tipoTarea_id', $tipoTarea_info->idtipo_tarea) }}
+				<div class="form-group col-md-2 col-md-offset-6">
+					{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-down"></span> Inhabilitar', array('id'=>'submit-delete', 'type' => 'submit', 'class' => 'btn btn-danger btn-block')) }}
+				</div>
+		{{ Form::close() }}
 		@endif
+		</div>
 @stop
