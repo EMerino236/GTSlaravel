@@ -9,7 +9,14 @@
 
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
-			<p><strong>{{ $errors->first('fecha_programacion') }}</strong></p>
+			<p><strong>{{ $errors->first('prioridades',"Seleccione una Prioridad") }}</strong></p>
+			<p><strong>{{ $errors->first('idestado',"Seleccione estado ") }}</strong></p>
+			<p><strong>{{ $errors->first('descripcion_problema',"La descripción del problema es obligatoria y debe ser menor a 500 caracteres") }}</strong></p>
+			<p><strong>{{ $errors->first('tipo_falla',"Seleccione un tipo de falla") }}</strong></p>
+			<p><strong>{{ $errors->first('idestado_inicial',"Seleccione un estado inicial del activo") }}</strong></p>
+			<p><strong>{{ $errors->first('diagnostico_falla',"El diagnostico de falla es obligatorio y debe ser menor a 500 caracteres") }}</strong></p>
+			<p><strong>{{ $errors->first('sin_interrupcion_servicio',"Seleccione si hubo interrupción en el servicio") }}</strong></p>
+			<p><strong>{{ $errors->first('idestado_final',"Seleccione un estado final del activo") }}</strong></p>
 		</div>
 	@endif
 
@@ -21,7 +28,8 @@
 	@endif
 
 	{{ Form::open(array('url'=>'mant_correctivo/submit_create_ot', 'role'=>'form')) }}
-		{{ Form::hidden('idactivo', $ot_info->idactivo) }}otxact
+		{{ Form::hidden('idordenes_trabajo', $ot_info->idordenes_trabajo) }}
+		{{ Form::hidden('idactivo', $ot_info->idactivo) }}
 		{{ Form::hidden('idorden_trabajoxactivo', $otxact->idorden_trabajoxactivo) }}
 		<div class="panel panel-default">
 			<div class="panel-heading">
@@ -49,6 +57,12 @@
 				</div>
 			</div>
 			<div class="col-xs-6">
+				<div class="row">
+					<div class="form-group col-xs-8">
+						{{ Form::label('elaborador','Documento Elaborado Por') }}
+						{{ Form::text('elaborador',$ot_info->apat_elaborador.' '.$ot_info->amat_elaborador.', '.$ot_info->nombre_elaborador,array('class' => 'form-control','readonly'=>'')) }}
+					</div>
+				</div>
 				<div class="row">
 					<div class="form-group col-xs-8">
 						{{ Form::label('ingeniero','Ejecutor del Mantenimiento') }}
@@ -146,24 +160,27 @@
 				<h3 class="panel-title">Estado de la Orden de Trabajo</h3>
 			</div>
 			<div class="panel-body">
-				<div class="col-xs-12">
+				<div class="col-xs-6">
 					<div class="row">
-						<div class="form-group col-xs-4 @if($errors->first('prioridades')) has-error has-feedback @endif">
+						<div class="form-group col-xs-8 @if($errors->first('prioridades')) has-error has-feedback @endif">
 							{{ Form::label('prioridades','Prioridad') }}
 							{{ Form::select('prioridades', $prioridades,$ot_info->idprioridad,['class' => 'form-control']) }}
 						</div>
 					</div>
-
+				</div>
+				<div class="col-xs-6">
 					<div class="row">
-						<div class="form-group col-xs-4 @if($errors->first('equipo_noint')) has-error has-feedback @endif">
-							{{ Form::label('equipo_noint','Equipo No Intervenido') }}
-							{{ Form::select('equipo_noint', $estado_equipo_noint,$ot_info->idestado_equipo_noint,['class' => 'form-control']) }}
+						<div class="form-group col-xs-8 @if($errors->first('idestado')) has-error has-feedback @endif">
+							{{ Form::label('idestado','Equipo No Intervenido') }}
+							{{ Form::select('idestado', $estados,$ot_info->idestado,['class' => 'form-control']) }}
 						</div>
 					</div>
+				</div>
+				<div class="col-xs-12">
 					<div class="row">
 						<div class="form-group col-xs-12 @if($errors->first('descripcion_problema')) has-error has-feedback @endif">
 							{{ Form::label('descripcion_problema','Descripción del Problema') }}
-							{{ Form::textarea('descripcion_problema', $ot_info->descripcion_problema,array('class'=>'form-control')) }}
+							{{ Form::textarea('descripcion_problema', $ot_info->descripcion_problema,array('class'=>'form-control','maxlength'=>'500')) }}
 						</div>
 					</div>
 				</div>
@@ -175,27 +192,27 @@
 				<h3 class="panel-title">Datos del diagnóstico y programación</h3>
 			</div>
 			<div class="panel-body">
-				<div class="col-xs-12">
+				<div class="col-xs-6">
 					<div class="row">
-						<div class="form-group col-xs-12 @if($errors->first('descripcion_problema')) has-error has-feedback @endif">
-							{{ Form::label('descripcion_problema','Descripción del Problema') }}
-							{{ Form::textarea('descripcion_problema', $ot_info->descripcion_problema,array('class'=>'form-control')) }}
-						</div>
-					</div>
-				</div>
-				<div class="col-xs-12">
-					<div class="row">
-						<div class="form-group col-xs-4 @if($errors->first('tipo_falla')) has-error has-feedback @endif">
+						<div class="form-group col-xs-8 @if($errors->first('tipo_falla')) has-error has-feedback @endif">
 							{{ Form::label('tipo_falla','Tipo de Falla') }}
 							{{ Form::select('tipo_falla', $tipo_fallas,$ot_info->tipo_falla,array('class'=>'form-control')) }}
 						</div>
 					</div>
+				</div>	
+				<div class="col-xs-6">
+					<div class="row">
+						<div class="form-group col-xs-8 @if($errors->first('idestado_inicial')) has-error has-feedback @endif">
+							{{ Form::label('idestado_inicial','Estado Inicial del Activo') }}
+							{{ Form::select('idestado_inicial', $estado_activo,$ot_info->idestado_inicial,array('class'=>'form-control')) }}
+						</div>
+					</div>
 				</div>
 				<div class="col-xs-12">
 					<div class="row">
-						<div class="form-group col-xs-4 @if($errors->first('idestado_inicial')) has-error has-feedback @endif">
-							{{ Form::label('idestado_inicial','Estado Inicial del Activo') }}
-							{{ Form::select('idestado_inicial', $estado_activo,$ot_info->idestado_inicial,array('class'=>'form-control')) }}
+						<div class="form-group col-xs-12 @if($errors->first('diagnostico_falla')) has-error has-feedback @endif">
+							{{ Form::label('diagnostico_falla','Diagnóstico de la Falla') }}
+							{{ Form::textarea('diagnostico_falla', $ot_info->diagnostico_falla,array('class'=>'form-control','maxlength'=>'500')) }}
 						</div>
 					</div>
 				</div>
@@ -218,7 +235,7 @@
 						<td>{{$tarea->nombre_tarea}}</td>
 						<td>{{$tarea->descripcion_tarea}}</td>
 						<td>
-							@if($tarea->idestado_realizado == 25)
+							@if($tarea->idestado_realizado == 23)
 								{{ Form::button('Marcar realizada',array('class'=>'btn btn-default boton-tarea','data-id'=>$tarea->idorden_trabajoxactivoxtarea)) }}
 							@else
 								Realizada
@@ -296,7 +313,7 @@
 					</div>
 				</div>
 				<div class="col-xs-12">
-					<table class="table">
+					<table id="repuestos-table" class="table">
 						<tr class="info">
 							<th>Nombre</th>
 							<th>Código</th>
@@ -305,20 +322,75 @@
 							<th>Operaciones</th>
 						</tr>
 						@foreach($repuestos as $repuesto)
-						<tr id="repuestos-table">
+						<tr id="repuesto-row-{{ $repuesto->idrepuestos_ot }}">
 							<td>{{$repuesto->nombre}}</td>
 							<td>{{$repuesto->codigo}}</td>
 							<td>{{$repuesto->cantidad}}</td>
-							<td>{{$repuesto->costo}}</td>
+							<td>S/. {{number_format($repuesto->costo,2)}}</td>
 							<td>
-								{{ Form::button('Eliminar',array('class'=>'btn btn-danger boton-eliminar-repuesto','data-id'=>$repuesto->idrepuestos_ot)) }}
+								<button class="btn btn-danger boton-eliminar-repuesto" onclick="eliminar_repuesto(event,{{$repuesto->idrepuestos_ot}})" type="button">Eliminar</button>
 							</td>
 						</tr>
 						@endforeach
 					</table>
+					<div class="col-xs-6">
+				      {{ Form::label('costo_total_repuestos','Gasto Total Repuestos (S/.)',array('class'=>'col-sm-5')) }}
+				      <div class="col-xs-3">
+				        {{ Form::text('costo_total_repuestos', number_format($otxact->costo_total_repuestos,2),array('class'=>'form-control','placeholder'=>'Costo','readonly'=>'')) }}
+				      </div>
+				    </div>
 				</div>
 			</div>
 		</div>
-		{{ Form::submit('Programar',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Datos de mano de obra</h3>
+			</div>
+			<div class="panel-body">
+				<div class="col-xs-12">
+					<div class="row">
+						<div class="form-group col-xs-6">
+							{{ Form::text('nombre_personal', null,array('class'=>'form-control','placeholder'=>'Nombres Apellidos')) }}
+						</div>
+						<div class="form-group col-xs-2">
+							{{ Form::text('horas_trabajadas', null,array('class'=>'form-control','placeholder'=>'Hrs. Trab. ejem: 0.5')) }}
+						</div>
+						<div class="form-group col-xs-2">
+							{{ Form::text('costo_personal', null,array('class'=>'form-control','placeholder'=>'Costo')) }}
+						</div>
+						<div class="form-group col-xs-2">
+							{{ Form::button('Agregar',array('id'=>'submit-personal', 'class'=>'btn btn-primary')) }}
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-12">
+					<table id="personal-table" class="table">
+						<tr class="info">
+							<th>Nombres y Apellidos</th>
+							<th>Horas Trabajadas</th>
+							<th>Subtotal</th>
+							<th>Operaciones</th>
+						</tr>
+						@foreach($personal_data as $personal)
+						<tr id="personal-row-{{ $personal->iddetalle_personalxot }}">
+							<td>{{$personal->nombre}}</td>
+							<td>{{$personal->horas_hombre}}</td>
+							<td>{{$personal->costo}}</td>
+							<td>
+								<button class="btn btn-danger boton-eliminar-mano-obra" onclick="eliminar_personal(event,{{$personal->iddetalle_personalxot}})" type="button">Eliminar</button>
+							</td>
+						</tr>
+						@endforeach
+					</table>
+					<div class="col-xs-7">
+				      {{ Form::label('costo_total_personal','Gasto Total Mano de Obra (S/.)',array('class'=>'col-sm-5')) }}
+				      <div class="col-xs-3">
+				        {{ Form::text('costo_total_personal', number_format($otxact->costo_total_personal,2),array('class'=>'form-control','placeholder'=>'Costo','readonly'=>'')) }}
+				      </div>
+				    </div>
+				</div>
+			</div>
+		</div>
+		{{ Form::submit('Guardar',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}
 	{{ Form::close() }}
 @stop

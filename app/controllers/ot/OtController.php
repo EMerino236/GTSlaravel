@@ -3,7 +3,7 @@
 class OtController extends BaseController {
 
 	private static $nombre_tabla = 'estado_ot';
-	private static $equipo_noint = 'estado_equipo_noint';
+	//private static $equipo_noint = 'estado_equipo_noint';
 	private static $estado_activo = 'estado_activo';
 
 	public function render_program_ot_mant_correctivo($id=null)
@@ -221,8 +221,8 @@ class OtController extends BaseController {
 				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
 				$data["prioridades"] = Prioridad::lists('nombre','idprioridad');
 				$data["tipo_fallas"] = TipoFalla::lists('nombre','idtipo_falla');
-				$tabla_equipo_noint = Tabla::getTablaByNombre(self::$equipo_noint)->get();
-				$data["estado_equipo_noint"] = Estado::where('idtabla','=',$tabla_equipo_noint[0]->idtabla)->lists('nombre','idestado');
+				/*$tabla_equipo_noint = Tabla::getTablaByNombre(self::$equipo_noint)->get();
+				$data["estado_equipo_noint"] = Estado::where('idtabla','=',$tabla_equipo_noint[0]->idtabla)->lists('nombre','idestado');*/
 				$tabla_estado_activo = Tabla::getTablaByNombre(self::$estado_activo)->get();
 				$data["estado_activo"] = Estado::where('idtabla','=',$tabla_estado_activo[0]->idtabla)->lists('nombre','idestado');
 				
@@ -235,12 +235,70 @@ class OtController extends BaseController {
 				if($data["otxact"]->isEmpty()){
 					$data["tareas"] = array();
 					$data["repuestos"] = array();
+					$data["personal_data"] = array();
 				}else{
 					$data["otxact"] = $data["otxact"][0];
 					$data["tareas"] = OrdenesTrabajosxactivoxtarea::getTareasXOtXActi($data["otxact"]->idorden_trabajoxactivo)->get();
 					$data["repuestos"] = RepuestosOt::getRepuestosXOtXActi($data["otxact"]->idorden_trabajoxactivo)->get();
+					$data["personal_data"] = DetallePersonalxot::getPersonalXOtXActi($data["otxact"]->idorden_trabajoxactivo)->get();
 				}
 				return View::make('ot/createOtMantCo',$data);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function submit_create_ot()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if(($data["user"]->idrol == 1)){
+				$idordenes_trabajo = Input::get('idordenes_trabajo');
+				// Validate the info, create rules for the inputs
+				$rules = array(
+							'prioridades' => 'required',
+							'idestado' => 'required',
+							'descripcion_problema' => 'required|max:500',
+							'tipo_falla' => 'required',
+							'idestado_inicial' => 'required',
+							'diagnostico_falla' => 'required|max:500',
+							'sin_interrupcion_servicio' => 'required',
+							'idestado_final' => 'required',
+						);
+				// Run the validation rules on the inputs from the form
+				$validator = Validator::make(Input::all(), $rules);
+				// If the validator fails, redirect back to the form
+				if($validator->fails()){
+					return Redirect::to('mant_correctivo/create_ot/'.$idordenes_trabajo)->withErrors($validator)->withInput(Input::all());
+				}else{
+					$ot = OrdenesTrabajo::find($idordenes_trabajo);
+					$ot->idprioridad = Input::get('prioridades');
+					$ot->idestado = Input::get('idestado');
+					$ot->descripcion_problema = Input::get('descripcion_problema');
+					$ot->idtipo_falla = Input::get('tipo_falla');
+					$ot->idestado_inicial = Input::get('idestado_inicial');
+					$ot->diagnostico_falla = Input::get('diagnostico_falla');
+					$ot->sin_interrupcion_servicio = Input::get('sin_interrupcion_servicio');
+					$ot->idestado_final = Input::get('idestado_final');
+					if(Input::get('fecha_conformidad'))
+						$ot->fecha_conformidad = Input::get('fecha_conformidad');
+					if(Input::get('fecha_inicio_ejecucion'))
+						$ot->fecha_inicio_ejecucion = Input::get('fecha_inicio_ejecucion');
+					if(Input::get('fecha_termino_ejecucion'))
+						$ot->fecha_termino_ejecucion = Input::get('fecha_termino_ejecucion');
+					$ot->save();
+
+					$activo = Activo::find(Input::get('idactivo'));
+					$activo->idestado = Input::get('idestado_final');
+					$activo->save();
+					Session::flash('message', 'Se guardó correctamente la información.');
+					return Redirect::to('mant_correctivo/create_ot/'.$idordenes_trabajo);
+				}
 			}else{
 				return View::make('error/error');
 			}
@@ -326,7 +384,7 @@ class OtController extends BaseController {
 		if($data["user"]->idrol == 1){
 			$idotxactxta = Input::get('idotxactxta');
 			$otxactxta = OrdenesTrabajosxactivoxtarea::find($idotxactxta);
-			$otxactxta->idestado_realizado = 24;
+			$otxactxta->idestado_realizado = 22;
 			$otxactxta->save();
 			return Response::json(array( 'success' => true),200);
 		}else{
@@ -350,11 +408,74 @@ class OtController extends BaseController {
 			$repuesto->costo = Input::get('costo_repuesto');
 			$repuesto->idorden_trabajoxactivo = Input::get('idorden_trabajoxactivo');
 			$repuesto->save();
-			/*
-			$otxact = OrdenesTrabajoxactivo::find(Input::get('idorden_trabajoxactivo'));
-			$otxact->costo_total_repuestos += Input::get('cantidad_repuesto')*Input::get('costo_repuesto');
-			$otxact->save();*/
-			return Response::json(array( 'success' => true),200);
+			$otxact = OrdenesTrabajosxactivo::find(Input::get('idorden_trabajoxactivo'));
+			$otxact->costo_total_repuestos = $otxact->costo_total_repuestos + Input::get('cantidad_repuesto')*Input::get('costo_repuesto');
+			$otxact->save();
+			return Response::json(array( 'success' => true,'repuesto'=>$repuesto,'costo_total_repuestos' => number_format($otxact->costo_total_repuestos,2)),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
+	public function submit_delete_repuesto_ajax()
+	{
+		// If there was an error, respond with 404 status
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1){
+
+			$repuesto = RepuestosOt::find(Input::get('idrepuestos_ot'));
+			$otxact = OrdenesTrabajosxactivo::find(Input::get('idorden_trabajoxactivo'));
+			$otxact->costo_total_repuestos = $otxact->costo_total_repuestos - $repuesto->cantidad*$repuesto->costo;
+			$otxact->save();
+			$repuesto->delete();
+			return Response::json(array( 'success' => true,'costo_total_repuestos' => number_format($otxact->costo_total_repuestos,2)),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
+	public function submit_create_personal_ajax()
+	{
+		// If there was an error, respond with 404 status
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1){
+
+			$personal = new DetallePersonalxot;
+			$personal->nombre = Input::get('nombre_personal');
+			$personal->horas_hombre = Input::get('horas_trabajadas');
+			$personal->costo = Input::get('costo_personal');
+			$personal->idorden_trabajoxactivo = Input::get('idorden_trabajoxactivo');
+			$personal->save();
+			$otxact = OrdenesTrabajosxactivo::find(Input::get('idorden_trabajoxactivo'));
+			$otxact->costo_total_personal = $otxact->costo_total_personal + Input::get('horas_trabajadas')*Input::get('costo_personal');
+			$otxact->save();
+			return Response::json(array( 'success' => true,'personal'=>$personal,'costo_total_personal' => number_format($otxact->costo_total_personal,2)),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
+	public function submit_delete_personal_ajax()
+	{
+		// If there was an error, respond with 404 status
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1){
+
+			$personal = DetallePersonalxot::find(Input::get('iddetalle_personalxot'));
+			$otxact = OrdenesTrabajosxactivo::find(Input::get('idorden_trabajoxactivo'));
+			$otxact->costo_total_personal = $otxact->costo_total_personal - $personal->horas_hombre*$personal->costo;
+			$otxact->save();
+			$personal->delete();
+			return Response::json(array( 'success' => true,'costo_total_personal' => number_format($otxact->costo_total_personal,2)),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
 		}
