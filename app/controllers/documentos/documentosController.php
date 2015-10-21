@@ -217,6 +217,46 @@ class DocumentoController extends BaseController {
 		}
 	}
 
+	public function submit_enable_documento(){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1){
+				$documento_id = Input::get('documento_id');
+				$url = "documento/edit_documento"."/".$documento_id;
+				$documento = Documento::withTrashed()->find($documento_id);
+				$documento->restore();
+				Session::flash('message', 'Se habilitó correctamente el documento.');
+				return Redirect::to($url);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function submit_disable_documento(){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1){
+				$documento_id = Input::get("documento_id");
+				$url = "documento/edit_documento"."/".$documento_id;
+				$documento = Documento::find($documento_id);
+				$documento->delete();
+				Session::flash('message','Se inhabilitó correctamente el documento.' );					
+				return Redirect::to($url);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
 	public function download_documento()
 	{
 		if(Auth::check()){

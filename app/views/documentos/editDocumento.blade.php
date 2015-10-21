@@ -30,86 +30,122 @@
 	{{ Form::open(array('url'=>'documento/submit_edit_documento', 'role'=>'form', 'files'=>true)) }}
 		{{ Form::hidden('documento_id', $documento_info->iddocumento) }}
 
-		<div class="col-xs-6">
-
-			<div class="row">
-				<div class="form-group col-xs-8 @if($errors->first('nombre')) has-error has-feedback @endif">
-					{{ Form::label('nombre','Nombre') }}
-					@if($documento_info->deleted_at)
-						{{ Form::text('nombre',$documento_info->nombre,array('class'=>'form-control','readonly'=>'')) }}
-					@else
-						{{ Form::text('nombre',$documento_info->nombre,array('class'=>'form-control')) }}
-					@endif
+		<div class="col-md-6">
+			<div class="panel panel-default">
+			  	<div class="panel-heading">Datos Generales</div>
+			  	<div class="panel-body">
+					<div class="row">
+						<div class="form-group col-md-8 @if($errors->first('nombre')) has-error has-feedback @endif">
+							{{ Form::label('nombre','Nombre') }}
+							@if($documento_info->deleted_at)
+								{{ Form::text('nombre',$documento_info->nombre,array('class'=>'form-control','readonly'=>'')) }}
+							@else
+								{{ Form::text('nombre',$documento_info->nombre,array('class'=>'form-control')) }}
+							@endif
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-8 @if($errors->first('descripcion')) has-error has-feedback @endif">
+							{{ Form::label('descripcion','Descripción') }}
+							@if($documento_info->deleted_at)
+								{{ Form::text('descripcion',$documento_info->descripcion,array('class'=>'form-control','readonly'=>'')) }}
+							@else
+								{{ Form::text('descripcion',$documento_info->descripcion,array('class'=>'form-control')) }}
+							@endif
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-8 @if($errors->first('autor')) has-error has-feedback @endif">
+							{{ Form::label('autor','Autor') }}
+							@if($documento_info->deleted_at)
+								{{ Form::text('autor',$documento_info->autor,array('class'=>'form-control','readonly'=>'')) }}
+							@else
+								{{ Form::text('autor',$documento_info->autor,array('class'=>'form-control')) }}
+							@endif
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-8 @if($errors->first('codigo_archivamiento')) has-error has-feedback @endif">
+							{{ Form::label('codigo_archivamiento','Código de Archivamiento') }}
+							@if($documento_info->deleted_at)
+								{{ Form::text('codigo_archivamiento',$documento_info->codigo_archivamiento,array('class'=>'form-control','readonly'=>'')) }}
+							@else
+								{{ Form::text('codigo_archivamiento',$documento_info->codigo_archivamiento,array('class'=>'form-control')) }}
+							@endif
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-8 @if($errors->first('ubicacion')) has-error has-feedback @endif">
+							{{ Form::label('ubicacion','Ubicación') }}
+							@if($documento_info->deleted_at)
+								{{ Form::text('ubicacion',$documento_info->ubicacion,array('class'=>'form-control','readonly'=>'')) }}
+							@else
+								{{ Form::text('ubicacion',$documento_info->ubicacion,array('class'=>'form-control')) }}
+							@endif
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-8">
+							{{ Form::label('fecha_creacion','Fecha de Creación') }}
+							{{ Form::text('fecha_creacion',$documento_info->created_at,array('class'=>'form-control','readonly'=>'')) }}					
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-8">
+							{{ Form::label('arch_adjunto','Archivo Adjunto') }}
+							{{ Form::text('arch_adjunto',$archivo,array('class'=>'form-control','readonly'=>'')) }}					
+						</div>
+					</div>
+					<!--
+					<div class="row">
+						<div class="form-group col-md-8 @if($errors->first('idtipo_documento')) has-error has-feedback @endif">
+							{{ Form::label('idtipo_documento','Tipo de Documento') }}
+							@if($documento_info->deleted_at)
+								{{ Form::select('idtipo_documento',$tipo_documentos,Input::old('idtipo_documento'),['class' => 'form-control','readonly'=>'']) }}
+							@else
+								{{ Form::select('idtipo_documento',$tipo_documentos,Input::old('idtipo_documento'),['class' => 'form-control']) }}	
+							@endif	
+						</div>
+					</div>	
+					<div class="row">
+						<div class="form-group col-md-8 @if($errors->first('url')) has-error has-feedback @endif">
+						    {{ Form::label('archivo','Seleccione archivo adjunto',array('id'=>'archivo','class'=>'')) }}
+		  					{{ Form::file('archivo','',array('id'=>'archivo','class'=>'')) }}
+						</div>
+					</div>	
+					-->
 				</div>
 			</div>
-			<div class="row">
-				<div class="form-group col-xs-8 @if($errors->first('descripcion')) has-error has-feedback @endif">
-					{{ Form::label('descripcion','Descripción') }}
-					@if($documento_info->deleted_at)
-						{{ Form::text('descripcion',$documento_info->descripcion,array('class'=>'form-control','readonly'=>'')) }}
-					@else
-						{{ Form::text('descripcion',$documento_info->descripcion,array('class'=>'form-control')) }}
-					@endif
-				</div>
-			</div>
-			<div class="row">
-				<div class="form-group col-xs-8 @if($errors->first('autor')) has-error has-feedback @endif">
-					{{ Form::label('autor','Autor') }}
-					@if($documento_info->deleted_at)
-						{{ Form::text('autor',$documento_info->autor,array('class'=>'form-control','readonly'=>'')) }}
-					@else
-						{{ Form::text('autor',$documento_info->autor,array('class'=>'form-control')) }}
-					@endif
-				</div>
-			</div>
-			<div class="row">
-				<div class="form-group col-xs-8 @if($errors->first('codigo_archivamiento')) has-error has-feedback @endif">
-					{{ Form::label('codigo_archivamiento','Código de Archivamiento') }}
-					@if($documento_info->deleted_at)
-						{{ Form::text('codigo_archivamiento',$documento_info->codigo_archivamiento,array('class'=>'form-control','readonly'=>'')) }}
-					@else
-						{{ Form::text('codigo_archivamiento',$documento_info->codigo_archivamiento,array('class'=>'form-control')) }}
-					@endif
-				</div>
-			</div>
-			<div class="row">
-				<div class="form-group col-xs-8 @if($errors->first('ubicacion')) has-error has-feedback @endif">
-					{{ Form::label('ubicacion','Ubicación') }}
-					@if($documento_info->deleted_at)
-						{{ Form::text('ubicacion',$documento_info->ubicacion,array('class'=>'form-control','readonly'=>'')) }}
-					@else
-						{{ Form::text('ubicacion',$documento_info->ubicacion,array('class'=>'form-control')) }}
-					@endif
-				</div>
-			</div>
-			<div class="row">
-				<div class="form-group col-xs-8">
-					{{ Form::label('fecha_creacion','Fecha de Creación') }}
-					{{ Form::text('fecha_creacion',$documento_info->created_at,array('class'=>'form-control','readonly'=>'')) }}					
-				</div>
-			</div>
-			<!--
-			<div class="row">
-				<div class="form-group col-xs-8 @if($errors->first('idtipo_documento')) has-error has-feedback @endif">
-					{{ Form::label('idtipo_documento','Tipo de Documento') }}
-					@if($documento_info->deleted_at)
-						{{ Form::select('idtipo_documento',$tipo_documentos,Input::old('idtipo_documento'),['class' => 'form-control','readonly'=>'']) }}
-					@else
-						{{ Form::select('idtipo_documento',$tipo_documentos,Input::old('idtipo_documento'),['class' => 'form-control']) }}	
-					@endif	
-				</div>
-			</div>	
-			<div class="row">
-				<div class="form-group col-xs-8 @if($errors->first('url')) has-error has-feedback @endif">
-				    {{ Form::label('archivo','Seleccione archivo adjunto',array('id'=>'archivo','class'=>'')) }}
-  					{{ Form::file('archivo','',array('id'=>'archivo','class'=>'')) }}
-				</div>
-			</div>	
-			-->
-			
-			@if(!$documento_info->deleted_at)
-				{{ Form::submit('Guardar',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}
-			@endif		
 		</div>
+		<div class="row">
+		</div>
+
+				<div class="container-fluid row">			
+				@if(!$documento_info->deleted_at)
+				<div class="col-md-2 form-group">
+					{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit-edit', 'type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}						
+				</div>
+				@endif
+				<div class="col-md-2 form-group">
+					<a class="btn btn-default btn-block" href="{{URL::to('/documento/list_documentos')}}">Cancelar</a>
+				</div>	
+		{{ Form::close() }}
+			@if($documento_info->deleted_at)
+			{{ Form::open(array('url'=>'documento/submit_enable_documento', 'role'=>'form')) }}
+				{{ Form::hidden('documento_id', $documento_info->iddocumento) }}
+					<div class="form-group col-md-2 col-md-offset-8">
+						{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-up"></span> Habilitar', array('id'=>'submit-delete', 'type' => 'submit', 'class' => 'btn btn-success btn-block')) }}
+					</div>
+			{{ Form::close() }}
+			@else
+			{{ Form::open(array('url'=>'documento/submit_disable_documento', 'role'=>'form')) }}
+				{{ Form::hidden('documento_id', $documento_info->iddocumento) }}
+					<div class="form-group col-md-2 col-md-offset-6">
+						{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-down"></span> Inhabilitar', array('id'=>'submit-delete', 'type' => 'submit', 'class' => 'btn btn-danger btn-block')) }}
+					</div>
+			{{ Form::close() }}
+			@endif
+			</div>
+		
 	{{ Form::close() }}
 @stop

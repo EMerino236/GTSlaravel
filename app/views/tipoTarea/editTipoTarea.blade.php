@@ -24,13 +24,13 @@
 	{{ Form::open(array('url'=>'tipoTarea/submit_edit_tipoTarea', 'role'=>'form')) }}
 		{{ Form::hidden('tipoTarea_id', $tipoTarea_info->idtipo_tarea) }}
 
-		<div class="col-xs-6">
+		<div class="col-md-6">
 			<div class="panel panel-default">
 			  	<div class="panel-heading">Datos Generales</div>
 			  	<div class="panel-body">
 
 					<div class="row">
-						<div class="form-group col-xs-8 @if($errors->first('nombre')) has-error has-feedback @endif">
+						<div class="form-group col-md-8 @if($errors->first('nombre')) has-error has-feedback @endif">
 							{{ Form::label('nombre','Nombre') }}
 							@if($tipoTarea_info->deleted_at)
 								{{ Form::text('nombre',$tipoTarea_info->nombre,array('class'=>'form-control','readonly'=>'')) }}
@@ -40,7 +40,7 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="form-group col-xs-8 @if($errors->first('descripcion')) has-error has-feedback @endif">
+						<div class="form-group col-md-8 @if($errors->first('descripcion')) has-error has-feedback @endif">
 							{{ Form::label('descripcion','Descripción') }}
 							@if($tipoTarea_info->deleted_at)
 								{{ Form::text('descripcion',$tipoTarea_info->descripcion,array('class'=>'form-control','readonly'=>'')) }}

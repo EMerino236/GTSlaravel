@@ -182,10 +182,9 @@ class ReportesInstalacionController extends BaseController {
 				$data["search"] = null;
 				$data["search_proveedor"] = null;
 				$data["search_area"] = null;
-				$data["search_codigo_compra"] = null;
-				/*
-				$data["sots_data"] = SolicitudOrdenTrabajo::getSotsInfo()->paginate(10);
-				*/
+				$data["search_codigo_compra"] = null;			
+
+				$data["reportes_instalacion_data"] = ReporteInstalacion::getReportesInstalacionInfo();
 				return View::make('reportes_instalacion/listReporteInstalacion',$data);
 			}else{
 				return View::make('error/error');

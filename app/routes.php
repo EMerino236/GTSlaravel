@@ -213,6 +213,8 @@ Route::group(array('prefix'=>'documento', 'before'=>'auth'),function(){
 	Route::post('/submit_create_documento','DocumentoController@submit_create_documento');
 	Route::get('/search_documento','DocumentoController@search_documento');
 	Route::post('/download_documento','DocumentoController@download_documento');
+	Route::post('/submit_disable_documento','DocumentoController@submit_disable_documento');
+	Route::post('/submit_enable_documento','DocumentoController@submit_enable_documento');	
 });
 
 /* Solicitudes Compra */

@@ -55,5 +55,42 @@
 		</div>
 	{{ Form::close() }}</br>
 
-	
+	<table class="table">
+		<tr class="info">
+			<th>Código de Compra</th>
+			<th>Personal de Revisión</th>
+			<th>Proveedor</th>
+			<th>Departamento</th>
+			<th>Rep. Entorno Concluido</th>
+			<th>Rep. Equipo FUncional</th>
+		</tr>
+		@foreach($reportes_instalacion_data as $reporte_instalacion_data)
+		<tr class="@if($reporte_instalacion_data->deleted_at) bg-danger @endif">
+			<td>
+				{{$reporte_instalacion_data->codigo_compra}}</a>
+			</td>
+			<td>
+				{{$reporte_instalacion_data->nombre_responsable}}
+			</td>
+			<td>
+				{{$reporte_instalacion_data->nombre_proveedor}}
+			</td>
+			<td>
+				{{$reporte_instalacion_data->nombre_area}}
+			</td>
+			<td>
+				{{$reporte_instalacion_data->rep_entorno_concluido}}
+			</td>
+			@if($reporte_instalacion_data->rep_equipo_funcional != '')
+				<td>
+					{{$reporte_instalacion_data->rep_equipo_funcional}}
+				</td>	
+			@else	
+				<td>
+					<a href="{{URL::to('/rep_instalacion/create_rep_instalacion/')}}">{{"Crear"}}</a>
+				</td>
+			@endif			
+		</tr>
+		@endforeach
+	</table>
 @stop
