@@ -7,6 +7,20 @@
         </div>
         <!-- /.col-lg-12 -->
     </div>
+
+    @if (Session::has('message'))
+		<div class="alert alert-success alert-dissmisable">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('message') }}
+		</div>
+	@endif
+	@if (Session::has('error'))
+		<div class="alert alert-danger alert-dissmisable">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('error') }}
+		</div>
+	@endif
+
     {{ Form::open(array('url'=>'/equipos/search_equipos','method'=>'get' ,'role'=>'form', 'id'=>'search-form','class' => 'form-group')) }}	
 	<div class="panel panel-default">
 	  <div class="panel-heading">
@@ -96,8 +110,7 @@
 					<tr class="info">
 						<th class="text-nowrap">Nº</th>
 						<th class="text-nowrap">Grupo</th>
-						<th class="text-nowrap">Servicio Clinico</th>
-						<th class="text-nowrap">Ubicacion Fisica</th>
+						<th class="text-nowrap">Servicio Clinico</th>						
 						<th class="text-nowrap">Nombre SIGA</th>
 						<th class="text-nowrap">Nombre de Equipo</th>
 						<th class="text-nowrap">Marca</th>
@@ -105,7 +118,9 @@
 						<th class="text-nowrap">Serie</th>
 						<th class="text-nowrap">Proveedor</th>
 						<th class="text-nowrap">Código de Compra</th>
-						<th class="text-nowrap">Código Patrimonial</th>	
+						<th class="text-nowrap">Código Patrimonial</th>
+						<th class="text-nowrap">Soporte Técnico</th>
+						<th class="text-nowrap">Editar</th>
 					</tr>
 					@foreach($activos_data as $index => $activo_data)
 					<tr class="@if($activo_data->deleted_at) bg-danger @endif">			
@@ -117,10 +132,7 @@
 						</td>
 						<td class="text-nowrap">
 							{{$activo_data->nombre_servicio}}
-						</td>
-						<td class="text-nowrap">
-							{{$activo_data->nombre_ubicacion_fisica}}
-						</td>
+						</td>						
 						<td class="text-nowrap">
 							{{$activo_data->nombre_siga}}
 						</td>
@@ -142,8 +154,16 @@
 						<td class="text-nowrap">
 							{{$activo_data->codigo_compra}}
 						</td>
-						<td class="text-nowrap">
-							<a href="{{URL::to('/equipos/edit_equipo/')}}/{{$activo_data->idactivo}}">{{$activo_data->codigo_patrimonial}}</a>							
+						<td>
+							<a href="{{URL::to('/equipos/view_equipo/')}}/{{$activo_data->idactivo}}">{{$activo_data->codigo_patrimonial}}</a>							
+						</td>
+						<td>
+							<a class="btn btn-success btn-block btn-sm" href="{{URL::to('/equipos/create_soporte_tecnico_equipo/')}}/{{$activo_data->idactivo}}">
+							<span class="glyphicon glyphicon-plus"></span> Agregar</a>
+						</td>
+						<td>
+							<a class="btn btn-warning btn-block btn-sm" href="{{URL::to('/equipos/edit_equipo/')}}/{{$activo_data->idactivo}}">
+							<span class="glyphicon glyphicon-pencil"></span> Editar</a>
 						</td>
 					</tr>
 					@endforeach				

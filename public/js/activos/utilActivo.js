@@ -1,5 +1,10 @@
 $( document ).ready(function(){
 
+	$("#datetimepicker1").datetimepicker({
+		ignoreReadonly: true,
+		format: 'DD-MM-YYYY'
+	});
+
 	init();
 
  	$('#servicio_clinico').change(function(){

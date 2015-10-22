@@ -109,13 +109,15 @@ class ActivosController extends BaseController
 					'grupo' => 'required',
 					'marca' => 'required',
 					'nombre_equipo' => 'required',
+					'modelo' => 'required',
 					'numero_serie' => 'required',
 					'proveedor' => 'required',
 					'codigo_compra' => 'required',
 					'codigo_patrimonial' => 'required',
 					'fecha_adquisicion' => 'required',
 					'centro_costo' => 'required',
-					'garantia' => 'required'
+					'garantia' => 'required',
+					'idreporte_instalacion' => 'required',
 					);
 
 				$validator = Validator::make(Input::all(), $rules);
@@ -131,19 +133,17 @@ class ActivosController extends BaseController
 					$activo->garantia = Input::get('garantia');	
 					$activo->codigo_compra = Input::get('codigo_compra');
 					$activo->idgrupo = Input::get('grupo');
-					$activo->idfamilia_activo = Input::get('nombre_equipo');
+					$activo->idmodelo_equipo = Input::get('modelo');
 					$activo->idservicio = Input::get('servicio_clinico');
 					$activo->idcentro_costo = Input::get('centro_costo');
 					$activo->idproveedor = Input::get('proveedor');
-					$activo->idreporte_instalacion = 1;
+					$activo->idreporte_instalacion = Input::get('idreporte_instalacion');
 					$activo->idestado = 1;
 					$activo->idubicacion_fisica = Input::get('ubicacion_fisica');
 
 					$activo->save();
 
-					Session::flash('message', 'Se registró correctamente el activo.');
-
-					return Redirect::to('equipos/create_equipo');
+					return Redirect::to('equipos/list_equipos')->with('message', 'Se registró correctamente el activo.');
 				}
 			}else{
 				return View::make('error/error');
@@ -153,7 +153,104 @@ class ActivosController extends BaseController
 		}
 	}
 
-	public function render_edit_marca($idequipo=null)
+	public function render_edit_activo($idequipo=null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if(($data["user"]->idrol == 1) && $idequipo){
+				$data["equipo_info"] = Activo::searchActivosById($idequipo)->get();
+
+				if($data["equipo_info"]->isEmpty())
+				{
+					return Redirect::to('equipos/list_equipos');
+				}
+
+				$data["equipo_info"] = $data["equipo_info"][0];
+				$data["grupos"] = Grupo::lists('nombre','idgrupo');
+				$data["servicios"] = Servicio::lists('nombre','idservicio');
+				$data["ubicaciones"] = UbicacionFisica::where('idservicio','=',$data["equipo_info"]->idservicio)->lists('nombre','idubicacion_fisica');
+				$data["nombre_equipo"] = FamiliaActivo::where('idmarca','=',$data["equipo_info"]->idmarca)->lists('nombre_equipo','idfamilia_activo');
+				$data["modelo_equipo"] = ModeloActivo::where('idfamilia_activo','=',$data["equipo_info"]->idfamilia_activo)->lists('nombre','idmodelo_equipo');
+				$data["reporte_instalacion"] = ReporteInstalacion::where('idreporte_instalacion','=',$data["equipo_info"]->idreporte_instalacion)->get();
+				$data["reporte_instalacion"] = $data["reporte_instalacion"][0];				
+				
+				$data["marcas"]	= Marca::lists('nombre','idmarca');
+				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
+				$data["centro_costos"]	= CentroCosto::lists('nombre','idcentro_costo');
+				return View::make('activos/editActivo',$data);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function submit_edit_activo()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1){
+				// Validate the info, create rules for the inputs
+				$rules = array(
+					'servicio_clinico' => 'required',
+					'ubicacion_fisica' => 'required',
+					'grupo' => 'required',
+					'marca' => 'required',
+					'nombre_equipo' => 'required',
+					'modelo' => 'required',
+					'numero_serie' => 'required',
+					'proveedor' => 'required',
+					'codigo_compra' => 'required',
+					'codigo_patrimonial' => 'required',
+					'fecha_adquisicion' => 'required',
+					'centro_costo' => 'required',
+					'garantia' => 'required',
+					'idreporte_instalacion' => 'required',
+					);
+				// Run the validation rules on the inputs from the form
+				$validator = Validator::make(Input::all(), $rules);
+				// If the validator fails, redirect back to the form
+				if($validator->fails()){
+					$equipo_id = Input::get('equipo_id');
+					$url = "equipos/edit_equipo"."/".$equipo_id;
+					return Redirect::to($url)->withErrors($validator)->withInput(Input::all());
+				}else{
+					$equipo_id = Input::get('equipo_id');
+					//$url = "equipos/edit_equipo"."/".$equipo_id;
+					$activo = Activo::find($equipo_id);
+					$activo->codigo_patrimonial = Input::get('codigo_patrimonial');
+					$activo->numero_serie = Input::get('numero_serie');
+					$activo->anho_adquisicion = date('Y-m-d',strtotime(Input::get('fecha_adquisicion')));
+					$activo->garantia = Input::get('garantia');	
+					$activo->codigo_compra = Input::get('codigo_compra');
+					$activo->idgrupo = Input::get('grupo');
+					$activo->idmodelo_equipo = Input::get('modelo');
+					$activo->idservicio = Input::get('servicio_clinico');
+					$activo->idcentro_costo = Input::get('centro_costo');
+					$activo->idproveedor = Input::get('proveedor');
+					$activo->idreporte_instalacion = Input::get('idreporte_instalacion');
+					$activo->idestado = 1;
+					$activo->idubicacion_fisica = Input::get('ubicacion_fisica');	
+
+					$activo->save();
+					
+					return Redirect::to('equipos/list_equipos')->with('message', 'Se editó correctamente el equipo.');
+				}
+			}else{
+				return View::make('error/error');
+			}
+
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function render_view_activo($idequipo=null)
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
@@ -169,73 +266,21 @@ class ActivosController extends BaseController
 				$data["servicios"] = Servicio::lists('nombre','idservicio');
 				$data["ubicaciones"] = UbicacionFisica::where('idservicio','=',$data["equipo_info"]->idservicio)->lists('nombre','idubicacion_fisica');
 				$data["nombre_equipo"] = FamiliaActivo::where('idmarca','=',$data["equipo_info"]->idmarca)->lists('nombre_equipo','idfamilia_activo');
+				$data["modelo_equipo"] = ModeloActivo::where('idfamilia_activo','=',$data["equipo_info"]->idfamilia_activo)->lists('nombre','idmodelo_equipo');
+				$data["reporte_instalacion"] = ReporteInstalacion::where('idreporte_instalacion','=',$data["equipo_info"]->idreporte_instalacion)->get();
+				$data["reporte_instalacion"] = $data["reporte_instalacion"][0];
+
+				$data["accesorios_info"] = Accesorio::getAccesorioByModelo($data["equipo_info"]->idmodelo_equipo)->get();
+				$data["consumibles_info"] = Consumible::getConsumibleByModelo($data["equipo_info"]->idmodelo_equipo)->get();				
+				$data["componentes_info"] = Componente::getComponenteByModelo($data["equipo_info"]->idmodelo_equipo)->get();				
+				
 				$data["marcas"]	= Marca::lists('nombre','idmarca');
 				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
 				$data["centro_costos"]	= CentroCosto::lists('nombre','idcentro_costo');
-				return View::make('activos/editActivo',$data);
+				return View::make('activos/viewActivo',$data);
 			}else{
 				return View::make('error/error');
 			}
-		}else{
-			return View::make('error/error');
-		}
-	}
-
-	public function submit_edit_equipo()
-	{
-		if(Auth::check()){
-			$data["inside_url"] = Config::get('app.inside_url');
-			$data["user"] = Session::get('user');
-			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
-				// Validate the info, create rules for the inputs
-				$rules = array(
-					'servicio_clinico' => 'required',
-					'ubicacion_fisica' => 'required',
-					'grupo' => 'required',
-					'marca' => 'required',
-					'nombre_equipo' => 'required',
-					'numero_serie' => 'required',
-					'proveedor' => 'required',
-					'codigo_compra' => 'required',
-					'codigo_patrimonial' => 'required',
-					'fecha_adquisicion' => 'required',
-					'centro_costo' => 'required',
-					'garantia' => 'required'
-					);
-				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
-				// If the validator fails, redirect back to the form
-				if($validator->fails()){
-					$equipo_id = Input::get('equipo_id');
-					$url = "equipos/edit_equipo"."/".$equipo_id;
-					return Redirect::to($url)->withErrors($validator)->withInput(Input::all());
-				}else{
-					$equipo_id = Input::get('equipo_id');
-					$url = "equipos/edit_equipo"."/".$equipo_id;
-					$activo = Activo::find($equipo_id);
-					$activo->codigo_patrimonial = Input::get('codigo_patrimonial');
-					$activo->numero_serie = Input::get('numero_serie');
-					$activo->anho_adquisicion = Input::get('fecha_adquisicion');
-					$activo->garantia = Input::get('garantia');	
-					$activo->codigo_compra = Input::get('codigo_compra');
-					$activo->idgrupo = Input::get('grupo');
-					$activo->idfamilia_activo = Input::get('nombre_equipo');
-					$activo->idservicio = Input::get('servicio_clinico');
-					$activo->idcentro_costo = Input::get('centro_costo');
-					$activo->idproveedor = Input::get('proveedor');
-					$activo->idreporte_instalacion = 1;
-					$activo->idestado = 1;
-					$activo->idubicacion_fisica = Input::get('ubicacion_fisica');	
-
-					$activo->save();
-					Session::flash('message', 'Se editó correctamente el equipo.');
-					return Redirect::to($url);
-				}
-			}else{
-				return View::make('error/error');
-			}
-
 		}else{
 			return View::make('error/error');
 		}
@@ -314,6 +359,57 @@ class ActivosController extends BaseController
 			return Response::json(array( 'success' => true, 'modelo_equipo' => $modelo_equipo ),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
+	public function validate_numero_reporte_ajax()
+	{
+		if(!Request::ajax() || !Auth::check())
+		{
+			return Response::json(array( 'success' => false ),200);
+		}
+
+		$id = Auth::id();
+		$data["inside_url"] = Config::get('app.inside_url');
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1){
+			// Check if the current user is the "System Admin"
+			$data = Input::get('numero_reporte');
+			
+			$abreviatura = mb_substr($data,0,2);
+			$correlativo = mb_substr($data,2,4);
+			$anho = mb_substr($data,7,2);
+			$reporte = ReporteInstalacion::searchReporteInstalacionByNumeroReporte($abreviatura,$correlativo,$anho)->get();
+
+			return Response::json(array( 'success' => true,'data' => $reporte),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
+	public function render_create_soporte_tecnico_equipo($idequipo=null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"]= Session::get('user');
+
+			if(($data["user"]->idrol == 1) && $idequipo){
+				$data["equipo_info"] = Activo::searchActivosById($idequipo)->get();
+
+				if($data["equipo_info"]->isEmpty()){
+
+					return Redirect::to('equipos/list_equipos');
+				}
+
+				$data["equipo_info"] = $data["equipo_info"][0];
+				
+				
+				return View::make('soporte_tecnico/createSoporteTecnicoActivo',$data);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
 		}
 	}
 

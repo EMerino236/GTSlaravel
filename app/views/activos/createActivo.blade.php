@@ -22,18 +22,25 @@
 			<p><strong>{{ $errors->first('fecha_adquisicion',"El campo Fecha de Adquisición es requerido.") }}</strong></p>
 			<p><strong>{{ $errors->first('centro_costo',"El campo Centro de Costo es requerido.") }}</strong></p>
 			<p><strong>{{ $errors->first('garantia',"El campo Garantía es requerido.") }}</strong></p>
+			<p><strong>{{ $errors->first('reporte_instalacion',"El campo Reporte de Instalación es requerido.") }}</strong></p>
+			<p><strong>{{ $errors->first('idreporte_instalacion',"Ingrese un número de reporte válido. ") }}</strong></p>
 		</div>
 	@endif
 
-	@if (Session::has('message'))
-		<div class="alert alert-success">{{ Session::get('message') }}</div>
+	 @if (Session::has('message'))
+		<div class="alert alert-success alert-dissmisable">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('message') }}
+		</div>
 	@endif
 	@if (Session::has('error'))
-		<div class="alert alert-danger">{{ Session::get('error') }}</div>
+		<div class="alert alert-danger alert-dissmisable">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('error') }}
+		</div>
 	@endif
 
-	{{ Form::open(array('url'=>'equipos/submit_create_equipo', 'role'=>'form')) }}	
-
+	{{ Form::open(array('url'=>'equipos/submit_create_equipo', 'role'=>'form')) }}
 		<div class="row">			
 			<div class="col-md-12">
 				<div class="panel panel-default">
@@ -114,22 +121,23 @@
 		<div class="row">			
 			<div class="col-md-12">
 				<div class="panel panel-default">
-		  		<div class="panel-heading">Datos Generales</div>
+		  		<div class="panel-heading">Reporte de Instalación</div>
 		  			<div class="panel-body">	
 						<div class="form-group row">								
 							<div class="col-md-3 @if($errors->first('servicio_clinico')) has-error has-feedback @endif">
 								{{ Form::label('reporte_instalacion','Reporte de Instalación') }}<span style="color:red">*</span>
-								{{ Form::select('reporte_instalacion',array('' => 'Seleccione') + $servicios,Input::old('idservicio'),['class' => 'form-control'])}}								
-							</div>
-							<div class="col-md-3 @if($errors->first('ubicacion_fisica')) has-error has-feedback @endif">
-								{{ Form::label('ubicacion_fisica','Ubicación Física') }}<span style="color:red">*</span>
-								{{ Form::select('ubicacion_fisica',array('' => 'Seleccione'),Input::old('ubicacion_fisica'),array('class'=>'form-control'))}}
-							</div>
-							<div class="col-md-3 @if($errors->first('grupo')) has-error has-feedback @endif">
-								{{ Form::label('grupo','Grupo') }}<span style="color:red">*</span>
-								{{ Form::select('grupo',array('' => 'Seleccione') + $grupos,Input::old('idgrupo'),['class' => 'form-control'])}}								
+								{{ Form::text('reporte_instalacion',Input::old('reporte_instalacion'),['class' => 'form-control', 'placeholder'=>'Reporte de Instalación'])}}								
 							</div>
 							<div class="col-md-3">
+								<button id="btnValidarNumReporte" class="btn btn-primary btn-block" type="button" style="margin-top:25px"><span class="glyphicon glyphicon-search"></span> Buscar</button>
+							</div>
+							<div class="col-md-3">
+								<button id="btnLimpiarNumReporte" class="btn btn-default btn-block" type="button" style="margin-top:25px"><span class="glyphicon glyphicon-refresh"></span> Limpiar</button>						
+							</div>
+							<div class="col-md-3">
+								{{ Form::label('mensaje_validacion','Validación') }}
+								{{ Form::text('mensaje_validacion',Input::old('mensaje_validacion'),['class' => 'form-control'])}}
+								{{ Form::hidden('idreporte_instalacion') }}								
 							</div>			
 						</div>
 					</div>

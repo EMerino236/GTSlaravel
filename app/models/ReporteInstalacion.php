@@ -30,6 +30,15 @@ class ReporteInstalacion extends Eloquent{
 		$query->where('idtipo_reporte_instalacion','=',$tipo_reporte)
 			  ->orderBy('created_at','desc');
 		return $query;
+	}
+
+	public function scopeSearchReporteInstalacionByNumeroReporte($query,$abreviatura,$correlativo,$anho)
+	{
+		$query->where('reporte_instalaciones.idtipo_reporte_instalacion','=','2')
+			  ->where('numero_reporte_abreviatura','=',$abreviatura)
+			  ->where('numero_reporte_correlativo','=',$correlativo)
+			  ->where('numero_reporte_anho','=',$anho);
+		return $query;
 	}	
 
 	public function scopeGetReportesInstalacionInfo($query)

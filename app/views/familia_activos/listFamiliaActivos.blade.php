@@ -66,7 +66,7 @@
 				<th>Tipo Activo</th>
 				<th>Nombre SIGA</th>
 				<th>Nombre Equipo</th>				
-				<th>Marca</th>
+				<th>Marca</th>				
 				<th>Editar</th>
 			</tr>
 			@foreach($familiaactivos_data as $index => $familiaactivo_data)

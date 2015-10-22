@@ -38,9 +38,11 @@
     <script src="{{ asset('bower_components/morrisjs/morris.min.js') }}"></script>
     <!-- Custom Theme JavaScript -->
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
-    <script src="{{ asset('js/user/user.js') }}"></script>
+    
     <script src="{{ asset('js/activos/listActivos.js') }}"></script>
     <script src="{{ asset('js/activos/utilActivo.js') }}"></script>
+    <script src="{{ asset('js/activos/createActivos.js') }}"></script>    
+    <script src="{{ asset('js/activos/editActivos.js') }}"></script>    
 </head>
 
 <body>

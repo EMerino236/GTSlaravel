@@ -102,12 +102,17 @@ Route::group(array('prefix'=>'equipos','before'=>'auth'),function(){
 	Route::get('/search_equipos','ActivosController@search_activos');
 	Route::get('/create_equipo','ActivosController@render_create_activo');
 	Route::post('/submit_create_equipo','ActivosController@submit_create_activo');
-	Route::get('/edit_equipo/{id}','ActivosController@render_edit_marca');
-	Route::post('/submit_edit_equipo','ActivosController@submit_edit_equipo');
+	Route::get('/edit_equipo/{id}','ActivosController@render_edit_activo');
+	Route::post('/submit_edit_equipo','ActivosController@submit_edit_activo');
+	Route::get('/view_equipo/{id}','ActivosController@render_view_activo');
+
+	Route::get('/create_soporte_tecnico_equipo/{id}','ActivosController@render_create_soporte_tecnico_equipo');
+
 	Route::post('/search_list_ubicacion_ajax','ActivosController@search_ubicacion_ajax');
 	Route::post('/search_create_ubicacion_ajax','ActivosController@search_ubicacion_ajax');
 	Route::post('/search_nombre_equipo_ajax','ActivosController@search_nombre_equipo_ajax');
-	Route::post('/search_modelo_equipo_ajax','ActivosController@search_modelo_equipo_ajax');	
+	Route::post('/search_modelo_equipo_ajax','ActivosController@search_modelo_equipo_ajax');
+	Route::post('/validate_numero_reporte_ajax','ActivosController@validate_numero_reporte_ajax');	
 });
 
 /*Configuraciones*/
@@ -252,5 +257,5 @@ Route::group(array('prefix'=>'rep_instalacion','before'=>'auth'),function(){
 	Route::get('/search_rep_instalacion','ReportesInstalacionController@search_rep_instalacion');
 	Route::post('/return_name_responsable/{postData}','ReportesInstalacionController@return_name_responsable');
 	Route::post('/return_name_doc_relacionado/{postData}','ReportesInstalacionController@return_name_doc_relacionado');
-	Route::post('/return_num_rep_entorno_concluido/{postData}','ReportesInstalacionController@return_num_rep_entorno_concluido');
+	Route::post('/return_num_rep_entorno_concluido/{postData}','ReportesInstalacionController@return_num_rep_entorno_concluido');	
 });
