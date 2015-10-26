@@ -166,6 +166,57 @@ class ReportesInstalacionController extends BaseController {
 		}
 	}
 
+	public function render_edit_rep_instalacion($id=null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1){
+				$data["areas"] = Area::lists('nombre','idarea');
+				$data["proveedores"] = Proveedor::lists('razon_social','idproveedor');
+				$data["tipos_reporte_instalacion"] = TipoReporteInstalacion::lists('nombre','idtipo_reporte_instalacion');
+				$data["reporte_instalacion_info"] = ReporteInstalacion::searchReporteInstalacionById($id)->get();
+				$data["reporte_instalacion_info"] = $data["reporte_instalacion_info"][0];
+				$data["tareas_info"] = DetalleReporteInstalacion::searchDetalleReporteByIdReporteInstalacion($id)->get();
+				$data["usuario_responsable"] = User::searchUserById($data["reporte_instalacion_info"]->id_responsable)->get()[0];
+				$data["documento_certificado_funcionalidad"] = Documento::searchDocumentoCertificadoFuncionalidadByIdReporteInstalacion($id)->get();			
+				if(!$data["documento_certificado_funcionalidad"]->isEmpty()){					
+					$data["documento_certificado_funcionalidad"] = $data["documento_certificado_funcionalidad"][0];
+				}
+				else {
+					$data["documento_certificado_funcionalidad"] = null;
+				}
+				$data["documento_contrato"] = Documento::searchDocumentoContratoByIdReporteInstalacion($id)->get();
+				if(!$data["documento_contrato"]->isEmpty()){
+					$data["documento_contrato"] = $data["documento_contrato"][0];
+				}
+				else{
+					$data["documento_contrato"] = null;
+				}
+				$data["documento_manual"] = Documento::searchDocumentoManualByIdReporteInstalacion($id)->get();
+				if(!$data["documento_manual"]->isEmpty()){
+					$data["documento_manual"] = $data["documento_manual"][0];
+				}
+				else{
+					$data["documento_manual"] = null;
+				}
+				$data["documento_tdr"] = Documento::searchDocumentoTdRByIdReporteInstalacion($id)->get();
+				if(!$data["documento_tdr"]->isEmpty()){
+					$data["documento_tdr"] = $data["documento_tdr"][0];
+				}
+				else{
+					$data["documento_tdr"] = null;
+				}
+				return View::make('reportes_instalacion/editReporteInstalacion',$data);
+			}else{
+				return View::make('error/error');
+			}
+
+		}else{
+			return View::make('error/error');
+		}
+	}
 	public function list_rep_instalacion()
 	{
 		if(Auth::check()){
@@ -179,7 +230,7 @@ class ReportesInstalacionController extends BaseController {
 				*/
 				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');	
 				$data["areas"] = Area::lists('nombre','idarea');			
-				$data["search"] = null;
+				$data["search_usuario_responsable"] = null;
 				$data["search_proveedor"] = null;
 				$data["search_area"] = null;
 				$data["search_codigo_compra"] = null;			
@@ -193,7 +244,7 @@ class ReportesInstalacionController extends BaseController {
 		}else{
 			return View::make('error/error');
 		}
-	}	
+	}
 
 	public function search_rep_instalacion(){
 		if(Auth::check()){
@@ -201,14 +252,13 @@ class ReportesInstalacionController extends BaseController {
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
-				$data["fecha_desde"] = date('Y-m-d H:i:s',strtotime(Input::get('fecha_desde')));				
-				$data["fecha_hasta"] = date('Y-m-d H:i:s',strtotime(Input::get('fecha_hasta')));
+				$data["search_usuario_responsable"] = Input::get('search_usuario_responsable');
+				$data["search_codigo_compra"] = Input::get('search_codigo_compra');
 				$data["search_proveedor"] = Input::get('search_proveedor');
+				$data["search_area"] = Input::get('search_area');
 				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
-				$data["search_tipo_reporte"] = Input::get('search_tipo_reporte');
-				$data["reportes_data"] = ReporteIncumplimiento::searchReportes($data["fecha_desde"],$data["fecha_hasta"],$data["search_proveedor"],$data["search_tipo_reporte"])->paginate(10);
-				$data["fecha_desde"] = date('d-m-Y',strtotime(Input::get('fecha_desde')));				
-				$data["fecha_hasta"] = date('d-m-Y',strtotime(Input::get('fecha_hasta')));
+				$data["areas"] = Area::lists('nombre','idarea');
+				$data["reportes_instalacion_data"] = ReporteInstalacion::searchReportes($data["search_usuario_responsable"],$data["search_codigo_compra"],$data["search_proveedor"],$data["search_area"]);
 				return View::make('reportes_instalacion/listReporteInstalacion',$data);	
 			}else{
 				return View::make('error/error');

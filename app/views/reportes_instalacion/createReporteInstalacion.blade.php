@@ -52,9 +52,9 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<div class="form-group col-md-8 @if($errors->first('descripcion')) has-error has-feedback @endif">
+						<div class="form-group col-md-12 @if($errors->first('descripcion')) has-error has-feedback @endif">
 							{{ Form::label('descripcion','Descripción') }}
-							{{ Form::text('descripcion',Input::old('descripcion'),array('class'=>'form-control')) }}
+							{{ Form::textarea('descripcion',Input::old('descripcion'),['class' => 'form-control','style'=>'resize:none;'])}}
 						</div>
 					</div>
 				</div>	

@@ -29,6 +29,38 @@ class Documento extends Eloquent implements UserInterface, RemindableInterface {
 		return $query;
 	}	
 
+	public function scopeSearchDocumentoCertificadoFuncionalidadByIdReporteInstalacion($query,$search_criteria)
+	{
+		$query->withTrashed()
+			  ->where('idreporte_instalacion','=',$search_criteria)
+			  ->where('idtipo_documento','=',6);
+		return $query;
+	}
+
+	public function scopeSearchDocumentoContratoByIdReporteInstalacion($query,$search_criteria)
+	{
+		$query->withTrashed()
+			  ->where('idreporte_instalacion','=',$search_criteria)
+			  ->where('idtipo_documento','=',1);
+		return $query;
+	}
+
+	public function scopeSearchDocumentoManualByIdReporteInstalacion($query,$search_criteria)
+	{
+		$query->withTrashed()
+			  ->where('idreporte_instalacion','=',$search_criteria)
+			  ->where('idtipo_documento','=',2);
+		return $query;
+	}
+
+	public function scopeSearchDocumentoTdRByIdReporteInstalacion($query,$search_criteria)
+	{
+		$query->withTrashed()
+			  ->where('idreporte_instalacion','=',$search_criteria)
+			  ->where('idtipo_documento','=',7);
+		return $query;
+	}
+
 	public function scopeSearchDocumentoByCodigoArchivamiento($query,$search_criteria)
 	{
 		$query->withTrashed()

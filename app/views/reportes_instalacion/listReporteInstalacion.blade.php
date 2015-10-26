@@ -20,12 +20,12 @@
 				<div class="col-xs-6">
 					<div class="row">
 						<div class="form-group col-xs-8">
-							{{ Form::label('search','Nombre de usuario solicitante') }}
-							{{ Form::text('search',$search,array('class'=>'form-control','placeholder'=>'Usuario solicitante')) }}
+							{{ Form::label('search_usuario_responsable','Nombre de usuario solicitante') }}
+							{{ Form::text('search_usuario_responsable',$search_usuario_responsable,array('class'=>'form-control','placeholder'=>'Usuario solicitante')) }}
 						</div>
 						<div class="form-group col-xs-8">
 							{{ Form::label('search_proveedor','Proveedor:')}}
-							{{ Form::select('search_proveedor',array('0' => 'Seleccione')+$proveedor, $search_proveedor,array('class'=>'form-control')) }}
+							{{ Form::select('search_proveedor',array('' => 'Seleccione')+$proveedor, $search_proveedor,array('class'=>'form-control')) }}
 						</div>
 					</div>
 				</div>
@@ -39,7 +39,7 @@
 					<div class="row">
 						<div class="form-group col-xs-8">
 							{{ Form::label('search_area','Departamento:')}}
-							{{ Form::select('search_area',array('0' => 'Seleccione')+$areas, $search_area,array('class'=>'form-control')) }}
+							{{ Form::select('search_area',array('' => 'Seleccione')+$areas, $search_area,array('class'=>'form-control')) }}
 						</div>
 					</div>
 				</div>
@@ -62,7 +62,7 @@
 			<th>Proveedor</th>
 			<th>Departamento</th>
 			<th>Rep. Entorno Concluido</th>
-			<th>Rep. Equipo FUncional</th>
+			<th>Rep. Equipo Funcional</th>
 		</tr>
 		@foreach($reportes_instalacion_data as $reporte_instalacion_data)
 		<tr class="@if($reporte_instalacion_data->deleted_at) bg-danger @endif">
@@ -79,15 +79,16 @@
 				{{$reporte_instalacion_data->nombre_area}}
 			</td>
 			<td>
-				{{$reporte_instalacion_data->rep_entorno_concluido}}
+				<a href="{{URL::to('/rep_instalacion/edit_rep_instalacion/')}}/{{$reporte_instalacion_data->idrep_ent_conc}}">{{$reporte_instalacion_data->rep_entorno_concluido}}</a>
 			</td>
 			@if($reporte_instalacion_data->rep_equipo_funcional != '')
 				<td>
-					{{$reporte_instalacion_data->rep_equipo_funcional}}
+					<a href="{{URL::to('/rep_instalacion/edit_rep_instalacion/')}}/{{$reporte_instalacion_data->idrep_eq_func}}">{{$reporte_instalacion_data->rep_equipo_funcional}}</a>
 				</td>	
 			@else	
 				<td>
-					<a href="{{URL::to('/rep_instalacion/create_rep_instalacion/')}}">{{"Crear"}}</a>
+					<a class="btn btn-primary btn-block btn-sm" href="{{URL::to('/rep_instalacion/create_rep_instalacion/')}}">
+						<span class="glyphicon glyphicon-plus"></span> Crear</a>
 				</td>
 			@endif			
 		</tr>
