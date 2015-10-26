@@ -57,4 +57,16 @@ class SolicitudCompra extends Eloquent{
 		return $query;
 	}
 
+	public function scopeGetSolicitudCompraById($query,$idsolicitud_compra){
+		$query->withTrashed()
+			   ->join('servicios','servicios.idservicio','=','solicitud_compras.idservicio')			  
+			  ->join('familia_activos','familia_activos.idfamilia_activo','=','solicitud_compras.idfamilia_activo')
+			  ->join('marcas','marcas.idmarca','=','familia_activos.idmarca')
+			  ->join('estados','estados.idestado','=','solicitud_compras.idestado')
+			  ->join('tipo_solicitud_compras','tipo_solicitud_compras.idtipo_solicitud_compra','=','solicitud_compras.idtipo_solicitud_compra')
+			  ->where('solicitud_compras.idsolicitud_compra','=',$idsolicitud_compra)
+			  ->select('marcas.idmarca as idmarca','solicitud_compras.*');
+			return $query;
+	}
+
 }

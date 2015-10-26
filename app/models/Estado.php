@@ -6,6 +6,8 @@ class Estado extends Eloquent{
 	use SoftDeletingTrait;	
 	protected $softDelete = true;
 
+	protected $primaryKey = 'idestado';
+
 	public function scopeGetEstadosByNombreTabla($query,$nombre_tabla)
 	{
 		$query->join('tablas','tablas.idtabla','=','estados.idtabla')

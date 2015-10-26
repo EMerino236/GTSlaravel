@@ -1,19 +1,11 @@
 $( document ).ready(function(){
+
+
  	$('#datetimepicker1').datetimepicker({
  		ignoreReadonly: true,
  		format:'DD-MM-YYYY'
  	});
-    $('#datetimepicker2').datetimepicker({
-        //Important! See issue #1075
-        ignoreReadonly: true,
-        format:'DD-MM-YYYY'
-    });
-    $("#datetimepicker1").on("dp.change", function (e) {
-        $('#datetimepicker2').data("DateTimePicker").minDate(e.date);
-    });
-    $("#datetimepicker2").on("dp.change", function (e) {
-        $('#datetimepicker1').data("DateTimePicker").maxDate(e.date);
-    });
+
     fill_responsable_servicio();
     fill_contacto_proveedor();
     fill_name_responsable(1);
@@ -21,10 +13,9 @@ $( document ).ready(function(){
     fill_name_responsable(3);
     fill_name_contrato();
     $('#btn_descarga').hide();
-
 });
 
-function fill_responsable_servicio(){       
+function fill_responsable_servicio(){   
         var val = $("#servicio").val();
         if(val == null){
             return;
@@ -188,7 +179,6 @@ function fill_name_contrato(){
                             $("#nombre_contrato").val(resp[0].nombre);
                             $("#btn_descarga").show();
                             $("input[name=numero_contrato_hidden]").val(val);
-                            
                         }
                         else{
                             $("#nombre_contrato").val("Documento no registrado");
@@ -227,5 +217,36 @@ function clean_name_contrato(){
     $("#numero_contrato").val("");
     $("#nombre_contrato").css('background-color','white');
     $("#btn_descarga").hide();
+}
+
+function export_pdf(){
+    val = 1;
+    $.ajax({
+            url: inside_url+'reportes_incumplimiento/export_pdf',
+            type: 'POST',
+            data: { 'selected_id' : val },
+            beforeSend: function(){
+                $("#delete-selected-profiles").addClass("disabled");
+                $("#delete-selected-profiles").hide();
+                $(".loader_container").show();
+            },
+            complete: function(){
+                $(".loader_container").hide();
+                $("#delete-selected-profiles").removeClass("disabled");
+                $("#delete-selected-profiles").show();
+                delete_selected_profiles = true;
+            },
+            success: function(response){
+                if(response.success){
+                    var resp = response['html'];
+                    alert(resp);                                   
+                }else{
+                    alert('La petición no se pudo completar, inténtelo de nuevo.');
+                }
+            },
+            error: function(){
+                alert('La petición no se pudo completar, inténtelo de nuevo.');
+            }
+        });
 }
 

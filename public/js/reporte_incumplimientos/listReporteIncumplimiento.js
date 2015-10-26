@@ -1,5 +1,5 @@
 $( document ).ready(function(){
-
+    
 	$('#search_datetimepicker1').datetimepicker({
  		ignoreReadonly: true,
  		format:'DD-MM-YYYY'
@@ -20,6 +20,7 @@ $( document ).ready(function(){
 		limpiar_criterios();
 	});
 
+    
 });
 
 function limpiar_criterios()

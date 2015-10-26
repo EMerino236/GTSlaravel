@@ -45,16 +45,7 @@
 								@else
 									{{ Form::text('descripcion',$centro_costo_info->descripcion,array('class'=>'form-control')) }}
 								@endif							
-							</div>
-						
-							<div class="form-group col-md-4 @if($errors->first('presupuesto')) has-error has-feedback @endif">
-								{{ Form::label('presupuesto','Presupuesto') }}
-								@if($centro_costo_info->deleted_at)
-									{{ Form::text('presupuesto',$centro_costo_info->presupuesto,array('class'=>'form-control','readonly'=>'','disabled'=>'disabled')) }}
-								@else
-									{{ Form::text('presupuesto',$centro_costo_info->presupuesto,array('class'=>'form-control')) }}
-								@endif
-							</div>				
+							</div>		
 						</div>
 					</div>
 				</div>			

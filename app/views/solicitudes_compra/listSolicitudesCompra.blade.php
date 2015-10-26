@@ -76,7 +76,8 @@
 				<th>Nombre de Equipo</th>
 				<th>Servicio Clínico</th>
 				<th>Número OT</th>
-				<th>Estado</th>	
+				<th>Estado</th>
+				<th>Editar</th>	
 			</tr>
 			@foreach($solicitudes_data as $index => $solicitud_data)
 				<tr>
@@ -89,6 +90,10 @@
 					<td>{{$solicitud_data->nombre_servicio}}</td>
 					<td>{{$solicitud_data->idordenes_trabajo}}</td>
 					<td>{{$solicitud_data->nombre_estado}}</td>
+					<td>
+						<a class="btn btn-warning btn-block btn-sm" href="{{URL::to('/solicitudes_compra/edit_solicitud_compra/')}}/{{$solicitud_data->idsolicitud_compra}}">
+						<span class="glyphicon glyphicon-pencil"></span> Editar</a>
+					</td>
 				</tr>
 			@endforeach	
 		</table>

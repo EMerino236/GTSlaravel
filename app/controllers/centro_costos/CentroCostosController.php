@@ -103,7 +103,6 @@ class CentroCostosController extends BaseController
 					$centro_costo = new CentroCosto;
 					$centro_costo->nombre = Input::get('nombre');
 					$centro_costo->descripcion = Input::get('descripcion');
-					$centro_costo->presupuesto = Input::get('presupuesto');
 					$centro_costo->idestado = 1;
 					$centro_costo->save();
 					Session::flash('message', 'Se registró correctamente el centro de costo.');
@@ -143,7 +142,6 @@ class CentroCostosController extends BaseController
 					$centro_costo = CentroCosto::find($centro_id);
 					$centro_costo->nombre = Input::get('nombre');
 					$centro_costo->descripcion = Input::get('descripcion');
-					$centro_costo->presupuesto = Input::get('presupuesto');
 					$centro_costo->save();
 					Session::flash('message', 'Se editó correctamente el centro de costo.');
 					return Redirect::to($url);

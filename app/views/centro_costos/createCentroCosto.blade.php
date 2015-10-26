@@ -36,11 +36,7 @@
 							<div class="form-group col-md-4 @if($errors->first('descripcion')) has-error has-feedback @endif">
 								{{ Form::label('descripcion','Descripción') }}
 								{{ Form::text('descripcion',Input::old('descripcion'),['class' => 'form-control'])}}
-							</div>						
-							<div class="form-group col-md-4 @if($errors->first('presupuesto')) has-error has-feedback @endif">
-								{{ Form::label('presupuesto','Presupuesto') }}
-								{{ Form::text('presupuesto',Input::old('presupuesto'),['class' => 'form-control'])}}
-							</div>
+							</div>	
 						</div>
 					</div>			
 				</div>

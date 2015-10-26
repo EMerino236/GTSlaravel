@@ -38,7 +38,6 @@
     <script src="{{ asset('bower_components/morrisjs/morris.min.js') }}"></script>
     <!-- Custom Theme JavaScript -->
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
-    <script src="{{ asset('js/user/user.js') }}"></script>
     <script src="{{ asset('js/reporte_incumplimientos/listReporteIncumplimiento.js') }}"></script>
     <script src="{{ asset('js/reporte_incumplimientos/reportes_incumplimiento.js') }}"></script>
 </head>
@@ -60,7 +59,5 @@
         	@yield('content')
         </div>
 	</div>
-
-
 </body>
 </html>

@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="robots" content="noindex, follow">
-	<title>RRequerimiento de Compra</title>
+	<title>Requerimiento de Compra</title>
 	<!-- Bootstrap Core CSS -->
     <link href="{{ asset('bower_components/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- Datepicker CSS-->
@@ -38,7 +38,6 @@
     <script src="{{ asset('bower_components/morrisjs/morris.min.js') }}"></script>
     <!-- Custom Theme JavaScript -->
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
-    <script src="{{ asset('js/user/user.js') }}"></script>
     <script src="{{ asset('js/solicitudes_compra/createSolicitudCompra.js') }}"></script>
 </head>
 

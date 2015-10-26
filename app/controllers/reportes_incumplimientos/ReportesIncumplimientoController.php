@@ -392,7 +392,6 @@ class ReportesIncumplimientoController extends BaseController
 			}else{
 				return View::make('error/error');
 			}
-
 		}else{
 			return View::make('error/error');
 		}
@@ -498,5 +497,8 @@ class ReportesIncumplimientoController extends BaseController
 		}
 		return $string;
 	}
+
+	
+	
 
 }

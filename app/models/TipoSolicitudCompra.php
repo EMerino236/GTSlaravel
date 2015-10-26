@@ -7,5 +7,6 @@ class TipoSolicitudCompra extends Eloquent{
 	protected $softDelete = true;
 
 	protected $table = "tipo_solicitud_compras";
+	protected $primaryKey = 'idtipo_solicitud_compra';
 
 }

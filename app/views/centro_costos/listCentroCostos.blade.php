@@ -35,7 +35,6 @@
 		<tr class="info">
 			<th>N°</th>
 			<th>Nombre del Centro de Costo</th>
-			<th>Presupuesto</th>
 			<th>Fecha Creación</th>
 			<th>Editar</th>
 		</tr>
@@ -46,9 +45,6 @@
 			</td>
 			<td>
 				{{$centro_costo->nombre}}
-			</td>
-			<td>
-				{{$centro_costo->presupuesto}}
 			</td>
 			<td>
 				{{$centro_costo->created_at->format('d-m-Y')}}
