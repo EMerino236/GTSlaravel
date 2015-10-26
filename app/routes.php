@@ -115,6 +115,16 @@ Route::group(array('prefix'=>'equipos','before'=>'auth'),function(){
 	Route::post('/validate_numero_reporte_ajax','ActivosController@validate_numero_reporte_ajax');	
 });
 
+/*Soporte Técnico*/
+Route::group(array('prefix'=>'soportes_tecnico','before'=>'auth'),function(){
+	Route::get('/list_soporte_tecnico','SoportesTecnicoController@list_soporte_tecnico');
+	Route::get('/create_soporte_tecnico','SoportesTecnicoController@render_create_soporte_tecnico');
+	Route::post('/submit_create_soporte_tecnico','SoportesTecnicoController@submit_create_soporte_tecnico');
+	Route::get('/edit_soporte_tecnico/{id}','SoportesTecnicoController@render_edit_soporte_tecnico');
+	Route::post('/submit_edit_soporte_tecnico','SoportesTecnicoController@submit_edit_soporte_tecnico');
+	Route::get('/view_soporte_tecnico/{id}','SoportesTecnicoController@render_view_soporte_tecnico');
+});
+
 /*Configuraciones*/
 Route::group(array('prefix'=>'configuraciones','before'=>'auth'),function(){
 	Route::get('/','ConfiguracionesController@home');	

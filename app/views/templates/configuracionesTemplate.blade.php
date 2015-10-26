@@ -63,18 +63,18 @@
                                 <!-- /.nav-second-level -->
                             </li>
                             <li>
-                                <a href="#">Servicios <span class="fa arrow"></span></a>
-                                <ul class="nav nav-second-level">
-                                    <li>{{ HTML::link('/servicios/create_servicio','Nuevo Servicio') }}</li>
-                                    <li>{{ HTML::link('/servicios/list_servicios','Buscar Servicio') }}</li>
-                                </ul>
-                                <!-- /.nav-second-level -->
-                            </li>
-                            <li>
                                 <a href="#">Centro de Costos <span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
                                     <li>{{ HTML::link('/centro_costos/create_centro_costo','Nuevo Centro de Costo') }}</li>
                                     <li>{{ HTML::link('/centro_costos/list_centros_costos','Buscar Centro de Costo') }}</li>
+                                </ul>
+                                <!-- /.nav-second-level -->
+                            </li>
+                            <li>
+                                <a href="#">Familias de Equipos <span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li>{{ HTML::link('/familia_activos/create_familia_activo','Nueva Familia de Equipo') }}</li>
+                                    <li>{{ HTML::link('/familia_activos/list_familia_activos','Buscar Familia de Equipo') }}</li>
                                 </ul>
                                 <!-- /.nav-second-level -->
                             </li>
@@ -94,10 +94,18 @@
                                 </ul>
                             </li>
                             <li>
-                                <a href="#">Familias de Equipos <span class="fa arrow"></span></a>
+                                <a href="#">Servicios <span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
-                                    <li>{{ HTML::link('/familia_activos/create_familia_activo','Nueva Familia de Equipo') }}</li>
-                                    <li>{{ HTML::link('/familia_activos/list_familia_activos','Buscar Familia de Equipo') }}</li>
+                                    <li>{{ HTML::link('/servicios/create_servicio','Nuevo Servicio') }}</li>
+                                    <li>{{ HTML::link('/servicios/list_servicios','Buscar Servicio') }}</li>
+                                </ul>
+                                <!-- /.nav-second-level -->
+                            </li>
+                            <li>
+                                <a href="#">Soporte Técnico <span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li>{{ HTML::link('/soportes_tecnico/create_soporte_tecnico','Nuevo Soporte Técnico') }}</li>
+                                    <li>{{ HTML::link('/soportes_tecnico/list_soporte_tecnico','Buscar Soporte Técnico') }}</li>
                                 </ul>
                                 <!-- /.nav-second-level -->
                             </li>

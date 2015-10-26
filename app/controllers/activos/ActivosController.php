@@ -395,6 +395,8 @@ class ActivosController extends BaseController
 
 			if(($data["user"]->idrol == 1) && $idequipo){
 				$data["equipo_info"] = Activo::searchActivosById($idequipo)->get();
+				$data["tipo_documento_identidad"] = TipoDocumento::lists('nombre','idtipo_documento');
+				$data["search_tipo_documento"] = null;
 
 				if($data["equipo_info"]->isEmpty()){
 
