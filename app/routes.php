@@ -274,3 +274,33 @@ Route::group(array('prefix'=>'rep_instalacion','before'=>'auth'),function(){
 	Route::post('/return_name_doc_relacionado/{postData}','ReportesInstalacionController@return_name_doc_relacionado');
 	Route::post('/return_num_rep_entorno_concluido/{postData}','ReportesInstalacionController@return_num_rep_entorno_concluido');	
 });
+
+/*Acta de Conformidad*/
+Route::group(array('prefix'=>'actas_conformidad','before'=>'auth'),function(){
+	Route::get('/list_actas','ActasConformidadController@list_actas');	
+	Route::get('/create_acta','ActasConformidadController@render_create_acta');
+	Route::post('/submit_create_acta','ActasConformidadController@submit_create_acta');
+	Route::get('/edit_acta/{id}','ActasConformidadController@render_edit_acta');
+	Route::get('/search_acta','ActasConformidadController@search_acta');
+	Route::post('/submit_edit_acta','ActasConformidadController@submit_edit_acta');
+	Route::post('/submit_disable_acta','ActasConformidadController@submit_disable_acta');
+	Route::post('/submit_enable_acta','ActasConformidadController@submit_enable_acta');
+	Route::post('/return_name_acta','ActasConformidadController@return_name_acta');
+	Route::post('/download_acta','ActasConformidadController@download_acta');
+});
+
+/* Mantenimiento Preventivo */
+Route::group(array('prefix'=>'mant_preventivo','before'=>'auth'),function(){
+	Route::get('/programacion','OtPreventivoController@render_program_ot_mant_preventivo');
+	/*Route::post('/submit_programacion','OtController@submit_program_ot_mant_correctivo');
+	Route::post('/calendario_ot_mant_correctivo','OtController@calendario_ot_mant_correctivo_ajax');*/
+	Route::get('/list_mant_preventivo','OtPreventivoController@list_mant_preventivo');
+	Route::post('/search_equipo_ajax','OtPreventivoController@search_equipo_ajax');
+	/*Route::get('/search_ot_mant_correctivo','OtController@search_ot_mant_correctivo');
+	Route::get('/create_ot/{id}','OtController@render_create_ot');
+	Route::post('/submit_create_ot','OtController@submit_create_ot');
+	Route::post('/submit_create_repuesto_ajax','OtController@submit_create_repuesto_ajax');
+	Route::post('/submit_delete_repuesto_ajax','OtController@submit_delete_repuesto_ajax');
+	Route::post('/submit_create_personal_ajax','OtController@submit_create_personal_ajax');
+	Route::post('/submit_delete_personal_ajax','OtController@submit_delete_personal_ajax');*/
+});

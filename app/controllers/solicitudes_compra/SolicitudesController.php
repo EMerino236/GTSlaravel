@@ -195,6 +195,7 @@ class SolicitudesController extends BaseController
 			$data = Input::get('selected_id');
 			if($data !="vacio"){
 				$documento = Documento::searchDocumentoByCodigoArchivamiento($data)->get();
+				
 			}else{
 				$documento = null;
 			}

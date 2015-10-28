@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
     <meta name="robots" content="noindex, follow">
-    <title>Bienes</title>
+    <title>Ordenes de Trabajo</title>
     <!-- Bootstrap Core CSS -->
     <link href="{{ asset('bower_components/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- Datepicker CSS-->
@@ -44,6 +44,8 @@
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
     <script src="{{ asset('js/bienes/reportes_incumplimiento.js') }}"></script>
     <script src="{{ asset('js/bienes/ot.js') }}"></script>
+    <script src="{{ asset('js/bienes/listOtPreventivo.js')}}"></script>
+    <script src="{{ asset('js/bienes/addOtPreventivo.js')}}"></script>
 
 </head>
 
@@ -102,10 +104,11 @@
                             <li>
                                 <a href="#">Programación <span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">
-									<li>{{ HTML::link('/#','Inspecciones y MP de TS') }}</li>
-									<li>{{ HTML::link('/#','Inspecciones y MP de ambientes y servicios no clínicos') }}</li>
-									<li>{{ HTML::link('/#','Inspecciones de servicios clínicos') }}</li>
-									<li>{{ HTML::link('/#','Verificación metrológica') }}</li>
+                                    <li>{{ HTML::link('/#','Inspecciones de Equipos') }}</li>
+                                    <li>{{ HTML::link('/#','Inspecciones de Infraestructura') }}</li>
+                                    <li>{{ HTML::link('/#','Inspecciones de Servicios Hospitalarios') }}</li>
+                                    <li>{{ HTML::link('/mant_preventivo/list_mant_preventivo','Mantenimiento Preventivo') }}</li>
+                                    <li>{{ HTML::link('/#','Verificación metrológica') }}</li>
                                     <li>{{ HTML::link('/mant_correctivo/list_mant_correctivo','MC TS') }}</li>
                                     <li>{{ HTML::link('/mant_correctivo/list_mant_correctivo','MC bienes') }}</li>
                                 </ul>
