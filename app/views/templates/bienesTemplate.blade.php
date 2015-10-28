@@ -69,7 +69,9 @@
                                 <a href="#">Retiro TS <span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">
 									<li>{{ HTML::link('/#','Reporte de retiro de equipos') }}</li>
-									<li>{{ HTML::link('/#','Listado TS (baja virtual)') }}</li>
+                                    <li>{{ HTML::link('/#','Programación de OT de retiro de servicio') }}</li>
+                                    <li>{{ HTML::link('/#','OT de retiro de servicio') }}</li>
+									<li>{{ HTML::link('/#','Listado de baja definitiva') }}</li>
 									<li>{{ HTML::link('/#','Indicadores baja de bienes') }}</li>
                                 </ul>
                                 <!-- /.nav-third-level -->
