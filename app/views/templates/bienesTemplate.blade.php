@@ -90,7 +90,7 @@
 									<li>{{ HTML::link('/#','Reporte de supervisión') }}</li>
                                     <li>{{ HTML::link('/proveedores/list_proveedores','Directorio') }}</li>
 									<li>{{ HTML::link('/reportes_incumplimiento/list_reportes','Reporte de incumplimiento') }}</li>
-                        			<li>{{ HTML::link('/#','Acta de conformidad') }}</li>
+                        			<li>{{ HTML::link('/actas_conformidad/list_actas','Acta de conformidad') }}</li>
 									<li>{{ HTML::link('/#','Indicadores') }}</li>
                                 </ul>
                                 <!-- /.nav-third-level -->
@@ -98,10 +98,11 @@
                             <li>
                                 <a href="#">Programación <span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">
-									<li>{{ HTML::link('/#','Inspecciones y MP de TS') }}</li>
-									<li>{{ HTML::link('/#','Inspecciones y MP de ambientes y servicios no clínicos') }}</li>
-									<li>{{ HTML::link('/#','Inspecciones de servicios clínicos') }}</li>
-									<li>{{ HTML::link('/#','Verificación metrológica') }}</li>
+									<li>{{ HTML::link('/#','Inspecciones de Equipos') }}</li>
+                                    <li>{{ HTML::link('/#','Inspecciones de Infraestructura') }}</li>
+                                    <li>{{ HTML::link('/#','Inspecciones de Servicios Hospitalarios') }}</li>
+                                    <li>{{ HTML::link('/mant_preventivo/list_mant_preventivo','Mantenimiento Preventivo') }}</li>
+									<li>{{ HTML::link('/verif_metrologica/list_verif_metrologica','Verificación metrológica') }}</li>
 									<li>{{ HTML::link('/mant_correctivo/list_mant_correctivo','Mantenimiento Correctivo') }}</li>
                                 </ul>
                                 <!-- /.nav-third-level -->

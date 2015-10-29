@@ -38,7 +38,7 @@ class ReporteIncumplimiento extends Eloquent{
 			  ->join('proveedores','proveedores.idproveedor','=','reporte_incumplimientos.idproveedor')
 			  ->join('ordenes_trabajos','ordenes_trabajos.idordenes_trabajo','=','reporte_incumplimientos.idordenes_trabajo');
 			  
-			  if($fecha_hasta != "")
+			  if($fecha_desde != "")
 			  {
 			  	$query->where('reporte_incumplimientos.fecha','>',$fecha_desde);
 			  }

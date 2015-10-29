@@ -148,16 +148,23 @@ function addRowDetalle(){
     var modelo = $('#nombre_equipo2').val();
     var serie_parte = $('#serie_parte').val();
     var cantidad = $('#cantidad').val();
-    var cantidad_filas = $("#table_solicitud tr").length-1;    
+    var cantidad_filas = $("#table_solicitud tr").length-1;
+    cantidad = parseInt(cantidad);
     if(descripcion!='' && marca!='' && modelo !='' && serie_parte!='' && cantidad!=''){
-        $('#table_solicitud').append("<tr><td id="+cantidad_filas+">"+descripcion+"</td>"
-        +"<td>"+marca+"</td>"
-        +"<td>"+modelo+"</td>"
-        +"<td>"+serie_parte+"</td>"
-        +"<td>"+cantidad+"</td>"
-        +"<td><a href='' class='btn btn-danger delete-detail' onclick='deleteRow(event,this)'><span class=\"glyphicon glyphicon-remove\"></span>Eliminar</a></td></tr>");
-        refresh();
+        if(!isNaN(cantidad) || cantidad>999999){
+            $('#table_solicitud').append("<tr><td id="+cantidad_filas+">"+descripcion+"</td>"
+            +"<td>"+marca+"</td>"
+            +"<td>"+modelo+"</td>"
+            +"<td>"+serie_parte+"</td>"
+            +"<td>"+cantidad+"</td>"
+            +"<td><a href='' class='btn btn-danger delete-detail' onclick='deleteRow(event,this)'><span class=\"glyphicon glyphicon-remove\"></span>Eliminar</a></td></tr>");
+            refresh();
+        }else{
+            $('#modal_detail_text').html('<p>Campo Cantidad no es un numero entre 0 y 999999</p>');
+            $('#myModal').modal('show');     
+        }
     }else{
+        $('#modal_detail_text').html('<p>Ingresar todos los campos completos.</p>');          
         $('#myModal').modal('show');       
     }    
 }

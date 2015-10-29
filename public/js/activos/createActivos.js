@@ -16,8 +16,8 @@ $( document ).ready(function(){
 
 function init()
 {
-	$("#mensaje_validacion").css('background-color','#fff');
-    $("#mensaje_validacion").css('color','white');
+	$("#mensaje_validacion").css('background-color','#eee');
+    $("#mensaje_validacion").css('color','#555');
 }
 
 function validate_numero_reporte_ajax()
@@ -71,6 +71,6 @@ function limpiar_reporte_instalacion()
 {
 	$('#reporte_instalacion').val("");	
 	$('#mensaje_validacion').val("");
-	$("#mensaje_validacion").css('background-color','#fff');
-    $("#mensaje_validacion").css('color','white');
+	$("#mensaje_validacion").css('background-color','#eee');
+    $("#mensaje_validacion").css('color','#555');
 }

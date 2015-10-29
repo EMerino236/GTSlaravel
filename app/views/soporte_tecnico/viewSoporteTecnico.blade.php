@@ -32,11 +32,11 @@
 		  	<div class="panel-body">
 		  		<div class="row">
 		  			<div class="form-group col-md-4 @if($errors->first('tipo_documento_identidad')) has-error has-feedback @endif">
-						{{ Form::label('tipo_documento_identidad','Tipo de Documento') }}<span style="color:red">*</span>
+						{{ Form::label('tipo_documento_identidad','Tipo de Documento') }}
 						{{ Form::select('tipo_documento_identidad', array('' => 'Seleccione') + $tipo_documento_identidad,$soporte_tecnico_info->idtipo_documento,['class' => 'form-control', 'readonly']) }}						
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('numero_documento_soporte_tecnico')) has-error has-feedback @endif">
-						{{ Form::label('numero_documento_soporte_tecnico','Número de Documento') }}<span style="color:red">*</span>
+						{{ Form::label('numero_documento_soporte_tecnico','Número de Documento') }}
 						{{ Form::text('numero_documento_soporte_tecnico',$soporte_tecnico_info->numero_doc_identidad,array('class'=>'form-control','readonly')) }}
 					</div>
 					<div class="form-group col-md-2">
@@ -45,29 +45,29 @@
 		  		</div>
 		  		<div class="row">
 		  			<div class="form-group col-md-4 @if($errors->first('nombre_soporte_tecnico')) has-error has-feedback @endif">
-						{{ Form::label('nombre_soporte_tecnico','Nombre') }}<span style="color:red">*</span>
+						{{ Form::label('nombre_soporte_tecnico','Nombre') }}
 						{{ Form::text('nombre_soporte_tecnico',$soporte_tecnico_info->nombres,array('class'=>'form-control','readonly')) }}
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('apPaterno_soporte_tecnico')) has-error has-feedback @endif">
-						{{ Form::label('apPaterno_soporte_tecnico','Apellido Paterno') }}<span style="color:red">*</span>
+						{{ Form::label('apPaterno_soporte_tecnico','Apellido Paterno') }}
 						{{ Form::text('apPaterno_soporte_tecnico',$soporte_tecnico_info->apellido_pat,array('class'=>'form-control','readonly')) }}
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('apMaterno_soporte_tecnico')) has-error has-feedback @endif">
-						{{ Form::label('apMaterno_soporte_tecnico','Apellido Materno') }}<span style="color:red">*</span>
+						{{ Form::label('apMaterno_soporte_tecnico','Apellido Materno') }}
 						{{ Form::text('apMaterno_soporte_tecnico',$soporte_tecnico_info->apellido_mat,array('class'=>'form-control','readonly')) }}
 					</div>
 		  		</div>
 		  		<div class="row">
 		  			<div class="form-group col-md-4 @if($errors->first('especialidad_soporte_tecnico')) has-error has-feedback @endif">
-						{{ Form::label('especialidad_soporte_tecnico','Especialidad') }}<span style="color:red">*</span>
+						{{ Form::label('especialidad_soporte_tecnico','Especialidad') }}
 						{{ Form::text('especialidad_soporte_tecnico',$soporte_tecnico_info->especialidad,array('class'=>'form-control','readonly')) }}
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('telefono_soporte_tecnico')) has-error has-feedback @endif">
-						{{ Form::label('telefono_soporte_tecnico','Telefono') }}<span style="color:red">*</span>
+						{{ Form::label('telefono_soporte_tecnico','Telefono') }}
 						{{ Form::text('telefono_soporte_tecnico',$soporte_tecnico_info->telefono,array('class'=>'form-control','readonly')) }}
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('email_soporte_tecnico')) has-error has-feedback @endif">
-						{{ Form::label('email_soporte_tecnico','E-mail') }}<span style="color:red">*</span>
+						{{ Form::label('email_soporte_tecnico','E-mail') }}
 						{{ Form::text('email_soporte_tecnico',$soporte_tecnico_info->email,array('class'=>'form-control','readonly')) }}
 					</div>
 		  		</div>		  		

@@ -9,7 +9,6 @@
 
     @if ($errors->has())
 		<div class="alert alert-danger" role="alert">
-			<p><strong>{{ $errors->first('idtipo_reporte_instalacion') }}</strong></p>
 			<p><strong>{{ $errors->first('codigo_compra') }}</strong></p>
 			<p><strong>{{ $errors->first('idproveedor') }}</strong></p>
 			<p><strong>{{ $errors->first('idarea') }}</strong></p>
@@ -26,7 +25,7 @@
 		<div class="alert alert-danger">{{ Session::get('error') }}</div>
 	@endif  
 
-    {{ Form::open(array('url'=>'/rep_instalacion/submit_create_rep_instalacion','role'=>'form')) }}
+    {{ Form::open(array('url'=>'/rep_instalacion/submit_edit_rep_instalacion','role'=>'form')) }}
     	{{ Form::hidden('reporte_instalacion_id', $reporte_instalacion_info->idreporte_instalacion) }}
 		<div class="panel panel-default">
 		  	<div class="panel-heading">
@@ -37,21 +36,13 @@
 					<div class="form-group row">
 						<div class="form-group col-md-8 @if($errors->first('idtipo_reporte_instalacion')) has-error has-feedback @endif">
 							{{ Form::label('idtipo_reporte_instalacion','Tipo de Reporte de Instalación') }}
-							@if($reporte_instalacion_info->deleted_at)
-								{{ Form::select('idtipo_reporte_instalacion',array('' => 'Seleccione') + $tipos_reporte_instalacion,$reporte_instalacion_info->idtipo_reporte_instalacion,['class' => 'form-control','readonly'=>'']) }}
-							@else
-								{{ Form::select('idtipo_reporte_instalacion',array('' => 'Seleccione') + $tipos_reporte_instalacion,$reporte_instalacion_info->idtipo_reporte_instalacion,['class' => 'form-control']) }}
-							@endif								
+							{{ Form::select('idtipo_reporte_instalacion',array('' => 'Seleccione') + $tipos_reporte_instalacion,$reporte_instalacion_info->idtipo_reporte_instalacion,['disabled' => 'disabled', 'class' => 'form-control','readonly'=>'']) }}												
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="form-group col-md-8 @if($errors->first('codigo_compra')) has-error has-feedback @endif">
 							{{ Form::label('codigo_compra','Código de Compra') }}
-							@if($reporte_instalacion_info->deleted_at)
-								{{ Form::text('codigo_compra',$reporte_instalacion_info->codigo_compra,array('class'=>'form-control','readonly'=>'')) }}
-							@else
-								{{ Form::text('codigo_compra',$reporte_instalacion_info->codigo_compra,array('class'=>'form-control')) }}
-							@endif
+							{{ Form::text('codigo_compra',$reporte_instalacion_info->codigo_compra,array('class'=>'form-control','readonly'=>'')) }}
 						</div>
 					</div>						
 					<div class="form-group row">
@@ -77,16 +68,10 @@
 				</div>	
 				<div class="col-md-6">
 					<div class="form-group row">
-					</div>
-					<div class="form-group row">
-					</div>
-					<div class="form-group row">
-					</div>
-					<div class="form-group row">
-					</div>
-					<div class="form-group row">
-					</div>
-					<div class="form-group row">
+						<div class="form-group col-md-8">
+							{{ Form::label('numero_reporte','Número de Reporte') }}
+							{{ Form::text('numero_reporte',$reporte_instalacion_info->numero_reporte_abreviatura.$reporte_instalacion_info->numero_reporte_correlativo."-".$reporte_instalacion_info->numero_reporte_anho,['class' => 'form-control','readonly'=>'']) }}							
+						</div>
 					</div>
 					<div class="form-group row">
 						<div class="form-group col-md-8 @if($errors->first('idarea')) has-error has-feedback @endif">
@@ -111,6 +96,38 @@
 			</div>
 		</div>
 
+		<div class="panel panel-default">
+		  	<div class="panel-heading">
+		    	<h3 class="panel-title">Detalle de Tarea</h3>
+		  	</div>
+  			<div class="panel-body">
+  				<div class="col-md-6">
+					<div class="form-group row">
+						<div class="form-group col-md-10 @if($errors->first('nombre_tarea')) has-error has-feedback @endif">
+							{{ Form::label('nombre_tarea','Nombre de Tarea') }}
+							{{ Form::text('nombre_tarea',Input::old('nombre_tarea'),array('class'=>'form-control')) }}
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group row">
+						<div class="form-group col-md-6 @if($errors->first('tarea_realizada')) has-error has-feedback @endif">
+							{{ Form::label('tarea_realizada','Estado de Tarea') }}
+							{{ Form::select('tarea_realizada',array('1' => 'Realizado','0' => 'No Realizado'),Input::old('tarea_realizada'),['class' => 'form-control']) }}
+						</div>
+					</div>
+				</div>
+				<div class="container-fluid row form-group">
+					<div class="col-md-2 col-md-offset-8">
+							<div class="btn btn-primary btn-block" id="btnAgregarFila"><span class="glyphicon glyphicon-plus"></span>Agregar</div>				
+					</div>
+					<div class="col-md-2">
+							<div class="btn btn-default btn-block" id="btnLimpiar"><span class="glyphicon glyphicon-refresh"></span>Limpiar</div>				
+					</div>
+				</div>
+  			</div>
+  		</div>
+
   		<div class="panel panel-default">
 		  	<div class="panel-heading">
 		    	<h3 class="panel-title">Tareas</h3>
@@ -131,7 +148,7 @@
 							<input style="border:0" name='details_tarea[]' value='{{ $tareas_info[$i]->nombre_tarea }}' readonly/>
 						</td>
 						<td>
-							<input style="border:0" name='details_estado[]' value='{{ $tareas_info[$i]->tarea_realizada }}' readonly/>
+							<input style="border:0" name='details_estado[]' value='{{ $tareas_info[$i]->tarea_realizada}}' readonly/>
 						</td>
 						<td>
 							<a href='' class='btn btn-default delete-detail' onclick='deleteRow(event,this)'>Eliminar</a>
@@ -152,9 +169,15 @@
 						{{ Form::label('numero_documento1','Número Documento') }}
 						{{ Form::text('numero_documento1',$usuario_responsable->numero_doc_identidad,['class' => 'form-control','id'=>'numero_documento1'])}}
 					</div>
-					<div class="form-group col-md-4"  style="margin-left:15px">
+							<div class="form-group col-md-2" style="margin-top:25px">
+								<a class="btn btn-primary btn-block" onclick="llenar_nombre_responsable(1)"><span class="glyphicon glyphicon-plus"></span> Agregar</a>
+							</div>
+							<div class="form-group col-md-2" style="margin-top:25px; margin-left:15px">
+								<a class="btn btn-default btn-block" onclick="limpiar_nombre_responsable(1)"><span class="glyphicon glyphicon-refresh"></span> Limpiar</a>
+							</div>
+							<div class="form-group col-md-4"  style="margin-left:15px">
 						{{ Form::label('responsable','Responsable de la Revisión') }}
-						{{ Form::text('responsable',$usuario_responsable->apellido_pat.' '.$usuario_responsable->apellido_mat.' '.$usuario_responsable->nombre,['class' => 'form-control','id'=>'nombre_responsable1','disabled'=>'disabled'])}}
+						{{ Form::text('responsable',$usuario_responsable->nombre.' '.$usuario_responsable->apellido_pat.' '.$usuario_responsable->apellido_mat,['class' => 'form-control','id'=>'nombre_responsable1','disabled'=>'disabled'])}}
 					</div>
 				</div>
   			</div>
@@ -251,7 +274,7 @@
 		</div>
 		<div class="container-fluid row">
 			<div class="form-group col-md-2">
-				{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Crear',array('id'=>'submit-edit','type' => 'submit', 'class'=>'btn btn-primary btn-block')) }}	
+				{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar',array('id'=>'submit-edit','type' => 'submit', 'class'=>'btn btn-primary btn-block')) }}	
 			</div>
 			<div class="form-group col-md-2">
 				<a class="btn btn-default btn-block" href="{{URL::to('/rep_instalacion/list_rep_instalacion')}}">Cancelar</a>				

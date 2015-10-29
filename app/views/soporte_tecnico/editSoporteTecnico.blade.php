@@ -9,12 +9,12 @@
 
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
-			<p><strong>{{ $errors->first('nombre_soporte_tecnico',"El campo Nombre es requerido.") }}</strong></p>
-			<p><strong>{{ $errors->first('apPaterno_soporte_tecnico',"El campo Apellido Paterno es requerido.") }}</strong></p>
-			<p><strong>{{ $errors->first('apMaterno_soporte_tecnico',"El campo Apellido Materno es requerido.") }}</strong></p>
-			<p><strong>{{ $errors->first('especialidad_soporte_tecnico',"El campo Especialidad es requerido.") }}</strong></p>
-			<p><strong>{{ $errors->first('telefono_soporte_tecnico',"El campo Teléfono es requerido.") }}</strong></p>
-			<p><strong>{{ $errors->first('email_soporte_tecnico',"El campo E-mail es requerido.") }}</strong></p>			
+			<p><strong>{{ $errors->first('nombre_soporte_tecnico') }}</strong></p>
+			<p><strong>{{ $errors->first('apPaterno_soporte_tecnico') }}</strong></p>
+			<p><strong>{{ $errors->first('apMaterno_soporte_tecnico') }}</strong></p>
+			<p><strong>{{ $errors->first('especialidad_soporte_tecnico') }}</strong></p>
+			<p><strong>{{ $errors->first('telefono_soporte_tecnico') }}</strong></p>
+			<p><strong>{{ $errors->first('email_soporte_tecnico') }}</strong></p>			
 		</div>
 	@endif
 

@@ -2,7 +2,7 @@
 <html lang="es">
 
 <head>
-	<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="robots" content="noindex, follow">
     <title>Ordenes de Trabajo</title>
     <!-- Bootstrap Core CSS -->
@@ -50,13 +50,13 @@
 </head>
 
 <body>
-	<div id="wrapper">
-		<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-		@include('layouts.header', array('user'=>$user))
-		<div class="navbar-default sidebar" role="navigation">
+    <div id="wrapper">
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        @include('layouts.header', array('user'=>$user))
+        <div class="navbar-default sidebar" role="navigation">
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">           
-                    <li>{{ HTML::link('/mant_preventivo/list_mant_preventivo','Mantenimiento Preventivo') }}</li>          
+                    <li>{{ HTML::link('/verif_metrologica/list_verif_metrologica','Verificación Metrológica') }}</li>          
                 </ul>
             </div>
             <!-- /.sidebar-collapse -->
@@ -64,8 +64,8 @@
         <!-- /.navbar-static-side -->
         </nav>
         <div id="page-wrapper">
-        	@yield('content')
+            @yield('content')
         </div>
-	</div>
+    </div>
 </body>
 </html>

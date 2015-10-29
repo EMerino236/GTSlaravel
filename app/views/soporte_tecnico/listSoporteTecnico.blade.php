@@ -21,7 +21,7 @@
 		</div>
 	@endif
 
-    {{ Form::open(array('url'=>'','method'=>'get' ,'role'=>'form', 'id'=>'search-form','class' => 'form-group')) }}	
+    {{ Form::open(array('url'=>'soportes_tecnico/search_soporte_tecnico','method'=>'get' ,'role'=>'form', 'id'=>'search-form','class' => 'form-group')) }}	
 	<div class="panel panel-default">
 	  <div class="panel-heading">
 	    <h3 class="panel-title">Búsqueda</h3>
@@ -61,7 +61,7 @@
 				{{ Form::button('<span class="glyphicon glyphicon-search"></span> Buscar', array('id'=>'submit-search-form','type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}				
 			</div>
 			<div class="form-group col-md-2">
-				<div class="btn btn-default btn-block" id="btnLimpiar">Limpiar</div>				
+				<div class="btn btn-default btn-block" id="btnLimpiar_soporte_tecnico">Limpiar</div>				
 			</div>
 		</div>
 
@@ -125,10 +125,7 @@
 						<td class="text-nowrap">
 							<a class="btn btn-warning btn-block btn-sm" href="{{URL::to('/soportes_tecnico/edit_soporte_tecnico')}}/{{$soporte_tecnico->idsoporte_tecnico}}">
 							<span class="glyphicon glyphicon-pencil"></span> Editar</a>
-						</td>
-						<td>
-							
-						</td>
+						</td>						
 					</tr>
 					@endforeach							
 				</table>

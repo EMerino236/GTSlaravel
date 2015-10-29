@@ -113,4 +113,45 @@ class Documento extends Eloquent implements UserInterface, RemindableInterface {
 			  $query->select('tipo_documentos.nombre as nombre_tipo_documento','documentos.*');
 		return $query;
 	}	
+
+	public function scopeGetActasInfo($query){
+		$query->withTrashed()
+			  ->join('tipo_documentos','tipo_documentos.idtipo_documento','=','documentos.idtipo_documento')
+			  ->join('proveedores','proveedores.idproveedor','=','documentos.idproveedor')
+			  ->join('tipo_actas','tipo_actas.idtipo_acta','=','documentos.idtipo_acta')
+			  ->where('documentos.idtipo_documento','=',9)
+			  ->select('tipo_actas.nombre as nombre_tipo_acta','proveedores.razon_social as nombre_proveedor','documentos.*');
+		return $query;
+	}	
+
+	public function scopeSearchActasConformidad($query,$search_tipo,$search_proveedor,$fecha_desde,$fecha_hasta){
+		$query->withTrashed()
+			  ->join('tipo_documentos','tipo_documentos.idtipo_documento','=','documentos.idtipo_documento')
+			  ->join('proveedores','proveedores.idproveedor','=','documentos.idproveedor')
+			  ->join('tipo_actas','tipo_actas.idtipo_acta','=','documentos.idtipo_acta');
+
+			  $query->where('documentos.idtipo_documento','=',9);
+
+			  if($search_tipo != '0')
+			  {
+			  	$query->where('documentos.idtipo_acta','=',$search_tipo);
+			  }
+
+			  if($search_proveedor != '0')
+			  {
+			  	$query->where('documentos.idproveedor','=',$search_proveedor);
+			  }
+
+			  if($fecha_desde != "")
+			  {
+			  	$query->where('documentos.fecha_acta','>',$fecha_desde);
+			  }
+			  if($fecha_hasta != "")
+			  {
+			  	$query->where('documentos.fecha_acta','<',$fecha_hasta);
+			  }
+
+			  $query->select('tipo_actas.nombre as nombre_tipo_acta','proveedores.razon_social as nombre_proveedor','documentos.*');
+		return $query;
+	}
 }

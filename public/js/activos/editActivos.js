@@ -1,18 +1,20 @@
 $( document ).ready(function(){
 
-	init_validate();
+	//init_validate();
 
 });
 
+/*
 function init_validate()
 {
-	var numero_reporte = $('#mensaje_validacion').val();
+	var numero_reporte = $('#reporte_instalacion').val();
 
 	if(numero_reporte.length != 0)
 	{
 		validate_numero_reporte_ajax();
 	}
 }
+*/
 
 function validate_numero_reporte_ajax()
 {

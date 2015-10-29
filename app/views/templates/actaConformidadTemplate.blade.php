@@ -3,14 +3,12 @@
 
 <head>
 	<meta charset="UTF-8">
-    <meta name="robots" content="noindex, follow">
-    <title>Ordenes de Trabajo</title>
-    <!-- Bootstrap Core CSS -->
+	<meta name="robots" content="noindex, follow">
+	<title>Actas de Conformidad</title>
+	<!-- Bootstrap Core CSS -->
     <link href="{{ asset('bower_components/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- Datepicker CSS-->
     <link rel="stylesheet" href="{{ asset('css/bootstrap-datetimepicker.min.css') }}">
-    <!-- Calendar CSS-->
-    <link rel="stylesheet" href="{{ asset('css/responsive-calendar.css') }}">
     <!-- MetisMenu CSS -->
     <link href="{{ asset('bower_components/metisMenu/dist/metisMenu.min.css') }}" rel="stylesheet">
     <!-- Timeline CSS -->
@@ -22,8 +20,8 @@
     <!-- Custom Fonts -->
     <link href="{{ asset('bower_components/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
     <script type="text/javascript">
-        var inside_url = "{{$inside_url}}";
-    </script>
+		var inside_url = "{{$inside_url}}";
+	</script>
 
     <!-- jQuery -->
     <script src="{{ asset('bower_components/jquery/dist/jquery.min.js') }}"></script>
@@ -33,37 +31,31 @@
     <script type="text/javascript" src="{{ asset('js/moment.min.js') }}"></script>
     <!-- Bootstrap Datepicker JavaScript -->
     <script type="text/javascript" src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
-    <!-- Bootstrap Calendar JavaScript -->
-    <script type="text/javascript" src="{{ asset('js/responsive-calendar.min.js') }}"></script>
     <!-- Metis Menu Plugin JavaScript -->
     <script src="{{ asset('bower_components/metisMenu/dist/metisMenu.min.js') }}"></script>
     <!-- Morris Charts JavaScript -->
     <script src="{{ asset('bower_components/raphael/raphael-min.js') }}"></script>
     <script src="{{ asset('bower_components/morrisjs/morris.min.js') }}"></script>
     <!-- Custom Theme JavaScript -->
-    <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
-    <script src="{{ asset('js/bienes/reportes_incumplimiento.js') }}"></script>
-    <script src="{{ asset('js/bienes/ot.js') }}"></script>
-    <script src="{{ asset('js/bienes/listOtPreventivo.js')}}"></script>
-    <script src="{{ asset('js/bienes/addOtPreventivo.js')}}"></script>
-
+    <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script> 
+    <script src="{{ asset('js/actas_conformidad/listActaConformidad.js') }}"></script> 
+    <script src="{{ asset('js/actas_conformidad/createActaConformidad.js') }}"></script>      
 </head>
 
 <body>
 	<div id="wrapper">
 		<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-		@include('layouts.header', array('user'=>$user))
-		<div class="navbar-default sidebar" role="navigation">
-            <div class="sidebar-nav navbar-collapse">
-                <ul class="nav" id="side-menu">           
-                    <li>{{ HTML::link('/mant_preventivo/list_mant_preventivo','Mantenimiento Preventivo') }}</li>          
-                </ul>
+			@include('layouts.header', array('user'=>$user))
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li>{{ HTML::link('/equipos/create_equipo','Nuevo Acta de Conformidad') }}</li>
+                        <li>{{ HTML::link('/equipos/list_equipos','Buscar Acta de Conformidad') }}</li>
+                    </ul>
+                </div>
             </div>
-            <!-- /.sidebar-collapse -->
-        </div>
-        <!-- /.navbar-static-side -->
-        </nav>
-        <div id="page-wrapper">
+		</nav>
+		<div id="page-wrapper">
         	@yield('content')
         </div>
 	</div>

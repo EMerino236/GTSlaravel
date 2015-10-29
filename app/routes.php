@@ -107,17 +107,20 @@ Route::group(array('prefix'=>'equipos','before'=>'auth'),function(){
 	Route::get('/view_equipo/{id}','ActivosController@render_view_activo');
 
 	Route::get('/create_soporte_tecnico_equipo/{id}','ActivosController@render_create_soporte_tecnico_equipo');
+	Route::post('/submit_create_soporte_tecnico_equipo','ActivosController@submit_create_soporte_tecnico_equipo');
 
 	Route::post('/search_list_ubicacion_ajax','ActivosController@search_ubicacion_ajax');
 	Route::post('/search_create_ubicacion_ajax','ActivosController@search_ubicacion_ajax');
 	Route::post('/search_nombre_equipo_ajax','ActivosController@search_nombre_equipo_ajax');
 	Route::post('/search_modelo_equipo_ajax','ActivosController@search_modelo_equipo_ajax');
-	Route::post('/validate_numero_reporte_ajax','ActivosController@validate_numero_reporte_ajax');	
+	Route::post('/validate_numero_reporte_ajax','ActivosController@validate_numero_reporte_ajax');
+	Route::post('/search_soporte_tecnico_ajax','ActivosController@search_soporte_tecnico_ajax');
 });
 
 /*Soporte Técnico*/
 Route::group(array('prefix'=>'soportes_tecnico','before'=>'auth'),function(){
 	Route::get('/list_soporte_tecnico','SoportesTecnicoController@list_soporte_tecnico');
+	Route::get('/search_soporte_tecnico','SoportesTecnicoController@search_soporte_tecnico');
 	Route::get('/create_soporte_tecnico','SoportesTecnicoController@render_create_soporte_tecnico');
 	Route::post('/submit_create_soporte_tecnico','SoportesTecnicoController@submit_create_soporte_tecnico');
 	Route::get('/edit_soporte_tecnico/{id}','SoportesTecnicoController@render_edit_soporte_tecnico');
@@ -294,4 +297,51 @@ Route::group(array('prefix'=>'rep_instalacion','before'=>'auth'),function(){
 	Route::post('/return_name_responsable/{postData}','ReportesInstalacionController@return_name_responsable');
 	Route::post('/return_name_doc_relacionado/{postData}','ReportesInstalacionController@return_name_doc_relacionado');
 	Route::post('/return_num_rep_entorno_concluido/{postData}','ReportesInstalacionController@return_num_rep_entorno_concluido');	
+});
+
+/*Acta de Conformidad*/
+Route::group(array('prefix'=>'actas_conformidad','before'=>'auth'),function(){
+	Route::get('/list_actas','ActasConformidadController@list_actas');	
+	Route::get('/create_acta','ActasConformidadController@render_create_acta');
+	Route::post('/submit_create_acta','ActasConformidadController@submit_create_acta');
+	Route::get('/edit_acta/{id}','ActasConformidadController@render_edit_acta');
+	Route::get('/search_acta','ActasConformidadController@search_acta');
+	Route::post('/submit_edit_acta','ActasConformidadController@submit_edit_acta');
+	Route::post('/submit_disable_acta','ActasConformidadController@submit_disable_acta');
+	Route::post('/submit_enable_acta','ActasConformidadController@submit_enable_acta');
+	Route::post('/return_name_acta','ActasConformidadController@return_name_acta');
+	Route::post('/download_acta','ActasConformidadController@download_acta');
+});
+
+/* Mantenimiento Preventivo */
+Route::group(array('prefix'=>'mant_preventivo','before'=>'auth'),function(){
+	Route::get('/programacion','OtPreventivoController@render_program_ot_mant_preventivo');
+	Route::post('/submit_programacion','OtPreventivoController@submit_program_ot_mant_preventivo');
+	/*Route::post('/calendario_ot_mant_correctivo','OtController@calendario_ot_mant_correctivo_ajax');*/
+	Route::get('/list_mant_preventivo','OtPreventivoController@list_mant_preventivo');
+	Route::post('/search_equipo_ajax','OtPreventivoController@search_equipo_ajax');
+	Route::post('/ver_programaciones','OtPreventivoController@search_programaciones');
+	/*Route::get('/search_ot_mant_correctivo','OtController@search_ot_mant_correctivo');
+	Route::get('/create_ot/{id}','OtController@render_create_ot');
+	Route::post('/submit_create_ot','OtController@submit_create_ot');
+	Route::post('/submit_create_repuesto_ajax','OtController@submit_create_repuesto_ajax');
+	Route::post('/submit_delete_repuesto_ajax','OtController@submit_delete_repuesto_ajax');
+	Route::post('/submit_create_personal_ajax','OtController@submit_create_personal_ajax');
+	Route::post('/submit_delete_personal_ajax','OtController@submit_delete_personal_ajax');*/
+});
+
+/* Verificación Metrológica */
+Route::group(array('prefix'=>'verif_metrologica','before'=>'auth'),function(){
+	Route::get('/programacion','OtVerificacionMetrologicaController@render_program_ot_verif_metrologica');
+	Route::post('/submit_programacion','OtVerificacionMetrologicaController@submit_program_ot_verif_metrologica');
+	Route::post('/calendario_ot_mant_correctivo','OtVerificacionMetrologicaController@calendario_ot_verif_metrologica_ajax');
+	Route::get('/list_verif_metrologica','OtVerificacionMetrologicaController@list_verif_metrologica');
+	Route::post('/search_equipo_ajax','OtVerificacionMetrologicaController@search_equipo_ajax');
+	Route::get('/search_ot_verif_metrologica','OtVerificacionMetrologicaController@search_ot_verif_metrologica');
+	Route::get('/create_ot_verif_metrologica/{id}','OtVerificacionMetrologicaController@render_create_ot_verif_metrologica');
+	Route::post('/submit_create_ot','OtVerificacionMetrologicaController@submit_create_ot');
+	Route::post('/submit_create_repuesto_ajax','OtVerificacionMetrologicaController@submit_create_repuesto_ajax');
+	Route::post('/submit_delete_repuesto_ajax','OtVerificacionMetrologicaController@submit_delete_repuesto_ajax');
+	Route::post('/submit_create_personal_ajax','OtVerificacionMetrologicaController@submit_create_personal_ajax');
+	Route::post('/submit_delete_personal_ajax','OtVerificacionMetrologicaController@submit_delete_personal_ajax');
 });

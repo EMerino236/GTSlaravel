@@ -35,7 +35,7 @@ class ReportesInstalacionController extends BaseController {
 							'fecha' => 'required',
 							'codigo_compra' => 'required',
 							'idarea' => 'required',
-							'numero_documento1' => 'required',							
+							'numero_documento1' => 'required',													
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules);
@@ -178,7 +178,7 @@ class ReportesInstalacionController extends BaseController {
 				$data["tipos_reporte_instalacion"] = TipoReporteInstalacion::lists('nombre','idtipo_reporte_instalacion');
 				$data["reporte_instalacion_info"] = ReporteInstalacion::searchReporteInstalacionById($id)->get();
 				$data["reporte_instalacion_info"] = $data["reporte_instalacion_info"][0];
-				$data["tareas_info"] = DetalleReporteInstalacion::searchDetalleReporteByIdReporteInstalacion($id)->get();
+				$data["tareas_info"] = DetalleReporteInstalacion::searchDetalleReporteByIdReporteInstalacion($id);
 				$data["usuario_responsable"] = User::searchUserById($data["reporte_instalacion_info"]->id_responsable)->get()[0];
 				$data["documento_certificado_funcionalidad"] = Documento::searchDocumentoCertificadoFuncionalidadByIdReporteInstalacion($id)->get();			
 				if(!$data["documento_certificado_funcionalidad"]->isEmpty()){					
@@ -217,6 +217,126 @@ class ReportesInstalacionController extends BaseController {
 			return View::make('error/error');
 		}
 	}
+
+	public function submit_edit_rep_instalacion(){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1){
+				// Validate the info, create rules for the inputs
+				$rules = array(
+							'idproveedor' => 'required',
+							'fecha' => 'required',
+							'idarea' => 'required',
+							'numero_documento1' => 'required',													
+						);
+				// Run the validation rules on the inputs from the form
+				$validator = Validator::make(Input::all(), $rules);
+				// If the validator fails, redirect back to the form
+				$reporte_instalacion_id = Input::get('reporte_instalacion_id');
+				$url = "rep_instalacion/edit_rep_instalacion"."/".$reporte_instalacion_id;
+				if($validator->fails()){
+					return Redirect::to($url)->withErrors($validator)->withInput(Input::all());					
+				}else{	
+					$existeReporteEntornoConcluido = ReporteInstalacion::searchReporteEntornoConcluidoByCodigoCompra(Input::get('codigo_compra'))->get();							
+					$reporte_instalacion_id = Input::get('reporte_instalacion_id');
+					$reporte = ReporteInstalacion::find($reporte_instalacion_id);
+					if($reporte->idtipo_reporte_instalacion==1 || ($reporte->idtipo_reporte_instalacion==2 && !$existeReporteEntornoConcluido->isEmpty())){
+						$details_tarea =Input::get('details_tarea');
+						$details_estado =Input::get('details_estado');
+						$cant = count($details_tarea);
+						if($cant>0){
+							$reporte_instalacion_id = Input::get('reporte_instalacion_id');
+							$url = "rep_instalacion/edit_rep_instalacion"."/".$reporte_instalacion_id;
+							$reporte = ReporteInstalacion::find($reporte_instalacion_id);
+							$reporte->descripcion = Input::get('descripcion');
+							$reporte->fecha = date('Y-m-d H:i:s',strtotime(Input::get('fecha')));
+							$reporte->idarea = Input::get('idarea');
+							$reporte->idproveedor = Input::get('idproveedor');
+							$reporte->idestado = 1;
+							$id_usuario_responsable = Input::get('numero_documento1');
+							$usuario_responsable = User::searchPersonalByNumeroDoc($id_usuario_responsable)->get();
+							if($usuario_responsable->isEmpty()){
+								Session::flash('error', 'Usuario revisión no existe.');
+								return Redirect::to($url)->withInput(Input::all());
+							}else{
+								$reporte->id_responsable = $usuario_responsable[0]->id;
+								
+							}						
+							
+							$reporte->save();
+
+							DetalleReporteInstalacion::deleteDetalleByIdReporteInstalacion($reporte_instalacion_id)->forcedelete();
+
+							$idReporte = $reporte->idreporte_instalacion;
+							for($i=0;$i<$cant;$i++){
+								$detalle_reporte_instalacion = new DetalleReporteInstalacion;
+								$detalle_reporte_instalacion->nombre_tarea = $details_tarea[$i];
+								if($details_estado[$i] == "Realizado"){
+									$estado_tarea = 1;
+								}
+								else{
+									$estado_tarea = 0;								
+								}
+								$detalle_reporte_instalacion->tarea_realizada = $estado_tarea;					
+								$detalle_reporte_instalacion->idreporte_instalacion = $idReporte;	
+								$detalle_reporte_instalacion->save();
+
+							}
+
+							$codigo_archivamiento_cert_funcionalidad = Input::get('nombre_doc_relacionado1');
+							if($codigo_archivamiento_cert_funcionalidad != ''){
+								$documento = Documento::searchDocumentoByCodigoArchivamiento($codigo_archivamiento_cert_funcionalidad)->get();
+								$documento = $documento[0];
+								$documento->idreporte_instalacion = $idReporte;
+								$documento->save();
+							}
+
+							$codigo_archivamiento_contrato = Input::get('nombre_doc_relacionado2');
+							if($codigo_archivamiento_contrato != ''){
+								$documento = Documento::searchDocumentoByCodigoArchivamiento($codigo_archivamiento_contrato)->get();
+								$documento = $documento[0];
+								$documento->idreporte_instalacion = $idReporte;
+								$documento->save();
+							}
+
+							$codigo_archivamiento_manual = Input::get('nombre_doc_relacionado3');
+							if($codigo_archivamiento_manual != ''){							
+								$documento = Documento::searchDocumentoByCodigoArchivamiento($codigo_archivamiento_manual)->get();
+								$documento = $documento[0];
+								$documento->idreporte_instalacion = $idReporte;
+								$documento->save();
+							}
+
+							$codigo_archivamiento_tdr = Input::get('nombre_doc_relacionado4');
+							if($codigo_archivamiento_tdr != ''){
+								$documento = Documento::searchDocumentoByCodigoArchivamiento($codigo_archivamiento_tdr)->get();
+								$documento = $documento[0];
+								$documento->idreporte_instalacion = $idReporte;
+								$documento->save();
+							}						
+
+							Session::flash('message', 'Se registró correctamente el Reporte de Instalación.');
+							return Redirect::to($url);
+						}else{
+							Session::flash('error', 'Ingrese por lo menos una tarea.');
+							return Redirect::to($url)->withInput(Input::all());		
+						}
+					}else{
+							Session::flash('error', 'Solo se puede crear Reporte de Equipo Funcional si ha sido creado el Reporte de Entorno Concluido');
+							return Redirect::to($url)->withInput(Input::all());	
+					}
+				}
+			}else{
+				return View::make('error/error');
+			}
+
+		}else{
+			return View::make('error/error');
+		}
+	}
+
 	public function list_rep_instalacion()
 	{
 		if(Auth::check()){

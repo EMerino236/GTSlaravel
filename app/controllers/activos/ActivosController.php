@@ -250,6 +250,91 @@ class ActivosController extends BaseController
 		}
 	}
 
+	public function render_create_soporte_tecnico_equipo($idequipo=null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"]= Session::get('user');
+
+			if(($data["user"]->idrol == 1) && $idequipo){
+				$data["equipo_info"] = Activo::searchActivosById($idequipo)->get();
+				$data["tipo_documento_identidad"] = TipoDocumento::lists('nombre','idtipo_documento');
+				$data["soporte_tecnico_info"] = SoporteTecnicoxActivo::searchSoporteTecnicoByActivo($idequipo)->get();				
+
+				//echo'<pre>';
+				//print_r($data["soporte_tecnico_info"]);
+				//exit;
+				
+				$data["search_tipo_documento_activo"] = null;
+				$data["search_numero_documento_soporte_tecnico_activo"] = null;
+
+				if($data["equipo_info"]->isEmpty()){
+
+					return Redirect::to('equipos/list_equipos');
+				}
+
+				$data["equipo_info"] = $data["equipo_info"][0];
+				
+				
+				return View::make('soporte_tecnico/createSoporteTecnicoActivo',$data);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function submit_create_soporte_tecnico_equipo()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1){
+				// Validate the info, create rules for the inputs
+				
+				$attributes = array(
+					'idsoporte_tecnico' => 'Soporte Técnico'
+				);
+
+				$messages = array(
+			    	'idsoporte_tecnico.required' => 'Debe agregar un :attribute existente.',
+				);
+
+				$rules = array(					
+					'idsoporte_tecnico' => 'required'
+					);
+				// Run the validation rules on the inputs from the form
+				$validator = Validator::make(Input::all(), $rules, $messages, $attributes);
+				// If the validator fails, redirect back to the form
+				if($validator->fails()){
+					$idequipo = Input::get('idactivo');
+					$url = "equipos/create_soporte_tecnico_equipo"."/".$idequipo;
+					return Redirect::to($url)->withErrors($validator)->withInput(Input::all());
+				}else{
+					$idequipo = Input::get('idactivo');
+					$url = "equipos/create_soporte_tecnico_equipo"."/".$idequipo;
+
+					$soporte_tecnico_activo = new SoporteTecnicoxActivo;
+					$soporte_tecnico_activo->idsoporte_tecnico = Input::get('idsoporte_tecnico');
+					$soporte_tecnico_activo->idactivo = $idequipo;
+
+					$soporte_tecnico_activo->idestado = 1;					
+
+					$soporte_tecnico_activo->save();
+					
+					return Redirect::to($url)->with('message', 'Se agregó correctamente el soporte técnico.');
+				}
+			}else{
+				return View::make('error/error');
+			}
+
+		}else{
+			return View::make('error/error');
+		}
+	}
+
 	public function render_view_activo($idequipo=null)
 	{
 		if(Auth::check()){
@@ -269,6 +354,8 @@ class ActivosController extends BaseController
 				$data["modelo_equipo"] = ModeloActivo::where('idfamilia_activo','=',$data["equipo_info"]->idfamilia_activo)->lists('nombre','idmodelo_equipo');
 				$data["reporte_instalacion"] = ReporteInstalacion::where('idreporte_instalacion','=',$data["equipo_info"]->idreporte_instalacion)->get();
 				$data["reporte_instalacion"] = $data["reporte_instalacion"][0];
+
+				$data["soporte_tecnico_info"] = SoporteTecnicoxActivo::searchSoporteTecnicoByActivo($idequipo)->get();
 
 				$data["accesorios_info"] = Accesorio::getAccesorioByModelo($data["equipo_info"]->idmodelo_equipo)->get();
 				$data["consumibles_info"] = Consumible::getConsumibleByModelo($data["equipo_info"]->idmodelo_equipo)->get();				
@@ -387,31 +474,27 @@ class ActivosController extends BaseController
 		}
 	}
 
-	public function render_create_soporte_tecnico_equipo($idequipo=null)
+	public function search_soporte_tecnico_ajax()
 	{
-		if(Auth::check()){
-			$data["inside_url"] = Config::get('app.inside_url');
-			$data["user"]= Session::get('user');
+		if(!Request::ajax() || !Auth::check())
+		{
+			console.log('AQUI LLEGO');
+			return Response::json(array( 'success' => false ),200);
+		}
 
-			if(($data["user"]->idrol == 1) && $idequipo){
-				$data["equipo_info"] = Activo::searchActivosById($idequipo)->get();
-				$data["tipo_documento_identidad"] = TipoDocumento::lists('nombre','idtipo_documento');
-				$data["search_tipo_documento"] = null;
-
-				if($data["equipo_info"]->isEmpty()){
-
-					return Redirect::to('equipos/list_equipos');
-				}
-
-				$data["equipo_info"] = $data["equipo_info"][0];
-				
-				
-				return View::make('soporte_tecnico/createSoporteTecnicoActivo',$data);
-			}else{
-				return View::make('error/error');
-			}
+		$id = Auth::id();
+		$data["inside_url"] = Config::get('app.inside_url');
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1){
+			// Check if the current user is the "System Admin"
+			$idtipo_documento = Input::get('idtipo_documento');
+			$numero_documento_identidad = Input::get('numero_documento_identidad');
+					
+			$soporte_tecnico = SoporteTecnico::searchSoporteTecnicoByNumeroDocumento($idtipo_documento,$numero_documento_identidad)->get();
+			
+			return Response::json(array( 'success' => true,'data' => $soporte_tecnico),200);
 		}else{
-			return View::make('error/error');
+			return Response::json(array( 'success' => false ),200);
 		}
 	}
 

@@ -27,6 +27,32 @@ class SoportesTecnicoController extends BaseController
 		}
 	}
 
+	public function search_soporte_tecnico()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1){
+				$data["tipo_documento_identidad"] = TipoDocumento::lists('nombre','idtipo_documento');
+				
+				$data["search_tipo_documento"] = Input::get('tipo_documento_identidad');
+				$data["search_numero_documento"] = Input::get('numero_documento_soporte_tecnico');
+				$data["search_nombre"] = Input::get('nombre_soporte_tecnico');
+				$data["search_apPaterno"] = Input::get('apPaterno_soporte_tecnico');
+				$data["search_apMaterno"] = Input::get('apMaterno_soporte_tecnico');				
+
+				$data["soportes_tecnico_data"] = SoporteTecnico::searchSoporteTecnico($data["search_tipo_documento"], $data["search_numero_documento"],
+					$data["search_nombre"], $data["search_apPaterno"], $data["search_apMaterno"])->paginate(10);
+				return View::make('soporte_tecnico/listSoporteTecnico',$data);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
 	public function render_create_soporte_tecnico()
 	{
 		if(Auth::check()){
@@ -66,7 +92,7 @@ class SoportesTecnicoController extends BaseController
 				);
 
 				$messages = array(
-			    	'numero_documento_soporte_tecnico.unique' => 'El :attribute ya existe.',
+			    	//'numero_documento_soporte_tecnico.unique' => 'El :attribute ya existe.',
 				);
 
 				$rules = array(
@@ -143,6 +169,21 @@ class SoportesTecnicoController extends BaseController
 
 			if($data["user"]->idrol	== 1){
 
+				$attributes = array(
+					'tipo_documento_identidad' => 'Tipo de Documento',
+					'numero_documento_soporte_tecnico' => 'Número de Documento',
+					'nombre_soporte_tecnico' => 'Nombre',
+					'apPaterno_soporte_tecnico' => 'Apellido Paterno',
+					'apMaterno_soporte_tecnico' => 'Apellido Materno',
+					'especialidad_soporte_tecnico' => 'Especialidad',
+					'telefono_soporte_tecnico' => 'Telefono',
+					'email_soporte_tecnico' => 'E-mail'				
+				);
+
+				$messages = array(
+			    	//'numero_documento_soporte_tecnico.unique' => 'El :attribute ya existe.',
+				);
+
 				$rules = array(
 					'nombre_soporte_tecnico' => 'required',
 					'apPaterno_soporte_tecnico' => 'required',
@@ -152,7 +193,7 @@ class SoportesTecnicoController extends BaseController
 					'email_soporte_tecnico' => 'required'
 					);
 
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules, $messages, $attributes);
 
 				if($validator->fails()){
 					$idsoporte_tecnico = Input::get('idsoporte_tecnico');
