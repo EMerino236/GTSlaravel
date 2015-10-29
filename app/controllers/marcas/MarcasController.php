@@ -129,7 +129,6 @@ class MarcasController extends BaseController
 					'codigo_compra' => 'required',
 					'codigo_patrimonial' => 'required',
 					'fecha_adquisicion' => 'required',
-					'centro_costo' => 'required',
 					'garantia' => 'required'
 					);
 				// Run the validation rules on the inputs from the form

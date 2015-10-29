@@ -106,29 +106,6 @@ class SolicitudesController extends BaseController
 		}
 	}
 
-	public function return_centro_costo(){
-		if(!Request::ajax() || !Auth::check()){
-			return Response::json(array( 'success' => false ),200);
-		}
-		$id = Auth::id();
-		$data["inside_url"] = Config::get('app.inside_url');
-		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
-			// Check if the current user is the "System Admin"
-			$data = Input::get('selected_id');
-			$servicio = null;
-			if($data !=0){
-				$servicio = Servicio::find($data);
-				$centro_costo = CentroCosto::searchCentroCostoById($servicio->idcentro_costo)->get();
-				$centro_costo = $centro_costo[0];
-			}else{
-				$centro_costo = $data;
-			}
-			return Response::json(array( 'success' => true, 'centro_costo' => $centro_costo ),200);
-		}else{
-			return Response::json(array( 'success' => false ),200);
-		}
-	}
 
 	public function render_create_solicitud(){
 		if(Auth::check()){
@@ -486,7 +463,6 @@ class SolicitudesController extends BaseController
 					return Redirect::to($url);
 				}
 				$servicio = Servicio::find($solicitud->idservicio);
-				$centro_costo = CentroCosto::find($servicio->idcentro_costo);
 				$familia = FamiliaActivo::find($solicitud->idfamilia_activo);
 				$usuario = User::find($solicitud->id_responsable);
 				$tipo_solicitud = TipoSolicitudCompra::find($solicitud->idtipo_solicitud_compra);
@@ -543,7 +519,6 @@ class SolicitudesController extends BaseController
 						.'<ul class="lista_generales">'
 							.'<li><label><strong>Numero Orden de Mantenimiento</strong></label>: OT N° '.$solicitud->idordenes_trabajo.'</li>'						
 							.'<li><label><strong>Servicio: </strong></label>'.$servicio->nombre.'</li>'
-							.'<li><label><strong>Centro de Costo: </strong></label>'.$centro_costo->nombre.'</li>'
 							.'<li><label><strong>Nombre del Equipo: </strong></label>'.$familia->nombre_equipo.'</li>'
 							.'<li><label><strong>Usuario Responsable: </strong></label>'.$usuario->apellido_pat.' '.$usuario->apellido_mat.', '.$usuario->nombre.'</li>'							
 							.'<li><label><strong>Tipo de Requerimiento: </strong></label>'.$tipo_solicitud->nombre.'</li>'

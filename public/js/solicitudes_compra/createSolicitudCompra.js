@@ -22,10 +22,6 @@ $( document ).ready(function(){
         search_equipos_ajax(1);
     });
 
-    $('#servicio').change(function(){
-        search_centro_costo();
-    })
-
     $('#btnAgregar').click(function(){
         addRowDetalle();
     });
@@ -58,7 +54,6 @@ $( document ).ready(function(){
     $("#btn_descarga").hide();
     $("input[name=numero_reporte_hidden]").val(null);
     fill_name_reporte();
-    search_centro_costo();
     
 });
 
@@ -106,41 +101,7 @@ function search_equipos_ajax(id){
 
 }
 
-function search_centro_costo(){
-    var val = $('#servicio').val();
-    if(val == 0){
-        return;
-    }
-        $.ajax({
-            url: inside_url+'solicitudes_compra/return_centro_costo',
-            type: 'POST',
-            data: { 'selected_id' : val },
-            beforeSend: function(){
-                $("#delete-selected-profiles").addClass("disabled");
-                $("#delete-selected-profiles").hide();
-                $(".loader_container").show();
-            },
-            complete: function(){
-                $(".loader_container").hide();
-                $("#delete-selected-profiles").removeClass("disabled");
-                $("#delete-selected-profiles").show();
-                delete_selected_profiles = true;
-            },
-            success: function(response){
-                if(response.success){
-                    var centro_costo = response['centro_costo'];
-                    $('#centro_costo').prop('disabled',false);
-                    $("#centro_costo").empty();
-                    $("#centro_costo").val(centro_costo.nombre);
-                }else{
-                    alert('La petición no se pudo completar, inténtelo de nuevo.');
-                }
-            },
-            error: function(){
-                alert('La petición no se pudo completar, inténtelo de nuevo.');
-            }
-        });
-}
+
 
 function addRowDetalle(){
     var descripcion = $('#descripcion').val();
@@ -320,7 +281,6 @@ function readTableData(){
         var matrix = readTableData();    
         var numero_ot = $('#numero_ot').val();
         var servicio = $('#servicio').val();
-        var centro_costo = $('#centro_costo').val();
         var equipo = $('#equipo1').val();
         var usuario_responsable = $('#usuario_responsable').val();
         var tipo_solicitud = $('#tipo').val();
@@ -337,7 +297,6 @@ function readTableData(){
                     'matrix_detalle_delete': matrix_detalle_delete,
                     'numero_ot': numero_ot,
                     'servicio' : servicio,
-                    'centro_costo': centro_costo,
                     'equipo':equipo,
                     'usuario_responsable':usuario_responsable,
                     'tipo_solicitud':tipo_solicitud,

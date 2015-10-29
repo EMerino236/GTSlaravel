@@ -20,7 +20,6 @@
 			<p><strong>{{ $errors->first('codigo_patrimonial',"El campo Código Patrimonial es requerido.") }}</strong></p>
 			<p><strong>{{ $errors->first('codigo_compra',"El campo Código de Compra es requerido.") }}</strong></p>
 			<p><strong>{{ $errors->first('fecha_adquisicion',"El campo Fecha de Adquisición es requerido.") }}</strong></p>
-			<p><strong>{{ $errors->first('centro_costo',"El campo Centro de Costo es requerido.") }}</strong></p>
 			<p><strong>{{ $errors->first('garantia',"El campo Garantía es requerido.") }}</strong></p>
 			<p><strong>{{ $errors->first('reporte_instalacion',"El campo Reporte de Instalación es requerido.") }}</strong></p>
 			<p><strong>{{ $errors->first('idreporte_instalacion',"Ingrese un número de reporte válido. ") }}</strong></p>
@@ -102,10 +101,6 @@
 				                        <span class="glyphicon glyphicon-calendar"></span>
 				                    </span>
 								</div>
-							</div>
-							<div class="col-md-4 @if($errors->first('centro_costo')) has-error has-feedback @endif">
-								{{ Form::label('centro_costo','Centro de Costo') }}<span style="color:red">*</span>
-								{{ Form::select('centro_costo',array('' => 'Seleccione') + $centro_costos,$equipo_info->idcentro_costo,array('class'=>'form-control'))}}
 							</div>
 						</div>
 						<div class="form-group row">

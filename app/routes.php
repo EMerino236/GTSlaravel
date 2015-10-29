@@ -266,7 +266,6 @@ Route::group(array('prefix'=>'solicitudes_compra', 'before'=>'auth'),function(){
 	Route::post('/download_reporte','SolicitudesController@download_reporte');
 	Route::post('/validate_ot','SolicitudesController@validate_ot');
 	Route::post('/return_name_reporte','SolicitudesController@return_name_reporte');
-	Route::post('/return_centro_costo','SolicitudesController@return_centro_costo');
 	Route::get('/edit_solicitud_compra/{id}','SolicitudesController@render_edit_solicitud');
 	Route::post('/submit_edit_solicitud_compra','SolicitudesController@submit_edit_solicitud');		
 	Route::post('/submit_disable_solicitud','SolicitudesController@submit_disable_solicitud');
@@ -274,17 +273,6 @@ Route::group(array('prefix'=>'solicitudes_compra', 'before'=>'auth'),function(){
 	Route::post('/export_pdf','SolicitudesController@export_pdf');
 });
 
-/*Centro De Costo*/
-Route::group(array('prefix'=>'centro_costos','before'=>'auth'),function(){
-	Route::get('/list_centros_costos','CentroCostosController@list_centros_costos');	
-	Route::get('/create_centro_costo','CentroCostosController@render_create_centro_costo');
-	Route::post('/submit_centro_costo','CentroCostosController@submit_create_centro_costo');
-	Route::get('/edit_centro_costo/{id}','CentroCostosController@render_edit_centro_costo');
-	Route::get('/search_centro_costo','CentroCostosController@search_centro_costo');
-	Route::post('/submit_edit_centro_costo','CentroCostosController@submit_edit_centro_costo');
-	Route::post('/submit_disable_centro_costo','CentroCostosController@submit_disable_centro_costo');
-	Route::post('/submit_enable_centro_costo','CentroCostosController@submit_enable_centro_costo');
-});
 
 /* Reporte de Instalación */
 Route::group(array('prefix'=>'rep_instalacion','before'=>'auth'),function(){
@@ -321,9 +309,9 @@ Route::group(array('prefix'=>'mant_preventivo','before'=>'auth'),function(){
 	Route::get('/list_mant_preventivo','OtPreventivoController@list_mant_preventivo');
 	Route::post('/search_equipo_ajax','OtPreventivoController@search_equipo_ajax');
 	Route::post('/ver_programaciones','OtPreventivoController@search_programaciones');
-	/*Route::get('/search_ot_mant_correctivo','OtController@search_ot_mant_correctivo');
-	Route::get('/create_ot/{id}','OtController@render_create_ot');
-	Route::post('/submit_create_ot','OtController@submit_create_ot');
+	//Route::get('/search_ot_mant_correctivo','OtController@search_ot_mant_correctivo');
+	Route::get('/create_ot_preventivo/{id}','OtPreventivoController@render_create_ot');
+	/*Route::post('/submit_create_ot','OtController@submit_create_ot');
 	Route::post('/submit_create_repuesto_ajax','OtController@submit_create_repuesto_ajax');
 	Route::post('/submit_delete_repuesto_ajax','OtController@submit_delete_repuesto_ajax');
 	Route::post('/submit_create_personal_ajax','OtController@submit_create_personal_ajax');

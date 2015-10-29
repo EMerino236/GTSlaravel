@@ -36,7 +36,6 @@
 			<th>N°</th>
 			<th>Nombre del Área</th>
 			<th>Tipo de Área</th>
-			<th>Centro de Costo</th>
 			<th>Fecha de Creación</th>
 			<th>Editar</th>
 		</tr>
@@ -50,9 +49,6 @@
 			</td>
 			<td>
 				{{$area_data->nombre_tipo_area}}
-			</td>
-			<td>
-				{{$area_data->nombre_centro_costo}}
 			</td>
 			<td>
 				{{$area_data->created_at->format('d-m-Y')}}

@@ -84,8 +84,7 @@ class ActivosController extends BaseController
 				$data["grupos"] = Grupo::lists('nombre','idgrupo');
 				$data["servicios"] = Servicio::lists('nombre','idservicio');			
 				$data["marcas"]	= Marca::lists('nombre','idmarca');
-				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
-				$data["centro_costos"]	= CentroCosto::lists('nombre','idcentro_costo');			
+				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');			
 				return View::make('activos/createActivo',$data);
 			}else{
 				return View::make('error/error');
@@ -115,7 +114,6 @@ class ActivosController extends BaseController
 					'codigo_compra' => 'required',
 					'codigo_patrimonial' => 'required',
 					'fecha_adquisicion' => 'required',
-					'centro_costo' => 'required',
 					'garantia' => 'required',
 					'idreporte_instalacion' => 'required',
 					);
@@ -135,7 +133,6 @@ class ActivosController extends BaseController
 					$activo->idgrupo = Input::get('grupo');
 					$activo->idmodelo_equipo = Input::get('modelo');
 					$activo->idservicio = Input::get('servicio_clinico');
-					$activo->idcentro_costo = Input::get('centro_costo');
 					$activo->idproveedor = Input::get('proveedor');
 					$activo->idreporte_instalacion = Input::get('idreporte_instalacion');
 					$activo->idestado = 1;
@@ -178,7 +175,6 @@ class ActivosController extends BaseController
 				
 				$data["marcas"]	= Marca::lists('nombre','idmarca');
 				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
-				$data["centro_costos"]	= CentroCosto::lists('nombre','idcentro_costo');
 				return View::make('activos/editActivo',$data);
 			}else{
 				return View::make('error/error');
@@ -208,7 +204,6 @@ class ActivosController extends BaseController
 					'codigo_compra' => 'required',
 					'codigo_patrimonial' => 'required',
 					'fecha_adquisicion' => 'required',
-					'centro_costo' => 'required',
 					'garantia' => 'required',
 					'idreporte_instalacion' => 'required',
 					);
@@ -231,7 +226,6 @@ class ActivosController extends BaseController
 					$activo->idgrupo = Input::get('grupo');
 					$activo->idmodelo_equipo = Input::get('modelo');
 					$activo->idservicio = Input::get('servicio_clinico');
-					$activo->idcentro_costo = Input::get('centro_costo');
 					$activo->idproveedor = Input::get('proveedor');
 					$activo->idreporte_instalacion = Input::get('idreporte_instalacion');
 					$activo->idestado = 1;
@@ -363,7 +357,6 @@ class ActivosController extends BaseController
 				
 				$data["marcas"]	= Marca::lists('nombre','idmarca');
 				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
-				$data["centro_costos"]	= CentroCosto::lists('nombre','idcentro_costo');
 				return View::make('activos/viewActivo',$data);
 			}else{
 				return View::make('error/error');

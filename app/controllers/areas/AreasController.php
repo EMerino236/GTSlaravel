@@ -52,7 +52,6 @@ class AreasController extends BaseController
 			if($data["user"]->idrol == 1){
 
 				$data["tipo_areas"] = TipoArea::lists('nombre','idtipo_area');
-				$data["centro_costos"] = CentroCosto::lists('nombre','idcentro_costo');
 				
 				return View::make('areas/createArea',$data);
 			}else{
@@ -73,7 +72,6 @@ class AreasController extends BaseController
 			if(($data["user"]->idrol == 1) && $idarea)
 			{	
 				$data["tipo_areas"] = TipoArea::lists('nombre','idtipo_area');
-				$data["centro_costos"] = CentroCosto::lists('nombre','idcentro_costo');
 				$data["area_info"] = Area::searchAreaById($idarea)->get();
 				$data["personal"] = User::searchPersonalByIdArea($idarea)->get();
 				if($data["area_info"]->isEmpty()){
@@ -101,8 +99,7 @@ class AreasController extends BaseController
 				$rules = array(
 							'nombre' => 'required|max:100|unique:areas',
 							'descripcion' => 'required|max:200',
-							'tipo_area' => 'required',
-							'centro_costo' => 'required',						
+							'tipo_area' => 'required',						
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules);
@@ -114,7 +111,6 @@ class AreasController extends BaseController
 					$area->nombre = Input::get('nombre');
 					$area->descripcion = Input::get('descripcion');
 					$area->idtipo_area = Input::get('tipo_area');
-					$area->idcentro_costo = Input::get('centro_costo');
 					$area->idestado = 1;
 					$area->save();
 					Session::flash('message', 'Se registró correctamente el area.');
@@ -140,8 +136,7 @@ class AreasController extends BaseController
 				$rules = array(
 							'nombre' => 'required|max:100',
 							'descripcion' => 'required|max:200',
-							'tipo_area' => 'required',
-							'centro_costo' => 'required',		
+							'tipo_area' => 'required',	
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules);
@@ -157,7 +152,6 @@ class AreasController extends BaseController
 					$area->nombre = Input::get('nombre');
 					$area->descripcion = Input::get('descripcion');
 					$area->idtipo_area = Input::get('tipo_area');
-					$area->idcentro_costo = Input::get('centro_costo');
 					$area->save();
 					Session::flash('message', 'Se editó correctamente el area.');
 					return Redirect::to($url);

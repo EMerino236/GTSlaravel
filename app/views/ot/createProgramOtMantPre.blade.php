@@ -1,4 +1,4 @@
-@extends('templates/otTemplate')
+@extends('templates/otMantenimientoPreventivoTemplate')
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
@@ -167,4 +167,26 @@
 	    </div>
 	  </div>  
 	</div>
+
+
+<div class="container">
+  <!-- Modal -->
+  <div class="modal fade" id="modal_edit" role="dialog">
+    <div class="modal-dialog modal-md">    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header" id="modal_header_edit">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Advertencia</h4>
+        </div>
+        <div class="modal-body" id="modal_edit_text">
+         	
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" id="btn_close_modal" data-dismiss="modal">Aceptar</button>
+        </div>
+      </div>      
+    </div>
+  </div>  
+</div>
 @stop

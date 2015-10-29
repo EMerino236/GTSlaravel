@@ -1,4 +1,4 @@
-@extends('templates/otTemplate')
+@extends('templates/otMantenimientoPreventivoTemplate')
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
@@ -110,7 +110,7 @@
 						{{$mant_preventivo_data->nombre_ubicacion}}
 					</td>
 					<td>
-						{{$mant_preventivo_data->ot_tipo_abreviatura}}{{$mant_preventivo_data->ot_correlativo}}{{$mant_preventivo_data->ot_activo_abreviatura}}
+						<a href="{{URL::to('/mant_preventivo/create_ot_preventivo/')}}/{{$mant_preventivo_data->idordenes_trabajo}}">{{$mant_preventivo_data->ot_tipo_abreviatura}}{{$mant_preventivo_data->ot_correlativo}}{{$mant_preventivo_data->ot_activo_abreviatura}}</a>
 					</td>					
 					<td>
 						{{$mant_preventivo_data->nombre_estado}}

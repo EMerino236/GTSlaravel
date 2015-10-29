@@ -11,7 +11,6 @@
 		<div class="alert alert-danger" role="alert">
 			<p><strong>{{ $errors->first('numero_ot') }}</strong></p>
 			<p><strong>{{ $errors->first('servicio') }}</strong></p>
-			<p><strong>{{ $errors->first('centro_costo') }}</strong></p>
 			<p><strong>{{ $errors->first('marca1') }}</strong></p>
 			<p><strong>{{ $errors->first('sustento') }}</strong></p>
 			<p><strong>{{ $errors->first('nombre_equipo1') }}</strong></p>
@@ -59,14 +58,6 @@
 								{{ Form::select('servicio',array('0'=> 'Seleccione')+ $servicios,$reporte_data->idservicio,array('class'=>'form-control','readonly'=>'','id'=>'servicio')) }}
 							@else
 								{{ Form::select('servicio',array('0'=> 'Seleccione')+ $servicios,$reporte_data->idservicio,array('class'=>'form-control','id'=>'servicio')) }}
-							@endif							
-						</div>
-						<div class="form-group col-md-4 @if($errors->first('centro_costo')) has-error has-feedback @endif">
-							{{ Form::label('centro_costo','Centro de Costo') }}
-							@if($reporte_data->deleted_at)
-								{{ Form::text('centro_costo',null,array('class'=>'form-control','readonly'=>'','id'=>'centro_costo')) }}
-							@else
-								{{ Form::text('centro_costo',null,array('class'=>'form-control','id'=>'centro_costo')) }}
 							@endif							
 						</div>
 						<div class="form-group col-md-4 @if($errors->first('marca1')) has-error has-feedback @endif">

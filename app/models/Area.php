@@ -13,8 +13,7 @@ class Area extends Eloquent{
 	{
 		$query->withTrashed()
 			  ->join('tipo_areas','tipo_areas.idtipo_area','=','areas.idtipo_area')
-			  ->join('centro_costos','centro_costos.idcentro_costo','=','areas.idcentro_costo')
-			  ->select('tipo_areas.nombre as nombre_tipo_area','centro_costos.nombre as nombre_centro_costo','areas.*');
+			  ->select('tipo_areas.nombre as nombre_tipo_area','areas.*');
 		return $query;
 	}
 
@@ -28,11 +27,10 @@ class Area extends Eloquent{
 	public function scopeSearchAreas($query,$search_criteria){
 		$query->withTrashed()
 			  ->join('tipo_areas','tipo_areas.idtipo_area','=','areas.idtipo_area')
-			  ->join('centro_costos','centro_costos.idcentro_costo','=','areas.idcentro_costo')
 			  ->whereNested(function($query) use($search_criteria){
 			  		$query->where('areas.idtipo_area','LIKE',"%$search_criteria%");
 			  })
-			  ->select('tipo_areas.nombre as nombre_tipo_area','centro_costos.nombre as nombre_centro_costo','areas.*');
+			  ->select('tipo_areas.nombre as nombre_tipo_area','areas.*');
 		return $query;
 	}
 
@@ -50,14 +48,6 @@ class Area extends Eloquent{
 		 		->where('idarea',$idarea)                        
    			 	->lists('nombre_responsable', 'id');
 	}
-
-	public function scopeSearchAreaActivoByIdCentroCosto($query,$idcentro_costo){
-		$query->where("areas.idcentro_costo",'=',$idcentro_costo)
-			  ->select('areas.*');
-		return $query;
-	}
-
-	
 
 
 	

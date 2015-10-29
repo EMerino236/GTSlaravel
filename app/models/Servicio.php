@@ -53,19 +53,4 @@ class Servicio extends Eloquent{
 		return $query;
 	}
 
-	public function scopeSearchServicioActivoByIdCentroCosto($query,$idcentro_costo){
-		$query->where("servicios.idcentro_costo",'=',$idcentro_costo)
-			  ->select('servicios.*');
-		return $query;
-	}
-
-	public function scopeSearchCentroCostosByServicio($query,$search_criteria){
-		$query->withTrashed()
-			  ->join('centro_costos','centro_costos.idcentro_costo','=','servicios.idcentro_costo')
-			  ->whereNested(function($query) use($search_criteria){
-			  		$query->where('servicios.idservicio','=',$search_criteria);
-			  })
-			  ->select('centro_costos.*');
-		return $query;
-	}
 }

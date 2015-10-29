@@ -57,7 +57,6 @@ class ServiciosController extends BaseController
 				$idarea = $servicio->idarea;
 				$data["areas"] = Area::lists('nombre','idarea');
 				$data["personal"] = Area::getUserList($servicio->idarea);
-				$data["centro_costos"] = CentroCosto::lists('nombre','idcentro_costo');
 				$data["activos_servicio"] = Activo::getActivosByServicioId($idservicio)->get();
 				if($data["servicio_info"]->isEmpty()){
 					return Redirect::to('servicios/list_servicios');
@@ -84,8 +83,6 @@ class ServiciosController extends BaseController
 				$data["tipo_servicios"] = TipoServicio::lists('nombre','idtipo_servicios');
 				$data["areas"] = Area::lists('nombre','idarea');
 				$data["personal"] = array(0=>"");
-				$data["centro_costo"] = array(0=>'');
-				$data["centro_costos"] = CentroCosto::lists('nombre','idcentro_costo');
 				return View::make('servicios/createServicio',$data);
 			}else{
 				return View::make('error/error');
@@ -108,8 +105,7 @@ class ServiciosController extends BaseController
 							'descripcion' => 'required|max:200',
 							'tipo_servicio' => 'required',	
 							'area'=>'required',		
-							'personal' => 'required',
-							'centro_costo' =>'required',	
+							'personal' => 'required',	
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules);
@@ -123,7 +119,6 @@ class ServiciosController extends BaseController
 					$servicio->idtipo_servicios= Input::get('tipo_servicio');
 					$servicio->idarea = Input::get('area');
 					$servicio->id_usuario_responsable = Input::get('personal');
-					$servicio->idcentro_costo = Input::get('centro_costo');
 					$servicio->idestado = 1;
 					$servicio->save();
 					Session::flash('message', 'Se registró correctamente el servicio.');
@@ -152,7 +147,6 @@ class ServiciosController extends BaseController
 							'tipo_servicio' => 'required',	
 							'area'=>'required',		
 							'personal' => 'required',
-							'centro_costo' =>'required',
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules);
@@ -168,7 +162,6 @@ class ServiciosController extends BaseController
 					$servicio->nombre = Input::get('nombre');
 					$servicio->descripcion = Input::get('descripcion');
 					$servicio->idtipo_servicios = Input::get('tipo_servicio');
-					$servicio->idcentro_costo = Input::get('centro_costo');
 					$servicio->idarea = Input::get('area');
 					$servicio->id_usuario_responsable = Input::get('personal');
 					$servicio->save();

@@ -64,14 +64,6 @@
                                 <!-- /.nav-second-level -->
                             </li>
                             <li>
-                                <a href="#">Centro de Costos <span class="fa arrow"></span></a>
-                                <ul class="nav nav-second-level">
-                                    <li>{{ HTML::link('/centro_costos/create_centro_costo','Nuevo Centro de Costo') }}</li>
-                                    <li>{{ HTML::link('/centro_costos/list_centros_costos','Buscar Centro de Costo') }}</li>
-                                </ul>
-                                <!-- /.nav-second-level -->
-                            </li>
-                            <li>
                                 <a href="#">Familias de Equipos <span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
                                     <li>{{ HTML::link('/familia_activos/create_familia_activo','Nueva Familia de Equipo') }}</li>

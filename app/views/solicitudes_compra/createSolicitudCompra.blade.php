@@ -11,7 +11,6 @@
 		<div class="alert alert-danger" role="alert">
 			<p><strong>{{ $errors->first('numero_ot') }}</strong></p>
 			<p><strong>{{ $errors->first('servicio') }}</strong></p>
-			<p><strong>{{ $errors->first('centro_costo') }}</strong></p>
 			<p><strong>{{ $errors->first('marca1') }}</strong></p>
 			<p><strong>{{ $errors->first('sustento') }}</strong></p>
 			<p><strong>{{ $errors->first('nombre_equipo1') }}</strong></p>
@@ -50,10 +49,6 @@
 						<div class="form-group col-md-4 @if($errors->first('servicio')) has-error has-feedback @endif">
 							{{ Form::label('servicio','Servicio:') }}<span style="color:red"> *</span>
 							{{ Form::select('servicio',array('0'=> 'Seleccione')+ $servicios,Input::old('servicio'),array('class'=>'form-control','id'=>'servicio'))}}
-						</div>
-						<div class="form-group col-md-4 @if($errors->first('centro_costo')) has-error has-feedback @endif">
-							{{ Form::label('centro_costo','Centro de Costo') }}
-							{{ Form::text('centro_costo', Input::old('centro_costo'),array('class'=>'form-control','id'=>'centro_costo','readonly'=>''))}}
 						</div>
 						<div class="form-group col-md-4 @if($errors->first('marca1')) has-error has-feedback @endif">
 							{{ Form::label('marca1','Marca:') }}

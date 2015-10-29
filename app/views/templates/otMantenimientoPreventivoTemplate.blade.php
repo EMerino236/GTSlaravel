@@ -42,10 +42,9 @@
     <script src="{{ asset('bower_components/morrisjs/morris.min.js') }}"></script>
     <!-- Custom Theme JavaScript -->
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
-    <script src="{{ asset('js/bienes/reportes_incumplimiento.js') }}"></script>
-    <script src="{{ asset('js/bienes/ot.js') }}"></script>
-    <script src="{{ asset('js/bienes/listOtPreventivo.js')}}"></script>
-    <script src="{{ asset('js/bienes/addOtPreventivo.js')}}"></script>
+    <script src="{{ asset('js/bienes/addOtPreventivo.js') }}"></script>    
+    <script src="{{ asset('js/bienes/listOtPreventivo.js') }}"></script>       
+    <script src="{{ asset('js/bienes/otPreventivo.js') }}"></script>
 
 </head>
 
@@ -53,7 +52,7 @@
 	<div id="wrapper">
 		<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
 		@include('layouts.header', array('user'=>$user))
-        @include('layouts.sidebar', array('user'=>$user))		
+		@include('layouts.sidebar', array('user'=>$user))
         <!-- /.navbar-static-side -->
         </nav>
         <div id="page-wrapper">

@@ -50,8 +50,8 @@ class OtPreventivoController extends BaseController {
 				$equipo = Activo::searchActivosByCodigoPatrimonial($data)->get();
 				if($equipo->isEmpty()==false){
 					$equipo = $equipo[0];
-					$mes = OrdenesTrabajosxactivo::getOtXActivoXPeriodo(2,9,$mes_ini,$mes_fin)->get()->count();
-					$trimestre = OrdenesTrabajosxactivo::getOtXActivoXPeriodo(2,9,$trimestre_ini,$trimestre_fin)->get()->count();
+					$mes = OrdenesTrabajosxactivo::getOtXTipoXPeriodo(2,9,$mes_ini,$mes_fin)->get()->count();
+					$trimestre = OrdenesTrabajosxactivo::getOtXTipoXPeriodo(2,9,$trimestre_ini,$trimestre_fin)->get()->count();
 					
 				}else{
 				 	$equipo = null;
@@ -138,7 +138,7 @@ class OtPreventivoController extends BaseController {
 			$trimestre_ini=date("Y-m-d",strtotime(Input::get('trimestre_ini')));
 			$trimestre_fin=date("Y-m-d",strtotime(Input::get('trimestre_fin')));
 			$array_programaciones = null;	
-			$array_programaciones = OrdenesTrabajosxactivo::getOtXActivoXPeriodo(2,9,$trimestre_ini,$trimestre_fin)->get()->toArray();
+			$array_programaciones =  OrdenesTrabajosxactivo::getOtXTipoXPeriodo(2,9,$trimestre_ini,$trimestre_fin)->get()->toArray();
 			$programaciones = [];
 			$length = sizeof($array_programaciones);					
 			for($i=0;$i<$length;$i++){
@@ -222,7 +222,8 @@ class OtPreventivoController extends BaseController {
 				$message = "Se crearon las OTM con éxito";
 				$type_message = "bg-success";
 				for( $i = 0; $i<$row_size; $i++ ){
-					$array_detalle = $array_detalle[0];
+					$array_detalle = $array_detalles[0];					
+					$fecha = date('d-m-Y H:i:s',strtotime($array_detalle[4]." ".$array_detalle[5]));
 					$cod_pat =$array_detalle[0];
 					$activo = Activo::searchActivosByCodigoPatrimonial($cod_pat)->get();					
 					$activo = $activo[0];
@@ -240,7 +241,7 @@ class OtPreventivoController extends BaseController {
 					$ot->idestado = 9; // A mejorar este hardcode :/
 					$ot->id_usuarioelaborado = $data["user"]->id;
 					$ot->id_usuariosolicitante = $array_detalle[6];
-					$ot->ot_tipo_abreviatura = $abreviatura = "MP";
+					$ot->ot_tipo_abreviatura = $abreviatura;
 					$ot->ot_correlativo = $string;
 					$ot->ot_activo_abreviatura = $ts_abreviatura;
 					$ot->save();
@@ -277,7 +278,7 @@ class OtPreventivoController extends BaseController {
 	}
 
 	
-/*
+
 	public function render_create_ot($id=null)
 	{
 		if(Auth::check()){
@@ -291,10 +292,10 @@ class OtPreventivoController extends BaseController {
 				$data["tipo_fallas"] = TipoFalla::lists('nombre','idtipo_falla');
 				$tabla_estado_activo = Tabla::getTablaByNombre(self::$estado_activo)->get();
 				$data["estado_activo"] = Estado::where('idtabla','=',$tabla_estado_activo[0]->idtabla)->lists('nombre','idestado');
-				
-				$data["ot_info"] = OrdenesTrabajo::searchOtById($id)->get();
+
+				$data["ot_info"] = OrdenesTrabajo::searchOtPreventivoById($id)->get();
 				if($data["ot_info"]->isEmpty()){
-					return Redirect::to('ot/createOtMantPre');
+					return Redirect::to('mant_preventivo/list_mant_preventivo');
 				}
 				$data["ot_info"] = $data["ot_info"][0];
 				$data["otxact"] = OrdenesTrabajosxactivo::getOtXActivo($id,$data["ot_info"]->idactivo)->get();
@@ -315,6 +316,6 @@ class OtPreventivoController extends BaseController {
 		}else{
 			return View::make('error/error');
 		}
-	}*/
+	}
 
 }

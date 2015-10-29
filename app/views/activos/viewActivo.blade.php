@@ -87,10 +87,6 @@
 				                    </span>
 								</div>
 							</div>
-							<div class="col-md-4 @if($errors->first('centro_costo')) has-error has-feedback @endif">
-								{{ Form::label('centro_costo','Centro de Costo') }}<span style="color:red">*</span>
-								{{ Form::select('centro_costo',array('' => 'Seleccione') + $centro_costos,$equipo_info->idcentro_costo,array('class'=>'form-control','disabled'))}}
-							</div>
 						</div>
 						<div class="form-group row">
 							<div class="col-md-4 @if($errors->first('garantia')) has-error has-feedback @endif">

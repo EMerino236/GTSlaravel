@@ -12,7 +12,6 @@
 			<p><strong>{{ $errors->first('nombre') }}</strong></p>
 			<p><strong>{{ $errors->first('descripcion') }}</strong></p>
 			<p><strong>{{ $errors->first('tipo_area') }}</strong></p>
-			<p><strong>{{ $errors->first('centro_costo') }}</strong></p>
 		</div>
 	@endif
 
@@ -42,10 +41,6 @@
 							<div class="form-group col-md-4 @if($errors->first('tipo_area')) has-error has-feedback @endif">
 								{{ Form::label('tipo_area','Tipo de Área') }}
 								{{ Form::select('tipo_area',array('0'=> 'Seleccione')+$tipo_areas, Input::old('idtipo_area'),array('class'=>'form-control'))}}
-							</div>
-							<div class="form-group col-md-4 @if($errors->first('centro_costo')) has-error has-feedback @endif">
-								{{ Form::label('centro_costo','Centro de Costo') }}
-								{{ Form::select('centro_costo',array('0'=> 'Seleccione')+$centro_costos, Input::old('idcentro_costo'),array('class'=>'form-control'))}}
 							</div>
 						</div>
 					</div>			

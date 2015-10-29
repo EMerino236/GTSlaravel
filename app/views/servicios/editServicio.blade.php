@@ -58,10 +58,6 @@
 								{{ Form::label('area','Area') }}
 								{{ Form::select('area',array('0'=> 'Seleccione')+$areas, $servicio_info->idarea,array('class'=>'form-control',"onchange" => "fill_usuario_responsable_servicio()",'id'=>'area'))}}
 							</div>
-							<div class="form-group col-md-4 @if($errors->first('centro_costo')) has-error has-feedback @endif">
-								{{ Form::label('centro_costo','Centro de Costo') }}
-								{{ Form::select('centro_costo',array('0'=> 'Seleccione')+$centro_costos, $servicio_info->idcentro_costo,array('class'=>'form-control'))}}
-							</div>
 							<div class="form-group col-md-4 @if($errors->first('personal')) has-error has-feedback @endif">
 								{{ Form::label('personal','Usuario Responsable') }}
 								{{ Form::select('personal',array('0'=> 'Seleccione')+$personal, $servicio_info->id_usuario_responsable,array('class'=>'form-control','id'=>'usuario'))}}

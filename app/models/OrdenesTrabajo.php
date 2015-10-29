@@ -236,4 +236,26 @@ class OrdenesTrabajo extends Eloquent{
 			  $query->select('ubicacion_fisicas.nombre as nombre_ubicacion','areas.nombre as nombre_area','users.nombre as nombre_user','users.apellido_pat','users.apellido_mat','servicios.nombre as nombre_servicio','estados.nombre as nombre_estado','ordenes_trabajos.*');
 	  	return $query;
 	}
+
+	public function scopeSearchOtPreventivoById($query,$search_criteria)
+	{
+		$query->join('estados','estados.idestado','=','ordenes_trabajos.idestado')
+			  ->join('servicios','servicios.idservicio','=','ordenes_trabajos.idservicio')
+			  ->join('areas','areas.idarea','=','servicios.idarea')
+			  ->join('ordenes_trabajosxactivos','ordenes_trabajosxactivos.idorden_trabajoxactivo','=','ordenes_trabajos.idordenes_trabajo')
+			  ->join('activos','activos.idactivo','=','ordenes_trabajosxactivos.idactivo')
+			  ->join('ubicacion_fisicas','ubicacion_fisicas.idubicacion_fisica','=','activos.idubicacion_fisica')
+			  ->join('proveedores','proveedores.idproveedor','=','activos.idproveedor')
+			  ->join('modelo_activos','modelo_activos.idmodelo_equipo','=','activos.idmodelo_equipo')
+			  ->join('familia_activos','familia_activos.idfamilia_activo','=','modelo_activos.idfamilia_activo')
+			->join('marcas','marcas.idmarca','=','familia_activos.idmarca')
+			  ->join('grupos','grupos.idgrupo','=','activos.idgrupo')
+			  ->join('users as elaborador','elaborador.id','=','ordenes_trabajos.id_usuarioelaborado')
+			  ->join('users as ingeniero','ingeniero.id','=','grupos.id_responsable')
+			  ->join('users as solicitante','solicitante.id','=','grupos.id_responsable')
+			  ->where('ordenes_trabajos.idtipo_ordenes_trabajo','=',2)
+			  ->where('ordenes_trabajos.idordenes_trabajo','=',$search_criteria)
+			  ->select('activos.garantia','activos.idactivo','activos.numero_serie','activos.codigo_patrimonial','marcas.nombre as nombre_marca','familia_activos.nombre_equipo','modelo_activos.nombre as modelo','ubicacion_fisicas.nombre as nombre_ubicacion','areas.nombre as nombre_area','elaborador.nombre as nombre_elaborador','elaborador.apellido_pat as apat_elaborador','elaborador.apellido_mat as amat_elaborador','ingeniero.nombre as nombre_ingeniero','ingeniero.apellido_pat as apat_ingeniero','ingeniero.apellido_mat as amat_ingeniero','solicitante.nombre as nombre_solicitante','solicitante.apellido_pat as apat_solicitante','solicitante.apellido_mat as amat_solicitante','servicios.nombre as nombre_servicio','estados.nombre as nombre_estado','ordenes_trabajos.*');
+	  	return $query;
+	}
 }

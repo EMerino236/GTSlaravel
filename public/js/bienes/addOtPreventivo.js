@@ -40,7 +40,7 @@ $( document ).ready(function(){
 
 function ver_programaciones(){
     var trimestre_ini = $('#trimestre_ini').val();
-    var trimestre_fin = $('#trimestre_fin').val();   
+    var trimestre_fin = $('#trimestre_fin').val();
     $.ajax({
         url: inside_url+'mant_preventivo/ver_programaciones',
         type: 'POST',
@@ -142,7 +142,6 @@ function readTableData(){
         cells = rows[i].cells;
         clen = cells.length;               
         var arr = new Array();
-        arr.push($('#iddetalle'+index_value).val());
         for(j = 0; j < clen-1; j++){
             if(j==6){
                 arr.push(cells[j].id);
@@ -165,7 +164,7 @@ function deleteRow(event,el)
 
 
 
-function initialize_calendar(programaciones){
+function initialize_calendarX(programaciones){
     $('.responsive-calendar').responsiveCalendar({
         translateMonths:{0:'Enero',1:'Febrero',2:'Marzo',3:'Abril',4:'Mayo',5:'Junio',6:'Julio',7:'Agosto',8:'Septiembre',9:'Octubre',10:'Noviembre',11:'Diciembre'},
         events: programaciones,
@@ -258,6 +257,7 @@ function sendDataToController_create(){
                     $('#modal_edit_text').append("<p>"+message+"</p>");
                     $('#modal_edit').modal('show');
                     if(type_message == "bg-success"){
+                        alert("ole");
                         var url = inside_url + "/mant_preventivo/list_mant_preventivo";
                         $('#btn_close_modal').click(function(){
                             window.location = url;
