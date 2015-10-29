@@ -7,10 +7,6 @@ $( document ).ready(function(){
 
 	init();
 
- 	$('#servicio_clinico').change(function(){
- 		search_create_ubicacion_ajax();
- 	});
-
  	$('#marca').change(function(){
  		search_nombre_equipo_ajax();
  	});
@@ -45,61 +41,6 @@ function init(){
 		$('#modelo').prop('disabled',false);
 	}
 }
-
-function search_create_ubicacion_ajax()
-{
-
-	var val = $("#servicio_clinico").val();	
-
-	$.ajax({
-	    url: inside_url+'/equipos/search_create_ubicacion_ajax',
-	    type: 'POST',
-	    data: { 'selected_id' : val },
-	    beforeSend: function(){
-	        $("#delete-selected-profiles").addClass("disabled");
-	        $("#delete-selected-profiles").hide();
-	        $(".loader_container").show();
-	    },
-	    complete: function(){
-	        $(".loader_container").hide();
-	        $("#delete-selected-profiles").removeClass("disabled");
-	        $("#delete-selected-profiles").show();
-	        delete_selected_profiles = true;
-	    },
-	    success: function(response){	    	
-	        if(response.success)
-	        {
-	            var select = $('#ubicacion_fisica');
-	        	select.empty().append('<option value="">Seleccione</option>');
-
-	            var ubicaciones = response['ubicacion'];
-	            var size = ubicaciones.length;
-
-	            if(size != 0)
-	            {					
-					$.each(ubicaciones, function(index,value) {
-						var option = "<option value=" + ubicaciones[index].idubicacion_fisica + ">" +ubicaciones[index].nombre + "</option>";
-				    	select.append(option);
-					});
-
-	            	select.prop('disabled',false);
-	            }
-	            else
-	            {	            	
-	            	select.prop('disabled',true);
-	            }
-	            
-	        }
-	        else
-	        {
-            	alert('La petición no se pudo completar, inténtelo de nuevo. asdasd');
-	        }
-	    },
-	    error: function(){
-	        alert('La petición no se pudo completar, inténtelo de nuevo.');
-		}
-	});
-};
 
 var nombre_equipo;
 function search_nombre_equipo_ajax()

@@ -17,14 +17,21 @@ class SoporteTecnico extends Eloquent {
 	public function scopeGetSoportesTecnicoInfo($query)
 	{
 		$query->join('tipo_doc_identidades','tipo_doc_identidades.idtipo_documento','=','soporte_tecnicos.idtipo_documento')
-	 		  ->select('tipo_doc_identidades.nombre as tipo_documento','soporte_tecnicos.*');
+			  ->join('proveedores','proveedores.idproveedor','=','soporte_tecnicos.idproveedor')
+	 		  ->select('tipo_doc_identidades.nombre as tipo_documento','proveedores.razon_social as proveedor','soporte_tecnicos.*');
 
 	    return $query;
 	}
 
-	public function scopeSearchSoporteTecnico($query,$search_tipo_documento, $search_numero_documento, $search_nombre, $search_apPaterno, $search_apMaterno)
+	public function scopeSearchSoporteTecnico($query,$search_proveedor,$search_tipo_documento, $search_numero_documento, $search_nombre, $search_apPaterno, $search_apMaterno)
 	{
-		$query->join('tipo_doc_identidades','tipo_doc_identidades.idtipo_documento','=','soporte_tecnicos.idtipo_documento');
+		$query->join('tipo_doc_identidades','tipo_doc_identidades.idtipo_documento','=','soporte_tecnicos.idtipo_documento')
+			  ->join('proveedores','proveedores.idproveedor','=','soporte_tecnicos.idproveedor');
+
+	  	if($search_proveedor != '')
+	  	{
+	  		$query->where('soporte_tecnicos.idproveedor','=',$search_proveedor);
+	  	}
 
 		if($search_tipo_documento !='' && $search_numero_documento != "")
 		{						
@@ -54,10 +61,11 @@ class SoporteTecnico extends Eloquent {
 
 	public function scopeSearchSoporteTecnicoByNumeroDocumento($query,$idtipo_documento,$numero_doc_identidad)
 	{
-		$query->where('soporte_tecnicos.idtipo_documento','=',$idtipo_documento)
+		$query->join('proveedores','proveedores.idproveedor','=','soporte_tecnicos.idproveedor')
+			  ->where('soporte_tecnicos.idtipo_documento','=',$idtipo_documento)
 			  ->where('soporte_tecnicos.numero_doc_identidad','=',$numero_doc_identidad);
 		
-		$query->select('soporte_tecnicos.*');
+		$query->select('proveedores.razon_social as proveedor','soporte_tecnicos.*');
 	}
 
 }

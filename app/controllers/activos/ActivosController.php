@@ -25,6 +25,7 @@ class ActivosController extends BaseController
 
 				$data["grupos"] = Grupo::lists('nombre','idgrupo');
 				$data["servicio"] = Servicio::lists('nombre','idservicio');
+				$data["ubicacion"] = UbicacionFisica::lists('nombre','idubicacion_fisica');
 				$data["marca"] = Marca::lists('nombre','idmarca');
 				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
 
@@ -82,7 +83,8 @@ class ActivosController extends BaseController
 
 			if($data["user"]->idrol == 1){
 				$data["grupos"] = Grupo::lists('nombre','idgrupo');
-				$data["servicios"] = Servicio::lists('nombre','idservicio');			
+				$data["servicios"] = Servicio::lists('nombre','idservicio');
+				$data["ubicacion"] = UbicacionFisica::lists('nombre','idubicacion_fisica');		
 				$data["marcas"]	= Marca::lists('nombre','idmarca');
 				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');			
 				return View::make('activos/createActivo',$data);
@@ -167,7 +169,7 @@ class ActivosController extends BaseController
 				$data["equipo_info"] = $data["equipo_info"][0];
 				$data["grupos"] = Grupo::lists('nombre','idgrupo');
 				$data["servicios"] = Servicio::lists('nombre','idservicio');
-				$data["ubicaciones"] = UbicacionFisica::where('idservicio','=',$data["equipo_info"]->idservicio)->lists('nombre','idubicacion_fisica');
+				$data["ubicaciones"] = UbicacionFisica::lists('nombre','idubicacion_fisica');
 				$data["nombre_equipo"] = FamiliaActivo::where('idmarca','=',$data["equipo_info"]->idmarca)->lists('nombre_equipo','idfamilia_activo');
 				$data["modelo_equipo"] = ModeloActivo::where('idfamilia_activo','=',$data["equipo_info"]->idfamilia_activo)->lists('nombre','idmodelo_equipo');
 				$data["reporte_instalacion"] = ReporteInstalacion::where('idreporte_instalacion','=',$data["equipo_info"]->idreporte_instalacion)->get();
@@ -343,7 +345,7 @@ class ActivosController extends BaseController
 				$data["equipo_info"] = $data["equipo_info"][0];
 				$data["grupos"] = Grupo::lists('nombre','idgrupo');
 				$data["servicios"] = Servicio::lists('nombre','idservicio');
-				$data["ubicaciones"] = UbicacionFisica::where('idservicio','=',$data["equipo_info"]->idservicio)->lists('nombre','idubicacion_fisica');
+				$data["ubicaciones"] = UbicacionFisica::lists('nombre','idubicacion_fisica');
 				$data["nombre_equipo"] = FamiliaActivo::where('idmarca','=',$data["equipo_info"]->idmarca)->lists('nombre_equipo','idfamilia_activo');
 				$data["modelo_equipo"] = ModeloActivo::where('idfamilia_activo','=',$data["equipo_info"]->idfamilia_activo)->lists('nombre','idmodelo_equipo');
 				$data["reporte_instalacion"] = ReporteInstalacion::where('idreporte_instalacion','=',$data["equipo_info"]->idreporte_instalacion)->get();
@@ -490,6 +492,5 @@ class ActivosController extends BaseController
 			return Response::json(array( 'success' => false ),200);
 		}
 	}
-
 	
 }

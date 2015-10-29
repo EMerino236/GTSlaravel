@@ -1,24 +1,23 @@
 $( document ).ready(function(){
 
-	//init_validate();
+	init_edit_activo();
 
 });
 
-/*
-function init_validate()
+
+function init_edit_activo()
 {
-	var numero_reporte = $('#reporte_instalacion').val();
+	var numero_reporte = $('#reporte_instalacion_edit_activo').val();
 
 	if(numero_reporte.length != 0)
 	{
-		validate_numero_reporte_ajax();
+		validate_numero_reporte_edit_activo_ajax();
 	}
 }
-*/
 
-function validate_numero_reporte_ajax()
+function validate_numero_reporte_edit_activo_ajax()
 {
-	var numeroReporte = $('#reporte_instalacion').val();
+	var numeroReporte = $('#reporte_instalacion_edit_activo').val();
 
 	if(numeroReporte != "")
 	{

@@ -1,28 +1,11 @@
 $( document ).ready(function(){
  	
- 	init();
-
- 	$('#search_servicio').change(function(){
- 		search_list_ubicacion_ajax();
- 	});
-
- 	$('#btnLimpiar').click(function(){
- 		limpiar_criterios();
+ 	$('#btnLimpiar_list_activos').click(function(){
+ 		limpiar_criterios_list_activos();
  	});
 });
 
-function init(){
-
-	var val = $('#search_servicio').val();
-
-	if(val == '0'){
-		$('#search_ubicacion').prop('disabled',false);
-	}else{
-		search_list_ubicacion_ajax();
-	}
-}
-
-function limpiar_criterios(){
+function limpiar_criterios_list_activos(){
 
 	$('#search_grupo').prop('selectedIndex','0');
 	$('#search_servicio').prop('selectedIndex','0');
@@ -36,58 +19,4 @@ function limpiar_criterios(){
 	$('#search_codigo_compra').val("");
 	$('#search_codigo_patrimonial').val("");
 	$('#search_nombre_siga').val("");
-};
-
-function search_list_ubicacion_ajax(){
-
-	var val = $("#search_servicio").val();	
-
-	$.ajax({
-	    url: inside_url+'/equipos/search_list_ubicacion_ajax',
-	    type: 'POST',
-	    data: { 'selected_id' : val },
-	    beforeSend: function(){
-	        $("#delete-selected-profiles").addClass("disabled");
-	        $("#delete-selected-profiles").hide();
-	        $(".loader_container").show();
-	    },
-	    complete: function(){
-	        $(".loader_container").hide();
-	        $("#delete-selected-profiles").removeClass("disabled");
-	        $("#delete-selected-profiles").show();
-	        delete_selected_profiles = true;
-	    },
-	    success: function(response){	    	
-	        if(response.success)
-	        {
-	            var select = $('#search_ubicacion');
-	        	select.empty().append('<option value="0">Seleccione</option>');
-
-	            var ubicaciones = response['ubicacion'];
-	            var size = ubicaciones.length;
-
-	            if(size != 0)
-	            {					
-					$.each(ubicaciones, function(index,value) {
-						var option = "<option value=" + ubicaciones[index].idubicacion_fisica + ">" +ubicaciones[index].nombre + "</option>";
-				    	select.append(option);
-					});
-
-	            	select.prop('disabled',false);
-	            }
-	            else
-	            {	            	
-	            	select.prop('disabled',false);
-	            }
-	            
-	        }
-	        else
-	        {
-            	alert('La petición no se pudo completar, inténtelo de nuevo. asdasd');
-	        }
-	    },
-	    error: function(){
-	        alert('La petición no se pudo completar, inténtelo de nuevo.');
-		}
-	});
-};
+}

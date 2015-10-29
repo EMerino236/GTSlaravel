@@ -10,7 +10,9 @@ class SoportesTecnicoController extends BaseController
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
 				$data["tipo_documento_identidad"] = TipoDocumento::lists('nombre','idtipo_documento');
+				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
 				$data["search_tipo_documento"] = null;
+				$data["search_proveedor"] = null;
 				$data["search_numero_documento"] = null;
 				$data["search_nombre"] = null;
 				$data["search_apPaterno"] = null;
@@ -35,14 +37,16 @@ class SoportesTecnicoController extends BaseController
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
 				$data["tipo_documento_identidad"] = TipoDocumento::lists('nombre','idtipo_documento');
+				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
 				
+				$data["search_proveedor"] = Input::get('proveedor');
 				$data["search_tipo_documento"] = Input::get('tipo_documento_identidad');
 				$data["search_numero_documento"] = Input::get('numero_documento_soporte_tecnico');
 				$data["search_nombre"] = Input::get('nombre_soporte_tecnico');
 				$data["search_apPaterno"] = Input::get('apPaterno_soporte_tecnico');
 				$data["search_apMaterno"] = Input::get('apMaterno_soporte_tecnico');				
 
-				$data["soportes_tecnico_data"] = SoporteTecnico::searchSoporteTecnico($data["search_tipo_documento"], $data["search_numero_documento"],
+				$data["soportes_tecnico_data"] = SoporteTecnico::searchSoporteTecnico($data["search_proveedor"],$data["search_tipo_documento"], $data["search_numero_documento"],
 					$data["search_nombre"], $data["search_apPaterno"], $data["search_apMaterno"])->paginate(10);
 				return View::make('soporte_tecnico/listSoporteTecnico',$data);
 			}else{
@@ -61,7 +65,7 @@ class SoportesTecnicoController extends BaseController
 
 			if($data["user"]->idrol == 1){				
 				$data["tipo_documento_identidad"] = TipoDocumento::lists('nombre','idtipo_documento');
-				$data["search_tipo_documento"] = null;
+				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');				
 				
 				return View::make('soporte_tecnico/createSoporteTecnico',$data);
 			}else{
@@ -81,6 +85,7 @@ class SoportesTecnicoController extends BaseController
 			if($data["user"]->idrol	== 1){
 
 				$attributes = array(
+					'proveedor' => 'Proveedor',
 					'tipo_documento_identidad' => 'Tipo de Documento',
 					'numero_documento_soporte_tecnico' => 'Número de Documento',
 					'nombre_soporte_tecnico' => 'Nombre',
@@ -96,6 +101,7 @@ class SoportesTecnicoController extends BaseController
 				);
 
 				$rules = array(
+					'proveedor' => 'required',
 					'tipo_documento_identidad' => 'required',
 					'numero_documento_soporte_tecnico' => 'required | unique:soporte_tecnicos,numero_doc_identidad',
 					'nombre_soporte_tecnico' => 'required',
@@ -113,6 +119,7 @@ class SoportesTecnicoController extends BaseController
 				}else{
 
 					$soporte_tecnico = new SoporteTecnico;
+					$soporte_tecnico->idproveedor = Input::get('proveedor');
 					$soporte_tecnico->idtipo_documento = Input::get('tipo_documento_identidad');
 					$soporte_tecnico->numero_doc_identidad = Input::get('numero_documento_soporte_tecnico');
 					$soporte_tecnico->nombres = Input::get('nombre_soporte_tecnico');
@@ -150,7 +157,8 @@ class SoportesTecnicoController extends BaseController
 					return Redirect::to('soportes_tecnicos/list_soporte_tecnico');
 				}
 				
-				$data["tipo_documento_identidad"] = TipoDocumento::lists('nombre','idtipo_documento');				
+				$data["tipo_documento_identidad"] = TipoDocumento::lists('nombre','idtipo_documento');
+				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
 
 				return View::make('soporte_tecnico/editSoporteTecnico',$data);
 			}else{
@@ -233,6 +241,7 @@ class SoportesTecnicoController extends BaseController
 
 				$data["soporte_tecnico_info"] = SoporteTecnico::find($idsoporte_tecnico)->get();
 				$data["soporte_tecnico_info"] = $data["soporte_tecnico_info"][0];
+				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
 				
 				if($data["soporte_tecnico_info"] == null)
 				{

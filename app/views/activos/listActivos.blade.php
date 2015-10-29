@@ -38,7 +38,7 @@
 			</div>
 			<div class="col-md-4">
 				{{ Form::label('search_ubicacion','Ubicación') }}
-				{{ Form::select('search_ubicacion', array('0' => 'Seleccione'),$search_ubicacion,['class' => 'form-control']) }}
+				{{ Form::select('search_ubicacion', array('0' => 'Seleccione') + $ubicacion,$search_ubicacion,['class' => 'form-control']) }}
 			</div>
 		</div>
 
@@ -89,7 +89,7 @@
 				
 			</div>
 			<div class="form-group col-md-2">
-				<div class="btn btn-default btn-block" id="btnLimpiar">Limpiar</div>				
+				<div class="btn btn-default btn-block" id="btnLimpiar_list_activos">Limpiar</div>				
 			</div>
 		</div>
 	  </div>

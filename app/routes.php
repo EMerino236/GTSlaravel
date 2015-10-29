@@ -109,8 +109,6 @@ Route::group(array('prefix'=>'equipos','before'=>'auth'),function(){
 	Route::get('/create_soporte_tecnico_equipo/{id}','ActivosController@render_create_soporte_tecnico_equipo');
 	Route::post('/submit_create_soporte_tecnico_equipo','ActivosController@submit_create_soporte_tecnico_equipo');
 
-	Route::post('/search_list_ubicacion_ajax','ActivosController@search_ubicacion_ajax');
-	Route::post('/search_create_ubicacion_ajax','ActivosController@search_ubicacion_ajax');
 	Route::post('/search_nombre_equipo_ajax','ActivosController@search_nombre_equipo_ajax');
 	Route::post('/search_modelo_equipo_ajax','ActivosController@search_modelo_equipo_ajax');
 	Route::post('/validate_numero_reporte_ajax','ActivosController@validate_numero_reporte_ajax');

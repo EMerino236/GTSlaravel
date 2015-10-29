@@ -31,17 +31,18 @@
 		  	<div class="panel-heading">Datos Generales</div>
 		  	<div class="panel-body">
 		  		<div class="row">
+		  			<div class="form-group col-md-4 @if($errors->first('proveedor')) has-error has-feedback @endif">
+			  			{{ Form::label('proveedor','Proveedor') }}
+						{{ Form::select('proveedor', array('' => 'Seleccione') + $proveedor,$soporte_tecnico_info->idproveedor,['class' => 'form-control','disabled']) }}										
+					</div>
 		  			<div class="form-group col-md-4 @if($errors->first('tipo_documento_identidad')) has-error has-feedback @endif">
 						{{ Form::label('tipo_documento_identidad','Tipo de Documento') }}
-						{{ Form::select('tipo_documento_identidad', array('' => 'Seleccione') + $tipo_documento_identidad,$soporte_tecnico_info->idtipo_documento,['class' => 'form-control', 'readonly']) }}						
+						{{ Form::select('tipo_documento_identidad', array('' => 'Seleccione') + $tipo_documento_identidad,$soporte_tecnico_info->idtipo_documento,['class' => 'form-control', 'disabled']) }}						
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('numero_documento_soporte_tecnico')) has-error has-feedback @endif">
 						{{ Form::label('numero_documento_soporte_tecnico','Número de Documento') }}
 						{{ Form::text('numero_documento_soporte_tecnico',$soporte_tecnico_info->numero_doc_identidad,array('class'=>'form-control','readonly')) }}
-					</div>
-					<div class="form-group col-md-2">
-						
-					</div>										
+					</div>															
 		  		</div>
 		  		<div class="row">
 		  			<div class="form-group col-md-4 @if($errors->first('nombre_soporte_tecnico')) has-error has-feedback @endif">

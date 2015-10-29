@@ -29,28 +29,30 @@
 	  <div class="panel-body">
 
 	  	<div class="row">
-  			<div class="form-group col-md-4 @if($errors->first('tipo_documento_identidad')) has-error has-feedback @endif">
+	  		<div class="form-group col-md-4">
+	  			{{ Form::label('proveedor','Proveedor') }}
+				{{ Form::select('proveedor', array('' => 'Seleccione') + $proveedor,$search_proveedor,['class' => 'form-control']) }}										
+			</div>
+  			<div class="form-group col-md-4">
 				{{ Form::label('tipo_documento_identidad','Tipo de Documento') }}
 				{{ Form::select('tipo_documento_identidad', array('' => 'Seleccione') + $tipo_documento_identidad,$search_tipo_documento,['class' => 'form-control']) }}						
 			</div>
-			<div class="form-group col-md-4 @if($errors->first('numero_documento_soporte_tecnico')) has-error has-feedback @endif">
+			<div class="form-group col-md-4">
 				{{ Form::label('numero_documento_soporte_tecnico','Número de Documento') }}
 				{{ Form::text('numero_documento_soporte_tecnico',$search_numero_documento,array('class'=>'form-control')) }}
-			</div>
-			<div class="form-group col-md-2">				
-			</div>										
+			</div>													
   		</div>
 
   		<div class="row">
-  			<div class="form-group col-md-4 @if($errors->first('nombre_soporte_tecnico')) has-error has-feedback @endif">
+  			<div class="form-group col-md-4">
 				{{ Form::label('nombre_soporte_tecnico','Nombre') }}
 				{{ Form::text('nombre_soporte_tecnico',$search_nombre,array('class'=>'form-control')) }}
 			</div>
-			<div class="form-group col-md-4 @if($errors->first('apPaterno_soporte_tecnico')) has-error has-feedback @endif">
+			<div class="form-group col-md-4">
 				{{ Form::label('apPaterno_soporte_tecnico','Apellido Paterno') }}
 				{{ Form::text('apPaterno_soporte_tecnico',$search_apPaterno,array('class'=>'form-control')) }}
 			</div>
-			<div class="form-group col-md-4 @if($errors->first('apMaterno_soporte_tecnico')) has-error has-feedback @endif">
+			<div class="form-group col-md-4">
 				{{ Form::label('apMaterno_soporte_tecnico','Apellido Materno') }}
 				{{ Form::text('apMaterno_soporte_tecnico',$search_apMaterno,array('class'=>'form-control')) }}
 			</div>
@@ -88,6 +90,7 @@
 						<th class="text-nowrap">Nombre</th>
 						<th class="text-nowrap">Apellido Paterno</th>
 						<th class="text-nowrap">Apellido Materno</th>
+						<th class="text-nowrap">Proveedor</th>
 						<th class="text-nowrap">Especialidad</th>
 						<th class="text-nowrap">Teléfono</th>				
 						<th class="text-nowrap">E-mail</th>
@@ -112,7 +115,10 @@
 						</td>
 						<td class="text-nowrap">
 							{{$soporte_tecnico->apellido_mat}}
-						</td>						
+						</td>
+						<td class="text-nowrap">
+							{{$soporte_tecnico->proveedor}}
+						</td>					
 						<td class="text-nowrap">
 							{{$soporte_tecnico->especialidad}}
 						</td>

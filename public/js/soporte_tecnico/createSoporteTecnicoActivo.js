@@ -86,6 +86,7 @@ function search_soporte_tecnico_ajax()
 		            	$('#nombre_soporte_tecnico_activo').val(resp.nombres);
 		            	$('#apPaterno_soporte_tecnico_activo').val(resp.apellido_pat);
 		            	$('#apMaterno_soporte_tecnico_activo').val(resp.apellido_mat);
+		            	$('#proveedor_soporte_tecnico_activo').val(resp.proveedor);
 		            	$('#especialidad_soporte_tecnico_activo').val(resp.especialidad);
 		            	$('#telefono_soporte_tecnico_activo').val(resp.telefono);
 		            	$('#email_soporte_tecnico_activo').val(resp.email);

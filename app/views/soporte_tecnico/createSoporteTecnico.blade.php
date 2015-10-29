@@ -9,6 +9,7 @@
 
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
+			<p><strong>{{ $errors->first('proveedor') }}</strong></p>
 			<p><strong>{{ $errors->first('tipo_documento_identidad') }}</strong></p>
 			<p><strong>{{ $errors->first('numero_documento_soporte_tecnico') }}</strong></p>
 			<p><strong>{{ $errors->first('nombre_soporte_tecnico') }}</strong></p>
@@ -38,17 +39,18 @@
 		  	<div class="panel-heading">Datos Generales</div>
 		  	<div class="panel-body">
 		  		<div class="row">
+		  			<div class="form-group col-md-4 @if($errors->first('proveedor')) has-error has-feedback @endif">
+			  			{{ Form::label('proveedor','Proveedor') }}
+						{{ Form::select('proveedor', array('' => 'Seleccione') + $proveedor,Input::old('proveedor'),['class' => 'form-control']) }}										
+					</div>
 		  			<div class="form-group col-md-4 @if($errors->first('tipo_documento_identidad')) has-error has-feedback @endif">
 						{{ Form::label('tipo_documento_identidad','Tipo de Documento') }}<span style="color:red">*</span>
-						{{ Form::select('tipo_documento_identidad', array('' => 'Seleccione') + $tipo_documento_identidad,$search_tipo_documento,['class' => 'form-control']) }}						
+						{{ Form::select('tipo_documento_identidad', array('' => 'Seleccione') + $tipo_documento_identidad,Input::old('tipo_documento_identidad'),['class' => 'form-control']) }}						
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('numero_documento_soporte_tecnico')) has-error has-feedback @endif">
 						{{ Form::label('numero_documento_soporte_tecnico','Número de Documento') }}<span style="color:red">*</span>
 						{{ Form::text('numero_documento_soporte_tecnico',Input::old('numero_documento_soporte_tecnico'),array('class'=>'form-control')) }}
-					</div>
-					<div class="form-group col-md-2">
-						
-					</div>										
+					</div>															
 		  		</div>
 		  		<div class="row">
 		  			<div class="form-group col-md-4 @if($errors->first('nombre_soporte_tecnico')) has-error has-feedback @endif">

@@ -52,7 +52,7 @@
 							</div>
 							<div class="col-md-4 @if($errors->first('ubicacion_fisica')) has-error has-feedback @endif">
 								{{ Form::label('ubicacion_fisica','Ubicación Física') }}<span style="color:red">*</span>
-								{{ Form::select('ubicacion_fisica',array('' => 'Seleccione'),Input::old('ubicacion_fisica'),array('class'=>'form-control'))}}
+								{{ Form::select('ubicacion_fisica',array('' => 'Seleccione') + $ubicacion,Input::old('ubicacion_fisica'),array('class'=>'form-control'))}}
 							</div>
 							<div class="col-md-4 @if($errors->first('grupo')) has-error has-feedback @endif">
 								{{ Form::label('grupo','Grupo') }}<span style="color:red">*</span>

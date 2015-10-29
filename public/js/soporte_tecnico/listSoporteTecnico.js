@@ -1,6 +1,6 @@
 $( document ).ready(function(){
  	
- 	init();
+ 	init_list_soporte_tecnico();
 
  	$('#tipo_documento_identidad').change(function(){
  		edit_numero_documento();
@@ -12,7 +12,7 @@ $( document ).ready(function(){
 
 });
 
-function init()
+function init_list_soporte_tecnico()
 {
 	var idtipo_documento = $('#tipo_documento_identidad').val();
 
@@ -37,6 +37,7 @@ function edit_numero_documento()
 
 function limpiar_criterios()
 {
+	$('#proveedor').prop('selectedIndex',0);
 	$('#tipo_documento_identidad').prop('selectedIndex',0);
 	$('#numero_documento_soporte_tecnico').prop('disabled',true);
 	$('#numero_documento_soporte_tecnico').val("");
