@@ -101,7 +101,7 @@
 			<div class="responsive-calendar">
 			  <div class="controls">			     
 			      <a class="pull-left" data-go="prev"><div class="btn"><i class="glyphicon glyphicon-chevron-left"></i></div></a>
-			      <h4><span data-head-year></span> <span data-head-month></span></h4>
+			      <h4><span data-head-year></span> <span data-head-month id="nombre_mes"></span></h4>
 			      <a class="pull-right" data-go="next"><div class="btn"><i class="glyphicon glyphicon-chevron-right"></i></div></a>
 			  </div><hr/>
 			  <div class="day-headers">

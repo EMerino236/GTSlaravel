@@ -52,9 +52,9 @@ class OtPreventivoController extends BaseController {
 				$equipo = Activo::searchActivosByCodigoPatrimonial($data)->get();
 				if($equipo->isEmpty()==false){
 					$equipo = $equipo[0];
-					$mes = OrdenesTrabajosxactivo::getOtPreventivoXActivoXPeriodo($equipo->idactivo,9,$mes_ini,$mes_fin)->get()->count();
-					$trimestre = OrdenesTrabajosxactivo::getOtPreventivoXActivoXPeriodo($equipo->idactivo,9,$trimestre_ini,$trimestre_fin)->get()->count();
-					$array_programaciones = OrdenesTrabajosxactivo::getOtPreventivoXActivoXPeriodo($equipo->idactivo,9,$trimestre_ini,$trimestre_fin)->get()->toArray();
+					$mes = OrdenesTrabajosxactivo::getOtXActivoXPeriodo(2,9,$mes_ini,$mes_fin)->get()->count();
+					$trimestre = OrdenesTrabajosxactivo::getOtXActivoXPeriodo(2,9,$trimestre_ini,$trimestre_fin)->get()->count();
+					$array_programaciones = OrdenesTrabajosxactivo::getOtoXActivoXPeriodo(2,9,$trimestre_ini,$trimestre_fin)->get()->toArray();
 					$programaciones = [];
 					$length = sizeof($array_programaciones);					
 					for($i=0;$i<$length;$i++){
@@ -132,6 +132,32 @@ class OtPreventivoController extends BaseController {
 
 		}else{
 			return View::make('error/error');
+		}
+	}
+
+	public function search_programaciones(){
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$id = Auth::id();
+		$data["inside_url"] = Config::get('app.inside_url');
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1){
+			// Check if the current user is the "System Admin"	
+			$trimestre_ini=date("Y-m-d",strtotime(Input::get('trimestre_ini')));
+			$trimestre_fin=date("Y-m-d",strtotime(Input::get('trimestre_fin')));
+			$array_programaciones = null;	
+			$array_programaciones = OrdenesTrabajosxactivo::getOtXActivoXPeriodo(2,9,$trimestre_ini,$trimestre_fin)->get()->toArray();
+			$programaciones = [];
+			$length = sizeof($array_programaciones);					
+			for($i=0;$i<$length;$i++){
+				$programaciones[] = date("Y-m-d",strtotime($array_programaciones[$i]['fecha_programacion']));
+			}
+			$array_programaciones = $programaciones;				
+			
+			return Response::json(array( 'success' => true, 'programaciones'=> $array_programaciones),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
 		}
 	}
 

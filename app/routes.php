@@ -299,6 +299,7 @@ Route::group(array('prefix'=>'mant_preventivo','before'=>'auth'),function(){
 	/*Route::post('/calendario_ot_mant_correctivo','OtController@calendario_ot_mant_correctivo_ajax');*/
 	Route::get('/list_mant_preventivo','OtPreventivoController@list_mant_preventivo');
 	Route::post('/search_equipo_ajax','OtPreventivoController@search_equipo_ajax');
+	Route::post('/ver_programaciones','OtPreventivoController@search_programaciones');
 	/*Route::get('/search_ot_mant_correctivo','OtController@search_ot_mant_correctivo');
 	Route::get('/create_ot/{id}','OtController@render_create_ot');
 	Route::post('/submit_create_ot','OtController@submit_create_ot');
