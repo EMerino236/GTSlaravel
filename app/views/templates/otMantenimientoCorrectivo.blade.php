@@ -4,11 +4,13 @@
 <head>
 	<meta charset="UTF-8">
     <meta name="robots" content="noindex, follow">
-    <title>Bienes</title>
+    <title>Ordenes de Trabajo</title>
     <!-- Bootstrap Core CSS -->
     <link href="{{ asset('bower_components/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- Datepicker CSS-->
     <link rel="stylesheet" href="{{ asset('css/bootstrap-datetimepicker.min.css') }}">
+    <!-- Calendar CSS-->
+    <link rel="stylesheet" href="{{ asset('css/responsive-calendar.css') }}">
     <!-- MetisMenu CSS -->
     <link href="{{ asset('bower_components/metisMenu/dist/metisMenu.min.css') }}" rel="stylesheet">
     <!-- Timeline CSS -->
@@ -31,6 +33,8 @@
     <script type="text/javascript" src="{{ asset('js/moment.min.js') }}"></script>
     <!-- Bootstrap Datepicker JavaScript -->
     <script type="text/javascript" src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
+    <!-- Bootstrap Calendar JavaScript -->
+    <script type="text/javascript" src="{{ asset('js/responsive-calendar.min.js') }}"></script>
     <!-- Metis Menu Plugin JavaScript -->
     <script src="{{ asset('bower_components/metisMenu/dist/metisMenu.min.js') }}"></script>
     <!-- Morris Charts JavaScript -->
@@ -38,8 +42,9 @@
     <script src="{{ asset('bower_components/morrisjs/morris.min.js') }}"></script>
     <!-- Custom Theme JavaScript -->
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
-    <script src="{{ asset('js/bienes/bienes.js') }}"></script>
-    
+    <script src="{{ asset('js/bienes/reportes_incumplimiento.js') }}"></script>
+    <script src="{{ asset('js/bienes/ot.js') }}"></script>
+
 </head>
 
 <body>
@@ -47,6 +52,7 @@
 		<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
 		@include('layouts.header', array('user'=>$user))
 		@include('layouts.sidebar', array('user'=>$user))
+        <!-- /.navbar-static-side -->
         </nav>
         <div id="page-wrapper">
         	@yield('content')

@@ -24,6 +24,7 @@ $( document ).ready(function(){
 		complete: function(){
 		},
 		success: function(response){
+			console.log(response);
 			var programaciones = {};
 			for(var i=0;i<response.programaciones.length;i++){
 				var prog = response.programaciones[i];

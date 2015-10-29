@@ -111,7 +111,7 @@ class OtController extends BaseController {
 			$fecha_ini = null;
 			$fecha_fin = null;
 			$this->calcular_trimestre($fecha_ini,$fecha_fin);
-			$data['programaciones'] = OrdenesTrabajosxactivo::getOtXActivoXPeriodo($idactivo,9,$fecha_ini,$fecha_fin)->get()->toArray();
+			$data['programaciones'] = OrdenesTrabajosxactivo::getOtXTipoXPeriodo(5,9,$fecha_ini,$fecha_fin)->get()->toArray();
 			$programaciones = [];
 			$length = sizeof($data['programaciones']);
 			for($i=0;$i<$length;$i++){
