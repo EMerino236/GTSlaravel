@@ -115,12 +115,47 @@
 			  			<div class="table-responsive">
 							<table class="table">
 								<tr class="info">
-									<th>Nº</th>
-									<th>Nombre</th>
-									<th>Especialidad</th>
-									<th>Teléfono</th>				
-									<th>E-mail</th>						
+									<th class="text-nowrap">Nº</th>
+									<th class="text-nowrap">Tipo de Documento</th>
+									<th class="text-nowrap">Número de Documento</th>
+									<th class="text-nowrap">Nombre</th>
+									<th class="text-nowrap">Apellido Paterno</th>
+									<th class="text-nowrap">Apellido Materno</th>
+									<th class="text-nowrap">Especialidad</th>
+									<th class="text-nowrap">Teléfono</th>				
+									<th class="text-nowrap">E-mail</th>									
 								</tr>
+								@foreach($soporte_tecnico_info as $index => $soporte_tecnico)
+								<tr class="@if($soporte_tecnico->deleted_at) bg-danger @endif">			
+									<td class="text-nowrap">
+										{{$index + 1}}
+									</td>
+									<td class="text-nowrap">
+										{{$soporte_tecnico->tipo_documento}}
+									</td>
+									<td class="text-nowrap">
+										{{$soporte_tecnico->numero_documento}}
+									</td>
+									<td class="text-nowrap">
+										{{$soporte_tecnico->nombres}}
+									</td>
+									<td class="text-nowrap">
+										{{$soporte_tecnico->apellido_pat}}
+									</td>
+									<td class="text-nowrap">
+										{{$soporte_tecnico->apellido_mat}}
+									</td>						
+									<td class="text-nowrap">
+										{{$soporte_tecnico->especialidad}}
+									</td>
+									<td class="text-nowrap">
+										{{$soporte_tecnico->telefono}}
+									</td>
+									<td class="text-nowrap">
+										{{$soporte_tecnico->email}}
+									</td>														
+								</tr>
+								@endforeach		
 							</table>
 						</div>
 					</div>

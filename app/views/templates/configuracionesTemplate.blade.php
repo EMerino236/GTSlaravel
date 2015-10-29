@@ -44,6 +44,7 @@
     <script src="{{ asset('js/familia_activos/listFamiliaActivos.js') }}"></script>
     <script src="{{ asset('js/familia_activos/editFamiliaActivos.js') }}"></script>
     <script src="{{ asset('js/modelo_activos/utilModeloActivos.js') }}"></script>
+    <script src="{{ asset('js/soporte_tecnico/listSoporteTecnico.js') }}"></script>
     
 </head>
 
