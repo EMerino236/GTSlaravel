@@ -2,14 +2,14 @@
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Programación de mantenimiento correctivo</h3>
+            <h3 class="page-header">Programación de OT de retiro de servicio</h3>
         </div>
         <!-- /.col-lg-12 -->
     </div>
     @if (Session::has('message'))
 		<div class="alert alert-success">{{ Session::get('message') }}</div>
 	@endif
-    {{ Form::open(array('url'=>'/mant_correctivo/search_ot_mant_correctivo','method'=>'get' ,'role'=>'form', 'id'=>'search-form','class' => 'form-group')) }}
+    {{ Form::open(array('url'=>'/retiro_servicio/search_ot_retiro_servicio','method'=>'get' ,'role'=>'form', 'id'=>'search-form','class' => 'form-group')) }}
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">Búsqueda</h3>
@@ -19,7 +19,7 @@
 				<div class="col-xs-6">
 					<div class="row">
 						<div class="form-group col-xs-8">
-							{{ Form::label('search_ing','Ingeniero a cargo') }}
+							{{ Form::label('search_ing','Ingeniero para retiro') }}
 							{{ Form::text('search_ing',$search_ing,array('class'=>'form-control','placeholder'=>'Nombre o apellidos')) }}
 						</div>
 					</div>
@@ -90,45 +90,45 @@
 		<tr class="info">
 			<th>Fecha y hora</th>
 			<th>Departamento</th>
-			<th>Servicio</th>
+			<th>Servicio Clínico</th>
 			<th>Ingeniero</th>
 			<th>Ubicación</th>
-			<th>OT</th>
-			<th>SOT</th>
 			<th>Estado</th>
+			<th>No. de reporte de retiro de servicio</th>
+			<th>OT</th>
 		</tr>
-		@foreach($mant_correctivos_data as $mant_correctivo_data)
+		@foreach($retiro_servicios_data as $retiro_servicio_data)
 		<tr>
 			<td>
-				{{date('d-m-Y H:i:s',strtotime($mant_correctivo_data->fecha_programacion))}}
+				{{date('d-m-Y H:i:s',strtotime($retiro_servicio_data->fecha_programacion))}}
 			</td>
 			<td>
-				{{$mant_correctivo_data->nombre_area}}
+				{{$retiro_servicio_data->nombre_area}}
 			</td>
 			<td>
-				{{$mant_correctivo_data->nombre_servicio}}
+				{{$retiro_servicio_data->nombre_servicio}}
 			</td>
 			<td>
-				{{$mant_correctivo_data->apellido_pat}} {{$mant_correctivo_data->apellido_mat}}, {{$mant_correctivo_data->nombre_user}}
+				{{$retiro_servicio_data->apellido_pat}} {{$retiro_servicio_data->apellido_mat}}, {{$retiro_servicio_data->nombre_user}}
 			</td>
 			<td>
-				{{$mant_correctivo_data->nombre_ubicacion}}
+				{{$retiro_servicio_data->nombre_ubicacion}}
 			</td>
 			<td>
-				<a href="{{URL::to('/mant_correctivo/create_ot/')}}/{{$mant_correctivo_data->idordenes_trabajo}}">{{$mant_correctivo_data->idordenes_trabajo}}</a>
+				
 			</td>
 			<td>
-				{{$mant_correctivo_data->idsolicitud_orden_trabajo}}
+				<a href="{{URL::to('/mant_correctivo/create_ot/')}}/{{$retiro_servicio_data->idordenes_trabajo}}">{{$retiro_servicio_data->idordenes_trabajo}}</a>
 			</td>
 			<td>
-				{{$mant_correctivo_data->nombre_estado}}
+				{{$retiro_servicio_data->nombre_estado}}
 			</td>
 		</tr>
 		@endforeach
 	</table>
 	@if($search_ing || $search_cod_pat || $search_ubicacion || $search_ot || $search_equipo || $search_proveedor || $search_ini || $search_fin)
-		{{ $mant_correctivos_data->appends(array('search_ing' => $search_ing,'search_cod_pat'=>$search_cod_pat,'search_ubicacion'=>$search_ubicacion,'search_ot'=>$search_ot,'search_equipo'=>$search_equipo,'search_proveedor'=>$search_proveedor,'search_ini'=>$search_ini,'search_fin'=>$search_fin))->links() }}
+		{{ $retiro_servicios_data->appends(array('search_ing' => $search_ing,'search_cod_pat'=>$search_cod_pat,'search_cod_pat'=>$search_ubicacion,'search_cod_pat'=>$search_ot,'search_cod_pat'=>$search_equipo,'search_cod_pat'=>$search_proveedor,'search_ini'=>$search_ini,'search_fin'=>$search_fin))->links() }}
 	@else
-		{{ $mant_correctivos_data->links() }}
+		{{ $retiro_servicios_data->links() }}
 	@endif
 @stop

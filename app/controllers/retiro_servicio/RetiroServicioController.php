@@ -1,18 +1,18 @@
 <?php
 
-class OtController extends BaseController {
+class RetiroServicioController extends BaseController {
 
 	private static $nombre_tabla = 'estado_ot';
 	//private static $equipo_noint = 'estado_equipo_noint';
 	private static $estado_activo = 'estado_activo';
 
-	public function render_program_ot_mant_correctivo($id=null)
+	public function render_program_ot_retiro_servicio()
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1 && $id){
+			if($data["user"]->idrol == 1){
 				$mes_ini = date("Y-m-d",strtotime("first day of this month"));
 				$mes_fin = date("Y-m-d",strtotime("last day of this month"));
 				$trimestre_ini = null;
@@ -153,7 +153,7 @@ class OtController extends BaseController {
 		return;
 	}
 
-	public function list_mant_correctivo()
+	public function list_retiro_servicio()
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
@@ -170,8 +170,8 @@ class OtController extends BaseController {
 				$data["search_proveedor"] = null;
 				$data["search_ini"] = null;
 				$data["search_fin"] = null;
-				$data["mant_correctivos_data"] = OrdenesTrabajo::getOtsMantCorrectivoInfo()->paginate(10);
-				return View::make('ot/listOtMantCorrectivo',$data);
+				$data["retiro_servicios_data"] = OrdenesTrabajo::getOtsRetiroServicioInfo()->paginate(10);
+				return View::make('retiro_servicio/listOtRetiroServicio',$data);
 			}else{
 				return View::make('error/error');
 			}
@@ -181,7 +181,7 @@ class OtController extends BaseController {
 		}
 	}
 
-	public function search_ot_mant_correctivo()
+	public function search_ot_retiro_servicio()
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
@@ -478,6 +478,62 @@ class OtController extends BaseController {
 			return Response::json(array( 'success' => true,'costo_total_personal' => number_format($otxact->costo_total_personal,2)),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
+	public function list_reporte_retiro_servicio()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1){
+				$data["motivos"] = MotivoRetiro::lists('nombre','idmotivo_retiro');
+				$data["marcas"] = Marca::lists('nombre','idmarca');
+				$data["servicios"] = Servicio::lists('nombre','idservicio');
+				$data["proveedores"] = Proveedor::lists('razon_social','idproveedor');
+				$data["search_motivo"] = null;
+				$data["search_equipo"] = null;
+				$data["search_cod_pat"] = null;
+				$data["search_marca"] = null;
+				$data["search_servicio"] = null;
+				$data["search_proveedor"] = null;
+				$data["reporte_retiros_data"] = ReporteRetiro::getReportesRetiroInfo()->paginate(10);
+				return View::make('retiro_servicio/listReporteRetiroServicio',$data);
+			}else{
+				return View::make('error/error');
+			}
+
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function search_reporte_retiro_servicio()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1){
+				$data["motivos"] = MotivoRetiro::lists('nombre','idmotivo_retiro');
+				$data["marcas"] = Marca::lists('nombre','idmarca');
+				$data["servicios"] = Servicio::lists('nombre','idservicio');
+				$data["proveedores"] = Proveedor::lists('razon_social','idproveedor');
+
+				$data["search_motivo"] = Input::get('search_motivo');
+				$data["search_equipo"] = Input::get('search_equipo');
+				$data["search_cod_pat"] = Input::get('search_cod_pat');
+				$data["search_marca"] = Input::get('search_marca');
+				$data["search_servicio"] = Input::get('search_servicio');
+				$data["search_proveedor"] = Input::get('search_proveedor');
+				$data["reporte_retiros_data"] = ReporteRetiro::searchReportesRetiroInfo($data["search_motivo"],$data["search_equipo"],$data["search_cod_pat"],$data["search_marca"],$data["search_servicio"],$data["search_proveedor"])->paginate(10);
+				return View::make('retiro_servicio/listReporteRetiroServicio',$data);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
 		}
 	}
 }

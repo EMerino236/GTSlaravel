@@ -91,4 +91,19 @@ class OrdenesTrabajo extends Eloquent{
 	  	return $query;
 	}
 
+	public function scopeGetOtsRetiroServicioInfo($query)
+	{
+		$query->join('estados','estados.idestado','=','ordenes_trabajos.idestado')
+			  ->join('servicios','servicios.idservicio','=','ordenes_trabajos.idservicio')
+			  ->join('areas','areas.idarea','=','servicios.idarea')
+			  ->join('ordenes_trabajosxactivos','ordenes_trabajosxactivos.idorden_trabajoxactivo','=','ordenes_trabajos.idordenes_trabajo')
+			  ->join('activos','activos.idactivo','=','ordenes_trabajosxactivos.idactivo')
+			  ->join('ubicacion_fisicas','ubicacion_fisicas.idubicacion_fisica','=','activos.idubicacion_fisica')
+			  ->join('grupos','grupos.idgrupo','=','activos.idgrupo')
+			  ->join('users','users.id','=','grupos.id_responsable')
+			  ->where('ordenes_trabajos.idtipo_ordenes_trabajo','=',5)
+			  ->select('ubicacion_fisicas.nombre as nombre_ubicacion','areas.nombre as nombre_area','users.nombre as nombre_user','users.apellido_pat','users.apellido_mat','servicios.nombre as nombre_servicio','estados.nombre as nombre_estado','ordenes_trabajos.*');
+	  	return $query;
+	}
+
 }
