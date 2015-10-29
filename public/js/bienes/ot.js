@@ -24,7 +24,6 @@ $( document ).ready(function(){
 		complete: function(){
 		},
 		success: function(response){
-			console.log(response);
 			var programaciones = {};
 			for(var i=0;i<response.programaciones.length;i++){
 				var prog = response.programaciones[i];
@@ -36,25 +35,39 @@ $( document ).ready(function(){
 		}
 	});
 
-	$(".boton-tarea").click(function(e){
+	$("#submit-tarea").click(function(e){
 		e.preventDefault;
-		if (confirm('¿Está seguro de esta acción?')){
-			$.ajax({
-				url: inside_url+'marcar_tarea/submit_marcar_tarea_ajax',
-				type: 'POST',
-				data: { 'idotxactxta' : $(this).data('id') },
-				beforeSend: function(){
-				},
-				complete: function(){
-				},
-				success: function(response){
-					console.log(response);
-					$(this).prop('disabled',true);
-				},
-				error: function(){
-				}
-			});
+		if($("input[name=nombre_tarea]").val().length<1){
+			$("input[name=nombre_tarea]").parent().addClass("has-error has-feedback");
+			alert("Ingrese una tarea válida.");
+		}else{
+			$("input[name=nombre_tarea]").parent().removeClass("has-error has-feedback");
+			if (confirm('¿Está seguro de esta acción?')){
+				$.ajax({
+					url: inside_url+'mant_correctivo/submit_create_tarea_ajax',
+					type: 'POST',
+					data: { 
+						'idorden_trabajoxactivo' : $("input[name=idorden_trabajoxactivo]").val(),
+						'nombre_tarea' : $("input[name=nombre_tarea]").val(),
+					},
+					beforeSend: function(){
+						$(this).prop('disabled',true);
+					},
+					complete: function(){
+						$(this).prop('disabled',false);
+					},
+					success: function(response){
+						var str = "";
+						str += '<tr id="tarea-row-'+response.otxactxta.idorden_trabajoxactivoxtarea+'"><td>'+response.tarea.nombre+'</td>';
+						str += '<td><button class="btn btn-danger boton-eliminar-tarea" onclick="eliminar_tarea(event,'+response.otxactxta.idorden_trabajoxactivoxtarea+')" type="button">Eliminar</button></td></tr>';
+						$("#tareas-table").append(str);
+					},
+					error: function(){
+					}
+				});
+			}
 		}
+
 	});
 
 	$("#submit-repuesto").click(function(e){

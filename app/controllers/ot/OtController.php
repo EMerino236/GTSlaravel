@@ -18,8 +18,8 @@ class OtController extends BaseController {
 				$trimestre_ini = null;
 				$trimestre_fin = null;
 				$this->calcular_trimestre($trimestre_ini,$trimestre_fin);
-				$data['mes'] = OrdenesTrabajosxactivo::getOtXActivoXPeriodo($id,9,$mes_ini,$mes_fin)->get()->count();
-				$data['trimestre'] = OrdenesTrabajosxactivo::getOtXActivoXPeriodo($id,9,$trimestre_ini,$trimestre_fin)->get()->count();
+				$data['mes'] = OrdenesTrabajosxactivo::getOtXTipoXPeriodo(1,9,$mes_ini,$mes_fin)->get()->count();
+				$data['trimestre'] = OrdenesTrabajosxactivo::getOtXTipoXPeriodo(1,9,$trimestre_ini,$trimestre_fin)->get()->count();
 				$data['solicitantes'] = User::getJefes()->get();
 				$data["sot_info"] = SolicitudOrdenTrabajo::searchSotById($id)->get();
 				if($data["sot_info"]->isEmpty()){
@@ -35,6 +35,22 @@ class OtController extends BaseController {
 		}else{
 			return View::make('error/error');
 		}
+	}
+
+	public function getCorrelativeReportNumber(){
+		$ot = OrdenesTrabajo::getLastOtCorrectivo()->first();
+		$string = "";
+		if($ot!=null){	
+			$numero = $ot->ot_correlativo;
+			$cantidad_digitos = strlen($numero+1);						
+			for($i=0;$i<4-$cantidad_digitos;$i++){
+				$string = $string."0";
+			}
+			$string = $string.($numero+1);					
+		}else{
+			$string = "0001";
+		}
+		return $string;
 	}
 
 	public function submit_program_ot_mant_correctivo()
@@ -59,7 +75,12 @@ class OtController extends BaseController {
 				}else{
 					$idactivo = Input::get('idactivo');
 					$activo = Activo::find($idactivo);
+					// Algoritmo para añadir numeros correlativos
+					$string = $this->getCorrelativeReportNumber();
 					$ot = new OrdenesTrabajo;
+					$ot->ot_tipo_abreviatura = "MC";
+					$ot->ot_correlativo = $string;
+					$ot->ot_activo_abreviatura = "TS";
 					$ot->fecha_programacion = date('Y-m-d H:i:s',strtotime(Input::get('fecha_programacion')));
 					$ot->idsolicitud_orden_trabajo = $sot_id;
 					$ot->idservicio = $activo->idservicio;
@@ -77,7 +98,7 @@ class OtController extends BaseController {
 					$otxa->costo_total_personal = 0.0;
 					$otxa->save();
 					$url = "mant_correctivo/list_mant_correctivo";
-
+					/*
 					// Asigno las tareas
 					$tareas = Tarea::getTareasByFamiliaActivo($activo->idfamilia_activo)->get();
 					foreach($tareas as $tarea){
@@ -87,6 +108,7 @@ class OtController extends BaseController {
 						$otxacxta->idestado_realizado = 25; // Estado de tarea no realizada
 						$otxacxta->save();
 					}
+					*/
 					Session::flash('message', 'Se programó correctamente la OT.');
 					return Redirect::to($url);
 				}
@@ -111,7 +133,7 @@ class OtController extends BaseController {
 			$fecha_ini = null;
 			$fecha_fin = null;
 			$this->calcular_trimestre($fecha_ini,$fecha_fin);
-			$data['programaciones'] = OrdenesTrabajosxactivo::getOtXTipoXPeriodo(5,9,$fecha_ini,$fecha_fin)->get()->toArray();
+			$data['programaciones'] = OrdenesTrabajosxactivo::getOtXTipoXPeriodo(1,9,$fecha_ini,$fecha_fin)->get()->toArray();
 			$programaciones = [];
 			$length = sizeof($data['programaciones']);
 			for($i=0;$i<$length;$i++){
@@ -371,6 +393,30 @@ class OtController extends BaseController {
 
 		}else{
 			return View::make('error/error');
+		}
+	}
+
+	public function submit_create_tarea_ajax()
+	{
+		// If there was an error, respond with 404 status
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1){
+			$tarea = new Tarea;
+			$tarea->nombre = Input::get('nombre_tarea');
+			$tarea->estado = 1;
+			$tarea->save();
+			
+			$otxactxta = new OrdenesTrabajosxactivoxtarea;
+			$otxactxta->idestado_realizado = 22;
+			$otxactxta->idorden_trabajoxactivo = Input::get('idorden_trabajoxactivo');
+			$otxactxta->idtarea = $tarea->idtareas;
+			$otxactxta->save();
+			return Response::json(array( 'success' => true, 'tarea' => $tarea,'otxactxta'=> $otxactxta),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
 		}
 	}
 

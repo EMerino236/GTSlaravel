@@ -115,7 +115,7 @@
 				{{$mant_correctivo_data->nombre_ubicacion}}
 			</td>
 			<td>
-				<a href="{{URL::to('/mant_correctivo/create_ot/')}}/{{$mant_correctivo_data->idordenes_trabajo}}">{{$mant_correctivo_data->idordenes_trabajo}}</a>
+				<a href="{{URL::to('/mant_correctivo/create_ot/')}}/{{$mant_correctivo_data->idordenes_trabajo}}">{{$mant_correctivo_data->ot_tipo_abreviatura}}{{$mant_correctivo_data->ot_correlativo}}{{$mant_correctivo_data->ot_activo_abreviatura}}</a>
 			</td>
 			<td>
 				{{$mant_correctivo_data->idsolicitud_orden_trabajo}}

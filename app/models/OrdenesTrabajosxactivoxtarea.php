@@ -13,7 +13,7 @@ class OrdenesTrabajosxactivoxtarea extends Eloquent{
 	{
 		$query->join('tareas','tareas.idtareas','=','ordenes_trabajosxactivosxtareas.idtarea')
 			  ->where('ordenes_trabajosxactivosxtareas.idorden_trabajoxactivo','=',$idorden_trabajoxactivo)
-			  ->select('tareas.nombre as nombre_tarea','tareas.descripcion as descripcion_tarea','ordenes_trabajosxactivosxtareas.*');
+			  ->select('tareas.nombre as nombre_tarea','ordenes_trabajosxactivosxtareas.*');
 		return $query;
 	}
 

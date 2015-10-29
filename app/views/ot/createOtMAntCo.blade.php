@@ -224,22 +224,26 @@
 				<h3 class="panel-title">Datos generales de la Orden de Trabajo de Mantenimiento</h3>
 			</div>
 			<div class="panel-body">
-				<table class="table">
+				<div class="col-xs-12">
+					<div class="row">
+						<div class="form-group col-xs-10">
+							{{ Form::text('descripcion_tarea', null,array('class'=>'form-control','placeholder'=>'Ingrese aquí la tarea realizada')) }}
+						</div>
+						<div class="form-group col-xs-2">
+							{{ Form::button('Agregar',array('id'=>'submit-tarea', 'class'=>'btn btn-primary')) }}
+						</div>
+					</div>
+				</div>
+				<table id="tareas-table" class="table">
 					<tr class="info">
-						<th>Actividad</th>
 						<th>Descripción</th>
-						<th>Realizada</th>
+						<th>Operaciones</th>
 					</tr>
 					@foreach($tareas as $tarea)
-					<tr>
+					<tr id="tarea-row-{{ $tarea->idorden_trabajoxactivoxtarea }}">
 						<td>{{$tarea->nombre_tarea}}</td>
-						<td>{{$tarea->descripcion_tarea}}</td>
 						<td>
-							@if($tarea->idestado_realizado == 23)
-								{{ Form::button('Marcar realizada',array('class'=>'btn btn-default boton-tarea','data-id'=>$tarea->idorden_trabajoxactivoxtarea)) }}
-							@else
-								Realizada
-							@endif
+							<button class="btn btn-danger boton-eliminar-tarea" onclick="eliminar_tarea(event,{{$tarea->idorden_trabajoxactivoxtarea}})" type="button">Eliminar</button>
 						</td>
 					</tr>
 					@endforeach
