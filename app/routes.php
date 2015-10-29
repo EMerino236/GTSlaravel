@@ -292,8 +292,8 @@ Route::group(array('prefix'=>'actas_conformidad','before'=>'auth'),function(){
 /* Mantenimiento Preventivo */
 Route::group(array('prefix'=>'mant_preventivo','before'=>'auth'),function(){
 	Route::get('/programacion','OtPreventivoController@render_program_ot_mant_preventivo');
-	/*Route::post('/submit_programacion','OtController@submit_program_ot_mant_correctivo');
-	Route::post('/calendario_ot_mant_correctivo','OtController@calendario_ot_mant_correctivo_ajax');*/
+	Route::post('/submit_programacion','OtPreventivoController@submit_program_ot_mant_preventivo');
+	/*Route::post('/calendario_ot_mant_correctivo','OtController@calendario_ot_mant_correctivo_ajax');*/
 	Route::get('/list_mant_preventivo','OtPreventivoController@list_mant_preventivo');
 	Route::post('/search_equipo_ajax','OtPreventivoController@search_equipo_ajax');
 	/*Route::get('/search_ot_mant_correctivo','OtController@search_ot_mant_correctivo');

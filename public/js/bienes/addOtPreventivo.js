@@ -1,14 +1,40 @@
+var cod_pat_actual = $("#cod_pat").val();
 $( document ).ready(function(){
 	$("#datetimepicker_prog_fecha").datetimepicker({
 			defaultDate: false,
 			ignoreReadonly: true,
-			format: 'DD-MM-YYYY HH:ss',
+			format: 'DD-MM-YYYY',
 			sideBySide: true
 	});
+
+    $("#datetimepicker_prog_hora").datetimepicker({
+            defaultDate: false,
+            ignoreReadonly: true,
+            format: 'HH:ss',
+            sideBySide: true
+    });
 
 
     $('#cod_pat').change(function(){
         search_equipo_ajax();
+    });
+
+    $('#btnAddProgramacion').click(function(){
+        addFilaMantenimiento();
+    });
+
+    $('#btnLimpiar').click(function(){
+        limpiar();
+    });
+
+    $('.pull-right').click(function(){
+        if($('#cod_pat').val()!='' && $('#nombre_equipo').val()!='')
+            search_equipo_ajax();
+    });
+
+    $('.pull-left').click(function(){
+        if($('#cod_pat').val()!='' && $('#nombre_equipo').val()!='')
+            search_equipo_ajax();
     });
 
 });
@@ -16,57 +42,82 @@ $( document ).ready(function(){
 
 function search_equipo_ajax(){
 	var val = $("#cod_pat").val();
-        if(val == null){
-            return;
-        }
-        $.ajax({
-            url: inside_url+'mant_preventivo/search_equipo_ajax',
-            type: 'POST',
-            data: { 'selected_id' : val },
-            beforeSend: function(){
-                $("#delete-selected-profiles").addClass("disabled");
-                $("#delete-selected-profiles").hide();
-                $(".loader_container").show();
-            },
-            complete: function(){
-                $(".loader_container").hide();
-                $("#delete-selected-profiles").removeClass("disabled");
-                $("#delete-selected-profiles").show();
-                delete_selected_profiles = true;
-            },
-            success: function(response){
-                if(response.success){
-                    var equipo = response['equipo'];
-                    if(equipo != null){
-                        $("#nombre_equipo").val("");
-                        $("#nombre_equipo").css('background-color','#5cb85c');
-                        $("#nombre_equipo").css('color','white');
-                        $("#nombre_equipo").val(equipo.nombre_equipo);
-                    }
-                    else{                        
-                        $("#nombre_equipo").val("Equipo no registrado");
-                        $("#nombre_equipo").css('background-color','#d9534f');
-                        $("#nombre_equipo").css('color','white');                      
-                    }
-                }else{
-                    alert('La petición no se pudo completar, inténtelo de nuevo.');
+    var mes_ini = $('#mes_ini').val();
+    var mes_fin = $('#mes_fin').val();
+    var trimestre_ini = $('#trimestre_ini').val();
+    var trimestre_fin = $('#trimestre_fin').val();   
+    $.ajax({
+        url: inside_url+'mant_preventivo/search_equipo_ajax',
+        type: 'POST',
+        data: { 'selected_id' : val,
+                'mes_ini' : mes_ini,
+                'mes_fin' : mes_fin,
+                'trimestre_ini': trimestre_ini,
+                'trimestre_fin':trimestre_fin},
+        beforeSend: function(){
+            $("#delete-selected-profiles").addClass("disabled");
+            $("#delete-selected-profiles").hide();
+            $(".loader_container").show();
+        },
+        complete: function(){
+            $(".loader_container").hide();
+            $("#delete-selected-profiles").removeClass("disabled");
+            $("#delete-selected-profiles").show();
+            delete_selected_profiles = true;
+        },
+        success: function(response){
+            if(response.success){
+                var equipo = response['equipo'];
+                if(equipo != null){
+                    $("#nombre_equipo").val("");
+                    $("#nombre_equipo").css('background-color','#5cb85c');
+                    $("#nombre_equipo").css('color','white');
+                    $("#nombre_equipo").val(equipo.nombre_equipo);
+                    var count_mes = response['count_month'];
+                    var count_trimestre = response['count_trimester'];
+                    var array = response['programaciones'];
+                    $('#mes').val(count_mes);
+                    $('#trimestre').val(count_trimestre);
+                    llenar_calendario(array);
+                    
                 }
-            },
-            error: function(){
+                else{                        
+                    $("#nombre_equipo").val('');
+                    $("#nombre_equipo").css('background-color','white');                        
+                    $("#nombre_equipo").css('color','black');
+                    $('#mes').val('');
+                    $('#trimestre').val('');
+                    $('.days .day').each(function(){
+                        element_div = $(this);
+                        element_div.removeClass('active');                                     
+                    });       
+                }
+            }else{
                 alert('La petición no se pudo completar, inténtelo de nuevo.');
             }
-        });
+        },
+        error: function(){
+            alert('La petición no se pudo completar, inténtelo de nuevo.');
+        }
+    });
 }
 
-function deleteRow(event,el){
-    event.preventDefault();
-    var parent = el.parentNode;
-    parent = parent.parentNode;
-    index_value = parent.rowIndex-1;
-    cells = parent.cells;
-    clear_calendar(cells[5].innerHTML,cells[2].innerHTML);
-    parent.parentNode.removeChild(parent);
 
+function llenar_calendario(array){
+    var programaciones = {};
+    if(array!=null){                        
+        for(var i=0;i<array.length;i++){
+            var prog = array[i];
+            var date_array = prog.split("-");
+            $('.days .day').each(function(){
+                element_insert_name = $(this);
+                element = $(this).find("a");
+                if(element.attr('data-day')==parseInt(date_array[2]) && element.attr('data-month')==parseInt(date_array[1]) && element.attr('data-year')==parseInt(date_array[0])){
+                    element_insert_name.addClass("active");
+                }                                
+            });
+        }
+    }
 }
 
 function clear_calendar(fecha,nombre){
@@ -83,24 +134,27 @@ function clear_calendar(fecha,nombre){
             
         }    
     })
-}s
+}
+
 
 function addFilaMantenimiento(){
     var codigo_patrimonial = $('#cod_pat').val();
     var nombre_equipo = $('#nombre_equipo').val();
-    var cantidad_filas = $("#table_preventivo tr").length-1;
+    var cantidad_filas = $("#table_programacion tr").length-1;
     var fecha = $('#fecha').val();
     var hora = $('#hora').val();
     var mes = parseInt(fecha.split('-')[1]);
     var currentDate = new Date();
     var currentMonth = currentDate.getMonth()+1;
+    var count_otMes = $('#mes').val();
+    var count_otTrimestre = $('#trimestre').val();
 
    
     if(nombre_equipo=='Equipo no registrado' || nombre_equipo==''){
         $('#modal_create_text').empty();
         $('#modal_create_text').append('<p>Ingresar equipo correcto</p>');
         $('#modal_create').modal('show');
-    }else if(fecha=='' || currentMonth!=mes){
+    }else if(fecha==''){
         $('#modal_create_text').empty();
         $('#modal_create_text').append('<p>Ingresar fecha correcta. La fecha debe ser del mes actual.</p>');
         $('#modal_create').modal('show');
@@ -110,17 +164,16 @@ function addFilaMantenimiento(){
         $('#modal_create').modal('show');
     }else{
         $('#modal_create_text').empty();
-        $('#table_preventivo').append("<tr><td>"+cantidad_filas+'</td>'
+        $('#table_programacion').append("<tr><td>"+cantidad_filas+'</td>'
                 +"<td>"+codigo_patrimonial+"</td>"
                 +"<td>"+nombre_equipo+"</td>"
-                +"<td>0</td>"
-                +"<td>0</td>"
+                +"<td>"+count_otMes+"</td>"
+                +"<td>"+count_otTrimestre+"</td>"
                 +"<td>"+fecha+"</td>"
                 +"<td>"+hora+"</td>"
                 +"<td><a href='' class='btn btn-danger delete-detail' onclick='deleteRow(event,this)'><span class=\"glyphicon glyphicon-remove\"></span>Eliminar</a></td></tr>");
-        fill_equipo_tocalendar(fecha,nombre_equipo);
+        limpiar();
     }
-
 }
 
 function fill_equipo_tocalendar(fecha,nombre_equipo){
@@ -130,7 +183,15 @@ function fill_equipo_tocalendar(fecha,nombre_equipo){
         element = $(this).find("a");
         if(element.attr('data-day')==parseInt(date_array[0]) && element.attr('data-month')==parseInt(date_array[1]) && element.attr('data-year')==parseInt(date_array[2])){
             element_insert_name.append('<p>'+nombre_equipo+'</p>');
-        }
-    
+        }    
     })
+}
+
+function limpiar(){
+    $('#cod_pat').val('');
+    $('#nombre_equipo').val('');
+    $('#mes').val('');
+    $('#trimestre').val('');
+    $('#fecha').val('');
+    $('#hora').val('');
 }

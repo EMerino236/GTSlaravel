@@ -6,20 +6,18 @@ class OtPreventivoController extends BaseController {
 	//private static $equipo_noint = 'estado_equipo_noint';
 	private static $estado_activo = 'estado_activo';
 
-	public function render_program_ot_mant_preventivo()
+	public function render_program_ot_mant_preventivo($id=null)
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
-				$mes_ini = date("Y-m-d",strtotime("first day of this month"));;
-				$mes_fin = date("Y-m-d",strtotime("last day of this month"));;
-				$trimestre_ini = null;
-				$trimestre_fin = null;
-				$this->calcular_trimestre($trimestre_ini,$trimestre_fin);
-				$data['mes'] = OrdenesTrabajosxactivo::getOtXActivoXPeriodo(1,9,$mes_ini,$mes_fin)->get()->count();
-				$data['trimestre'] = OrdenesTrabajosxactivo::getOtXActivoXPeriodo(1,9,$trimestre_ini,$trimestre_fin)->get()->count();
+				$data["mes_ini"] = date("Y-m-d",strtotime("first day of this month"));;
+				$data["mes_fin"] = date("Y-m-d",strtotime("last day of this month"));;
+				$data["trimestre_ini"] = null;
+				$data["trimestre_fin"] = null;
+				$this->calcular_trimestre($data["trimestre_ini"],$data["trimestre_fin"]);
 				$data['solicitantes'] = User::getJefes()->get();
 				
 				return View::make('ot/createProgramOtMantPre',$data);
@@ -42,17 +40,41 @@ class OtPreventivoController extends BaseController {
 		if($data["user"]->idrol == 1){
 			// Check if the current user is the "System Admin"
 			$data = Input::get('selected_id');
+			$mes = 0;
+			$trimestre = 0;
+			$data = Input::get('selected_id');
+			$mes_ini = date("Y-m-d",strtotime(Input::get('mes_ini')));
+			$mes_fin = date("Y-m-d",strtotime(Input::get('mes_fin')));			
+			$trimestre_ini=date("Y-m-d",strtotime(Input::get('trimestre_ini')));
+			$trimestre_fin=date("Y-m-d",strtotime(Input::get('trimestre_fin')));
+			$array_programaciones = null;
 			if($data !="vacio"){
 				$equipo = Activo::searchActivosByCodigoPatrimonial($data)->get();
 				if($equipo->isEmpty()==false){
 					$equipo = $equipo[0];
-				}else
+					$mes = OrdenesTrabajosxactivo::getOtPreventivoXActivoXPeriodo($equipo->idactivo,9,$mes_ini,$mes_fin)->get()->count();
+					$trimestre = OrdenesTrabajosxactivo::getOtPreventivoXActivoXPeriodo($equipo->idactivo,9,$trimestre_ini,$trimestre_fin)->get()->count();
+					$array_programaciones = OrdenesTrabajosxactivo::getOtPreventivoXActivoXPeriodo($equipo->idactivo,9,$trimestre_ini,$trimestre_fin)->get()->toArray();
+					$programaciones = [];
+					$length = sizeof($array_programaciones);					
+					for($i=0;$i<$length;$i++){
+						$programaciones[] = date("Y-m-d",strtotime($array_programaciones[$i]['fecha_programacion']));
+					}
+					$array_programaciones = $programaciones;
+				}else{
 				 	$equipo = null;
+				 	$mes = 0;
+				 	$trimestre = 0;
+				 	$array_programaciones = null;
+				}
 			}else{
 				$equipo = null;
+				$mes = 0;
+			 	$trimestre = 0;
+			 	$array_programaciones = null;
 			}
 
-			return Response::json(array( 'success' => true, 'equipo' => $equipo ),200);
+			return Response::json(array( 'success' => true, 'equipo' => $equipo,'programaciones'=> $array_programaciones,'count_trimester'=>$trimestre, 'count_month'=>$mes ),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
 		}
@@ -102,7 +124,7 @@ class OtPreventivoController extends BaseController {
 				$data["search_proveedor"] = null;
 				$data["search_ini"] = null;
 				$data["search_fin"] = null;
-				$data["mant_preventivos_data"] = OrdenesTrabajo::getOtsMantPreventivoInfo()->paginate(10);
+				$data["mant_preventivos_data"] = OrdenesTrabajo::getOtsMantPreventivoInfo()->get();
 				return View::make('ot/listOtMantPreventivo',$data);
 			}else{
 				return View::make('error/error');
@@ -141,6 +163,101 @@ class OtPreventivoController extends BaseController {
 			return View::make('error/error');
 		}
 	}
+
+	public function submit_program_ot_mant_preventivo()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1){
+				// Validate the info, create rules for the inputs
+				$rules = array(
+							'fecha_programacion' => 'required',
+							'solicitante' => 'required',
+						);
+				// Run the validation rules on the inputs from the form
+				$validator = Validator::make(Input::all(), $rules);
+				// If the validator fails, redirect back to the form
+				if($validator->fails()){
+					$url = "mant_preventivo/programacion";
+					return Redirect::to($url)->withErrors($validator)->withInput(Input::all());
+				}else{
+
+					$cod_pat = Input::get('cod_pat');
+					$activo = Activo::searchActivosByCodigoPatrimonial($cod_pat)->get();
+					
+					if($activo->isEmpty()==true){
+						$url = "mant_preventivo/programacion";
+						return Redirect::to($url);
+					}
+					$activo = $activo[0];
+					$idactivo = $activo->idactivo;
+					$ot = new OrdenesTrabajo;
+					$abreviatura = "MP";
+					// Algoritmo para añadir numeros correlativos
+					$string = $this->getCorrelativeReportNumber();
+					//Get Año Actual
+					$ts_abreviatura = "TS";
+
+					$ot->fecha_programacion = date('Y-m-d H:i:s',strtotime(Input::get('fecha_programacion')));
+					$ot->idservicio = $activo->idservicio;
+					$ot->idtipo_ordenes_trabajo = 2; // A mejorar este hardcode :/
+					$ot->idestado = 9; // A mejorar este hardcode :/
+					$ot->id_usuarioelaborado = $data["user"]->id;
+					$ot->id_usuariosolicitante = Input::get('solicitante');
+					$ot->ot_tipo_abreviatura = $abreviatura = "MP";
+					$ot->ot_correlativo = $string;
+					$ot->ot_activo_abreviatura = $ts_abreviatura;
+					$ot->save();
+
+					$otxa = new OrdenesTrabajosxactivo;
+					$otxa->idordenes_trabajo = $ot->idordenes_trabajo;
+					$otxa->idactivo = $idactivo;
+					$otxa->idestado = 9;
+					$otxa->costo_total_repuestos = 0.0;
+					$otxa->costo_total_personal = 0.0;
+					$otxa->save();
+					$url = "mant_preventivo/list_mant_preventivo";
+
+					// Asigno las tareas
+					$tareas = Tarea::getTareasByFamiliaActivo($activo->idfamilia_activo)->get();
+					foreach($tareas as $tarea){
+						$otxacxta = new OrdenesTrabajosxactivoxtarea;
+						$otxacxta->idorden_trabajoxactivo = $otxa->idorden_trabajoxactivo;
+						$otxacxta->idtarea = $tarea->idtareas;
+						$otxacxta->idestado_realizado = 25; // Estado de tarea no realizada
+						$otxacxta->save();
+					}
+					Session::flash('message', 'Se programó correctamente la OTM.');
+					return Redirect::to($url);
+				}
+			}else{
+				return View::make('error/error');
+			}
+
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function getCorrelativeReportNumber(){
+		$ot = OrdenesTrabajo::getLastOtPreventivo()->first();
+		$string = "";
+		if($ot!=null){	
+			$numero = $ot->ot_correlativo;
+			$cantidad_digitos = strlen($numero+1);						
+			for($i=0;$i<4-$cantidad_digitos;$i++){
+				$string = $string."0";
+			}
+			$string = $string.($numero+1);					
+		}else{
+			$string = "0001";
+		}
+		return $string;
+	}
+
+	
 /*
 	public function render_create_ot($id=null)
 	{

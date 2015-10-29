@@ -110,8 +110,8 @@
 						{{$mant_preventivo_data->nombre_ubicacion}}
 					</td>
 					<td>
-						<a href="{{URL::to('/mant_correctivo/create_ot/')}}/{{$mant_correctivo_data->idordenes_trabajo}}">{{$mant_preventivo_data->idordenes_trabajo}}</a>
-					</td>
+						{{$mant_preventivo_data->ot_tipo_abreviatura}}{{$mant_preventivo_data->ot_correlativo}}{{$mant_preventivo_data->ot_activo_abreviatura}}
+					</td>					
 					<td>
 						{{$mant_preventivo_data->nombre_estado}}
 					</td>
@@ -120,9 +120,5 @@
 			</table>
 		</div>
 	</div>
-	@if($search_ing || $search_cod_pat || $search_ubicacion || $search_ot || $search_equipo || $search_proveedor || $search_ini || $search_fin)
-		{{ $mant_preventivos_data->appends(array('search_ing' => $search_ing,'search_cod_pat'=>$search_cod_pat,'search_cod_pat'=>$search_ubicacion,'search_cod_pat'=>$search_ot,'search_cod_pat'=>$search_equipo,'search_cod_pat'=>$search_proveedor,'search_ini'=>$search_ini,'search_fin'=>$search_fin))->links() }}
-	@else
-		{{ $mant_preventivos_data->links() }}
-	@endif
+	
 @stop

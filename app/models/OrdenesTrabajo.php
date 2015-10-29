@@ -101,7 +101,7 @@ class OrdenesTrabajo extends Eloquent{
 			  ->join('activos','activos.idactivo','=','ordenes_trabajosxactivos.idactivo')
 			  ->join('ubicacion_fisicas','ubicacion_fisicas.idubicacion_fisica','=','activos.idubicacion_fisica')
 			  ->join('grupos','grupos.idgrupo','=','activos.idgrupo')
-			  ->join('users','users.id','=','grupos.id_responsable')				  
+			  ->join('users','users.id','=','grupos.id_responsable')
 			  ->where('ordenes_trabajos.idtipo_ordenes_trabajo','=',2)
 			  ->select('ubicacion_fisicas.nombre as nombre_ubicacion','areas.nombre as nombre_area','users.nombre as nombre_user','users.apellido_pat','users.apellido_mat','servicios.nombre as nombre_servicio','estados.nombre as nombre_estado','ordenes_trabajos.*');
 	  	return $query;
@@ -148,6 +148,13 @@ class OrdenesTrabajo extends Eloquent{
 			  if($search_fin != "")
 				$query->where('ordenes_trabajos.fecha_programacion','<=',date('Y-m-d H:i:s',strtotime($search_fin)));
 			  $query->select('ubicacion_fisicas.nombre as nombre_ubicacion','areas.nombre as nombre_area','users.nombre as nombre_user','users.apellido_pat','users.apellido_mat','servicios.nombre as nombre_servicio','estados.nombre as nombre_estado','ordenes_trabajos.*');
+	  	return $query;
+	}
+
+	public function scopeGetLastOtPreventivo($query)
+	{
+		$query->where('ordenes_trabajos.idtipo_ordenes_trabajo','=',2)
+			  ->orderBy('created_at','desc');
 	  	return $query;
 	}
 }
