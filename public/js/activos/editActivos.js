@@ -9,7 +9,7 @@ function init_edit_activo()
 {
 	var numero_reporte = $('#reporte_instalacion_edit_activo').val();
 
-	if(numero_reporte.length != 0)
+	if(numero_reporte != null)
 	{
 		validate_numero_reporte_edit_activo_ajax();
 	}
