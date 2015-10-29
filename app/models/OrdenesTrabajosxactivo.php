@@ -8,10 +8,10 @@ class OrdenesTrabajosxactivo extends Eloquent{
 
 	protected $primaryKey = 'idorden_trabajoxactivo';
 
-	public function scopeGetOtXActivoXPeriodo($query,$idactivo,$idestado,$fecha_ini,$fecha_fin)
+	public function scopeGetOtXActivoXPeriodo($query,$tipo,$idestado,$fecha_ini,$fecha_fin)
 	{
 		$query->join('ordenes_trabajos','ordenes_trabajos.idordenes_trabajo','=','ordenes_trabajosxactivos.idordenes_trabajo')
-			  ->where('ordenes_trabajosxactivos.idactivo','=',$idactivo)
+			  ->where('ordenes_trabajos.idtipo_ordenes_trabajo','=',$tipo)
 			  ->where('ordenes_trabajos.idestado','=',$idestado)
 			  ->where('ordenes_trabajos.fecha_programacion','>=',$fecha_ini)
 			  ->where('ordenes_trabajos.fecha_programacion','<=',$fecha_fin)
@@ -26,16 +26,6 @@ class OrdenesTrabajosxactivo extends Eloquent{
 		return $query;
 	}
 
-	public function scopeGetOtPreventivoXActivoXPeriodo($query,$idactivo,$idestado,$fecha_ini,$fecha_fin)
-	{
-		$query->join('ordenes_trabajos','ordenes_trabajos.idordenes_trabajo','=','ordenes_trabajosxactivos.idordenes_trabajo')
-			  ->where('ordenes_trabajosxactivos.idactivo','=',$idactivo)
-			  ->where('ordenes_trabajos.idestado','=',$idestado)
-			  ->where('ordenes_trabajos.fecha_programacion','>=',$fecha_ini)
-			  ->where('ordenes_trabajos.fecha_programacion','<=',$fecha_fin)
-			  ->where('ordenes_trabajos.idtipo_ordenes_trabajo','=',2)
-			  ->select('ordenes_trabajos.fecha_programacion','ordenes_trabajos.idordenes_trabajo');
-		return $query;
-	}
+	
 
 }

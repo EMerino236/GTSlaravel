@@ -1,5 +1,6 @@
-var cod_pat_actual = $("#cod_pat").val();
+
 $( document ).ready(function(){
+
 	$("#datetimepicker_prog_fecha").datetimepicker({
 			defaultDate: false,
 			ignoreReadonly: true,
@@ -27,18 +28,49 @@ $( document ).ready(function(){
         limpiar();
     });
 
-    $('.pull-right').click(function(){
-        if($('#cod_pat').val()!='' && $('#nombre_equipo').val()!='')
-            search_equipo_ajax();
-    });
+    ver_programaciones();
+    
 
-    $('.pull-left').click(function(){
-        if($('#cod_pat').val()!='' && $('#nombre_equipo').val()!='')
-            search_equipo_ajax();
-    });
 
 });
 
+function ver_programaciones(){
+    var trimestre_ini = $('#trimestre_ini').val();
+    var trimestre_fin = $('#trimestre_fin').val();   
+    $.ajax({
+        url: inside_url+'mant_preventivo/ver_programaciones',
+        type: 'POST',
+        data: {'trimestre_ini': trimestre_ini,
+                'trimestre_fin':trimestre_fin },
+        beforeSend: function(){
+            $("#delete-selected-profiles").addClass("disabled");
+            $("#delete-selected-profiles").hide();
+            $(".loader_container").show();
+        },
+        complete: function(){
+            $(".loader_container").hide();
+            $("#delete-selected-profiles").removeClass("disabled");
+            $("#delete-selected-profiles").show();
+            delete_selected_profiles = true;
+        },
+        success: function(response){
+            if(response.success){
+                var programaciones = {};
+                array = response["programaciones"];
+                for(var i=0;i<array.length;i++){
+                    var prog = array[i];
+                    programaciones[prog] = {};
+                }
+                initialize_calendar(programaciones);                
+            }else{
+                alert('La petición no se pudo completar, inténtelo de nuevo.');
+            }
+        },
+        error: function(){
+            alert('La petición no se pudo completar, inténtelo de nuevo.');
+        }
+    });
+}
 
 function search_equipo_ajax(){
 	var val = $("#cod_pat").val();
@@ -78,8 +110,6 @@ function search_equipo_ajax(){
                     var array = response['programaciones'];
                     $('#mes').val(count_mes);
                     $('#trimestre').val(count_trimestre);
-                    llenar_calendario(array);
-                    
                 }
                 else{                        
                     $("#nombre_equipo").val('');
@@ -103,21 +133,13 @@ function search_equipo_ajax(){
 }
 
 
-function llenar_calendario(array){
-    var programaciones = {};
-    if(array!=null){                        
-        for(var i=0;i<array.length;i++){
-            var prog = array[i];
-            var date_array = prog.split("-");
-            $('.days .day').each(function(){
-                element_insert_name = $(this);
-                element = $(this).find("a");
-                if(element.attr('data-day')==parseInt(date_array[2]) && element.attr('data-month')==parseInt(date_array[1]) && element.attr('data-year')==parseInt(date_array[0])){
-                    element_insert_name.addClass("active");
-                }                                
-            });
-        }
-    }
+
+
+function initialize_calendar(programaciones){
+    $('.responsive-calendar').responsiveCalendar({
+        translateMonths:{0:'Enero',1:'Febrero',2:'Marzo',3:'Abril',4:'Mayo',5:'Junio',6:'Julio',7:'Agosto',8:'Septiembre',9:'Octubre',10:'Noviembre',11:'Diciembre'},
+        events: programaciones,
+    });
 }
 
 function clear_calendar(fecha,nombre){
