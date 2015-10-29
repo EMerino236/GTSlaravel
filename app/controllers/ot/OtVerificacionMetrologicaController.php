@@ -13,13 +13,11 @@ class OtVerificacionMetrologicaController extends BaseController {
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
-				$mes_ini = date("Y-m-d",strtotime("first day of this month"));;
-				$mes_fin = date("Y-m-d",strtotime("last day of this month"));;
-				$trimestre_ini = null;
-				$trimestre_fin = null;
-				$this->calcular_trimestre($trimestre_ini,$trimestre_fin);
-				$data['mes'] = OrdenesTrabajosxactivo::getOtXActivoXPeriodo(1,9,$mes_ini,$mes_fin)->get()->count();
-				$data['trimestre'] = OrdenesTrabajosxactivo::getOtXActivoXPeriodo(1,9,$trimestre_ini,$trimestre_fin)->get()->count();
+				$data["mes_ini"] = date("Y-m-d",strtotime("first day of this month"));;
+				$data["mes_fin"] = date("Y-m-d",strtotime("last day of this month"));;
+				$data["trimestre_ini"] = null;
+				$data["trimestre_fin"] = null;
+				$this->calcular_trimestre($data["trimestre_ini"],$data["trimestre_fin"]);
 				$data['solicitantes'] = User::getJefes()->get();
 				
 				return View::make('ot/createProgramOtVerificacionMetrologica',$data);

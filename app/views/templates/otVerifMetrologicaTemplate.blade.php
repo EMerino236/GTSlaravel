@@ -2,7 +2,7 @@
 <html lang="es">
 
 <head>
-	<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="robots" content="noindex, follow">
     <title>Ordenes de Trabajo</title>
     <!-- Bootstrap Core CSS -->
@@ -42,108 +42,21 @@
     <script src="{{ asset('bower_components/morrisjs/morris.min.js') }}"></script>
     <!-- Custom Theme JavaScript -->
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
+    <script src="{{ asset('js/bienes/reportes_incumplimiento.js') }}"></script>
     <script src="{{ asset('js/bienes/ot.js') }}"></script>
-    <script src="{{ asset('js/bienes/listOtVerifMetrologica.js')}}"></script>
-    <script src="{{ asset('js/bienes/addOtVerifMetrologica.js')}}"></script>
+    <script src="{{ asset('js/bienes/listOtPreventivo.js')}}"></script>
+    <script src="{{ asset('js/bienes/addOtPreventivo.js')}}"></script>
 
 </head>
 
 <body>
-	<div id="wrapper">
-		<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-		@include('layouts.header', array('user'=>$user))
-		<div class="navbar-default sidebar" role="navigation">
+    <div id="wrapper">
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        @include('layouts.header', array('user'=>$user))
+        <div class="navbar-default sidebar" role="navigation">
             <div class="sidebar-nav navbar-collapse">
-                <ul class="nav" id="side-menu">
-                    <li>{{ HTML::link('/sot/list_sots','Solicitud de Orden de Trabajo') }}</li>
-                    <li>
-                        <a href="#">Gestión documentaria<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-							<li>{{ HTML::link('/equipos/','Directorio de equipos') }}</li>
-							<li>{{ HTML::link('/#','Lista de inventario') }}</li>
-							<li>{{ HTML::link('/#','Registro histórico de OT') }}</li>
-							<li>{{ HTML::link('/#','Servicio de búsqueda de información') }}</li>
-							<li>{{ HTML::link('/#','Registro y servicio de biblioteca') }}</li>
-                        </ul>
-                        <!-- /.nav-second-level -->
-                    </li>
-                    <li>
-                        <a href="#">Gestión de bienes e inspección<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-							<li>{{ HTML::link('/#','Entorno') }}</li>
-							<li>{{ HTML::link('/#','TS funcional') }}</li>
-							<li>
-                                <a href="#">Retiro TS <span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-									<li>{{ HTML::link('/#','Reporte de retiro de equipos') }}</li>
-									<li>{{ HTML::link('/#','Listado TS (baja virtual)') }}</li>
-									<li>{{ HTML::link('/#','Indicadores baja de bienes') }}</li>
-                                </ul>
-                                <!-- /.nav-third-level -->
-                            </li>
-							<li>
-                                <a href="#">Requerimiento <span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-									<li>{{ HTML::link('/#','Listado de requerimientos') }}</li>
-									<li>{{ HTML::link('/#','Indicadores') }}</li>
-                                </ul>
-                                <!-- /.nav-third-level -->
-                            </li>
-                            <li>
-                                <a href="#">Proveedores <span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-									<li>{{ HTML::link('/#','Reporte de supervisión') }}</li>
-                                    <li>{{ HTML::link('/proveedores/list_proveedores','Directorio') }}</li>
-									<li>{{ HTML::link('/reportes_incumplimiento/list_reportes','Reporte de incumplimiento') }}</li>
-                        			<li>{{ HTML::link('/#','Acta de conformidad') }}</li>
-									<li>{{ HTML::link('/#','Indicadores') }}</li>
-                                </ul>
-                                <!-- /.nav-third-level -->
-                            </li>
-                            <li>
-                                <a href="#">Programación <span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-                                    <li>{{ HTML::link('/#','Inspecciones de Equipos') }}</li>
-                                    <li>{{ HTML::link('/#','Inspecciones de Infraestructura') }}</li>
-                                    <li>{{ HTML::link('/#','Inspecciones de Servicios Hospitalarios') }}</li>
-                                    <li>{{ HTML::link('/mant_preventivo/list_mant_preventivo','Mantenimiento Preventivo') }}</li>
-                                    <li>{{ HTML::link('/#','Verificación metrológica') }}</li>
-                                    <li>{{ HTML::link('/mant_correctivo/list_mant_correctivo','MC TS') }}</li>
-                                    <li>{{ HTML::link('/mant_correctivo/list_mant_correctivo','MC bienes') }}</li>
-                                </ul>
-                                <!-- /.nav-third-level -->
-                            </li>
-                            <li>
-                                <a href="#">Estado de TS <span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-									<li>{{ HTML::link('/#','Reporte MENSUAL de estado de TS por servicio clínico actualizado') }}</li>
-									<li>{{ HTML::link('/#','Reporte MENSUAL de estado de bienes por servicio clínico actualizado') }}</li>
-									<li>{{ HTML::link('/#','Indicadores de informes de estado de TS actualizado') }}</li>
-									<li>{{ HTML::link('/#','Indicadores de informes de estado de bienes actualizado') }}</li>
-									<li>{{ HTML::link('/#','Reporte de verificación metrológica de TS') }}</li>
-									<li>{{ HTML::link('/#','Reporte de verificación metrológica de bienes') }}</li>
-									<li>{{ HTML::link('/#','Reporte trimestral de evaluación de resultados') }}</li>
-                                </ul>
-                                <!-- /.nav-third-level -->
-                            </li>
-                            <li>
-                                <a href="#">Ejecución <span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-									<li>{{ HTML::link('/#','OT de inspección de TS realizadas') }}</li>
-									<li>{{ HTML::link('/#','OT de inspección de ambientes y ser vicios no clínicos') }}</li>
-									<li>{{ HTML::link('/#','OT de inspección de servicios clínico realizada') }}</li>
-									<li>{{ HTML::link('/#','OT de mantenimiento preventivo realizada  de TS') }}</li>
-									<li>{{ HTML::link('/#','OT de mantenimiento preventivo realizada  de bienes') }}</li>
-									<li>{{ HTML::link('/#','OT de verificación metrológica') }}</li>
-									<li>{{ HTML::link('/#','OT de mantenimiento correctivo realizada') }}</li>
-									<li>{{ HTML::link('/#','OT de mantenimiento correctivo realizada  bienes') }}</li>
-									<li>{{ HTML::link('/#','Indicadores de ejecución de Inspecciones, mantenimiento preventivo MP y calibraciones') }}</li>
-                                </ul>
-                                <!-- /.nav-third-level -->
-                            </li>
-                        </ul>
-                        <!-- /.nav-second-level -->
-                    </li>
+                <ul class="nav" id="side-menu">           
+                    <li>{{ HTML::link('/verif_metrologica/list_verif_metrologica','Verificación Metrológica') }}</li>          
                 </ul>
             </div>
             <!-- /.sidebar-collapse -->
@@ -151,8 +64,8 @@
         <!-- /.navbar-static-side -->
         </nav>
         <div id="page-wrapper">
-        	@yield('content')
+            @yield('content')
         </div>
-	</div>
+    </div>
 </body>
 </html>
