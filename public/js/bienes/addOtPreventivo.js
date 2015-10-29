@@ -107,7 +107,6 @@ function search_equipo_ajax(){
                     $("#nombre_equipo").val(equipo.nombre_equipo);
                     var count_mes = response['count_month'];
                     var count_trimestre = response['count_trimester'];
-                    var array = response['programaciones'];
                     $('#mes').val(count_mes);
                     $('#trimestre').val(count_trimestre);
                 }
