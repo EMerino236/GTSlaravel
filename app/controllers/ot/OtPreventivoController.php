@@ -41,40 +41,31 @@ class OtPreventivoController extends BaseController {
 			// Check if the current user is the "System Admin"
 			$data = Input::get('selected_id');
 			$mes = 0;
-			$trimestre = 0;
-			$data = Input::get('selected_id');
+			$trimestre = 0;	
 			$mes_ini = date("Y-m-d",strtotime(Input::get('mes_ini')));
 			$mes_fin = date("Y-m-d",strtotime(Input::get('mes_fin')));			
 			$trimestre_ini=date("Y-m-d",strtotime(Input::get('trimestre_ini')));
 			$trimestre_fin=date("Y-m-d",strtotime(Input::get('trimestre_fin')));
-			$array_programaciones = null;
 			if($data !="vacio"){
 				$equipo = Activo::searchActivosByCodigoPatrimonial($data)->get();
 				if($equipo->isEmpty()==false){
 					$equipo = $equipo[0];
 					$mes = OrdenesTrabajosxactivo::getOtXActivoXPeriodo(2,9,$mes_ini,$mes_fin)->get()->count();
 					$trimestre = OrdenesTrabajosxactivo::getOtXActivoXPeriodo(2,9,$trimestre_ini,$trimestre_fin)->get()->count();
-					$array_programaciones = OrdenesTrabajosxactivo::getOtoXActivoXPeriodo(2,9,$trimestre_ini,$trimestre_fin)->get()->toArray();
-					$programaciones = [];
-					$length = sizeof($array_programaciones);					
-					for($i=0;$i<$length;$i++){
-						$programaciones[] = date("Y-m-d",strtotime($array_programaciones[$i]['fecha_programacion']));
-					}
-					$array_programaciones = $programaciones;
+					
 				}else{
 				 	$equipo = null;
 				 	$mes = 0;
 				 	$trimestre = 0;
-				 	$array_programaciones = null;
+				 	
 				}
 			}else{
 				$equipo = null;
 				$mes = 0;
 			 	$trimestre = 0;
-			 	$array_programaciones = null;
 			}
 
-			return Response::json(array( 'success' => true, 'equipo' => $equipo,'programaciones'=> $array_programaciones,'count_trimester'=>$trimestre, 'count_month'=>$mes ),200);
+			return Response::json(array( 'success' => true, 'equipo' => $equipo,'count_trimester'=>$trimestre, 'count_month'=>$mes ),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
 		}
@@ -153,8 +144,7 @@ class OtPreventivoController extends BaseController {
 			for($i=0;$i<$length;$i++){
 				$programaciones[] = date("Y-m-d",strtotime($array_programaciones[$i]['fecha_programacion']));
 			}
-			$array_programaciones = $programaciones;				
-			
+			$array_programaciones = $programaciones;			
 			return Response::json(array( 'success' => true, 'programaciones'=> $array_programaciones),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
