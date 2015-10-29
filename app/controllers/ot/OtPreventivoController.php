@@ -180,82 +180,7 @@ class OtPreventivoController extends BaseController {
 		}
 	}
 
-	public function submit_program_ot_mant_preventivo()
-	{
-		if(Auth::check()){
-			$data["inside_url"] = Config::get('app.inside_url');
-			$data["user"] = Session::get('user');
-			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
-				// Validate the info, create rules for the inputs
-				$rules = array(
-							'fecha_programacion' => 'required',
-							'solicitante' => 'required',
-						);
-				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
-				// If the validator fails, redirect back to the form
-				if($validator->fails()){
-					$url = "mant_preventivo/programacion";
-					return Redirect::to($url)->withErrors($validator)->withInput(Input::all());
-				}else{
-
-					$cod_pat = Input::get('cod_pat');
-					$activo = Activo::searchActivosByCodigoPatrimonial($cod_pat)->get();
-					
-					if($activo->isEmpty()==true){
-						$url = "mant_preventivo/programacion";
-						return Redirect::to($url);
-					}
-					$activo = $activo[0];
-					$idactivo = $activo->idactivo;
-					$ot = new OrdenesTrabajo;
-					$abreviatura = "MP";
-					// Algoritmo para añadir numeros correlativos
-					$string = $this->getCorrelativeReportNumber();
-					//Get Año Actual
-					$ts_abreviatura = "TS";
-
-					$ot->fecha_programacion = date('Y-m-d H:i:s',strtotime(Input::get('fecha_programacion')));
-					$ot->idservicio = $activo->idservicio;
-					$ot->idtipo_ordenes_trabajo = 2; // A mejorar este hardcode :/
-					$ot->idestado = 9; // A mejorar este hardcode :/
-					$ot->id_usuarioelaborado = $data["user"]->id;
-					$ot->id_usuariosolicitante = Input::get('solicitante');
-					$ot->ot_tipo_abreviatura = $abreviatura = "MP";
-					$ot->ot_correlativo = $string;
-					$ot->ot_activo_abreviatura = $ts_abreviatura;
-					$ot->save();
-
-					$otxa = new OrdenesTrabajosxactivo;
-					$otxa->idordenes_trabajo = $ot->idordenes_trabajo;
-					$otxa->idactivo = $idactivo;
-					$otxa->idestado = 9;
-					$otxa->costo_total_repuestos = 0.0;
-					$otxa->costo_total_personal = 0.0;
-					$otxa->save();
-					$url = "mant_preventivo/list_mant_preventivo";
-
-					// Asigno las tareas
-					$tareas = Tarea::getTareasByFamiliaActivo($activo->idfamilia_activo)->get();
-					foreach($tareas as $tarea){
-						$otxacxta = new OrdenesTrabajosxactivoxtarea;
-						$otxacxta->idorden_trabajoxactivo = $otxa->idorden_trabajoxactivo;
-						$otxacxta->idtarea = $tarea->idtareas;
-						$otxacxta->idestado_realizado = 25; // Estado de tarea no realizada
-						$otxacxta->save();
-					}
-					Session::flash('message', 'Se programó correctamente la OTM.');
-					return Redirect::to($url);
-				}
-			}else{
-				return View::make('error/error');
-			}
-
-		}else{
-			return View::make('error/error');
-		}
-	}
+	
 
 	public function getCorrelativeReportNumber(){
 		$ot = OrdenesTrabajo::getLastOtPreventivo()->first();
@@ -271,6 +196,84 @@ class OtPreventivoController extends BaseController {
 			$string = "0001";
 		}
 		return $string;
+	}
+
+	public function submit_program_ot_mant_preventivo(){
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$id = Auth::id();
+		$data["inside_url"] = Config::get('app.inside_url');
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1){
+			// Check if the current user is the "System Admin"
+			
+			$array_detalles = Input::get('matrix_detalle');
+			$row_size = count($array_detalles);
+
+			if($row_size==0){				
+				$message = "No se cargaron todas las OTM con éxito.";
+				$type_message = "bg-danger";
+				return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'message' => $message, 'type_message'=>$type_message ),200);
+			}			
+			
+			//Agregar Detalle			
+			if($row_size > 0){				
+				$message = "Se crearon las OTM con éxito";
+				$type_message = "bg-success";
+				for( $i = 0; $i<$row_size; $i++ ){
+					$array_detalle = $array_detalle[0];
+					$cod_pat =$array_detalle[0];
+					$activo = Activo::searchActivosByCodigoPatrimonial($cod_pat)->get();					
+					$activo = $activo[0];
+					$idactivo = $activo->idactivo;
+					$ot = new OrdenesTrabajo;
+					$abreviatura = "MP";
+					// Algoritmo para añadir numeros correlativos
+					$string = $this->getCorrelativeReportNumber();
+					//Get Año Actual
+					$ts_abreviatura = "TS";
+
+					$ot->fecha_programacion = date('Y-m-d H:i:s',strtotime($array_detalle[4]." ".$array_detalle[5]));
+					$ot->idservicio = $activo->idservicio;
+					$ot->idtipo_ordenes_trabajo = 2; // A mejorar este hardcode :/
+					$ot->idestado = 9; // A mejorar este hardcode :/
+					$ot->id_usuarioelaborado = $data["user"]->id;
+					$ot->id_usuariosolicitante = $array_detalle[6];
+					$ot->ot_tipo_abreviatura = $abreviatura = "MP";
+					$ot->ot_correlativo = $string;
+					$ot->ot_activo_abreviatura = $ts_abreviatura;
+					$ot->save();
+
+					$otxa = new OrdenesTrabajosxactivo;
+					$otxa->idordenes_trabajo = $ot->idordenes_trabajo;
+					$otxa->idactivo = $idactivo;
+					$otxa->idestado = 9;
+					$otxa->costo_total_repuestos = 0.0;
+					$otxa->costo_total_personal = 0.0;
+					$otxa->save();
+					
+
+					// Asigno las tareas
+					$tareas = Tarea::getTareasByFamiliaActivo($activo->idfamilia_activo)->get();
+					foreach($tareas as $tarea){
+						$otxacxta = new OrdenesTrabajosxactivoxtarea;
+						$otxacxta->idorden_trabajoxactivo = $otxa->idorden_trabajoxactivo;
+						$otxacxta->idtarea = $tarea->idtareas;
+						$otxacxta->idestado_realizado = 25; // Estado de tarea no realizada
+						$otxacxta->save();
+					}			
+				}							
+			}else{
+				$message = "No se cargaron todas las OTM con éxito.";
+				$type_message = "bg-danger";
+				return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'message' => $message, 'type_message'=>$type_message ),200);
+			}
+			
+			return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'message' => $message, 'type_message'=>$type_message ),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
 	}
 
 	
