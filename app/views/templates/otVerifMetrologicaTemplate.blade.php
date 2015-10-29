@@ -4,11 +4,13 @@
 <head>
 	<meta charset="UTF-8">
     <meta name="robots" content="noindex, follow">
-    <title>Bienes</title>
+    <title>Ordenes de Trabajo</title>
     <!-- Bootstrap Core CSS -->
     <link href="{{ asset('bower_components/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- Datepicker CSS-->
     <link rel="stylesheet" href="{{ asset('css/bootstrap-datetimepicker.min.css') }}">
+    <!-- Calendar CSS-->
+    <link rel="stylesheet" href="{{ asset('css/responsive-calendar.css') }}">
     <!-- MetisMenu CSS -->
     <link href="{{ asset('bower_components/metisMenu/dist/metisMenu.min.css') }}" rel="stylesheet">
     <!-- Timeline CSS -->
@@ -31,6 +33,8 @@
     <script type="text/javascript" src="{{ asset('js/moment.min.js') }}"></script>
     <!-- Bootstrap Datepicker JavaScript -->
     <script type="text/javascript" src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
+    <!-- Bootstrap Calendar JavaScript -->
+    <script type="text/javascript" src="{{ asset('js/responsive-calendar.min.js') }}"></script>
     <!-- Metis Menu Plugin JavaScript -->
     <script src="{{ asset('bower_components/metisMenu/dist/metisMenu.min.js') }}"></script>
     <!-- Morris Charts JavaScript -->
@@ -38,8 +42,10 @@
     <script src="{{ asset('bower_components/morrisjs/morris.min.js') }}"></script>
     <!-- Custom Theme JavaScript -->
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
-    <script src="{{ asset('js/bienes/bienes.js') }}"></script>
-    
+    <script src="{{ asset('js/bienes/ot.js') }}"></script>
+    <script src="{{ asset('js/bienes/listOtVerifMetrologica.js')}}"></script>
+    <script src="{{ asset('js/bienes/addOtVerifMetrologica.js')}}"></script>
+
 </head>
 
 <body>
@@ -52,26 +58,25 @@
                     <li>{{ HTML::link('/sot/list_sots','Solicitud de Orden de Trabajo') }}</li>
                     <li>
                         <a href="#">Gestión documentaria<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">                           
-							<li>{{ HTML::link('/equipos/list_equipos','Directorio de equipos') }}</li>
+                        <ul class="nav nav-second-level">
+							<li>{{ HTML::link('/equipos/','Directorio de equipos') }}</li>
 							<li>{{ HTML::link('/#','Lista de inventario') }}</li>
 							<li>{{ HTML::link('/#','Registro histórico de OT') }}</li>
 							<li>{{ HTML::link('/#','Servicio de búsqueda de información') }}</li>
-							<li>{{ HTML::link('/documento/list_documentos','Registro y servicio de biblioteca') }}</li>
+							<li>{{ HTML::link('/#','Registro y servicio de biblioteca') }}</li>
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>
                     <li>
                         <a href="#">Gestión de bienes e inspección<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-							<li>{{ HTML::link('/rep_instalacion/list_rep_instalacion','Reporte de Instalación') }}</li>
+							<li>{{ HTML::link('/#','Entorno') }}</li>
+							<li>{{ HTML::link('/#','TS funcional') }}</li>
 							<li>
                                 <a href="#">Retiro TS <span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">
 									<li>{{ HTML::link('/#','Reporte de retiro de equipos') }}</li>
-                                    <li>{{ HTML::link('/#','Programación de OT de retiro de servicio') }}</li>
-                                    <li>{{ HTML::link('/#','OT de retiro de servicio') }}</li>
-									<li>{{ HTML::link('/#','Listado de baja definitiva') }}</li>
+									<li>{{ HTML::link('/#','Listado TS (baja virtual)') }}</li>
 									<li>{{ HTML::link('/#','Indicadores baja de bienes') }}</li>
                                 </ul>
                                 <!-- /.nav-third-level -->
@@ -79,7 +84,7 @@
 							<li>
                                 <a href="#">Requerimiento <span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">
-									<li>{{ HTML::link('/solicitudes_compra/list_solicitudes','Listado de requerimientos') }}</li>
+									<li>{{ HTML::link('/#','Listado de requerimientos') }}</li>
 									<li>{{ HTML::link('/#','Indicadores') }}</li>
                                 </ul>
                                 <!-- /.nav-third-level -->
@@ -90,7 +95,7 @@
 									<li>{{ HTML::link('/#','Reporte de supervisión') }}</li>
                                     <li>{{ HTML::link('/proveedores/list_proveedores','Directorio') }}</li>
 									<li>{{ HTML::link('/reportes_incumplimiento/list_reportes','Reporte de incumplimiento') }}</li>
-                        			<li>{{ HTML::link('/actas_conformidad/list_actas','Acta de conformidad') }}</li>
+                        			<li>{{ HTML::link('/#','Acta de conformidad') }}</li>
 									<li>{{ HTML::link('/#','Indicadores') }}</li>
                                 </ul>
                                 <!-- /.nav-third-level -->
@@ -98,12 +103,13 @@
                             <li>
                                 <a href="#">Programación <span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">
-									<li>{{ HTML::link('/#','Inspecciones de Equipos') }}</li>
+                                    <li>{{ HTML::link('/#','Inspecciones de Equipos') }}</li>
                                     <li>{{ HTML::link('/#','Inspecciones de Infraestructura') }}</li>
                                     <li>{{ HTML::link('/#','Inspecciones de Servicios Hospitalarios') }}</li>
                                     <li>{{ HTML::link('/mant_preventivo/list_mant_preventivo','Mantenimiento Preventivo') }}</li>
-									<li>{{ HTML::link('/verif_metrologica/list_verif_metrologica','Verificación metrológica') }}</li>
-									<li>{{ HTML::link('/mant_correctivo/list_mant_correctivo','Mantenimiento Correctivo') }}</li>
+                                    <li>{{ HTML::link('/#','Verificación metrológica') }}</li>
+                                    <li>{{ HTML::link('/mant_correctivo/list_mant_correctivo','MC TS') }}</li>
+                                    <li>{{ HTML::link('/mant_correctivo/list_mant_correctivo','MC bienes') }}</li>
                                 </ul>
                                 <!-- /.nav-third-level -->
                             </li>
