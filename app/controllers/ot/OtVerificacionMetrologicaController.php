@@ -40,21 +40,63 @@ class OtVerificacionMetrologicaController extends BaseController {
 		if($data["user"]->idrol == 1){
 			// Check if the current user is the "System Admin"
 			$data = Input::get('selected_id');
+			$mes = 0;
+			$trimestre = 0;	
+			$mes_ini = date("Y-m-d",strtotime(Input::get('mes_ini')));
+			$mes_fin = date("Y-m-d",strtotime(Input::get('mes_fin')));			
+			$trimestre_ini=date("Y-m-d",strtotime(Input::get('trimestre_ini')));
+			$trimestre_fin=date("Y-m-d",strtotime(Input::get('trimestre_fin')));
 			if($data !="vacio"){
 				$equipo = Activo::searchActivosByCodigoPatrimonial($data)->get();
 				if($equipo->isEmpty()==false){
 					$equipo = $equipo[0];
-				}else
+					$mes = OrdenesTrabajosxactivo::getOtXActivoXPeriodo(3,9,$mes_ini,$mes_fin)->get()->count();
+					$trimestre = OrdenesTrabajosxactivo::getOtXActivoXPeriodo(3,9,$trimestre_ini,$trimestre_fin)->get()->count();
+					
+				}else{
 				 	$equipo = null;
+				 	$mes = 0;
+				 	$trimestre = 0;
+				 	
+				}
 			}else{
 				$equipo = null;
+				$mes = 0;
+			 	$trimestre = 0;
 			}
 
-			return Response::json(array( 'success' => true, 'equipo' => $equipo ),200);
+			return Response::json(array( 'success' => true, 'equipo' => $equipo,'count_trimester'=>$trimestre, 'count_month'=>$mes ),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
 		}
 	}
+
+	public function calendario_ot_mant_correctivo_ajax()
+	{
+		// If there was an error, respond with 404 status
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1){
+			$idactivo = Input::get('idactivo');
+			$fecha_ini = null;
+			$fecha_fin = null;
+			$this->calcular_trimestre($fecha_ini,$fecha_fin);
+			$data['programaciones'] = OrdenesTrabajosxactivo::getOtXActivoXPeriodo($idactivo,9,$fecha_ini,$fecha_fin)->get()->toArray();
+			$programaciones = [];
+			$length = sizeof($data['programaciones']);
+			for($i=0;$i<$length;$i++){
+				$programaciones[] = date("Y-m-d",strtotime($data['programaciones'][$i]['fecha_programacion']));
+			}
+			$data['programaciones'] = $programaciones;
+			//$data['programaciones'] = array("2015-10-30","2015-10-26","2015-10-03");
+			return Response::json(array( 'success' => true,'programaciones'=>$data['programaciones']),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
 
 	public function calcular_trimestre(&$fecha_ini,&$fecha_fin){
 		$esteMes = date("m");
@@ -145,64 +187,119 @@ class OtVerificacionMetrologicaController extends BaseController {
 
 public function submit_program_ot_verif_metrologica()
 	{
-		if(Auth::check()){
-			$data["inside_url"] = Config::get('app.inside_url');
-			$data["user"] = Session::get('user');
-			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
-				// Validate the info, create rules for the inputs
-				$rules = array(
-							'fecha_programacion' => 'required',
-							'solicitante' => 'required',
-						);
-				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
-				// If the validator fails, redirect back to the form
-				$sot_id = Input::get('sot_id');
-				if($validator->fails()){
-					$url = "verif_metrologica/programacion";
-					return Redirect::to($url)->withErrors($validator)->withInput(Input::all());
-				}else{
-					$activo = Activo::searchActivosByCodigoPatrimonial(Input::get('cod_pat'));
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}		
+		$id = Auth::id();
+		$data["inside_url"] = Config::get('app.inside_url');
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1){
+			// Check if the current user is the "System Admin"
+			$array_detalles = Input::get('matrix_detalle');
+			$row_size = count($array_detalles);
+
+			
+			if($row_size > 0){				
+				$message = "Se guardaron los cambios de la Programación";
+				$type_message = "bg-success";
+				for( $i = 0; $i<$row_size; $i++ ){
+
+					$cod_pat = $array_detalle[1];
+					$activo = Activo::searchActivosByCodigoPatrimonial($cod_pat)->get();
+					
+					if($activo->isEmpty()==true){
+						$url = "verif_metrologica/programacion";
+						return Redirect::to($url);
+					}
+					$activo = $activo[0];
+					$idactivo = $activo->idactivo;
 					$ot = new OrdenesTrabajo;
-					$ot->fecha_programacion = date('Y-m-d H:i:s',strtotime(Input::get('fecha_programacion')));
+					$abreviatura = "VM";
+					// Algoritmo para añadir numeros correlativos
+					$string = $this->getCorrelativeReportNumber();
+					//Get Año Actual
+					$ts_abreviatura = "TS";
+
+					$ot->fecha_programacion = date('Y-m-d H:i:s',strtotime($array_detalle[5]));
 					$ot->idservicio = $activo->idservicio;
-					$ot->idtipo_ordenes_trabajo = 3; // A mejorar este hardcode :/
+					$ot->idtipo_ordenes_trabajo = 2; // A mejorar este hardcode :/
 					$ot->idestado = 9; // A mejorar este hardcode :/
 					$ot->id_usuarioelaborado = $data["user"]->id;
-					$ot->id_usuariosolicitante = Input::get('solicitante');
+					$ot->id_usuariosolicitante = $array_detalle[7];
+					$ot->ot_tipo_abreviatura = $abreviatura;
+					$ot->ot_correlativo = $string;
+					$ot->ot_activo_abreviatura = $ts_abreviatura;
 					$ot->save();
 
 					$otxa = new OrdenesTrabajosxactivo;
 					$otxa->idordenes_trabajo = $ot->idordenes_trabajo;
-					$otxa->idactivo = $activo->idactivo;
+					$otxa->idactivo = $idactivo;
 					$otxa->idestado = 9;
 					$otxa->costo_total_personal = 0.0;
-					echo "<pre>";
-					print_r($otxa);
-					exit;
-					$otxa->save();
-					$url = "verif_metrologica/list_verif_metrologica";
-
-					// Asigno las tareas
-					$tareas = Tarea::getTareasByFamiliaActivo($activo->idfamilia_activo)->get();
-					foreach($tareas as $tarea){
-						$otxacxta = new OrdenesTrabajosxactivoxtarea;
-						$otxacxta->idorden_trabajoxactivo = $otxa->idorden_trabajoxactivo;
-						$otxacxta->idtarea = $tarea->idtareas;
-						$otxacxta->idestado_realizado = 25; // Estado de tarea no realizada
-						$otxacxta->save();
-					}
-					Session::flash('message', 'Se programó correctamente la OT.');
-					return Redirect::to($url);
-				}
+					$otxa->save();		
+				}							
 			}else{
-				return View::make('error/error');
+				$message = "No se guardaron los cambios del Requerimiento. No hay detalles del Requerimiento.";
+				$type_message = "bg-danger";
+				return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'message' => $message, 'type_message'=>$type_message ),200);
 			}
-
+			//Agregar documentos
+			/*
+			$documento = Documento::searchDocumentoByCodigoArchivamiento($codigo_archivamiento)->get();
+			if($documento->isEmpty()){
+				$type_message = "bg-danger";
+				$message = "No se pudo registrar los cambios, el documento no existe";
+				return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'type_message' => $type_message, 'message' => $mensaje ),200);
+			}
+			$documento = $documento[0];
+			$documento->idsolicitud_compra = $solicitud->idsolicitud_compra;
+			$documento->save();	
+			*/	
+			return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'message' => $message, 'type_message'=>$type_message ),200);
 		}else{
-			return View::make('error/error');
+			return Response::json(array( 'success' => false ),200);
 		}
+	}
+
+	public function search_programaciones(){
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$id = Auth::id();
+		$data["inside_url"] = Config::get('app.inside_url');
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1){
+			// Check if the current user is the "System Admin"	
+			$trimestre_ini=date("Y-m-d",strtotime(Input::get('trimestre_ini')));
+			$trimestre_fin=date("Y-m-d",strtotime(Input::get('trimestre_fin')));
+			$array_programaciones = null;	
+			$array_programaciones = OrdenesTrabajosxactivo::getOtXActivoXPeriodo(3,9,$trimestre_ini,$trimestre_fin)->get()->toArray();
+			$programaciones = [];
+			$length = sizeof($array_programaciones);					
+			for($i=0;$i<$length;$i++){
+				$programaciones[] = date("Y-m-d",strtotime($array_programaciones[$i]['fecha_programacion']));
+			}
+			$array_programaciones = $programaciones;			
+			return Response::json(array( 'success' => true, 'programaciones'=> $array_programaciones),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
+	public function getCorrelativeReportNumber(){
+		$ot = OrdenesTrabajo::getLastOtPreventivo()->first();
+		$string = "";
+		if($ot!=null){	
+			$numero = $ot->ot_correlativo;
+			$cantidad_digitos = strlen($numero+1);						
+			for($i=0;$i<4-$cantidad_digitos;$i++){
+				$string = $string."0";
+			}
+			$string = $string.($numero+1);					
+		}else{
+			$string = "0001";
+		}
+		return $string;
 	}
 
 /*

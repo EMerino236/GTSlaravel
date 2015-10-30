@@ -138,6 +138,15 @@
 		</div>
 	</div>
 
+	<div class="row">
+		<div class="form-group col-md-3">
+			{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Guardar Programacion', array('id'=>'submit_Create_Programacion',  'class' => 'btn btn-primary btn-block')) }}
+		</div>
+		<div class="form-group col-md-3">
+			{{ Form::button('<span class="glyphicon glyphicon-refresh"></span> Cancelar', array('id'=>'btnCancelar',  'class' => 'btn btn-default btn-block')) }}			
+		</div>
+	</div>	
+
 	<div class="container">
 	  <!-- Modal -->
 	  <div class="modal fade" id="modal_create" role="dialog">

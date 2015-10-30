@@ -42,7 +42,7 @@
     <script src="{{ asset('bower_components/morrisjs/morris.min.js') }}"></script>
     <!-- Custom Theme JavaScript -->
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
-    <script src="{{ asset('js/bienes/reportes_incumplimiento.js') }}"></script>
+    <script src="{{ asset('js/reporte_incumplimientos/reportes_incumplimiento.js') }}"></script>
     <script src="{{ asset('js/bienes/ot.js') }}"></script>
     <script src="{{ asset('js/bienes/listOtPreventivo.js')}}"></script>
     <script src="{{ asset('js/bienes/addOtPreventivo.js')}}"></script>
@@ -53,14 +53,7 @@
     <div id="wrapper">
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
         @include('layouts.header', array('user'=>$user))
-        <div class="navbar-default sidebar" role="navigation">
-            <div class="sidebar-nav navbar-collapse">
-                <ul class="nav" id="side-menu">           
-                    <li>{{ HTML::link('/verif_metrologica/list_verif_metrologica','Verificación Metrológica') }}</li>          
-                </ul>
-            </div>
-            <!-- /.sidebar-collapse -->
-        </div>
+        @include('layouts.sidebar', array('user'=>$user))
         <!-- /.navbar-static-side -->
         </nav>
         <div id="page-wrapper">
