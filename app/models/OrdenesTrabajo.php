@@ -181,6 +181,13 @@ class OrdenesTrabajo extends Eloquent{
 	  	return $query;
 	}
 
+	public function scopeGetLastOtVerifMetrologica($query)
+	{
+		$query->where('ordenes_trabajos.idtipo_ordenes_trabajo','=',3)
+			  ->orderBy('idordenes_trabajo','desc');
+	  	return $query;
+	}
+
 	public function scopeGetOtsVerifMetrologicaInfo($query)
 	{
 		$query->join('estados','estados.idestado','=','ordenes_trabajos.idestado')

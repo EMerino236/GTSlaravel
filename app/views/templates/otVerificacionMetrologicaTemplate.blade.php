@@ -42,10 +42,9 @@
     <script src="{{ asset('bower_components/morrisjs/morris.min.js') }}"></script>
     <!-- Custom Theme JavaScript -->
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
-    <script src="{{ asset('js/reporte_incumplimientos/reportes_incumplimiento.js') }}"></script>
-    <script src="{{ asset('js/bienes/ot.js') }}"></script>
-    <script src="{{ asset('js/bienes/listOtPreventivo.js')}}"></script>
-    <script src="{{ asset('js/bienes/addOtPreventivo.js')}}"></script>
+    <script src="{{ asset('js/bienes/addOtVerifMetrologica.js')}}"></script>
+    <script src="{{ asset('js/bienes/listOtVerifMetrologica.js')}}"></script>
+    <script src="{{ asset('js/bienes/otVerificacionMetrologica.js') }}"></script>
 
 </head>
 

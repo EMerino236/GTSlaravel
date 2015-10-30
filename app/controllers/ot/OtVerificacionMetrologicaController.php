@@ -50,8 +50,8 @@ class OtVerificacionMetrologicaController extends BaseController {
 				$equipo = Activo::searchActivosByCodigoPatrimonial($data)->get();
 				if($equipo->isEmpty()==false){
 					$equipo = $equipo[0];
-					$mes = OrdenesTrabajosxactivo::getOtXActivoXPeriodo(3,9,$mes_ini,$mes_fin)->get()->count();
-					$trimestre = OrdenesTrabajosxactivo::getOtXActivoXPeriodo(3,9,$trimestre_ini,$trimestre_fin)->get()->count();
+					$mes = OrdenesTrabajosxactivo::getOtXTipoXPeriodo(3,9,$mes_ini,$mes_fin)->get()->count();
+					$trimestre = OrdenesTrabajosxactivo::getOtXTipoXPeriodo(3,9,$trimestre_ini,$trimestre_fin)->get()->count();
 					
 				}else{
 				 	$equipo = null;
@@ -172,11 +172,10 @@ class OtVerificacionMetrologicaController extends BaseController {
 				$data["search_ot"] = Input::get('search_ot');
 				$data["search_equipo"] = Input::get('search_equipo');
 				$data["search_proveedor"] = Input::get('search_proveedor');
-				$data["search_servicio"] = Input::get('search_servicio');
 				$data["search_ini"] = Input::get('search_ini');
 				$data["search_fin"] = Input::get('search_fin');
-				$data["verif_metrologicas_data"] = OrdenesTrabajo::searchOtsVerifMetrologica($data["search_ing"],$data["search_cod_pat"],$data["search_ubicacion"],$data["search_ot"],$data["search_equipo"],$data["search_proveedor"],$data["search_servicio"],$data["search_ini"],$data["search_fin"])->paginate(10);
-				return View::make('ot/listOtMantPreventivo',$data);
+				$data["Verif_metrologicas_data"] = OrdenesTrabajo::searchOtsVerifMetrologica($data["search_ing"],$data["search_cod_pat"],$data["search_ubicacion"],$data["search_ot"],$data["search_equipo"],$data["search_proveedor"],$data["search_ini"],$data["search_fin"])->paginate(10);
+				return View::make('ot/listOtVerificacionMetrologica',$data);
 			}else{
 				return View::make('error/error');
 			}
@@ -185,32 +184,34 @@ class OtVerificacionMetrologicaController extends BaseController {
 		}
 	}
 
-public function submit_program_ot_verif_metrologica()
-	{
+	public function submit_program_ot_verif_metrologica(){
 		if(!Request::ajax() || !Auth::check()){
 			return Response::json(array( 'success' => false ),200);
-		}		
+		}
 		$id = Auth::id();
 		$data["inside_url"] = Config::get('app.inside_url');
 		$data["user"] = Session::get('user');
 		if($data["user"]->idrol == 1){
 			// Check if the current user is the "System Admin"
+			
 			$array_detalles = Input::get('matrix_detalle');
 			$row_size = count($array_detalles);
 
+			if($row_size==0){				
+				$message = "No se cargaron todas las OT con éxito.";
+				$type_message = "bg-danger";
+				return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'message' => $message, 'type_message'=>$type_message ),200);
+			}			
 			
+			//Agregar Detalle			
 			if($row_size > 0){				
-				$message = "Se guardaron los cambios de la Programación";
+				$message = "Se crearon las OT con éxito";
 				$type_message = "bg-success";
 				for( $i = 0; $i<$row_size; $i++ ){
-
-					$cod_pat = $array_detalle[1];
-					$activo = Activo::searchActivosByCodigoPatrimonial($cod_pat)->get();
-					
-					if($activo->isEmpty()==true){
-						$url = "verif_metrologica/programacion";
-						return Redirect::to($url);
-					}
+					$array_detalle = $array_detalles[$i];					
+					$fecha = date('d-m-Y H:i:s',strtotime($array_detalle[4]." ".$array_detalle[5]));
+					$cod_pat =$array_detalle[0];
+					$activo = Activo::searchActivosByCodigoPatrimonial($cod_pat)->get();					
 					$activo = $activo[0];
 					$idactivo = $activo->idactivo;
 					$ot = new OrdenesTrabajo;
@@ -220,12 +221,12 @@ public function submit_program_ot_verif_metrologica()
 					//Get Año Actual
 					$ts_abreviatura = "TS";
 
-					$ot->fecha_programacion = date('Y-m-d H:i:s',strtotime($array_detalle[5]));
+					$ot->fecha_programacion = date('Y-m-d H:i:s',strtotime($array_detalle[4]." ".$array_detalle[5]));
 					$ot->idservicio = $activo->idservicio;
-					$ot->idtipo_ordenes_trabajo = 2; // A mejorar este hardcode :/
+					$ot->idtipo_ordenes_trabajo = 3; // A mejorar este hardcode :/
 					$ot->idestado = 9; // A mejorar este hardcode :/
 					$ot->id_usuarioelaborado = $data["user"]->id;
-					$ot->id_usuariosolicitante = $array_detalle[7];
+					$ot->id_usuariosolicitante = $array_detalle[6];
 					$ot->ot_tipo_abreviatura = $abreviatura;
 					$ot->ot_correlativo = $string;
 					$ot->ot_activo_abreviatura = $ts_abreviatura;
@@ -236,25 +237,14 @@ public function submit_program_ot_verif_metrologica()
 					$otxa->idactivo = $idactivo;
 					$otxa->idestado = 9;
 					$otxa->costo_total_personal = 0.0;
-					$otxa->save();		
+					$otxa->save();					
 				}							
 			}else{
-				$message = "No se guardaron los cambios del Requerimiento. No hay detalles del Requerimiento.";
+				$message = "No se cargaron todas las OT con éxito.";
 				$type_message = "bg-danger";
 				return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'message' => $message, 'type_message'=>$type_message ),200);
 			}
-			//Agregar documentos
-			/*
-			$documento = Documento::searchDocumentoByCodigoArchivamiento($codigo_archivamiento)->get();
-			if($documento->isEmpty()){
-				$type_message = "bg-danger";
-				$message = "No se pudo registrar los cambios, el documento no existe";
-				return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'type_message' => $type_message, 'message' => $mensaje ),200);
-			}
-			$documento = $documento[0];
-			$documento->idsolicitud_compra = $solicitud->idsolicitud_compra;
-			$documento->save();	
-			*/	
+			
 			return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'message' => $message, 'type_message'=>$type_message ),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
@@ -273,7 +263,7 @@ public function submit_program_ot_verif_metrologica()
 			$trimestre_ini=date("Y-m-d",strtotime(Input::get('trimestre_ini')));
 			$trimestre_fin=date("Y-m-d",strtotime(Input::get('trimestre_fin')));
 			$array_programaciones = null;	
-			$array_programaciones = OrdenesTrabajosxactivo::getOtXActivoXPeriodo(3,9,$trimestre_ini,$trimestre_fin)->get()->toArray();
+			$array_programaciones =  OrdenesTrabajosxactivo::getOtXTipoXPeriodo(3,9,$trimestre_ini,$trimestre_fin)->get()->toArray();
 			$programaciones = [];
 			$length = sizeof($array_programaciones);					
 			for($i=0;$i<$length;$i++){
@@ -287,7 +277,7 @@ public function submit_program_ot_verif_metrologica()
 	}
 
 	public function getCorrelativeReportNumber(){
-		$ot = OrdenesTrabajo::getLastOtPreventivo()->first();
+		$ot = OrdenesTrabajo::getLastOtVerifMetrologica()->first();
 		$string = "";
 		if($ot!=null){	
 			$numero = $ot->ot_correlativo;

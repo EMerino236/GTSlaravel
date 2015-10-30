@@ -1,4 +1,4 @@
-@extends('templates/otVerifMetrologicaTemplate')
+@extends('templates/otVerificacionMetrologicaTemplate')
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
@@ -54,7 +54,7 @@
 					<div class="row">
 						<div class="form-group col-md-6">
 							{{ Form::label('solicitante','Usuario solicitante') }}
-							<select name="solicitante" class="form-control">
+							<select name="solicitante" class="form-control" id="solicitantes">
 								@foreach($solicitantes as $solicitante)
 									<option value="{{ $solicitante->id }}">{{ $solicitante->apellido_pat }} {{ $solicitante->apellido_mat }}, {{ $solicitante->nombre }}</option>
 								@endforeach
@@ -101,7 +101,7 @@
 			<div class="responsive-calendar">
 			  <div class="controls">			     
 			      <a class="pull-left" data-go="prev"><div class="btn"><i class="glyphicon glyphicon-chevron-left"></i></div></a>
-			      <h4><span data-head-year></span> <span data-head-month></span></h4>
+			      <h4><span data-head-year></span> <span data-head-month id="nombre_mes"></span></h4>
 			      <a class="pull-right" data-go="next"><div class="btn"><i class="glyphicon glyphicon-chevron-right"></i></div></a>
 			  </div><hr/>
 			  <div class="day-headers">
@@ -139,11 +139,11 @@
 	</div>
 
 	<div class="row">
-		<div class="form-group col-md-3">
-			{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Guardar Programacion', array('id'=>'submit_Create_Programacion',  'class' => 'btn btn-primary btn-block')) }}
+		<div class="form-group col-md-2 col-md-offset-8">
+			{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Crear', array('id'=>'submit_create_ots', 'class' => 'btn btn-primary btn-block')) }}
 		</div>
-		<div class="form-group col-md-3">
-			{{ Form::button('<span class="glyphicon glyphicon-refresh"></span> Cancelar', array('id'=>'btnCancelar',  'class' => 'btn btn-default btn-block')) }}			
+		<div class="form-group col-md-2">
+			<a class="btn btn-default btn-block" href="{{URL::to('/verif_metrologica/list_verif_metrologica')}}">Cancelar</a>				
 		</div>
 	</div>	
 
@@ -167,4 +167,26 @@
 	    </div>
 	  </div>  
 	</div>
+
+
+<div class="container">
+  <!-- Modal -->
+  <div class="modal fade" id="modal_edit" role="dialog">
+    <div class="modal-dialog modal-md">    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header" id="modal_header_edit">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Advertencia</h4>
+        </div>
+        <div class="modal-body" id="modal_edit_text">
+         	
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" id="btn_close_modal" data-dismiss="modal">Aceptar</button>
+        </div>
+      </div>      
+    </div>
+  </div>  
+</div>
 @stop

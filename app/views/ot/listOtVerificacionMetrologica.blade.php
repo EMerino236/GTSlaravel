@@ -1,4 +1,4 @@
-@extends('templates/otVerifMetrologicaTemplate')
+@extends('templates/otVerificacionMetrologicaTemplate')
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
@@ -12,7 +12,7 @@
 		<div class="container-fluid form-group row">
 			<div class="col-md-4 col-md-offset-8">
 				<a class="btn btn-primary btn-block" href="{{URL::to('/verif_metrologica/programacion')}}">
-				<span class="glyphicon glyphicon-plus"></span> Agregar Verificación Metrológica</a>
+				<span class="glyphicon glyphicon-plus"></span> Agregar Mantenimiento Preventivo</a>
 			</div>
 		</div>
     {{ Form::open(array('url'=>'/verif_metrologica/search_ot_verif_metrologica','method'=>'get' ,'role'=>'form', 'id'=>'search-form','class' => 'form-group')) }}
@@ -47,10 +47,6 @@
 						<div class="form-group col-md-4">
 							{{ Form::label('search_proveedor','Proveedor') }}
 							{{ Form::text('search_proveedor',$search_proveedor,array('class'=>'form-control','placeholder'=>'RUC, Razón social o Nombre de contacto','id'=>'search_proveedor')) }}
-						</div>	
-						<div class="form-group col-md-4">
-							{{ Form::label('search_servicio','Servicio') }}
-							{{ Form::text('search_servicio',$search_servicio,array('class'=>'form-control','placeholder'=>'Servicio','id'=>'search_servicio')) }}
 						</div>						
 						<div class="form-group col-md-4">
 							{{ Form::label('search_ini','Fecha inicio') }}
@@ -114,8 +110,8 @@
 						{{$verif_metrologica_data->nombre_ubicacion}}
 					</td>
 					<td>
-						<a href="{{URL::to('/verif_metro/create_ot/')}}/{{$verif_metrologica_data->idordenes_trabajo}}">{{$verif_metrologica_data->idordenes_trabajo}}</a>
-					</td>
+						<a href="{{URL::to('/verif_metrologica/create_ot_verif_metrologica/')}}/{{$verif_metrologica_data->idordenes_trabajo}}">{{$verif_metrologica_data->ot_tipo_abreviatura}}{{$verif_metrologica_data->ot_correlativo}}{{$verif_metrologica_data->ot_activo_abreviatura}}</a>
+					</td>					
 					<td>
 						{{$verif_metrologica_data->nombre_estado}}
 					</td>
@@ -124,9 +120,5 @@
 			</table>
 		</div>
 	</div>
-	@if($search_ing || $search_cod_pat || $search_ubicacion || $search_ot || $search_equipo || $search_proveedor || $search_proveedor || $search_ini || $search_fin)
-		{{ $verif_metrologicas_data->appends(array('search_ing' => $search_ing,'search_cod_pat'=>$search_cod_pat,'search_ubicacion'=>$search_ubicacion,'search_ot'=>$search_ot,'search_equipo'=>$search_equipo,'search_proveedor'=>$search_proveedor,'search_servicio'=>$search_servicio,'search_ini'=>$search_ini,'search_fin'=>$search_fin))->links() }}
-	@else
-		{{ $verif_metrologicas_data->links() }}
-	@endif
+	
 @stop

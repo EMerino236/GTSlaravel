@@ -326,6 +326,7 @@ Route::group(array('prefix'=>'verif_metrologica','before'=>'auth'),function(){
 	Route::post('/calendario_ot_mant_correctivo','OtVerificacionMetrologicaController@calendario_ot_verif_metrologica_ajax');
 	Route::get('/list_verif_metrologica','OtVerificacionMetrologicaController@list_verif_metrologica');
 	Route::post('/search_equipo_ajax','OtVerificacionMetrologicaController@search_equipo_ajax');
+	Route::post('/ver_programaciones','OtVerificacionMetrologicaController@search_programaciones');
 	Route::get('/search_ot_verif_metrologica','OtVerificacionMetrologicaController@search_ot_verif_metrologica');
 	Route::get('/create_ot_verif_metrologica/{id}','OtVerificacionMetrologicaController@render_create_ot_verif_metrologica');
 	Route::post('/submit_create_ot','OtVerificacionMetrologicaController@submit_create_ot');
