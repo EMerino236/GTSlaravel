@@ -172,9 +172,10 @@ class OtVerificacionMetrologicaController extends BaseController {
 				$data["search_ot"] = Input::get('search_ot');
 				$data["search_equipo"] = Input::get('search_equipo');
 				$data["search_proveedor"] = Input::get('search_proveedor');
+				$data["search_servicio"] = Input::get('search_servicio');
 				$data["search_ini"] = Input::get('search_ini');
 				$data["search_fin"] = Input::get('search_fin');
-				$data["Verif_metrologicas_data"] = OrdenesTrabajo::searchOtsVerifMetrologica($data["search_ing"],$data["search_cod_pat"],$data["search_ubicacion"],$data["search_ot"],$data["search_equipo"],$data["search_proveedor"],$data["search_ini"],$data["search_fin"])->paginate(10);
+				$data["Verif_metrologicas_data"] = OrdenesTrabajo::searchOtsVerifMetrologica($data["search_ing"],$data["search_cod_pat"],$data["search_ubicacion"],$data["search_ot"],$data["search_equipo"],$data["search_proveedor"],$data["search_servicio"],$data["search_ini"],$data["search_fin"])->paginate(10);				
 				return View::make('ot/listOtVerificacionMetrologica',$data);
 			}else{
 				return View::make('error/error');
@@ -292,8 +293,7 @@ class OtVerificacionMetrologicaController extends BaseController {
 		return $string;
 	}
 
-/*
-	public function render_create_ot($id=null)
+	public function render_create_ot_verif_metrologica($id=null)
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
@@ -302,14 +302,12 @@ class OtVerificacionMetrologicaController extends BaseController {
 			if(($data["user"]->idrol == 1) && $id){
 				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
 				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
-				$data["prioridades"] = Prioridad::lists('nombre','idprioridad');
-				$data["tipo_fallas"] = TipoFalla::lists('nombre','idtipo_falla');
 				$tabla_estado_activo = Tabla::getTablaByNombre(self::$estado_activo)->get();
 				$data["estado_activo"] = Estado::where('idtabla','=',$tabla_estado_activo[0]->idtabla)->lists('nombre','idestado');
-				
-				$data["ot_info"] = OrdenesTrabajo::searchOtById($id)->get();
+
+				$data["ot_info"] = OrdenesTrabajo::searchOtVerifMetrologicaById($id)->get();
 				if($data["ot_info"]->isEmpty()){
-					return Redirect::to('ot/createOtMantPre');
+					return Redirect::to('verif_metrologica/list_verif_metrologica');
 				}
 				$data["ot_info"] = $data["ot_info"][0];
 				$data["otxact"] = OrdenesTrabajosxactivo::getOtXActivo($id,$data["ot_info"]->idactivo)->get();
@@ -319,17 +317,15 @@ class OtVerificacionMetrologicaController extends BaseController {
 					$data["personal_data"] = array();
 				}else{
 					$data["otxact"] = $data["otxact"][0];
-					$data["tareas"] = OrdenesTrabajosxactivoxtarea::getTareasXOtXActi($data["otxact"]->idorden_trabajoxactivo)->get();
-					$data["repuestos"] = RepuestosOt::getRepuestosXOtXActi($data["otxact"]->idorden_trabajoxactivo)->get();
 					$data["personal_data"] = DetallePersonalxot::getPersonalXOtXActi($data["otxact"]->idorden_trabajoxactivo)->get();
 				}
-				return View::make('ot/createOtMantPre',$data);
+				return View::make('ot/createOtVerificacionMetrologica',$data);
 			}else{
 				return View::make('error/error');
 			}
 		}else{
 			return View::make('error/error');
 		}
-	}*/
+	}
 
 }

@@ -12,7 +12,7 @@
 		<div class="container-fluid form-group row">
 			<div class="col-md-4 col-md-offset-8">
 				<a class="btn btn-primary btn-block" href="{{URL::to('/verif_metrologica/programacion')}}">
-				<span class="glyphicon glyphicon-plus"></span> Agregar Mantenimiento Preventivo</a>
+				<span class="glyphicon glyphicon-plus"></span> Agregar Verificación Metrológica</a>
 			</div>
 		</div>
     {{ Form::open(array('url'=>'/verif_metrologica/search_ot_verif_metrologica','method'=>'get' ,'role'=>'form', 'id'=>'search-form','class' => 'form-group')) }}
@@ -47,6 +47,10 @@
 						<div class="form-group col-md-4">
 							{{ Form::label('search_proveedor','Proveedor') }}
 							{{ Form::text('search_proveedor',$search_proveedor,array('class'=>'form-control','placeholder'=>'RUC, Razón social o Nombre de contacto','id'=>'search_proveedor')) }}
+						</div>	
+						<div class="form-group col-md-4">
+							{{ Form::label('search_servicio','Servicio') }}
+							{{ Form::text('search_servicio',$search_servicio,array('class'=>'form-control','placeholder'=>'Nombre de Servicio','id'=>'search_servicio')) }}
 						</div>						
 						<div class="form-group col-md-4">
 							{{ Form::label('search_ini','Fecha inicio') }}
