@@ -1,8 +1,8 @@
-@extends('templates/otMantenimientoPreventivoTemplate')
+@extends('templates/otInspeccionInfraestructuraTemplate')
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Agregar mantenimientos preventivos</h3>
+            <h3 class="page-header">Agregar Inspecciones de Infraestructura</h3>
         </div>
     </div>
 
@@ -29,14 +29,10 @@
 			<div class="panel panel-default">
 			  	<div class="panel-heading">Datos de la Programación</div>
 			  	<div class="panel-body">	
-					<div class="row">								
-						<div class="form-group col-md-6 @if($errors->first('numero_ot')) has-error has-feedback @endif">
-							{{ Form::label('cod_pat','Codigo Patrimonial') }}<span style="color:red"> *</span>
-							{{ Form::text('cod_pat',Input::old('cod_pat'),['class' => 'form-control','id'=>'cod_pat'])}}
-						</div>
-						<div class="form-group col-md-6 @if($errors->first('numero_ot')) has-error has-feedback @endif">
-							{{ Form::label('nombre','Nombre Equipo') }}
-							{{ Form::text('nombre',Input::old('equipo'),['class' => 'form-control','id'=>'nombre_equipo','readonly'=>''])}}
+					<div class="row">
+						<div class="form-group col-md-6 @if($errors->first('servicio')) has-error has-feedback @endif">
+							{{ Form::label('servicio','Servicio:') }}
+							{{ Form::select('servicio',array('0' => 'Seleccione') + $servicios,Input::old('servicio'),['class' => 'form-control','id'=>'servicio'])}}
 						</div>
 					</div>							        
 					<div class="row">
@@ -125,8 +121,7 @@
 		<div class="col-md-12">
 			<table class="table" id="table_programacion">
 				<tr class="info">
-					<th>Código Patrimonial</th>
-					<th>Nombre de Equipo</th>
+					<th>Servicio</th>
 					<th>Programaciones del mes </th>
 					<th>Programaciones del trimestre</th>
 					<th>Fecha Programación</th>
@@ -143,7 +138,7 @@
 			{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Crear', array('id'=>'submit_create_ots', 'class' => 'btn btn-primary btn-block')) }}
 		</div>
 		<div class="form-group col-md-2">
-			<a class="btn btn-default btn-block" href="{{URL::to('/mant_preventivo/list_mant_preventivo')}}">Cancelar</a>				
+			<a class="btn btn-default btn-block" href="{{URL::to('/inspec_infraestructura/list_inspec_infraestructura')}}">Cancelar</a>				
 		</div>
 	</div>	
 

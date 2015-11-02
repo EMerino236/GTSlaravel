@@ -1,8 +1,8 @@
-@extends('templates/otMantenimientoPreventivoTemplate')
+@extends('templates/otInspeccionInfraestructuraTemplate')
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Programación de mantenimiento preventivo</h3>
+            <h3 class="page-header">Programación de inspección de infraestructura</h3>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -11,11 +11,11 @@
 	@endif
 		<div class="container-fluid form-group row">
 			<div class="col-md-4 col-md-offset-8">
-				<a class="btn btn-primary btn-block" href="{{URL::to('/mant_preventivo/programacion')}}">
-				<span class="glyphicon glyphicon-plus"></span> Agregar Mantenimiento Preventivo</a>
+				<a class="btn btn-primary btn-block" href="{{URL::to('/inspec_infraestructura/programacion')}}">
+				<span class="glyphicon glyphicon-plus"></span> Agregar Inspección de Infraestructura</a>
 			</div>
 		</div>
-    {{ Form::open(array('url'=>'/mant_preventivo/search_ot_mant_preventivo','method'=>'get' ,'role'=>'form', 'id'=>'search-form','class' => 'form-group')) }}
+    {{ Form::open(array('url'=>'/inspec_infraestructura/search_ot_inspec_infraestructura','method'=>'get' ,'role'=>'form', 'id'=>'search-form','class' => 'form-group')) }}
 	<div class="container-fluid form-group row">
 		<div class="col-md-12">
 			<div class="panel panel-default">
@@ -29,24 +29,8 @@
 							{{ Form::text('search_ing',$search_ing,array('class'=>'form-control','placeholder'=>'Nombre o apellidos','id'=>'search_ing')) }}
 						</div>
 						<div class="form-group col-md-4">
-							{{ Form::label('search_cod_pat','Código patrimonial') }}
-							{{ Form::text('search_cod_pat',$search_cod_pat,array('class'=>'form-control','id'=>'search_cod_pat')) }}
-						</div>
-						<div class="form-group col-md-4">
-							{{ Form::label('search_ubicacion','Ubicación') }}
-							{{ Form::text('search_ubicacion',$search_ubicacion,array('class'=>'form-control','placeholder'=>'Ubicación física','id'=>'search_ubicacion')) }}
-						</div>
-						<div class="form-group col-md-4">
 							{{ Form::label('search_ot','Orden de Trabajo de Mantenimiento') }}
 							{{ Form::text('search_ot',$search_ot,array('class'=>'form-control','placeholder'=>'Número de OT','id'=>'search_ot')) }}
-						</div>					
-						<div class="form-group col-md-4">
-							{{ Form::label('search_equipo','Equipo relacionado') }}
-							{{ Form::text('search_equipo',$search_equipo,array('class'=>'form-control','id'=>'search_equipo')) }}
-						</div>
-						<div class="form-group col-md-4">
-							{{ Form::label('search_proveedor','Proveedor') }}
-							{{ Form::text('search_proveedor',$search_proveedor,array('class'=>'form-control','placeholder'=>'RUC, Razón social o Nombre de contacto','id'=>'search_proveedor')) }}
 						</div>
 						<div class="form-group col-md-4">
 							{{ Form::label('search_servicio','Servicio') }}
@@ -92,32 +76,28 @@
 					<th>Departamento</th>
 					<th>Servicio</th>
 					<th>Ingeniero</th>
-					<th>Ubicación</th>
 					<th>Orden Trabajo Mantenimiento</th>
 					<th>Estado</th>
 				</tr>
-				@foreach($mant_preventivos_data as $mant_preventivo_data)
+				@foreach($inspecciones_infraestructura_data as $inspeccion_infraestructura_data)
 				<tr>
 					<td>
-						{{date('d-m-Y H:i:s',strtotime($mant_preventivo_data->fecha_programacion))}}
+						{{date('d-m-Y H:i:s',strtotime($inspeccion_infraestructura_data->fecha_programacion))}}
 					</td>
 					<td>
-						{{$mant_preventivo_data->nombre_area}}
+						{{$inspeccion_infraestructura_data->nombre_area}}
 					</td>
 					<td>
-						{{$mant_preventivo_data->nombre_servicio}}
+						{{$inspeccion_infraestructura_data->nombre_servicio}}
 					</td>
 					<td>
-						{{$mant_preventivo_data->apellido_pat}} {{$mant_preventivo_data->apellido_mat}}, {{$mant_preventivo_data->nombre_user}}
+						{{$inspeccion_infraestructura_data->apellido_pat}} {{$inspeccion_infraestructura_data->apellido_mat}}, {{$inspeccion_infraestructura_data->nombre_user}}
 					</td>
 					<td>
-						{{$mant_preventivo_data->nombre_ubicacion}}
-					</td>
-					<td>
-						<a href="{{URL::to('/mant_preventivo/create_ot_preventivo/')}}/{{$mant_preventivo_data->idordenes_trabajo}}">{{$mant_preventivo_data->ot_tipo_abreviatura}}{{$mant_preventivo_data->ot_correlativo}}{{$mant_preventivo_data->ot_activo_abreviatura}}</a>
+						<a href="#">{{$mant_preventivo_data->ot_tipo_abreviatura}}{{$mant_preventivo_data->ot_correlativo}}{{$mant_preventivo_data->ot_activo_abreviatura}}</a>
 					</td>					
 					<td>
-						{{$mant_preventivo_data->nombre_estado}}
+						{{$inspeccion_infraestructura_data->nombre_estado}}
 					</td>
 				</tr>
 				@endforeach

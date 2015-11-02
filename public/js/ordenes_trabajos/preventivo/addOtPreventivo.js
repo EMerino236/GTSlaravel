@@ -250,16 +250,15 @@ function sendDataToController_create(){
                     var message = response["message"];
                     var type_message = response["type_message"];
                     var inside_url = array_detalle;
-                    $('#modal_header_edit').removeClass();
-                    $('#modal_header_edit').addClass("modal-header");
-                    $('#modal_header_edit').addClass(type_message);
-                    $('#modal_edit_text').empty();
-                    $('#modal_edit_text').append("<p>"+message+"</p>");
-                    $('#modal_edit').modal('show');
+                    $('#modal_header_confirm').removeClass();
+                    $('#modal_header_confirm').addClass("modal-header ");
+                    $('#modal_header_confirm').addClass(type_message);
+                    $('#modal_text_confirm').empty();
+                    $('#modal_text_confirm').append("<p>"+message+"</p>");
+                    $('#modal_confirm').modal('show');
                     if(type_message == "bg-success"){
-                        alert("ole");
-                        var url = inside_url + "/mant_preventivo/list_mant_preventivo";
-                        $('#btn_close_modal').click(function(){
+                        var url = inside_url + "mant_preventivo/list_mant_preventivo";
+                        $('#btn_close_modal_confirm').click(function(){
                             window.location = url;
                         });
                     }

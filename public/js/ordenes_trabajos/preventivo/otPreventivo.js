@@ -7,7 +7,28 @@ $( document ).ready(function(){
 		sideBySide: true
 	});
 
-	$("#datetimepicker_conformidad").datetimepicker({
+	$("#datetimepicker_conformidad_fecha").datetimepicker({
+		defaultDate: false,
+		ignoreReadonly: true,
+		format: 'DD-MM-YYYY',
+		sideBySide: true
+	});
+
+	$("#datetimepicker_conformidad_hora").datetimepicker({
+		defaultDate: false,
+		ignoreReadonly: true,
+		format: 'HH:ss',
+		sideBySide: true
+	});
+
+	$("#datetimepicker_fecha_inicio").datetimepicker({
+		defaultDate: false,
+		ignoreReadonly: true,
+		format: 'DD-MM-YYYY HH:ss',
+		sideBySide: true
+	});
+
+	$("#datetimepicker_fecha_fin").datetimepicker({
 		defaultDate: false,
 		ignoreReadonly: true,
 		format: 'DD-MM-YYYY HH:ss',
@@ -37,8 +58,7 @@ $( document ).ready(function(){
 
 	$("#submit-repuesto").click(function(e){
 		e.preventDefault;
-		if (confirm('¿Está seguro de esta acción?')){
-			var error_str = "Errores:\n";
+			var error_str = "";
 			var reg = /[^0-9a-bA-B\s]/gi;
 			var intRegex = /^\d+$/;
 			var floatRegex = /^\d{1,6}(\.\d{0,2}){0,1}$/;
@@ -48,7 +68,7 @@ $( document ).ready(function(){
 			$("input[name=cantidad_repuesto]").parent().removeClass("has-error has-feedback");
 			$("input[name=costo_repuesto]").parent().removeClass("has-error has-feedback");
 			if(!reg.test($("input[name=nombre_repuesto]").val())){
-				error_str += "El nombre debe ser alfanumérico\n";
+				error_str += "El nombre debe ser alfanumérico.\n";
 				$("input[name=nombre_repuesto]").parent().addClass("has-error has-feedback");
 				is_correct = false;
 			}
@@ -58,29 +78,29 @@ $( document ).ready(function(){
 				is_correct = false;
 			}
 			if(!reg.test($("input[name=codigo_repuesto]").val())){
-				error_str += "El código debe ser alfanumérico\n";
+				error_str += "El código debe ser alfanumérico.\n";
 				is_correct = false;
 				$("input[name=codigo_repuesto]").parent().addClass("has-error has-feedback");
 			}
 			if($("input[name=codigo_repuesto]").val().length < 1 || $("input[name=codigo_repuesto]").val().length > 45){
-				error_str += "El código es obligatorio y debe contener menos de 200 caracteres\n";
+				error_str += "El código es obligatorio y debe contener menos de 200 caracteres.\n";
 				is_correct = false;
 				$("input[name=codigo_repuesto]").parent().addClass("has-error has-feedback");
 			}
 			if(!intRegex.test($("input[name=cantidad_repuesto]").val()) || $("input[name=cantidad_repuesto]").val().length < 1 || $("input[name=cantidad_repuesto]").val().length > 10){
-				error_str += "La cantidad debe ser un número entero\n";
+				error_str += "La cantidad debe ser un número entero.\n";
 				is_correct = false;
 				$("input[name=cantidad_repuesto]").parent().addClass("has-error has-feedback");
 			}
 			if(!floatRegex.test($("input[name=costo_repuesto]").val()) || $("input[name=costo_repuesto]").val().length < 1 || $("input[name=costo_repuesto]").val().length > 10){
-				error_str += "El costo tiene un formato incorrecto\n";
+				error_str += "El costo tiene un formato incorrecto.\n";
 				is_correct = false;
 				$("input[name=costo_repuesto]").parent().addClass("has-error has-feedback");
 			}
 
 			if(is_correct){
 				$.ajax({
-					url: inside_url+'mant_correctivo/submit_create_repuesto_ajax',
+					url: inside_url+'mant_preventivo/submit_create_repuesto_ajax',
 					type: 'POST',
 					data: { 
 						'idorden_trabajoxactivo' : $("input[name=idorden_trabajoxactivo]").val(),
@@ -109,17 +129,17 @@ $( document ).ready(function(){
 					}
 				});
 			}else{
-				alert(error_str);
+				$('#modal_text').html('<p>'+error_str+'</p>');
+				$('#modal_header').addClass('bg-danger');
+            	$('#modal_info').modal('show');    
 			}
-		}
+		
 	});
-
 
 
 	$("#submit-personal").click(function(e){
 		e.preventDefault;
-		if (confirm('¿Está seguro de esta acción?')){
-			var error_str = "Errores:\n";
+			var error_str = "";
 			var reg = /[\w'-]+/;
 			var floatRegex = /^\d{1,6}(\.\d{0,2}){0,1}$/;
 			var is_correct = true;
@@ -127,28 +147,28 @@ $( document ).ready(function(){
 			$("input[name=horas_trabajadas]").parent().removeClass("has-error has-feedback");
 			$("input[name=costo_personal]").parent().removeClass("has-error has-feedback");
 			if(!reg.test($("input[name=nombre_personal]").val())){
-				error_str += "El nombre debe ser alfanumérico\n";
+				error_str += "El nombre debe ser alfanumérico.\n";
 				$("input[name=nombre_personal]").parent().addClass("has-error has-feedback");
 				is_correct = false;
 			}
 			if($("input[name=nombre_personal]").val().length < 1 || $("input[name=nombre_personal]").val().length > 200){
-				error_str += "El nombre es obligatorio y debe contener menos de 200 caracteres\n";
+				error_str += "El nombre es obligatorio y debe contener menos de 200 caracteres.\n";
 				$("input[name=nombre_personal]").parent().addClass("has-error has-feedback");
 				is_correct = false;
 			}
 			if(!floatRegex.test($("input[name=horas_trabajadas]").val()) || $("input[name=horas_trabajadas]").val().length < 1 || $("input[name=horas_trabajadas]").val().length > 10){
-				error_str += "Las horas deben tener un formato fraccionario: 0.5\n";
+				error_str += "Las horas deben tener un formato fraccionario: 0.5.\n";
 				is_correct = false;
 				$("input[name=horas_trabajadas]").parent().addClass("has-error has-feedback");
 			}
 			if(!floatRegex.test($("input[name=costo_personal]").val()) || $("input[name=costo_personal]").val().length < 1 || $("input[name=costo_personal]").val().length > 10){
-				error_str += "El costo tiene un formato incorrecto\n";
+				error_str += "El costo tiene un formato incorrecto.\n";
 				is_correct = false;
 				$("input[name=costo_personal]").parent().addClass("has-error has-feedback");
 			}
 			if(is_correct){
 				$.ajax({
-					url: inside_url+'mant_correctivo/submit_create_personal_ajax',
+					url: inside_url+'mant_preventivo/submit_create_personal_ajax',
 					type: 'POST',
 					data: { 
 						'idorden_trabajoxactivo' : $("input[name=idorden_trabajoxactivo]").val(),
@@ -175,8 +195,10 @@ $( document ).ready(function(){
 					}
 				});
 			}else{
-				alert(error_str);
+				$('#modal_text').html('<p>'+error_str+'</p>');
+				$('#modal_header').addClass('bg-danger');
+            	$('#modal_info').modal('show');   
 			}
-		}
+		
 	});
 });

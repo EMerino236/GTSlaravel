@@ -2,19 +2,15 @@
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Orden de trabajo de mantenimiento correctivo</h3>
+            <h3 class="page-header">Orden de trabajo de mantenimiento preventivo: {{$ot_info->ot_tipo_abreviatura}}{{$ot_info->ot_correlativo}}{{$ot_info->ot_activo_abreviatura}}</h3>
         </div>
         <!-- /.col-lg-12 -->
     </div>
 
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
-			<p><strong>{{ $errors->first('prioridades',"Seleccione una Prioridad") }}</strong></p>
 			<p><strong>{{ $errors->first('idestado',"Seleccione estado ") }}</strong></p>
-			<p><strong>{{ $errors->first('descripcion_problema',"La descripción del problema es obligatoria y debe ser menor a 500 caracteres") }}</strong></p>
-			<p><strong>{{ $errors->first('tipo_falla',"Seleccione un tipo de falla") }}</strong></p>
 			<p><strong>{{ $errors->first('idestado_inicial',"Seleccione un estado inicial del activo") }}</strong></p>
-			<p><strong>{{ $errors->first('diagnostico_falla',"El diagnostico de falla es obligatorio y debe ser menor a 500 caracteres") }}</strong></p>
 			<p><strong>{{ $errors->first('sin_interrupcion_servicio',"Seleccione si hubo interrupción en el servicio") }}</strong></p>
 			<p><strong>{{ $errors->first('idestado_final',"Seleccione un estado final del activo") }}</strong></p>
 		</div>
@@ -36,46 +32,40 @@
 				<h3 class="panel-title">Datos de la OTM</h3>
 			</div>
 			<div class="panel-body">
-			<div class="col-md-6">
-				<div class="row">
-					<div class="form-group col-md-8">
-						{{ Form::label('solicitante','Usuario Solicitante') }}
-						{{ Form::text('solicitante',$ot_info->apat_solicitante.' '.$ot_info->amat_solicitante.', '.$ot_info->nombre_solicitante,array('class' => 'form-control','readonly'=>'')) }}
+				<div class="col-md-6">
+					<div class="row">
+						<div class="form-group col-md-8">
+							{{ Form::label('solicitante','Usuario Solicitante') }}
+							{{ Form::text('solicitante',$ot_info->apat_solicitante.' '.$ot_info->amat_solicitante.', '.$ot_info->nombre_solicitante,array('class' => 'form-control','readonly'=>'')) }}
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-8">
+							{{ Form::label('nombre_servicio','Servicio Hospitalario') }}
+							{{ Form::text('nombre_servicio',$ot_info->nombre_servicio,array('class' => 'form-control','readonly'=>'')) }}
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-8">
+							{{ Form::label('nombre_ubicacion','Ubicación Física') }}
+							{{ Form::text('nombre_ubicacion',$ot_info->nombre_ubicacion,array('class' => 'form-control','readonly'=>'')) }}
+						</div>
 					</div>
 				</div>
-				<div class="row">
-					<div class="form-group col-md-8">
-						{{ Form::label('nombre_servicio','Servicio Hospitalario') }}
-						{{ Form::text('nombre_servicio',$ot_info->nombre_servicio,array('class' => 'form-control','readonly'=>'')) }}
+				<div class="col-md-6">
+					<div class="row">
+						<div class="form-group col-md-8">
+							{{ Form::label('elaborador','Documento Elaborado Por') }}
+							{{ Form::text('elaborador',$ot_info->apat_elaborador.' '.$ot_info->amat_elaborador.', '.$ot_info->nombre_elaborador,array('class' => 'form-control','readonly'=>'')) }}
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-8">
+							{{ Form::label('ingeniero','Ejecutor del Mantenimiento') }}
+							{{ Form::text('ingeniero',$ot_info->apat_ingeniero.' '.$ot_info->amat_ingeniero.', '.$ot_info->nombre_ingeniero,array('class' => 'form-control','readonly'=>'')) }}
+						</div>
 					</div>
 				</div>
-				<div class="row">
-					<div class="form-group col-md-8">
-						{{ Form::label('nombre_ubicacion','Ubicación Física') }}
-						{{ Form::text('nombre_ubicacion',$ot_info->nombre_ubicacion,array('class' => 'form-control','readonly'=>'')) }}
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="row">
-					<div class="form-group col-md-8">
-						{{ Form::label('elaborador','Documento Elaborado Por') }}
-						{{ Form::text('elaborador',$ot_info->apat_elaborador.' '.$ot_info->amat_elaborador.', '.$ot_info->nombre_elaborador,array('class' => 'form-control','readonly'=>'')) }}
-					</div>
-				</div>
-				<div class="row">
-					<div class="form-group col-md-8">
-						{{ Form::label('ingeniero','Ejecutor del Mantenimiento') }}
-						{{ Form::text('ingeniero',$ot_info->apat_ingeniero.' '.$ot_info->amat_ingeniero.', '.$ot_info->nombre_ingeniero,array('class' => 'form-control','readonly'=>'')) }}
-					</div>
-				</div>
-				<div class="row">
-					<div class="form-group col-md-8">
-						{{ Form::label('fecha_programacion','Fecha Programada') }}
-						{{ Form::text('fecha_programacion',$ot_info->fecha_programacion,array('class' => 'form-control','readonly'=>'')) }}
-					</div>
-				</div>
-			</div>
 			</div>
 		</div>
 		<div class="panel panel-default">
@@ -125,15 +115,44 @@
 				<h3 class="panel-title">Datos de la Solicitud</h3>
 			</div>
 			<div class="panel-body">
-				<div class="col-md-6">
+				<div class="col-md-6">					
+					<div class="row">
+						<div class="form-group col-md-8">
+							{{ Form::label('fecha_programacion','Fecha Programada') }}
+							{{ Form::text('fecha_programacion',date('d-m-Y',strtotime($ot_info->fecha_programacion)),array('class' => 'form-control','readonly'=>'')) }}
+						</div>
+					</div>
 					<div class="row">
 						<div class="col-md-8 form-group ">						
 							{{ Form::label('fecha_conformidad','Fecha de Conformidad') }}
-							<div id="datetimepicker_conformidad" class="input-group date col-md-8 @if($errors->first('fecha_conformidad')) has-error has-feedback @endif">
+							<div id="datetimepicker_conformidad_fecha" class="input-group date @if($errors->first('fecha_conformidad')) has-error has-feedback @endif">
 								@if($ot_info->fecha_conformidad == null)
 									{{ Form::text('fecha_conformidad',null,array('class'=>'form-control','readonly'=>'')) }}
 								@else
-									{{Form::text('fecha_conformidad',date('d-m-Y H:i:s',strtotime($ot_info->fecha_conformidad)),array('class'=>'form-control','readonly'=>'')) }}
+									{{Form::text('fecha_conformidad',date('d-m-Y',strtotime($ot_info->fecha_conformidad)),array('class'=>'form-control','readonly'=>'')) }}
+								@endif
+								<span class="input-group-addon">
+			                        <span class="glyphicon glyphicon-calendar"></span>
+			                    </span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="row">
+						<div class="form-group col-md-8">
+							{{ Form::label('hora_programacion','Hora Programada') }}
+							{{ Form::text('hora_programacion',date('H:i:s',strtotime($ot_info->fecha_programacion)),array('class' => 'form-control','readonly'=>'')) }}
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-8">
+							{{ Form::label('fecha_conformidad','Fecha de Conformidad') }}
+							<div id="datetimepicker_conformidad_hora" class="input-group date @if($errors->first('fecha_conformidad')) has-error has-feedback @endif">
+								@if($ot_info->fecha_conformidad == null)
+									{{ Form::text('hora_conformidad',null,array('class'=>'form-control','readonly'=>'')) }}
+								@else
+									{{Form::text('hora_conformidad',date('H:i:s',strtotime($ot_info->fecha_conformidad)),array('class'=>'form-control','readonly'=>'')) }}
 								@endif
 								<span class="input-group-addon">
 			                        <span class="glyphicon glyphicon-calendar"></span>
@@ -144,17 +163,16 @@
 				</div>
 			</div>
 		</div>
-
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h3 class="panel-title">Estado de la Orden de Trabajo</h3>
+				<h3 class="panel-title">Estado inicial del Equipo</h3>
 			</div>
-			<div class="panel-body">
+			<div class="panel-body">				
 				<div class="col-md-6">
 					<div class="row">
-						<div class="form-group col-md-8 @if($errors->first('prioridades')) has-error has-feedback @endif">
-							{{ Form::label('prioridades','Prioridad') }}
-							{{ Form::select('prioridades', $prioridades,$ot_info->idprioridad,['class' => 'form-control']) }}
+						<div class="form-group col-md-8 @if($errors->first('idestado_inicial')) has-error has-feedback @endif">
+							{{ Form::label('idestado_inicial','Estado Inicial del Activo') }}
+							{{ Form::select('idestado_inicial', $estado_activo,$ot_info->idestado_inicial,array('class'=>'form-control')) }}
 						</div>
 					</div>
 				</div>
@@ -166,46 +184,6 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-md-12">
-					<div class="row">
-						<div class="form-group col-md-12 @if($errors->first('descripcion_problema')) has-error has-feedback @endif">
-							{{ Form::label('descripcion_problema','Descripción del Problema') }}
-							{{ Form::textarea('descripcion_problema', $ot_info->descripcion_problema,array('class'=>'form-control','maxlength'=>'500')) }}
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<h3 class="panel-title">Datos del diagnóstico y programación</h3>
-			</div>
-			<div class="panel-body">
-				<div class="col-md-6">
-					<div class="row">
-						<div class="form-group col-md-8 @if($errors->first('tipo_falla')) has-error has-feedback @endif">
-							{{ Form::label('tipo_falla','Tipo de Falla') }}
-							{{ Form::select('tipo_falla', $tipo_fallas,$ot_info->tipo_falla,array('class'=>'form-control')) }}
-						</div>
-					</div>
-				</div>	
-				<div class="col-md-6">
-					<div class="row">
-						<div class="form-group col-md-8 @if($errors->first('idestado_inicial')) has-error has-feedback @endif">
-							{{ Form::label('idestado_inicial','Estado Inicial del Activo') }}
-							{{ Form::select('idestado_inicial', $estado_activo,$ot_info->idestado_inicial,array('class'=>'form-control')) }}
-						</div>
-					</div>
-				</div>
-				<div class="col-md-12">
-					<div class="row">
-						<div class="form-group col-md-12 @if($errors->first('diagnostico_falla')) has-error has-feedback @endif">
-							{{ Form::label('diagnostico_falla','Diagnóstico de la Falla') }}
-							{{ Form::textarea('diagnostico_falla', $ot_info->diagnostico_falla,array('class'=>'form-control','maxlength'=>'500')) }}
-						</div>
-					</div>
-				</div>
 			</div>
 		</div>
 
@@ -214,32 +192,36 @@
 				<h3 class="panel-title">Datos generales de la Orden de Trabajo de Mantenimiento</h3>
 			</div>
 			<div class="panel-body">
-				<table class="table">
-					<tr class="info">
-						<th>Actividad</th>
-						<th>Descripción</th>
-						<th>Realizada</th>
-					</tr>
-					@foreach($tareas as $tarea)
-					<tr>
-						<td>{{$tarea->nombre_tarea}}</td>
-						<td>{{$tarea->descripcion_tarea}}</td>
-						<td>
-							@if($tarea->idestado_realizado == 23)
-								{{ Form::button('Marcar realizada',array('class'=>'btn btn-default boton-tarea','data-id'=>$tarea->idorden_trabajoxactivoxtarea)) }}
-							@else
-								Realizada
-							@endif
-						</td>
-					</tr>
-					@endforeach
-				</table>
-						
+				<div class="row">
+					<div class="col-md-12">
+						<table class="table">
+							<tr class="info">
+								<th>Actividad</th>
+								<th>Descripción</th>
+								<th>Realizada</th>
+							</tr>
+							@foreach($tareas as $tarea)
+							<tr>
+								<td>{{$tarea->nombre_tarea}}</td>
+								<td>{{$tarea->descripcion_tarea}}</td>
+								<td>
+									@if($tarea->idestado_realizado == 23)
+										{{ Form::button('Marcar realizada',array('class'=>'btn btn-default boton-tarea','data-id'=>$tarea->idorden_trabajoxactivoxtarea)) }}
+									@else
+										Realizada
+									@endif
+								</td>
+							</tr>
+							@endforeach
+						</table>
+					</div>
+				</div>
+							
 				<div class="col-md-6">
 					<div class="row">
 						<div class="col-md-8 form-group ">
 							{{ Form::label('fecha_inicio_ejecucion','Fecha de Inicio') }}
-							<div class="datetimepicker form-group input-group date @if($errors->first('fecha_inicio_ejecucion')) has-error has-feedback @endif">
+							<div id="datetimepicker_fecha_inicio" class="input-group date @if($errors->first('fecha_inicio_ejecucion')) has-error has-feedback @endif">
 								{{ Form::text('fecha_inicio_ejecucion',null,array('class'=>'form-control','readonly'=>'')) }}
 								<span class="input-group-addon">
 			                        <span class="glyphicon glyphicon-calendar"></span>
@@ -265,7 +247,7 @@
 					<div class="row">
 						<div class="col-md-8 form-group ">
 							{{ Form::label('fecha_termino_ejecucion','Fecha de Término') }}
-							<div class="datetimepicker form-group input-group date @if($errors->first('fecha_termino_ejecucion')) has-error has-feedback @endif">
+							<div id="datetimepicker_fecha_fin" class="input-group date @if($errors->first('fecha_termino_ejecucion')) has-error has-feedback @endif">
 								{{ Form::text('fecha_termino_ejecucion',null,array('class'=>'form-control','readonly'=>'')) }}
 								<span class="input-group-addon">
 			                        <span class="glyphicon glyphicon-calendar"></span>
@@ -282,6 +264,7 @@
 				</div>
 			</div>
 		</div>
+
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">Datos de repuestos</h3>
@@ -299,10 +282,10 @@
 							{{ Form::text('cantidad_repuesto', null,array('class'=>'form-control','placeholder'=>'Cantidad')) }}
 						</div>
 						<div class="form-group col-md-2">
-							{{ Form::text('costo_repuesto', null,array('class'=>'form-control','placeholder'=>'Costo')) }}
+							{{ Form::text('costo_repuesto', null,array('class'=>'form-control','placeholder'=>'Costo (S/.)')) }}
 						</div>
 						<div class="form-group col-md-2">
-							{{ Form::button('Agregar',array('id'=>'submit-repuesto', 'class'=>'btn btn-primary')) }}
+							{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Agregar',array('id'=>'submit-repuesto', 'class'=>'btn btn-primary')) }}
 						</div>
 					</div>
 				</div>
@@ -327,7 +310,7 @@
 						</tr>
 						@endforeach
 					</table>
-					<div class="col-md-6">
+					<div class="col-md-7">
 				      {{ Form::label('costo_total_repuestos','Gasto Total Repuestos (S/.)',array('class'=>'col-sm-5')) }}
 				      <div class="col-md-3">
 				        {{ Form::text('costo_total_repuestos', number_format($otxact->costo_total_repuestos,2),array('class'=>'form-control','placeholder'=>'Costo','readonly'=>'')) }}
@@ -343,17 +326,17 @@
 			<div class="panel-body">
 				<div class="col-md-12">
 					<div class="row">
-						<div class="form-group col-md-6">
+						<div class="form-group col-md-5">
 							{{ Form::text('nombre_personal', null,array('class'=>'form-control','placeholder'=>'Nombres Apellidos')) }}
 						</div>
-						<div class="form-group col-md-2">
+						<div class="form-group col-md-3">
 							{{ Form::text('horas_trabajadas', null,array('class'=>'form-control','placeholder'=>'Hrs. Trab. ejem: 0.5')) }}
 						</div>
 						<div class="form-group col-md-2">
-							{{ Form::text('costo_personal', null,array('class'=>'form-control','placeholder'=>'Costo')) }}
+							{{ Form::text('costo_personal', null,array('class'=>'form-control','placeholder'=>'Costo (S/.)')) }}
 						</div>
 						<div class="form-group col-md-2">
-							{{ Form::button('Agregar',array('id'=>'submit-personal', 'class'=>'btn btn-primary')) }}
+							{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Agregar',array('id'=>'submit-personal', 'class'=>'btn btn-primary')) }}
 						</div>
 					</div>
 				</div>
@@ -376,7 +359,7 @@
 						</tr>
 						@endforeach
 					</table>
-					<div class="col-md-7">
+					<div class="col-md-8">
 				      {{ Form::label('costo_total_personal','Gasto Total Mano de Obra (S/.)',array('class'=>'col-sm-5')) }}
 				      <div class="col-md-3">
 				        {{ Form::text('costo_total_personal', number_format($otxact->costo_total_personal,2),array('class'=>'form-control','placeholder'=>'Costo','readonly'=>'')) }}
@@ -386,8 +369,8 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="form-group col-md-2 col-md-offset-8">
-				{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Crear', array('id'=>'submit_create_ots', 'class' => 'btn btn-primary btn-block')) }}
+			<div class="form-group col-md-2">
+				{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit_create_ots', 'type'=>'submit','class' => 'btn btn-primary btn-block')) }}
 			</div>
 			<div class="form-group col-md-2">
 				<a class="btn btn-default btn-block" href="{{URL::to('/mant_preventivo/list_mant_preventivo')}}">Cancelar</a>				
@@ -395,3 +378,22 @@
 		</div>	
 	{{ Form::close() }}
 @stop
+<div class="container">
+  <!-- Modal -->
+  <div class="modal fade" id="modal_info" role="dialog">
+    <div class="modal-dialog modal-md">    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header" id="modal_header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Advertencia</h4>
+        </div>
+        <div class="modal-body" id="modal_text">         	
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" id="btn_close_modal" data-dismiss="modal">Aceptar</button>
+        </div>
+      </div>      
+    </div>
+  </div>  
+</div>

@@ -1,12 +1,12 @@
 <?php
 
-class OtPreventivoController extends BaseController {
+class OtInspecInfraestructuraController extends BaseController {
 
 	private static $nombre_tabla = 'estado_ot';
 	//private static $equipo_noint = 'estado_equipo_noint';
 	private static $estado_activo = 'estado_activo';
 
-	public function render_program_ot_mant_preventivo($id=null)
+	public function render_program_ot_inspec_infraestructura($id=null)
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
@@ -19,8 +19,9 @@ class OtPreventivoController extends BaseController {
 				$data["trimestre_fin"] = null;
 				$this->calcular_trimestre($data["trimestre_ini"],$data["trimestre_fin"]);
 				$data['solicitantes'] = User::getJefes()->get();
+				$data['servicios'] = Servicio::lists('nombre','idservicio');
 				
-				return View::make('ot/createProgramOtMantPre',$data);
+				return View::make('ot/createProgramOtInspecInfraestructura',$data);
 			}else{
 				return View::make('error/error');
 			}
@@ -30,7 +31,7 @@ class OtPreventivoController extends BaseController {
 		}
 	}
 
-	public function search_equipo_ajax(){
+	public function search_servicio_ajax(){
 		if(!Request::ajax() || !Auth::check()){
 			return Response::json(array( 'success' => false ),200);
 		}
@@ -98,7 +99,7 @@ class OtPreventivoController extends BaseController {
 		return;
 	}
 
-	public function list_mant_preventivo()
+	public function list_inspec_infraestructura()
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
@@ -108,17 +109,13 @@ class OtPreventivoController extends BaseController {
 				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
 				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
 				$data["search_ing"] = null;
-				$data["search_cod_pat"] = null;
-				$data["search_ubicacion"] = null;
 				$data["search_ot"] = null;
-				$data["search_equipo"] = null;
-				$data["search_proveedor"] = null;
 				$data["search_ini"] = null;
 				$data["search_fin"] = null;
 				$data["search_servicio"] = null;
 				$data["servicios"] = Servicio::lists('nombre','idservicio');
-				$data["mant_preventivos_data"] = OrdenesTrabajo::getOtsMantPreventivoInfo()->get();
-				return View::make('ot/listOtMantPreventivo',$data);
+				$data["inspecciones_infraestructura_data"] = OrdenesTrabajo::getOtsInspecInfraestructuraInfo(6)->get();
+				return View::make('ot/listOtInspecInfraestructura',$data);
 			}else{
 				return View::make('error/error');
 			}
@@ -140,7 +137,7 @@ class OtPreventivoController extends BaseController {
 			$trimestre_ini=date("Y-m-d",strtotime(Input::get('trimestre_ini')));
 			$trimestre_fin=date("Y-m-d",strtotime(Input::get('trimestre_fin')));
 			$array_programaciones = null;	
-			$array_programaciones =  OrdenesTrabajosxactivo::getOtXTipoXPeriodo(2,9,$trimestre_ini,$trimestre_fin)->get()->toArray();
+			//$array_programaciones =  OrdenesTrabajosxactivo::getOtXTipoXPeriodo(2,9,$trimestre_ini,$trimestre_fin)->get()->toArray();
 			$programaciones = [];
 			$length = sizeof($array_programaciones);					
 			for($i=0;$i<$length;$i++){
@@ -153,7 +150,7 @@ class OtPreventivoController extends BaseController {
 		}
 	}
 
-	public function search_ot_mant_preventivo()
+	public function search_ot_inspec_infraestructura()
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
@@ -164,17 +161,13 @@ class OtPreventivoController extends BaseController {
 				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
 				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
 				$data["search_ing"] = Input::get('search_ing');
-				$data["search_cod_pat"] = Input::get('search_cod_pat');
-				$data["search_ubicacion"] = Input::get('search_ubicacion');
 				$data["search_ot"] = Input::get('search_ot');
-				$data["search_equipo"] = Input::get('search_equipo');
-				$data["search_proveedor"] = Input::get('search_proveedor');
 				$data["search_ini"] = Input::get('search_ini');
 				$data["search_fin"] = Input::get('search_fin');
 				$data["search_servicio"] = Input::get('search_servicio');
 				$data["servicios"] = Servicio::lists('nombre','idservicio');
-				$data["mant_preventivos_data"] = OrdenesTrabajo::searchOtsMantPreventivo($data["search_ing"],$data["search_cod_pat"],$data["search_ubicacion"],$data["search_ot"],$data["search_equipo"],$data["search_proveedor"],$data["search_ini"],$data["search_fin"],$data["search_servicio"])->paginate(10);
-				return View::make('ot/listOtMantPreventivo',$data);
+				$data["mant_preventivos_data"] = OrdenesTrabajo::searchOtsInspecInfraestructura($data["search_ing"],$data["search_ot"],$data["search_ini"],$data["search_fin"],$data["search_servicio"])->paginate(10);
+				return View::make('ot/listOtInspecInfraestructura',$data);
 			}else{
 				return View::make('error/error');
 			}
@@ -199,7 +192,7 @@ class OtPreventivoController extends BaseController {
 		return $string;
 	}
 
-	public function submit_program_ot_mant_preventivo(){
+	public function submit_program_ot_inspec_infraestructura(){
 		if(!Request::ajax() || !Auth::check()){
 			return Response::json(array( 'success' => false ),200);
 		}
