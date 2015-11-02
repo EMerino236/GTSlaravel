@@ -328,4 +328,48 @@ class OtVerificacionMetrologicaController extends BaseController {
 		}
 	}
 
+	public function submit_create_personal_ajax()
+	{
+		// If there was an error, respond with 404 status
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1){
+
+			$personal = new DetallePersonalxot;
+			$personal->nombre = Input::get('nombre_personal');
+			$personal->horas_hombre = Input::get('horas_trabajadas');
+			$personal->costo = Input::get('costo_personal');
+			$personal->idorden_trabajoxactivo = Input::get('idorden_trabajoxactivo');
+			$personal->save();
+			$otxact = OrdenesTrabajosxactivo::find(Input::get('idorden_trabajoxactivo'));
+			$otxact->costo_total_personal = $otxact->costo_total_personal + Input::get('horas_trabajadas')*Input::get('costo_personal');
+			$otxact->save();
+			return Response::json(array( 'success' => true,'personal'=>$personal,'costo_total_personal' => number_format($otxact->costo_total_personal,2)),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
+	public function submit_delete_personal_ajax()
+	{
+		// If there was an error, respond with 404 status
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1){
+
+			$personal = DetallePersonalxot::find(Input::get('iddetalle_personalxot'));
+			$otxact = OrdenesTrabajosxactivo::find(Input::get('idorden_trabajoxactivo'));
+			$otxact->costo_total_personal = $otxact->costo_total_personal - $personal->horas_hombre*$personal->costo;
+			$otxact->save();
+			$personal->delete();
+			return Response::json(array( 'success' => true,'costo_total_personal' => number_format($otxact->costo_total_personal,2)),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
 }

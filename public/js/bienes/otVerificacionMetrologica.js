@@ -14,27 +14,6 @@ $( document ).ready(function(){
 		sideBySide: true
 	});
 
-	$(".boton-tarea").click(function(e){
-		e.preventDefault;
-		if (confirm('¿Está seguro de esta acción?')){
-			$.ajax({
-				url: inside_url+'marcar_tarea/submit_marcar_tarea_ajax',
-				type: 'POST',
-				data: { 'idotxactxta' : $(this).data('id') },
-				beforeSend: function(){
-				},
-				complete: function(){
-				},
-				success: function(response){
-					console.log(response);
-					$(this).prop('disabled',true);
-				},
-				error: function(){
-				}
-			});
-		}
-	});
-
 	$("#submit-personal").click(function(e){
 		e.preventDefault;
 		if (confirm('¿Está seguro de esta acción?')){
@@ -89,6 +68,10 @@ $( document ).ready(function(){
 						str += '<td><button class="btn btn-danger boton-eliminar-personal" onclick="eliminar_personal(event,'+response.personal.iddetalle_personalxot+')" type="button">Eliminar</button></td></tr>';
 						$("#personal-table").append(str);
 						$("input[name=costo_total_personal]").val(response.costo_total_personal);
+
+						$("input[name=nombre_personal]").val('');
+						$("input[name=horas_trabajadas]").val('');
+						$("input[name=costo_personal]").val('');
 					},
 					error: function(){
 					}

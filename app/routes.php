@@ -329,8 +329,6 @@ Route::group(array('prefix'=>'verif_metrologica','before'=>'auth'),function(){
 	Route::get('/search_ot_verif_metrologica','OtVerificacionMetrologicaController@search_ot_verif_metrologica');
 	Route::get('/create_ot_verif_metrologica/{id}','OtVerificacionMetrologicaController@render_create_ot_verif_metrologica');
 	Route::post('/submit_create_ot','OtVerificacionMetrologicaController@submit_create_ot');
-	Route::post('/submit_create_repuesto_ajax','OtVerificacionMetrologicaController@submit_create_repuesto_ajax');
-	Route::post('/submit_delete_repuesto_ajax','OtVerificacionMetrologicaController@submit_delete_repuesto_ajax');
 	Route::post('/submit_create_personal_ajax','OtVerificacionMetrologicaController@submit_create_personal_ajax');
 	Route::post('/submit_delete_personal_ajax','OtVerificacionMetrologicaController@submit_delete_personal_ajax');
 });
