@@ -3,6 +3,7 @@
 	<div class="row">
         <div class="col-lg-12">
             <h3 class="page-header">Reportes de Retiro de Servicios</h3>
+            <p class="text-right">{{ HTML::link('/retiro_servicio/create_reporte_retiro_servicio','+ Agregar Reporte',array('class'=>'')) }}</p>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -104,6 +105,9 @@
 				</td>
 				<td>
 					{{$reporte_retiro_data->nombre_motivo}}
+				</td>
+				<td>
+					Programar
 				</td>
 			</tr>
 			@endforeach

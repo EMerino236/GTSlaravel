@@ -406,9 +406,8 @@ class OtController extends BaseController {
 		if($data["user"]->idrol == 1){
 			$tarea = new Tarea;
 			$tarea->nombre = Input::get('nombre_tarea');
-			$tarea->estado = 1;
+			$tarea->idestado = 1;
 			$tarea->save();
-			
 			$otxactxta = new OrdenesTrabajosxactivoxtarea;
 			$otxactxta->idestado_realizado = 22;
 			$otxactxta->idorden_trabajoxactivo = Input::get('idorden_trabajoxactivo');
@@ -420,7 +419,7 @@ class OtController extends BaseController {
 		}
 	}
 
-	public function submit_marcar_tarea_ajax()
+	public function submit_delete_tarea_ajax()
 	{
 		// If there was an error, respond with 404 status
 		if(!Request::ajax() || !Auth::check()){
@@ -428,10 +427,8 @@ class OtController extends BaseController {
 		}
 		$data["user"] = Session::get('user');
 		if($data["user"]->idrol == 1){
-			$idotxactxta = Input::get('idotxactxta');
-			$otxactxta = OrdenesTrabajosxactivoxtarea::find($idotxactxta);
-			$otxactxta->idestado_realizado = 22;
-			$otxactxta->save();
+			$idotxactxta = OrdenesTrabajosxactivoxtarea::find(Input::get('idorden_trabajoxactivoxtarea'));
+			$idotxactxta->delete();
 			return Response::json(array( 'success' => true),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);

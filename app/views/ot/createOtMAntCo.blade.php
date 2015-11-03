@@ -227,7 +227,7 @@
 				<div class="col-xs-12">
 					<div class="row">
 						<div class="form-group col-xs-10">
-							{{ Form::text('descripcion_tarea', null,array('class'=>'form-control','placeholder'=>'Ingrese aquí la tarea realizada')) }}
+							{{ Form::text('nombre_tarea', null,array('class'=>'form-control','placeholder'=>'Ingrese aquí la tarea realizada')) }}
 						</div>
 						<div class="form-group col-xs-2">
 							{{ Form::button('Agregar',array('id'=>'submit-tarea', 'class'=>'btn btn-primary')) }}

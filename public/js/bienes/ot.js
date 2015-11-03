@@ -37,7 +37,7 @@ $( document ).ready(function(){
 
 	$("#submit-tarea").click(function(e){
 		e.preventDefault;
-		if($("input[name=nombre_tarea]").val().length<1){
+		if($("input[name=nombre_tarea]").val().length <1){
 			$("input[name=nombre_tarea]").parent().addClass("has-error has-feedback");
 			alert("Ingrese una tarea válida.");
 		}else{
@@ -221,6 +221,30 @@ function initialize_calendar(programaciones){
     	translateMonths:{0:'Enero',1:'Febrero',2:'Marzo',3:'Abril',4:'Mayo',5:'Junio',6:'Julio',7:'Agosto',8:'Septiembre',9:'Octubre',10:'Noviembre',11:'Diciembre'},
     	events: programaciones,
     });
+}
+
+function eliminar_tarea(e,id){
+	e.preventDefault();
+	if (confirm('¿Está seguro de eliminar la tarea?')){
+		$.ajax({
+			url: inside_url+'mant_correctivo/submit_delete_tarea_ajax',
+			type: 'POST',
+			data: { 
+				'idorden_trabajoxactivoxtarea' : id,
+			},
+			beforeSend: function(){
+				//$(this).prop('disabled',true);
+			},
+			complete: function(){
+				//$(this).prop('disabled',false);
+			},
+			success: function(response){
+				$("#tarea-row-"+id).remove();
+			},
+			error: function(){
+			}
+		});
+	}
 }
 
 function eliminar_repuesto(e,id){

@@ -198,6 +198,7 @@ Route::group(array('prefix'=>'mant_correctivo','before'=>'auth'),function(){
 	Route::get('/create_ot/{id}','OtController@render_create_ot');
 	Route::post('/submit_create_ot','OtController@submit_create_ot');
 	Route::post('/submit_create_tarea_ajax','OtController@submit_create_tarea_ajax');
+	Route::post('/submit_delete_tarea_ajax','OtController@submit_delete_tarea_ajax');
 	Route::post('/submit_create_repuesto_ajax','OtController@submit_create_repuesto_ajax');
 	Route::post('/submit_delete_repuesto_ajax','OtController@submit_delete_repuesto_ajax');
 	Route::post('/submit_create_personal_ajax','OtController@submit_create_personal_ajax');
@@ -206,6 +207,8 @@ Route::group(array('prefix'=>'mant_correctivo','before'=>'auth'),function(){
 /* Retiro Servicio */
 Route::group(array('prefix'=>'retiro_servicio','before'=>'auth'),function(){
 	/* Reporte de retiro de servicio */
+	Route::get('/create_reporte_retiro_servicio','RetiroServicioController@render_create_reporte_retiro_servicio');
+	Route::post('/submit_create_reporte_retiro_servicio','RetiroServicioController@submit_create_reporte_retiro_servicio');
 	Route::get('/list_reporte_retiro_servicio','RetiroServicioController@list_reporte_retiro_servicio');
 	Route::get('/search_reporte_retiro_servicio','RetiroServicioController@search_reporte_retiro_servicio');
 	/*
