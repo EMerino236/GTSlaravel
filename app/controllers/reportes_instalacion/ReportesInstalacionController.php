@@ -2,7 +2,7 @@
 	  
 class ReportesInstalacionController extends BaseController {
 
-	public function render_create_rep_instalacion()
+	public function render_create_rep_instalacion($id=null)
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
@@ -12,6 +12,11 @@ class ReportesInstalacionController extends BaseController {
 				$data["areas"] = Area::lists('nombre','idarea');
 				$data["proveedores"] = Proveedor::lists('razon_social','idproveedor');
 				$data["tipos_reporte_instalacion"] = TipoReporteInstalacion::lists('nombre','idtipo_reporte_instalacion');
+				$data["reporte_instalacion_info"] = null;
+				if($id){
+					$data["reporte_instalacion_info"] = ReporteInstalacion::searchReporteInstalacionById($id)->get();
+					$data["reporte_instalacion_info"] = $data["reporte_instalacion_info"][0];
+				}
 				return View::make('reportes_instalacion/createReporteInstalacion',$data);
 			}else{
 				return View::make('error/error');
@@ -178,6 +183,11 @@ class ReportesInstalacionController extends BaseController {
 				$data["tipos_reporte_instalacion"] = TipoReporteInstalacion::lists('nombre','idtipo_reporte_instalacion');
 				$data["reporte_instalacion_info"] = ReporteInstalacion::searchReporteInstalacionById($id)->get();
 				$data["reporte_instalacion_info"] = $data["reporte_instalacion_info"][0];
+				$data["reporte_instalacion_entorno_concluido"] = null;
+				if($data["reporte_instalacion_info"]->idtipo_reporte_instalacion == 2){
+					$data["reporte_instalacion_entorno_concluido"] = ReporteInstalacion::searchReporteInstalacionById($data["reporte_instalacion_info"]->idreporte_instalacion_entorno_concluido)->get();
+					$data["reporte_instalacion_entorno_concluido"] = $data["reporte_instalacion_entorno_concluido"][0];
+				}
 				$data["tareas_info"] = DetalleReporteInstalacion::searchDetalleReporteByIdReporteInstalacion($id);
 				$data["usuario_responsable"] = User::searchUserById($data["reporte_instalacion_info"]->id_responsable)->get()[0];
 				$data["documento_certificado_funcionalidad"] = Documento::searchDocumentoCertificadoFuncionalidadByIdReporteInstalacion($id)->get();			

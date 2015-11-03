@@ -280,7 +280,7 @@ Route::group(array('prefix'=>'rep_instalacion','before'=>'auth'),function(){
 	Route::get('/list_rep_instalacion','ReportesInstalacionController@list_rep_instalacion');
 	Route::get('/edit_rep_instalacion/{id}','ReportesInstalacionController@render_edit_rep_instalacion');
 	Route::post('/submit_edit_rep_instalacion','ReportesInstalacionController@submit_edit_rep_instalacion');
-	Route::get('/create_rep_instalacion','ReportesInstalacionController@render_create_rep_instalacion');
+	Route::get('/create_rep_instalacion/{id?}','ReportesInstalacionController@render_create_rep_instalacion');
 	Route::post('/submit_create_rep_instalacion','ReportesInstalacionController@submit_create_rep_instalacion');
 	Route::get('/search_rep_instalacion','ReportesInstalacionController@search_rep_instalacion');
 	Route::post('/return_name_responsable/{postData}','ReportesInstalacionController@return_name_responsable');

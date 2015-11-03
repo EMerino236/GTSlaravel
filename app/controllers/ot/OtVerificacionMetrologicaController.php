@@ -175,7 +175,7 @@ class OtVerificacionMetrologicaController extends BaseController {
 				$data["search_servicio"] = Input::get('search_servicio');
 				$data["search_ini"] = Input::get('search_ini');
 				$data["search_fin"] = Input::get('search_fin');
-				$data["Verif_metrologicas_data"] = OrdenesTrabajo::searchOtsVerifMetrologica($data["search_ing"],$data["search_cod_pat"],$data["search_ubicacion"],$data["search_ot"],$data["search_equipo"],$data["search_proveedor"],$data["search_servicio"],$data["search_ini"],$data["search_fin"])->paginate(10);				
+				$data["Verif_metrologicas_data"] = OrdenesTrabajo::searchOtsVerifMetrologica($data["search_ing"],$data["search_cod_pat"],$data["search_ubicacion"],$data["search_ot"],$data["search_equipo"],$data["search_proveedor"],$data["search_servicio"],$data["search_ini"],$data["search_fin"])->paginate(10);								
 				return View::make('ot/listOtVerificacionMetrologica',$data);
 			}else{
 				return View::make('error/error');
@@ -312,14 +312,53 @@ class OtVerificacionMetrologicaController extends BaseController {
 				$data["ot_info"] = $data["ot_info"][0];
 				$data["otxact"] = OrdenesTrabajosxactivo::getOtXActivo($id,$data["ot_info"]->idactivo)->get();
 				if($data["otxact"]->isEmpty()){
-					$data["tareas"] = array();
-					$data["repuestos"] = array();
 					$data["personal_data"] = array();
 				}else{
 					$data["otxact"] = $data["otxact"][0];
 					$data["personal_data"] = DetallePersonalxot::getPersonalXOtXActi($data["otxact"]->idorden_trabajoxactivo)->get();
 				}
 				return View::make('ot/createOtVerificacionMetrologica',$data);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function submit_create_ot()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if(($data["user"]->idrol == 1)){
+				$idordenes_trabajo = Input::get('idordenes_trabajo');
+				// Validate the info, create rules for the inputs
+				$rules = array(
+							'idestado' => 'required',
+							'idestado_inicial' => 'required',
+							'idestado_final' => 'required',
+						);
+				// Run the validation rules on the inputs from the form
+				$validator = Validator::make(Input::all(), $rules);
+				// If the validator fails, redirect back to the form
+				if($validator->fails()){
+					return Redirect::to('verif_metrologica/create_ot_verif_metrologica/'.$idordenes_trabajo)->withErrors($validator)->withInput(Input::all());
+				}else{
+					$ot = OrdenesTrabajo::find($idordenes_trabajo);
+					$ot->idestado = Input::get('idestado');
+					$ot->idestado_inicial = Input::get('idestado_inicial');
+					$ot->idestado_final = Input::get('idestado_final');
+					if(Input::get('fecha_conformidad'))
+						$ot->fecha_conformidad = date('Y-m-d H:i:s',strtotime(Input::get('fecha_conformidad')." ".Input::get('hora_conformidad')));
+					$ot->save();
+					$activo = Activo::find(Input::get('idactivo'));
+					$activo->idestado = Input::get('idestado_final');
+					$activo->save();
+					Session::flash('message', 'Se guardó correctamente la información.');
+					return Redirect::to('verif_metrologica/create_ot_verif_metrologica/'.$idordenes_trabajo);
+				}
 			}else{
 				return View::make('error/error');
 			}

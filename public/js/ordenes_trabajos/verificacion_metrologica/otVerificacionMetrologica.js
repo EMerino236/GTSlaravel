@@ -7,7 +7,7 @@ $( document ).ready(function(){
 		sideBySide: true
 	});
 
-	$("#datetimepicker_conformidad_fecha").datetimepicker({
+	$("#datetimepicker_conformidad").datetimepicker({
 		defaultDate: false,
 		ignoreReadonly: true,
 		format: 'DD-MM-YYYY HH:ss',

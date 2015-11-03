@@ -2,7 +2,7 @@
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Ver Reporte de Instalación</h3>
+            <h3 class="page-header">Ver Reporte de Instalación: {{$reporte_instalacion_info->numero_reporte_abreviatura.$reporte_instalacion_info->numero_reporte_correlativo."-".$reporte_instalacion_info->numero_reporte_anho}}</h3>
         </div>
         <!-- /.col-lg-12 -->
     </div>    
@@ -32,27 +32,44 @@
 		    	<h3 class="panel-title">Datos Generales</h3>
 		  	</div>
   			<div class="panel-body">
-				<div class="col-md-6">
+				<div class="col-md-12">
 					<div class="form-group row">
-						<div class="form-group col-md-8 @if($errors->first('idtipo_reporte_instalacion')) has-error has-feedback @endif">
+						<div class="form-group col-md-4 @if($errors->first('idtipo_reporte_instalacion')) has-error has-feedback @endif">
 							{{ Form::label('idtipo_reporte_instalacion','Tipo de Reporte de Instalación') }}
 							{{ Form::select('idtipo_reporte_instalacion',array('' => 'Seleccione') + $tipos_reporte_instalacion,$reporte_instalacion_info->idtipo_reporte_instalacion,['disabled' => 'disabled', 'class' => 'form-control','readonly'=>'']) }}												
 						</div>
 					</div>
 					<div class="form-group row">
-						<div class="form-group col-md-8 @if($errors->first('codigo_compra')) has-error has-feedback @endif">
+						<div class="form-group col-md-4 @if($errors->first('codigo_compra')) has-error has-feedback @endif">
 							{{ Form::label('codigo_compra','Código de Compra') }}
 							{{ Form::text('codigo_compra',$reporte_instalacion_info->codigo_compra,array('class'=>'form-control','readonly'=>'')) }}
 						</div>
+						<div class="form-group col-md-4 @if($errors->first('idarea')) has-error has-feedback @endif">
+							{{ Form::label('idarea','Departamento') }}
+							@if($reporte_instalacion_info->deleted_at)
+								{{ Form::select('idarea',array('' => 'Seleccione') + $areas,$reporte_instalacion_info->idarea,['class' => 'form-control','readonly'=>'']) }}
+							@else
+								{{ Form::select('idarea',array('' => 'Seleccione') + $areas,$reporte_instalacion_info->idarea,['class' => 'form-control']) }}
+							@endif
+						</div>
 					</div>						
 					<div class="form-group row">
-						<div class="form-group col-md-8 @if($errors->first('idproveedor')) has-error has-feedback @endif">
+						<div class="form-group col-md-4 @if($errors->first('idproveedor')) has-error has-feedback @endif">
 							{{ Form::label('idproveedor','Proveedor') }}
 							@if($reporte_instalacion_info->deleted_at)
 								{{ Form::select('idproveedor',array('' => 'Seleccione') + $proveedores,$reporte_instalacion_info->idproveedor,['class' => 'form-control','readonly'=>'']) }}
 							@else
 								{{ Form::select('idproveedor',array('' => 'Seleccione') + $proveedores,$reporte_instalacion_info->idproveedor,['class' => 'form-control']) }}
 							@endif
+						</div>
+						<div class="col-md-4">
+							{{ Form::label('fecha','Fecha') }}
+							<div id="datetimepicker1" class="form-group input-group date @if($errors->first('fecha')) has-error has-feedback @endif">
+								{{ Form::text('fecha',date('d-m-Y',strtotime($reporte_instalacion_info->fecha)),array('class'=>'form-control', 'readonly'=>'')) }}
+								<span class="input-group-addon">
+			                        <span class="glyphicon glyphicon-calendar"></span>
+			                    </span>
+							</div>
 						</div>
 					</div>
 					<div class="form-group row">
@@ -66,33 +83,6 @@
 						</div>
 					</div>
 				</div>	
-				<div class="col-md-6">
-					<div class="form-group row">
-						<div class="form-group col-md-8">
-							{{ Form::label('numero_reporte','Número de Reporte') }}
-							{{ Form::text('numero_reporte',$reporte_instalacion_info->numero_reporte_abreviatura.$reporte_instalacion_info->numero_reporte_correlativo."-".$reporte_instalacion_info->numero_reporte_anho,['class' => 'form-control','readonly'=>'']) }}							
-						</div>
-					</div>
-					<div class="form-group row">
-						<div class="form-group col-md-8 @if($errors->first('idarea')) has-error has-feedback @endif">
-							{{ Form::label('idarea','Departamento') }}
-							@if($reporte_instalacion_info->deleted_at)
-								{{ Form::select('idarea',array('' => 'Seleccione') + $areas,$reporte_instalacion_info->idarea,['class' => 'form-control','readonly'=>'']) }}
-							@else
-								{{ Form::select('idarea',array('' => 'Seleccione') + $areas,$reporte_instalacion_info->idarea,['class' => 'form-control']) }}
-							@endif
-						</div>
-					</div>
-					<div class="form-group row">
-						{{ Form::label('fecha','Fecha') }}
-						<div id="datetimepicker1" class="form-group input-group date col-md-8 @if($errors->first('fecha')) has-error has-feedback @endif">
-							{{ Form::text('fecha',date('d-m-Y',strtotime($reporte_instalacion_info->fecha)),array('class'=>'form-control', 'readonly'=>'')) }}
-							<span class="input-group-addon">
-		                        <span class="glyphicon glyphicon-calendar"></span>
-		                    </span>
-						</div>
-					</div>
-				</div>	
 			</div>
 		</div>
 
@@ -101,17 +91,13 @@
 		    	<h3 class="panel-title">Detalle de Tarea</h3>
 		  	</div>
   			<div class="panel-body">
-  				<div class="col-md-6">
+  				<div class="col-md-12">
 					<div class="form-group row">
-						<div class="form-group col-md-10 @if($errors->first('nombre_tarea')) has-error has-feedback @endif">
+						<div class="form-group col-md-6 @if($errors->first('nombre_tarea')) has-error has-feedback @endif">
 							{{ Form::label('nombre_tarea','Nombre de Tarea') }}
 							{{ Form::text('nombre_tarea',Input::old('nombre_tarea'),array('class'=>'form-control')) }}
 						</div>
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="form-group row">
-						<div class="form-group col-md-6 @if($errors->first('tarea_realizada')) has-error has-feedback @endif">
+						<div class="form-group col-md-4 @if($errors->first('tarea_realizada')) has-error has-feedback @endif">
 							{{ Form::label('tarea_realizada','Estado de Tarea') }}
 							{{ Form::select('tarea_realizada',array('1' => 'Realizado','0' => 'No Realizado'),Input::old('tarea_realizada'),['class' => 'form-control']) }}
 						</div>
@@ -183,26 +169,27 @@
   			</div>
   		</div>
   		<div class="row">
-			<div class="col-md-12">
-				<div class="panel panel-default" id="panel-documentos-relacionados" hidden>
-	  				<div class="panel-heading">Documentos Relacionados</div>
-	  				<div class="panel-body">
+			<div class="panel panel-default" id="panel-documentos-relacionados" hidden>
+  				<div class="panel-heading">Documentos Relacionados</div>
+  				<div class="panel-body">
+					<div class="col-md-12">
 						<div class="row">
 							<div class="form-group col-md-3 @if($errors->first('numero_reporte_entorno_concluido')) has-error has-feedback @endif">
 								{{ Form::label('numero_reporte_entorno_concluido','N° Rep. Entorno Concluido') }}
-								{{ Form::text('numero_reporte_entorno_concluido',Input::old('numero_reporte_entorno_concluido'),['class' => 'form-control','id'=>'numero_reporte_entorno_concluido'])}}							
-							<div class="form-group col-md-4"  style="margin-left:15px">
-								{{ Form::label('mensaje_validacion','Validación') }}
-								{{ Form::text('mensaje_validacion',Input::old('mensaje_validacion'),['class' => 'form-control','id'=>'mensaje_validacion','disabled'=>'disabled'])}}
-							</div>							
+								@if($reporte_instalacion_entorno_concluido)
+									{{ Form::text('numero_reporte_entorno_concluido',$reporte_instalacion_entorno_concluido->numero_reporte_abreviatura.$reporte_instalacion_entorno_concluido->numero_reporte_correlativo."-".$reporte_instalacion_entorno_concluido->numero_reporte_anho,['readonly'=>'','class' => 'form-control','id'=>'numero_reporte_entorno_concluido'])}}							
+								@else
+									{{ Form::text('numero_reporte_entorno_concluido','',['class' => 'form-control','id'=>'numero_reporte_entorno_concluido'])}}							
+								@endif
+							</div>						
 						</div>
 						<div class="row">
 							<div class="form-group col-md-3 @if($errors->first('num_doc_relacionado1')) has-error has-feedback @endif">
 								{{ Form::label('num_doc_relacionado1','Cód. Archivamiento') }}
 								@if($documento_certificado_funcionalidad != null)
-									{{ Form::text('num_doc_relacionado1','$documento_certificado_funcionalidad->codigo_archivamiento',['class' => 'form-control','id'=>'num_doc_relacionado1'])}}
+									{{ Form::text('num_doc_relacionado1','$documento_certificado_funcionalidad->codigo_archivamiento',['readonly'=>'','class' => 'form-control','id'=>'num_doc_relacionado1'])}}
 								@else
-									{{ Form::text('num_doc_relacionado1','',['class' => 'form-control','id'=>'num_doc_relacionado1'])}}
+									{{ Form::text('num_doc_relacionado1','',['readonly'=>'','class' => 'form-control','id'=>'num_doc_relacionado1'])}}
 								@endif
 							</div>
 							<div class="form-group col-md-4"  style="margin-left:15px">
@@ -218,9 +205,9 @@
 							<div class="form-group col-md-3 @if($errors->first('num_doc_relacionado2')) has-error has-feedback @endif">
 								{{ Form::label('num_doc_relacionado2','Cód. Archivamiento') }}
 								@if($documento_contrato != null)
-									{{ Form::text('num_doc_relacionado2',$documento_contrato->codigo_archivamiento,['class' => 'form-control','id'=>'num_doc_relacionado2'])}}
+									{{ Form::text('num_doc_relacionado2',$documento_contrato->codigo_archivamiento,['readonly'=>'','class' => 'form-control','id'=>'num_doc_relacionado2'])}}
 								@else
-									{{ Form::text('num_doc_relacionado2','',['class' => 'form-control','id'=>'num_doc_relacionado2'])}}
+									{{ Form::text('num_doc_relacionado2','',['readonly'=>'','class' => 'form-control','id'=>'num_doc_relacionado2'])}}
 								@endif
 							</div>
 							<div class="form-group col-md-4"  style="margin-left:15px">
@@ -236,9 +223,9 @@
 							<div class="form-group col-md-3 @if($errors->first('num_doc_relacionado3')) has-error has-feedback @endif">
 								{{ Form::label('num_doc_relacionado3','Cód. Archivamiento') }}
 								@if($documento_manual != null)								
-									{{ Form::text('num_doc_relacionado3',$documento_manual->codigo_archivamiento,['class' => 'form-control','id'=>'num_doc_relacionado3'])}}
+									{{ Form::text('num_doc_relacionado3',$documento_manual->codigo_archivamiento,['readonly'=>'','class' => 'form-control','id'=>'num_doc_relacionado3'])}}
 								@else							
-									{{ Form::text('num_doc_relacionado3','',['class' => 'form-control','id'=>'num_doc_relacionado3'])}}
+									{{ Form::text('num_doc_relacionado3','',['readonly'=>'','class' => 'form-control','id'=>'num_doc_relacionado3'])}}
 								@endif
 							</div>
 							<div class="form-group col-md-4"  style="margin-left:15px">
@@ -254,9 +241,9 @@
 							<div class="form-group col-md-3 @if($errors->first('num_doc_relacionado4')) has-error has-feedback @endif">
 								{{ Form::label('num_doc_relacionado4','Cód. Archivamiento') }}
 								@if($documento_tdr != null)	
-									{{ Form::text('num_doc_relacionado4',$documento_tdr->codigo_archivamiento,['class' => 'form-control','id'=>'num_doc_relacionado4'])}}
+									{{ Form::text('num_doc_relacionado4',$documento_tdr->codigo_archivamiento,['readonly'=>'','class' => 'form-control','id'=>'num_doc_relacionado4'])}}
 								@else
-									{{ Form::text('num_doc_relacionado4','',['class' => 'form-control','id'=>'num_doc_relacionado4'])}}
+									{{ Form::text('num_doc_relacionado4','',['readonly'=>'','class' => 'form-control','id'=>'num_doc_relacionado4'])}}
 								@endif
 							</div>
 							<div class="form-group col-md-4"  style="margin-left:15px">
@@ -268,7 +255,6 @@
 								@endif
 							</div>	
 						</div>
-					</div>
 				</div>
 			</div>
 		</div>

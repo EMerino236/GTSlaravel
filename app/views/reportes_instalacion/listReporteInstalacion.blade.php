@@ -87,7 +87,7 @@
 				</td>	
 			@else	
 				<td>
-					<a class="btn btn-primary btn-block btn-sm" href="{{URL::to('/rep_instalacion/create_rep_instalacion/')}}">
+					<a class="btn btn-primary btn-block btn-sm" href="{{URL::to('/rep_instalacion/create_rep_instalacion/')}}/{{$reporte_instalacion_data->idrep_ent_conc}}">
 						<span class="glyphicon glyphicon-plus"></span> Crear</a>
 				</td>
 			@endif			

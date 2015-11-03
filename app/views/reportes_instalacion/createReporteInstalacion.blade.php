@@ -32,58 +32,58 @@
 		    	<h3 class="panel-title">Datos Generales</h3>
 		  	</div>
   			<div class="panel-body">
-				<div class="col-md-6">
-					<div class="form-group row">
-						<div class="form-group col-md-8 @if($errors->first('idtipo_reporte_instalacion')) has-error has-feedback @endif">
+				<div class="col-md-12">
+					<div class="form group row">
+						<div class="form-group col-md-4 @if($errors->first('idtipo_reporte_instalacion')) has-error has-feedback @endif">
 							{{ Form::label('idtipo_reporte_instalacion','Tipo de Reporte de Instalación') }}
-							{{ Form::select('idtipo_reporte_instalacion',array('' => 'Seleccione') + $tipos_reporte_instalacion,Input::old('idtipo_reporte_instalacion'),['class' => 'form-control']) }}
+							@if($reporte_instalacion_info)
+								{{ Form::select('idtipo_reporte_instalacion',array('' => 'Seleccione') + $tipos_reporte_instalacion,2,['disabled' => 'disabled','class' => 'form-control']) }}
+							@else
+								{{ Form::select('idtipo_reporte_instalacion',array('' => 'Seleccione') + $tipos_reporte_instalacion,Input::old('idtipo_reporte_instalacion'),['class' => 'form-control']) }}
+							@endif
 						</div>
 					</div>
-					<div class="form-group row">
-						<div class="form-group col-md-8 @if($errors->first('codigo_compra')) has-error has-feedback @endif">
+					<div class="form group row">
+						<div class="form-group col-md-4 @if($errors->first('codigo_compra')) has-error has-feedback @endif">
 							{{ Form::label('codigo_compra','Código de Compra') }}
-							{{ Form::text('codigo_compra',Input::old('codigo_compra'),array('class'=>'form-control')) }}
-						</div>
-					</div>						
-					<div class="form-group row">
-						<div class="form-group col-md-8 @if($errors->first('idproveedor')) has-error has-feedback @endif">
-							{{ Form::label('idproveedor','Proveedor') }}
-							{{ Form::select('idproveedor',array('' => 'Seleccione') + $proveedores,Input::old('idproveedor'),['class' => 'form-control']) }}
+							@if($reporte_instalacion_info)
+								{{ Form::text('codigo_compra',$reporte_instalacion_info->codigo_compra,array('class'=>'form-control','readonly'=>'')) }}
+							@else
+								{{ Form::text('codigo_compra',Input::old('codigo_compra'),array('class'=>'form-control')) }}
+							@endif
+						</div>			
+						<div class="form-group col-md-4 @if($errors->first('idarea')) has-error has-feedback @endif">
+							{{ Form::label('idarea','Departamento') }}
+							@if($reporte_instalacion_info)
+								{{ Form::select('idarea',array('' => 'Seleccione') + $areas,$reporte_instalacion_info->idarea,['disabled'=>'disabled','class' => 'form-control']) }}
+							@else
+								{{ Form::select('idarea',array('' => 'Seleccione') + $areas,Input::old('idarea'),['class' => 'form-control']) }}
+							@endif
 						</div>
 					</div>
-					<div class="form-group row">
-						<div class="form-group col-md-12 @if($errors->first('descripcion')) has-error has-feedback @endif">
+					<div class="form group row">
+						<div class="form-group col-md-4 @if($errors->first('idproveedor')) has-error has-feedback @endif">
+							{{ Form::label('idproveedor','Proveedor') }}
+							@if($reporte_instalacion_info)
+								{{ Form::select('idproveedor',array('' => 'Seleccione') + $proveedores,$reporte_instalacion_info->idproveedor,['disabled' => 'disabled','class' => 'form-control']) }}
+							@else
+								{{ Form::select('idproveedor',array('' => 'Seleccione') + $proveedores,Input::old('idproveedor'),['class' => 'form-control']) }}
+							@endif						
+						</div>
+						<div class="col-md-4">
+							{{ Form::label('fecha','Fecha') }}
+							<div id="datetimepicker1" class="form-group input-group date @if($errors->first('fecha')) has-error has-feedback @endif">
+								{{ Form::text('fecha',Input::old('fecha'),array('class'=>'form-control', 'readonly'=>'')) }}
+								<span class="input-group-addon">
+			                        <span class="glyphicon glyphicon-calendar"></span>
+			                    </span>
+							</div>
+						</div>
+					</div>
+					<div class="form group row">
+						<div class="form-group col-md-8 @if($errors->first('descripcion')) has-error has-feedback @endif">
 							{{ Form::label('descripcion','Descripción') }}
 							{{ Form::textarea('descripcion',Input::old('descripcion'),['class' => 'form-control','style'=>'resize:none;'])}}
-						</div>
-					</div>
-				</div>	
-				<div class="col-md-6">
-					<div class="form-group row">
-					</div>
-					<div class="form-group row">
-					</div>
-					<div class="form-group row">
-					</div>
-					<div class="form-group row">
-					</div>
-					<div class="form-group row">
-					</div>
-					<div class="form-group row">
-					</div>
-					<div class="form-group row">
-						<div class="form-group col-md-8 @if($errors->first('idarea')) has-error has-feedback @endif">
-							{{ Form::label('idarea','Departamento') }}
-							{{ Form::select('idarea',array('' => 'Seleccione') + $areas,Input::old('idarea'),['class' => 'form-control']) }}
-						</div>
-					</div>
-					<div class="form-group row">
-						{{ Form::label('fecha','Fecha') }}
-						<div id="datetimepicker1" class="form-group input-group date col-md-8 @if($errors->first('fecha')) has-error has-feedback @endif">
-							{{ Form::text('fecha',Input::old('fecha'),array('class'=>'form-control', 'readonly'=>'')) }}
-							<span class="input-group-addon">
-		                        <span class="glyphicon glyphicon-calendar"></span>
-		                    </span>
 						</div>
 					</div>
 				</div>	
@@ -185,13 +185,25 @@
 						<div class="row">
 							<div class="form-group col-md-3 @if($errors->first('numero_reporte_entorno_concluido')) has-error has-feedback @endif">
 								{{ Form::label('numero_reporte_entorno_concluido','N° Rep. Entorno Concluido') }}
-								{{ Form::text('numero_reporte_entorno_concluido',Input::old('numero_reporte_entorno_concluido'),['class' => 'form-control','id'=>'numero_reporte_entorno_concluido'])}}
+								@if($reporte_instalacion_info)
+									{{ Form::text('numero_reporte_entorno_concluido',$reporte_instalacion_info->numero_reporte_abreviatura.$reporte_instalacion_info->numero_reporte_correlativo."-".$reporte_instalacion_info->numero_reporte_anho,['readonly'=>'','class' => 'form-control','id'=>'numero_reporte_entorno_concluido'])}}
+								@else
+									{{ Form::text('numero_reporte_entorno_concluido',Input::old('numero_reporte_entorno_concluido'),['class' => 'form-control','id'=>'numero_reporte_entorno_concluido'])}}
+								@endif
 							</div>
 							<div class="form-group col-md-2" style="margin-top:25px">
-								<a class="btn btn-primary btn-block" onclick="validar_num_rep_entorno_concluido()"><span class="glyphicon glyphicon-plus"></span> Agregar</a>
+								@if($reporte_instalacion_info)
+									<a class="btn btn-primary btn-block disabled" onclick="validar_num_rep_entorno_concluido()"><span class="glyphicon glyphicon-plus"></span> Agregar</a>
+								@else
+									<a class="btn btn-primary btn-block" onclick="validar_num_rep_entorno_concluido()"><span class="glyphicon glyphicon-plus"></span> Agregar</a>
+								@endif
 							</div>
 							<div class="form-group col-md-2" style="margin-top:25px; margin-left:15px">
-								<a class="btn btn-default btn-block" onclick="limpiar_num_rep_entorno_concluido()"><span class="glyphicon glyphicon-refresh"></span> Limpiar</a>
+								@if($reporte_instalacion_info)
+									<a class="btn btn-default btn-block disabled" onclick="limpiar_num_rep_entorno_concluido()"><span class="glyphicon glyphicon-refresh"></span> Limpiar</a>
+								@else
+									<a class="btn btn-default btn-block" onclick="limpiar_num_rep_entorno_concluido()"><span class="glyphicon glyphicon-refresh"></span> Limpiar</a>
+								@endif
 							</div>
 							<div class="form-group col-md-4"  style="margin-left:15px">
 								{{ Form::label('mensaje_validacion','Validación') }}
