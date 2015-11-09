@@ -70,27 +70,27 @@
 	<div class="table-responsive">
 		<table class="table">
 			<tr class="info">
-				<th>N°</th>
-				<th>Código de Requerimiento</th>
-				<th>Tipo</th>
-				<th>Nombre de Equipo</th>
-				<th>Servicio Clínico</th>
-				<th>Número OT</th>
-				<th>Estado</th>
-				<th>Editar</th>	
+				<th class="text-nowrap">N°</th>
+				<th class="text-nowrap">Código de Requerimiento</th>
+				<th class="text-nowrap">Tipo</th>
+				<th class="text-nowrap">Nombre de Equipo</th>
+				<th class="text-nowrap">Servicio Clínico</th>
+				<th class="text-nowrap">Número OT</th>
+				<th class="text-nowrap">Estado</th>
+				<th class="text-nowrap">Editar</th>	
 			</tr>
 			@foreach($solicitudes_data as $index => $solicitud_data)
 				<tr>
-					<td>{{$index+1}}</td>
-					<td>						
+					<td class="text-nowrap">{{$index+1}}</td>
+					<td class="text-nowrap">						
 						{{$solicitud_data->idsolicitud_compra}}
 					</td>					
-					<td>{{$solicitud_data->nombre_tipo}}</td>
-					<td>{{$solicitud_data->nombre_equipo}}</td>
-					<td>{{$solicitud_data->nombre_servicio}}</td>
-					<td>{{$solicitud_data->codigo_ot}}</td>
-					<td>{{$solicitud_data->nombre_estado}}</td>
-					<td>
+					<td class="text-nowrap">{{$solicitud_data->nombre_tipo}}</td>
+					<td class="text-nowrap">{{$solicitud_data->nombre_equipo}}</td>
+					<td class="text-nowrap">{{$solicitud_data->nombre_servicio}}</td>
+					<td class="text-nowrap">{{$solicitud_data->codigo_ot}}</td>
+					<td class="text-nowrap">{{$solicitud_data->nombre_estado}}</td>
+					<td class="text-nowrap">
 						<a class="btn btn-warning btn-block btn-sm" href="{{URL::to('/solicitudes_compra/edit_solicitud_compra/')}}/{{$solicitud_data->idsolicitud_compra}}">
 						<span class="glyphicon glyphicon-pencil"></span> Editar</a>
 					</td>

@@ -60,27 +60,29 @@
 	</div>
  	<div class="row">
  		<div class="col-md-12">
-			<table class="table">
-				<tr class="info">
-					<th>N°</th>
-					<th>Fecha Registro</th>
-					<th>Cód. Acta Conformidad</th>
-					<th>Proveedor</th>
-					<th>Editar</th>
-				</tr>
-				@foreach($actas_data as $index => $acta_data)
-					<tr>
-						<td>{{$index+1}}</td>					
-						<td>{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $acta_data->fecha_acta)->format('d-m-Y') }}</td>					
-						<td>{{$acta_data->codigo_archivamiento}}</td>
-						<td>{{$acta_data->nombre_proveedor}}</td>
-						<td>
-							<a class="btn btn-warning btn-block btn-sm" href="{{URL::to('/actas_conformidad/edit_acta/')}}/{{$acta_data->iddocumento}}">
-							<span class="glyphicon glyphicon-pencil"></span> Editar</a>
-						</td>
+ 			<div class="table-responsive">
+				<table class="table">
+					<tr class="info">
+						<th class="text-nowrap">N°</th>
+						<th class="text-nowrap">Fecha Registro</th>
+						<th class="text-nowrap">Cód. Acta Conformidad</th>
+						<th class="text-nowrap">Proveedor</th>
+						<th class="text-nowrap">Editar</th>
 					</tr>
-				@endforeach				
-			</table>
+					@foreach($actas_data as $index => $acta_data)
+						<tr>
+							<td class="text-nowrap">{{$index+1}}</td>					
+							<td class="text-nowrap">{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $acta_data->fecha_acta)->format('d-m-Y') }}</td>					
+							<td class="text-nowrap">{{$acta_data->codigo_archivamiento}}</td>
+							<td class="text-nowrap">{{$acta_data->nombre_proveedor}}</td>
+							<td class="text-nowrap">
+								<a class="btn btn-warning btn-block btn-sm" href="{{URL::to('/actas_conformidad/edit_acta/')}}/{{$acta_data->iddocumento}}">
+								<span class="glyphicon glyphicon-pencil"></span> Editar</a>
+							</td>
+						</tr>
+					@endforeach				
+				</table>
+			</div>
 		</div>
 	</div>	
 @stop

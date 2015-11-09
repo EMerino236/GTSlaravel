@@ -71,30 +71,32 @@
 		</div>
 	</div>
  	<div class="row">
-		<table class="table">
-			<tr class="info">
-				<th>N°</th>
-				<th>Código de Reporte</th>
-				<th>Fecha de Registro</th>
-				<th>Servicio</th>
-				<th>Proveedor</th>
-				<th>Editar</th>
-			</tr>
-			@foreach($reportes_data as $index => $reporte_data)
-				<tr>
-					<td>{{$index+1}}</td>
-					<td>
-						{{$reporte_data->numero_reporte_abreviatura}}{{$reporte_data->numero_reporte_correlativo}}-{{$reporte_data->numero_reporte_anho}}
-					</td>					
-					<td>{{$reporte_data->created_at->format('d-m-y')}}</td>
-					<td>{{$reporte_data->nomb_servicio}}</td>
-					<td>{{$reporte_data->nomb_proveedor}}</td>
-					<td>
-						<a class="btn btn-warning btn-block btn-sm" href="{{URL::to('/reportes_incumplimiento/edit_reporte/')}}/{{$reporte_data->idreporte_incumplimiento}}">
-						<span class="glyphicon glyphicon-pencil"></span> Editar</a>
-					</td>
+ 		<div class="table-responsive">
+			<table class="table">
+				<tr class="info">
+					<th class="text-nowrap">N°</th>
+					<th class="text-nowrap">Código de Reporte</th>
+					<th class="text-nowrap">Fecha de Registro</th>
+					<th class="text-nowrap">Servicio</th>
+					<th class="text-nowrap">Proveedor</th>
+					<th class="text-nowrap">Editar</th>
 				</tr>
-			@endforeach				
-		</table>
+				@foreach($reportes_data as $index => $reporte_data)
+					<tr>
+						<td class="text-nowrap">{{$index+1}}</td>
+						<td class="text-nowrap">
+							{{$reporte_data->numero_reporte_abreviatura}}{{$reporte_data->numero_reporte_correlativo}}-{{$reporte_data->numero_reporte_anho}}
+						</td>					
+						<td class="text-nowrap">{{$reporte_data->created_at->format('d-m-y')}}</td>
+						<td class="text-nowrap">{{$reporte_data->nomb_servicio}}</td>
+						<td class="text-nowrap">{{$reporte_data->nomb_proveedor}}</td>
+						<td class="text-nowrap">
+							<a class="btn btn-warning btn-block btn-sm" href="{{URL::to('/reportes_incumplimiento/edit_reporte/')}}/{{$reporte_data->idreporte_incumplimiento}}">
+							<span class="glyphicon glyphicon-pencil"></span> Editar</a>
+						</td>
+					</tr>
+				@endforeach				
+			</table>
+		</div>
 	</div>	
 @stop
