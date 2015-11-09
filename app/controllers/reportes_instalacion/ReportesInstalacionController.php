@@ -33,7 +33,7 @@ class ReportesInstalacionController extends BaseController {
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
-				// Validate the info, create rules for the inputs
+				// Validate the info, create rules for the inputs	
 				$rules = array(
 							'idtipo_reporte_instalacion' => 'required',
 							'idproveedor' => 'required',
@@ -47,7 +47,7 @@ class ReportesInstalacionController extends BaseController {
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					return Redirect::to('rep_instalacion/create_rep_instalacion')->withErrors($validator)->withInput(Input::all());					
-				}else{		
+				}else{
 					$existeReporteEntornoConcluido = ReporteInstalacion::searchReporteEntornoConcluidoByCodigoCompra(Input::get('codigo_compra'))->get();					
 					if(Input::get('idtipo_reporte_instalacion')==1 || (Input::get('idtipo_reporte_instalacion')==2 && !$existeReporteEntornoConcluido->isEmpty())){
 						$details_tarea =Input::get('details_tarea');

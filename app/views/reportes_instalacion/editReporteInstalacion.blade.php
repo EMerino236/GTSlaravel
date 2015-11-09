@@ -66,9 +66,11 @@
 							{{ Form::label('fecha','Fecha') }}
 							<div id="datetimepicker1" class="form-group input-group date @if($errors->first('fecha')) has-error has-feedback @endif">
 								{{ Form::text('fecha',date('d-m-Y',strtotime($reporte_instalacion_info->fecha)),array('class'=>'form-control', 'readonly'=>'')) }}
-								<span class="input-group-addon">
-			                        <span class="glyphicon glyphicon-calendar"></span>
-			                    </span>
+								@if(!$reporte_instalacion_info->deleted_at)
+									<span class="input-group-addon">
+				                        <span class="glyphicon glyphicon-calendar"></span>
+				                    </span>
+				                @endif
 							</div>
 						</div>
 					</div>

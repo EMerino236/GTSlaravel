@@ -37,7 +37,7 @@
 						<div class="form-group col-md-4 @if($errors->first('idtipo_reporte_instalacion')) has-error has-feedback @endif">
 							{{ Form::label('idtipo_reporte_instalacion','Tipo de Reporte de Instalación') }}
 							@if($reporte_instalacion_info)
-								{{ Form::select('idtipo_reporte_instalacion',array('' => 'Seleccione') + $tipos_reporte_instalacion,2,['disabled' => 'disabled','class' => 'form-control']) }}
+								{{ Form::select('idtipo_reporte_instalacion',array('' => 'Seleccione') + $tipos_reporte_instalacion,2,['class' => 'form-control','readonly'=>'']) }}
 							@else
 								{{ Form::select('idtipo_reporte_instalacion',array('' => 'Seleccione') + $tipos_reporte_instalacion,Input::old('idtipo_reporte_instalacion'),['class' => 'form-control']) }}
 							@endif
@@ -55,7 +55,7 @@
 						<div class="form-group col-md-4 @if($errors->first('idarea')) has-error has-feedback @endif">
 							{{ Form::label('idarea','Departamento') }}
 							@if($reporte_instalacion_info)
-								{{ Form::select('idarea',array('' => 'Seleccione') + $areas,$reporte_instalacion_info->idarea,['disabled'=>'disabled','class' => 'form-control']) }}
+								{{ Form::select('idarea',array('' => 'Seleccione') + $areas,$reporte_instalacion_info->idarea,['class' => 'form-control','readonly'=>'']) }}
 							@else
 								{{ Form::select('idarea',array('' => 'Seleccione') + $areas,Input::old('idarea'),['class' => 'form-control']) }}
 							@endif
@@ -65,7 +65,7 @@
 						<div class="form-group col-md-4 @if($errors->first('idproveedor')) has-error has-feedback @endif">
 							{{ Form::label('idproveedor','Proveedor') }}
 							@if($reporte_instalacion_info)
-								{{ Form::select('idproveedor',array('' => 'Seleccione') + $proveedores,$reporte_instalacion_info->idproveedor,['disabled' => 'disabled','class' => 'form-control']) }}
+								{{ Form::select('idproveedor',array('' => 'Seleccione') + $proveedores,$reporte_instalacion_info->idproveedor,['class' => 'form-control','readonly'=>'']) }}
 							@else
 								{{ Form::select('idproveedor',array('' => 'Seleccione') + $proveedores,Input::old('idproveedor'),['class' => 'form-control']) }}
 							@endif						
