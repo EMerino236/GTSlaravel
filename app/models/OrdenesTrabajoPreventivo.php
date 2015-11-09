@@ -102,11 +102,10 @@ class OrdenesTrabajoPreventivo extends Eloquent{
 
 	public function scopeGetOtXPeriodoXActivo($query,$idestado,$fecha_ini,$fecha_fin,$idactivo)
 	{
-		$query->where('ot_preventivos.idestado_ot','=',$idestado)
-			  ->where('ot_preventivos.fecha_programacion','>=',$fecha_ini)
-			  ->where('ot_preventivos.fecha_programacion','<=',$fecha_fin)
-			  ->where('ot_preventivos.idactivo','=',$idactivo)
-			  ->select('ot_preventivos.fecha_programacion','ot_preventivos.idot_preventivo','ot_preventivos.*');
+		$query->where('idestado_ot','=',$idestado)
+			  ->where('fecha_programacion','>=',$fecha_ini)
+			  ->where('fecha_programacion','<=',$fecha_fin)
+			  ->where('idactivo','=',$idactivo);
 		return $query;
 	}
 	

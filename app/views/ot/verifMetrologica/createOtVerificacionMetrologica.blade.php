@@ -26,7 +26,6 @@
 	{{ Form::open(array('url'=>'verif_metrologica/submit_create_ot', 'role'=>'form')) }}
 		{{ Form::hidden('idordenes_trabajo', $ot_info->idordenes_trabajo) }}
 		{{ Form::hidden('idactivo', $ot_info->idactivo) }}
-		{{ Form::hidden('idorden_trabajoxactivo', $otxact->idorden_trabajoxactivo) }}
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">Datos de la OT</h3>
@@ -61,8 +60,8 @@
 				</div>
 				<div class="row">
 					<div class="form-group col-md-8">
-						{{ Form::label('ingeniero','Ejecutor del Mantenimiento') }}
-						{{ Form::text('ingeniero',$ot_info->apat_ingeniero.' '.$ot_info->amat_ingeniero.', '.$ot_info->nombre_ingeniero,array('class' => 'form-control','readonly'=>'')) }}
+						{{ Form::label('nombre_ejecutor','Ejecutor del Mantenimiento') }}
+						{{ Form::text('nombre_ejecutor',Input::old('nombre_ejecutor'),array('class' => 'form-control')) }}
 					</div>
 				</div>
 				<div class="row">
@@ -125,7 +124,7 @@
 					<div class="row">
 						<div class="form-group col-md-8">
 							{{ Form::label('fecha_programacion','Fecha Programada') }}
-							{{ Form::text('fecha_programacion',date('d-m-Y',strtotime($ot_info->fecha_programacion)),array('class' => 'form-control','readonly'=>'')) }}
+							{{ Form::text('fecha_programacion',date('d-m-Y',strtotime($ot_info->fecha_programacion)),array('class' => 'form-control','readonly'=>'','id'=>'fecha_programacion_ot')) }}
 						</div>
 					</div>
 					<div class="row">
@@ -253,7 +252,7 @@
 					<div class="col-md-7">
 				      {{ Form::label('costo_total_personal','Gasto Total Mano de Obra (S/.)',array('class'=>'col-sm-5')) }}
 				      <div class="col-md-3">
-				        {{ Form::text('costo_total_personal', number_format($otxact->costo_total_personal,2),array('class'=>'form-control','placeholder'=>'Costo','readonly'=>'')) }}
+				        {{ Form::text('costo_total_personal', number_format($ot_info->costo_total,2),array('class'=>'form-control','placeholder'=>'Costo','readonly'=>'')) }}
 				      </div>
 				    </div>
 				</div>

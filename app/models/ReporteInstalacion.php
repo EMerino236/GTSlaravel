@@ -55,7 +55,9 @@ class ReporteInstalacion extends Eloquent{
 						r.nombre as nombre_area,
 						CONCAT(a.numero_reporte_abreviatura,a.numero_reporte_correlativo,"-",a.numero_reporte_anho) as rep_entorno_concluido,
 						b.numero_reporte as rep_equipo_funcional,
-						a.* 
+						a.idreporte_instalacion as idrep_ent_conc,
+						b.idrep_eq_func,
+						a.deleted_at
 				from reporte_instalaciones a 
      				 join areas r on a.idarea = r.idarea
      				 join proveedores p on a.idproveedor= p.idproveedor
@@ -66,7 +68,7 @@ class ReporteInstalacion extends Eloquent{
      				 					 or (\''.$search_usuario_responsable.'\' = \'\'))
      				 left join (select 
      				 				CONCAT(a.numero_reporte_abreviatura,a.numero_reporte_correlativo,"-",a.numero_reporte_anho) as numero_reporte,
-     				 				a.codigo_compra 
+     				 				a.codigo_compra,a.idreporte_instalacion as idrep_eq_func 
 								from reporte_instalaciones a
 								where a.idtipo_reporte_instalacion=2) b
 								on b.codigo_compra = a.codigo_compra 

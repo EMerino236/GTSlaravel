@@ -50,7 +50,7 @@
 						</div>	
 						<div class="form-group col-md-4">
 							{{ Form::label('search_servicio','Servicio') }}
-							{{ Form::text('search_servicio',$search_servicio,array('class'=>'form-control','placeholder'=>'Nombre de Servicio','id'=>'search_servicio')) }}
+							{{ Form::select('search_servicio', array('0' => 'Seleccione') + $servicios ,$search_servicio ,array('class'=>'form-control')) }}
 						</div>						
 						<div class="form-group col-md-4">
 							{{ Form::label('search_ini','Fecha inicio') }}
@@ -114,7 +114,7 @@
 						{{$verif_metrologica_data->nombre_ubicacion}}
 					</td>
 					<td>
-						<a href="{{URL::to('/verif_metrologica/create_ot_verif_metrologica/')}}/{{$verif_metrologica_data->idordenes_trabajo}}">{{$verif_metrologica_data->ot_tipo_abreviatura}}{{$verif_metrologica_data->ot_correlativo}}{{$verif_metrologica_data->ot_activo_abreviatura}}</a>
+						<a href="{{URL::to('/verif_metrologica/create_ot_verif_metrologica/')}}/{{$verif_metrologica_data->idot_vmetrologica}}">{{$verif_metrologica_data->ot_tipo_abreviatura}}{{$verif_metrologica_data->ot_correlativo}}{{$verif_metrologica_data->ot_activo_abreviatura}}</a>
 					</td>					
 					<td>
 						{{$verif_metrologica_data->nombre_estado}}

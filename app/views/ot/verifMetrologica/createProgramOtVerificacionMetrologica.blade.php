@@ -2,7 +2,7 @@
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Agregar Verificación Metrológica</h3>
+            <h3 class="page-header">Agregar Verificaciones Metrológicas</h3>
         </div>
     </div>
 
@@ -78,7 +78,7 @@
 							<div id="datetimepicker_prog_hora" class="form-group input-group date @if($errors->first('fecha')) has-error has-feedback @endif">					
 								{{ Form::text('hora_programacion',Input::old('hora'),array('class'=>'form-control','readonly'=>'','id'=>'hora')) }}
 								<span class="input-group-addon">
-				                    <span class="glyphicon glyphicon-calendar"></span>
+				                    <span class="glyphicon glyphicon-time"></span>
 				                </span>
 			            	</div>
 			            </div>
@@ -88,7 +88,7 @@
 							{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Agregar Programacion', array('id'=>'btnAddProgramacion',  'class' => 'btn btn-primary btn-block')) }}
 						</div>
 						<div class="form-group col-md-4">
-							{{ Form::button('<span class="glyphicon glyphicon-refresh"></span> Limpiar', array('id'=>'btnlimpiar',  'class' => 'btn btn-default btn-block')) }}			
+							{{ Form::button('<span class="glyphicon glyphicon-refresh"></span> Limpiar', array('id'=>'btnLimpiar_create',  'class' => 'btn btn-default btn-block')) }}			
 						</div>
 					</div>	
 			    </div>				    
@@ -116,6 +116,7 @@
 			  <div class="days" data-group="days">
 			    <!-- the place where days will be generated -->
 			  </div>
+			  <div class="responsive-calendar-placeholder"></div>	
 			</div>
 			<!-- Responsive calendar - END -->
 		</div>
@@ -171,19 +172,19 @@
 
 <div class="container">
   <!-- Modal -->
-  <div class="modal fade" id="modal_edit" role="dialog">
+  <div class="modal fade" id="modal_confirm" role="dialog">
     <div class="modal-dialog modal-md">    
       <!-- Modal content-->
       <div class="modal-content">
-        <div class="modal-header" id="modal_header_edit">
+        <div class="modal-header" id="modal_header_confirm">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title">Advertencia</h4>
         </div>
-        <div class="modal-body" id="modal_edit_text">
+        <div class="modal-body" id="modal_text_confirm">
          	
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" id="btn_close_modal" data-dismiss="modal">Aceptar</button>
+          <button type="button" class="btn btn-default" id="btn_close_modal_confirm" data-dismiss="modal">Aceptar</button>
         </div>
       </div>      
     </div>

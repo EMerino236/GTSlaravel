@@ -257,16 +257,6 @@ class OtPreventivoController extends BaseController {
 					$ot->ot_correlativo = $string;
 					$ot->ot_activo_abreviatura = $ts_abreviatura;
 					$ot->save();
-
-					// Asigno las tareas
-					$tareas = TareaOtPreventivo::getTareasByFamiliaActivo($activo->idfamilia_activo)->get();
-					foreach($tareas as $tarea){
-						$otxtarea = new OrdenesTrabajoPreventivoxTarea;
-						$otxtarea->idot_preventivo = $ot->idot_preventivo;
-						$otxtarea->idtareas_ot_preventivo = $tarea->idtareas_ot_preventivo;
-						$otxtarea->idestado_realizado = 25; // Estado de tarea no realizada
-						$otxtarea->save();
-					}
 				}							
 			}else{
 				$message = "No se cargaron todas las OTM con éxito.";

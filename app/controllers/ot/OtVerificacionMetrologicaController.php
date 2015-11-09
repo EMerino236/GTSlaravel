@@ -20,7 +20,7 @@ class OtVerificacionMetrologicaController extends BaseController {
 				$this->calcular_trimestre($data["trimestre_ini"],$data["trimestre_fin"]);
 				$data['solicitantes'] = User::getJefes()->get();
 				
-				return View::make('ot/createProgramOtVerificacionMetrologica',$data);
+				return View::make('ot/verifMetrologica/createProgramOtVerificacionMetrologica',$data);
 			}else{
 				return View::make('error/error');
 			}
@@ -50,8 +50,8 @@ class OtVerificacionMetrologicaController extends BaseController {
 				$equipo = Activo::searchActivosByCodigoPatrimonial($data)->get();
 				if($equipo->isEmpty()==false){
 					$equipo = $equipo[0];
-					$mes = OrdenesTrabajosxactivo::getOtXTipoXPeriodo(3,9,$mes_ini,$mes_fin)->get()->count();
-					$trimestre = OrdenesTrabajosxactivo::getOtXTipoXPeriodo(3,9,$trimestre_ini,$trimestre_fin)->get()->count();
+					$mes = OrdenesTrabajoVerifMetrologica::getOtXPeriodoXActivo(9,$mes_ini,$mes_fin,$equipo->idactivo)->get()->count();
+					$trimestre = OrdenesTrabajoVerifMetrologica::getOtXPeriodoXActivo(9,$trimestre_ini,$trimestre_fin,$equipo->idactivo)->get()->count();
 					
 				}else{
 				 	$equipo = null;
@@ -70,33 +70,6 @@ class OtVerificacionMetrologicaController extends BaseController {
 			return Response::json(array( 'success' => false ),200);
 		}
 	}
-
-	public function calendario_ot_mant_correctivo_ajax()
-	{
-		// If there was an error, respond with 404 status
-		if(!Request::ajax() || !Auth::check()){
-			return Response::json(array( 'success' => false ),200);
-		}
-		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
-			$idactivo = Input::get('idactivo');
-			$fecha_ini = null;
-			$fecha_fin = null;
-			$this->calcular_trimestre($fecha_ini,$fecha_fin);
-			$data['programaciones'] = OrdenesTrabajosxactivo::getOtXActivoXPeriodo($idactivo,9,$fecha_ini,$fecha_fin)->get()->toArray();
-			$programaciones = [];
-			$length = sizeof($data['programaciones']);
-			for($i=0;$i<$length;$i++){
-				$programaciones[] = date("Y-m-d",strtotime($data['programaciones'][$i]['fecha_programacion']));
-			}
-			$data['programaciones'] = $programaciones;
-			//$data['programaciones'] = array("2015-10-30","2015-10-26","2015-10-03");
-			return Response::json(array( 'success' => true,'programaciones'=>$data['programaciones']),200);
-		}else{
-			return Response::json(array( 'success' => false ),200);
-		}
-	}
-
 
 	public function calcular_trimestre(&$fecha_ini,&$fecha_fin){
 		$esteMes = date("m");
@@ -142,10 +115,11 @@ class OtVerificacionMetrologicaController extends BaseController {
 				$data["search_equipo"] = null;
 				$data["search_proveedor"] = null;
 				$data["search_servicio"] = null;
+				$data["servicios"] = Servicio::lists('nombre','idservicio');
 				$data["search_ini"] = null;
 				$data["search_fin"] = null;
-				$data["verif_metrologicas_data"] = OrdenesTrabajo::getOtsVerifMetrologicaInfo()->paginate(10);
-				return View::make('ot/listOtVerificacionMetrologica',$data);
+				$data["verif_metrologicas_data"] = OrdenesTrabajoVerifMetrologica::getOtsVerifMetrologicaInfo()->paginate(10);
+				return View::make('ot/verifMetrologica/listOtVerificacionMetrologica',$data);
 			}else{
 				return View::make('error/error');
 			}
@@ -165,7 +139,6 @@ class OtVerificacionMetrologicaController extends BaseController {
 
 				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
 				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
-
 				$data["search_ing"] = Input::get('search_ing');
 				$data["search_cod_pat"] = Input::get('search_cod_pat');
 				$data["search_ubicacion"] = Input::get('search_ubicacion');
@@ -173,10 +146,11 @@ class OtVerificacionMetrologicaController extends BaseController {
 				$data["search_equipo"] = Input::get('search_equipo');
 				$data["search_proveedor"] = Input::get('search_proveedor');
 				$data["search_servicio"] = Input::get('search_servicio');
+				$data["servicios"] = Servicio::lists('nombre','idservicio');
 				$data["search_ini"] = Input::get('search_ini');
 				$data["search_fin"] = Input::get('search_fin');
-				$data["Verif_metrologicas_data"] = OrdenesTrabajo::searchOtsVerifMetrologica($data["search_ing"],$data["search_cod_pat"],$data["search_ubicacion"],$data["search_ot"],$data["search_equipo"],$data["search_proveedor"],$data["search_servicio"],$data["search_ini"],$data["search_fin"])->paginate(10);								
-				return View::make('ot/listOtVerificacionMetrologica',$data);
+				$data["Verif_metrologicas_data"] = OrdenesTrabajoVerifMetrologica::searchOtsVerifMetrologica($data["search_ing"],$data["search_cod_pat"],$data["search_ubicacion"],$data["search_ot"],$data["search_equipo"],$data["search_proveedor"],$data["search_servicio"],$data["search_ini"],$data["search_fin"])->paginate(10);								
+				return View::make('ot/verifMetrologica/listOtVerificacionMetrologica',$data);
 			}else{
 				return View::make('error/error');
 			}
@@ -194,17 +168,17 @@ class OtVerificacionMetrologicaController extends BaseController {
 		$data["user"] = Session::get('user');
 		if($data["user"]->idrol == 1){
 			// Check if the current user is the "System Admin"
-			
 			$array_detalles = Input::get('matrix_detalle');
 			$row_size = count($array_detalles);
-
+			
 			if($row_size==0){				
 				$message = "No se cargaron todas las OT con éxito.";
 				$type_message = "bg-danger";
 				return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'message' => $message, 'type_message'=>$type_message ),200);
-			}			
+			}	
+
 			
-			//Agregar Detalle			
+			//Agregar Detalle	
 			if($row_size > 0){				
 				$message = "Se crearon las OT con éxito";
 				$type_message = "bg-success";
@@ -215,30 +189,23 @@ class OtVerificacionMetrologicaController extends BaseController {
 					$activo = Activo::searchActivosByCodigoPatrimonial($cod_pat)->get();					
 					$activo = $activo[0];
 					$idactivo = $activo->idactivo;
-					$ot = new OrdenesTrabajo;
+					$ot = new OrdenesTrabajoVerifMetrologica;
 					$abreviatura = "VM";
 					// Algoritmo para añadir numeros correlativos
 					$string = $this->getCorrelativeReportNumber();
 					//Get Año Actual
 					$ts_abreviatura = "TS";
-
-					$ot->fecha_programacion = date('Y-m-d H:i:s',strtotime($array_detalle[4]." ".$array_detalle[5]));
+					$ot->fecha_programacion = $fecha;
 					$ot->idservicio = $activo->idservicio;
-					$ot->idtipo_ordenes_trabajo = 3; // A mejorar este hardcode :/
-					$ot->idestado = 9; // A mejorar este hardcode :/
-					$ot->id_usuarioelaborado = $data["user"]->id;
+					$ot->idestado_ot = 9;
+					$ot->idubicacion_fisica = $activo->idubicacion_fisica;
+					$ot->id_usuarioelaborador = $data["user"]->id;
 					$ot->id_usuariosolicitante = $array_detalle[6];
+					$ot->idactivo = $activo->idactivo;
 					$ot->ot_tipo_abreviatura = $abreviatura;
 					$ot->ot_correlativo = $string;
 					$ot->ot_activo_abreviatura = $ts_abreviatura;
-					$ot->save();
-
-					$otxa = new OrdenesTrabajosxactivo;
-					$otxa->idordenes_trabajo = $ot->idordenes_trabajo;
-					$otxa->idactivo = $idactivo;
-					$otxa->idestado = 9;
-					$otxa->costo_total_personal = 0.0;
-					$otxa->save();					
+					$ot->save();				
 				}							
 			}else{
 				$message = "No se cargaron todas las OT con éxito.";
@@ -261,24 +228,37 @@ class OtVerificacionMetrologicaController extends BaseController {
 		$data["user"] = Session::get('user');
 		if($data["user"]->idrol == 1){
 			// Check if the current user is the "System Admin"	
-			$trimestre_ini=date("Y-m-d",strtotime(Input::get('trimestre_ini')));
-			$trimestre_fin=date("Y-m-d",strtotime(Input::get('trimestre_fin')));
+			$fecha_ini=date("Y-m-d",strtotime("first day of january"));
+			$fecha_fin=date("Y-m-d",strtotime('last day of december'));
 			$array_programaciones = null;	
-			$array_programaciones =  OrdenesTrabajosxactivo::getOtXTipoXPeriodo(3,9,$trimestre_ini,$trimestre_fin)->get()->toArray();
+			$array_programaciones =  OrdenesTrabajoVerifMetrologica::getOtXPeriodo(9,$fecha_ini,$fecha_fin)->orderBy('fecha_programacion','desc')->get()->toArray();
 			$programaciones = [];
+			$equipos = [];
+			$horas = [];
+			$estados = [];
 			$length = sizeof($array_programaciones);					
 			for($i=0;$i<$length;$i++){
 				$programaciones[] = date("Y-m-d",strtotime($array_programaciones[$i]['fecha_programacion']));
+				$hora = date("H:i",strtotime($array_programaciones[$i]['fecha_programacion']));
+				$idestado = $array_programaciones[$i]['idestado_ot'];
+				$idactivo = $array_programaciones[$i]['idactivo'];
+				$equipo_ot = Activo::searchActivosById($idactivo)->get();
+				$equipo_ot = $equipo_ot[0];
+				$estado = Estado::getEstadoById($idestado)->get();
+				$estado = $estado[0];
+				array_push($equipos,$equipo_ot);
+				array_push($horas,$hora);
+				array_push($estados, $estado);
 			}
 			$array_programaciones = $programaciones;			
-			return Response::json(array( 'success' => true, 'programaciones'=> $array_programaciones),200);
+			return Response::json(array( 'success' => true, 'programaciones'=> $array_programaciones,'equipos'=>$equipos,'horas'=>$horas,'estados'=>$estados),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
 		}
 	}
 
 	public function getCorrelativeReportNumber(){
-		$ot = OrdenesTrabajo::getLastOtVerifMetrologica()->first();
+		$ot = OrdenesTrabajoVerifMetrologica::getLastOtVerifMetrologica()->first();
 		$string = "";
 		if($ot!=null){	
 			$numero = $ot->ot_correlativo;
@@ -305,19 +285,13 @@ class OtVerificacionMetrologicaController extends BaseController {
 				$tabla_estado_activo = Tabla::getTablaByNombre(self::$estado_activo)->get();
 				$data["estado_activo"] = Estado::where('idtabla','=',$tabla_estado_activo[0]->idtabla)->lists('nombre','idestado');
 
-				$data["ot_info"] = OrdenesTrabajo::searchOtVerifMetrologicaById($id)->get();
+				$data["ot_info"] = OrdenesTrabajoVerifMetrologica::searchOtVerifMetrologicaById($id)->get();
 				if($data["ot_info"]->isEmpty()){
 					return Redirect::to('verif_metrologica/list_verif_metrologica');
 				}
 				$data["ot_info"] = $data["ot_info"][0];
-				$data["otxact"] = OrdenesTrabajosxactivo::getOtXActivo($id,$data["ot_info"]->idactivo)->get();
-				if($data["otxact"]->isEmpty()){
-					$data["personal_data"] = array();
-				}else{
-					$data["otxact"] = $data["otxact"][0];
-					$data["personal_data"] = DetallePersonalxot::getPersonalXOtXActi($data["otxact"]->idorden_trabajoxactivo)->get();
-				}
-				return View::make('ot/createOtVerificacionMetrologica',$data);
+				$data["personal_data"] = PersonalOtVerifMetrologica::getPersonalXOt($data["ot_info"]->idot_vmetrologica)->get();
+				return View::make('ot/verifMetrologica/createOtVerificacionMetrologica',$data);
 			}else{
 				return View::make('error/error');
 			}
@@ -333,7 +307,7 @@ class OtVerificacionMetrologicaController extends BaseController {
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if(($data["user"]->idrol == 1)){
-				$idordenes_trabajo = Input::get('idordenes_trabajo');
+				$idot_vmetrologica = Input::get('idot_vmetrologica');
 				// Validate the info, create rules for the inputs
 				$rules = array(
 							'idestado' => 'required',
@@ -344,20 +318,21 @@ class OtVerificacionMetrologicaController extends BaseController {
 				$validator = Validator::make(Input::all(), $rules);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
-					return Redirect::to('verif_metrologica/create_ot_verif_metrologica/'.$idordenes_trabajo)->withErrors($validator)->withInput(Input::all());
+					return Redirect::to('verif_metrologica/create_ot_verif_metrologica/'.$idot_vmetrologica)->withErrors($validator)->withInput(Input::all());
 				}else{
-					$ot = OrdenesTrabajo::find($idordenes_trabajo);
-					$ot->idestado = Input::get('idestado');
+					$ot = OrdenesTrabajoVerifMetrologica::find($idot_vmetrologica);
+					$ot->nombre_ejecutor = Input::get('nombre_ejecutor');
+					$ot->idestado_ot = Input::get('idestado');
 					$ot->idestado_inicial = Input::get('idestado_inicial');
 					$ot->idestado_final = Input::get('idestado_final');
-					if(Input::get('fecha_conformidad'))
-						$ot->fecha_conformidad = date('Y-m-d H:i:s',strtotime(Input::get('fecha_conformidad')." ".Input::get('hora_conformidad')));
+					if(Input::get('fecha_conformidad') && Input::get('hora_conformidad'))
+						$ot->fecha_conformidad = date("Y-m-d H:i:s",strtotime(Input::get('fecha_conformidad')." ".Input::get('hora_conformidad')));
 					$ot->save();
 					$activo = Activo::find(Input::get('idactivo'));
 					$activo->idestado = Input::get('idestado_final');
 					$activo->save();
 					Session::flash('message', 'Se guardó correctamente la información.');
-					return Redirect::to('verif_metrologica/create_ot_verif_metrologica/'.$idordenes_trabajo);
+					return Redirect::to('verif_metrologica/create_ot_verif_metrologica/'.$idot_vmetrologica);
 				}
 			}else{
 				return View::make('error/error');
@@ -376,16 +351,18 @@ class OtVerificacionMetrologicaController extends BaseController {
 		$data["user"] = Session::get('user');
 		if($data["user"]->idrol == 1){
 
-			$personal = new DetallePersonalxot;
+			$personal = new PersonalOtVerifMetrologica;
 			$personal->nombre = Input::get('nombre_personal');
 			$personal->horas_hombre = Input::get('horas_trabajadas');
 			$personal->costo = Input::get('costo_personal');
-			$personal->idorden_trabajoxactivo = Input::get('idorden_trabajoxactivo');
+			$personal->idot_vmetrologica = Input::get('idot_vmetrologica');
 			$personal->save();
-			$otxact = OrdenesTrabajosxactivo::find(Input::get('idorden_trabajoxactivo'));
-			$otxact->costo_total_personal = $otxact->costo_total_personal + Input::get('horas_trabajadas')*Input::get('costo_personal');
-			$otxact->save();
-			return Response::json(array( 'success' => true,'personal'=>$personal,'costo_total_personal' => number_format($otxact->costo_total_personal,2)),200);
+			/*
+			$ot = OrdenesTrabajoVerifMetrologica::find(Input::get('idot_vmetrologica'));
+			$ot->costo_total = $ot->costo_total + Input::get('horas_trabajadas')*Input::get('costo_personal');
+			$ot->save();
+			*/
+			return Response::json(array( 'success' => true,'personal'=>$personal,'costo_total' => number_format($ot->costo_total,2)),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
 		}
@@ -400,12 +377,12 @@ class OtVerificacionMetrologicaController extends BaseController {
 		$data["user"] = Session::get('user');
 		if($data["user"]->idrol == 1){
 
-			$personal = DetallePersonalxot::find(Input::get('iddetalle_personalxot'));
-			$otxact = OrdenesTrabajosxactivo::find(Input::get('idorden_trabajoxactivo'));
-			$otxact->costo_total_personal = $otxact->costo_total_personal - $personal->horas_hombre*$personal->costo;
-			$otxact->save();
+			$personal = PersonalOtVerifMetrologica::find(Input::get('idpersonal_ot_verifMetrologica'));
+			$ot = OrdenesTrabajoVerifMetrologica::find(Input::get('idot_vmetrologica'));
+			$ot->costo_total = $ot->costo_total - $personal->horas_hombre*$personal->costo;
+			$ot->save();
 			$personal->delete();
-			return Response::json(array( 'success' => true,'costo_total_personal' => number_format($otxact->costo_total_personal,2)),200);
+			return Response::json(array( 'success' => true,'costo_total' => number_format($ot->costo_total,2)),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
 		}
