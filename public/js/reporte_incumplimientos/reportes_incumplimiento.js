@@ -6,6 +6,8 @@ $( document ).ready(function(){
  		format:'DD-MM-YYYY'
  	});
 
+
+
     fill_responsable_servicio();
     fill_contacto_proveedor();
     fill_name_responsable(1);
@@ -13,7 +15,9 @@ $( document ).ready(function(){
     fill_name_responsable(3);
     fill_name_contrato();
     $('#btn_descarga').hide();
+
 });
+
 
 function fill_responsable_servicio(){   
         var val = $("#servicio").val();

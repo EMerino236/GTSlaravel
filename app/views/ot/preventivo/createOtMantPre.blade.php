@@ -24,9 +24,8 @@
 	@endif
 
 	{{ Form::open(array('url'=>'mant_preventivo/submit_create_ot', 'role'=>'form')) }}
-		{{ Form::hidden('idordenes_trabajo', $ot_info->idordenes_trabajo) }}
+		{{ Form::hidden('idot_preventivo', $ot_info->idot_preventivo) }}
 		{{ Form::hidden('idactivo', $ot_info->idactivo) }}
-		{{ Form::hidden('idorden_trabajoxactivo', $otxact->idorden_trabajoxactivo) }}
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">Datos de la OTM</h3>
@@ -119,7 +118,7 @@
 					<div class="row">
 						<div class="form-group col-md-8">
 							{{ Form::label('fecha_programacion','Fecha Programada') }}
-							{{ Form::text('fecha_programacion',date('d-m-Y',strtotime($ot_info->fecha_programacion)),array('class' => 'form-control','readonly'=>'')) }}
+							{{ Form::text('fecha_programacion',date('d-m-Y',strtotime($ot_info->fecha_programacion)),array('class' => 'form-control','readonly'=>'','id'=>'fecha_programacion_ot')) }}
 						</div>
 					</div>
 					<div class="row">
@@ -147,7 +146,7 @@
 					</div>
 					<div class="row">
 						<div class="form-group col-md-8">
-							{{ Form::label('fecha_conformidad','Fecha de Conformidad') }}
+							{{ Form::label('fecha_conformidad','Hora de Conformidad') }}
 							<div id="datetimepicker_conformidad_hora" class="input-group date @if($errors->first('fecha_conformidad')) has-error has-feedback @endif">
 								@if($ot_info->fecha_conformidad == null)
 									{{ Form::text('hora_conformidad',null,array('class'=>'form-control','readonly'=>'')) }}
@@ -155,7 +154,7 @@
 									{{Form::text('hora_conformidad',date('H:i:s',strtotime($ot_info->fecha_conformidad)),array('class'=>'form-control','readonly'=>'')) }}
 								@endif
 								<span class="input-group-addon">
-			                        <span class="glyphicon glyphicon-calendar"></span>
+			                        <span class="glyphicon glyphicon-time"></span>
 			                    </span>
 							</div>
 						</div>
@@ -180,7 +179,7 @@
 					<div class="row">
 						<div class="form-group col-md-8 @if($errors->first('idestado')) has-error has-feedback @endif">
 							{{ Form::label('idestado','Equipo No Intervenido') }}
-							{{ Form::select('idestado', $estados,$ot_info->idestado,['class' => 'form-control']) }}
+							{{ Form::select('idestado', $estados,$ot_info->idestado_ot,['class' => 'form-control']) }}
 						</div>
 					</div>
 				</div>
@@ -191,22 +190,19 @@
 			<div class="panel-heading">
 				<h3 class="panel-title">Datos generales de la Orden de Trabajo de Mantenimiento</h3>
 			</div>
-			<div class="panel-body">
-				<div class="row">
-					<div class="col-md-12">
+			<div class="panel-body">				
+				<div class="col-md-12">
 						<table class="table">
-							<tr class="info">
+							<tr id="tareas-table" class="info">
 								<th>Actividad</th>
-								<th>Descripción</th>
 								<th>Realizada</th>
 							</tr>
 							@foreach($tareas as $tarea)
 							<tr>
 								<td>{{$tarea->nombre_tarea}}</td>
-								<td>{{$tarea->descripcion_tarea}}</td>
 								<td>
 									@if($tarea->idestado_realizado == 23)
-										{{ Form::button('Marcar realizada',array('class'=>'btn btn-default boton-tarea','data-id'=>$tarea->idorden_trabajoxactivoxtarea)) }}
+										{{ Form::button('Marcar realizada',array('class'=>'btn btn-default boton-tarea','data-id'=>$tarea->idtareas_ot_preventivosxot_preventivo)) }}
 									@else
 										Realizada
 									@endif
@@ -214,15 +210,13 @@
 							</tr>
 							@endforeach
 						</table>
-					</div>
-				</div>
-							
+				</div>							
 				<div class="col-md-6">
 					<div class="row">
 						<div class="col-md-8 form-group ">
 							{{ Form::label('fecha_inicio_ejecucion','Fecha de Inicio') }}
-							<div id="datetimepicker_fecha_inicio" class="input-group date @if($errors->first('fecha_inicio_ejecucion')) has-error has-feedback @endif">
-								{{ Form::text('fecha_inicio_ejecucion',null,array('class'=>'form-control','readonly'=>'')) }}
+							<div id="datetimepicker_fecha_inicio_ot" class="input-group date @if($errors->first('fecha_inicio_ejecucion')) has-error has-feedback @endif">
+								{{ Form::text('fecha_inicio_ejecucion',date('d-m-Y H:i',strtotime($ot_info->fecha_inicio_ejecucion)),array('class'=>'form-control','readonly'=>'')) }}
 								<span class="input-group-addon">
 			                        <span class="glyphicon glyphicon-calendar"></span>
 			                    </span>
@@ -247,8 +241,8 @@
 					<div class="row">
 						<div class="col-md-8 form-group ">
 							{{ Form::label('fecha_termino_ejecucion','Fecha de Término') }}
-							<div id="datetimepicker_fecha_fin" class="input-group date @if($errors->first('fecha_termino_ejecucion')) has-error has-feedback @endif">
-								{{ Form::text('fecha_termino_ejecucion',null,array('class'=>'form-control','readonly'=>'')) }}
+							<div id="datetimepicker_fecha_fin_ot" class="input-group date @if($errors->first('fecha_termino_ejecucion')) has-error has-feedback @endif">
+								{{ Form::text('fecha_termino_ejecucion',date('d-m-Y H:i',strtotime($ot_info->fecha_termino_ejecucion)),array('class'=>'form-control','readonly'=>'')) }}
 								<span class="input-group-addon">
 			                        <span class="glyphicon glyphicon-calendar"></span>
 			                    </span>
@@ -299,13 +293,13 @@
 							<th>Operaciones</th>
 						</tr>
 						@foreach($repuestos as $repuesto)
-						<tr id="repuesto-row-{{ $repuesto->idrepuestos_ot }}">
+						<tr id="repuesto-row-{{ $repuesto->idrepuestos_ot_preventivo }}">
 							<td>{{$repuesto->nombre}}</td>
 							<td>{{$repuesto->codigo}}</td>
 							<td>{{$repuesto->cantidad}}</td>
 							<td>S/. {{number_format($repuesto->costo,2)}}</td>
 							<td>
-								<button class="btn btn-danger boton-eliminar-repuesto" onclick="eliminar_repuesto(event,{{$repuesto->idrepuestos_ot}})" type="button">Eliminar</button>
+								<button class="btn btn-danger boton-eliminar-repuesto" onclick="eliminar_repuesto(event,{{$repuesto->idrepuestos_ot_preventivo}})" type="button">Eliminar</button>
 							</td>
 						</tr>
 						@endforeach
@@ -313,7 +307,7 @@
 					<div class="col-md-7">
 				      {{ Form::label('costo_total_repuestos','Gasto Total Repuestos (S/.)',array('class'=>'col-sm-5')) }}
 				      <div class="col-md-3">
-				        {{ Form::text('costo_total_repuestos', number_format($otxact->costo_total_repuestos,2),array('class'=>'form-control','placeholder'=>'Costo','readonly'=>'')) }}
+				        {{ Form::text('costo_total_repuestos', number_format($ot_info->costo_total_repuestos,2),array('class'=>'form-control','placeholder'=>'Costo','readonly'=>'')) }}
 				      </div>
 				    </div>
 				</div>
@@ -349,12 +343,12 @@
 							<th>Operaciones</th>
 						</tr>
 						@foreach($personal_data as $personal)
-						<tr id="personal-row-{{ $personal->iddetalle_personalxot }}">
+						<tr id="personal-row-{{ $personal->idpersonal_ot_preventivo }}">
 							<td>{{$personal->nombre}}</td>
 							<td>{{$personal->horas_hombre}}</td>
 							<td>{{$personal->costo}}</td>
 							<td>
-								<button class="btn btn-danger boton-eliminar-mano-obra" onclick="eliminar_personal(event,{{$personal->iddetalle_personalxot}})" type="button">Eliminar</button>
+								<button class="btn btn-danger boton-eliminar-mano-obra" onclick="eliminar_personal(event,{{$personal->idpersonal_ot_preventivo}})" type="button">Eliminar</button>
 							</td>
 						</tr>
 						@endforeach
@@ -362,7 +356,7 @@
 					<div class="col-md-8">
 				      {{ Form::label('costo_total_personal','Gasto Total Mano de Obra (S/.)',array('class'=>'col-sm-5')) }}
 				      <div class="col-md-3">
-				        {{ Form::text('costo_total_personal', number_format($otxact->costo_total_personal,2),array('class'=>'form-control','placeholder'=>'Costo','readonly'=>'')) }}
+				        {{ Form::text('costo_total_personal', number_format($ot_info->costo_total_personal,2),array('class'=>'form-control','placeholder'=>'Costo','readonly'=>'')) }}
 				      </div>
 				    </div>
 				</div>
@@ -380,15 +374,15 @@
 @stop
 <div class="container">
   <!-- Modal -->
-  <div class="modal fade" id="modal_info" role="dialog">
+  <div class="modal fade" id="modal_info_ot" role="dialog">
     <div class="modal-dialog modal-md">    
       <!-- Modal content-->
       <div class="modal-content">
-        <div class="modal-header" id="modal_header">
+        <div class="modal-header" id="modal_header_ot">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title">Advertencia</h4>
         </div>
-        <div class="modal-body" id="modal_text">         	
+        <div class="modal-body" id="modal_text_ot">         	
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" id="btn_close_modal" data-dismiss="modal">Aceptar</button>

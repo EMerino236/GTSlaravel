@@ -2,7 +2,7 @@
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Reporte de Incumplimiento: {{$reporte_data->numero_reporte_abreviatura}}-{{$reporte_data->numero_reporte_correlativo}}-{{$reporte_data->numero_reporte_anho}}</h3>
+            <h3 class="page-header">Reporte de Incumplimiento: {{$reporte_data->numero_reporte_abreviatura}}{{$reporte_data->numero_reporte_correlativo}}-{{$reporte_data->numero_reporte_anho}}</h3>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -54,14 +54,14 @@
 					<div class="row">
 						<div class="form-group col-md-4 @if($errors->first('codigo_reporte')) has-error has-feedback @endif">
 							{{ Form::label('codigo_reporte','Código del reporte') }}<span style="color:red"> *</span>
-							{{ Form::text('codigo_reporte',$reporte_data->numero_reporte_abreviatura."-".$reporte_data->numero_reporte_correlativo."-".$reporte_data->numero_reporte_anho,array('class'=>'form-control','readonly'=>'')) }}						
+							{{ Form::text('codigo_reporte',$reporte_data->numero_reporte_abreviatura.$reporte_data->numero_reporte_correlativo."-".$reporte_data->numero_reporte_anho,array('class'=>'form-control','readonly'=>'')) }}						
 						</div>								
 						<div class="form-group col-md-4 @if($errors->first('numero_ot')) has-error has-feedback @endif">
 							{{ Form::label('numero_ot','Número de OT') }}<span style="color:red"> *</span>
 							@if($reporte_data->deleted_at)
-								{{ Form::text('numero_ot',$reporte_data->idordenes_trabajo,array('class'=>'form-control','readonly'=>'')) }}
+								{{ Form::text('numero_ot',$reporte_data->codigo_ot,array('class'=>'form-control','readonly'=>'')) }}
 							@else
-								{{ Form::text('numero_ot',$reporte_data->idordenes_trabajo,array('class'=>'form-control')) }}
+								{{ Form::text('numero_ot',$reporte_data->codigo_ot,array('class'=>'form-control')) }}
 							@endif							
 						</div>
 						<div class="form-group col-md-4 @if($errors->first('tipo_reporte')) has-error has-feedback @endif">

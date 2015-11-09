@@ -15,11 +15,11 @@
 			<div class="form-group row">
 				<div class="col-md-4">
 					{{ Form::label('search_tipo_solicitud','Tipo:')}}
-					{{ Form::select('search_tipo_solicitud',array('0' => 'Seleccione')+ $tipos, $search_tipo_solicitud,array('class'=>'form-control')) }}
+					{{ Form::select('search_tipo_solicitud',array('0' => 'Seleccione')+ $tipos, $search_tipo_solicitud,array('class'=>'form-control','id'=>'search_tipo_solicitud')) }}
 				</div>					
 				<div class="col-md-4">
 					{{ Form::label('search_nombre_equipo','Nombre de Equipo:')}}
-					{{ Form::text('search_nombre_equipo',$search_nombre_equipo,array('class'=>'form-control','placeholder'=>'Ingrese Nombre de Equipo')) }}
+					{{ Form::text('search_nombre_equipo',$search_nombre_equipo,array('class'=>'form-control','placeholder'=>'Ingrese Nombre de Equipo','id'=>'search_nombre_equipo')) }}
 				</div>
 				<div class="col-md-4">
 					{{ Form::label('search_servicio','Servicio Clínico:')}}
@@ -30,12 +30,12 @@
 				
 				<div class="col-md-4">
 					{{ Form::label('search_estado','Estado:')}}
-					{{ Form::select('search_estado',array('0' => 'Seleccione')+ $estados, $search_estado,array('class'=>'form-control')) }}
+					{{ Form::select('search_estado',array('0' => 'Seleccione')+ $estados, $search_estado,array('class'=>'form-control','id'=>'estados')) }}
 				</div>				
 				<div class="col-md-4">
 					{{ Form::label('fecha_desde','Fecha Desde:')}}
 					<div id="datetimepicker1" class="form-group input-group date">					
-						{{ Form::text('fecha_desde',$fecha_desde,array('class'=>'form-control','readonly'=>'')) }}
+						{{ Form::text('fecha_desde',$fecha_desde,array('class'=>'form-control','readonly'=>'','id'=>'fecha_desde')) }}
 						<span class="input-group-addon">
 		                    <span class="glyphicon glyphicon-calendar"></span>
 		                </span>
@@ -44,7 +44,7 @@
 				<div class="col-md-4">
 					{{ Form::label('fecha_hasta','Fecha Hasta:')}}
 					<div id="datetimepicker2" class="form-group input-group date">					
-						{{ Form::text('fecha_hasta',$fecha_hasta,array('class'=>'form-control','readonly'=>'')) }}
+						{{ Form::text('fecha_hasta',$fecha_hasta,array('class'=>'form-control','readonly'=>'','id'=>'fecha_hasta')) }}
 						<span class="input-group-addon">
 		                    <span class="glyphicon glyphicon-calendar"></span>
 		                </span>
@@ -56,7 +56,7 @@
 					{{ Form::button('<span class="glyphicon glyphicon-search"></span> Buscar', array('id'=>'submit-search', 'type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}			
 				</div>
 				<div class="col-md-2">
-					<div class="btn btn-default btn-block" id="btnLimpiar">Limpiar</div>				
+					<div class="btn btn-default btn-block" id="btnLimpiarCriterios">Limpiar</div>				
 				</div>
 			</div>
 		</div>	
@@ -88,7 +88,7 @@
 					<td>{{$solicitud_data->nombre_tipo}}</td>
 					<td>{{$solicitud_data->nombre_equipo}}</td>
 					<td>{{$solicitud_data->nombre_servicio}}</td>
-					<td>{{$solicitud_data->idordenes_trabajo}}</td>
+					<td>{{$solicitud_data->codigo_ot}}</td>
 					<td>{{$solicitud_data->nombre_estado}}</td>
 					<td>
 						<a class="btn btn-warning btn-block btn-sm" href="{{URL::to('/solicitudes_compra/edit_solicitud_compra/')}}/{{$solicitud_data->idsolicitud_compra}}">

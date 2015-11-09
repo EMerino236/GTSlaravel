@@ -38,8 +38,8 @@ $( document ).ready(function(){
         clean_name_reporte();
     });
 
-    $('#numero_ot').on('change',function(){
-        validate_ot();
+    $('#btnLimpiarCriterios').click(function(){
+        clean_criterios();
     });
 
     $('#submit_edit_solicitud').click(function(){
@@ -201,44 +201,6 @@ function clean_name_reporte(){
     $("#btn_descarga").hide();
 }
 
-function validate_ot(){
-    var id_ot = $("#numero_ot").val();
-    if(id_ot=="")
-            id_ot = "vacio"; 
-    $.ajax({
-            url: inside_url+'solicitudes_compra/validate_ot',
-            type: 'POST',
-            data: { 'selected_id' : id_ot },
-            beforeSend: function(){
-                $("#delete-selected-profiles").addClass("disabled");
-                $("#delete-selected-profiles").hide();
-                $(".loader_container").show();
-            },
-            complete: function(){
-                $(".loader_container").hide();
-                $("#delete-selected-profiles").removeClass("disabled");
-                $("#delete-selected-profiles").show();
-                delete_selected_profiles = true;
-            },
-            success: function(response){
-                if(response.success){
-                    var resp = response['ot'];
-                    if(resp[0] != null){
-                        $("#numero_ot").css('background-color','#5cb85c');
-                        $("#numero_ot").css('color','white');                                                       
-                    }
-                    else{
-                        $('#modalOT').modal('show'); 
-                    }                                  
-                }else{
-                    alert('La petición no se pudo completar, inténtelo de nuevo.');
-                }
-            },
-            error: function(){
-                alert('La petición no se pudo completar, inténtelo de nuevo.');
-            }
-        });
-}
 
 
 function deleteRow(event,el)
@@ -287,7 +249,7 @@ function readTableData(){
         var fecha = $('#fecha').val();
         var estado = $('#estado').val();
         var sustento = $('#sustento').val();
-        var numero_reporte = $('#numero_reporte').val();    
+        var numero_reporte = $('#numero_reporte').val(); 
         var size_delete = matrix_detalle_delete.length;
         $.ajax({
             url: inside_url+'solicitudes_compra/submit_edit_solicitud_compra',
@@ -414,3 +376,12 @@ function readTableData(){
             }
         });
     }
+
+function clean_criterios(){
+    $('#search_tipo_solicitud').val(0);
+    $('#search_nombre_equipo').val('');
+    $('#servicio_clinico').val(0);
+    $('#estados').val(0);
+    $('#fecha_desde').val('');
+    $('#fecha_hasta').val('');
+}

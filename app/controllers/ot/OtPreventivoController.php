@@ -20,7 +20,7 @@ class OtPreventivoController extends BaseController {
 				$this->calcular_trimestre($data["trimestre_ini"],$data["trimestre_fin"]);
 				$data['solicitantes'] = User::getJefes()->get();
 				
-				return View::make('ot/createProgramOtMantPre',$data);
+				return View::make('ot/preventivo/createProgramOtMantPre',$data);
 			}else{
 				return View::make('error/error');
 			}
@@ -50,8 +50,8 @@ class OtPreventivoController extends BaseController {
 				$equipo = Activo::searchActivosByCodigoPatrimonial($data)->get();
 				if($equipo->isEmpty()==false){
 					$equipo = $equipo[0];
-					$mes = OrdenesTrabajosxactivo::getOtXTipoXPeriodo(2,9,$mes_ini,$mes_fin)->get()->count();
-					$trimestre = OrdenesTrabajosxactivo::getOtXTipoXPeriodo(2,9,$trimestre_ini,$trimestre_fin)->get()->count();
+					$mes = OrdenesTrabajoPreventivo::getOtXPeriodoXActivo(9,$mes_ini,$mes_fin,$equipo->idactivo)->get()->count();
+					$trimestre = OrdenesTrabajoPreventivo::getOtXPeriodoXActivo(9,$trimestre_ini,$trimestre_fin,$equipo->idactivo)->get()->count();
 					
 				}else{
 				 	$equipo = null;
@@ -70,6 +70,7 @@ class OtPreventivoController extends BaseController {
 			return Response::json(array( 'success' => false ),200);
 		}
 	}
+
 	public function calcular_trimestre(&$fecha_ini,&$fecha_fin){
 		$esteMes = date("m");
 		switch($esteMes){
@@ -117,8 +118,8 @@ class OtPreventivoController extends BaseController {
 				$data["search_fin"] = null;
 				$data["search_servicio"] = null;
 				$data["servicios"] = Servicio::lists('nombre','idservicio');
-				$data["mant_preventivos_data"] = OrdenesTrabajo::getOtsMantPreventivoInfo()->get();
-				return View::make('ot/listOtMantPreventivo',$data);
+				$data["mant_preventivos_data"] = OrdenesTrabajoPreventivo::getOtsMantPreventivoInfo()->get();
+				return View::make('ot/preventivo/listOtMantPreventivo',$data);
 			}else{
 				return View::make('error/error');
 			}
@@ -137,17 +138,30 @@ class OtPreventivoController extends BaseController {
 		$data["user"] = Session::get('user');
 		if($data["user"]->idrol == 1){
 			// Check if the current user is the "System Admin"	
-			$trimestre_ini=date("Y-m-d",strtotime(Input::get('trimestre_ini')));
-			$trimestre_fin=date("Y-m-d",strtotime(Input::get('trimestre_fin')));
+			$fecha_ini=date("Y-m-d",strtotime("first day of january"));
+			$fecha_fin=date("Y-m-d",strtotime('last day of december'));
 			$array_programaciones = null;	
-			$array_programaciones =  OrdenesTrabajosxactivo::getOtXTipoXPeriodo(2,9,$trimestre_ini,$trimestre_fin)->get()->toArray();
+			$array_programaciones =  OrdenesTrabajoPreventivo::getOtXPeriodo(9,$fecha_ini,$fecha_fin)->orderBy('fecha_programacion','desc')->get()->toArray();
 			$programaciones = [];
+			$equipos = [];
+			$horas = [];
+			$estados = [];
 			$length = sizeof($array_programaciones);					
 			for($i=0;$i<$length;$i++){
 				$programaciones[] = date("Y-m-d",strtotime($array_programaciones[$i]['fecha_programacion']));
+				$hora = date("H:i",strtotime($array_programaciones[$i]['fecha_programacion']));
+				$idestado = $array_programaciones[$i]['idestado_ot'];
+				$idactivo = $array_programaciones[$i]['idactivo'];
+				$equipo_ot = Activo::searchActivosById($idactivo)->get();
+				$equipo_ot = $equipo_ot[0];
+				$estado = Estado::getEstadoById($idestado)->get();
+				$estado = $estado[0];
+				array_push($equipos,$equipo_ot);
+				array_push($horas,$hora);
+				array_push($estados, $estado);
 			}
-			$array_programaciones = $programaciones;			
-			return Response::json(array( 'success' => true, 'programaciones'=> $array_programaciones),200);
+			$array_programaciones = $programaciones;		
+			return Response::json(array( 'success' => true, 'programaciones'=> $array_programaciones,'equipos'=>$equipos,'horas'=>$horas,'estados'=>$estados),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
 		}
@@ -173,8 +187,8 @@ class OtPreventivoController extends BaseController {
 				$data["search_fin"] = Input::get('search_fin');
 				$data["search_servicio"] = Input::get('search_servicio');
 				$data["servicios"] = Servicio::lists('nombre','idservicio');
-				$data["mant_preventivos_data"] = OrdenesTrabajo::searchOtsMantPreventivo($data["search_ing"],$data["search_cod_pat"],$data["search_ubicacion"],$data["search_ot"],$data["search_equipo"],$data["search_proveedor"],$data["search_ini"],$data["search_fin"],$data["search_servicio"])->paginate(10);
-				return View::make('ot/listOtMantPreventivo',$data);
+				$data["mant_preventivos_data"] = OrdenesTrabajoPreventivo::searchOtsMantPreventivo($data["search_ing"],$data["search_cod_pat"],$data["search_ubicacion"],$data["search_ot"],$data["search_equipo"],$data["search_proveedor"],$data["search_ini"],$data["search_fin"],$data["search_servicio"])->paginate(10);
+				return View::make('ot/preventivo/listOtMantPreventivo',$data);
 			}else{
 				return View::make('error/error');
 			}
@@ -184,7 +198,7 @@ class OtPreventivoController extends BaseController {
 	}	
 
 	public function getCorrelativeReportNumber(){
-		$ot = OrdenesTrabajo::getLastOtPreventivo()->first();
+		$ot = OrdenesTrabajoPreventivo::getLastOtPreventivo()->first();
 		$string = "";
 		if($ot!=null){	
 			$numero = $ot->ot_correlativo;
@@ -207,64 +221,52 @@ class OtPreventivoController extends BaseController {
 		$data["inside_url"] = Config::get('app.inside_url');
 		$data["user"] = Session::get('user');
 		if($data["user"]->idrol == 1){
-			// Check if the current user is the "System Admin"
-			
+			// Check if the current user is the "System Admin"			
 			$array_detalles = Input::get('matrix_detalle');
 			$row_size = count($array_detalles);
-
 			if($row_size==0){				
 				$message = "No se cargaron todas las OTM con éxito.";
 				$type_message = "bg-danger";
 				return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'message' => $message, 'type_message'=>$type_message ),200);
-			}			
-			
+			}						
 			//Agregar Detalle			
 			if($row_size > 0){				
 				$message = "Se crearon las OTM con éxito";
 				$type_message = "bg-success";
 				for( $i = 0; $i<$row_size; $i++ ){
 					$array_detalle = $array_detalles[$i];					
-					$fecha = date('d-m-Y H:i:s',strtotime($array_detalle[4]." ".$array_detalle[5]));
+					$fecha = date('Y-m-d H:i:s',strtotime($array_detalle[4]." ".$array_detalle[5]));
 					$cod_pat =$array_detalle[0];
 					$activo = Activo::searchActivosByCodigoPatrimonial($cod_pat)->get();					
 					$activo = $activo[0];
 					$idactivo = $activo->idactivo;
-					$ot = new OrdenesTrabajo;
+					$ot = new OrdenesTrabajoPreventivo;
 					$abreviatura = "MP";
 					// Algoritmo para añadir numeros correlativos
 					$string = $this->getCorrelativeReportNumber();
 					//Get Año Actual
 					$ts_abreviatura = "TS";
-
-					$ot->fecha_programacion = date('Y-m-d H:i:s',strtotime($array_detalle[4]." ".$array_detalle[5]));
+					$ot->fecha_programacion = $fecha;
 					$ot->idservicio = $activo->idservicio;
-					$ot->idtipo_ordenes_trabajo = 2; // A mejorar este hardcode :/
-					$ot->idestado = 9; // A mejorar este hardcode :/
-					$ot->id_usuarioelaborado = $data["user"]->id;
+					$ot->idestado_ot = 9;
+					$ot->idubicacion_fisica = $activo->idubicacion_fisica;
+					$ot->id_usuarioelaborador = $data["user"]->id;
 					$ot->id_usuariosolicitante = $array_detalle[6];
+					$ot->idactivo = $activo->idactivo;
 					$ot->ot_tipo_abreviatura = $abreviatura;
 					$ot->ot_correlativo = $string;
 					$ot->ot_activo_abreviatura = $ts_abreviatura;
 					$ot->save();
 
-					$otxa = new OrdenesTrabajosxactivo;
-					$otxa->idordenes_trabajo = $ot->idordenes_trabajo;
-					$otxa->idactivo = $idactivo;
-					$otxa->idestado = 9;
-					$otxa->costo_total_repuestos = 0.0;
-					$otxa->costo_total_personal = 0.0;
-					$otxa->save();
-					
-
 					// Asigno las tareas
-					$tareas = Tarea::getTareasByFamiliaActivo($activo->idfamilia_activo)->get();
+					$tareas = TareaOtPreventivo::getTareasByFamiliaActivo($activo->idfamilia_activo)->get();
 					foreach($tareas as $tarea){
-						$otxacxta = new OrdenesTrabajosxactivoxtarea;
-						$otxacxta->idorden_trabajoxactivo = $otxa->idorden_trabajoxactivo;
-						$otxacxta->idtarea = $tarea->idtareas;
-						$otxacxta->idestado_realizado = 25; // Estado de tarea no realizada
-						$otxacxta->save();
-					}			
+						$otxtarea = new OrdenesTrabajoPreventivoxTarea;
+						$otxtarea->idot_preventivo = $ot->idot_preventivo;
+						$otxtarea->idtareas_ot_preventivo = $tarea->idtareas_ot_preventivo;
+						$otxtarea->idestado_realizado = 25; // Estado de tarea no realizada
+						$otxtarea->save();
+					}
 				}							
 			}else{
 				$message = "No se cargaron todas las OTM con éxito.";
@@ -287,28 +289,19 @@ class OtPreventivoController extends BaseController {
 			if(($data["user"]->idrol == 1) && $id){
 				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
 				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
-				$data["prioridades"] = Prioridad::lists('nombre','idprioridad');
-				$data["tipo_fallas"] = TipoFalla::lists('nombre','idtipo_falla');
 				$tabla_estado_activo = Tabla::getTablaByNombre(self::$estado_activo)->get();
 				$data["estado_activo"] = Estado::where('idtabla','=',$tabla_estado_activo[0]->idtabla)->lists('nombre','idestado');
 
-				$data["ot_info"] = OrdenesTrabajo::searchOtPreventivoById($id)->get();
+				$data["ot_info"] = OrdenesTrabajoPreventivo::searchOtPreventivoById($id)->get();
 				if($data["ot_info"]->isEmpty()){
 					return Redirect::to('mant_preventivo/list_mant_preventivo');
 				}
-				$data["ot_info"] = $data["ot_info"][0];
-				$data["otxact"] = OrdenesTrabajosxactivo::getOtXActivo($id,$data["ot_info"]->idactivo)->get();
-				if($data["otxact"]->isEmpty()){
-					$data["tareas"] = array();
-					$data["repuestos"] = array();
-					$data["personal_data"] = array();
-				}else{
-					$data["otxact"] = $data["otxact"][0];
-					$data["tareas"] = OrdenesTrabajosxactivoxtarea::getTareasXOtXActi($data["otxact"]->idorden_trabajoxactivo)->get();
-					$data["repuestos"] = RepuestosOt::getRepuestosXOtXActi($data["otxact"]->idorden_trabajoxactivo)->get();
-					$data["personal_data"] = DetallePersonalxot::getPersonalXOtXActi($data["otxact"]->idorden_trabajoxactivo)->get();
-				}
-				return View::make('ot/createOtMantPre',$data);
+				$data["ot_info"] = $data["ot_info"][0];		
+				$data["tareas"] = OrdenesTrabajoPreventivoxTarea::getTareasXOtXActivo($data["ot_info"]->idot_preventivo)->get();
+				$data["repuestos"] = RepuestosOtPreventivos::getRepuestosXOt($data["ot_info"]->idot_preventivo)->get();
+				$data["personal_data"] = PersonalOtPreventivo::getPersonalXOt($data["ot_info"]->idot_preventivo)->get();
+				
+				return View::make('ot/preventivo/createOtMantPre',$data);
 			}else{
 				return View::make('error/error');
 			}
@@ -324,7 +317,7 @@ class OtPreventivoController extends BaseController {
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if(($data["user"]->idrol == 1)){
-				$idordenes_trabajo = Input::get('idordenes_trabajo');
+				$idot_preventivo = Input::get('idot_preventivo');
 				// Validate the info, create rules for the inputs
 				$rules = array(
 							'idestado' => 'required',
@@ -336,31 +329,138 @@ class OtPreventivoController extends BaseController {
 				$validator = Validator::make(Input::all(), $rules);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
-					return Redirect::to('mant_preventivo/create_ot_preventivo/'.$idordenes_trabajo)->withErrors($validator)->withInput(Input::all());
+					return Redirect::to('mant_preventivo/create_ot_preventivo/'.$idot_preventivo)->withErrors($validator)->withInput(Input::all());
 				}else{
-					$ot = OrdenesTrabajo::find($idordenes_trabajo);
-					$ot->idestado = Input::get('idestado');
+					$ot = OrdenesTrabajoPreventivo::find($idot_preventivo);
+					$ot->idestado_ot = Input::get('idestado');
 					$ot->idestado_inicial = Input::get('idestado_inicial');
 					$ot->sin_interrupcion_servicio = Input::get('sin_interrupcion_servicio');
 					$ot->idestado_final = Input::get('idestado_final');
-					if(Input::get('fecha_conformidad'))
-						$ot->fecha_conformidad = Input::get('fecha_conformidad');
+					if(Input::get('fecha_conformidad') && Input::get('hora_conformidad'))
+						$ot->fecha_conformidad = date("Y-m-d H:i:s",strtotime(Input::get('fecha_conformidad')." ".Input::get('hora_conformidad')));
 					if(Input::get('fecha_inicio_ejecucion'))
-						$ot->fecha_inicio_ejecucion = Input::get('fecha_inicio_ejecucion');
+						$ot->fecha_inicio_ejecucion = date("Y-m-d H:i:s",strtotime(Input::get('fecha_inicio_ejecucion')));
 					if(Input::get('fecha_termino_ejecucion'))
-						$ot->fecha_termino_ejecucion = Input::get('fecha_termino_ejecucion');
+						$ot->fecha_termino_ejecucion = date("Y-m-d H:i:s",strtotime(Input::get('fecha_termino_ejecucion')));
 					$ot->save();
 					$activo = Activo::find(Input::get('idactivo'));
 					$activo->idestado = Input::get('idestado_final');
 					$activo->save();
 					Session::flash('message', 'Se guardó correctamente la información.');
-					return Redirect::to('mant_preventivo/create_ot_preventivo/'.$idordenes_trabajo);
+					return Redirect::to('mant_preventivo/create_ot_preventivo/'.$idot_preventivo);
 				}
 			}else{
 				return View::make('error/error');
 			}
 		}else{
 			return View::make('error/error');
+		}
+	}
+
+	public function submit_create_repuesto_ajax()
+	{
+		// If there was an error, respond with 404 status
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1){
+
+			$repuesto = new RepuestosOtPreventivos;
+			$repuesto->nombre = Input::get('nombre_repuesto');
+			$repuesto->codigo = Input::get('codigo_repuesto');
+			$repuesto->cantidad = Input::get('cantidad_repuesto');
+			$repuesto->costo = Input::get('costo_repuesto');
+			$repuesto->idot_preventivo = Input::get('idot_preventivo');
+			$repuesto->save();
+			$ot = OrdenesTrabajoPreventivo::find(Input::get('idot_preventivo'));
+			$ot->costo_total_repuestos = $ot->costo_total_repuestos + Input::get('cantidad_repuesto')*Input::get('costo_repuesto');
+			$ot->save();
+			return Response::json(array( 'success' => true,'repuesto'=>$repuesto,'costo_total_repuestos' => number_format($ot->costo_total_repuestos,2)),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
+	public function submit_delete_repuesto_ajax()
+	{
+		// If there was an error, respond with 404 status
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1){
+
+			$repuesto = RepuestosOtPreventivos::find(Input::get('idrepuestos_ot_preventivo'));
+			$ot = OrdenesTrabajoPreventivo::find(Input::get('idot_preventivo'));
+			$ot->costo_total_repuestos = $ot->costo_total_repuestos - $repuesto->cantidad*$repuesto->costo;
+			$ot->save();
+			$repuesto->delete();
+			return Response::json(array( 'success' => true,'costo_total_repuestos' => number_format($ot->costo_total_repuestos,2)),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
+	public function submit_marcar_tarea_ajax()
+	{
+		// If there was an error, respond with 404 status
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1){
+			$otPreventivoxtarea = Input::get('idtareas_ot_preventivosxot_preventivo');
+			$otPreventivoxtarea = OrdenesTrabajosxactivoxtarea::find($idotPreventivoxtarea);
+			$otPreventivoxtarea->idestado_realizado = 22;
+			$otPreventivoxtarea->save();
+			return Response::json(array( 'success' => true),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
+	public function submit_create_personal_ajax()
+	{
+		// If there was an error, respond with 404 status
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1){
+
+			$personal = new PersonalOtPreventivo;
+			$personal->nombre = Input::get('nombre_personal');
+			$personal->horas_hombre = Input::get('horas_trabajadas');
+			$personal->costo = Input::get('costo_personal');
+			$personal->idot_preventivo = Input::get('idot_preventivo');
+			$personal->save();
+			$ot = OrdenesTrabajoPreventivo::find(Input::get('idot_preventivo'));
+			$ot->costo_total_personal = $ot->costo_total_personal + Input::get('horas_trabajadas')*Input::get('costo_personal');
+			$ot->save();
+			return Response::json(array( 'success' => true,'personal'=>$personal,'costo_total_personal' => number_format($ot->costo_total_personal,2)),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
+	public function submit_delete_personal_ajax()
+	{
+		// If there was an error, respond with 404 status
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1){
+
+			$personal = PersonalOtPreventivo::find(Input::get('idpersonal_ot_preventivo'));
+			$ot = OrdenesTrabajoPreventivo::find(Input::get('idot_preventivo'));
+			$ot->costo_total_personal = $ot->costo_total_personal - $personal->horas_hombre*$personal->costo;
+			$ot->save();
+			$personal->delete();
+			return Response::json(array( 'success' => true,'costo_total_personal' => number_format($ot->costo_total_personal,2)),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
 		}
 	}
 

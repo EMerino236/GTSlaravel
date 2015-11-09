@@ -1,21 +1,11 @@
 
 $( document ).ready(function(){
 
-	$("#datetimepicker_prog_fecha").datetimepicker({
-			defaultDate: false,
-			ignoreReadonly: true,
-			format: 'DD-MM-YYYY',
-			sideBySide: true
-	});
+	
 
-    $("#datetimepicker_prog_hora").datetimepicker({
-            defaultDate: false,
-            ignoreReadonly: true,
-            format: 'HH:ss',
-            sideBySide: true
-    });
-
-
+    init_ot_program();
+    
+    
     $('#cod_pat').change(function(){
         search_equipo_ajax();
     });
@@ -24,11 +14,11 @@ $( document ).ready(function(){
         addFilaMantenimiento();
     });
 
-    $('#btnLimpiar').click(function(){
+    $('#btnLimpiar_create').click(function(){
         limpiar();
     });
 
-    ver_programaciones();
+    
 
     $('#submit_create_ots').click(function(){
         sendDataToController_create();
@@ -61,11 +51,28 @@ function ver_programaciones(){
             if(response.success){
                 var programaciones = {};
                 array = response["programaciones"];
+                array_equipo = response["equipos"];
+                array_hora = response["horas"];
+                array_estado = response["estados"];
+                fecha_anterior = array[0];  
                 for(var i=0;i<array.length;i++){
                     var prog = array[i];
-                    programaciones[prog] = {};
+                    if(i==0)
+                        dayEvents=[];
+                    else{
+                        if(prog != fecha_anterior){
+                            dayEvents = [];
+                            fecha_anterior =prog;
+                        }                                                    
+                    }
+                    dayEvents.push({
+                    "title":array_equipo[i].codigo_patrimonial,
+                    "time": array_hora[i],
+                    "status":array_estado[i].nombre
+                    });
+                    programaciones[prog] = {dayEvents};
                 }
-                initialize_calendar(programaciones);                
+                initialize_calendarX(programaciones);                
             }else{
                 alert('La petición no se pudo completar, inténtelo de nuevo.');
             }
@@ -162,15 +169,49 @@ function deleteRow(event,el)
     parent.parentNode.removeChild(parent);
 }
 
+function fadeOutModalBox(num) {
+    setTimeout(function(){ $(".responsive-calendar-modal").fadeOut(); }, num);
+  }
+
+  function removeModalBox() { $(".responsive-calendar-modal").remove(); }
 
 
 function initialize_calendarX(programaciones){
     $('.responsive-calendar').responsiveCalendar({
         translateMonths:{0:'Enero',1:'Febrero',2:'Marzo',3:'Abril',4:'Mayo',5:'Junio',6:'Julio',7:'Agosto',8:'Septiembre',9:'Octubre',10:'Noviembre',11:'Diciembre'},
-        events: programaciones,
+        events:programaciones,
+        onActiveDayHover: function(events) {
+        var $today, $dayEvents, $i, $isHoveredOver, $placeholder, $output;
+        $i = $(this).data('year')+'-'+zero($(this).data('month'))+'-'+zero($(this).data('day'));
+        $isHoveredOver = $(this).is(":hover");
+        $placeholder = $(".responsive-calendar-placeholder");
+        $today= events[$i];
+        $dayEvents = $today.dayEvents;
+        $output = '<div class="responsive-calendar-modal">';
+        $.each($dayEvents, function() {
+          $.each( $(this), function( key ){
+
+            $output += '<h3>Equipo: '+$(this)[key].title+'</h1>' + '<p>Estado: '+$(this)[key].status+'<br />Hora:'+$(this)[key].time+'</p>';
+          });
+        });
+        $output + '</div>';
+        
+        if ( $isHoveredOver ) {
+          $placeholder.html($output);
+        }
+        else {
+          fadeOutModalBox(500);
+        }
+        
+        },
+    /* end $cal */
     });
 }
 
+function zero(num) {
+    if (num < 10) { return "0" + num; }
+    else { return "" + num; }
+  }
 
 
 function addFilaMantenimiento(){
@@ -186,7 +227,6 @@ function addFilaMantenimiento(){
     var currentMonth = currentDate.getMonth()+1;
     var count_otMes = $('#mes').val();
     var count_otTrimestre = $('#trimestre').val();
-
    
     if(nombre_equipo=='Equipo no registrado' || nombre_equipo==''){
         $('#modal_create_text').empty();
@@ -194,7 +234,7 @@ function addFilaMantenimiento(){
         $('#modal_create').modal('show');
     }else if(fecha==''){
         $('#modal_create_text').empty();
-        $('#modal_create_text').append('<p>Ingresar fecha correcta. La fecha debe ser del mes actual.</p>');
+        $('#modal_create_text').append('<p>Ingresar fecha.');
         $('#modal_create').modal('show');
     }else if(hora==''){
         $('#modal_create_text').empty();
@@ -215,6 +255,26 @@ function addFilaMantenimiento(){
     }
 }
 
+function init_ot_program(){
+    
+    $("#datetimepicker_prog_fecha").datetimepicker({
+            defaultDate: false,
+            ignoreReadonly: true,
+            format: 'DD-MM-YYYY',
+            sideBySide: true,
+            minDate: new Date()
+    });
+
+    $("#datetimepicker_prog_hora").datetimepicker({
+            defaultDate: false,
+            ignoreReadonly: true,
+            format: 'HH:ss',
+            sideBySide: true
+    });
+    $('#fecha').val('');
+    ver_programaciones();
+}
+
 function limpiar(){
     $('#cod_pat').val('');
     $('#nombre_equipo').val('');
@@ -226,7 +286,6 @@ function limpiar(){
 
 function sendDataToController_create(){
         var matrix = readTableData();
-
         $.ajax({
             url: inside_url+'mant_preventivo/submit_programacion',
             type: 'POST',

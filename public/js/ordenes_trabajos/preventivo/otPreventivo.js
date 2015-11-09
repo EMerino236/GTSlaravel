@@ -1,39 +1,44 @@
 $( document ).ready(function(){
+	
+	init_ot_create();
 
-	$("#datetimepicker3").datetimepicker({
-		defaultDate: false,
-		ignoreReadonly: true,
-		format: 'DD-MM-YYYY HH:ss',
-		sideBySide: true
-	});
+	
 
-	$("#datetimepicker_conformidad_fecha").datetimepicker({
-		defaultDate: false,
-		ignoreReadonly: true,
-		format: 'DD-MM-YYYY',
-		sideBySide: true
-	});
+	/*$("#submit-tarea").click(function(e){
+		e.preventDefault;
+		if($("input[name=nombre_tarea]").val().length<1){
+			$("input[name=nombre_tarea]").parent().addClass("has-error has-feedback");
+			alert("Ingrese una tarea válida.");
+		}else{
+			$("input[name=nombre_tarea]").parent().removeClass("has-error has-feedback");
+			if (confirm('¿Está seguro de esta acción?')){
+				$.ajax({
+					url: inside_url+'mant_preventivo/submit_create_tarea_ajax',
+					type: 'POST',
+					data: { 
+						'idot_preventivo' : $("input[name=idot_preventivo]").val(),
+						'nombre_tarea' : $("input[name=nombre_tarea]").val(),
+						'idactivo' : $("input[name=idactivo]").val(),
+					},
+					beforeSend: function(){
+						$(this).prop('disabled',true);
+					},
+					complete: function(){
+						$(this).prop('disabled',false);
+					},
+					success: function(response){
+						var str = "";
+						str += '<tr id="tarea-row-'+response.otPreventivoxtarea.idtareas_ot_preventivosxot_preventivo+'"><td>'+response.tarea.nombre+'</td>';
+						str += '<td><button class="btn btn-danger boton-eliminar-tarea" onclick="eliminar_tarea(event,'+response.otPreventivoxtarea.idtareas_ot_preventivosxot_preventivo+')" type="button">Eliminar</button></td></tr>';
+						$("#tareas-table").append(str);
+					},
+					error: function(){
+					}
+				});
+			}
+		}
 
-	$("#datetimepicker_conformidad_hora").datetimepicker({
-		defaultDate: false,
-		ignoreReadonly: true,
-		format: 'HH:ss',
-		sideBySide: true
-	});
-
-	$("#datetimepicker_fecha_inicio").datetimepicker({
-		defaultDate: false,
-		ignoreReadonly: true,
-		format: 'DD-MM-YYYY HH:ss',
-		sideBySide: true
-	});
-
-	$("#datetimepicker_fecha_fin").datetimepicker({
-		defaultDate: false,
-		ignoreReadonly: true,
-		format: 'DD-MM-YYYY HH:ss',
-		sideBySide: true
-	});
+	});*/
 
 	$(".boton-tarea").click(function(e){
 		e.preventDefault;
@@ -41,7 +46,7 @@ $( document ).ready(function(){
 			$.ajax({
 				url: inside_url+'marcar_tarea/submit_marcar_tarea_ajax',
 				type: 'POST',
-				data: { 'idotxactxta' : $(this).data('id') },
+				data: { 'idtareas_ot_preventivosxot_preventivo' : $(this).data('id') },
 				beforeSend: function(){
 				},
 				complete: function(){
@@ -103,7 +108,7 @@ $( document ).ready(function(){
 					url: inside_url+'mant_preventivo/submit_create_repuesto_ajax',
 					type: 'POST',
 					data: { 
-						'idorden_trabajoxactivo' : $("input[name=idorden_trabajoxactivo]").val(),
+						'idot_preventivo' : $("input[name=idot_preventivo]").val(),
 						'nombre_repuesto' : $("input[name=nombre_repuesto]").val(),
 						'codigo_repuesto' : $("input[name=codigo_repuesto]").val(),
 						'cantidad_repuesto' : $("input[name=cantidad_repuesto]").val(),
@@ -121,7 +126,7 @@ $( document ).ready(function(){
 						str += "<td>"+response.repuesto.codigo+"</td>";
 						str += "<td>"+response.repuesto.cantidad+"</td>";
 						str += "<td>"+response.repuesto.costo+"</td>";
-						str += '<td><button class="btn btn-danger boton-eliminar-repuesto" onclick="eliminar_repuesto(event,'+response.repuesto.idrepuestos_ot+')" type="button">Eliminar</button></td></tr>';
+						str += '<td><button class="btn btn-danger boton-eliminar-repuesto" onclick="eliminar_repuesto(event,'+response.repuesto.idrepuestos_ot_preventivo+')" type="button">Eliminar</button></td></tr>';
 						$("#repuestos-table").append(str);
 						$("input[name=costo_total_repuestos]").val(response.costo_total_repuestos);
 					},
@@ -129,9 +134,9 @@ $( document ).ready(function(){
 					}
 				});
 			}else{
-				$('#modal_text').html('<p>'+error_str+'</p>');
-				$('#modal_header').addClass('bg-danger');
-            	$('#modal_info').modal('show');    
+				$('#modal_text_ot').html('<p>'+error_str+'</p>');
+				$('#modal_header_ot').addClass('bg-danger');
+            	$('#modal_info_ot').modal('show');    
 			}
 		
 	});
@@ -171,7 +176,7 @@ $( document ).ready(function(){
 					url: inside_url+'mant_preventivo/submit_create_personal_ajax',
 					type: 'POST',
 					data: { 
-						'idorden_trabajoxactivo' : $("input[name=idorden_trabajoxactivo]").val(),
+						'idot_preventivo' : $("input[name=idot_preventivo]").val(),
 						'nombre_personal' : $("input[name=nombre_personal]").val(),
 						'horas_trabajadas' : $("input[name=horas_trabajadas]").val(),
 						'costo_personal' : $("input[name=costo_personal]").val()
@@ -184,10 +189,10 @@ $( document ).ready(function(){
 					},
 					success: function(response){
 						var str = "";
-						str += '<tr id="personal-row-'+response.personal.iddetalle_personalxot+'"><td>'+response.personal.nombre+'</td>';
+						str += '<tr id="personal-row-'+response.personal.idpersonal_ot_preventivo+'"><td>'+response.personal.nombre+'</td>';
 						str += "<td>"+response.personal.horas_hombre+"</td>";
 						str += "<td>"+response.personal.costo+"</td>";
-						str += '<td><button class="btn btn-danger boton-eliminar-personal" onclick="eliminar_personal(event,'+response.personal.iddetalle_personalxot+')" type="button">Eliminar</button></td></tr>';
+						str += '<td><button class="btn btn-danger boton-eliminar-personal" onclick="eliminar_personal(event,'+response.personal.idpersonal_ot_preventivo+')" type="button">Eliminar</button></td></tr>';
 						$("#personal-table").append(str);
 						$("input[name=costo_total_personal]").val(response.costo_total_personal);
 					},
@@ -195,10 +200,96 @@ $( document ).ready(function(){
 					}
 				});
 			}else{
-				$('#modal_text').html('<p>'+error_str+'</p>');
-				$('#modal_header').addClass('bg-danger');
-            	$('#modal_info').modal('show');   
+				$('#modal_text_ot').html('<p>'+error_str+'</p>');
+				$('#modal_header_ot').addClass('bg-danger');
+            	$('#modal_info_ot').modal('show');   
 			}
 		
 	});
 });
+
+function eliminar_repuesto(e,id){
+	e.preventDefault();
+	if (confirm('¿Está seguro de eliminar el repuesto?')){
+		$.ajax({
+			url: inside_url+'mant_preventivo/submit_delete_repuesto_ajax',
+			type: 'POST',
+			data: { 
+				'idot_preventivo' : $("input[name=idot_preventivo]").val(),
+				'idrepuestos_ot_preventivo' : id,
+			},
+			beforeSend: function(){
+				//$(this).prop('disabled',true);
+			},
+			complete: function(){
+				//$(this).prop('disabled',false);
+			},
+			success: function(response){
+				$("#repuesto-row-"+id).remove();
+				$("input[name=costo_total_repuestos]").val(response.costo_total_repuestos);
+			},
+			error: function(){
+			}
+		});
+	}
+}
+
+function init_ot_create(){
+	array_fecha = $('#fecha_programacion_ot').val().split('-');
+	fecha_str = array_fecha[2]+"-"+array_fecha[1]+"-"+array_fecha[0];
+	$("#datetimepicker_conformidad_fecha").datetimepicker({
+		defaultDate: false,
+		ignoreReadonly: true,
+		format: 'DD-MM-YYYY',
+		sideBySide: true,
+		minDate: fecha_str
+	});
+	$('#fecha_conformidad').val('');
+	
+	$("#datetimepicker_conformidad_hora").datetimepicker({
+		defaultDate: false,
+		ignoreReadonly: true,
+		format: 'HH:ss',
+		sideBySide: true
+	});
+
+	$("#datetimepicker_fecha_inicio_ot").datetimepicker({
+		defaultDate: false,
+		ignoreReadonly: true,
+		format: 'DD-MM-YYYY HH:ss',
+		sideBySide: true
+	});
+
+	$("#datetimepicker_fecha_fin_ot").datetimepicker({
+		defaultDate: false,
+		ignoreReadonly: true,
+		format: 'DD-MM-YYYY HH:ss',
+		sideBySide: true
+	});
+}
+
+function eliminar_personal(e,id){
+	e.preventDefault();
+	if (confirm('¿Está seguro de eliminar el personal de la OT?')){
+		$.ajax({
+			url: inside_url+'mant_preventivo/submit_delete_personal_ajax',
+			type: 'POST',
+			data: { 
+				'idot_preventivo' : $("input[name=idot_preventivo]").val(),
+				'idpersonal_ot_preventivo' : id,
+			},
+			beforeSend: function(){
+				//$(this).prop('disabled',true);
+			},
+			complete: function(){
+				//$(this).prop('disabled',false);
+			},
+			success: function(response){
+				$("#personal-row-"+id).remove();
+				$("input[name=costo_total_personal]").val(response.costo_total_personal);
+			},
+			error: function(){
+			}
+		});
+	}
+}

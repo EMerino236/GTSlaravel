@@ -16,4 +16,9 @@ class Estado extends Eloquent{
 		return $query;
 	}
 
+	public function scopeGetEstadoById($query,$idestado){
+		$query->where('idestado','=',$idestado);
+		return $query;
+	}
+
 }

@@ -78,7 +78,7 @@
 							<div id="datetimepicker_prog_hora" class="form-group input-group date @if($errors->first('fecha')) has-error has-feedback @endif">					
 								{{ Form::text('hora_programacion',Input::old('hora'),array('class'=>'form-control','readonly'=>'','id'=>'hora')) }}
 								<span class="input-group-addon">
-				                    <span class="glyphicon glyphicon-calendar"></span>
+				                    <span class="glyphicon glyphicon-time"></span>
 				                </span>
 			            	</div>
 			            </div>
@@ -88,7 +88,7 @@
 							{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Agregar Programacion', array('id'=>'btnAddProgramacion',  'class' => 'btn btn-primary btn-block')) }}
 						</div>
 						<div class="form-group col-md-4">
-							{{ Form::button('<span class="glyphicon glyphicon-refresh"></span> Limpiar', array('id'=>'btnlimpiar',  'class' => 'btn btn-default btn-block')) }}			
+							{{ Form::button('<span class="glyphicon glyphicon-refresh"></span> Limpiar', array('id'=>'btnLimpiar_create',  'class' => 'btn btn-default btn-block')) }}			
 						</div>
 					</div>	
 			    </div>				    
@@ -116,6 +116,7 @@
 			  <div class="days" data-group="days">
 			    <!-- the place where days will be generated -->
 			  </div>
+			  <div class="responsive-calendar-placeholder"></div>	
 			</div>
 			<!-- Responsive calendar - END -->
 		</div>

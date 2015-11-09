@@ -12,7 +12,7 @@
 			<p><strong>{{ $errors->first('numero_ot') }}</strong></p>
 			<p><strong>{{ $errors->first('tipo_reporte') }}</strong></p>
 			<p><strong>{{ $errors->first('numero_doc1') }}</strong></p>
-			<p><strong>{{ $errors->first('fecha') }}</strong></p>
+			<p><strong>{{ $errors->first('fecha_reporte') }}</strong></p>
 			<p><strong>{{ $errors->first('descripcion_corta') }}</strong></p>
 			<p><strong>{{ $errors->first('descripcion') }}</strong></p>
 			<p><strong>{{ $errors->first('servicio') }}</strong></p>
@@ -36,6 +36,7 @@
 	@endif
 
 	{{ Form::open(array('url'=>'reportes_incumplimiento/submit_reporte', 'role'=>'form')) }}
+		{{ Form::hidden('tipo_ot',null,array('id'=>'tipo_ot'))}}
 		<div class="container-fluid row">
 			<div class="form-group col-md-2 col-md-offset-8">				
 				{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Crear', array('id'=>'submit-create', 'type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}
@@ -48,13 +49,13 @@
 			<div class="panel panel-default">
 			  	<div class="panel-heading">Datos</div>
 			  	<div class="panel-body">	
-					<div class="row">								
+					<div class="row">		
 						<div class="form-group col-md-4 @if($errors->first('numero_ot')) has-error has-feedback @endif">
-							{{ Form::label('numero_ot','Número de OT') }}<span style="color:red"> *</span>
+							{{ Form::label('numero_ot','Código de OT') }}<span style="color:red"> *</span>
 							{{ Form::text('numero_ot',Input::old('numero_ot'),['class' => 'form-control'])}}
 						</div>
 						<div class="form-group col-md-4 @if($errors->first('tipo_reporte')) has-error has-feedback @endif">
-							{{ Form::label('tipo_reporte','Tipo') }}<span style="color:red"> *</span>
+							{{ Form::label('tipo_reporte','Tipo de Reporte') }}<span style="color:red"> *</span>
 							{{ Form::select('tipo_reporte',['0'=>'','1'=>'Por Servicio','2'=>'Por Equipo'],Input::old('idtipo_reporte'),['class' => 'form-control'])}}
 						</div>						
 					</div>
@@ -79,7 +80,7 @@
 						<div class="col-md-4">
 							{{ Form::label('fecha','Fecha')}}<span style="color:red"> *</span>
 							<div id="datetimepicker1" class="form-group input-group date @if($errors->first('fecha')) has-error has-feedback @endif">					
-								{{ Form::text('fecha',Input::old('fecha'),array('class'=>'form-control','readonly'=>'')) }}
+								{{ Form::text('fecha_reporte',Input::old('fecha_reporte'),array('class'=>'form-control','readonly'=>'')) }}
 								<span class="input-group-addon">
 				                    <span class="glyphicon glyphicon-calendar"></span>
 				                </span>

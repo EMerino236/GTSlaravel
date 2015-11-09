@@ -47,9 +47,9 @@
 						<div class="form-group col-md-4 @if($errors->first('numero_ot')) has-error has-feedback @endif">
 							{{ Form::label('numero_ot','Número de OT:') }}<span style="color:red"> *</span>
 							@if($reporte_data->deleted_at)
-								{{ Form::text('numero_ot',$reporte_data->idordenes_trabajo,array('class'=>'form-control','readonly'=>'')) }}
+								{{ Form::text('numero_ot',$reporte_data->codigo_ot,array('class'=>'form-control','readonly'=>'')) }}
 							@else
-								{{ Form::text('numero_ot',$reporte_data->idordenes_trabajo,array('class'=>'form-control')) }}
+								{{ Form::text('numero_ot',$reporte_data->codigo_ot,array('class'=>'form-control')) }}
 							@endif	
 						</div>
 						<div class="form-group col-md-4 @if($errors->first('servicio')) has-error has-feedback @endif">

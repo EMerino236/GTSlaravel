@@ -32,7 +32,7 @@
 					<div class="row">
 						<div class="form-group col-md-6 @if($errors->first('servicio')) has-error has-feedback @endif">
 							{{ Form::label('servicio','Servicio:') }}
-							{{ Form::select('servicio',array('0' => 'Seleccione') + $servicios,Input::old('servicio'),['class' => 'form-control','id'=>'servicio'])}}
+							{{ Form::select('servicio',array('0' => 'Seleccione') + $servicios,Input::old('servicio'),['class' => 'form-control','id'=>'idservicio'])}}
 						</div>
 					</div>							        
 					<div class="row">
@@ -84,7 +84,7 @@
 							{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Agregar Programacion', array('id'=>'btnAddProgramacion',  'class' => 'btn btn-primary btn-block')) }}
 						</div>
 						<div class="form-group col-md-4">
-							{{ Form::button('<span class="glyphicon glyphicon-refresh"></span> Limpiar', array('id'=>'btnlimpiar',  'class' => 'btn btn-default btn-block')) }}			
+							{{ Form::button('<span class="glyphicon glyphicon-refresh"></span> Limpiar', array('id'=>'btnLimpiar',  'class' => 'btn btn-default btn-block')) }}			
 						</div>
 					</div>	
 			    </div>				    

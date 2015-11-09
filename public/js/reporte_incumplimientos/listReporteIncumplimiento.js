@@ -9,6 +9,7 @@ $( document ).ready(function(){
         ignoreReadonly: true,
         format:'DD-MM-YYYY'
     });
+    
     $("#search_datetimepicker1").on("dp.change", function (e) {
         $('#search_datetimepicker2').data("DateTimePicker").minDate(e.date);
     });

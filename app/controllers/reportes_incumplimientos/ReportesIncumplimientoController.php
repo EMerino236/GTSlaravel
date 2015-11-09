@@ -31,14 +31,12 @@ class ReportesIncumplimientoController extends BaseController
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
-				$data["fecha_desde"] = date('Y-m-d H:i:s',strtotime(Input::get('fecha_desde')));				
-				$data["fecha_hasta"] = date('Y-m-d H:i:s',strtotime(Input::get('fecha_hasta')));
+				$data["fecha_desde"] = Input::get('fecha_desde');				
+				$data["fecha_hasta"] = Input::get('fecha_hasta');
 				$data["search_proveedor"] = Input::get('search_proveedor');
 				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
 				$data["search_tipo_reporte"] = Input::get('search_tipo_reporte');
 				$data["reportes_data"] = ReporteIncumplimiento::searchReportes($data["fecha_desde"],$data["fecha_hasta"],$data["search_proveedor"],$data["search_tipo_reporte"])->paginate(10);
-				$data["fecha_desde"] = date('d-m-Y',strtotime(Input::get('fecha_desde')));				
-				$data["fecha_hasta"] = date('d-m-Y',strtotime(Input::get('fecha_hasta')));
 				return View::make('reportes_incumplimiento/listReportesIncumplimientos',$data);	
 			}else{
 				return View::make('error/error');
@@ -204,7 +202,7 @@ class ReportesIncumplimientoController extends BaseController
 							'numero_ot' => 'required',
 							'tipo_reporte' => 'required',
 							'numero_doc1' => 'required',
-							'fecha' => 'required',
+							'fecha_reporte' => 'required',
 							'descripcion_corta' => 'required',
 							'descripcion' => 'required',
 							'servicio' => 'required',						
@@ -217,6 +215,7 @@ class ReportesIncumplimientoController extends BaseController
 							'numero_doc2' => 'required',
 							'numero_doc3' => 'required',
 						);
+				
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules);
 				// If the validator fails, redirect back to the form
@@ -228,9 +227,16 @@ class ReportesIncumplimientoController extends BaseController
 					$reporte_id = Input::get('reporte_id');					
 					$url = "reportes_incumplimiento/edit_reporte"."/".$reporte_id;
 					$reporte = ReporteIncumplimiento::find($reporte_id);
-					$reporte->idordenes_trabajo = Input::get('numero_ot'); 
+					$reporte->codigo_ot = Input::get('numero_ot'); 
 					$reporte->tipo_reporte = Input::get('tipo_reporte');
-					$reporte->fecha = date('Y-m-d H:i:s',strtotime(Input::get('fecha')));
+					//validar si la fecha es mayor o igual que la actual
+					$fecha_reporte = date('Y-m-d',strtotime(Input::get('fecha_reporte')));
+					$fecha_actual = date('Y-m-d');
+					if($fecha_actual>$fecha_reporte){
+						Session::flash('error', 'No se puede guardar una fecha pasada a la actual.');
+						return Redirect::to($url);
+					}
+					$reporte->fecha = $fecha_reporte;
 					$id_usuario_revision = Input::get('numero_doc1');
 					$usuario_revision = User::searchPersonalByNumeroDoc($id_usuario_revision)->get();
 					if($usuario_revision->isEmpty()){
@@ -308,7 +314,7 @@ class ReportesIncumplimientoController extends BaseController
 							'numero_ot' => 'required',
 							'tipo_reporte' => 'required',
 							'numero_doc1' => 'required',
-							'fecha' => 'required',
+							'fecha_reporte' => 'required',
 							'descripcion_corta' => 'required',
 							'descripcion' => 'required',
 							'servicio' => 'required',						
@@ -340,9 +346,16 @@ class ReportesIncumplimientoController extends BaseController
 					$reporte->numero_reporte_abreviatura = $abreviatura;
 					$reporte->numero_reporte_correlativo = $string;
 					$reporte->numero_reporte_anho = $anho;
-					$reporte->idordenes_trabajo = Input::get('numero_ot'); 
+
+					$reporte->codigo_ot = Input::get('numero_ot'); 
 					$reporte->tipo_reporte = Input::get('tipo_reporte');
-					$reporte->fecha = date('Y-m-d H:i:s',strtotime(Input::get('fecha')));
+					$fecha_reporte = date('Y-m-d',strtotime(Input::get('fecha_reporte')));
+					$fecha_actual = date('Y-m-d');
+					if($fecha_actual>$fecha_reporte){
+						Session::flash('error', 'No se puede guardar una fecha pasada a la actual.');
+						return Redirect::to('reportes_incumplimiento/create_reporte');
+					}
+					$reporte->fecha = $fecha_reporte;
 					$id_usuario_revision = Input::get('numero_doc1');
 					$usuario_revision = User::searchPersonalByNumeroDoc($id_usuario_revision)->get();
 					if($usuario_revision->isEmpty()){

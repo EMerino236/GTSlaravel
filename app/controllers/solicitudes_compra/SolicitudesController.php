@@ -238,7 +238,8 @@ class SolicitudesController extends BaseController
 			// Check if the current user is the "System Admin"
 			
 			$idtipo_solicitud_compra = Input::get('tipo_solicitud');
-			$fecha = Input::get('fecha');
+			$fecha_actual = date('Y-m-d');
+			$fecha = date('Y-m-d H:i:s',strtotime(Input::get('fecha')));
 			$numero_ot = Input::get('numero_ot');
 			$equipo = Input::get('equipo');
 			$sustento = Input::get('sustento');
@@ -256,8 +257,14 @@ class SolicitudesController extends BaseController
 			}			
 			$solicitud = new SolicitudCompra;
 			$solicitud->idtipo_solicitud_compra = $idtipo_solicitud_compra;
-			$solicitud->fecha = date('Y-m-d H:i:s',strtotime($fecha));
-			$solicitud->idordenes_trabajo = $numero_ot;
+			//validar fecha 
+			if($fecha_actual>$fecha){
+				$message = "No se guardaron los cambios del Requerimiento. No se puede registrar fecha pasada.";
+				$type_message = "bg-danger";
+				return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'message' => $message, 'type_message'=>$type_message ),200);
+			}
+			$solicitud->fecha = $fecha;
+			$solicitud->codigo_ot = $numero_ot;
 			$solicitud->idfamilia_activo = $equipo;
 			$solicitud->sustento = $sustento;
 			$solicitud->id_responsable = $usuario_responsable;	
@@ -313,7 +320,8 @@ class SolicitudesController extends BaseController
 			// Check if the current user is the "System Admin"
 			$idsolicitud_compra = Input::get('idsolicitud');
 			$idtipo_solicitud_compra = Input::get('tipo_solicitud');
-			$fecha = Input::get('fecha');
+			$fecha = date('Y-m-d H:i:s',strtotime(Input::get('fecha')));
+			$fecha_actual = date('Y-m-d');
 			$numero_ot = Input::get('numero_ot');
 			$equipo = Input::get('equipo');
 			$sustento = Input::get('sustento');
@@ -325,15 +333,20 @@ class SolicitudesController extends BaseController
 			$row_size = count($array_detalles);
 
 			if($idtipo_solicitud_compra==0 || $fecha=="" || $numero_ot=="" || $equipo==0 || $usuario_responsable==0 || $servicio==0 || $estado==0 || $codigo_archivamiento == "" || $row_size==0){				
-				$message = "No se guardaron los cambios del Requerimiento. Completar campos obligatorios.";
+				$message = "No se guardaron los cambios del Requerimiento. No se puede registrar fecha pasada.";
 				$type_message = "bg-danger";
 				return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'message' => $message, 'type_message'=>$type_message ),200);
 			}
 			
 			$solicitud = SolicitudCompra::find($idsolicitud_compra);
 			$solicitud->idtipo_solicitud_compra = Input::get('tipo_solicitud');
-			$solicitud->fecha = date('Y-m-d H:i:s',strtotime(Input::get('fecha')));
-			$solicitud->idordenes_trabajo = Input::get('numero_ot');
+			if($fecha_actual > $fecha){
+				$message = "No se guardaron los cambios del Requerimiento. Completar campos obligatorios.";
+				$type_message = "bg-danger";
+				return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'message' => $message, 'type_message'=>$type_message ),200);
+			}
+			$solicitud->fecha = $fecha;
+			$solicitud->codigo_ot = Input::get('numero_ot');
 			$solicitud->idfamilia_activo = Input::get('equipo');
 			$solicitud->sustento = Input::get('sustento');
 			$solicitud->id_responsable = Input::get('usuario_responsable');	

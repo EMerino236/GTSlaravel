@@ -14,7 +14,6 @@ class ReporteIncumplimiento extends Eloquent{
 		$query->withTrashed()
 			  ->join('servicios','servicios.idservicio','=','reporte_incumplimientos.idservicio')
 			  ->join('proveedores','proveedores.idproveedor','=','reporte_incumplimientos.idproveedor')
-			  ->join('ordenes_trabajos','ordenes_trabajos.idordenes_trabajo','=','reporte_incumplimientos.idordenes_trabajo')
 			  ->select('servicios.nombre as nomb_servicio','proveedores.razon_social as nomb_proveedor','reporte_incumplimientos.*');
 		return $query;
 	}
@@ -24,8 +23,7 @@ class ReporteIncumplimiento extends Eloquent{
 		$query->withTrashed()
 			  ->join('servicios','servicios.idservicio','=','reporte_incumplimientos.idservicio')
 			  ->join('proveedores','proveedores.idproveedor','=','reporte_incumplimientos.idproveedor')
-			  ->join('ordenes_trabajos','ordenes_trabajos.idordenes_trabajo','=','reporte_incumplimientos.idordenes_trabajo')
-			   ->whereNested(function($query) use($idreporte){
+			  ->whereNested(function($query) use($idreporte){
 			  		$query->where('reporte_incumplimientos.idreporte_incumplimiento','=',$idreporte);	 			  			  
 			  })
 			  ->select('servicios.nombre as nomb_servicio','proveedores.razon_social as nomb_proveedor','reporte_incumplimientos.*');
@@ -35,16 +33,15 @@ class ReporteIncumplimiento extends Eloquent{
 	public function scopeSearchReportes($query,$fecha_desde,$fecha_hasta,$proveedor,$tipo){
 		$query->withTrashed()
 			  ->join('servicios','servicios.idservicio','=','reporte_incumplimientos.idservicio')
-			  ->join('proveedores','proveedores.idproveedor','=','reporte_incumplimientos.idproveedor')
-			  ->join('ordenes_trabajos','ordenes_trabajos.idordenes_trabajo','=','reporte_incumplimientos.idordenes_trabajo');
-			  
+			  ->join('proveedores','proveedores.idproveedor','=','reporte_incumplimientos.idproveedor');
+			 
 			  if($fecha_desde != "")
 			  {
-			  	$query->where('reporte_incumplimientos.fecha','>',$fecha_desde);
+			  	$query->where('reporte_incumplimientos.fecha','>',date('Y-m-d H:i:s',strtotime($fecha_desde)));
 			  }
 			  if($fecha_hasta != "")
 			  {
-			  	$query->where('reporte_incumplimientos.fecha','<',$fecha_hasta);
+			  	$query->where('reporte_incumplimientos.fecha','=<',date('Y-m-d H:i:s',strtotime($fecha_hasta)));
 			  }
 			  if($proveedor != '0')
 			  {
