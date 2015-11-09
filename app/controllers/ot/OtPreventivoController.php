@@ -143,25 +143,27 @@ class OtPreventivoController extends BaseController {
 			$array_programaciones = null;	
 			$array_programaciones =  OrdenesTrabajoPreventivo::getOtXPeriodo(9,$fecha_ini,$fecha_fin)->orderBy('fecha_programacion','desc')->get()->toArray();
 			$programaciones = [];
-			$equipos = [];
 			$horas = [];
 			$estados = [];
-			$length = sizeof($array_programaciones);					
+			$codigos = [];
+			$length = sizeof($array_programaciones);
+			$ids = [];
+
 			for($i=0;$i<$length;$i++){
 				$programaciones[] = date("Y-m-d",strtotime($array_programaciones[$i]['fecha_programacion']));
+				$codigo_ot = $array_programaciones[$i]['ot_tipo_abreviatura'].$array_programaciones[$i]['ot_correlativo'].$array_programaciones[$i]['ot_activo_abreviatura'];
 				$hora = date("H:i",strtotime($array_programaciones[$i]['fecha_programacion']));
+				$id = $array_programaciones[$i]['idot_preventivo'];
 				$idestado = $array_programaciones[$i]['idestado_ot'];
-				$idactivo = $array_programaciones[$i]['idactivo'];
-				$equipo_ot = Activo::searchActivosById($idactivo)->get();
-				$equipo_ot = $equipo_ot[0];
 				$estado = Estado::getEstadoById($idestado)->get();
 				$estado = $estado[0];
-				array_push($equipos,$equipo_ot);
 				array_push($horas,$hora);
 				array_push($estados, $estado);
+				array_push($codigos,$codigo_ot);
+				array_push($ids,$id);
 			}
 			$array_programaciones = $programaciones;		
-			return Response::json(array( 'success' => true, 'programaciones'=> $array_programaciones,'equipos'=>$equipos,'horas'=>$horas,'estados'=>$estados),200);
+			return Response::json(array( 'success' => true, 'programaciones'=> $array_programaciones,'horas'=>$horas,'estados'=>$estados,'codigos_ot'=>$codigos,'ids'=>$ids),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
 		}

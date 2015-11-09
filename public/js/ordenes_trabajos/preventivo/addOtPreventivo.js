@@ -51,9 +51,10 @@ function ver_programaciones(){
             if(response.success){
                 var programaciones = {};
                 array = response["programaciones"];
-                array_equipo = response["equipos"];
+                array_id = response["ids"];
                 array_hora = response["horas"];
                 array_estado = response["estados"];
+                array_codigo = response["codigos_ot"];
                 fecha_anterior = array[0];  
                 for(var i=0;i<array.length;i++){
                     var prog = array[i];
@@ -66,9 +67,10 @@ function ver_programaciones(){
                         }                                                    
                     }
                     dayEvents.push({
-                    "title":array_equipo[i].codigo_patrimonial,
-                    "time": array_hora[i],
-                    "status":array_estado[i].nombre
+                        "title":array_codigo[i],
+                        "time": array_hora[i],
+                        "status":array_estado[i].nombre,
+                        "id":array_id[i]
                     });
                     programaciones[prog] = {dayEvents};
                 }
@@ -173,36 +175,34 @@ function fadeOutModalBox(num) {
     setTimeout(function(){ $(".responsive-calendar-modal").fadeOut(); }, num);
   }
 
-  function removeModalBox() { $(".responsive-calendar-modal").remove(); }
+function removeModalBox() { $(".responsive-calendar-modal").remove(); }
 
 
 function initialize_calendarX(programaciones){
     $('.responsive-calendar').responsiveCalendar({
         translateMonths:{0:'Enero',1:'Febrero',2:'Marzo',3:'Abril',4:'Mayo',5:'Junio',6:'Julio',7:'Agosto',8:'Septiembre',9:'Octubre',10:'Noviembre',11:'Diciembre'},
         events:programaciones,
-        onActiveDayHover: function(events) {
+        onActiveDayClick: function(events) {
         var $today, $dayEvents, $i, $isHoveredOver, $placeholder, $output;
         $i = $(this).data('year')+'-'+zero($(this).data('month'))+'-'+zero($(this).data('day'));
-        $isHoveredOver = $(this).is(":hover");
-        $placeholder = $(".responsive-calendar-placeholder");
         $today= events[$i];
         $dayEvents = $today.dayEvents;
         $output = '<div class="responsive-calendar-modal">';
         $.each($dayEvents, function() {
           $.each( $(this), function( key ){
-
-            $output += '<h3>Equipo: '+$(this)[key].title+'</h1>' + '<p>Estado: '+$(this)[key].status+'<br />Hora:'+$(this)[key].time+'</p>';
+            $("#modal_text_ot").empty();    
+            $('#modal_ot').modal('show');
+            $('#modal_header_ot').removeClass();
+            $('#modal_header_ot').addClass("modal-header ");
+            $('#modal_header_ot').addClass("bg-info");
+            url =  inside_url+'mant_preventivo/create_ot_preventivo/'+$(this)[key].id;
+            $output += '<a href="'+url+'">OT: '+$(this)[key].title+'</a>' + '<p>Estado: '+$(this)[key].status+'<br />Hora:'+$(this)[key].time+'</p>';
+            $('#modal_text_ot').append($output);
           });
         });
-        $output + '</div>';
         
-        if ( $isHoveredOver ) {
-          $placeholder.html($output);
-        }
-        else {
-          fadeOutModalBox(500);
-        }
         
+                
         },
     /* end $cal */
     });
