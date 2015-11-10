@@ -49,12 +49,14 @@ $( document ).ready(function(){
 					},
 					success: function(response){
 						var str = "";
-						str += '<tr id="personal-row-'+response.personal.idpersonal_ot_preventivo+'"><td>'+response.personal.nombre+'</td>';
+						str += '<tr id="personal-row-'+response.personal.idpersonal_ot_vmetrologica+'"><td>'+response.personal.nombre+'</td>';
 						str += "<td>"+response.personal.horas_hombre+"</td>";
 						str += "<td>"+response.personal.costo+"</td>";
-						str += '<td><button class="btn btn-danger boton-eliminar-personal" onclick="eliminar_personal(event,'+response.personal.idpersonal_ot_preventivo+')" type="button">Eliminar</button></td></tr>';
+						str += '<td><button class="btn btn-danger boton-eliminar-personal" onclick="eliminar_personal(event,'+response.personal.idpersonal_ot_vmetrologica+')" type="button">Eliminar</button></td></tr>';
 						$("#personal-table").append(str);
-						$("input[name=costo_total]").val(response.costo_total);
+						$("input[name=nombre_personal]").val('');
+						$("input[name=horas_trabajadas]").val('');
+						$("input[name=costo_personal]").val('');
 					},
 					error: function(){
 					}
@@ -111,7 +113,7 @@ function eliminar_personal(e,id){
 			type: 'POST',
 			data: { 
 				'idot_vmetrologica' : $("input[name=idot_vmetrologica]").val(),
-				'idpersonal_ot_preventivo' : id,
+				'idpersonal_ot_vmetrologica' : id,
 			},
 			beforeSend: function(){
 				//$(this).prop('disabled',true);
@@ -121,10 +123,65 @@ function eliminar_personal(e,id){
 			},
 			success: function(response){
 				$("#personal-row-"+id).remove();
-				$("input[name=costo_total]").val(response.costo_total);
+				$("input[name=costo_total_personal]").val(response.costo_total);
 			},
 			error: function(){
 			}
 		});
 	}
+}
+
+function llenar_nombre_doc_relacionado(id){
+        var val = $("#num_doc_relacionado"+id).val();
+        if(val=="")
+            val = "vacio";    
+        $.ajax({
+            url: inside_url+'rep_instalacion/return_name_doc_relacionado/'+val,
+            type: 'POST',
+            data: { 'selected_id' : val },
+            beforeSend: function(){
+                $("#delete-selected-profiles").addClass("disabled");
+                $("#delete-selected-profiles").hide();
+                $(".loader_container").show();
+            },
+            complete: function(){
+                $(".loader_container").hide();
+                $("#delete-selected-profiles").removeClass("disabled");
+                $("#delete-selected-profiles").show();
+                delete_selected_profiles = true;
+            },
+            success: function(response){
+                if(response.success){
+                    var resp = response['contrato'];
+                    if(resp!="vacio"){
+                        if(resp[0] != null){
+                            $("#nombre_doc_relacionado"+id).val("");
+                            $("#nombre_doc_relacionado"+id).css('background-color','#5cb85c');
+                            $("#nombre_doc_relacionado"+id).css('color','white');
+                            $("#nombre_doc_relacionado"+id).val(resp[0].nombre);                            
+                        }
+                        else{
+                            $("#nombre_doc_relacionado"+id).val("Documento no registrado");
+                            $("#nombre_doc_relacionado"+id).css('background-color','#d9534f');
+                            $("#nombre_doc_relacionado"+id).css('color','white');
+                        } 
+                    }else{
+                        $("#nombre_doc_relacionado"+id).val("Documento no registrado");
+                        $("#nombre_doc_relacionado"+id).css('background-color','#d9534f');
+                        $("#nombre_doc_relacionado"+id).css('color','white');
+                    }               
+                }else{
+                    alert('La petición no se pudo completar, inténtelo de nuevo.');
+                }
+            },
+            error: function(){
+                alert('La petición no se pudo completar, inténtelo de nuevo.');
+            }
+        });
+}
+
+function limpiar_nombre_doc_relacionado(id){
+    $("#nombre_doc_relacionado"+id).val("");
+    $("#num_doc_relacionado"+id).val("");
+    $("#nombre_doc_relacionado"+id).css('background-color','white');
 }

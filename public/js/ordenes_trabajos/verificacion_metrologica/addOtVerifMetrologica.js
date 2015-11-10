@@ -304,7 +304,7 @@ function sendDataToController_create(){
                 delete_selected_profiles = true;
             },
             success: function(response){
-                if(response.success){                    
+                if(response.success){                  
                     var array_detalle = response["url"];
                     var message = response["message"];
                     var type_message = response["type_message"];

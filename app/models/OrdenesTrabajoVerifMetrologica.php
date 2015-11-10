@@ -54,8 +54,8 @@ class OrdenesTrabajoVerifMetrologica extends Eloquent{
 			  ->select('ubicacion_fisicas.nombre as nombre_ubicacion','areas.nombre as nombre_area','users.nombre as nombre_user','users.apellido_pat','users.apellido_mat','servicios.nombre as nombre_servicio','estados.nombre as nombre_estado','ot_vmetrologicas.*');
 	  	return $query;
 	}
-
-	public function scopeSearchOtsVerifMetrologica($query,$search_ing,$search_cod_pat,$search_ubicacion,$search_ot,$search_equipo,$search_proveedor,$search_servicio,$search_ini,$search_fin)
+	
+	public function scopeSearchOtsVerifMetrologica($query,$search_ing,$search_cod_pat,$search_ubicacion,$search_ot,$search_equipo,$search_proveedor,$search_ini,$search_fin,$search_servicio)
 	{
 		$query->join('estados','estados.idestado','=','ot_vmetrologicas.idestado_ot')
 			  ->join('servicios','servicios.idservicio','=','ot_vmetrologicas.idservicio')
@@ -65,9 +65,6 @@ class OrdenesTrabajoVerifMetrologica extends Eloquent{
 			  ->join('proveedores','proveedores.idproveedor','=','activos.idproveedor')
 			  ->join('modelo_activos','modelo_activos.idmodelo_equipo','=','activos.idmodelo_equipo')
 			  ->join('familia_activos','familia_activos.idfamilia_activo','=','modelo_activos.idfamilia_activo')
-			  /*
-			  ->join('familia_activos','familia_activos.idfamilia_activo','=','activos.idfamilia_activo')
-			  */
 			  ->join('grupos','grupos.idgrupo','=','activos.idgrupo')
 			  ->join('users','users.id','=','grupos.id_responsable')
 			  ->whereNested(function($query) use($search_ing){
@@ -78,7 +75,7 @@ class OrdenesTrabajoVerifMetrologica extends Eloquent{
 			  if($search_cod_pat!="")
 			  	$query->where('activos.codigo_patrimonial','=',$search_cod_pat);
 			  if($search_ot!="")
-			  	$query->where('ot_vmetrologicas.idot_vmetrologica','=',$search_ot);
+			  	$query->where(DB::raw("CONCAT(ot_vmetrologicas.ot_tipo_abreviatura,ot_vmetrologicas.ot_correlativo,ot_vmetrologicas.ot_activo_abreviatura)"),'LIKE',"%$search_ot%");
 			  if($search_equipo!="")
 			  	$query->where('familia_activos.nombre_equipo','=',$search_equipo);
 			  if($search_ubicacion!="")
@@ -89,14 +86,12 @@ class OrdenesTrabajoVerifMetrologica extends Eloquent{
 			  			  	  ->orWhere('proveedores.razon_social','LIKE',"%$search_proveedor%")
 			  			  	  ->orWhere('proveedores.nombre_contacto','LIKE',"%$search_proveedor%");
 			  	});
-			  if($search_servicio!="")
-			  	$query->whereNested(function($query) use($search_proveedor){
-			  			$query->where('servicios.nombre','LIKE',"%$search_servicio%");
-			  	});
 			  if($search_ini != "")
 				$query->where('ot_vmetrologicas.fecha_programacion','>=',date('Y-m-d H:i:s',strtotime($search_ini)));
 			  if($search_fin != "")
 				$query->where('ot_vmetrologicas.fecha_programacion','<=',date('Y-m-d H:i:s',strtotime($search_fin)));
+			  if($search_servicio!=0)
+			  	$query->where('ot_vmetrologicas.idservicio','=',$search_servicio);
 			  $query->select('ubicacion_fisicas.nombre as nombre_ubicacion','areas.nombre as nombre_area','users.nombre as nombre_user','users.apellido_pat','users.apellido_mat','servicios.nombre as nombre_servicio','estados.nombre as nombre_estado','ot_vmetrologicas.*');
 	  	return $query;
 	}

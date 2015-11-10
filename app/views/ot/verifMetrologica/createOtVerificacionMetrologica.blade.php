@@ -24,53 +24,47 @@
 	@endif
 
 	{{ Form::open(array('url'=>'verif_metrologica/submit_create_ot', 'role'=>'form')) }}
-		{{ Form::hidden('idordenes_trabajo', $ot_info->idordenes_trabajo) }}
+		{{ Form::hidden('idot_vmetrologica', $ot_info->idot_vmetrologica) }}
 		{{ Form::hidden('idactivo', $ot_info->idactivo) }}
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">Datos de la OT</h3>
 			</div>
 			<div class="panel-body">
-			<div class="col-md-6">
-				<div class="row">
-					<div class="form-group col-md-8">
-						{{ Form::label('solicitante','Usuario Solicitante') }}
-						{{ Form::text('solicitante',$ot_info->apat_solicitante.' '.$ot_info->amat_solicitante.', '.$ot_info->nombre_solicitante,array('class' => 'form-control','readonly'=>'')) }}
+				<div class="col-md-6">
+					<div class="row">
+						<div class="form-group col-md-8">
+							{{ Form::label('solicitante','Usuario Solicitante') }}
+							{{ Form::text('solicitante',$ot_info->apat_solicitante.' '.$ot_info->amat_solicitante.', '.$ot_info->nombre_solicitante,array('class' => 'form-control','readonly'=>'')) }}
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-8">
+							{{ Form::label('nombre_servicio','Servicio Hospitalario') }}
+							{{ Form::text('nombre_servicio',$ot_info->nombre_servicio,array('class' => 'form-control','readonly'=>'')) }}
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-8">
+							{{ Form::label('nombre_ubicacion','Ubicación Física') }}
+							{{ Form::text('nombre_ubicacion',$ot_info->nombre_ubicacion,array('class' => 'form-control','readonly'=>'')) }}
+						</div>
 					</div>
 				</div>
-				<div class="row">
-					<div class="form-group col-md-8">
-						{{ Form::label('nombre_servicio','Servicio Hospitalario') }}
-						{{ Form::text('nombre_servicio',$ot_info->nombre_servicio,array('class' => 'form-control','readonly'=>'')) }}
+				<div class="col-md-6">
+					<div class="row">
+						<div class="form-group col-md-8">
+							{{ Form::label('elaborador','Documento Elaborado Por') }}
+							{{ Form::text('elaborador',$ot_info->apat_elaborador.' '.$ot_info->amat_elaborador.', '.$ot_info->nombre_elaborador,array('class' => 'form-control','readonly'=>'')) }}
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-8">
+							{{ Form::label('nombre_ejecutor','Ejecutor del Mantenimiento') }}
+							{{ Form::text('nombre_ejecutor',$ot_info->nombre_ejecutor,array('class' => 'form-control')) }}
+						</div>
 					</div>
 				</div>
-				<div class="row">
-					<div class="form-group col-md-8">
-						{{ Form::label('nombre_ubicacion','Ubicación Física') }}
-						{{ Form::text('nombre_ubicacion',$ot_info->nombre_ubicacion,array('class' => 'form-control','readonly'=>'')) }}
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="row">
-					<div class="form-group col-md-8">
-						{{ Form::label('elaborador','Documento Elaborado Por') }}
-						{{ Form::text('elaborador',$ot_info->apat_elaborador.' '.$ot_info->amat_elaborador.', '.$ot_info->nombre_elaborador,array('class' => 'form-control','readonly'=>'')) }}
-					</div>
-				</div>
-				<div class="row">
-					<div class="form-group col-md-8">
-						{{ Form::label('nombre_ejecutor','Ejecutor del Mantenimiento') }}
-						{{ Form::text('nombre_ejecutor',Input::old('nombre_ejecutor'),array('class' => 'form-control')) }}
-					</div>
-				</div>
-				<div class="row">
-					<div class="form-group col-md-8">
-						{{ Form::label('fecha_programacion','Fecha Programada') }}
-						{{ Form::text('fecha_programacion',$ot_info->fecha_programacion,array('class' => 'form-control','readonly'=>'')) }}
-					</div>
-				</div>
-			</div>
 			</div>
 		</div>
 		<div class="panel panel-default">
@@ -209,6 +203,32 @@
 			</div>
 		</div>
 		
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-default" id="panel-documentos-relacionados">
+	  				<div class="panel-heading">Documento Relacionado</div>
+	  				<div class="panel-body">
+						<div class="row">
+							<div class="form-group col-md-3 @if($errors->first('num_doc_relacionado1')) has-error has-feedback @endif">
+								{{ Form::label('num_doc_relacionado1','Cód. Archivamiento') }}
+								{{ Form::text('num_doc_relacionado1',$documento_info->codigo_archivamiento,['class' => 'form-control','id'=>'num_doc_relacionado1'])}}
+							</div>
+							<div class="form-group col-md-2" style="margin-top:25px">
+								<a class="btn btn-primary btn-block" onclick="llenar_nombre_doc_relacionado(1)"><span class="glyphicon glyphicon-plus"></span> Agregar</a>
+							</div>
+							<div class="form-group col-md-2" style="margin-top:25px; margin-left:15px">
+								<a class="btn btn-default btn-block" onclick="limpiar_nombre_doc_relacionado(1)"><span class="glyphicon glyphicon-refresh"></span> Limpiar</a>
+							</div>
+							<div class="form-group col-md-4"  style="margin-left:15px">
+								{{ Form::label('nombre_doc_relacionado1','Cert. de Funcionalidad') }}
+								{{ Form::text('nombre_doc_relacionado1',$documento_info->nombre,['class' => 'form-control','id'=>'nombre_doc_relacionado1','disabled'=>'disabled'])}}
+							</div>							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">Datos de mano de obra</h3>
@@ -216,10 +236,10 @@
 			<div class="panel-body">
 				<div class="col-md-12">
 					<div class="row">
-						<div class="form-group col-md-6">
+						<div class="form-group col-md-5">
 							{{ Form::text('nombre_personal', null,array('class'=>'form-control','placeholder'=>'Nombres Apellidos')) }}
 						</div>
-						<div class="form-group col-md-2">
+						<div class="form-group col-md-3">
 							{{ Form::text('horas_trabajadas', null,array('class'=>'form-control','placeholder'=>'Hrs. Trab. ejem: 0.5')) }}
 						</div>
 						<div class="form-group col-md-2">
@@ -239,12 +259,12 @@
 							<th>Operaciones</th>
 						</tr>
 						@foreach($personal_data as $personal)
-						<tr id="personal-row-{{ $personal->iddetalle_personalxot }}">
+						<tr id="personal-row-{{ $personal->idpersonal_ot_vmetrologica }}">
 							<td>{{$personal->nombre}}</td>
 							<td>{{$personal->horas_hombre}}</td>
 							<td>{{$personal->costo}}</td>
 							<td>
-								<button class="btn btn-danger boton-eliminar-mano-obra" onclick="eliminar_personal(event,{{$personal->iddetalle_personalxot}})" type="button">Eliminar</button>
+								<button class="btn btn-danger boton-eliminar-mano-obra" onclick="eliminar_personal(event,{{$personal->idpersonal_ot_vmetrologica}})" type="button">Eliminar</button>
 							</td>
 						</tr>
 						@endforeach
@@ -258,6 +278,13 @@
 				</div>
 			</div>
 		</div>
-		{{ Form::submit('Guardar',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}
+		<div class="row">
+			<div class="form-group col-md-2">
+				{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit_create_ots', 'type'=>'submit','class' => 'btn btn-primary btn-block')) }}
+			</div>
+			<div class="form-group col-md-2">
+				<a class="btn btn-default btn-block" href="{{URL::to('/verif_metrologica/list_verif_metrologica')}}">Cancelar</a>				
+			</div>
+		</div>	
 	{{ Form::close() }}
 @stop

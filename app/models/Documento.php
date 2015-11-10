@@ -154,4 +154,11 @@ class Documento extends Eloquent implements UserInterface, RemindableInterface {
 			  $query->select('tipo_actas.nombre as nombre_tipo_acta','proveedores.razon_social as nombre_proveedor','documentos.*');
 		return $query;
 	}
+
+	public function scopeSearchDocumentoByIdOtVerifMetrologica($query,$search_criteria)
+	{
+		$query->withTrashed()
+			  ->where('idot_vmetrologica','=',$search_criteria);
+		return $query;
+	}
 }
