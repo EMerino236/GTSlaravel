@@ -9,10 +9,11 @@ class DetalleReporteInstalacion extends Eloquent{
 	protected $table = 'detalle_reporte_instalaciones';
 	protected $primaryKey = 'iddetalle_reporte_instalacion';
 
-	public function scopeSearchDetalleReporteByIdReporteInstalacion($query,$search_criteria)
+	public function scopeSearchDetalleReporteByIdReporteInstalacion($query,$idReporte)
 	{
 		$sql = 'select nombre_tarea, if(tarea_realizada = 1,"Realizado","No Realizado") as tarea_realizada
-				from detalle_reporte_instalaciones';
+				from detalle_reporte_instalaciones
+				where idreporte_instalacion = '.$idReporte;
 		$query = DB::select(DB::raw($sql));	
 		return $query;
 	}

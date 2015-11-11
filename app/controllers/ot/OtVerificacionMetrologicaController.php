@@ -423,4 +423,26 @@ class OtVerificacionMetrologicaController extends BaseController {
 		}
 	}
 
+	public function download_documento($id=null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1){
+				$iddocumento = $id;		
+				$documento = Documento::searchDocumentoById($id)->get();
+				$file= $documento[0]->url;
+				$headers = array(
+		              'Content-Type',mime_content_type($file),
+	            );
+		        return Response::download($file,basename($file),$headers);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
 }

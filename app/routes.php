@@ -291,6 +291,7 @@ Route::group(array('prefix'=>'rep_instalacion','before'=>'auth'),function(){
 	Route::post('/return_name_responsable/{postData}','ReportesInstalacionController@return_name_responsable');
 	Route::post('/return_name_doc_relacionado/{postData}','ReportesInstalacionController@return_name_doc_relacionado');
 	Route::post('/return_num_rep_entorno_concluido/{postData}','ReportesInstalacionController@return_num_rep_entorno_concluido');	
+	Route::get('/download_documento/{id?}','ReportesInstalacionController@download_documento');
 });
 
 /*Acta de Conformidad*/
@@ -341,6 +342,7 @@ Route::group(array('prefix'=>'verif_metrologica','before'=>'auth'),function(){
 	Route::post('/submit_create_personal_ajax','OtVerificacionMetrologicaController@submit_create_personal_ajax');
 	Route::post('/submit_delete_personal_ajax','OtVerificacionMetrologicaController@submit_delete_personal_ajax');
 	Route::post('/return_name_doc_relacionado/{postData}','OtVerificacionMetrologicaController@return_name_doc_relacionado');
+	Route::get('/download_documento/{id?}','OtVerificacionMetrologicaController@download_documento');
 });
 
 /* Inspeccion de Equipos */

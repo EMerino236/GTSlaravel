@@ -14,7 +14,6 @@
 			<p><strong>{{ $errors->first('idarea') }}</strong></p>
 			<p><strong>{{ $errors->first('fecha') }}</strong></p>
 			<p><strong>{{ $errors->first('numero_documento1') }}</strong></p>
-
 		</div>
 	@endif
 
@@ -36,7 +35,7 @@
 					<div class="form-group row">
 						<div class="form-group col-md-4 @if($errors->first('idtipo_reporte_instalacion')) has-error has-feedback @endif">
 							{{ Form::label('idtipo_reporte_instalacion','Tipo de Reporte de Instalación') }}
-							{{ Form::select('idtipo_reporte_instalacion',array('' => 'Seleccione') + $tipos_reporte_instalacion,$reporte_instalacion_info->idtipo_reporte_instalacion,['disabled' => 'disabled', 'class' => 'form-control','readonly'=>'']) }}												
+							{{ Form::select('idtipo_reporte_instalacion',array('' => 'Seleccione') + $tipos_reporte_instalacion,$reporte_instalacion_info->idtipo_reporte_instalacion,['class' => 'form-control','readonly'=>'']) }}												
 						</div>
 					</div>
 					<div class="form-group row">
@@ -46,21 +45,13 @@
 						</div>
 						<div class="form-group col-md-4 @if($errors->first('idarea')) has-error has-feedback @endif">
 							{{ Form::label('idarea','Departamento') }}
-							@if($reporte_instalacion_info->deleted_at)
-								{{ Form::select('idarea',array('' => 'Seleccione') + $areas,$reporte_instalacion_info->idarea,['class' => 'form-control','readonly'=>'']) }}
-							@else
-								{{ Form::select('idarea',array('' => 'Seleccione') + $areas,$reporte_instalacion_info->idarea,['class' => 'form-control']) }}
-							@endif
+							{{ Form::select('idarea',array('' => 'Seleccione') + $areas,$reporte_instalacion_info->idarea,['class' => 'form-control','readonly'=>'']) }}
 						</div>
 					</div>						
 					<div class="form-group row">
 						<div class="form-group col-md-4 @if($errors->first('idproveedor')) has-error has-feedback @endif">
 							{{ Form::label('idproveedor','Proveedor') }}
-							@if($reporte_instalacion_info->deleted_at)
-								{{ Form::select('idproveedor',array('' => 'Seleccione') + $proveedores,$reporte_instalacion_info->idproveedor,['class' => 'form-control','readonly'=>'']) }}
-							@else
-								{{ Form::select('idproveedor',array('' => 'Seleccione') + $proveedores,$reporte_instalacion_info->idproveedor,['class' => 'form-control']) }}
-							@endif
+							{{ Form::select('idproveedor',array('' => 'Seleccione') + $proveedores,$reporte_instalacion_info->idproveedor,['class' => 'form-control','readonly'=>'']) }}
 						</div>
 						<div class="col-md-4">
 							{{ Form::label('fecha','Fecha') }}
@@ -77,11 +68,7 @@
 					<div class="form-group row">
 						<div class="form-group col-md-8 @if($errors->first('descripcion')) has-error has-feedback @endif">
 							{{ Form::label('descripcion','Descripción') }}
-							@if($reporte_instalacion_info->deleted_at)
-								{{ Form::textarea('descripcion',$reporte_instalacion_info->descripcion,['class' => 'form-control','style'=>'resize:none;','readonly'=>''])}}
-							@else
-								{{ Form::textarea('descripcion',$reporte_instalacion_info->descripcion,['class' => 'form-control','style'=>'resize:none;'])}}
-							@endif
+							{{ Form::textarea('descripcion',$reporte_instalacion_info->descripcion,['class' => 'form-control','style'=>'resize:none;','readonly'=>''])}}
 						</div>
 					</div>
 				</div>	
@@ -155,13 +142,13 @@
   				<div class="row">
 					<div class="form-group col-md-3 @if($errors->first('numero_documento1')) has-error has-feedback @endif">
 						{{ Form::label('numero_documento1','Número Documento') }}
-						{{ Form::text('numero_documento1',$usuario_responsable->numero_doc_identidad,['class' => 'form-control','id'=>'numero_documento1'])}}
+						{{ Form::text('numero_documento1',$usuario_responsable->numero_doc_identidad,['class' => 'form-control','id'=>'numero_documento1','readonly'=>''])}}
 					</div>
 							<div class="form-group col-md-2" style="margin-top:25px">
-								<a class="btn btn-primary btn-block" onclick="llenar_nombre_responsable(1)"><span class="glyphicon glyphicon-plus"></span> Agregar</a>
+								<a class="btn btn-primary btn-block" onclick="llenar_nombre_responsable(1)" disabled><span class="glyphicon glyphicon-plus"></span> Agregar</a>
 							</div>
 							<div class="form-group col-md-2" style="margin-top:25px; margin-left:15px">
-								<a class="btn btn-default btn-block" onclick="limpiar_nombre_responsable(1)"><span class="glyphicon glyphicon-refresh"></span> Limpiar</a>
+								<a class="btn btn-default btn-block" onclick="limpiar_nombre_responsable(1)" disabled><span class="glyphicon glyphicon-refresh"></span> Limpiar</a>
 							</div>
 							<div class="form-group col-md-4"  style="margin-left:15px">
 						{{ Form::label('responsable','Responsable de la Revisión') }}
@@ -171,66 +158,112 @@
   			</div>
   		</div>
   		<div class="row">
-			<div class="panel panel-default" id="panel-documentos-relacionados" hidden>
-  				<div class="panel-heading">Documentos Relacionados</div>
-  				<div class="panel-body">
-					<div class="col-md-12">
+			<div class="col-md-12">
+				<div class="panel panel-default" id="panel-documentos-relacionados" hidden>
+	  				<div class="panel-heading">Documentos Relacionados</div>
+	  				<div class="panel-body">
 						<div class="row">
-							<div class="form-group col-md-3 @if($errors->first('numero_reporte_entorno_concluido')) has-error has-feedback @endif">
-								{{ Form::label('numero_reporte_entorno_concluido','N° Rep. Entorno Concluido') }}
-								@if($reporte_instalacion_entorno_concluido)
-									{{ Form::text('numero_reporte_entorno_concluido',$reporte_instalacion_entorno_concluido->numero_reporte_abreviatura.$reporte_instalacion_entorno_concluido->numero_reporte_correlativo."-".$reporte_instalacion_entorno_concluido->numero_reporte_anho,['readonly'=>'','class' => 'form-control','id'=>'numero_reporte_entorno_concluido'])}}							
+							<div class="form-group col-md-2 @if($errors->first('numero_reporte_entorno_concluido')) has-error has-feedback @endif">
+								{{ Form::label('numero_reporte_entorno_concluido','Entorno Concluido') }}
+								@if($reporte_instalacion_info)
+									{{ Form::text('numero_reporte_entorno_concluido',$reporte_instalacion_info->numero_reporte_abreviatura.$reporte_instalacion_info->numero_reporte_correlativo."-".$reporte_instalacion_info->numero_reporte_anho,['readonly'=>'','class' => 'form-control','id'=>'numero_reporte_entorno_concluido'])}}
 								@else
-									{{ Form::text('numero_reporte_entorno_concluido','',['class' => 'form-control','id'=>'numero_reporte_entorno_concluido'])}}							
-								@endif
-							</div>						
-						</div>
-						<div class="row">
-							<div class="form-group col-md-3 @if($errors->first('num_doc_relacionado1')) has-error has-feedback @endif">
-								{{ Form::label('num_doc_relacionado1','Cód. Archivamiento') }}
-								@if($documento_certificado_funcionalidad != null)
-									{{ Form::text('num_doc_relacionado1','$documento_certificado_funcionalidad->codigo_archivamiento',['readonly'=>'','class' => 'form-control','id'=>'num_doc_relacionado1'])}}
-								@else
-									{{ Form::text('num_doc_relacionado1','',['readonly'=>'','class' => 'form-control','id'=>'num_doc_relacionado1'])}}
+									{{ Form::text('numero_reporte_entorno_concluido',Input::old('numero_reporte_entorno_concluido'),['class' => 'form-control','id'=>'numero_reporte_entorno_concluido'])}}
 								@endif
 							</div>
-							<div class="form-group col-md-4"  style="margin-left:15px">
+							<div class="form-group col-md-2" style="margin-top:25px">
+								@if($reporte_instalacion_info)
+									<a class="btn btn-primary btn-block disabled" onclick="validar_num_rep_entorno_concluido()"><span class="glyphicon glyphicon-plus"></span> Agregar</a>
+								@else
+									<a class="btn btn-primary btn-block" onclick="validar_num_rep_entorno_concluido()"><span class="glyphicon glyphicon-plus"></span> Agregar</a>
+								@endif
+							</div>
+							<div class="form-group col-md-2" style="margin-top:25px">
+								@if($reporte_instalacion_info)
+									<a class="btn btn-default btn-block disabled" onclick="limpiar_num_rep_entorno_concluido()"><span class="glyphicon glyphicon-refresh"></span> Limpiar</a>
+								@else
+									<a class="btn btn-default btn-block" onclick="limpiar_num_rep_entorno_concluido()"><span class="glyphicon glyphicon-refresh"></span> Limpiar</a>
+								@endif
+							</div>
+							<div class="form-group col-md-4" >
+								{{ Form::label('mensaje_validacion','Validación') }}
+								{{ Form::text('mensaje_validacion',Input::old('mensaje_validacion'),['class' => 'form-control','id'=>'mensaje_validacion','disabled'=>'disabled'])}}
+							</div>							
+						</div>
+						<div class="row">
+							<div class="form-group col-md-2 @if($errors->first('num_doc_relacionado1')) has-error has-feedback @endif">
+								{{ Form::label('num_doc_relacionado1','Cód. Archivamiento') }}
+								@if($documento_certificado_funcionalidad != null)
+									{{ Form::text('num_doc_relacionado1',$documento_certificado_funcionalidad->codigo_archivamiento,['class' => 'form-control','id'=>'num_doc_relacionado1'])}}
+								@else
+									{{ Form::text('num_doc_relacionado1','',['class' => 'form-control','id'=>'num_doc_relacionado1'])}}
+								@endif
+							</div>
+							<div class="form-group col-md-2" style="margin-top:25px">
+								<a class="btn btn-primary btn-block" onclick="llenar_nombre_doc_relacionado(1)"><span class="glyphicon glyphicon-plus"></span> Agregar</a>
+							</div>
+							<div class="form-group col-md-2" style="margin-top:25px">
+								<a class="btn btn-default btn-block" onclick="limpiar_nombre_doc_relacionado(1)"><span class="glyphicon glyphicon-refresh"></span> Limpiar</a>
+							</div>
+							<div class="form-group col-md-4" >
 								{{ Form::label('nombre_doc_relacionado1','Cert. de Funcionalidad') }}
 								@if($documento_certificado_funcionalidad != null)
 									{{ Form::text('nombre_doc_relacionado1',$documento_certificado_funcionalidad->nombre,['class' => 'form-control','id'=>'nombre_doc_relacionado1','disabled'=>'disabled'])}}
 								@else
 									{{ Form::text('nombre_doc_relacionado1','',['class' => 'form-control','id'=>'nombre_doc_relacionado1','disabled'=>'disabled'])}}
 								@endif
-							</div>							
+							</div>	
+							<div class="form-group col-md-2" style="margin-top:25px">
+								@if($documento_certificado_funcionalidad != null)
+									<a class="btn btn-primary btn-block" href="{{URL::to('/rep_instalacion/download_documento/')}}/{{$documento_certificado_funcionalidad->iddocumento}}"><span class="glyphicon glyphicon-download"></span> Descargar</a>
+								@endif
+							</div>	
 						</div>
 						<div class="row">
-							<div class="form-group col-md-3 @if($errors->first('num_doc_relacionado2')) has-error has-feedback @endif">
+							<div class="form-group col-md-2 @if($errors->first('num_doc_relacionado2')) has-error has-feedback @endif">
 								{{ Form::label('num_doc_relacionado2','Cód. Archivamiento') }}
 								@if($documento_contrato != null)
-									{{ Form::text('num_doc_relacionado2',$documento_contrato->codigo_archivamiento,['readonly'=>'','class' => 'form-control','id'=>'num_doc_relacionado2'])}}
+									{{ Form::text('num_doc_relacionado2',$documento_contrato->codigo_archivamiento,['class' => 'form-control','id'=>'num_doc_relacionado2'])}}
 								@else
-									{{ Form::text('num_doc_relacionado2','',['readonly'=>'','class' => 'form-control','id'=>'num_doc_relacionado2'])}}
+									{{ Form::text('num_doc_relacionado2','',['class' => 'form-control','id'=>'num_doc_relacionado2'])}}
 								@endif
 							</div>
-							<div class="form-group col-md-4"  style="margin-left:15px">
+							<div class="form-group col-md-2" style="margin-top:25px">
+								<a class="btn btn-primary btn-block" onclick="llenar_nombre_doc_relacionado(2)"><span class="glyphicon glyphicon-plus"></span> Agregar</a>
+							</div>
+							<div class="form-group col-md-2" style="margin-top:25px">
+								<a class="btn btn-default btn-block" onclick="limpiar_nombre_doc_relacionado(2)"><span class="glyphicon glyphicon-refresh"></span> Limpiar</a>
+							</div>
+							<div class="form-group col-md-4">
 								{{ Form::label('nombre_doc_relacionado2','Contrato') }}
 								@if($documento_contrato != null)
 									{{ Form::text('nombre_doc_relacionado2',$documento_contrato->nombre,['class' => 'form-control','id'=>'nombre_doc_relacionado2','disabled'=>'disabled'])}}
 								@else							
 									{{ Form::text('nombre_doc_relacionado2','',['class' => 'form-control','id'=>'nombre_doc_relacionado2','disabled'=>'disabled'])}}
 								@endif
-							</div>						
+							</div>
+							<div class="form-group col-md-2" style="margin-top:25px">
+								@if($documento_contrato != null)
+									<a class="btn btn-primary btn-block" href="{{URL::to('/rep_instalacion/download_documento/')}}/{{$documento_contrato->iddocumento}}"><span class="glyphicon glyphicon-download"></span> Descargar</a>
+								@endif
+							</div>				
 						</div>
 						<div class="row">
-							<div class="form-group col-md-3 @if($errors->first('num_doc_relacionado3')) has-error has-feedback @endif">
+							<div class="form-group col-md-2 @if($errors->first('num_doc_relacionado3')) has-error has-feedback @endif">
 								{{ Form::label('num_doc_relacionado3','Cód. Archivamiento') }}
 								@if($documento_manual != null)								
-									{{ Form::text('num_doc_relacionado3',$documento_manual->codigo_archivamiento,['readonly'=>'','class' => 'form-control','id'=>'num_doc_relacionado3'])}}
+									{{ Form::text('num_doc_relacionado3',$documento_manual->codigo_archivamiento,['class' => 'form-control','id'=>'num_doc_relacionado3'])}}
 								@else							
-									{{ Form::text('num_doc_relacionado3','',['readonly'=>'','class' => 'form-control','id'=>'num_doc_relacionado3'])}}
+									{{ Form::text('num_doc_relacionado3','',['class' => 'form-control','id'=>'num_doc_relacionado3'])}}
 								@endif
 							</div>
-							<div class="form-group col-md-4"  style="margin-left:15px">
+							<div class="form-group col-md-2" style="margin-top:25px">
+								<a class="btn btn-primary btn-block" onclick="llenar_nombre_doc_relacionado(3)"><span class="glyphicon glyphicon-plus"></span> Agregar</a>
+							</div>
+							<div class="form-group col-md-2" style="margin-top:25px">
+								<a class="btn btn-default btn-block" onclick="limpiar_nombre_doc_relacionado(3)"><span class="glyphicon glyphicon-refresh"></span> Limpiar</a>
+							</div>
+							<div class="form-group col-md-4">
 								{{ Form::label('nombre_doc_relacionado3','Manual') }}
 								@if($documento_manual != null)	
 									{{ Form::text('nombre_doc_relacionado3',$documento_manual->nombre,['class' => 'form-control','id'=>'nombre_doc_relacionado3','disabled'=>'disabled'])}}
@@ -238,25 +271,42 @@
 									{{ Form::text('nombre_doc_relacionado3','',['class' => 'form-control','id'=>'nombre_doc_relacionado3','disabled'=>'disabled'])}}
 								@endif
 							</div>	
+							<div class="form-group col-md-2" style="margin-top:25px">
+								@if($documento_manual != null)
+									<a class="btn btn-primary btn-block" href="{{URL::to('/rep_instalacion/download_documento/')}}/{{$documento_manual->iddocumento}}"><span class="glyphicon glyphicon-download"></span> Descargar</a>
+								@endif
+							</div>	
 						</div>
 						<div class="row">
-							<div class="form-group col-md-3 @if($errors->first('num_doc_relacionado4')) has-error has-feedback @endif">
+							<div class="form-group col-md-2 @if($errors->first('num_doc_relacionado4')) has-error has-feedback @endif">
 								{{ Form::label('num_doc_relacionado4','Cód. Archivamiento') }}
 								@if($documento_tdr != null)	
-									{{ Form::text('num_doc_relacionado4',$documento_tdr->codigo_archivamiento,['readonly'=>'','class' => 'form-control','id'=>'num_doc_relacionado4'])}}
+									{{ Form::text('num_doc_relacionado4',$documento_tdr->codigo_archivamiento,['class' => 'form-control','id'=>'num_doc_relacionado4'])}}
 								@else
-									{{ Form::text('num_doc_relacionado4','',['readonly'=>'','class' => 'form-control','id'=>'num_doc_relacionado4'])}}
+									{{ Form::text('num_doc_relacionado4','',['class' => 'form-control','id'=>'num_doc_relacionado4'])}}
 								@endif
 							</div>
-							<div class="form-group col-md-4"  style="margin-left:15px">
+							<div class="form-group col-md-2" style="margin-top:25px">
+								<a class="btn btn-primary btn-block" onclick="llenar_nombre_doc_relacionado(4)"><span class="glyphicon glyphicon-plus"></span> Agregar</a>
+							</div>
+							<div class="form-group col-md-2" style="margin-top:25px">
+								<a class="btn btn-default btn-block" onclick="limpiar_nombre_doc_relacionado(4)"><span class="glyphicon glyphicon-refresh"></span> Limpiar</a>
+							</div>
+							<div class="form-group col-md-4">
 								{{ Form::label('nombre_doc_relacionado4','Término de Referencia') }}
 								@if($documento_tdr != null)	
-									{{ Form::text('nombre_doc_relacionado4',$documento_manual->nombre,['class' => 'form-control','id'=>'nombre_doc_relacionado4','disabled'=>'disabled'])}}
+									{{ Form::text('nombre_doc_relacionado4',$documento_tdr->nombre,['class' => 'form-control','id'=>'nombre_doc_relacionado4','disabled'=>'disabled'])}}
 								@else
 									{{ Form::text('nombre_doc_relacionado4','',['class' => 'form-control','id'=>'nombre_doc_relacionado4','disabled'=>'disabled'])}}
 								@endif
 							</div>	
+							<div class="form-group col-md-2" style="margin-top:25px">
+								@if($documento_tdr != null)	
+									<a class="btn btn-primary btn-block" href="{{URL::to('/rep_instalacion/download_documento/')}}/{{$documento_tdr->iddocumento}}"><span class="glyphicon glyphicon-download"></span> Descargar</a>
+								@endif
+							</div>	
 						</div>
+					</div>
 				</div>
 			</div>
 		</div>

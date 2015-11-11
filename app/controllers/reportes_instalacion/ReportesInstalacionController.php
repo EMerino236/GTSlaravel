@@ -119,7 +119,7 @@ class ReportesInstalacionController extends BaseController {
 
 							}
 
-							$codigo_archivamiento_cert_funcionalidad = Input::get('nombre_doc_relacionado1');
+							$codigo_archivamiento_cert_funcionalidad = Input::get('num_doc_relacionado1');
 							if($codigo_archivamiento_cert_funcionalidad != ''){
 								$documento = Documento::searchDocumentoByCodigoArchivamiento($codigo_archivamiento_cert_funcionalidad)->get();
 								$documento = $documento[0];
@@ -127,7 +127,7 @@ class ReportesInstalacionController extends BaseController {
 								$documento->save();
 							}
 
-							$codigo_archivamiento_contrato = Input::get('nombre_doc_relacionado2');
+							$codigo_archivamiento_contrato = Input::get('num_doc_relacionado2');
 							if($codigo_archivamiento_contrato != ''){
 								$documento = Documento::searchDocumentoByCodigoArchivamiento($codigo_archivamiento_contrato)->get();
 								$documento = $documento[0];
@@ -135,7 +135,7 @@ class ReportesInstalacionController extends BaseController {
 								$documento->save();
 							}
 
-							$codigo_archivamiento_manual = Input::get('nombre_doc_relacionado3');
+							$codigo_archivamiento_manual = Input::get('num_doc_relacionado3');
 							if($codigo_archivamiento_manual != ''){							
 								$documento = Documento::searchDocumentoByCodigoArchivamiento($codigo_archivamiento_manual)->get();
 								$documento = $documento[0];
@@ -143,7 +143,7 @@ class ReportesInstalacionController extends BaseController {
 								$documento->save();
 							}
 
-							$codigo_archivamiento_tdr = Input::get('nombre_doc_relacionado4');
+							$codigo_archivamiento_tdr = Input::get('num_doc_relacionado4');
 							if($codigo_archivamiento_tdr != ''){
 								$documento = Documento::searchDocumentoByCodigoArchivamiento($codigo_archivamiento_tdr)->get();
 								$documento = $documento[0];
@@ -480,6 +480,28 @@ class ReportesInstalacionController extends BaseController {
 			$string = "0001";
 		}
 		return $string;
+	}
+
+	public function download_documento($id=null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1){
+				$iddocumento = $id;		
+				$documento = Documento::searchDocumentoById($id)->get();
+				$file= $documento[0]->url;
+				$headers = array(
+		              'Content-Type',mime_content_type($file),
+	            );
+		        return Response::download($file,basename($file),$headers);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
 	}
 	
 }

@@ -178,7 +178,6 @@ function llenar_nombre_doc_relacionado(id){
                 alert('La petición no se pudo completar, inténtelo de nuevo.');
             }
         });
-
 }
 
 function validar_num_rep_entorno_concluido(){
