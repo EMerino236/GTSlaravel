@@ -72,7 +72,7 @@ class MarcasController extends BaseController
 					'nombre_marca' => 'required|min:1|max:100|unique:marcas,nombre'							
 						);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules,$messa,$attributes);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					return Redirect::to('marcas/create_marca')->withErrors($validator)->withInput(Input::all());
