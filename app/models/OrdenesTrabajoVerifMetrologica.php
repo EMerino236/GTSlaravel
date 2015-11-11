@@ -55,7 +55,7 @@ class OrdenesTrabajoVerifMetrologica extends Eloquent{
 	  	return $query;
 	}
 	
-	public function scopeSearchOtsVerifMetrologica($query,$search_ing,$search_cod_pat,$search_ubicacion,$search_ot,$search_equipo,$search_proveedor,$search_ini,$search_fin,$search_servicio)
+	public function scopeSearchOtsVerifMetrologica($query,$search_ing,$search_cod_pat,$search_ubicacion,$search_ot,$search_equipo,$search_proveedor,$search_servicio,$search_ini,$search_fin)
 	{
 		$query->join('estados','estados.idestado','=','ot_vmetrologicas.idestado_ot')
 			  ->join('servicios','servicios.idservicio','=','ot_vmetrologicas.idservicio')
