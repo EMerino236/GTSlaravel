@@ -28,12 +28,6 @@
 		
 		<div class="row">
 			<div class="form-group col-md-6">
-				{{ Form::label('numero_ficha','Número de ficha') }}
-				{{ Form::text('numero_ficha',$sot_info->numero_ficha,array('class'=>'form-control','disabled'=>'')) }}
-			</div>
-		</div>
-		<div class="row">
-			<div class="form-group col-md-6">
 				{{ Form::label('solicitante','Usuario solicitante') }}
 				{{ Form::text('solicitante',$sot_info->apellido_pat." ".$sot_info->apellido_mat.", ".$sot_info->nombre,array('class'=>'form-control','disabled'=>'')) }}
 			</div>

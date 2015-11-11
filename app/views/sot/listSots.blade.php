@@ -65,7 +65,7 @@
 
 	<table class="table">
 		<tr class="info">
-			<th>Número de ficha</th>
+			<th>Número de SOT</th>
 			<th>Fecha de solicitud</th>
 			<th>Usuario solicitante</th>
 			<th>Estado</th>
@@ -73,7 +73,7 @@
 		@foreach($sots_data as $sot_data)
 		<tr>
 			<td>
-				<a href="{{URL::to('/sot/edit_sot/')}}/{{$sot_data->idsolicitud_orden_trabajo}}">{{$sot_data->numero_ficha}}</a>
+				<a href="{{URL::to('/sot/edit_sot/')}}/{{$sot_data->idsolicitud_orden_trabajo}}">{{$sot_data->idsolicitud_orden_trabajo}}</a>
 			</td>
 			<td>
 				{{date('d-m-Y',strtotime($sot_data->fecha_solicitud))}}

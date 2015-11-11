@@ -9,7 +9,6 @@
 
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
-			<p><strong>{{ $errors->first('numero_ficha') }}</strong></p>
 			<p><strong>{{ $errors->first('fecha_solicitud') }}</strong></p>
 			<p><strong>{{ $errors->first('especificacion_servicio') }}</strong></p>
 			<p><strong>{{ $errors->first('idestado') }}</strong></p>
@@ -29,12 +28,6 @@
 		<div class="row">
 			<div class="form-group col-md-12">
 				{{ Form::label('solicitante','Usuario solicitante: '.$user->apellido_pat." ".$user->apellido_mat.", ".$user->nombre." ") }}
-			</div>
-		</div>
-		<div class="row">
-			<div class="form-group col-md-6 @if($errors->first('numero_ficha')) has-error has-feedback @endif">
-				{{ Form::label('numero_ficha','Número de ficha') }}
-				{{ Form::text('numero_ficha',Input::old('numero_ficha'),array('class'=>'form-control')) }}
 			</div>
 		</div>
 		<div class="row">

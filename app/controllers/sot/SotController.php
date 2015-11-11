@@ -33,7 +33,7 @@ class SotController extends BaseController {
 			if($data["user"]->idrol == 1){
 				// Validate the info, create rules for the inputs
 				$rules = array(
-							'numero_ficha' => 'required|numeric',
+							//'numero_ficha' => 'required|numeric',
 							'idactivo' => 'required',
 							'fecha_solicitud' => 'required',
 							'especificacion_servicio' => 'required|max:100',
@@ -50,7 +50,7 @@ class SotController extends BaseController {
 					$sot = new SolicitudOrdenTrabajo;
 					$sot->fecha_solicitud = date('Y-m-d H:i:s',strtotime(Input::get('fecha_solicitud')));
 					$sot->especificacion_servicio = Input::get('especificacion_servicio');
-					$sot->numero_ficha = Input::get('numero_ficha');
+					//$sot->numero_ficha = Input::get('numero_ficha');
 					$sot->idestado = Input::get('idestado');
 					$sot->idactivo = Input::get('idactivo');
 					$sot->motivo = Input::get('motivo');
