@@ -65,7 +65,7 @@ class OtVerificacionMetrologicaController extends BaseController {
 			 	$trimestre = 0;
 			}
 
-			return Response::json(array( 'success' => true, 'equipo' => $equipo,'count_trimester'=>$trimestre, 'count_month'=>$mes ),200);
+			return Response::json(array( 'success' => true, 'equipo' => $equipo,'count_trimestre'=>$trimestre, 'count_mes'=>$mes ),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
 		}
