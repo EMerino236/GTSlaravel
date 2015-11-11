@@ -81,11 +81,31 @@
 					{{number_format($consumible_info->costo,2)}}
 				</td>
 				<td>
-					<a class="btn btn-danger btn-block btn-sm" href="">
-					<span class="glyphicon glyphicon-trash"></span> Eliminar</a>
+					<button class="btnEliminarConsumible btn btn-danger btn-block btn-sm" data-value="{{$consumible_info->idconsumible}}">
+					<span class="glyphicon glyphicon-trash"></span> Eliminar</button>					
 				</td>
 			</tr>
 			@endforeach
 		</table>
 	</div>
+
+
+<div id="modal_delete_consumible" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-danger">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">ADVERTENCIA</h4>
+      </div>
+      <div class="modal-body">
+        <p>¿Está seguro que desea eliminar el consumible?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="modal_btnEliminarConsumible btn btn-danger">Eliminar</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 @stop

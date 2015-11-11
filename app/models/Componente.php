@@ -11,8 +11,9 @@ class Componente extends Eloquent{
 
 	public function scopeGetComponenteByModelo($query,$idmodelo_equipo)
 	{
-		$query->withTrashed()
-			  ->where('componentes.idmodelo_equipo','=',$idmodelo_equipo);
+		$query->where('componentes.idmodelo_equipo','=',$idmodelo_equipo);
+
+		return $query;
 	}
 
 }

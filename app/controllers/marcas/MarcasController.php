@@ -10,7 +10,7 @@ class MarcasController extends BaseController
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
-				$data["search"] = null;
+				$data["search_nombre_marca"] = null;
 				$data["marcas_data"] = Marca::getMarcasInfo()->paginate(10);
 				return View::make('marcas/listMarcas',$data);
 			}else{
@@ -28,8 +28,8 @@ class MarcasController extends BaseController
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
-				$data["search"] = Input::get('search');
-				$data["marcas_data"] = Marca::SearchMarcasByNombre($data["search"])->paginate(10);
+				$data["search_nombre_marca"] = Input::get('search_nombre_marca');
+				$data["marcas_data"] = Marca::SearchMarcasByNombre($data["search_nombre_marca"])->paginate(10);
 				return View::make('marcas/listMarcas',$data);
 			}else{
 				return View::make('error/error');
@@ -63,23 +63,26 @@ class MarcasController extends BaseController
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
 				// Validate the info, create rules for the inputs
+				$attributes = array(
+					'nombre_marca' => 'Nombre de Marca',
+					);
+				$messages = array(
+					);
 				$rules = array(
-							'nombre' => 'required|min:1|max:100|unique:marcas'							
+					'nombre_marca' => 'required|min:1|max:100|unique:marcas,nombre'							
 						);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messa,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					return Redirect::to('marcas/create_marca')->withErrors($validator)->withInput(Input::all());
 				}else{					
 					$marca = new Marca;
-					$marca->nombre = Input::get('nombre');
+					$marca->nombre = Input::get('nombre_marca');
 					$marca->idestado = 1;
 					$marca->save();
 										
-					Session::flash('message', 'Se registró correctamente la marca.');
-					
-					return Redirect::to('marcas/create_marca');
+					return Redirect::to('marcas/list_marcas')->with('message', 'Se registró correctamente la marca: '.$marca->nombre);
 				}
 			}else{
 				return View::make('error/error');
@@ -118,21 +121,16 @@ class MarcasController extends BaseController
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
 				// Validate the info, create rules for the inputs
+				$attributes = array(
+					'nombre_marca'=>'Nombre de Marca',
+					);
+				$messages = array(
+					);
 				$rules = array(
-					'servicio_clinico' => 'required',
-					'ubicacion_fisica' => 'required',
-					'grupo' => 'required',
-					'marca' => 'required',
-					'nombre_equipo' => 'required',
-					'numero_serie' => 'required',
-					'proveedor' => 'required',
-					'codigo_compra' => 'required',
-					'codigo_patrimonial' => 'required',
-					'fecha_adquisicion' => 'required',
-					'garantia' => 'required'
+					'nombre_marca' => 'required|min:1|max:100'
 					);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$attributes,$messages);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					$marca_id = Input::get('marca_id');
@@ -142,10 +140,10 @@ class MarcasController extends BaseController
 					$marca_id = Input::get('marca_id');
 					$url = "marcas/edit_marca"."/".$marca_id;
 					$marca = Marca::find($marca_id);
-					$marca->nombre = Input::get('nombre');
+					$marca->nombre = Input::get('nombre_marca');
 					$marca->save();
-					Session::flash('message', 'Se editó correctamente la marca.');
-					return Redirect::to($url);
+					
+					return Redirect::to('marcas/list_marcas')->with('message', 'Se editó correctamente la marca: '.$marca->nombre);
 				}
 			}else{
 				return View::make('error/error');

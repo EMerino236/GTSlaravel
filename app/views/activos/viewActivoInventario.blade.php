@@ -1,4 +1,4 @@
-@extends('templates/activosTemplate')
+@extends('templates/bienesTemplate')
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
@@ -271,7 +271,7 @@
 		
 		<div class="container-fluid row">			
 			<div class="form-group col-md-offset-10 col-md-2">				
-				<a class="btn btn-default btn-block" href="{{URL::to('/equipos/list_equipos')}}">
+				<a class="btn btn-default btn-block" href="{{URL::to('/equipos/list_inventario')}}">
 				<span class="glyphicon glyphicon-menu-left"></span> Regresar</a>
 			</div>
 		</div>			

@@ -11,7 +11,8 @@ class Consumible extends Eloquent{
 
 		public function scopeGetConsumibleByModelo($query,$idmodelo_equipo)
 	{
-		$query->withTrashed()
-			  ->where('consumibles.idmodelo_equipo','=',$idmodelo_equipo);
+		$query->where('consumibles.idmodelo_equipo','=',$idmodelo_equipo);
+
+		return $query;
 	}
 }

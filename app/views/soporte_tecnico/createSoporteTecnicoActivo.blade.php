@@ -102,49 +102,49 @@
 			<div class="table-responsive">
 				<table class="table">
 					<tr class="info">
-						<th class="text-nowrap">Nº</th>
-						<th class="text-nowrap">Tipo de Documento</th>
-						<th class="text-nowrap">Número de Documento</th>
-						<th class="text-nowrap">Nombre</th>
-						<th class="text-nowrap">Apellido Paterno</th>
-						<th class="text-nowrap">Apellido Materno</th>
-						<th class="text-nowrap">Especialidad</th>
-						<th class="text-nowrap">Teléfono</th>				
-						<th class="text-nowrap">E-mail</th>
-						<th class="text-nowrap">Eliminar</th>
+						<th class="text-nowrap text-center">Nº</th>
+						<th class="text-nowrap text-center">Tipo de Documento</th>
+						<th class="text-nowrap text-center">Número de Documento</th>
+						<th class="text-nowrap text-center">Nombre</th>
+						<th class="text-nowrap text-center">Apellido Paterno</th>
+						<th class="text-nowrap text-center">Apellido Materno</th>
+						<th class="text-nowrap text-center">Especialidad</th>
+						<th class="text-nowrap text-center">Teléfono</th>				
+						<th class="text-nowrap text-center">E-mail</th>
+						<th class="text-nowrap text-center">Eliminar</th>
 					</tr>
 					@foreach($soporte_tecnico_info as $index => $soporte_tecnico)
 					<tr class="@if($soporte_tecnico->deleted_at) bg-danger @endif">			
-						<td class="text-nowrap">
+						<td class="text-nowrap text-center">
 							{{$index + 1}}
 						</td>
-						<td class="text-nowrap">
+						<td class="text-nowrap text-center">
 							{{$soporte_tecnico->tipo_documento}}
 						</td>
-						<td class="text-nowrap">
+						<td class="text-nowrap text-center">
 							{{$soporte_tecnico->numero_documento}}
 						</td>
-						<td class="text-nowrap">
+						<td class="text-nowrap text-center">
 							{{$soporte_tecnico->nombres}}
 						</td>
-						<td class="text-nowrap">
+						<td class="text-nowrap text-center">
 							{{$soporte_tecnico->apellido_pat}}
 						</td>
-						<td class="text-nowrap">
+						<td class="text-nowrap text-center">
 							{{$soporte_tecnico->apellido_mat}}
 						</td>						
-						<td class="text-nowrap">
+						<td class="text-nowrap text-center">
 							{{$soporte_tecnico->especialidad}}
 						</td>
-						<td class="text-nowrap">
+						<td class="text-nowrap text-center">
 							{{$soporte_tecnico->telefono}}
 						</td>
-						<td class="text-nowrap">
+						<td class="text-nowrap text-center">
 							{{$soporte_tecnico->email}}
 						</td>
-						<td class="text-nowrap">
-							<a class="btn btn-danger btn-block btn-sm" href="">
-							<span class="glyphicon glyphicon-trash"></span> Eliminar</a>
+						<td class="text-nowrap text-center">
+							<button class="btnEliminarSoporteTecnicoActivo btn btn-danger btn-block btn-sm" data-value="{{$soporte_tecnico->idsoporte_tecnico_activo}}">
+							<span class="glyphicon glyphicon-trash"></span> Eliminar</button>
 						</td>						
 					</tr>
 					@endforeach		
@@ -159,4 +159,22 @@
 			<span class="glyphicon glyphicon-menu-left"></span> Regresar</a>				
 		</div>
 	</div>
+
+<div id="modal_delete_soporte_tecnico_activo" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-danger">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">ADVERTENCIA</h4>
+      </div>
+      <div class="modal-body">
+        <p>¿Está seguro que desea eliminar el componente?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="modal_btnEliminarSoporteTecnicoActivo btn btn-danger">Eliminar</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 @stop

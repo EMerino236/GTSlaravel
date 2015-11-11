@@ -9,7 +9,7 @@ class GruposController extends BaseController
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
-				$data["search"] = null;
+				$data["search_nombre_grupo"] = null;
 				$data["grupos_data"] = Grupo::getGruposInfo()->paginate(10);
 				return View::make('grupos/listGrupos',$data);
 			}else{
@@ -20,30 +20,94 @@ class GruposController extends BaseController
 		}
 	}
 
-	public function search_grupo(){
+	public function search_grupo()
+	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
-				$data["search"] = Input::get('search');
+				$data["search_nombre_grupo"] = Input::get('search_nombre_grupo');
 
-				$data["grupos_data"] = Grupo::searchGrupos($data["search"])->paginate(10);
-				if($data["search"]==""){
-					return Redirect::to('grupos/list_grupos');
-				}else{
-					return View::make('grupos/listGrupos',$data);	
-				}
+				$data["grupos_data"] = Grupo::searchGrupos($data["search_nombre_grupo"])->paginate(10);
+				
+				return View::make('grupos/listGrupos',$data);	
+				
 			}else{
 				return View::make('error/error');
 			}
 		}else{
 			return View::make('error/error');
 		}
+	}	
+
+	public function render_create_grupo()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1){						
+				$data["usuario_responsable"] = Grupo::getUserList();
+				
+				return View::make('grupos/createGrupo',$data);
+			}else{
+				return View::make('error/error');
+			}
+
+		}else{
+			return View::make('error/error');
+		}
 	}
 
-	public function render_edit_grupo($idgrupo=null){
-		
+	public function submit_create_grupo()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1){
+				// Validate the info, create rules for the inputs
+				$attributes = array(
+						'nombre_grupo' => 'Nombre del Grupo',
+						'usuario_responsable' => 'Usuario Responsable',
+						'descripcion_grupo' => 'Descripción del Grupo',
+					);
+
+				$messages = array(
+					);
+
+				$rules = array(
+						'nombre_grupo' => 'required|max:100|unique:grupos,nombre',
+						'descripcion_grupo' => 'max:200',
+						'usuario_responsable'=>'required',				
+					);
+				// Run the validation rules on the inputs from the form
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
+				// If the validator fails, redirect back to the form
+				if($validator->fails()){
+					return Redirect::to('grupos/create_grupo')->withErrors($validator)->withInput(Input::all());
+				}else{
+					$grupo = new Grupo;
+					$grupo->nombre = Input::get('nombre_grupo');
+					$grupo->descripcion = Input::get('descripcion_grupo');
+					$grupo->id_responsable = Input::get('usuario_responsable');
+					$grupo->idestado = 1;
+					$grupo->save();					
+					
+					return Redirect::to('grupos/list_grupos')->with('message', 'Se registró correctamente el grupo: '.$grupo->nombre);
+				}
+			}else{
+				return View::make('error/error');
+			}
+
+		}else{
+			return View::make('error/error');
+		}
+	}	
+
+	public function render_edit_grupo($idgrupo = null)
+	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
@@ -65,79 +129,31 @@ class GruposController extends BaseController
 		}else{
 			return View::make('error/error');
 		}
-
 	}
 
-	public function render_create_grupo()
+	public function submit_edit_grupo()
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){						
-				$data["usuario_responsable"] = Grupo::getUserList();
-				
-				return View::make('grupos/createGrupo',$data);
-			}else{
-				return View::make('error/error');
-			}
-
-		}else{
-			return View::make('error/error');
-		}
-	}
-
-	public function submit_create_grupo(){
-		if(Auth::check()){
-			$data["inside_url"] = Config::get('app.inside_url');
-			$data["user"] = Session::get('user');
-			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
 				// Validate the info, create rules for the inputs
-				$rules = array(
-							'nombre' => 'required|max:100|unique:grupos',
-							'descripcion' => 'required|max:200',
-							'usuario_responsable'=>'required',				
-						);
-				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
-				// If the validator fails, redirect back to the form
-				if($validator->fails()){
-					return Redirect::to('grupos/create_grupo')->withErrors($validator)->withInput(Input::all());
-				}else{
-					$grupo = new Grupo;
-					$grupo->nombre = Input::get('nombre');
-					$grupo->descripcion = Input::get('descripcion');
-					$grupo->id_responsable = Input::get('usuario_responsable');
-					$grupo->idestado = 1;
-					$grupo->save();
-					Session::flash('message', 'Se registró correctamente el grupo.');
-					
-					return Redirect::to('grupos/list_grupos');
-				}
-			}else{
-				return View::make('error/error');
-			}
+				$attributes = array(
+						'nombre_grupo' => 'Nombre del Grupo',
+						'usuario_responsable' => 'Usuario Responsable',
+						'descripcion_grupo' => 'Descripción del Grupo',
+					);
 
-		}else{
-			return View::make('error/error');
-		}
-	}	
-
-	public function submit_edit_grupo(){
-		if(Auth::check()){
-			$data["inside_url"] = Config::get('app.inside_url');
-			$data["user"] = Session::get('user');
-			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
-				// Validate the info, create rules for the inputs
+				$messages = array(
+					);
 				$rules = array(
-							'nombre' => 'required|max:100',
-							'descripcion' => 'required|max:200',
+							'nombre_grupo' => 'required|max:100|unique:grupos,nombre',
+							'descripcion_grupo' => 'required|max:200',
 							'usuario_responsable' =>'required',
 						);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					$grupo_id = Input::get('grupo_id');
@@ -147,12 +163,12 @@ class GruposController extends BaseController
 					$grupo_id = Input::get('grupo_id');	
 					$url = "grupos/edit_grupo"."/".$grupo_id;					
 					$grupo = Grupo::find($grupo_id);
-					$grupo->nombre = Input::get('nombre');
-					$grupo->descripcion = Input::get('descripcion');
+					$grupo->nombre = Input::get('nombre_grupo');
+					$grupo->descripcion = Input::get('descripcion_grupo');
 					$grupo->id_responsable = Input::get('usuario_responsable');
 					$grupo->save();
-					Session::flash('message', 'Se editó correctamente el grupo.');
-					return Redirect::to($url);
+					
+					return Redirect::to('grupos/list_grupos')->with('message', 'Se editó correctamente el grupo: '.$grupo->nombre);
 				}
 			}else{
 				return View::make('error/error');
@@ -162,8 +178,34 @@ class GruposController extends BaseController
 			return View::make('error/error');
 		}
 	}
+
+	public function render_view_grupo($idgrupo = null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if(($data["user"]->idrol == 1) && $idgrupo)
+			{	
+				$data["grupo_info"] = Grupo::searchGrupoById($idgrupo)->get();
+				$data["usuario_responsable"] = Grupo::getUserList();
+				$data["activos_grupo"] = Activo::getActivosByGrupoId($idgrupo)->get();
+				if($data["grupo_info"]->isEmpty()){
+					return Redirect::to('grupos/list_grupos');
+				}
+				$data["grupo_info"] = $data["grupo_info"][0];
+
+				return View::make('grupos/viewGrupo',$data);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
 	
-	public function submit_enable_grupo(){
+	public function submit_enable_grupo()
+	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
@@ -183,7 +225,8 @@ class GruposController extends BaseController
 		}
 	}
 
-	public function submit_disable_grupo(){
+	public function submit_disable_grupo()
+	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');

@@ -28,26 +28,26 @@
 		</div>
 	@endif
 
-	{{ Form::open(array('url'=>'areas/submit_edit_area', 'role'=>'form', 'class'=>'form-group')) }}
+	
 	{{ Form::hidden('area_id', $area_info->idarea) }}		
 	<div class="panel panel-default">
 	  	<div class="panel-heading">Datos Generales</div>
 	  	<div class="panel-body">
 			<div class="row">
 				<div class="form-group col-md-4 @if($errors->first('tipo_area')) has-error has-feedback @endif">
-					{{ Form::label('tipo_area','Tipo de Área') }}<span style='color:red'>*</span>
+					{{ Form::label('tipo_area','Tipo de Área') }}
 					@if($area_info->deleted_at)
-						{{ Form::select('tipo_area',$tipo_areas,$area_info->idtipo_area,array('class'=>'form-control','readonly'=>'','disabled'=>'disabled')) }}
+						{{ Form::select('tipo_area',$tipo_areas,$area_info->idtipo_area,array('class'=>'form-control','disabled'=>'disabled')) }}
 					@else
-						{{ Form::select('tipo_area',$tipo_areas,$area_info->idtipo_area,array('class'=>'form-control' )) }}
+						{{ Form::select('tipo_area',$tipo_areas,$area_info->idtipo_area,array('class'=>'form-control','disabled'=>'disabled' )) }}
 					@endif
 				</div>												
 				<div class="form-group col-md-4 @if($errors->first('nombre_area')) has-error has-feedback @endif">
-					{{ Form::label('nombre_area','Nombre del Area') }}<span style='color:red'>*</span>
+					{{ Form::label('nombre_area','Nombre del Area') }}
 					@if($area_info->deleted_at)
 						{{ Form::text('nombre_area',$area_info->nombre,array('class'=>'form-control','readonly'=>'')) }}
 					@else
-						{{ Form::text('nombre_area',$area_info->nombre,array('class'=>'form-control')) }}
+						{{ Form::text('nombre_area',$area_info->nombre,array('class'=>'form-control','readonly'=>'')) }}
 					@endif
 				</div>
 			</div>	
@@ -55,9 +55,9 @@
 				<div class="form-group col-md-12 @if($errors->first('descripcion_area')) has-error has-feedback @endif">
 				{{ Form::label('descripcion_area','Descripción (MAX:200 Caracteres)') }}
 				@if($area_info->deleted_at)
-					{{ Form::textarea('descripcion_area',$area_info->descripcion,array('class'=>'form-control','readonly'=>'','maxlength'=>'200','rows'=>'4','style'=>'resize:none')) }}
+					{{ Form::textarea('descripcion_area',$area_info->descripcion,array('class'=>'form-control','readonly'=>'','maxlength'=>'200','rows'=>'4','style'=>'resize:none','readonly'=>'')) }}
 				@else
-					{{ Form::textarea('descripcion_area',$area_info->descripcion,array('class'=>'form-control','maxlength'=>'200','rows'=>'4','style'=>'resize:none')) }}
+					{{ Form::textarea('descripcion_area',$area_info->descripcion,array('class'=>'form-control','maxlength'=>'200','rows'=>'4','style'=>'resize:none','readonly'=>'')) }}
 				@endif							
 				</div>		
 			</div>
@@ -93,30 +93,10 @@
 		 	</div>
 		</div>
 	</div>
-	<div class="container-fluid row">
-		@if(!$area_info->deleted_at)
-			<div class="col-md-2 form-group">				
-				{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit-edit', 'type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}	
-			</div>
-		@endif
-		<div class="col-md-2 form-group">
-			<a class="btn btn-default btn-block" href="{{URL::to('/areas/list_areas')}}">Cancelar</a>
-		</div>
-		{{ Form::close() }}
-		@if($area_info->deleted_at)
-		{{ Form::open(array('url'=>'areas/submit_enable_area', 'role'=>'form')) }}
-			{{ Form::hidden('area_id', $area_info->idarea) }}
-				<div class="form-group col-md-2 col-md-offset-8">
-					{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-up"></span> Habilitar', array('id'=>'submit-delete', 'type' => 'submit', 'class' => 'btn btn-success btn-block')) }}
-				</div>					
-		{{ Form::close() }}
-		@else
-		{{ Form::open(array('url'=>'areas/submit_disable_area', 'role'=>'form')) }}
-			{{ Form::hidden('area_id', $area_info->idarea) }}
-				<div class="form-group col-md-2 col-md-offset-6">
-					{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-down"></span> Inhabilitar', array('id'=>'submit-delete', 'type' => 'submit', 'class' => 'btn btn-danger btn-block')) }}
-				</div>
-		{{ Form::close() }}
-		@endif
-		</div>
+	<div class="container-fluid row">		
+		<div class="col-md-2 col-md-offset-10 form-group">
+			<a class="btn btn-default btn-block" href="{{URL::to('/areas/list_areas')}}">
+			<span class="glyphicon glyphicon-menu-left"></span> Regresar</a>
+		</div>		
+	</div>
 @stop

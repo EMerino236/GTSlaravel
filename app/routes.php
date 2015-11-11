@@ -84,6 +84,8 @@ Route::group(array('prefix'=>'familia_activos', 'before'=>'auth'),function(){
 	Route::get('/create_modelo_familia_activo/{id}','ModeloActivosController@render_create_modelo_familia_activo');
 	Route::post('/submit_create_modelo_familia_activo','ModeloActivosController@submit_create_modelo_familia_activo');
 	Route::post('/submit_delete_accesorio_ajax/','AccesoriosController@submit_delete_accesorio_ajax');
+	Route::post('/submit_delete_componente_ajax/','ComponenteController@submit_delete_componente_ajax');
+	Route::post('/submit_delete_consumible_ajax/','ConsumibleController@submit_delete_consumible_ajax');
 	Route::get('/edit_modelo_familia_activo/{id}','ModeloActivosController@render_edit_modelo_familia_activo');
 	Route::post('/submit_edit_modelo_familia_activo','ModeloActivosController@submit_edit_modelo_familia_activo');
 	Route::get('/create_accesorio_modelo_familia_activo/{id}','ModeloActivosController@render_create_accesorio_modelo_familia_activo');
@@ -106,8 +108,13 @@ Route::group(array('prefix'=>'equipos','before'=>'auth'),function(){
 	Route::post('/submit_edit_equipo','ActivosController@submit_edit_activo');
 	Route::get('/view_equipo/{id}','ActivosController@render_view_activo');
 
+	Route::get('/list_inventario','ActivosController@list_inventario');
+	Route::get('/search_inventario','ActivosController@search_inventario');
+	Route::get('/view_inventario/{id}','ActivosController@render_view_activo_inventario');
+
 	Route::get('/create_soporte_tecnico_equipo/{id}','ActivosController@render_create_soporte_tecnico_equipo');
 	Route::post('/submit_create_soporte_tecnico_equipo','ActivosController@submit_create_soporte_tecnico_equipo');
+	Route::post('/submit_delete_soporte_tecnico_equipo_ajax','ActivosController@submit_delete_soporte_tecnico_equipo_ajax');
 
 	Route::post('/search_nombre_equipo_ajax','ActivosController@search_nombre_equipo_ajax');
 	Route::post('/search_modelo_equipo_ajax','ActivosController@search_modelo_equipo_ajax');
@@ -137,6 +144,7 @@ Route::group(array('prefix'=>'areas','before'=>'auth'),function(){
 	Route::get('/create_area','AreasController@render_create_area');
 	Route::post('/submit_area','AreasController@submit_create_area');
 	Route::get('/edit_area/{id}','AreasController@render_edit_area');
+	Route::get('/view_area/{id}','AreasController@render_view_area');
 	Route::get('/search_area','AreasController@search_area');
 	Route::post('/submit_edit_area','AreasController@submit_edit_area');
 	Route::post('/submit_disable_area','AreasController@submit_disable_area');
@@ -164,6 +172,7 @@ Route::group(array('prefix'=>'grupos','before'=>'auth'),function(){
 	Route::get('/create_grupo','GruposController@render_create_grupo');	
 	Route::post('/submit_grupo','GruposController@submit_create_grupo');
 	Route::post('/submit_edit_grupo','GruposController@submit_edit_grupo');	
+	Route::get('/view_grupo/{id}','GruposController@render_view_grupo');
 	Route::post('/submit_disable_grupo','GruposController@submit_disable_grupo');
 	Route::post('/submit_enable_grupo','GruposController@submit_enable_grupo');
 });

@@ -21,7 +21,7 @@ class SoporteTecnicoxActivo extends Eloquent {
 
 		$query->where('soporte_tecnicosxactivos.idactivo','=',$idactivo);
 
-		$query->select('tipo_doc_identidades.nombre as tipo_documento','soporte_tecnicos.numero_doc_identidad as numero_documento','soporte_tecnicos.nombres as nombres','soporte_tecnicos.apellido_pat as apellido_pat','soporte_tecnicos.apellido_mat as apellido_mat','soporte_tecnicos.telefono as telefono','soporte_tecnicos.especialidad as especialidad','soporte_tecnicos.email as email');
+		$query->select('soporte_tecnicosxactivos.idactivo as idsoporte_tecnico_activo','tipo_doc_identidades.nombre as tipo_documento','soporte_tecnicos.numero_doc_identidad as numero_documento','soporte_tecnicos.nombres as nombres','soporte_tecnicos.apellido_pat as apellido_pat','soporte_tecnicos.apellido_mat as apellido_mat','soporte_tecnicos.telefono as telefono','soporte_tecnicos.especialidad as especialidad','soporte_tecnicos.email as email');
 
 		return $query;
 	}

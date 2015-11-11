@@ -7,39 +7,47 @@
         <!-- /.col-lg-12 -->
     </div>
 
-	@if ($errors->has())
-		<div class="alert alert-danger" role="alert">
-			<p><strong>{{ $errors->first('nombre') }}</strong></p>
-			<p><strong>{{ $errors->first('descripcion') }}</strong></p>
-			<p><strong>{{ $errors->first('usuario_responsable') }}</strong></p>
+    @if (Session::has('message'))
+		<div class="alert alert-success alert-dissmisable">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('message') }}
+		</div>
+	@endif
+	@if (Session::has('error'))
+		<div class="alert alert-success alert-dissmisable">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('error') }}
 		</div>
 	@endif
 
-	@if (Session::has('message'))
-		<div class="alert alert-success">{{ Session::get('message') }}</div>
+	@if ($errors->has())
+		<div class="alert alert-danger" role="alert">
+			<p><strong>{{ $errors->first('nombre_grupo') }}</strong></p>
+			<p><strong>{{ $errors->first('usuario_responsable') }}</strong></p>
+			<p><strong>{{ $errors->first('descripcion_grupo') }}</strong></p>
+		</div>
 	@endif
-	@if (Session::has('error'))
-		<div class="alert alert-danger">{{ Session::get('error') }}</div>
-	@endif
-
+	
 	{{ Form::open(array('url'=>'grupos/submit_grupo', 'role'=>'form')) }}	
 		<div class="row">
 			<div class="panel panel-default">
 			  	<div class="panel-heading">Datos Generales</div>
 			  	<div class="panel-body">	
 					<div class="row">								
-						<div class="form-group col-md-4 @if($errors->first('nombre')) has-error has-feedback @endif">
-							{{ Form::label('nombre','Nombre del Grupo') }}
-							{{ Form::text('nombre',Input::old('nombre'),['class' => 'form-control'])}}
-						</div>
-						<div class="form-group col-md-4 @if($errors->first('descripcion')) has-error has-feedback @endif">
-							{{ Form::label('descripcion','Descripción') }}
-							{{ Form::text('descripcion',Input::old('descripcion'),['class' => 'form-control'])}}
+						<div class="form-group col-md-4 @if($errors->first('nombre_grupo')) has-error has-feedback @endif">
+							{{ Form::label('nombre_grupo','Nombre del Grupo') }}<span style="color:red">*</span>
+							{{ Form::text('nombre_grupo',Input::old('nombre_grupo'),['class' => 'form-control'])}}
 						</div>
 						<div class="form-group col-md-4 @if($errors->first('usuario_responsable')) has-error has-feedback @endif">
-							{{ Form::label('usuario_responsable','Usuario Responsable') }}
-							{{ Form::select('usuario_responsable',$usuario_responsable, Input::old('id_responsable'),array('class'=>'form-control'))}}
+							{{ Form::label('usuario_responsable','Usuario Responsable') }}<span style="color:red">*</span>
+							{{ Form::select('usuario_responsable',array('' => 'Seleccione') + $usuario_responsable, Input::old('usuario_responsable'),array('class'=>'form-control')) }}
 						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-12 @if($errors->first('descripcion_grupo')) has-error has-feedback @endif">
+							{{ Form::label('descripcion_grupo','Descripción (MAX:200 Caracteres)') }}
+							{{ Form::textarea('descripcion_grupo',Input::old('descripcion_grupo'),['class' => 'form-control','maxlength'=>'200','rows'=>'4','style'=>'resize:none'])}}
+						</div>						
 					</div>
 					
 				</div>			

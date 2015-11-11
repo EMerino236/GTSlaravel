@@ -9,7 +9,10 @@ class AreasController extends BaseController
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
-				$data["search"] = null;
+
+				$data["search_tipo_area"] = null;
+				$data["search_nombre_area"] = null;
+
 				$data["tipo_area"] = TipoArea::lists('nombre','idtipo_area');				
 				$data["areas_data"] = Area::getAreasInfo()->paginate(10);
 				return View::make('areas/listAreas',$data);
@@ -21,20 +24,23 @@ class AreasController extends BaseController
 		}
 	}
 
-	public function search_area(){
+	public function search_area()
+	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
-				$data["search"] = Input::get('search');
-				$data["tipo_area"] = TipoArea::lists('nombre','idtipo_area'); 
-				$data["areas_data"] = Area::searchAreas($data["search"])->paginate(10);
-				if($data["search"]==0){
-					return Redirect::to('areas/list_areas');
-				}else{
-					return View::make('areas/listAreas',$data);	
-				}
+			if($data["user"]->idrol == 1)
+			{
+				$data["search_tipo_area"] = Input::get('search_tipo_area');
+				$data["search_nombre_area"] = Input::get('search_nombre_area');
+
+				$data["tipo_area"] = TipoArea::lists('nombre','idtipo_area');
+
+				$data["areas_data"] = Area::searchAreas($data["search_tipo_area"],$data["search_nombre_area"])->paginate(10);
+				
+				return View::make('areas/listAreas',$data);	
+				
 			}else{
 				return View::make('error/error');
 			}
@@ -63,7 +69,54 @@ class AreasController extends BaseController
 		}
 	}
 
-	public function render_edit_area($idarea=null){
+	public function submit_create_area()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1){
+				// Validate the info, create rules for the inputs
+				$attributes = array(
+					'nombre_area' => 'Nombre del Área',
+					'descripción_area' => 'Descripción del Área',
+					'tipo_area' => 'Tipo del Área',
+					);
+
+				$messages = array(
+					);
+
+				$rules = array(
+							'nombre_area' => 'required|max:100|unique:areas,nombre',
+							'descripcion_area' => 'max:200',
+							'tipo_area' => 'required',						
+						);
+				// Run the validation rules on the inputs from the form
+				$validator = Validator::make(Input::all(), $rules, $messages, $attributes);
+				// If the validator fails, redirect back to the form
+				if($validator->fails()){
+					return Redirect::to('areas/create_area')->withErrors($validator)->withInput(Input::all());
+				}else{
+					$area = new Area;
+					$area->nombre = Input::get('nombre_area');
+					$area->descripcion = Input::get('descripcion_area');
+					$area->idtipo_area = Input::get('tipo_area');
+					$area->idestado = 1;
+					$area->save();					
+					
+					return Redirect::to('areas/list_areas')->with('message', 'Se registró correctamente el área: '.$area->nombre);
+				}
+			}else{
+				return View::make('error/error');
+			}
+
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function render_edit_area($idarea=null)
+	{
 		
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
@@ -74,6 +127,7 @@ class AreasController extends BaseController
 				$data["tipo_areas"] = TipoArea::lists('nombre','idtipo_area');
 				$data["area_info"] = Area::searchAreaById($idarea)->get();
 				$data["personal"] = User::searchPersonalByIdArea($idarea)->get();
+
 				if($data["area_info"]->isEmpty()){
 					return Redirect::to('areas/list_areas');
 				}
@@ -86,56 +140,28 @@ class AreasController extends BaseController
 		}else{
 			return View::make('error/error');
 		}
+	}		
 
-	}
-
-	public function submit_create_area(){
+	public function submit_edit_area()
+	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
 				// Validate the info, create rules for the inputs
-				$rules = array(
-							'nombre' => 'required|max:100|unique:areas',
-							'descripcion' => 'required|max:200',
-							'tipo_area' => 'required',						
-						);
-				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
-				// If the validator fails, redirect back to the form
-				if($validator->fails()){
-					return Redirect::to('areas/create_area')->withErrors($validator)->withInput(Input::all());
-				}else{
-					$area = new Area;
-					$area->nombre = Input::get('nombre');
-					$area->descripcion = Input::get('descripcion');
-					$area->idtipo_area = Input::get('tipo_area');
-					$area->idestado = 1;
-					$area->save();
-					Session::flash('message', 'Se registró correctamente el area.');
-					
-					return Redirect::to('areas/list_areas');
-				}
-			}else{
-				return View::make('error/error');
-			}
+				$attributes = array(
+					'nombre_area' => 'Nombre del Área',
+					'descripcion_area' => 'Descripción del Área',
+					'tipo_area' => 'Tipo del Área',
+					);
 
-		}else{
-			return View::make('error/error');
-		}
-	}	
+				$messages = array(
+					);
 
-	public function submit_edit_area(){
-		if(Auth::check()){
-			$data["inside_url"] = Config::get('app.inside_url');
-			$data["user"] = Session::get('user');
-			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
-				// Validate the info, create rules for the inputs
 				$rules = array(
-							'nombre' => 'required|max:100',
-							'descripcion' => 'required|max:200',
+							'nombre_area' => 'required|max:100',
+							'descripcion_area' => 'max:200',
 							'tipo_area' => 'required',	
 						);
 				// Run the validation rules on the inputs from the form
@@ -149,12 +175,12 @@ class AreasController extends BaseController
 					$area_id = Input::get('area_id');				
 					$url = "areas/edit_area"."/".$area_id;					
 					$area = Area::find($area_id);
-					$area->nombre = Input::get('nombre');
-					$area->descripcion = Input::get('descripcion');
+					$area->nombre = Input::get('nombre_area');
+					$area->descripcion = Input::get('descripcion_area');
 					$area->idtipo_area = Input::get('tipo_area');
 					$area->save();
-					Session::flash('message', 'Se editó correctamente el area.');
-					return Redirect::to($url);
+					
+					return Redirect::to('areas/list_areas')->with('message', 'Se editó correctamente el área: '.$area->nombre);
 				}
 			}else{
 				return View::make('error/error');
@@ -165,7 +191,34 @@ class AreasController extends BaseController
 		}
 	}
 
-	public function submit_enable_area(){
+	public function render_view_area($idarea=null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if(($data["user"]->idrol == 1) && $idarea)
+			{	
+				$data["tipo_areas"] = TipoArea::lists('nombre','idtipo_area');
+				$data["area_info"] = Area::searchAreaById($idarea)->get();
+				$data["personal"] = User::searchPersonalByIdArea($idarea)->get();
+
+				if($data["area_info"]->isEmpty()){
+					return Redirect::to('areas/list_areas');
+				}
+				$data["area_info"] = $data["area_info"][0];
+
+				return View::make('areas/viewArea',$data);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function submit_enable_area()
+	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
@@ -185,7 +238,8 @@ class AreasController extends BaseController
 		}
 	}
 
-	public function submit_disable_area(){
+	public function submit_disable_area()
+	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');

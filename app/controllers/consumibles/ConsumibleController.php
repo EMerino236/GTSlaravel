@@ -1,9 +1,9 @@
 <?php
 
-class AccesoriosController extends BaseController
+class ConsumibleController extends BaseController
 {
 
-	public function submit_delete_accesorio_ajax()
+	public function submit_delete_consumible_ajax()
 	{
 		if(!Request::ajax() || !Auth::check())
 		{
@@ -16,13 +16,12 @@ class AccesoriosController extends BaseController
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1)
-			{		
+			{							
+				$idconsumible = Input::get('idconsumible');				
+				$consumible = Consumible::find($idconsumible);
+				$consumible->delete();
 				
-				$idaccesorio = Input::get('idaccesorio');				
-				$accesorio = Accesorio::find($idaccesorio);
-				$accesorio->delete();
-				
-				Session::flash('message', 'Se eliminó correctamente el accesorio.');
+				Session::flash('message', 'Se eliminó correctamente el consumible.');
 				return Response::json(array( 'success' => true),200);				
 			}
 			else{

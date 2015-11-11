@@ -35,7 +35,6 @@
 		<div class="alert alert-danger">{{ Session::get('error') }}</div>
 	@endif
 
-	{{ Form::open(array('url'=>'grupos/submit_edit_grupo', 'role'=>'form')) }}
 	{{ Form::hidden('grupo_id', $grupo_info->idgrupo) }}
 		<div class="row">
 			<div class="panel panel-default">
@@ -45,9 +44,9 @@
 						<div class="form-group col-md-4 @if($errors->first('nombre_grupo')) has-error has-feedback @endif">
 							{{ Form::label('nombre_grupo','Nombre del Grupo') }}<span style="color:red">*</span>
 							@if($grupo_info->deleted_at)
-								{{ Form::text('nombre_grupo',$grupo_info->nombre,array('class'=>'form-control','readonly'=>'')) }}
+								{{ Form::text('nombre_grupo',$grupo_info->nombre,array('class'=>'form-control','disabled'=>'')) }}
 							@else
-								{{ Form::text('nombre_grupo',$grupo_info->nombre,array('class'=>'form-control')) }}
+								{{ Form::text('nombre_grupo',$grupo_info->nombre,array('class'=>'form-control','disabled'=>'')) }}
 							@endif
 						</div>
 						<div class="form-group col-md-4 @if($errors->first('usuario_responsable')) has-error has-feedback @endif">
@@ -55,7 +54,7 @@
 							@if($grupo_info->deleted_at)
 								{{ Form::text('usuario_responsable',$grupo_info->usuario_responsable,array('class'=>'form-control','readonly'=>'')) }}
 							@else
-								{{ Form::select('usuario_responsable',$usuario_responsable,$grupo_info->id_responsable,array('class'=>'form-control')) }}
+								{{ Form::select('usuario_responsable',$usuario_responsable,$grupo_info->id_responsable,array('class'=>'form-control','readonly'=>'','disabled'=> '')) }}
 							@endif						
 						</div>
 					</div>
@@ -63,9 +62,9 @@
 						<div class="form-group col-md-12 @if($errors->first('descripcion_grupo')) has-error has-feedback @endif">
 							{{ Form::label('descripcion_grupo','Descripción (MAX:200 Caracteres)') }}							
 							@if($grupo_info->deleted_at)
-								{{ Form::textarea('descripcion_grupo',$grupo_info->descripcion,['class' => 'form-control','maxlength'=>'200','rows'=>'4','style'=>'resize:none'])}}								
+								{{ Form::textarea('descripcion_grupo',$grupo_info->descripcion,['class' => 'form-control','maxlength'=>'200','rows'=>'4','style'=>'resize:none','disabled'=>''])}}								
 							@else
-								{{ Form::textarea('descripcion_grupo',$grupo_info->descripcion,['class' => 'form-control','maxlength'=>'200','rows'=>'4','style'=>'resize:none'])}}								
+								{{ Form::textarea('descripcion_grupo',$grupo_info->descripcion,['class' => 'form-control','maxlength'=>'200','rows'=>'4','style'=>'resize:none','disabled'=>''])}}								
 							@endif							
 						</div>						
 					</div>
@@ -91,7 +90,6 @@
 				  					<td>{{$activo_grupo->codigo_patrimonial}}</td>
 				  					<td>{{$activo_grupo->numero_serie}}</td>
 				  					<td>{{$activo_grupo->nombre_equipo}}</td>
-
 				  				</tr>
 				  				@endforeach
 			  				</table>
@@ -101,29 +99,9 @@
 			</div>
 		</div>
 		<div class="container-fluid row">			
-			@if(!$grupo_info->deleted_at)
-			<div class="col-md-2 form-group">
-				{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit-edit', 'type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}						
+			<div class="col-md-2 col-md-offset-10 form-group">
+				<a class="btn btn-default btn-block" href="{{URL::to('/grupos/list_grupos')}}">
+				<span class="glyphicon glyphicon-menu-left"></span>	Regresar</a>
 			</div>
-			@endif
-			<div class="col-md-2 form-group">
-				<a class="btn btn-default btn-block" href="{{URL::to('/grupos/list_grupos')}}">Cancelar</a>
-			</div>	
-	{{ Form::close() }}
-		@if($grupo_info->deleted_at)
-		{{ Form::open(array('url'=>'grupos/submit_enable_grupo', 'role'=>'form')) }}
-			{{ Form::hidden('grupo_id', $grupo_info->idgrupo) }}
-				<div class="form-group col-md-2 col-md-offset-8">
-					{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-up"></span> Habilitar', array('id'=>'submit-delete', 'type' => 'submit', 'class' => 'btn btn-success btn-block')) }}
-				</div>
-		{{ Form::close() }}
-		@else
-		{{ Form::open(array('url'=>'grupos/submit_disable_grupo', 'role'=>'form')) }}
-			{{ Form::hidden('grupo_id', $grupo_info->idgrupo) }}
-				<div class="form-group col-md-2 col-md-offset-6">
-					{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-down"></span> Inhabilitar', array('id'=>'submit-delete', 'type' => 'submit', 'class' => 'btn btn-danger btn-block')) }}
-				</div>
-		{{ Form::close() }}
-		@endif
 		</div>
 @stop

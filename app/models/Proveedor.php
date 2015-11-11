@@ -10,9 +10,7 @@ class Proveedor extends Eloquent{
 
 	public function scopeGetProveedoresInfo($query)
 	{
-		$query->withTrashed()
-			  ->join('estados','estados.idestado','=','proveedores.idestado')
-			  ->select('estados.nombre as nombre_estado','proveedores.*');
+		$query->select('proveedores.*');
 		return $query;
 	}
 
@@ -23,17 +21,20 @@ class Proveedor extends Eloquent{
 		return $query;
 	}
 
-	public function scopeSearchProveedores($query,$search_criteria)
+	public function scopeSearchProveedores($query,$search_proveedor_ruc,$search_proveedor_razon_social)
 	{
-		$query->withTrashed()
-			  ->join('estados','estados.idestado','=','proveedores.idestado')
-			  ->whereNested(function($query) use($search_criteria){
-			  		$query->where('proveedores.ruc','LIKE',"%$search_criteria%")
-			  			  ->orWhere('proveedores.razon_social','LIKE',"%$search_criteria%")
-			  			  ->orWhere('proveedores.telefono','LIKE',"%$search_criteria%")
-			  			  ->orWhere('proveedores.email','LIKE',"%$search_criteria%");
-			  })
-			  ->select('estados.nombre as nombre_estado','proveedores.*');
+		if($search_proveedor_ruc != "")
+		{
+			$query->where('proveedores.ruc','=',$search_proveedor_ruc);
+		}
+
+		if($search_proveedor_razon_social != "")
+		{
+			$query->where('proveedores.razon_social','LIKE',"%$search_proveedor_razon_social%");
+		}
+			  
+	 	$query->select('proveedores.*');
+	 	
 		return $query;
 	}
 }

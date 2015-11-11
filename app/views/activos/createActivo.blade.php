@@ -9,19 +9,19 @@
 
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
-			<p><strong>{{ $errors->first('servicio_clinico',"El campo Servicio Clínico es requerido.") }}</strong></p>
-			<p><strong>{{ $errors->first('ubicacion_fisica',"El campo Ubicación Física es requerido.") }}</strong></p>
-			<p><strong>{{ $errors->first('grupo',"El campo Grupo es requerido.") }}</strong></p>
-			<p><strong>{{ $errors->first('marca',"El campo Marca es requerido.") }}</strong></p>
-			<p><strong>{{ $errors->first('nombre_equipo',"El campo Nombre de Equipo es requerido.") }}</strong></p>
-			<p><strong>{{ $errors->first('modelo',"El campo Modelo es requerido.") }}</strong></p>
-			<p><strong>{{ $errors->first('numero_serie',"El campo Número de Serie es requerido.") }}</strong></p>
-			<p><strong>{{ $errors->first('proveedor',"El campo Proveedor es requerido.") }}</strong></p>
-			<p><strong>{{ $errors->first('codigo_patrimonial',"El campo Código Patrimonial es requerido.") }}</strong></p>
-			<p><strong>{{ $errors->first('codigo_compra',"El campo Código de Compra es requerido.") }}</strong></p>
-			<p><strong>{{ $errors->first('fecha_adquisicion',"El campo Fecha de Adquisición es requerido.") }}</strong></p>
-			<p><strong>{{ $errors->first('garantia',"El campo Garantía es requerido.") }}</strong></p>
-			<p><strong>{{ $errors->first('reporte_instalacion',"El campo Reporte de Instalación es requerido.") }}</strong></p>
+			<p><strong>{{ $errors->first('servicio_clinico') }}</strong></p>
+			<p><strong>{{ $errors->first('ubicacion_fisica') }}</strong></p>
+			<p><strong>{{ $errors->first('grupo') }}</strong></p>
+			<p><strong>{{ $errors->first('marca') }}</strong></p>
+			<p><strong>{{ $errors->first('nombre_equipo') }}</strong></p>
+			<p><strong>{{ $errors->first('modelo') }}</strong></p>
+			<p><strong>{{ $errors->first('numero_serie') }}</strong></p>
+			<p><strong>{{ $errors->first('proveedor') }}</strong></p>
+			<p><strong>{{ $errors->first('codigo_patrimonial') }}</strong></p>
+			<p><strong>{{ $errors->first('codigo_compra') }}</strong></p>
+			<p><strong>{{ $errors->first('fecha_adquisicion') }}</strong></p>
+			<p><strong>{{ $errors->first('garantia') }}</strong></p>
+			<p><strong>{{ $errors->first('reporte_instalacion') }}</strong></p>
 			<p><strong>{{ $errors->first('idreporte_instalacion',"Ingrese un número de reporte válido. ") }}</strong></p>
 		</div>
 	@endif
@@ -101,8 +101,6 @@
 				                    </span>
 								</div>
 							</div>
-						</div>
-						<div class="form-group row">
 							<div class="col-md-4 @if($errors->first('garantia')) has-error has-feedback @endif">
 								{{ Form::label('garantia','Garantía (cantidad de meses)') }}<span style="color:red">*</span>
 								{{ Form::text('garantia',Input::old('garantia'),array('class'=>'form-control','placeholder'=>'Garantía'))}}

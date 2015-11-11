@@ -112,7 +112,82 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 			  		   'familia_activos.nombre_siga as nombre_siga','modelo_activos.nombre as modelo','marcas.nombre as nombre_marca','proveedores.razon_social as nombre_proveedor','activos.*');
 		return $query;
 	}
-	
+
+	public function scopeGetInventarioInfo($query)
+	{
+		$query->join('ubicacion_fisicas','ubicacion_fisicas.idubicacion_fisica','=','activos.idubicacion_fisica')
+			  ->join('servicios','servicios.idservicio','=','ubicacion_fisicas.idubicacion_fisica')
+			  ->join('grupos','grupos.idgrupo','=','activos.idgrupo')
+			  ->join('modelo_activos','modelo_activos.idmodelo_equipo','=','activos.idmodelo_equipo')
+			  ->join('familia_activos','familia_activos.idfamilia_activo','=','modelo_activos.idfamilia_activo')			  
+			  ->join('marcas','marcas.idmarca','=','familia_activos.idmarca')
+			  ->join('proveedores','proveedores.idproveedor','=','activos.idproveedor')
+			  ->join('estados','estados.idestado','=','activos.idestado')
+			  ->select('servicios.nombre as nombre_servicio','ubicacion_fisicas.nombre as nombre_ubicacion_fisica','grupos.nombre as nombre_grupo','familia_activos.nombre_equipo as nombre_equipo',
+			  		   'modelo_activos.nombre as modelo','marcas.nombre as nombre_marca','proveedores.razon_social as nombre_proveedor','estados.nombre as estado','activos.*');
+		return $query;
+	}
+
+	public function scopesearchInventario($query,$search_grupo,$search_servico,$search_ubicacion,$search_nombre_equipo,$search_marca,$search_modelo,
+									$search_proveedor,$search_codigo_patrimonial)
+	{
+		$query->join('ubicacion_fisicas','ubicacion_fisicas.idubicacion_fisica','=','activos.idubicacion_fisica')
+			  ->join('servicios','servicios.idservicio','=','ubicacion_fisicas.idubicacion_fisica')
+			  ->join('grupos','grupos.idgrupo','=','activos.idgrupo')
+			  ->join('modelo_activos','modelo_activos.idmodelo_equipo','=','activos.idmodelo_equipo')
+			  ->join('familia_activos','familia_activos.idfamilia_activo','=','modelo_activos.idfamilia_activo')
+			  ->join('marcas','marcas.idmarca','=','familia_activos.idmarca')
+			  ->join('proveedores','proveedores.idproveedor','=','activos.idproveedor')
+			  ->join('estados','estados.idestado','=','activos.idestado');
+			  
+			  if($search_grupo != '')
+			  {
+			  	$query->where('activos.idgrupo','=',$search_grupo);
+			  }
+
+			  if($search_servico != '')
+			  {
+			  	$query->where('activos.idservicio','=',$search_servico);
+			  }
+
+			  if($search_ubicacion != '' && $search_ubicacion != null)
+			  {
+			  	$query->where('activos.idubicacion_fisica','=',$search_ubicacion);
+			  }
+			  
+
+			  if($search_nombre_equipo != "")
+			  {
+			  	$query->where('familia_activos.nombre_equipo','LIKE',"%$search_nombre_equipo%");
+			  }
+
+			  if($search_marca != '')
+			  {
+			  	$query->where('familia_activos.idmarca','=',$search_marca);
+			  }
+
+			  if($search_modelo != "")
+			  {
+			  	$query->where('modelo_activos.nombre','LIKE',"%$search_modelo%");
+			  }
+			  
+
+			  if($search_proveedor != "")
+			  {
+			  	$query->where('activos.idproveedor','=',$search_proveedor);
+			  }
+			  
+
+			  if($search_codigo_patrimonial != "")
+			  {
+			  	$query->where('activos.codigo_patrimonial','LIKE',"%$search_codigo_patrimonial%");
+			  }
+
+
+			  $query->select('servicios.nombre as nombre_servicio','ubicacion_fisicas.nombre as nombre_ubicacion_fisica','grupos.nombre as nombre_grupo','familia_activos.nombre_equipo as nombre_equipo',
+			  		   		 'modelo_activos.nombre as modelo','marcas.nombre as nombre_marca','proveedores.razon_social as nombre_proveedor','estados.nombre as estado','activos.*');
+		return $query;
+	}
 
 	public function scopeSearchActivosById($query,$search_criteria)
 	{

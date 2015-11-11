@@ -11,26 +11,34 @@ class Area extends Eloquent{
 
 	public function scopeGetAreasInfo($query)
 	{
-		$query->withTrashed()
-			  ->join('tipo_areas','tipo_areas.idtipo_area','=','areas.idtipo_area')
+		$query->join('tipo_areas','tipo_areas.idtipo_area','=','areas.idtipo_area')
 			  ->select('tipo_areas.nombre as nombre_tipo_area','areas.*');
 		return $query;
 	}
 
 	public function scopeSearchAreaById($query,$search_criteria)
 	{
-		$query->withTrashed()
-			  ->where('areas.idarea','=',$search_criteria);
+		$query->where('areas.idarea','=',$search_criteria);
+		
 		return $query;
 	}
 
-	public function scopeSearchAreas($query,$search_criteria){
-		$query->withTrashed()
-			  ->join('tipo_areas','tipo_areas.idtipo_area','=','areas.idtipo_area')
-			  ->whereNested(function($query) use($search_criteria){
-			  		$query->where('areas.idtipo_area','LIKE',"%$search_criteria%");
-			  })
-			  ->select('tipo_areas.nombre as nombre_tipo_area','areas.*');
+	public function scopeSearchAreas($query,$search_tipo_area,$search_nombre_area){
+
+		$query->join('tipo_areas','tipo_areas.idtipo_area','=','areas.idtipo_area');
+
+		if($search_tipo_area != "")
+		{
+			$query->where('areas.idtipo_area','=',$search_tipo_area);
+		}
+
+		if($search_nombre_area != "")
+		{
+			$query->where('areas.nombre','LIKE',"%$search_nombre_area%");
+		}		
+			  
+	    $query->select('tipo_areas.nombre as nombre_tipo_area','areas.*');
+
 		return $query;
 	}
 

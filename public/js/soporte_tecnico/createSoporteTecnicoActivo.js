@@ -14,6 +14,19 @@ $( document ).ready(function(){
  		limpiar_criterios();
  	});
 
+ 	$('.btnEliminarSoporteTecnicoActivo').click(function(){
+		var idsoporte_tecnico = $(this).attr('data-value');
+		
+		$('#modal_delete_soporte_tecnico_activo').modal('toggle');
+		$('.modal_btnEliminarSoporteTecnicoActivo').attr('data-value',idsoporte_tecnico);
+	});
+
+	$('.modal_btnEliminarSoporteTecnicoActivo').click(function(){
+		var idsoporte_tecnico = $(this).attr('data-value');		
+		
+		submit_delete_soporte_tecnico_equipo_ajax(idsoporte_tecnico);
+	});
+
 });
 
 function init()
@@ -109,4 +122,38 @@ function search_soporte_tecnico_ajax()
 		    }
 		});
 	}
+}
+
+function submit_delete_soporte_tecnico_equipo_ajax(idsoporte_tecnico)
+{	
+
+	$.ajax({
+	    url: inside_url+'equipos/submit_delete_soporte_tecnico_equipo_ajax',
+	    type: 'POST',
+	    data: {'idsoporte_tecnico': idsoporte_tecnico },
+	    beforeSend: function(){
+	        $("#delete-selected-profiles").addClass("disabled");
+	        $("#delete-selected-profiles").hide();
+	        $(".loader_container").show();
+	    },
+	    complete: function(){
+	        $(".loader_container").hide();
+	        $("#delete-selected-profiles").removeClass("disabled");
+	        $("#delete-selected-profiles").show();
+	        delete_selected_profiles = true;
+	    },
+	    success: function(response){	    	
+	        if(response.success)
+	        {    
+	         	location.reload();
+	        }
+	        else
+	        {
+            	alert('La petición no se pudo completar, inténtelo de nuevo.');
+	        }
+	    },
+	    error: function(){
+	        alert('La petición no se pudo completar, inténtelo de nuevo.');
+		}
+	});
 }
