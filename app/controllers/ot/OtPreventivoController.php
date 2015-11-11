@@ -504,7 +504,7 @@ class OtPreventivoController extends BaseController {
 		if($data["user"]->idrol == 1){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$ot_preventivo = OrdenesTrabajoPreventivo::find(Input::get('idot_preventivo'));
-			$ot_preventivo->idestado_ot = 25;
+			$ot_preventivo->idestado_ot = 26;
 			$ot_preventivo->save();
 			$message = "Se ha cancelado la OTM.";
 			$type_message = "bg-success";

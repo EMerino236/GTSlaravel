@@ -302,7 +302,7 @@ class OtInspeccionEquiposController extends BaseController {
 		if($data["user"]->idrol == 1){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$ot_inspeccion = OrdenesTrabajoInspeccionEquipo::find(Input::get('idot_inspec_equipo'));
-			$ot_inspeccion->idestado= 25;
+			$ot_inspeccion->idestado= 26;
 			$ot_inspeccion->save();
 			$message = "Se ha cancelado la OTM.";
 			$type_message = "bg-success";

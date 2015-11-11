@@ -108,7 +108,7 @@
 							{{$inspeccion_equipo_data->nombre_estado}}
 						</td>
 						<td class="text-nowrap text-center">
-							@if($inspeccion_equipo_data->idestado!=25)
+							@if($inspeccion_equipo_data->idestado!=27)
 								<div class="btn btn-danger btn-block" onclick='eliminar_ot(event,this)'><span class="glyphicon glyphicon-trash"></span></div>
 							@endif
 					</td>
