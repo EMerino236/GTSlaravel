@@ -46,7 +46,7 @@
 				</div>
 				<div class="form-group row">
 					<div class="form-group col-md-4 @if($errors->first('proveedor_nombre_contacto')) has-error has-feedback @endif">
-						{{ Form::label('proveedor_nombre_contacto','Nombre del contácto') }}
+						{{ Form::label('proveedor_nombre_contacto','Nombre del contacto') }}
 						{{ Form::text('proveedor_nombre_contacto',Input::old('proveedor_nombre_contacto'),array('class'=>'form-control')) }}
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('telefono')) has-error has-feedback @endif">

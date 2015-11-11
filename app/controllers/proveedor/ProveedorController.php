@@ -14,7 +14,7 @@ class ProveedorController extends BaseController {
 				$data["search_proveedor_ruc"] = null;
 				$data["search_proveedor_razon_social"] = null;
 				$data["proveedores_data"] = Proveedor::getProveedoresInfo()->paginate(10);
-				return View::make('proveedor/listProveedores',$data);
+				return View::make('proveedores/listProveedores',$data);
 			}else{
 				return View::make('error/error');
 			}
@@ -34,7 +34,7 @@ class ProveedorController extends BaseController {
 				$data["search_proveedor_ruc"] = Input::get('search_proveedor_ruc');
 				$data["search_proveedor_razon_social"] = Input::get('search_proveedor_razon_social');
 				$data["proveedores_data"] = Proveedor::searchProveedores($data["search_proveedor_ruc"], $data["search_proveedor_razon_social"])->paginate(10);
-				return View::make('proveedor/listProveedores',$data);
+				return View::make('proveedores/listProveedores',$data);
 			}else{
 				return View::make('error/error');
 			}
@@ -50,7 +50,7 @@ class ProveedorController extends BaseController {
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){				
-				return View::make('proveedor/createProveedor',$data);
+				return View::make('proveedores/createProveedor',$data);
 			}else{
 				return View::make('error/error');
 			}
@@ -101,7 +101,7 @@ class ProveedorController extends BaseController {
 					$proveedor->idestado = 1;
 					$proveedor->save();
 					
-					return Redirect::to('proveedor/list_proveedores')->with('message', 'Se creó correctamente el proveedor.');
+					return Redirect::to('proveedores/list_proveedores')->with('message', 'Se creó correctamente el proveedor.');
 				}
 			}else{
 				return View::make('error/error');
@@ -123,10 +123,10 @@ class ProveedorController extends BaseController {
 				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
 				$data["proveedor_info"] = Proveedor::searchProveedorById($id)->get();
 				if($data["proveedor_info"]->isEmpty()){
-					return Redirect::to('user/list_proveedores');
+					return Redirect::to('proveedores/list_proveedores');
 				}
 				$data["proveedor_info"] = $data["proveedor_info"][0];
-				return View::make('proveedor/editProveedor',$data);
+				return View::make('proveedores/editProveedor',$data);
 			}else{
 				return View::make('error/error');
 			}
@@ -211,7 +211,7 @@ class ProveedorController extends BaseController {
 
 				$data["proveedor_info"] = $data["proveedor_info"][0];
 
-				return View::make('proveedor/viewProveedor',$data);
+				return View::make('proveedores/viewProveedor',$data);
 			}else{
 				return View::make('error/error');
 			}
