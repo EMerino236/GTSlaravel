@@ -42,7 +42,7 @@
     <script src="{{ asset('bower_components/morrisjs/morris.min.js') }}"></script>
     <!-- Custom Theme JavaScript -->
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
-    <script src="{{ asset('js/ordenes_trabajos/inspeccion_infraestructura/addOtInspecInf.js') }}"></script> 
+    <script src="{{ asset('js/ordenes_trabajos/inspeccion_equipo/addOtInspeccionEquipo.js') }}"></script> 
 </head>
 
 <body>

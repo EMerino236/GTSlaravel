@@ -4,7 +4,7 @@ $( document ).ready(function(){
 
 	
 
-	/*$("#submit-tarea").click(function(e){
+	$("#submit-tarea").click(function(e){
 		e.preventDefault;
 		if($("input[name=nombre_tarea]").val().length<1){
 			$("input[name=nombre_tarea]").parent().addClass("has-error has-feedback");
@@ -38,13 +38,14 @@ $( document ).ready(function(){
 			}
 		}
 
-	});*/
+	});
 
 	$(".boton-tarea").click(function(e){
+		idot_preventivo = $('#idot_preventivo').val();
 		e.preventDefault;
 		if (confirm('¿Está seguro de esta acción?')){
 			$.ajax({
-				url: inside_url+'marcar_tarea/submit_marcar_tarea_ajax',
+				url: inside_url+'mant_preventivo/submit_marcar_tarea_ajax',
 				type: 'POST',
 				data: { 'idtareas_ot_preventivosxot_preventivo' : $(this).data('id') },
 				beforeSend: function(){
@@ -54,6 +55,8 @@ $( document ).ready(function(){
 				success: function(response){
 					console.log(response);
 					$(this).prop('disabled',true);
+					var url = inside_url + "mant_preventivo/create_ot_preventivo/"+idot_preventivo;
+					window.location = url;
 				},
 				error: function(){
 				}
@@ -287,6 +290,33 @@ function eliminar_personal(e,id){
 			success: function(response){
 				$("#personal-row-"+id).remove();
 				$("input[name=costo_total_personal]").val(response.costo_total_personal);
+			},
+			error: function(){
+			}
+		});
+	}
+}
+
+function eliminar_tarea_preventivo(e,id){
+	idot_preventivo = $('#idot_preventivo').val();
+	e.preventDefault();
+	if (confirm('¿Está seguro de eliminar la tarea?')){
+		$.ajax({
+			url: inside_url+'mant_preventivo/submit_delete_tarea_ajax',
+			type: 'POST',
+			data: { 
+				'idtareas_ot_preventivosxot_preventivo' : id,
+			},
+			beforeSend: function(){
+				//$(this).prop('disabled',true);
+			},
+			complete: function(){
+				//$(this).prop('disabled',false);
+			},
+			success: function(response){
+				$("#tarea-row-"+id).remove();
+				var url = inside_url + "mant_preventivo/create_ot_preventivo/"+idot_preventivo;
+				window.location = url;
 			},
 			error: function(){
 			}

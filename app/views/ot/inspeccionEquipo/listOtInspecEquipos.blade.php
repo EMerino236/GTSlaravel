@@ -1,8 +1,8 @@
-@extends('templates/otInspeccionInfraestructuraTemplate')
+@extends('templates/otInspeccionEquiposTemplate')
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Programación de inspección de infraestructura</h3>
+            <h3 class="page-header">Programación de inspección de equipos</h3>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -11,11 +11,11 @@
 	@endif
 		<div class="container-fluid form-group row">
 			<div class="col-md-4 col-md-offset-8">
-				<a class="btn btn-primary btn-block" href="{{URL::to('/inspec_infraestructura/programacion')}}">
-				<span class="glyphicon glyphicon-plus"></span> Agregar Inspección de Infraestructura</a>
+				<a class="btn btn-primary btn-block" href="{{URL::to('/inspec_equipos/programacion')}}">
+				<span class="glyphicon glyphicon-plus"></span> Agregar Inspección de Equipos</a>
 			</div>
 		</div>
-    {{ Form::open(array('url'=>'/inspec_infraestructura/search_ot_inspec_infraestructura','method'=>'get' ,'role'=>'form', 'id'=>'search-form','class' => 'form-group')) }}
+    {{ Form::open(array('url'=>'/inspec_equipos/search_ot_inspec_equipos','method'=>'get' ,'role'=>'form', 'id'=>'search-form','class' => 'form-group')) }}
 	<div class="container-fluid form-group row">
 		<div class="col-md-12">
 			<div class="panel panel-default">
@@ -72,32 +72,32 @@
 		<div class="col-md-12">
 			<table class="table">
 				<tr class="info">
-					<th>Fecha y hora</th>
+					<th>Fecha</th>
 					<th>Departamento</th>
 					<th>Servicio</th>
 					<th>Ingeniero</th>
 					<th>Orden Trabajo Mantenimiento</th>
 					<th>Estado</th>
 				</tr>
-				@foreach($inspecciones_infraestructura_data as $inspeccion_infraestructura_data)
+				@foreach($inspecciones_equipos_data as $inspeccion_equipo_data)
 				<tr>
 					<td>
-						{{date('d-m-Y H:i:s',strtotime($inspeccion_infraestructura_data->fecha_programacion))}}
+						{{date('d-m-Y',strtotime($inspeccion_equipo_data->fecha_inicio))}}
 					</td>
 					<td>
-						{{$inspeccion_infraestructura_data->nombre_area}}
+						{{$inspeccion_equipo_data->nombre_area}}
 					</td>
 					<td>
-						{{$inspeccion_infraestructura_data->nombre_servicio}}
+						{{$inspeccion_equipo_data->nombre_servicio}}
 					</td>
 					<td>
-						{{$inspeccion_infraestructura_data->apellido_pat}} {{$inspeccion_infraestructura_data->apellido_mat}}, {{$inspeccion_infraestructura_data->nombre_user}}
+						{{$inspeccion_equipo_data->apellido_pat}} {{$inspeccion_equipo_data->apellido_mat}}, {{$inspeccion_equipo_data->nombre_user}}
 					</td>
 					<td>
-						<a href="#">{{$mant_preventivo_data->ot_tipo_abreviatura}}{{$mant_preventivo_data->ot_correlativo}}{{$mant_preventivo_data->ot_activo_abreviatura}}</a>
+						<a href="#">{{$inspeccion_equipo_data->ot_tipo_abreviatura}}{{$inspeccion_equipo_data->ot_correlativo}}{{$inspeccion_equipo_data->ot_activo_abreviatura}}</a>
 					</td>					
 					<td>
-						{{$inspeccion_infraestructura_data->nombre_estado}}
+						{{$inspeccion_equipo_data->nombre_estado}}
 					</td>
 				</tr>
 				@endforeach

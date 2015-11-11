@@ -87,7 +87,7 @@
 	<div class="container-fluid form-group row">
 		<div class="col-md-12">
 			<div class="table-responsive">
-				<table class="table">
+				<table class="table" id="table_ot">
 				<tr class="info">
 					<th class="text-nowrap">Fecha y hora</th>
 					<th class="text-nowrap">Departamento</th>
@@ -96,8 +96,10 @@
 					<th class="text-nowrap">Ubicación</th>
 					<th class="text-nowrap">Orden Trabajo Mantenimiento</th>
 					<th class="text-nowrap">Estado</th>
+					<th class="text-nowrap">Eliminar</th>
 				</tr>
-				@foreach($mant_preventivos_data as $mant_preventivo_data)
+				@foreach($mant_preventivos_data as $index => $mant_preventivo_data)
+				{{form::hidden('search_ini',$mant_preventivo_data->idot_preventivo,array('id'=>'fila'.$index))}}
 				<tr>
 					<td class="text-nowrap">
 						{{date('d-m-Y H:i:s',strtotime($mant_preventivo_data->fecha_programacion))}}
@@ -115,11 +117,21 @@
 						{{$mant_preventivo_data->nombre_ubicacion}}
 					</td>
 					<td class="text-nowrap text-center">
-						<a href="{{URL::to('/mant_preventivo/create_ot_preventivo/')}}/{{$mant_preventivo_data->idot_preventivo}}">{{$mant_preventivo_data->ot_tipo_abreviatura}}{{$mant_preventivo_data->ot_correlativo}}{{$mant_preventivo_data->ot_activo_abreviatura}}</a>
+						@if($mant_preventivo_data->idestado_ot==25)
+							{{$mant_preventivo_data->ot_tipo_abreviatura}}{{$mant_preventivo_data->ot_correlativo}}{{$mant_preventivo_data->ot_activo_abreviatura}}
+						@else
+							<a href="{{URL::to('/mant_preventivo/create_ot_preventivo/')}}/{{$mant_preventivo_data->idot_preventivo}}">{{$mant_preventivo_data->ot_tipo_abreviatura}}{{$mant_preventivo_data->ot_correlativo}}{{$mant_preventivo_data->ot_activo_abreviatura}}</a>
+						@endif
 					</td>					
 					<td>
 						{{$mant_preventivo_data->nombre_estado}}
 					</td>
+					<td class="text-nowrap text-center">
+						@if($mant_preventivo_data->idestado_ot!=25)
+							<div class="btn btn-danger btn-block" onclick='eliminar_ot(event,this)'><span class="glyphicon glyphicon-trash"></span></div>
+						@endif
+					</td>
+
 				</tr>
 				@endforeach
 				</table>
@@ -128,3 +140,23 @@
 	</div>
 	
 @stop
+
+<div class="container">
+  <!-- Modal -->
+  <div class="modal fade" id="modal_list_ot" role="dialog">
+    <div class="modal-dialog modal-md">    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header" id="modal_list_header_ot">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Advertencia</h4>
+        </div>
+        <div class="modal-body" id="modal_text_list_ot">         	
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" id="btn_close_modal" data-dismiss="modal">Aceptar</button>
+        </div>
+      </div>      
+    </div>
+  </div>  
+</div>

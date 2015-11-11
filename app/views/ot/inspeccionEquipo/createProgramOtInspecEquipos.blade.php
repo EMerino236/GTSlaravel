@@ -1,8 +1,8 @@
-@extends('templates/otInspeccionInfraestructuraTemplate')
+@extends('templates/otInspeccionEquiposTemplate')
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Agregar Inspecciones de Infraestructura</h3>
+            <h3 class="page-header">Agregar Inspecciones de Equipos</h3>
         </div>
     </div>
 
@@ -49,10 +49,10 @@
 					</div>
 					<div class="row">
 						<div class="form-group col-md-6">
-							{{ Form::label('solicitante','Usuario solicitante') }}
+							{{ Form::label('ingeniero','Ingeniero de la inspección:') }}
 							<select name="solicitante" class="form-control" id="solicitantes">
-								@foreach($solicitantes as $solicitante)
-									<option value="{{ $solicitante->id }}">{{ $solicitante->apellido_pat }} {{ $solicitante->apellido_mat }}, {{ $solicitante->nombre }}</option>
+								@foreach($ingenieros as $ingeniero)
+									<option value="{{ $ingeniero->id }}">{{ $ingeniero->apellido_pat }} {{ $ingeniero->apellido_mat }}, {{ $ingeniero->nombre }}</option>
 								@endforeach
 							</select>
 						</div>
@@ -70,9 +70,20 @@
 			        </div>
 			        <div class="row">
 						<div class="form-group col-md-6">
-							{{ Form::label('hora_programacion','Hora Programacion')}}<span style="color:red"> *</span>
-							<div id="datetimepicker_prog_hora" class="form-group input-group date @if($errors->first('fecha')) has-error has-feedback @endif">					
-								{{ Form::text('hora_programacion',Input::old('hora'),array('class'=>'form-control','readonly'=>'','id'=>'hora')) }}
+							{{ Form::label('hora_programacion_inicio','Hora Programacion Inicio')}}<span style="color:red"> *</span>
+							<div id="datetimepicker_prog_hora_inicio" class="form-group input-group date @if($errors->first('fecha_inicio')) has-error has-feedback @endif">					
+								{{ Form::text('hora_programacion_inicio',Input::old('hora_inicio'),array('class'=>'form-control','readonly'=>'','id'=>'hora_inicio')) }}
+								<span class="input-group-addon">
+				                    <span class="glyphicon glyphicon-calendar"></span>
+				                </span>
+			            	</div>
+			            </div>
+			        </div>
+			        <div class="row">
+						<div class="form-group col-md-6">
+							{{ Form::label('hora_programacion_fin','Hora Programacion Fin')}}<span style="color:red"> *</span>
+							<div id="datetimepicker_prog_hora_fin" class="form-group input-group date @if($errors->first('fecha_fin')) has-error has-feedback @endif">					
+								{{ Form::text('hora_programacion_fin',Input::old('hora_fin'),array('class'=>'form-control','readonly'=>'','id'=>'hora_fin')) }}
 								<span class="input-group-addon">
 				                    <span class="glyphicon glyphicon-calendar"></span>
 				                </span>
@@ -118,18 +129,21 @@
 	</div>
 
 	<div class="form-group row">
-		<div class="col-md-12">
-			<table class="table" id="table_programacion">
-				<tr class="info">
-					<th>Servicio</th>
-					<th>Programaciones del mes </th>
-					<th>Programaciones del trimestre</th>
-					<th>Fecha Programación</th>
-					<th>Hora Programacion</th>
-					<th>Usuario Responsable</th>
-					<th>Operacion</th>
-				</tr>
-			</table>
+		<div class="table-responsive">
+			<div class="col-md-12">
+				<table class="table" id="table_programacion">
+					<tr class="info">
+						<th class="text-nowrap text-center">Servicio</th>
+						<th class="text-nowrap text-center">Programaciones del mes </th>
+						<th class="text-nowrap text-center">Programaciones del trimestre</th>
+						<th class="text-nowrap text-center">Fecha Programación</th>
+						<th class="text-nowrap text-center">Hora Inicio</th>
+						<th class="text-nowrap text-center">Hora Fin</th>
+						<th class="text-nowrap text-center">Usuario Responsable</th>
+						<th class="text-nowrap text-center">Operacion</th>
+					</tr>
+				</table>
+			</div>
 		</div>
 	</div>
 
@@ -138,7 +152,7 @@
 			{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Crear', array('id'=>'submit_create_ots', 'class' => 'btn btn-primary btn-block')) }}
 		</div>
 		<div class="form-group col-md-2">
-			<a class="btn btn-default btn-block" href="{{URL::to('/inspec_infraestructura/list_inspec_infraestructura')}}">Cancelar</a>				
+			<a class="btn btn-default btn-block" href="{{URL::to('/inspec_equipos/list_inspec_equipos')}}">Cancelar</a>				
 		</div>
 	</div>	
 
@@ -175,6 +189,27 @@
           <h4 class="modal-title">Advertencia</h4>
         </div>
         <div class="modal-body" id="modal_text_confirm">
+         	
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" id="btn_close_modal_confirm" data-dismiss="modal">Aceptar</button>
+        </div>
+      </div>      
+    </div>
+  </div>  
+</div>
+
+<div class="container" >
+  <!-- Modal -->
+  <div class="modal fade" id="modal_ot"  role="dialog">
+    <div class="modal-dialog modal-md">    
+      <!-- Modal content-->
+      <div class="modal-content" >
+        <div class="modal-header" id="modal_header_ot">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Órdenes de Trabajo de Mantenimiento Programados</h4>
+        </div>
+        <div class="modal-body" id="modal_text_ot" style="height:150px; overflow: auto;">
          	
         </div>
         <div class="modal-footer">

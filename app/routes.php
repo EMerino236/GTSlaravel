@@ -316,10 +316,13 @@ Route::group(array('prefix'=>'mant_preventivo','before'=>'auth'),function(){
 	Route::get('/create_ot_preventivo/{id}','OtPreventivoController@render_create_ot');
 	Route::post('/submit_create_ot','OtPreventivoController@submit_create_ot');	
 	Route::post('/submit_create_tarea_ajax','OtPreventivoController@submit_create_tarea_ajax');
+	Route::post('/submit_marcar_tarea_ajax','OtPreventivoController@submit_marcar_tarea_ajax');
+	Route::post('/submit_delete_tarea_ajax','OtPreventivoController@submit_delete_tarea_ajax');
 	Route::post('/submit_create_repuesto_ajax','OtPreventivoController@submit_create_repuesto_ajax');
 	Route::post('/submit_delete_repuesto_ajax','OtPreventivoController@submit_delete_repuesto_ajax');
 	Route::post('/submit_create_personal_ajax','OtPreventivoController@submit_create_personal_ajax');
-	Route::post('/submit_delete_personal_ajax','OtPreventivoController@submit_delete_personal_ajax');
+	Route::post('/submit_delete_personal_ajax','OtPreventivoController@submit_delete_personal_ajax');	
+	Route::post('/submit_disable_preventivo','OtPreventivoController@submit_disable_preventivo');
 });
 
 /* Verificación Metrológica */
@@ -338,18 +341,15 @@ Route::group(array('prefix'=>'verif_metrologica','before'=>'auth'),function(){
 	Route::post('/return_name_doc_relacionado/{postData}','OtVerificacionMetrologicaController@return_name_doc_relacionado');
 });
 
-/* Inspeccion de Infraestructura */
-Route::group(array('prefix'=>'inspec_infraestructura','before'=>'auth'),function(){
-	Route::get('/programacion','OtInspecInfraestructuraController@render_program_ot_inspec_infraestructura');
-	Route::post('/submit_programacion','OtInspecInfraestructuraController@submit_program_ot_inspec_infraestructura');
-	Route::get('/list_inspec_infraestructura','OtInspecInfraestructuraController@list_inspec_infraestructura');
-	Route::post('/ver_programaciones','OtInspecInfraestructuraController@search_programaciones');
-	Route::get('/search_ot_inspec_infraestructura','OtInspecInfraestructuraController@search_ot_inspec_infraestructura');
-	Route::post('/search_servicio_ajax','OtInspecInfraestructuraController@search_servicio_ajax');
-	Route::get('/create_ot_inspec_infraestructura/{id}','OtInspecInfraestructuraController@render_create_ot');
-	Route::post('/submit_create_ot','OtInspecInfraestructuraController@submit_create_ot');
-	Route::post('/submit_create_repuesto_ajax','OtController@submit_create_repuesto_ajax');
-	Route::post('/submit_delete_repuesto_ajax','OtController@submit_delete_repuesto_ajax');
-	Route::post('/submit_create_personal_ajax','OtController@submit_create_personal_ajax');
-	Route::post('/submit_delete_personal_ajax','OtController@submit_delete_personal_ajax');
+/* Inspeccion de Equipos */
+Route::group(array('prefix'=>'inspec_equipos','before'=>'auth'),function(){
+	Route::get('/programacion','OtInspeccionEquiposController@render_program_ot_inspeccion_equipo');
+	Route::post('/submit_programacion','OtInspeccionEquiposController@submit_program_ot_inspec_equipos');
+	Route::get('/list_inspec_equipos','OtInspeccionEquiposController@list_inspec_equipos');
+	Route::post('/ver_programaciones','OtInspeccionEquiposController@search_programaciones');
+	//Route::get('/search_ot_inspec_infraestructura','OtInspecEquiposController@search_ot_inspec_infraestructura');
+	Route::post('/search_servicio_ajax','OtInspeccionEquiposController@search_servicio_ajax');
+	//Route::get('/create_ot_inspec_infraestructura/{id}','OtInspecEquiposController@render_create_ot');
+	//Route::post('/submit_create_ot','OtInspecEquiposController@submit_create_ot');
+	
 });

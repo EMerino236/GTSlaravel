@@ -144,7 +144,7 @@
 			{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Crear', array('id'=>'submit_create_ots', 'class' => 'btn btn-primary btn-block')) }}
 		</div>
 		<div class="form-group col-md-2">
-			<a class="btn btn-default btn-block" href="{{URL::to('/mant_preventivo/list_mant_preventivo')}}">Cancelar</a>				
+			<a class="btn btn-default btn-block" href="{{URL::to('/inspec_equipos/list_mant_preventivo')}}">Cancelar</a>				
 		</div>
 	</div>	
 
@@ -190,17 +190,17 @@
     </div>
   </div>  
 </div>
-<div class="container">
+<div class="container" >
   <!-- Modal -->
-  <div class="modal fade" id="modal_ot" role="dialog">
+  <div class="modal fade" id="modal_ot"  role="dialog">
     <div class="modal-dialog modal-md">    
       <!-- Modal content-->
-      <div class="modal-content">
+      <div class="modal-content" >
         <div class="modal-header" id="modal_header_ot">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title">Órdenes de Trabajo de Mantenimiento Programados</h4>
         </div>
-        <div class="modal-body" id="modal_text_ot">
+        <div class="modal-body" id="modal_text_ot" style="height:150px; overflow: auto;">
          	
         </div>
         <div class="modal-footer">

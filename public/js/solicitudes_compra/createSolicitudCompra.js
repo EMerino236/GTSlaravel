@@ -201,8 +201,6 @@ function clean_name_reporte(){
     $("#btn_descarga").hide();
 }
 
-
-
 function deleteRow(event,el)
 {    
     event.preventDefault();

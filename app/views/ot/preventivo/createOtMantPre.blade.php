@@ -24,7 +24,7 @@
 	@endif
 
 	{{ Form::open(array('url'=>'mant_preventivo/submit_create_ot', 'role'=>'form')) }}
-		{{ Form::hidden('idot_preventivo', $ot_info->idot_preventivo) }}
+		{{ Form::hidden('idot_preventivo', $ot_info->idot_preventivo,array('id'=>'idot_preventivo'))}}
 		{{ Form::hidden('idactivo', $ot_info->idactivo) }}
 		<div class="panel panel-default">
 			<div class="panel-heading">
@@ -190,12 +190,23 @@
 			<div class="panel-heading">
 				<h3 class="panel-title">Datos generales de la Orden de Trabajo de Mantenimiento</h3>
 			</div>
-			<div class="panel-body">				
-				<div class="col-md-12">
-						<table class="table">
-							<tr id="tareas-table" class="info">
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-md-8 form-group">
+						{{ Form::label('nombre_tarea','Actividad:') }}
+						{{ Form::text('nombre_tarea',null,array('class' => 'form-control','placeholder'=>'Ingrese nombre de la tarea' ,'id'=>'nombre_tarea')) }}
+					</div>
+					<div class="col-md-4 form-group">
+						{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Agregar',array('id'=>'submit-tarea', 'class'=>'btn btn-primary','style'=>'margin-top:25px')) }}
+					</div>
+				</div>
+				<div class="row">		
+					<div class="col-md-10">
+						<table class="table" id="tareas-table" >
+							<tr class="info">
 								<th>Actividad</th>
 								<th>Realizada</th>
+								<th>Operaciones</th>
 							</tr>
 							@foreach($tareas as $tarea)
 							<tr>
@@ -207,16 +218,26 @@
 										Realizada
 									@endif
 								</td>
+								<td>
+									<button class="btn btn-danger boton-eliminar-tarea" onclick="eliminar_tarea_preventivo(event,{{$tarea->idtareas_ot_preventivosxot_preventivo}})" type="button">Eliminar</button>
+								</td>
 							</tr>
 							@endforeach
 						</table>
-				</div>							
-				<div class="col-md-6">
+					</div>
+				</div>
+				<div class="row">						
+					<div class="col-md-6">
 					<div class="row">
 						<div class="col-md-8 form-group ">
 							{{ Form::label('fecha_inicio_ejecucion','Fecha de Inicio') }}
 							<div id="datetimepicker_fecha_inicio_ot" class="input-group date @if($errors->first('fecha_inicio_ejecucion')) has-error has-feedback @endif">
-								{{ Form::text('fecha_inicio_ejecucion',date('d-m-Y H:i',strtotime($ot_info->fecha_inicio_ejecucion)),array('class'=>'form-control','readonly'=>'')) }}
+								@if($ot_info->fecha_inicio_ejecucion == null)
+									{{ Form::text('fecha_inicio_ejecucion',null,array('class'=>'form-control','readonly'=>'')) }}
+								@else
+									{{ Form::text('fecha_inicio_ejecucion',date('d-m-Y H:i',strtotime($ot_info->fecha_inicio_ejecucion)),array('class'=>'form-control','readonly'=>'')) }}
+								@endif
+								
 								<span class="input-group-addon">
 			                        <span class="glyphicon glyphicon-calendar"></span>
 			                    </span>
@@ -235,14 +256,19 @@
 							{{ Form::select('idestado_final', $estado_activo,$ot_info->idestado_final,array('class'=>'form-control')) }}
 						</div>
 					</div>
-				</div>
+					</div>
 						
-				<div class="col-md-6">
+					<div class="col-md-6">
 					<div class="row">
 						<div class="col-md-8 form-group ">
 							{{ Form::label('fecha_termino_ejecucion','Fecha de Término') }}
 							<div id="datetimepicker_fecha_fin_ot" class="input-group date @if($errors->first('fecha_termino_ejecucion')) has-error has-feedback @endif">
-								{{ Form::text('fecha_termino_ejecucion',date('d-m-Y H:i',strtotime($ot_info->fecha_termino_ejecucion)),array('class'=>'form-control','readonly'=>'')) }}
+								@if($ot_info->fecha_termino_ejecucion == null)
+									{{ Form::text('fecha_termino_ejecucion',null,array('class'=>'form-control','readonly'=>'')) }}
+								@else
+									{{ Form::text('fecha_termino_ejecucion',date('d-m-Y H:i',strtotime($ot_info->fecha_termino_ejecucion)),array('class'=>'form-control','readonly'=>'')) }}
+								@endif
+								
 								<span class="input-group-addon">
 			                        <span class="glyphicon glyphicon-calendar"></span>
 			                    </span>
@@ -254,6 +280,7 @@
 							{{ Form::label('sin_interrupcion_servicio','Sin Interrupción al Servicio') }}
 							{{ Form::select('sin_interrupcion_servicio', ['0'=>'No','1'=>'Si'],$ot_info->sin_interrupcion_servicio,array('class'=>'form-control')) }}
 						</div>
+					</div>
 					</div>
 				</div>
 			</div>
