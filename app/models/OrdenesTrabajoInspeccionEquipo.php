@@ -21,46 +21,36 @@ class OrdenesTrabajoInspeccionEquipo extends Eloquent{
 	}
 
 
-	/*public function scopeSearchOtsMantPreventivo($query,$search_ing,$search_cod_pat,$search_ubicacion,$search_ot,$search_equipo,$search_proveedor,$search_ini,$search_fin,$search_servicio)
+	public function scopeSearchOtsInspecEquipo($query,$search_ing,$search_ot,$search_ini,$search_fin,$search_servicio,$search_equipo)
 	{
-		$query->join('estados','estados.idestado','=','ot_preventivos.idestado_ot')
-			  ->join('servicios','servicios.idservicio','=','ot_preventivos.idservicio')
-			  ->join('areas','areas.idarea','=','servicios.idarea')
-			  ->join('activos','activos.idactivo','=','ot_preventivos.idactivo')
-			  ->join('ubicacion_fisicas','ubicacion_fisicas.idubicacion_fisica','=','activos.idubicacion_fisica')
-			  ->join('proveedores','proveedores.idproveedor','=','activos.idproveedor')
+		$query->join('estados','estados.idestado','=','ot_inspec_equipos.idestado')
+			  ->join('servicios','servicios.idservicio','=','ot_inspec_equipos.idservicio')
+			  ->join('activos','activos.idservicio','=','servicios.idservicio')
 			  ->join('modelo_activos','modelo_activos.idmodelo_equipo','=','activos.idmodelo_equipo')
 			  ->join('familia_activos','familia_activos.idfamilia_activo','=','modelo_activos.idfamilia_activo')
-			  ->join('grupos','grupos.idgrupo','=','activos.idgrupo')
-			  ->join('users','users.id','=','grupos.id_responsable')
+			  ->join('areas','areas.idarea','=','servicios.idarea')
+			  ->join('users','users.id','=','ot_inspec_equipos.id_ingeniero')
 			  ->whereNested(function($query) use($search_ing){
 			  		$query->where('users.nombre','LIKE',"%$search_ing%")
 			  			  ->orWhere('users.apellido_pat','LIKE',"%$search_ing%")
 			  			  ->orWhere('users.apellido_mat','LIKE',"%$search_ing%");
 			  });
-			  if($search_cod_pat!="")
-			  	$query->where('activos.codigo_patrimonial','=',$search_cod_pat);
 			  if($search_ot!="")
-			  	$query->where(DB::raw("CONCAT(ot_preventivos.ot_tipo_abreviatura,ot_preventivos.ot_correlativo,ot_preventivos.ot_activo_abreviatura)"),'LIKE',"%$search_ot%");
-			  if($search_equipo!="")
-			  	$query->where('familia_activos.nombre_equipo','=',$search_equipo);
-			  if($search_ubicacion!="")
-			  	$query->where('ubicacion_fisicas.nombre','=',$search_ubicacion);
-			  if($search_proveedor!="")
-			  	$query->whereNested(function($query) use($search_proveedor){
-			  			$query->where('proveedores.ruc','LIKE',"%$search_proveedor%")
-			  			  	  ->orWhere('proveedores.razon_social','LIKE',"%$search_proveedor%")
-			  			  	  ->orWhere('proveedores.nombre_contacto','LIKE',"%$search_proveedor%");
-			  	});
+			  	$query->where(DB::raw("CONCAT(ot_inspec_equipos.ot_tipo_abreviatura,ot_inspec_equipos.ot_correlativo)"),'LIKE',"%$search_ot%");
 			  if($search_ini != "")
-				$query->where('ot_preventivos.fecha_programacion','>=',date('Y-m-d H:i:s',strtotime($search_ini)));
+				$query->where('ot_inspec_equipos.fecha_inicio','>=',date('Y-m-d H:i:s',strtotime($search_ini)));
 			  if($search_fin != "")
-				$query->where('ot_preventivos.fecha_programacion','<=',date('Y-m-d H:i:s',strtotime($search_fin)));
+				$query->where('ot_inspec_equipos.fecha_inicio','<=',date('Y-m-d H:i:s',strtotime($search_fin)));
 			  if($search_servicio!=0)
-			  	$query->where('ot_preventivos.idservicio','=',$search_servicio);
-			  $query->select('ubicacion_fisicas.nombre as nombre_ubicacion','areas.nombre as nombre_area','users.nombre as nombre_user','users.apellido_pat','users.apellido_mat','servicios.nombre as nombre_servicio','estados.nombre as nombre_estado','ot_preventivos.*');
+			  	$query->where('ot_inspec_equipos.idservicio','=',$search_servicio);
+			  if($search_equipo!='')
+			  	$query->whereNested(function($query) use($search_equipo){
+			  		$query->where('modelo_activos.nombre','LIKE',"%$search_equipo%")
+			  			  ->orWhere('familia_activos.nombre_equipo','LIKE',"%$search_equipo%");
+			  	});			  
+			  $query->select('areas.nombre as nombre_area','users.nombre as nombre_user','users.apellido_pat','users.apellido_mat','servicios.nombre as nombre_servicio','estados.nombre as nombre_estado','ot_inspec_equipos.*');
 	  	return $query;
-	}*/
+	}
 
 	public function scopeGetLastOtInspeccionEquipo($query)
 	{

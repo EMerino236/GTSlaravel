@@ -99,7 +99,7 @@
 					<th class="text-nowrap">Eliminar</th>
 				</tr>
 				@foreach($mant_preventivos_data as $index => $mant_preventivo_data)
-				{{form::hidden('search_ini',$mant_preventivo_data->idot_preventivo,array('id'=>'fila'.$index))}}
+				{{form::hidden('fila',$mant_preventivo_data->idot_preventivo,array('id'=>'fila'.$index))}}
 				<tr>
 					<td class="text-nowrap">
 						{{date('d-m-Y H:i:s',strtotime($mant_preventivo_data->fecha_programacion))}}

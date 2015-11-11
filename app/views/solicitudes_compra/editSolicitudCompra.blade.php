@@ -47,9 +47,9 @@
 						<div class="form-group col-md-4 @if($errors->first('numero_ot')) has-error has-feedback @endif">
 							{{ Form::label('numero_ot','Número de OT:') }}<span style="color:red"> *</span>
 							@if($reporte_data->deleted_at)
-								{{ Form::text('numero_ot',$reporte_data->codigo_ot,array('class'=>'form-control','readonly'=>'')) }}
+								{{ Form::text('numero_ot',$reporte_data->codigo_ot,array('class'=>'form-control','readonly'=>'','placeholder'=>'Número de OT')) }}
 							@else
-								{{ Form::text('numero_ot',$reporte_data->codigo_ot,array('class'=>'form-control')) }}
+								{{ Form::text('numero_ot',$reporte_data->codigo_ot,array('class'=>'form-control','placeholder'=>'Número de OT')) }}
 							@endif	
 						</div>
 						<div class="form-group col-md-4 @if($errors->first('servicio')) has-error has-feedback @endif">
@@ -146,26 +146,24 @@
 				  		<div class="form-group row">
 				  			<div class="form-group col-md-4 @if($errors->first('descripcion')) has-error has-feedback @endif">
 								{{ Form::label('descripcion','Descripción:') }}<span style="color:red"> *</span>
-								{{ Form::text('descripcion',Input::old('descripcion'),['class' => 'form-control','id'=>'descripcion'])}}
+								{{ Form::text('descripcion',Input::old('descripcion'),['class' => 'form-control','id'=>'descripcion','placeholder'=>'Ingrese una descripción'])}}
 							</div>
 							<div class="form-group col-md-4 @if($errors->first('marca2')) has-error has-feedback @endif">
 								{{ Form::label('marca2','Marca:') }}<span style="color:red"> *</span>
-								{{ Form::text('marca2',Input::old('marca2'),array('class'=>'form-control','id'=>'marca2'))}}
+								{{ Form::text('marca2',Input::old('marca2'),array('class'=>'form-control','id'=>'marca2','placeholder'=>'Ingrese marca'))}}
 							</div>
 							<div class="form-group col-md-4 @if($errors->first('nombre_equipo2')) has-error has-feedback @endif">
 								{{ Form::label('nombre_equipo2','Equipo:') }}<span style="color:red"> *</span>
-								{{ Form::text('nombre_equipo2', Input::old('nombre_equipo2'), array('class'=>'form-control','id'=>'nombre_equipo2')) }}
+								{{ Form::text('nombre_equipo2', Input::old('nombre_equipo2'), array('class'=>'form-control','id'=>'nombre_equipo2','placeholder'=>'Ingrese nombre del equipo')) }}
 							</div>
 							<div class="form-group col-md-4 @if($errors->first('serie_parte')) has-error has-feedback @endif">
 								{{ Form::label('serie_parte','Número de Serie / Parte:') }}<span style="color:red"> *</span>
-								{{ Form::text('serie_parte', Input::old('numero_serie'), array('class'=>'form-control','id'=>'serie_parte')) }}
+								{{ Form::text('serie_parte', Input::old('numero_serie'), array('class'=>'form-control','id'=>'serie_parte','placeholder'=>'Ingrese número de serie o número de parte')) }}
 							</div>
 							<div class="form-group col-md-4 @if($errors->first('cantidad')) has-error has-feedback @endif">
 								{{ Form::label('cantidad','Cantidad:') }}<span style="color:red"> *</span>
-								<div class="form-group input-group">
-									{{ Form::text('cantidad',Input::old('cantidad'),['class' => 'form-control bfh-number','id'=>'cantidad'])}}
-									<span class="input-group-addon bfh-number-btn inc"><span class="glyphicon glyphicon-chevron-up"></span></span>
-								</div>
+								{{ Form::number('cantidad',Input::old('cantidad'),['class' => 'form-control bfh-number','id'=>'cantidad','min'=>'0','max'=>'999999','placeholder'=>'Ingrese cantidad'])}}
+									
 							</div>
 				  		</div>
 				  		<div class="container-fluid row form-group">

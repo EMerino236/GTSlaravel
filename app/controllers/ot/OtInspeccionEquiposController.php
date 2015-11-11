@@ -18,6 +18,7 @@ class OtInspeccionEquiposController extends BaseController {
 				$data["search_ini"] = null;
 				$data["search_fin"] = null;
 				$data["search_servicio"] = null;
+				$data["search_equipo"] = null;
 				$data["servicios"] = Servicio::lists('nombre','idservicio');
 				$data["inspecciones_equipos_data"] = OrdenesTrabajoInspeccionEquipo::getOtsInspecEquipoInfo()->get();
 				return View::make('ot/inspeccionEquipo/listOtInspecEquipos',$data);
@@ -240,6 +241,76 @@ class OtInspeccionEquiposController extends BaseController {
 				return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'message' =>$message, 'type_message'=>$type_message,'list'=>$list_activos ),200);
 			}
 			
+			return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'message' => $message, 'type_message'=>$type_message ),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
+	public function validate_servicio(){
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$id = Auth::id();
+		$data["inside_url"] = Config::get('app.inside_url');
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1){
+			// Check if the current user is the "System Admin"
+			$idservicio = Input::get('selected_id');
+			$list_activos = [];
+			$list_activos = Activo::getActivosByServicioId($idservicio)->get();
+			$valido = false;
+			if($list_activos->isEmpty()==false)
+				$valido = true;
+			else
+				$valido = false;
+
+			return Response::json(array( 'success' => true,'valido'=>$valido),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
+	public function search_ot_inspeccion_equipos()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1){
+
+				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
+				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
+				$data["search_ing"] = Input::get('search_ing');
+				$data["search_ot"] = Input::get('search_ot');
+				$data["search_ini"] = Input::get('search_ini');
+				$data["search_fin"] = Input::get('search_fin');
+				$data["search_servicio"] = Input::get('search_servicio');
+				$data["search_equipo"] = Input::get('search_equipo');
+				$data["servicios"] = Servicio::lists('nombre','idservicio');
+				$data["inspecciones_equipos_data"] = OrdenesTrabajoInspeccionEquipo::searchOtsInspecEquipo($data["search_ing"],$data["search_ot"],$data["search_ini"],$data["search_fin"],$data["search_servicio"],$data["search_equipo"])->paginate(10);
+				return View::make('ot/inspeccionEquipo/listOtInspecEquipos',$data);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}	
+
+	public function submit_disable_inspeccion(){
+		// If there was an error, respond with 404 status
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$ot_inspeccion = OrdenesTrabajoInspeccionEquipo::find(Input::get('idot_inspec_equipo'));
+			$ot_inspeccion->idestado= 25;
+			$ot_inspeccion->save();
+			$message = "Se ha cancelado la OTM.";
+			$type_message = "bg-success";
 			return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'message' => $message, 'type_message'=>$type_message ),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);

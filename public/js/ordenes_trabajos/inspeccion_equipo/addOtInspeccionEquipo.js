@@ -234,10 +234,42 @@ function addFilaMantenimiento(){
     var array_fecha_fin = hora_fin.split(':');
     var time_inicio = parseInt(array_fecha_inicio[0])*60 + parseInt(array_fecha_inicio[1]);
     var time_fin= parseInt(array_fecha_fin[0])*60 + parseInt(array_fecha_fin[1]);
-   
+    var valido = false;
+
+    $.ajax({
+        url: inside_url+'inspec_equipos/validate_servicio',
+        type: 'POST',
+        data: { 'selected_id' : idservicio,},
+        beforeSend: function(){
+            $("#delete-selected-profiles").addClass("disabled");
+            $("#delete-selected-profiles").hide();
+            $(".loader_container").show();
+        },
+        complete: function(){
+            $(".loader_container").hide();
+            $("#delete-selected-profiles").removeClass("disabled");
+            $("#delete-selected-profiles").show();
+            delete_selected_profiles = true;
+        },
+        success: function(response){
+            if(response.success){                
+                 valido = response["valido"];                
+            }else{
+                alert('La petición no se pudo completar, inténtelo de nuevo.');
+            }
+        },
+        error: function(){
+            alert('La petición no se pudo completar, inténtelo de nuevo.');
+        }
+    });
+
     if(idservicio==0){
         $('#modal_create_text').empty();
         $('#modal_create_text').append('<p>Seleccionar servicio.</p>');
+        $('#modal_create').modal('show');
+    }else if(valido==false){
+        $('#modal_create_text').empty();
+        $('#modal_create_text').append('<p>El servicio no cuenta con equipos.</p>');
         $('#modal_create').modal('show');
     }else if(fecha==''){
         $('#modal_create_text').empty();

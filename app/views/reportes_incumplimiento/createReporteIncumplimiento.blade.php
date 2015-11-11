@@ -52,17 +52,17 @@
 					<div class="row">		
 						<div class="form-group col-md-4 @if($errors->first('numero_ot')) has-error has-feedback @endif">
 							{{ Form::label('numero_ot','Código de OT') }}<span style="color:red"> *</span>
-							{{ Form::text('numero_ot',Input::old('numero_ot'),['class' => 'form-control'])}}
+							{{ Form::text('numero_ot',Input::old('numero_ot'),['class' => 'form-control','placeholder'=>'Número de OTM'])}}
 						</div>
 						<div class="form-group col-md-4 @if($errors->first('tipo_reporte')) has-error has-feedback @endif">
 							{{ Form::label('tipo_reporte','Tipo de Reporte') }}<span style="color:red"> *</span>
-							{{ Form::select('tipo_reporte',['0'=>'','1'=>'Por Servicio','2'=>'Por Equipo'],Input::old('idtipo_reporte'),['class' => 'form-control'])}}
+							{{ Form::select('tipo_reporte',['0'=>'Seleccione','1'=>'Por Servicio','2'=>'Por Equipo'],Input::old('idtipo_reporte'),['class' => 'form-control'])}}
 						</div>						
 					</div>
 					<div class="row">
 						<div class="form-group col-md-2 @if($errors->first('numero_doc1')) has-error has-feedback @endif">
 							{{ Form::label('numero_doc1','Número Documento') }}<span style="color:red"> *</span>
-							{{ Form::text('numero_doc1',Input::old('numero_doc1'),['class' => 'form-control','id'=>'numero_doc1'])}}
+							{{ Form::text('numero_doc1',Input::old('numero_doc1'),['class' => 'form-control','id'=>'numero_doc1','placeholder'=>'Número de Doc.'])}}
 						</div>
 						<div class="form-group col-md-2" style="margin-top:25px">
 							<a class="btn btn-primary btn-block" onclick="fill_name_responsable(1)">
@@ -73,7 +73,7 @@
 						</div>
 						<div class="form-group col-md-4">
 							{{ Form::label('responsable','Responsable de la Revisión') }}
-							{{ Form::text('responsable',Input::old('responsable'),['class' => 'form-control','id'=>'nombre_responsable1','disabled'=>'disabled'])}}
+							{{ Form::text('responsable',Input::old('responsable'),['class' => 'form-control','id'=>'nombre_responsable1','disabled'=>'disabled','placeholder'=>'Nombre de Usuario'])}}
 						</div>
 					</div>
 					<div class="row">
@@ -90,13 +90,13 @@
 				    <div class="row">  		
 						<div class="col-md-8 form-group @if($errors->first('descripcion_corta')) has-error has-feedback @endif">
 		        			{{ Form::label('descripcion_corta','Descripción Corta') }}<span style="color:red"> *</span>
-							{{ Form::text('descripcion_corta',Input::old('descripcion_corta'),['class' => 'form-control'])}}
+							{{ Form::text('descripcion_corta',Input::old('descripcion_corta'),['class' => 'form-control','placeholder'=>'Ingrese una descripción corta'])}}
 		        		</div>
 		        	</div>      
 		        	<div class="row">
 						<div class="col-md-8 form-group @if($errors->first('descripcion')) has-error has-feedback @endif">
 			        		{{ Form::label('descripcion','Descripción del Servicio o Producto no conforme') }}<span style="color:red"> *</span>
-							{{ Form::textarea('descripcion',Input::old('descripcion'),['class' => 'form-control','style'=>'resize:none;'])}}
+							{{ Form::textarea('descripcion',Input::old('descripcion'),['class' => 'form-control','style'=>'resize:none;','placeholder'=>'Ingrese descripción'])}}
 		        		</div>
 		        	</div>
 		        	<div class="row">
@@ -106,7 +106,7 @@
 						</div>
 						<div class="form-group col-md-4  @if($errors->first('responsable_servicio')) has-error has-feedback @endif">
 							{{ Form::label('responsable_servicio','Responsable del Servicio') }}
-							{{ Form::text('responsable_servicio',Input::old('idresponsable'),['class' => 'form-control','id'=>'servicio_resp','disabled'=>'disabled'])}}
+							{{ Form::text('responsable_servicio',Input::old('idresponsable'),['class' => 'form-control','id'=>'servicio_resp','disabled'=>'disabled','placeholder'=>'Responsable del servicio'])}}
 						</div>
 		        	</div>
 		        	<div class="row">
@@ -116,17 +116,17 @@
 						</div>
 						<div class="form-group col-md-4  @if($errors->first('contacto_proveedor')) has-error has-feedback @endif">
 							{{ Form::label('contacto_proveedor','Contacto de Proveedor') }}
-							{{ Form::text('contacto_proveedor',Input::old('contacto_proveedor'),['class' => 'form-control','id'=>'contacto_proveedor','disabled'=>'disabled'])}}
+							{{ Form::text('contacto_proveedor',Input::old('contacto_proveedor'),['class' => 'form-control','id'=>'contacto_proveedor','disabled'=>'disabled','placeholder'=>'Contacto'])}}
 						</div>
 		        	</div>
 		        	<div class="row">
 						<div class="col-md-2 form-group @if($errors->first('costo')) has-error has-feedback @endif">
 			        		{{ Form::label('costo','Costos Generados') }}<span style="color:red"> *</span>
-							{{ Form::text('costo',Input::old('costo'),['class' => 'form-control'])}}
+							{{ Form::text('costo',Input::old('costo'),['class' => 'form-control','placeholder'=>'Ingrese costo'])}}
 		        		</div>
 						<div class="col-md-8 form-group @if($errors->first('accion_generada')) has-error has-feedback @endif">
 			        		{{ Form::label('accion_generada','Acción Correctiva Generada') }}<span style="color:red"> *</span>
-							{{ Form::text('accion_generada',Input::old('accion_generada'),['class' => 'form-control'])}}
+							{{ Form::text('accion_generada',Input::old('accion_generada'),['class' => 'form-control','placeholder'=>'Ingrese acción generada'])}}
 		        		</div>
 	        		</div>
 		        	<div class="row">
@@ -138,21 +138,21 @@
 					<div class="row">
 						<div class="col-md-8 @if($errors->first('acciones')) has-error has-feedback @endif">
 			        		{{ Form::label('acciones','Acciones a seguir de acuerdo a la disposición determinada') }}<span style="color:red"> *</span>
-							{{ Form::textarea('acciones',Input::old('acciones'),['class' => 'form-control','style'=>'resize:none;'])}}
+							{{ Form::textarea('acciones',Input::old('acciones'),['class' => 'form-control','style'=>'resize:none;','placeholder'=>'Ingrese acciones'])}}
 		        		</div>
 		        	</div>
 		        	<br>
 		        	<div class="row">
 						<div class="col-md-8 @if($errors->first('resultados')) has-error has-feedback @endif">
 			        		{{ Form::label('resultados','Resultados / Conclusiones con respecto al servicio') }}<span style="color:red"> *</span>
-							{{ Form::textarea('resultados',Input::old('resultados'),['class' => 'form-control','style'=>'resize:none;'])}}
+							{{ Form::textarea('resultados',Input::old('resultados'),['class' => 'form-control','style'=>'resize:none;','placeholder'=>'Ingrese resultados'])}}
 		        		</div>
 		        	</div>
 		        	<br>
 		        	<div class="row">
 						<div class="form-group col-md-2 @if($errors->first('numero_doc2')) has-error has-feedback @endif">
 							{{ Form::label('numero_doc2','Número Documento') }}<span style="color:red"> *</span>
-							{{ Form::text('numero_doc2',Input::old('numero_doc2'),['class' => 'form-control','id'=>'numero_doc2'])}}
+							{{ Form::text('numero_doc2',Input::old('numero_doc2'),['class' => 'form-control','id'=>'numero_doc2','placeholder'=>'Número de Doc.'])}}
 						</div>
 						<div class="form-group col-md-2" style="margin-top:25px">
 							<a class="btn btn-primary btn-block" onclick="fill_name_responsable(2)">
@@ -163,13 +163,13 @@
 						</div>
 						<div class="form-group col-md-4">
 							{{ Form::label('autorizado','Autorizado por') }}
-							{{ Form::text('autorizado',Input::old('autorizado'),['class' => 'form-control','id'=>'nombre_responsable2','disabled'=>'disabled'])}}
+							{{ Form::text('autorizado',Input::old('autorizado'),['class' => 'form-control','id'=>'nombre_responsable2','disabled'=>'disabled','placeholder'=>'Nombre de Usuario'])}}
 						</div>
 					</div>
 					<div class="row">
 						<div class="form-group col-md-2 @if($errors->first('numero_doc3')) has-error has-feedback @endif">
 							{{ Form::label('numero_doc3','Número Documento') }}<span style="color:red"> *</span>
-							{{ Form::text('numero_doc3',Input::old('numero_doc3'),['class' => 'form-control','id'=>'numero_doc3'])}}
+							{{ Form::text('numero_doc3',Input::old('numero_doc3'),['class' => 'form-control','id'=>'numero_doc3','placeholder'=>'Número de Doc.'])}}
 						</div>
 						<div class="form-group col-md-2" style="margin-top:25px">
 							<a class="btn btn-primary btn-block" onclick="fill_name_responsable(3)">
@@ -180,7 +180,7 @@
 						</div>
 						<div class="form-group col-md-4">
 							{{ Form::label('elaborado','Elaborado por') }}
-							{{ Form::text('elaborado',Input::old('elaborado'),['class' => 'form-control','id'=>'nombre_responsable3','disabled'=>'disabled'])}}
+							{{ Form::text('elaborado',Input::old('elaborado'),['class' => 'form-control','id'=>'nombre_responsable3','disabled'=>'disabled','placeholder'=>'Nombre de Usuario'])}}
 						</div>
 					</div>
 					
@@ -192,7 +192,7 @@
 									<div class="row">											
 										<div class="form-group col-md-2 @if($errors->first('numero_contrato')) has-error has-feedback @endif">
 											{{ Form::label('numero_contrato','Cód. Archivamiento') }}<span style="color:red">*</span>
-											{{ Form::text('numero_contrato',Input::old('numero_contrato'),['class' => 'form-control','id'=>'numero_contrato'])}}
+											{{ Form::text('numero_contrato',Input::old('numero_contrato'),['class' => 'form-control','id'=>'numero_contrato','placeholder'=>'Código'])}}
 										</div>
 										<div class="col-md-2" style="margin-top:25px">
 											<a class="btn btn-primary btn-block" onclick="fill_name_contrato()">
@@ -203,7 +203,7 @@
 										</div>
 										<div class="form-group col-md-4">
 											{{ Form::label('nombre_contrato','Documento') }}
-											{{ Form::text('nombre_contrato',Input::old('nombre_contrato'),['class' => 'form-control','id'=>'nombre_contrato','disabled'=>'disabled'])}}
+											{{ Form::text('nombre_contrato',Input::old('nombre_contrato'),['class' => 'form-control','id'=>'nombre_contrato','disabled'=>'disabled','placeholder'=>'Nombre del Documento'])}}
 										</div>	
 										{{ Form::close()}}									
 										<div class="form-group col-md-2">

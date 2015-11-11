@@ -321,6 +321,7 @@ class OtPreventivoController extends BaseController {
 				$idot_preventivo = Input::get('idot_preventivo');
 				// Validate the info, create rules for the inputs
 				$rules = array(
+							'numero_ficha' => 'required',
 							'idestado' => 'required',
 							'idestado_inicial' => 'required',
 							'sin_interrupcion_servicio' => 'required',
@@ -333,6 +334,7 @@ class OtPreventivoController extends BaseController {
 					return Redirect::to('mant_preventivo/create_ot_preventivo/'.$idot_preventivo)->withErrors($validator)->withInput(Input::all());
 				}else{
 					$ot = OrdenesTrabajoPreventivo::find($idot_preventivo);
+					$ot->numero_ficha = Input::get('numero_ficha');
 					$ot->idestado_ot = Input::get('idestado');
 					$ot->idestado_inicial = Input::get('idestado_inicial');
 					$ot->sin_interrupcion_servicio = Input::get('sin_interrupcion_servicio');

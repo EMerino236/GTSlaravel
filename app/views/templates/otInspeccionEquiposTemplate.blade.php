@@ -43,6 +43,7 @@
     <!-- Custom Theme JavaScript -->
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
     <script src="{{ asset('js/ordenes_trabajos/inspeccion_equipo/addOtInspeccionEquipo.js') }}"></script> 
+    <script src="{{ asset('js/ordenes_trabajos/inspeccion_equipo/listOtInspeccionEquipo.js') }}"></script> 
 </head>
 
 <body>

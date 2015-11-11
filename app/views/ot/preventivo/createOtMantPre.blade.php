@@ -9,6 +9,7 @@
 
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
+			<p><strong>{{ $errors->first('numero_ficha',"Ingrese el número de ficha de la OTM ") }}</strong></p>
 			<p><strong>{{ $errors->first('idestado',"Seleccione estado ") }}</strong></p>
 			<p><strong>{{ $errors->first('idestado_inicial',"Seleccione un estado inicial del activo") }}</strong></p>
 			<p><strong>{{ $errors->first('sin_interrupcion_servicio',"Seleccione si hubo interrupción en el servicio") }}</strong></p>
@@ -62,6 +63,12 @@
 						<div class="form-group col-md-8">
 							{{ Form::label('ingeniero','Ejecutor del Mantenimiento') }}
 							{{ Form::text('ingeniero',$ot_info->apat_ingeniero.' '.$ot_info->amat_ingeniero.', '.$ot_info->nombre_ingeniero,array('class' => 'form-control','readonly'=>'')) }}
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-8">
+							{{ Form::label('numero_ficha','Número de Ficha') }}
+							{{ Form::text('numero_ficha',$ot_info->numero_ficha,array('class' => 'form-control','placeholder'=>'Ingrese número de ficha')) }}
 						</div>
 					</div>
 				</div>
