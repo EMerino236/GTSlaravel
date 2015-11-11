@@ -38,7 +38,7 @@ class OrdenesTrabajoVerifMetrologica extends Eloquent{
 
 	public function scopeGetLastOtVerifMetrologica($query)
 	{
-		$query->orderBy('created_at','desc');
+		$query->orderBy('idot_vmetrologica','desc');
 	  	return $query;
 	}
 

@@ -17,14 +17,12 @@ $( document ).ready(function(){
     $('#btnLimpiar_create').click(function(){
         limpiar();
     });
-
     
 
     $('#submit_create_ots').click(function(){
         sendDataToController_create();
     });
     
-
 
 });
 
@@ -51,7 +49,7 @@ function ver_programaciones(){
             if(response.success){
                 var programaciones = {};
                 array = response["programaciones"];
-                array_equipo = response["equipos"];
+                array_ot = response["ots"];
                 array_hora = response["horas"];
                 array_estado = response["estados"];
                 fecha_anterior = array[0];  
@@ -66,9 +64,10 @@ function ver_programaciones(){
                         }                                                    
                     }
                     dayEvents.push({
-                    "title":array_equipo[i].codigo_patrimonial,
-                    "time": array_hora[i],
-                    "status":array_estado[i].nombre
+                        "title":array_ot[i].ot_tipo_abreviatura+array_ot[i].ot_correlativo+array_ot[i].ot_activo_abreviatura,
+                        "time": array_hora[i],
+                        "status":array_estado[i].nombre,
+                        "id":array_ot[i].idot_vmetrologica
                     });
                     programaciones[prog] = {dayEvents};
                 }
@@ -114,19 +113,15 @@ function search_equipo_ajax(){
                 if(equipo != null){
                     $("#nombre_equipo").val("");
                     $("#nombre_equipo").val(equipo.nombre_equipo);
-                    var count_mes = response['count_month'];
-                    var count_trimestre = response['count_trimester'];
+                    var count_mes = response['count_mes'];
+                    var count_trimestre = response['count_trimestre'];
                     $('#mes').val(count_mes);
                     $('#trimestre').val(count_trimestre);
                 }
                 else{                        
                     $("#nombre_equipo").val('');
                     $('#mes').val('');
-                    $('#trimestre').val('');
-                    $('.days .day').each(function(){
-                        element_div = $(this);
-                        element_div.removeClass('active');                                     
-                    });       
+                    $('#trimestre').val('');                         
                 }
             }else{
                 alert('La petición no se pudo completar, inténtelo de nuevo.');
@@ -173,36 +168,34 @@ function fadeOutModalBox(num) {
     setTimeout(function(){ $(".responsive-calendar-modal").fadeOut(); }, num);
   }
 
-  function removeModalBox() { $(".responsive-calendar-modal").remove(); }
+function removeModalBox() { $(".responsive-calendar-modal").remove(); }
 
 
 function initialize_calendarX(programaciones){
     $('.responsive-calendar').responsiveCalendar({
         translateMonths:{0:'Enero',1:'Febrero',2:'Marzo',3:'Abril',4:'Mayo',5:'Junio',6:'Julio',7:'Agosto',8:'Septiembre',9:'Octubre',10:'Noviembre',11:'Diciembre'},
         events:programaciones,
-        onActiveDayHover: function(events) {
+        onActiveDayClick: function(events) {
         var $today, $dayEvents, $i, $isHoveredOver, $placeholder, $output;
         $i = $(this).data('year')+'-'+zero($(this).data('month'))+'-'+zero($(this).data('day'));
-        $isHoveredOver = $(this).is(":hover");
-        $placeholder = $(".responsive-calendar-placeholder");
         $today= events[$i];
         $dayEvents = $today.dayEvents;
         $output = '<div class="responsive-calendar-modal">';
         $.each($dayEvents, function() {
           $.each( $(this), function( key ){
-
-            $output += '<h3>Equipo: '+$(this)[key].title+'</h1>' + '<p>Estado: '+$(this)[key].status+'<br />Hora:'+$(this)[key].time+'</p>';
+            $("#modal_text_ot").empty();    
+            $('#modal_ot').modal('show');
+            $('#modal_header_ot').removeClass();
+            $('#modal_header_ot').addClass("modal-header ");
+            $('#modal_header_ot').addClass("bg-info");
+            url =  inside_url+'verif_metrologica/create_ot_verif_metrologica/'+$(this)[key].id;
+            $output += '<a href="'+url+'">OT: '+$(this)[key].title+'</a>' + '<p>Estado: '+$(this)[key].status+'<br />Hora:'+$(this)[key].time+'</p>';
+            $('#modal_text_ot').append($output);
           });
         });
-        $output + '</div>';
         
-        if ( $isHoveredOver ) {
-          $placeholder.html($output);
-        }
-        else {
-          fadeOutModalBox(500);
-        }
         
+                
         },
     /* end $cal */
     });
@@ -304,7 +297,7 @@ function sendDataToController_create(){
                 delete_selected_profiles = true;
             },
             success: function(response){
-                if(response.success){                  
+                if(response.success){                    
                     var array_detalle = response["url"];
                     var message = response["message"];
                     var type_message = response["type_message"];

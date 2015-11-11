@@ -190,4 +190,25 @@
     </div>
   </div>  
 </div>
+
+<div class="container" >
+  <!-- Modal -->
+  <div class="modal fade" id="modal_ot"  role="dialog">
+    <div class="modal-dialog modal-md">    
+      <!-- Modal content-->
+      <div class="modal-content" >
+        <div class="modal-header" id="modal_header_ot">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Órdenes de Trabajo de Verificación Metrológica</h4>
+        </div>
+        <div class="modal-body" id="modal_text_ot" style="height:150px; overflow: auto;">
+         	
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" id="btn_close_modal_confirm" data-dismiss="modal">Aceptar</button>
+        </div>
+      </div>      
+    </div>
+  </div>  
+</div>
 @stop

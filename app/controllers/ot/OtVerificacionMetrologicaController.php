@@ -230,28 +230,29 @@ class OtVerificacionMetrologicaController extends BaseController {
 			// Check if the current user is the "System Admin"	
 			$fecha_ini=date("Y-m-d",strtotime("first day of january"));
 			$fecha_fin=date("Y-m-d",strtotime('last day of december'));
-			$array_programaciones = null;	
-			$array_programaciones =  OrdenesTrabajoVerifMetrologica::getOtXPeriodo(9,$fecha_ini,$fecha_fin)->orderBy('fecha_programacion','desc')->get()->toArray();
+			$array_ot = null;	
+			$array_ot =  OrdenesTrabajoVerifMetrologica::getOtXPeriodo(9,$fecha_ini,$fecha_fin)->orderBy('fecha_programacion','desc')->get()->toArray();
 			$programaciones = [];
-			$equipos = [];
 			$horas = [];
 			$estados = [];
-			$length = sizeof($array_programaciones);					
+			$codigos = [];
+			$length = sizeof($array_ot);
+			$ids = [];
+
 			for($i=0;$i<$length;$i++){
-				$programaciones[] = date("Y-m-d",strtotime($array_programaciones[$i]['fecha_programacion']));
-				$hora = date("H:i",strtotime($array_programaciones[$i]['fecha_programacion']));
-				$idestado = $array_programaciones[$i]['idestado_ot'];
-				$idactivo = $array_programaciones[$i]['idactivo'];
-				$equipo_ot = Activo::searchActivosById($idactivo)->get();
-				$equipo_ot = $equipo_ot[0];
+				$programaciones[] = date("Y-m-d",strtotime($array_ot[$i]['fecha_programacion']));
+				$codigo_ot = $array_ot[$i]['ot_tipo_abreviatura'].$array_ot[$i]['ot_correlativo'].$array_ot[$i]['ot_activo_abreviatura'];
+				$hora = date("H:i",strtotime($array_ot[$i]['fecha_programacion']));
+				$id = $array_ot[$i]['idot_vmetrologica'];
+				$idestado = $array_ot[$i]['idestado_ot'];
 				$estado = Estado::getEstadoById($idestado)->get();
 				$estado = $estado[0];
-				array_push($equipos,$equipo_ot);
 				array_push($horas,$hora);
 				array_push($estados, $estado);
-			}
-			$array_programaciones = $programaciones;			
-			return Response::json(array( 'success' => true, 'programaciones'=> $array_programaciones,'equipos'=>$equipos,'horas'=>$horas,'estados'=>$estados),200);
+				array_push($codigos,$codigo_ot);
+				array_push($ids,$id);
+			}		
+			return Response::json(array( 'success' => true, 'programaciones'=> $programaciones,'horas'=>$horas,'estados'=>$estados,'ots'=>$array_ot),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
 		}
