@@ -247,7 +247,6 @@ function init_ot_create(){
 		sideBySide: true,
 		minDate: fecha_str
 	});
-	$('#fecha_conformidad').val('');
 	
 	$("#datetimepicker_conformidad_hora").datetimepicker({
 		defaultDate: false,
