@@ -91,6 +91,8 @@
 					<div class="search_bar">
 						@if($documento_data->url != '')
 							{{ Form::hidden('url', $documento_data->url) }}
+							{{ Form::hidden('nombre_archivo', $documento_data->nombre_archivo) }}
+							{{ Form::hidden('nombre_archivo_encriptado', $documento_data->nombre_archivo_encriptado) }}
 							{{ Form::submit('Descargar',array('id'=>'submit-search-form','class'=>'btn btn-info')) }}
 						@else
 							{{ Form::label('mensaje','Sin archivo adjunto') }}

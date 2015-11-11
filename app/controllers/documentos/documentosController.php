@@ -44,22 +44,25 @@ class DocumentoController extends BaseController {
 				}else{
 				    $data["tipo_documentos"] = TipoDocumentos::searchTipoDocumentosById(Input::get('idtipo_documento'))->get();	
 				    $rutaDestino ='';
-				    $nombreArchivo        ='';			    
+				    $nombreArchivo        ='';	
 				    if (Input::hasFile('archivo')) {
 				        $archivo            = Input::file('archivo');
 				        $rutaDestino = 'documentos/' . $data["tipo_documentos"][0]->nombre . '/';
 				        $nombreArchivo        = $archivo->getClientOriginalName();
-				        $uploadSuccess   = $archivo->move($rutaDestino, $nombreArchivo);
+				        $nombreArchivoEncriptado = Str::random(27).'.'.pathinfo($nombreArchivo, PATHINFO_EXTENSION);
+				        $uploadSuccess = $archivo->move($rutaDestino, $nombreArchivoEncriptado);
 				    }
 
 
 					$documento = new Documento;
 					$documento->nombre = Input::get('nombre');
+					$documento->nombre_archivo = $nombreArchivo;
+					$documento->nombre_archivo_encriptado = $nombreArchivoEncriptado;
 					$documento->descripcion = Input::get('descripcion');
 					$documento->autor = Input::get('autor');
 					$documento->codigo_archivamiento = Input::get('codigo_archivamiento');
 					$documento->ubicacion = Input::get('ubicacion');
-					$documento->url = $rutaDestino . $nombreArchivo;
+					$documento->url = $rutaDestino;
 					$documento->idtipo_documento = Input::get('idtipo_documento');
 					$documento->idestado = 1;
 					$documento->save();
@@ -264,11 +267,11 @@ class DocumentoController extends BaseController {
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
-				$file= Input::get('url');
+				$rutaDestino = Input::get('url').Input::get('nombre_archivo_encriptado');
 		        $headers = array(
-		              'Content-Type',mime_content_type($file),
+		              'Content-Type',mime_content_type($rutaDestino),
 		            );
-		        return Response::download($file,basename($file),$headers);
+		        return Response::download($rutaDestino,basename(Input::get('nombre_archivo')),$headers);
 			}else{
 				return View::make('error/error');
 			}
