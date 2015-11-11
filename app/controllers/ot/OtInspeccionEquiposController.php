@@ -256,16 +256,11 @@ class OtInspeccionEquiposController extends BaseController {
 		$data["user"] = Session::get('user');
 		if($data["user"]->idrol == 1){
 			// Check if the current user is the "System Admin"
-			$idservicio = Input::get('selected_id');
-			$list_activos = [];
-			$list_activos = Activo::getActivosByServicioId($idservicio)->get();
-			$valido = false;
-			if($list_activos->isEmpty()==false)
-				$valido = true;
-			else
-				$valido = false;
+			$x = Input::get('selected_id');
+			//$list_activos = Activo::getEquiposActivosByServicioId($data)->get();
+			
 
-			return Response::json(array( 'success' => true,'valido'=>$valido),200);
+			return Response::json(array( 'success' => true,'data'=>$x),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
 		}

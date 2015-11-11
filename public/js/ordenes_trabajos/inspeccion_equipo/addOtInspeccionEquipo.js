@@ -234,12 +234,11 @@ function addFilaMantenimiento(){
     var array_fecha_fin = hora_fin.split(':');
     var time_inicio = parseInt(array_fecha_inicio[0])*60 + parseInt(array_fecha_inicio[1]);
     var time_fin= parseInt(array_fecha_fin[0])*60 + parseInt(array_fecha_fin[1]);
-    var valido = false;
-
-    $.ajax({
+    
+    /*$.ajax({
         url: inside_url+'inspec_equipos/validate_servicio',
         type: 'POST',
-        data: { 'selected_id' : idservicio,},
+        data: { 'selected_id' : idservicio},
         beforeSend: function(){
             $("#delete-selected-profiles").addClass("disabled");
             $("#delete-selected-profiles").hide();
@@ -253,7 +252,7 @@ function addFilaMantenimiento(){
         },
         success: function(response){
             if(response.success){                
-                 valido = response["valido"];                
+                 list_activos = response["data"];                
             }else{
                 alert('La petición no se pudo completar, inténtelo de nuevo.');
             }
@@ -262,14 +261,11 @@ function addFilaMantenimiento(){
             alert('La petición no se pudo completar, inténtelo de nuevo.');
         }
     });
+    alert(list_activos);*/
 
     if(idservicio==0){
         $('#modal_create_text').empty();
         $('#modal_create_text').append('<p>Seleccionar servicio.</p>');
-        $('#modal_create').modal('show');
-    }else if(valido==false){
-        $('#modal_create_text').empty();
-        $('#modal_create_text').append('<p>El servicio no cuenta con equipos.</p>');
         $('#modal_create').modal('show');
     }else if(fecha==''){
         $('#modal_create_text').empty();

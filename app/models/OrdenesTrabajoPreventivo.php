@@ -67,7 +67,7 @@ class OrdenesTrabajoPreventivo extends Eloquent{
 
 	public function scopeGetLastOtPreventivo($query)
 	{
-		$query->orderBy('created_at','desc');
+		$query->orderBy('idot_preventivo','desc');
 	  	return $query;
 	}
 
