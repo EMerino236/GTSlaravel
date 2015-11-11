@@ -51,7 +51,7 @@
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('telefono')) has-error has-feedback @endif">
 						{{ Form::label('telefono','Teléfono') }}
-						{{ Form::text('telefono',Input::old('telefono'),array('class'=>'form-control')) }}
+						{{ Form::text('telefono',Input::old('telefono'),array('class'=>'form-control','maxlength'=>'7')) }}
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('email')) has-error has-feedback @endif">
 						{{ Form::label('email','E-mail') }}

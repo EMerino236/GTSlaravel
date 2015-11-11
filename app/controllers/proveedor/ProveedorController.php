@@ -84,7 +84,7 @@ class ProveedorController extends BaseController {
 							'proveedor_razon_social' => 'required|max:100|unique:proveedores,razon_social',
 							'proveedor_nombre_contacto' => 'required|max:200',
 							'email' => 'required|email|max:45',
-							'telefono' => 'required|max:45',							
+							'telefono' => 'required|digits:7|max:45',							
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
@@ -143,15 +143,27 @@ class ProveedorController extends BaseController {
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
 				// Validate the info, create rules for the inputs
+				$attributes = array(
+					'proveedor_ruc' => 'Número de RUC',
+					'proveedor_razon_social' => 'Razón Social',
+					'proveedor_nombre_contacto' => 'Nombre de Contacto',
+					'email' => 'E-mail',
+					'telefono' => 'Teléfono',
+					'estado' => 'Estado',
+					);
+
+				$messages = array(
+					);
 				$rules = array(
-							'nombre_contacto' => 'required|max:200',
-							'email' => 'required|email|max:45',
-							'telefono' => 'required|max:45',
-							'ruc' => 'required|numeric|digits_between:8,16',
-							'idestado' => 'required'
-						);
+					'proveedor_ruc' => 'required|numeric|digits:11',
+					'proveedor_razon_social' => 'required',
+					'proveedor_nombre_contacto' => 'required|max:200',
+					'email' => 'required|email|max:45',
+					'telefono' => 'required|digits:7|max:45',					
+					'estado' => 'required',
+					);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					$proveedor_id = Input::get('proveedor_id');
@@ -160,20 +172,49 @@ class ProveedorController extends BaseController {
 				}else{
 					$proveedor_id = Input::get('proveedor_id');
 					$url = "proveedores/edit_proveedor/".$proveedor_id;
-					$proveedor = Proveedor::find($proveedor_id);
-					$proveedor->nombre_contacto = Input::get('nombre_contacto');
+					
+					$proveedor = Proveedor::find($proveedor_id);					
+					$proveedor->razon_social = Input::get('proveedor_razon_social');
+					$proveedor->nombre_contacto = Input::get('proveedor_nombre_contacto');
 					$proveedor->email = Input::get('email');
 					$proveedor->telefono = Input::get('telefono');
-					$proveedor->ruc = Input::get('ruc');
-					$proveedor->idestado = Input::get('idestado');
+					$proveedor->ruc = Input::get('proveedor_ruc');
+					$proveedor->idestado = Input::get('estado');
 					$proveedor->save();
-					Session::flash('message', 'Se editó correctamente el proveedor.');
-					return Redirect::to($url);
+					
+
+					return Redirect::to('proveedores/list_proveedores')->with('message', 'Se editó correctamente el proveedor con RUC: '.$proveedor->ruc);
 				}
 			}else{
 				return View::make('error/error');
 			}
 
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function render_view_proveedor($idproveedor=null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if(($data["user"]->idrol == 1) && $idproveedor){
+
+				$data["proveedor_info"] = Proveedor::searchProveedorById($idproveedor)->get();
+
+				if($data["proveedor_info"]->isEmpty())
+				{
+					return Redirect::to('user/list_proveedores');
+				}
+
+				$data["proveedor_info"] = $data["proveedor_info"][0];
+
+				return View::make('proveedor/viewProveedor',$data);
+			}else{
+				return View::make('error/error');
+			}
 		}else{
 			return View::make('error/error');
 		}

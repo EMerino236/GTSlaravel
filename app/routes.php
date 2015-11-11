@@ -47,6 +47,7 @@ Route::group(array('prefix'=>'proveedores', 'before'=>'auth'),function(){
 	Route::post('/submit_disable_proveedor','ProveedorController@submit_disable_proveedor');
 	Route::post('/submit_enable_proveedor','ProveedorController@submit_enable_proveedor');
 	Route::get('/search_proveedor','ProveedorController@search_proveedor');
+	Route::get('/view_proveedor/{id}','ProveedorController@render_view_proveedor');
 });
 
 /* SOT */

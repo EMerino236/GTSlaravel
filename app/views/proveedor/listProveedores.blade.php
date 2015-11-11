@@ -69,7 +69,7 @@
 				{{$index + 1}}
 			</td>
 			<td>
-				<a href="">{{$proveedor_data->ruc}}</a>
+				<a href="{{URL::to('/proveedores/view_proveedor/')}}/{{$proveedor_data->idproveedor}}">{{$proveedor_data->ruc}}</a>
 			</td>
 			<td>
 				{{$proveedor_data->razon_social}}
