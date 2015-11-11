@@ -302,13 +302,37 @@ class OtInspeccionEquiposController extends BaseController {
 		if($data["user"]->idrol == 1){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$ot_inspeccion = OrdenesTrabajoInspeccionEquipo::find(Input::get('idot_inspec_equipo'));
-			$ot_inspeccion->idestado= 26;
+			$ot_inspeccion->idestado= 25;
 			$ot_inspeccion->save();
 			$message = "Se ha cancelado la OTM.";
 			$type_message = "bg-success";
 			return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'message' => $message, 'type_message'=>$type_message ),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
+	public function render_create_ot($id=null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if(($data["user"]->idrol == 1) && $id){
+				
+				$data["ot_info"] = OrdenesTrabajoInspeccionEquipo::searchOtInspeccionEquipoById($id)->get();
+				if($data["ot_info"]->isEmpty()){
+					return Redirect::to('inspec_equipo/list_inspec_equipos');
+				}
+				$data["ot_info"] = $data["ot_info"][0];		
+				$idservicio = $data["ot_info"]->idservicio;
+				$data["activos_info"] = Activo::getEquiposActivosByServicioId($idservicio)->get();				
+				return View::make('ot/inspeccionEquipo/createOtInspecEquipos',$data);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
 		}
 	}
 }

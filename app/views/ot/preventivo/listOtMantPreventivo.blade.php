@@ -127,7 +127,7 @@
 						{{$mant_preventivo_data->nombre_estado}}
 					</td>
 					<td class="text-nowrap text-center">
-						@if($mant_preventivo_data->idestado_ot!=27)
+						@if($mant_preventivo_data->idestado_ot!=25)
 							<div class="btn btn-danger btn-block" onclick='eliminar_ot(event,this)'><span class="glyphicon glyphicon-trash"></span></div>
 						@endif
 					</td>

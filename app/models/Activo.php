@@ -231,10 +231,12 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 
 	public function scopeGetEquiposActivosByServicioId($query,$idservicio)
 	{
-		$query->whereNested(function($query) use($idservicio){
+		$query->join('modelo_activos','modelo_activos.idmodelo_equipo','=','activos.idmodelo_equipo')
+			  ->join('familia_activos','familia_activos.idfamilia_activo','=','modelo_activos.idfamilia_activo')
+			  ->whereNested(function($query) use($idservicio){
 			  		$query->where('idservicio','=',$idservicio);
 			  })
-			  ->select('activos.*');
+			  ->select('familia_activos.nombre_equipo as nombre_familia','modelo_activos.nombre as nombre_modelo','activos.*');
 		return $query;
 	}
 

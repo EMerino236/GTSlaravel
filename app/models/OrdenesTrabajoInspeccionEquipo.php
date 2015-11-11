@@ -86,5 +86,7 @@ class OrdenesTrabajoInspeccionEquipo extends Eloquent{
 			  ->where('idservicio','=',$idservicio);
 		return $query;
 	}
+
+	
 	
 }
