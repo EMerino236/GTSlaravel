@@ -41,6 +41,8 @@ function init_ot_program(){
             format: 'HH:ss',
             sideBySide: true
     });
+
+
     $('#fecha').val('');
     ver_programaciones();
 }
@@ -225,10 +227,13 @@ function addFilaMantenimiento(){
     var usuario_nombre= $('#solicitantes option:selected').html();
     var usuario_id = $('#solicitantes').val();
     var mes = parseInt(fecha.split('-')[1]);
-    var currentDate = new Date();
-    var currentMonth = currentDate.getMonth()+1;
     var count_otMes = $('#mes').val();
     var count_otTrimestre = $('#trimestre').val();
+
+    var array_fecha_inicio = hora_inicio.split(':');
+    var array_fecha_fin = hora_fin.split(':');
+    var time_inicio = parseInt(array_fecha_inicio[0])*60 + parseInt(array_fecha_inicio[1]);
+    var time_fin= parseInt(array_fecha_fin[0])*60 + parseInt(array_fecha_fin[1]);
    
     if(idservicio==0){
         $('#modal_create_text').empty();
@@ -245,6 +250,10 @@ function addFilaMantenimiento(){
     }else if(hora_fin==''){
         $('#modal_create_text').empty();
         $('#modal_create_text').append('<p>Ingresar hora fin</p>');
+        $('#modal_create').modal('show');
+    }else if(time_inicio > time_fin){
+        $('#modal_create_text').empty();
+        $('#modal_create_text').append('<p>Hora fin debe ser posterior a la fecha de inicio.</p>');
         $('#modal_create').modal('show');
     }
     else{
