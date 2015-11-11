@@ -9,6 +9,7 @@
 
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
+			<p><strong>{{ $errors->first('numero_ficha',"Ingrese el número de ficha de la OT ") }}</strong></p>
 			<p><strong>{{ $errors->first('idestado',"Seleccione estado ") }}</strong></p>
 			<p><strong>{{ $errors->first('descripcion_problema',"La descripción del problema es obligatoria y debe ser menor a 500 caracteres") }}</strong></p>
 			<p><strong>{{ $errors->first('idestado_inicial',"Seleccione un estado inicial del activo") }}</strong></p>
@@ -62,6 +63,12 @@
 						<div class="form-group col-md-8">
 							{{ Form::label('nombre_ejecutor','Ejecutor del Mantenimiento') }}
 							{{ Form::text('nombre_ejecutor',$ot_info->nombre_ejecutor,array('class' => 'form-control')) }}
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-8">
+							{{ Form::label('numero_ficha','Número de Ficha') }}
+							{{ Form::text('numero_ficha',$ot_info->numero_ficha,array('class' => 'form-control','placeholder'=>'Ingrese número de ficha')) }}
 						</div>
 					</div>
 				</div>

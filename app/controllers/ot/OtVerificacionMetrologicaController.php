@@ -318,6 +318,7 @@ class OtVerificacionMetrologicaController extends BaseController {
 				$idot_vmetrologica = Input::get('idot_vmetrologica');
 				// Validate the info, create rules for the inputs
 				$rules = array(
+							'numero_ficha' => 'required',
 							'idestado' => 'required',
 							'idestado_inicial' => 'required',
 							'idestado_final' => 'required',
@@ -329,6 +330,7 @@ class OtVerificacionMetrologicaController extends BaseController {
 					return Redirect::to('verif_metrologica/create_ot_verif_metrologica/'.$idot_vmetrologica)->withErrors($validator)->withInput(Input::all());
 				}else{
 					$ot = OrdenesTrabajoVerifMetrologica::find($idot_vmetrologica);
+					$ot->numero_ficha = Input::get('numero_ficha');
 					$ot->nombre_ejecutor = Input::get('nombre_ejecutor');
 					$ot->idestado_ot = Input::get('idestado');
 					$ot->idestado_inicial = Input::get('idestado_inicial');
