@@ -18,14 +18,16 @@ class OtController extends BaseController {
 				$trimestre_ini = null;
 				$trimestre_fin = null;
 				$this->calcular_trimestre($trimestre_ini,$trimestre_fin);
-				$data['mes'] = OrdenesTrabajosxactivo::getOtXTipoXPeriodo(1,9,$mes_ini,$mes_fin)->get()->count();
-				$data['trimestre'] = OrdenesTrabajosxactivo::getOtXTipoXPeriodo(1,9,$trimestre_ini,$trimestre_fin)->get()->count();
+				$data['mes'] = OtCorrectivo::getOtXPeriodo(9,$mes_ini,$mes_fin)->get()->count();
+				$data['trimestre'] = OtCorrectivo::getOtXPeriodo(9,$trimestre_ini,$trimestre_fin)->get()->count();
 				$data['solicitantes'] = User::getJefes()->get();
 				$data["sot_info"] = SolicitudOrdenTrabajo::searchSotById($id)->get();
+				$data["prioridades"] = Prioridad::lists('nombre','idprioridad');
+				$data["tipo_fallas"] = TipoFalla::lists('nombre','idtipo_falla');
+
 				if($data["sot_info"]->isEmpty()){
 					return Redirect::to('sot/list_sots');
 				}
-
 				$data["sot_info"] = $data["sot_info"][0];
 				return View::make('ot/createProgramOtMantCo',$data);
 			}else{
@@ -38,7 +40,7 @@ class OtController extends BaseController {
 	}
 
 	public function getCorrelativeReportNumber(){
-		$ot = OrdenesTrabajo::getLastOtCorrectivo()->first();
+		$ot = OtCorrectivo::getOtsCorrectivo()->first();
 		$string = "";
 		if($ot!=null){	
 			$numero = $ot->ot_correlativo;
@@ -64,6 +66,9 @@ class OtController extends BaseController {
 				$rules = array(
 							'fecha_programacion' => 'required',
 							'solicitante' => 'required',
+							'idprioridad' => 'required',
+							'idtipo_falla' => 'required',
+							'numero_ficha' => 'required|numeric',
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules);
@@ -77,38 +82,26 @@ class OtController extends BaseController {
 					$activo = Activo::find($idactivo);
 					// Algoritmo para añadir numeros correlativos
 					$string = $this->getCorrelativeReportNumber();
-					$ot = new OrdenesTrabajo;
+					$ot = new OtCorrectivo;
 					$ot->ot_tipo_abreviatura = "MC";
 					$ot->ot_correlativo = $string;
 					$ot->ot_activo_abreviatura = "TS";
 					$ot->fecha_programacion = date('Y-m-d H:i:s',strtotime(Input::get('fecha_programacion')));
 					$ot->idsolicitud_orden_trabajo = $sot_id;
+					$ot->idactivo = $idactivo;
 					$ot->idservicio = $activo->idservicio;
-					$ot->idtipo_ordenes_trabajo = 1; // A mejorar este hardcode :/
-					$ot->idestado = 9; // A mejorar este hardcode :/
-					$ot->id_usuarioelaborado = $data["user"]->id;
+					$ot->idestado_ot = 9; // A mejorar este hardcode :/
+					$ot->id_usuarioelaborador = $data["user"]->id;
 					$ot->id_usuariosolicitante = Input::get('solicitante');
+					$ot->idtipo_falla = Input::get('idtipo_falla');
+					$ot->idprioridad = Input::get('idprioridad');
+					$ot->numero_ficha = Input::get('numero_ficha');
+					$ot->idestado_inicial = $activo->idestado;
+					$ot->idubicacion_fisica = $activo->idubicacion_fisica;
+					$ot->costo_total_repuestos = 0.0;
+					$ot->costo_total_personal = 0.0;
 					$ot->save();
-
-					$otxa = new OrdenesTrabajosxactivo;
-					$otxa->idordenes_trabajo = $ot->idordenes_trabajo;
-					$otxa->idactivo = $idactivo;
-					$otxa->idestado = 9;
-					$otxa->costo_total_repuestos = 0.0;
-					$otxa->costo_total_personal = 0.0;
-					$otxa->save();
 					$url = "mant_correctivo/list_mant_correctivo";
-					/*
-					// Asigno las tareas
-					$tareas = Tarea::getTareasByFamiliaActivo($activo->idfamilia_activo)->get();
-					foreach($tareas as $tarea){
-						$otxacxta = new OrdenesTrabajosxactivoxtarea;
-						$otxacxta->idorden_trabajoxactivo = $otxa->idorden_trabajoxactivo;
-						$otxacxta->idtarea = $tarea->idtareas;
-						$otxacxta->idestado_realizado = 25; // Estado de tarea no realizada
-						$otxacxta->save();
-					}
-					*/
 					Session::flash('message', 'Se programó correctamente la OT.');
 					return Redirect::to($url);
 				}
@@ -133,7 +126,7 @@ class OtController extends BaseController {
 			$fecha_ini = null;
 			$fecha_fin = null;
 			$this->calcular_trimestre($fecha_ini,$fecha_fin);
-			$data['programaciones'] = OrdenesTrabajosxactivo::getOtXTipoXPeriodo(1,9,$fecha_ini,$fecha_fin)->get()->toArray();
+			$data['programaciones'] = OtCorrectivo::getOtXPeriodo(9,$fecha_ini,$fecha_fin)->get()->toArray();
 			$programaciones = [];
 			$length = sizeof($data['programaciones']);
 			for($i=0;$i<$length;$i++){
@@ -192,7 +185,7 @@ class OtController extends BaseController {
 				$data["search_proveedor"] = null;
 				$data["search_ini"] = null;
 				$data["search_fin"] = null;
-				$data["mant_correctivos_data"] = OrdenesTrabajo::getOtsMantCorrectivoInfo()->paginate(10);
+				$data["mant_correctivos_data"] = OtCorrectivo::getOtsMantCorrectivoInfo()->paginate(10);
 				return View::make('ot/listOtMantCorrectivo',$data);
 			}else{
 				return View::make('error/error');
@@ -222,7 +215,7 @@ class OtController extends BaseController {
 				$data["search_proveedor"] = Input::get('search_proveedor');
 				$data["search_ini"] = Input::get('search_ini');
 				$data["search_fin"] = Input::get('search_fin');
-				$data["mant_correctivos_data"] = OrdenesTrabajo::searchOtsMantCorrectivo($data["search_ing"],$data["search_cod_pat"],$data["search_ubicacion"],$data["search_ot"],$data["search_equipo"],$data["search_proveedor"],$data["search_ini"],$data["search_fin"])->paginate(10);
+				$data["mant_correctivos_data"] = OtCorrectivo::searchOtsMantCorrectivo($data["search_ing"],$data["search_cod_pat"],$data["search_ubicacion"],$data["search_ot"],$data["search_equipo"],$data["search_proveedor"],$data["search_ini"],$data["search_fin"])->paginate(10);
 				return View::make('ot/listOtMantCorrectivo',$data);
 			}else{
 				return View::make('error/error');
@@ -243,27 +236,17 @@ class OtController extends BaseController {
 				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
 				$data["prioridades"] = Prioridad::lists('nombre','idprioridad');
 				$data["tipo_fallas"] = TipoFalla::lists('nombre','idtipo_falla');
-				/*$tabla_equipo_noint = Tabla::getTablaByNombre(self::$equipo_noint)->get();
-				$data["estado_equipo_noint"] = Estado::where('idtabla','=',$tabla_equipo_noint[0]->idtabla)->lists('nombre','idestado');*/
 				$tabla_estado_activo = Tabla::getTablaByNombre(self::$estado_activo)->get();
 				$data["estado_activo"] = Estado::where('idtabla','=',$tabla_estado_activo[0]->idtabla)->lists('nombre','idestado');
 				
-				$data["ot_info"] = OrdenesTrabajo::searchOtById($id)->get();
+				$data["ot_info"] = OtCorrectivo::searchOtById($id)->get();
 				if($data["ot_info"]->isEmpty()){
 					return Redirect::to('ot/createOtMantCo');
 				}
 				$data["ot_info"] = $data["ot_info"][0];
-				$data["otxact"] = OrdenesTrabajosxactivo::getOtXActivo($id,$data["ot_info"]->idactivo)->get();
-				if($data["otxact"]->isEmpty()){
-					$data["tareas"] = array();
-					$data["repuestos"] = array();
-					$data["personal_data"] = array();
-				}else{
-					$data["otxact"] = $data["otxact"][0];
-					$data["tareas"] = OrdenesTrabajosxactivoxtarea::getTareasXOtXActi($data["otxact"]->idorden_trabajoxactivo)->get();
-					$data["repuestos"] = RepuestosOt::getRepuestosXOtXActi($data["otxact"]->idorden_trabajoxactivo)->get();
-					$data["personal_data"] = DetallePersonalxot::getPersonalXOtXActi($data["otxact"]->idorden_trabajoxactivo)->get();
-				}
+				$data["tareas"] = TareasOtCorrectivo::getTareasXOtXActi($data["ot_info"]->idot_correctivo)->get();
+				$data["repuestos"] = RepuestosOtCorrectivo::getRepuestosXOtXActi($data["ot_info"]->idot_correctivo)->get();
+				$data["personal_data"] = PersonalOtCorrectivo::getPersonalXOtXActi($data["ot_info"]->idot_correctivo)->get();
 				return View::make('ot/createOtMantCo',$data);
 			}else{
 				return View::make('error/error');
@@ -280,7 +263,7 @@ class OtController extends BaseController {
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if(($data["user"]->idrol == 1)){
-				$idordenes_trabajo = Input::get('idordenes_trabajo');
+				$idot_correctivo = Input::get('idot_correctivo');
 				// Validate the info, create rules for the inputs
 				$rules = array(
 							'prioridades' => 'required',
@@ -296,14 +279,14 @@ class OtController extends BaseController {
 				$validator = Validator::make(Input::all(), $rules);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
-					return Redirect::to('mant_correctivo/create_ot/'.$idordenes_trabajo)->withErrors($validator)->withInput(Input::all());
+					return Redirect::to('mant_correctivo/create_ot/'.$idot_correctivo)->withErrors($validator)->withInput(Input::all());
 				}else{
-					$ot = OrdenesTrabajo::find($idordenes_trabajo);
-					$ot->idprioridad = Input::get('prioridades');
-					$ot->idestado = Input::get('idestado');
+					$ot = OtCorrectivo::find($idot_correctivo);
+					//$ot->idprioridad = Input::get('prioridades');
+					$ot->idestado_ot = Input::get('idestado');
 					$ot->descripcion_problema = Input::get('descripcion_problema');
 					$ot->idtipo_falla = Input::get('tipo_falla');
-					$ot->idestado_inicial = Input::get('idestado_inicial');
+					//$ot->idestado_inicial = Input::get('idestado_inicial');
 					$ot->diagnostico_falla = Input::get('diagnostico_falla');
 					$ot->sin_interrupcion_servicio = Input::get('sin_interrupcion_servicio');
 					$ot->idestado_final = Input::get('idestado_final');
@@ -319,78 +302,11 @@ class OtController extends BaseController {
 					$activo->idestado = Input::get('idestado_final');
 					$activo->save();
 					Session::flash('message', 'Se guardó correctamente la información.');
-					return Redirect::to('mant_correctivo/create_ot/'.$idordenes_trabajo);
+					return Redirect::to('mant_correctivo/create_ot/'.$idot_correctivo);
 				}
 			}else{
 				return View::make('error/error');
 			}
-		}else{
-			return View::make('error/error');
-		}
-	}
-
-	public function submit_disable_sot()
-	{
-		if(Auth::check()){
-			$data["inside_url"] = Config::get('app.inside_url');
-			$data["user"] = Session::get('user');
-			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
-				$sot_id = Input::get('sot_id');
-				$sot = SolicitudOrdenTrabajo::find($sot_id);
-				$sot->delete();
-				Session::flash('message', 'Se eliminó correctamente la solicitud.');
-				return Redirect::to("sot/list_sots/");
-			}else{
-				return View::make('error/error');
-			}
-		}else{
-			return View::make('error/error');
-		}
-	}
-
-	public function search_sot()
-	{
-		if(Auth::check()){
-			$data["inside_url"] = Config::get('app.inside_url');
-			$data["user"] = Session::get('user');
-			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
-
-				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
-				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
-				$data["search"] = Input::get('search');
-				$data["search_estado"] = Input::get('search_estado');
-				$data["search_ini"] = Input::get('search_ini');
-				$data["search_fin"] = Input::get('search_fin');
-				$data["sots_data"] = SolicitudOrdenTrabajo::searchSots($data["search"],$data["search_estado"],$data["search_ini"],$data["search_fin"])->paginate(10);
-				return View::make('sot/listSots',$data);
-			}else{
-				return View::make('error/error');
-			}
-		}else{
-			return View::make('error/error');
-		}
-	}
-
-	public function submit_program_ot()
-	{
-		if(Auth::check()){
-			$data["inside_url"] = Config::get('app.inside_url');
-			$data["user"] = Session::get('user');
-			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2){
-				$sot_id = Input::get('sot_id');
-				$url = "mant_correctivo/programacion/".$sot_id;
-				$sot = SolicitudOrdenTrabajo::find($sot_id);
-				$sot->idestado = 13; // Estado de Aprobado
-				$sot->save();
-				Session::flash('message', 'La solicitud se cambió a Aprobada, proceda a programar la OT');
-				return Redirect::to($url);
-			}else{
-				return View::make('error/error');
-			}
-
 		}else{
 			return View::make('error/error');
 		}
@@ -404,16 +320,12 @@ class OtController extends BaseController {
 		}
 		$data["user"] = Session::get('user');
 		if($data["user"]->idrol == 1){
-			$tarea = new Tarea;
+			$tarea = new TareasOtCorrectivo;
 			$tarea->nombre = Input::get('nombre_tarea');
-			$tarea->idestado = 1;
+			$tarea->idot_correctivo = Input::get('idot_correctivo');
+			$tarea->idestado_realizado = 22;
 			$tarea->save();
-			$otxactxta = new OrdenesTrabajosxactivoxtarea;
-			$otxactxta->idestado_realizado = 22;
-			$otxactxta->idorden_trabajoxactivo = Input::get('idorden_trabajoxactivo');
-			$otxactxta->idtarea = $tarea->idtareas;
-			$otxactxta->save();
-			return Response::json(array( 'success' => true, 'tarea' => $tarea,'otxactxta'=> $otxactxta),200);
+			return Response::json(array( 'success' => true, 'tarea' => $tarea),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
 		}
@@ -427,8 +339,8 @@ class OtController extends BaseController {
 		}
 		$data["user"] = Session::get('user');
 		if($data["user"]->idrol == 1){
-			$idotxactxta = OrdenesTrabajosxactivoxtarea::find(Input::get('idorden_trabajoxactivoxtarea'));
-			$idotxactxta->delete();
+			$tarea = TareasOtCorrectivo::find(Input::get('idtareas_ot_correctivo'));
+			$tarea->delete();
 			return Response::json(array( 'success' => true),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
@@ -444,17 +356,17 @@ class OtController extends BaseController {
 		$data["user"] = Session::get('user');
 		if($data["user"]->idrol == 1){
 
-			$repuesto = new RepuestosOt;
+			$repuesto = new RepuestosOtCorrectivo;
 			$repuesto->nombre = Input::get('nombre_repuesto');
 			$repuesto->codigo = Input::get('codigo_repuesto');
 			$repuesto->cantidad = Input::get('cantidad_repuesto');
 			$repuesto->costo = Input::get('costo_repuesto');
-			$repuesto->idorden_trabajoxactivo = Input::get('idorden_trabajoxactivo');
+			$repuesto->idot_correctivo = Input::get('idot_correctivo');
 			$repuesto->save();
-			$otxact = OrdenesTrabajosxactivo::find(Input::get('idorden_trabajoxactivo'));
-			$otxact->costo_total_repuestos = $otxact->costo_total_repuestos + Input::get('cantidad_repuesto')*Input::get('costo_repuesto');
-			$otxact->save();
-			return Response::json(array( 'success' => true,'repuesto'=>$repuesto,'costo_total_repuestos' => number_format($otxact->costo_total_repuestos,2)),200);
+			$ot = OtCorrectivo::find(Input::get('idot_correctivo'));
+			$ot->costo_total_repuestos = $ot->costo_total_repuestos + Input::get('cantidad_repuesto')*Input::get('costo_repuesto');
+			$ot->save();
+			return Response::json(array( 'success' => true,'repuesto'=>$repuesto,'costo_total_repuestos' => number_format($ot->costo_total_repuestos,2)),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
 		}
@@ -469,12 +381,12 @@ class OtController extends BaseController {
 		$data["user"] = Session::get('user');
 		if($data["user"]->idrol == 1){
 
-			$repuesto = RepuestosOt::find(Input::get('idrepuestos_ot'));
-			$otxact = OrdenesTrabajosxactivo::find(Input::get('idorden_trabajoxactivo'));
-			$otxact->costo_total_repuestos = $otxact->costo_total_repuestos - $repuesto->cantidad*$repuesto->costo;
-			$otxact->save();
+			$repuesto = RepuestosOtCorrectivo::find(Input::get('idrepuestos_ot_correctivo'));
+			$ot = OtCorrectivo::find(Input::get('idot_correctivo'));
+			$ot->costo_total_repuestos = $ot->costo_total_repuestos - $repuesto->cantidad*$repuesto->costo;
+			$ot->save();
 			$repuesto->delete();
-			return Response::json(array( 'success' => true,'costo_total_repuestos' => number_format($otxact->costo_total_repuestos,2)),200);
+			return Response::json(array( 'success' => true,'costo_total_repuestos' => number_format($ot->costo_total_repuestos,2)),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
 		}
@@ -489,16 +401,16 @@ class OtController extends BaseController {
 		$data["user"] = Session::get('user');
 		if($data["user"]->idrol == 1){
 
-			$personal = new DetallePersonalxot;
+			$personal = new PersonalOtCorrectivo;
 			$personal->nombre = Input::get('nombre_personal');
 			$personal->horas_hombre = Input::get('horas_trabajadas');
 			$personal->costo = Input::get('costo_personal');
-			$personal->idorden_trabajoxactivo = Input::get('idorden_trabajoxactivo');
+			$personal->idot_correctivo = Input::get('idot_correctivo');
 			$personal->save();
-			$otxact = OrdenesTrabajosxactivo::find(Input::get('idorden_trabajoxactivo'));
-			$otxact->costo_total_personal = $otxact->costo_total_personal + Input::get('horas_trabajadas')*Input::get('costo_personal');
-			$otxact->save();
-			return Response::json(array( 'success' => true,'personal'=>$personal,'costo_total_personal' => number_format($otxact->costo_total_personal,2)),200);
+			$ot = OtCorrectivo::find(Input::get('idot_correctivo'));
+			$ot->costo_total_personal = $ot->costo_total_personal + Input::get('horas_trabajadas')*Input::get('costo_personal');
+			$ot->save();
+			return Response::json(array( 'success' => true,'personal'=>$personal,'costo_total_personal' => number_format($ot->costo_total_personal,2)),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
 		}
@@ -513,12 +425,12 @@ class OtController extends BaseController {
 		$data["user"] = Session::get('user');
 		if($data["user"]->idrol == 1){
 
-			$personal = DetallePersonalxot::find(Input::get('iddetalle_personalxot'));
-			$otxact = OrdenesTrabajosxactivo::find(Input::get('idorden_trabajoxactivo'));
-			$otxact->costo_total_personal = $otxact->costo_total_personal - $personal->horas_hombre*$personal->costo;
-			$otxact->save();
+			$personal = PersonalOtCorrectivo::find(Input::get('idpersonal_ot_correctivo'));
+			$ot = OtCorrectivo::find(Input::get('idot_correctivo'));
+			$ot->costo_total_personal = $ot->costo_total_personal - $personal->horas_hombre*$personal->costo;
+			$ot->save();
 			$personal->delete();
-			return Response::json(array( 'success' => true,'costo_total_personal' => number_format($otxact->costo_total_personal,2)),200);
+			return Response::json(array( 'success' => true,'costo_total_personal' => number_format($ot->costo_total_personal,2)),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
 		}

@@ -14,4 +14,11 @@ $( document ).ready(function(){
 	$('#btnLimpiar').click(function(){
 		limpiar_criterios();
 	});
+
+	$(".fecha-hora").datetimepicker({
+		defaultDate: false,
+		ignoreReadonly: true,
+		format: 'DD-MM-YYYY HH:ss',
+		sideBySide: true
+	});
 });

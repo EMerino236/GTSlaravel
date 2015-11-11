@@ -53,7 +53,7 @@ Route::group(array('prefix'=>'proveedores', 'before'=>'auth'),function(){
 Route::group(array('prefix'=>'sot', 'before'=>'auth'),function(){
 	Route::get('/list_sots','SotController@list_sots');
 	Route::get('/edit_sot/{id}','SotController@render_edit_sot');
-	Route::post('/submit_edit_sot','SotController@submit_edit_sot');
+	//Route::post('/submit_edit_sot','SotController@submit_edit_sot');
 	Route::get('/create_sot','SotController@render_create_sot');
 	Route::post('/submit_create_sot','SotController@submit_create_sot');
 	Route::post('/submit_disable_sot','SotController@submit_disable_sot');
@@ -211,6 +211,8 @@ Route::group(array('prefix'=>'retiro_servicio','before'=>'auth'),function(){
 	Route::post('/submit_create_reporte_retiro_servicio','RetiroServicioController@submit_create_reporte_retiro_servicio');
 	Route::get('/list_reporte_retiro_servicio','RetiroServicioController@list_reporte_retiro_servicio');
 	Route::get('/search_reporte_retiro_servicio','RetiroServicioController@search_reporte_retiro_servicio');
+	Route::get('/edit_reporte_retiro_servicio/{id}','RetiroServicioController@render_edit_reporte_retiro_servicio');
+	Route::post('/submit_disable_reporte_retiro_servicio','RetiroServicioController@submit_disable_reporte_retiro_servicio');
 	/*
 	Route::get('/programacion','RetiroServicioController@render_program_ot_retiro_servicio');
 	Route::post('/submit_programacion','RetiroServicioController@submit_program_ot_mant_correctivo');

@@ -20,7 +20,7 @@
 				<div class="col-xs-6">
 					<div class="row">
 						<div class="form-group col-xs-8">
-							{{ Form::label('search','Nombre de usuario solicitante') }}
+							{{ Form::label('search','Número de ficha/Usuario solicitante') }}
 							{{ Form::text('search',$search,array('class'=>'form-control','placeholder'=>'Usuario solicitante')) }}
 						</div>
 					</div>
@@ -65,6 +65,7 @@
 
 	<table class="table">
 		<tr class="info">
+			<th>Número de ficha</th>
 			<th>Fecha de solicitud</th>
 			<th>Usuario solicitante</th>
 			<th>Estado</th>
@@ -72,7 +73,10 @@
 		@foreach($sots_data as $sot_data)
 		<tr>
 			<td>
-				<a href="{{URL::to('/sot/edit_sot/')}}/{{$sot_data->idsolicitud_orden_trabajo}}">{{date('d-m-Y',strtotime($sot_data->fecha_solicitud))}}</a>
+				<a href="{{URL::to('/sot/edit_sot/')}}/{{$sot_data->idsolicitud_orden_trabajo}}">{{$sot_data->numero_ficha}}</a>
+			</td>
+			<td>
+				{{date('d-m-Y',strtotime($sot_data->fecha_solicitud))}}
 			</td>
 			<td>
 				{{$sot_data->apellido_pat}} {{$sot_data->apellido_mat}}, {{$sot_data->nombre}}

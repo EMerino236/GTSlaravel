@@ -2,7 +2,7 @@
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Agregar Reporte de Retiro de Servicio</h3>
+            <h3 class="page-header">Reporte de Retiro de Servicio</h3>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -24,7 +24,8 @@
 		<div class="alert alert-danger">{{ Session::get('error') }}</div>
 	@endif
 
-	{{ Form::open(array('url'=>'retiro_servicio/submit_create_reporte_retiro_servicio', 'role'=>'form')) }}
+	{{ Form::open(array('url'=>'retiro_servicio/submit_disable_reporte_retiro_servicio', 'role'=>'form')) }}
+	{{ Form::hidden('idreporte_retiro', $reporte_info->idreporte_retiro) }}
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<h3 class="panel-title">Información de Activo</h3>
@@ -32,38 +33,36 @@
 		<div class="panel-body">
 			<div class="row">
 				<div class="form-group col-md-4">
-					<div class="form-group @if($errors->first('idactivo')) has-error has-feedback @endif">
-						{{ Form::label('idactivo','Activo') }}
-						{{ Form::select('idactivo',$activos,Input::old('idactivo'),['class' => 'form-control']) }}
-					</div>
+					{{ Form::label('codigo_patrimonial','Código Patrimonial') }}
+					{{ Form::text('codigo_patrimonial',$reporte_info->codigo_patrimonial,array('class' => 'form-control','readonly'=>'')) }}
 				</div>
 				<div class="form-group col-md-4">
 					{{ Form::label('nombre_equipo','Nombre de Equipo') }}
-					{{ Form::text('nombre_equipo',Input::old('nombre_equipo'),array('class' => 'form-control','readonly'=>'')) }}
+					{{ Form::text('nombre_equipo',$reporte_info->nombre_equipo,array('class' => 'form-control','readonly'=>'')) }}
 				</div>
 				<div class="form-group col-md-4">
 					{{ Form::label('fabricante','Fabricante') }}
-					{{ Form::text('fabricante',Input::old('fabricante'),array('class' => 'form-control','readonly'=>'')) }}
+					{{ Form::text('fabricante',null,array('class' => 'form-control','readonly'=>'')) }}
 				</div>
 			</div>
 			<div class="row">
 				<div class="form-group col-md-4">
 					{{ Form::label('modelo','Modelo') }}
-					{{ Form::text('modelo',Input::old('modelo'),array('class' => 'form-control','readonly'=>'')) }}
+					{{ Form::text('modelo',$reporte_info->nombre_modelo,array('class' => 'form-control','readonly'=>'')) }}
 				</div>
 				<div class="form-group col-md-4">
 					{{ Form::label('serie','Serie') }}
-					{{ Form::text('serie',Input::old('serie'),array('class' => 'form-control','readonly'=>'')) }}
+					{{ Form::text('serie',$reporte_info->numero_serie,array('class' => 'form-control','readonly'=>'')) }}
 				</div>
 				<div class="form-group col-md-4">
 					{{ Form::label('proveedor','Proveedor') }}
-					{{ Form::text('proveedor',Input::old('proveedor'),array('class' => 'form-control','readonly'=>'')) }}
+					{{ Form::text('proveedor',$reporte_info->nombre_proveedor,array('class' => 'form-control','readonly'=>'')) }}
 				</div>
 			</div>
 			<div class="row">
 				<div class="form-group col-md-4">
 					{{ Form::label('servicio_clinico','Servicio clínico') }}
-					{{ Form::text('servicio_clinico',Input::old('servicio_clinico'),array('class' => 'form-control','readonly'=>'')) }}
+					{{ Form::text('servicio_clinico',$reporte_info->nombre_servicio,array('class' => 'form-control','readonly'=>'')) }}
 				</div>
 			</div>
 		</div>
@@ -75,32 +74,23 @@
 		<div class="panel-body">
 			<div class="row">
 				<div class="form-group col-md-4">
-					<div class="form-group @if($errors->first('idmotivo_retiro')) has-error has-feedback @endif">
-						{{ Form::label('idmotivo_retiro','Motivo') }}
-						{{ Form::select('idmotivo_retiro',$motivos,Input::old('idmotivo_retiro'),['class' => 'form-control']) }}
-					</div>
+					{{ Form::label('motivo','Motivo') }}
+					{{ Form::text('motivo',$reporte_info->nombre_motivo,array('class' => 'form-control','readonly'=>'')) }}
 				</div>
 				<div class="form-group col-md-4">
-					<div class="form-group @if($errors->first('costo')) has-error has-feedback @endif">
-						{{ Form::label('costo','Costo') }}
-						{{ Form::text('costo',Input::old('costo'),array('class' => 'form-control')) }}
-					</div>
+					{{ Form::label('costo','Costo') }}
+					{{ Form::text('costo',$reporte_info->costo,array('class' => 'form-control','readonly'=>'')) }}
 				</div>
 				<div class="form-group col-md-4">
-					{{ Form::label('fecha_baja','Fecha de baja') }}
-					<div id="datetimepicker1" class="form-group input-group date @if($errors->first('fecha_baja')) has-error has-feedback @endif">
-						{{ Form::text('fecha_baja',Input::old('fecha_baja'),array('class'=>'form-control','readonly'=>'')) }}
-						<span class="input-group-addon">
-	                        <span class="glyphicon glyphicon-calendar"></span>
-	                    </span>
-					</div>
+					{{ Form::label('fecha_baja','Fecha de Baja') }}
+					{{ Form::text('fecha_baja',date('d-m-Y H:i:s',strtotime($reporte_info->fecha_baja)),array('class' => 'form-control','readonly'=>'')) }}
 				</div>
 			</div>
 			<div class="row">
 				<div class="form-group col-md-12">
 					<div class="form-group @if($errors->first('descripcion')) has-error has-feedback @endif">
 					{{ Form::label('descripcion','Descripción') }}
-					{{ Form::textarea('descripcion',Input::old('descripcion'),array('class'=>'form-control','maxlength'=>'200','rows'=>'3')) }}
+					{{ Form::textarea('descripcion',Input::old('descripcion'),array('class'=>'form-control','maxlength'=>'200','rows'=>'3','readonly'=>'')) }}
 					</div>
 				</div>
 			</div>
@@ -109,7 +99,7 @@
 	<div class="row">
 		<div class="form-group col-md-6">
 			<div class="form-group">
-			{{ Form::submit('Crear',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}
+			{{ Form::submit('Eliminar',array('id'=>'submit-edit', 'class'=>'btn btn-danger')) }}
 			{{ HTML::link('/retiro_servicio/list_reporte_retiro_servicio','Cancelar',array('class'=>'')) }}
 			</div>
 		</div>

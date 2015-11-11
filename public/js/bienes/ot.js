@@ -47,7 +47,7 @@ $( document ).ready(function(){
 					url: inside_url+'mant_correctivo/submit_create_tarea_ajax',
 					type: 'POST',
 					data: { 
-						'idorden_trabajoxactivo' : $("input[name=idorden_trabajoxactivo]").val(),
+						'idot_correctivo' : $("input[name=idot_correctivo]").val(),
 						'nombre_tarea' : $("input[name=nombre_tarea]").val(),
 					},
 					beforeSend: function(){
@@ -58,8 +58,8 @@ $( document ).ready(function(){
 					},
 					success: function(response){
 						var str = "";
-						str += '<tr id="tarea-row-'+response.otxactxta.idorden_trabajoxactivoxtarea+'"><td>'+response.tarea.nombre+'</td>';
-						str += '<td><button class="btn btn-danger boton-eliminar-tarea" onclick="eliminar_tarea(event,'+response.otxactxta.idorden_trabajoxactivoxtarea+')" type="button">Eliminar</button></td></tr>';
+						str += '<tr id="tarea-row-'+response.tarea.idtareas_ot_correctivo+'"><td>'+response.tarea.nombre+'</td>';
+						str += '<td><button class="btn btn-danger boton-eliminar-tarea" onclick="eliminar_tarea(event,'+response.tarea.idtareas_ot_correctivo+')" type="button">Eliminar</button></td></tr>';
 						$("#tareas-table").append(str);
 					},
 					error: function(){
@@ -118,7 +118,7 @@ $( document ).ready(function(){
 					url: inside_url+'mant_correctivo/submit_create_repuesto_ajax',
 					type: 'POST',
 					data: { 
-						'idorden_trabajoxactivo' : $("input[name=idorden_trabajoxactivo]").val(),
+						'idot_correctivo' : $("input[name=idot_correctivo]").val(),
 						'nombre_repuesto' : $("input[name=nombre_repuesto]").val(),
 						'codigo_repuesto' : $("input[name=codigo_repuesto]").val(),
 						'cantidad_repuesto' : $("input[name=cantidad_repuesto]").val(),
@@ -132,11 +132,11 @@ $( document ).ready(function(){
 					},
 					success: function(response){
 						var str = "";
-						str += '<tr id="repuesto-row-'+response.repuesto.idrepuestos_ot+'"><td>'+response.repuesto.nombre+'</td>';
+						str += '<tr id="repuesto-row-'+response.repuesto.idrepuestos_ot_correctivo+'"><td>'+response.repuesto.nombre+'</td>';
 						str += "<td>"+response.repuesto.codigo+"</td>";
 						str += "<td>"+response.repuesto.cantidad+"</td>";
-						str += "<td>"+response.repuesto.costo+"</td>";
-						str += '<td><button class="btn btn-danger boton-eliminar-repuesto" onclick="eliminar_repuesto(event,'+response.repuesto.idrepuestos_ot+')" type="button">Eliminar</button></td></tr>';
+						str += "<td>S/. "+response.repuesto.costo+"</td>";
+						str += '<td><button class="btn btn-danger boton-eliminar-repuesto" onclick="eliminar_repuesto(event,'+response.repuesto.idrepuestos_ot_correctivo+')" type="button">Eliminar</button></td></tr>';
 						$("#repuestos-table").append(str);
 						$("input[name=costo_total_repuestos]").val(response.costo_total_repuestos);
 					},
@@ -185,7 +185,7 @@ $( document ).ready(function(){
 					url: inside_url+'mant_correctivo/submit_create_personal_ajax',
 					type: 'POST',
 					data: { 
-						'idorden_trabajoxactivo' : $("input[name=idorden_trabajoxactivo]").val(),
+						'idot_correctivo' : $("input[name=idot_correctivo]").val(),
 						'nombre_personal' : $("input[name=nombre_personal]").val(),
 						'horas_trabajadas' : $("input[name=horas_trabajadas]").val(),
 						'costo_personal' : $("input[name=costo_personal]").val()
@@ -198,10 +198,10 @@ $( document ).ready(function(){
 					},
 					success: function(response){
 						var str = "";
-						str += '<tr id="personal-row-'+response.personal.iddetalle_personalxot+'"><td>'+response.personal.nombre+'</td>';
+						str += '<tr id="personal-row-'+response.personal.idpersonal_ot_correctivo+'"><td>'+response.personal.nombre+'</td>';
 						str += "<td>"+response.personal.horas_hombre+"</td>";
 						str += "<td>"+response.personal.costo+"</td>";
-						str += '<td><button class="btn btn-danger boton-eliminar-personal" onclick="eliminar_personal(event,'+response.personal.iddetalle_personalxot+')" type="button">Eliminar</button></td></tr>';
+						str += '<td><button class="btn btn-danger boton-eliminar-personal" onclick="eliminar_personal(event,'+response.personal.idpersonal_ot_correctivo+')" type="button">Eliminar</button></td></tr>';
 						$("#personal-table").append(str);
 						$("input[name=costo_total_personal]").val(response.costo_total_personal);
 					},
@@ -230,7 +230,7 @@ function eliminar_tarea(e,id){
 			url: inside_url+'mant_correctivo/submit_delete_tarea_ajax',
 			type: 'POST',
 			data: { 
-				'idorden_trabajoxactivoxtarea' : id,
+				'idtareas_ot_correctivo' : id,
 			},
 			beforeSend: function(){
 				//$(this).prop('disabled',true);
@@ -254,8 +254,8 @@ function eliminar_repuesto(e,id){
 			url: inside_url+'mant_correctivo/submit_delete_repuesto_ajax',
 			type: 'POST',
 			data: { 
-				'idorden_trabajoxactivo' : $("input[name=idorden_trabajoxactivo]").val(),
-				'idrepuestos_ot' : id,
+				'idot_correctivo' : $("input[name=idot_correctivo]").val(),
+				'idrepuestos_ot_correctivo' : id,
 			},
 			beforeSend: function(){
 				//$(this).prop('disabled',true);
@@ -281,8 +281,8 @@ function eliminar_personal(e,id){
 			url: inside_url+'mant_correctivo/submit_delete_personal_ajax',
 			type: 'POST',
 			data: { 
-				'idorden_trabajoxactivo' : $("input[name=idorden_trabajoxactivo]").val(),
-				'iddetalle_personalxot' : id,
+				'idot_correctivo' : $("input[name=idot_correctivo]").val(),
+				'idpersonal_ot_correctivo' : id,
 			},
 			beforeSend: function(){
 				//$(this).prop('disabled',true);

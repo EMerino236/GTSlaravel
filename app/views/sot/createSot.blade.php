@@ -9,6 +9,7 @@
 
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
+			<p><strong>{{ $errors->first('numero_ficha') }}</strong></p>
 			<p><strong>{{ $errors->first('fecha_solicitud') }}</strong></p>
 			<p><strong>{{ $errors->first('especificacion_servicio') }}</strong></p>
 			<p><strong>{{ $errors->first('idestado') }}</strong></p>
@@ -25,61 +26,59 @@
 	@endif
 
 	{{ Form::open(array('url'=>'sot/submit_create_sot', 'role'=>'form')) }}
-		<div class="col-xs-12">
-			<div class="row">
-				<div class="form-group col-xs-10">
-					{{ Form::label('solicitante','Usuario solicitante: '.$user->apellido_pat." ".$user->apellido_mat.", ".$user->nombre." ") }}
-				</div>
+		<div class="row">
+			<div class="form-group col-md-12">
+				{{ Form::label('solicitante','Usuario solicitante: '.$user->apellido_pat." ".$user->apellido_mat.", ".$user->nombre." ") }}
 			</div>
 		</div>
-		<div class="col-xs-12">
-			<div class="row">
-				<div class="form-group col-xs-4">
-					{{ Form::label('idactivo','Activo') }}
-					{{ Form::select('idactivo',$activos,Input::old('idactivo'),['class' => 'form-control']) }}
-				</div>
+		<div class="row">
+			<div class="form-group col-md-6 @if($errors->first('numero_ficha')) has-error has-feedback @endif">
+				{{ Form::label('numero_ficha','Número de ficha') }}
+				{{ Form::text('numero_ficha',Input::old('numero_ficha'),array('class'=>'form-control')) }}
 			</div>
 		</div>
-		<div class="col-xs-6">
-			<div class="row">
+		<div class="row">
+			<div class="form-group col-md-6">
+				{{ Form::label('idactivo','Activo') }}
+				{{ Form::select('idactivo',$activos,Input::old('idactivo'),['class' => 'form-control']) }}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6">
 				{{ Form::label('fecha_solicitud','Fecha de solicitud') }}
-				<div id="datetimepicker1" class="form-group input-group date col-xs-8 @if($errors->first('fecha_solicitud')) has-error has-feedback @endif">
+				<div class="fecha-hora form-group input-group date @if($errors->first('fecha_solicitud')) has-error has-feedback @endif">
 					{{ Form::text('fecha_solicitud',Input::old('fecha_solicitud'),array('class'=>'form-control')) }}
 					<span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
 				</div>
 			</div>
-			<div class="row">
-				<div class="form-group col-xs-8 @if($errors->first('especificacion_servicio')) has-error has-feedback @endif">
-					{{ Form::label('especificacion_servicio','Especificación de servicio') }}
-					{{ Form::textarea('especificacion_servicio',Input::old('especificacion_servicio'),array('class'=>'form-control','maxlength'=>'100')) }}
-				</div>
+			<div class="form-group col-md-6 @if($errors->first('idestado')) has-error has-feedback @endif">
+				{{ Form::label('idestado','Estado') }}
+				{{ Form::select('idestado',$estados,Input::old('idestado'),['class' => 'form-control','readonly'=>'']) }}
 			</div>
 		</div>
-		<div class="col-xs-6">
-			<div class="row">
-				<div class="form-group col-xs-8 @if($errors->first('idestado')) has-error has-feedback @endif">
-					{{ Form::label('idestado','Estado') }}
-					{{ Form::select('idestado',$estados,Input::old('idestado'),['class' => 'form-control','readonly'=>'']) }}
-				</div>
+		<div class="row">
+			<div class="form-group col-md-6 @if($errors->first('especificacion_servicio')) has-error has-feedback @endif">
+				{{ Form::label('especificacion_servicio','Especificación de servicio') }}
+				{{ Form::textarea('especificacion_servicio',Input::old('especificacion_servicio'),array('class'=>'form-control','maxlength'=>'100','rows'=>3)) }}
 			</div>
-			<div class="row">
-				<div class="form-group col-xs-8 @if($errors->first('motivo')) has-error has-feedback @endif">
-					{{ Form::label('motivo','Motivo') }}
-					{{ Form::textarea('motivo',Input::old('motivo'),array('class'=>'form-control','maxlength'=>'200')) }}
-				</div>
+			<div class="form-group col-md-6 @if($errors->first('motivo')) has-error has-feedback @endif">
+				{{ Form::label('motivo','Motivo') }}
+				{{ Form::textarea('motivo',Input::old('motivo'),array('class'=>'form-control','maxlength'=>'200','rows'=>3)) }}
 			</div>
 		</div>
-		<div class="col-xs-12">
-			<div class="row">
-				<div class="form-group col-xs-10 @if($errors->first('justificacion')) has-error has-feedback @endif">
-					{{ Form::label('justificacion','Justificación') }}
-					{{ Form::textarea('justificacion',Input::old('justificacion'),array('class'=>'form-control','maxlength'=>'200','rows'=>'3')) }}
-				</div>
+		<div class="row">
+			<div class="form-group col-md-6 @if($errors->first('justificacion')) has-error has-feedback @endif">
+				{{ Form::label('justificacion','Justificación') }}
+				{{ Form::textarea('justificacion',Input::old('justificacion'),array('class'=>'form-control','maxlength'=>'200','rows'=>'3')) }}
 			</div>
-			{{ Form::submit('Crear',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}
-			{{ HTML::link('/sot/list_sots','Cancelar',array('class'=>'')) }}
+		</div>
+		<div class="row">
+			<div class="form-group col-md-6">
+				{{ Form::submit('Crear',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}
+				{{ HTML::link('/sot/list_sots','Cancelar',array('class'=>'')) }}
+			</div>
 		</div>
 	{{ Form::close() }}
 @stop

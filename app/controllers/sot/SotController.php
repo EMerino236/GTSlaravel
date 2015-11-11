@@ -33,6 +33,7 @@ class SotController extends BaseController {
 			if($data["user"]->idrol == 1){
 				// Validate the info, create rules for the inputs
 				$rules = array(
+							'numero_ficha' => 'required|numeric',
 							'idactivo' => 'required',
 							'fecha_solicitud' => 'required',
 							'especificacion_servicio' => 'required|max:100',
@@ -49,6 +50,7 @@ class SotController extends BaseController {
 					$sot = new SolicitudOrdenTrabajo;
 					$sot->fecha_solicitud = date('Y-m-d H:i:s',strtotime(Input::get('fecha_solicitud')));
 					$sot->especificacion_servicio = Input::get('especificacion_servicio');
+					$sot->numero_ficha = Input::get('numero_ficha');
 					$sot->idestado = Input::get('idestado');
 					$sot->idactivo = Input::get('idactivo');
 					$sot->motivo = Input::get('motivo');
@@ -113,7 +115,7 @@ class SotController extends BaseController {
 			return View::make('error/error');
 		}
 	}
-
+	/*
 	public function submit_edit_sot()
 	{
 		if(Auth::check()){
@@ -153,7 +155,7 @@ class SotController extends BaseController {
 			return View::make('error/error');
 		}
 	}
-
+	*/
 	public function submit_disable_sot()
 	{
 		if(Auth::check()){
@@ -163,7 +165,8 @@ class SotController extends BaseController {
 			if($data["user"]->idrol == 1){
 				$sot_id = Input::get('sot_id');
 				$sot = SolicitudOrdenTrabajo::find($sot_id);
-				$sot->delete();
+				$sot->idestado = 16; // Si se elimina la SOT, se le cambia de estado a Falsa Alarma
+				$sot->save();
 				Session::flash('message', 'Se eliminó correctamente la solicitud.');
 				return Redirect::to("sot/list_sots/");
 			}else{
@@ -208,9 +211,9 @@ class SotController extends BaseController {
 				$sot_id = Input::get('sot_id');
 				$url = "mant_correctivo/programacion/".$sot_id;
 				$sot = SolicitudOrdenTrabajo::find($sot_id);
-				$sot->idestado = 13; // Estado de Aprobado
+				//$sot->idestado = 15; // Estado de Aprobado
 				$sot->save();
-				Session::flash('message', 'La solicitud se cambió a Aprobada, proceda a programar la OT');
+				Session::flash('message', 'Proceda a programar la OT');
 				return Redirect::to($url);
 			}else{
 				return View::make('error/error');

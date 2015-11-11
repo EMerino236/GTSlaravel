@@ -17,51 +17,37 @@
 			</div>
 			<div class="panel-body">
 			<div class="search_bar">
-				<div class="col-xs-6">
-					<div class="row">
-						<div class="form-group col-xs-8">
-							{{ Form::label('search_motivo','Motivo') }}
-							{{ Form::select('search_motivo', $motivos,Input::old('search_motivo'),['class' => 'form-control']) }}
-						</div>
+				<div class="row">
+					<div class="form-group col-md-4">
+						{{ Form::label('search_cod_pat','Código patrimonial') }}
+						{{ Form::text('search_cod_pat',$search_cod_pat,array('class'=>'form-control')) }}
 					</div>
-					<div class="row">
-						<div class="form-group col-xs-8">
-							{{ Form::label('search_cod_pat','Código patrimonial') }}
-							{{ Form::text('search_cod_pat',$search_cod_pat,array('class'=>'form-control')) }}
-						</div>
+					<div class="form-group col-md-4">
+						{{ Form::label('search_equipo','Equipo relacionado') }}
+						{{ Form::text('search_equipo',$search_equipo,array('class'=>'form-control')) }}
 					</div>
-					<div class="row">
-						<div class="form-group col-xs-8">
-							{{ Form::label('search_equipo','Equipo relacionado') }}
-							{{ Form::text('search_equipo',$search_equipo,array('class'=>'form-control')) }}
-						</div>
+					<div class="form-group col-md-4">
+						{{ Form::label('search_motivo','Motivo') }}
+						{{ Form::select('search_motivo', $motivos,Input::old('search_motivo'),['class' => 'form-control']) }}
 					</div>
 				</div>
-				<div class="col-xs-6">
-					<div class="row">
-						<div class="form-group col-xs-8">
-							{{ Form::label('search_marca','Marca') }}
-							{{ Form::select('search_marca', $marcas,Input::old('search_marca'),['class' => 'form-control']) }}
-						</div>
+				<div class="row">
+					<div class="form-group col-md-4">
+						{{ Form::label('search_marca','Marca') }}
+						{{ Form::select('search_marca', $marcas,Input::old('search_marca'),['class' => 'form-control']) }}
 					</div>
-					<div class="row">
-						<div class="form-group col-xs-8">
-							{{ Form::label('search_servicio','Servicio') }}
-							{{ Form::select('search_servicio', $servicios,Input::old('search_servicio'),['class' => 'form-control']) }}
-						</div>
+					<div class="form-group col-md-4">
+						{{ Form::label('search_servicio','Servicio') }}
+						{{ Form::select('search_servicio', $servicios,Input::old('search_servicio'),['class' => 'form-control']) }}
 					</div>
-					<div class="row">
-						<div class="form-group col-xs-8">
-							{{ Form::label('search_proveedor','Proveedor') }}
-							{{ Form::select('search_proveedor', $proveedores,Input::old('search_proveedor'),['class' => 'form-control']) }}
-						</div>
+					<div class="form-group col-md-4">
+						{{ Form::label('search_proveedor','Proveedor') }}
+						{{ Form::select('search_proveedor', $proveedores,Input::old('search_proveedor'),['class' => 'form-control']) }}
 					</div>
 				</div>
-				<div class="col-xs-12">
-					<div class="row">
-						<div class="form-group col-xs-8">
-							{{ Form::submit('Buscar',array('id'=>'submit-search-form','class'=>'btn btn-info')) }}
-						</div>
+				<div class="row">
+					<div class="form-group col-md-4">
+						{{ Form::submit('Buscar',array('id'=>'submit-search-form','class'=>'btn btn-info')) }}
 					</div>
 				</div>
 			</div>	
@@ -71,18 +57,21 @@
 
 	<table class="table">
 		<tr class="info">
+			<th>Código de Reporte de Retiro</th>
 			<th>Código Patrimonial</th>
 			<th>Nombre de Equipo</th>
 			<th>Marca</th>
 			<th>Modelo</th>
 			<th>Serie</th>
-			<th>Código de Reporte de Retiro</th>
 			<th>Proveedor</th>
 			<th>Motivo</th>
 			<th>Programar OT</th>
 		</tr>
 			@foreach($reporte_retiros_data as $reporte_retiro_data)
 			<tr>
+				<td>
+					<a href="{{URL::to('/retiro_servicio/edit_reporte_retiro_servicio/')}}/{{$reporte_retiro_data->idreporte_retiro}}">{{$reporte_retiro_data->idreporte_retiro}}</a>
+				</td>
 				<td>
 					{{$reporte_retiro_data->codigo_patrimonial}}
 				</td>
@@ -98,7 +87,6 @@
 				<td>
 					{{$reporte_retiro_data->numero_serie}}
 				</td>
-				<td><a href="{{URL::to('/mant_correctivo/create_ot/')}}/{{$reporte_retiro_data->idmotivo_retiro}}">{{$reporte_retiro_data->idmotivo_retiro}}</a>
 				</td>
 				<td>
 					{{$reporte_retiro_data->nombre_proveedor}}

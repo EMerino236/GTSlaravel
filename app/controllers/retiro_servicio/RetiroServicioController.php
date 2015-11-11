@@ -62,7 +62,9 @@ class RetiroServicioController extends BaseController {
 			return View::make('error/error');
 		}
 	}
-
+	/*
+	** REPORTE DE RETIRO
+	*/
 	public function render_create_reporte_retiro_servicio()
 	{
 		if(Auth::check()){
@@ -170,6 +172,42 @@ class RetiroServicioController extends BaseController {
 				$data["search_proveedor"] = Input::get('search_proveedor');
 				$data["reporte_retiros_data"] = ReporteRetiro::searchReportesRetiroInfo($data["search_motivo"],$data["search_equipo"],$data["search_cod_pat"],$data["search_marca"],$data["search_servicio"],$data["search_proveedor"])->paginate(10);
 				return View::make('retiro_servicio/listReporteRetiroServicio',$data);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function render_edit_reporte_retiro_servicio($id=null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if(($data["user"]->idrol == 1) && $id){
+				//$data["activos"] = Activo::lists('codigo_patrimonial','idactivo');
+				$data["motivos"] = MotivoRetiro::lists('nombre','idmotivo_retiro');
+				$data["reporte_info"] = ReporteRetiro::searchReportesRetiroById($id)->get();
+				$data["reporte_info"] = $data["reporte_info"][0];
+				return View::make('retiro_servicio/editReporteRetiroServicio',$data);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function submit_disable_reporte_retiro_servicio()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1){
+				$reporte_retiro = ReporteRetiro::find(Input::get('idreporte_retiro'));
 			}else{
 				return View::make('error/error');
 			}
