@@ -241,6 +241,7 @@ function init_ot_create(){
 	array_fecha = $('#fecha_programacion_ot').val().split('-');
 	fecha_str = array_fecha[2]+"-"+array_fecha[1]+"-"+array_fecha[0];
 	$("#datetimepicker_conformidad_fecha").datetimepicker({
+		useCurrent: false,
 		defaultDate: false,
 		ignoreReadonly: true,
 		format: 'DD-MM-YYYY',

@@ -127,7 +127,7 @@
 						{{$mant_preventivo_data->nombre_estado}}
 					</td>
 					<td class="text-nowrap text-center">
-						@if($mant_preventivo_data->idestado_ot!=25)
+						@if($mant_preventivo_data->idestado_ot!=27)
 							<div class="btn btn-danger btn-block" onclick='eliminar_ot(event,this)'><span class="glyphicon glyphicon-trash"></span></div>
 						@endif
 					</td>
@@ -138,9 +138,8 @@
 			</div>
 		</div>
 	</div>
-	
-@stop
 
+	
 <div class="container">
   <!-- Modal -->
   <div class="modal fade" id="modal_list_ot" role="dialog">
@@ -160,3 +159,5 @@
     </div>
   </div>  
 </div>
+	
+@stop
