@@ -323,7 +323,7 @@ class OtController extends BaseController {
 			$tarea = new TareasOtCorrectivo;
 			$tarea->nombre = Input::get('nombre_tarea');
 			$tarea->idot_correctivo = Input::get('idot_correctivo');
-			$tarea->idestado_realizado = 22;
+			$tarea->idestado_realizado = 24;
 			$tarea->save();
 			return Response::json(array( 'success' => true, 'tarea' => $tarea),200);
 		}else{

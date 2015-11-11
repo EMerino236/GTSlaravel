@@ -148,7 +148,7 @@
 					<div class="row">
 						<div class="form-group col-md-8">
 							{{ Form::label('hora_programacion','Hora Programada') }}
-							{{ Form::text('hora_programacion',date('H:i:s',strtotime($ot_info->fecha_programacion)),array('class' => 'form-control','readonly'=>'')) }}
+							{{ Form::text('hora_programacion',date('H:i',strtotime($ot_info->fecha_programacion)),array('class' => 'form-control','readonly'=>'')) }}
 						</div>
 					</div>
 					<div class="row">
@@ -158,7 +158,7 @@
 								@if($ot_info->fecha_conformidad == null)
 									{{ Form::text('hora_conformidad',null,array('class'=>'form-control','readonly'=>'')) }}
 								@else
-									{{Form::text('hora_conformidad',date('H:i:s',strtotime($ot_info->fecha_conformidad)),array('class'=>'form-control','readonly'=>'')) }}
+									{{Form::text('hora_conformidad',date('H:i',strtotime($ot_info->fecha_conformidad)),array('class'=>'form-control','readonly'=>'')) }}
 								@endif
 								<span class="input-group-addon">
 			                        <span class="glyphicon glyphicon-time"></span>
@@ -219,7 +219,7 @@
 							<tr>
 								<td>{{$tarea->nombre_tarea}}</td>
 								<td>
-									@if($tarea->idestado_realizado == 23)
+									@if($tarea->idestado_realizado == 24)
 										{{ Form::button('Marcar realizada',array('class'=>'btn btn-default boton-tarea','data-id'=>$tarea->idtareas_ot_preventivosxot_preventivo)) }}
 									@else
 										Realizada
@@ -405,8 +405,8 @@
 			</div>
 		</div>	
 	{{ Form::close() }}
-@stop
-<div class="container">
+
+	<div class="container">
   <!-- Modal -->
   <div class="modal fade" id="modal_info_ot" role="dialog">
     <div class="modal-dialog modal-md">    
@@ -425,3 +425,4 @@
     </div>
   </div>  
 </div>
+@stop
