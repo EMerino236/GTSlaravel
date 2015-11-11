@@ -32,7 +32,7 @@ class OtCorrectivo extends Eloquent{
 			  ->join('ubicacion_fisicas','ubicacion_fisicas.idubicacion_fisica','=','activos.idubicacion_fisica')
 			  ->join('grupos','grupos.idgrupo','=','activos.idgrupo')
 			  ->join('users','users.id','=','grupos.id_responsable')
-			  ->select('ubicacion_fisicas.nombre as nombre_ubicacion','areas.nombre as nombre_area','users.nombre as nombre_user','users.apellido_pat','users.apellido_mat','servicios.nombre as nombre_servicio','estados.nombre as nombre_estado','solicitud_orden_trabajos.numero_ficha as numero_ficha_sot','ot_correctivos.*');
+			  ->select('ubicacion_fisicas.nombre as nombre_ubicacion','areas.nombre as nombre_area','users.nombre as nombre_user','users.apellido_pat','users.apellido_mat','servicios.nombre as nombre_servicio','estados.nombre as nombre_estado','ot_correctivos.*');
 	  	return $query;
 	}
 
@@ -72,7 +72,7 @@ class OtCorrectivo extends Eloquent{
 				$query->where('ot_correctivos.fecha_programacion','>=',date('Y-m-d H:i:s',strtotime($search_ini)));
 			  if($search_fin != "")
 				$query->where('ot_correctivos.fecha_programacion','<=',date('Y-m-d H:i:s',strtotime($search_fin)));
-			  $query->select('ubicacion_fisicas.nombre as nombre_ubicacion','areas.nombre as nombre_area','users.nombre as nombre_user','users.apellido_pat','users.apellido_mat','servicios.nombre as nombre_servicio','estados.nombre as nombre_estado','solicitud_orden_trabajos.numero_ficha as numero_ficha_sot','ot_correctivos.*');
+			  $query->select('ubicacion_fisicas.nombre as nombre_ubicacion','areas.nombre as nombre_area','users.nombre as nombre_user','users.apellido_pat','users.apellido_mat','servicios.nombre as nombre_servicio','estados.nombre as nombre_estado','ot_correctivos.*');
 	  	return $query;
 	}
 
