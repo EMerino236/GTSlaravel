@@ -165,7 +165,7 @@ class SotController extends BaseController {
 			if($data["user"]->idrol == 1){
 				$sot_id = Input::get('sot_id');
 				$sot = SolicitudOrdenTrabajo::find($sot_id);
-				$sot->idestado = 16; // Si se elimina la SOT, se le cambia de estado a Falsa Alarma
+				$sot->idestado = 17; // Si se elimina la SOT, se le cambia de estado a Falsa Alarma
 				$sot->save();
 				Session::flash('message', 'Se eliminó correctamente la solicitud.');
 				return Redirect::to("sot/list_sots/");
