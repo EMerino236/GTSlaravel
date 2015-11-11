@@ -423,7 +423,7 @@ class OtPreventivoController extends BaseController {
 			$tarea->save();
 
 			$otPreventivoxtarea = new OrdenesTrabajoPreventivoxTarea;
-			$otPreventivoxtarea->idestado_realizado = 24;
+			$otPreventivoxtarea->idestado_realizado = 23;
 			$otPreventivoxtarea->idot_preventivo = Input::get('idot_preventivo');
 			$otPreventivoxtarea->idtareas_ot_preventivo = $tarea->idtareas_ot_preventivo;
 			$otPreventivoxtarea->save();
@@ -443,7 +443,7 @@ class OtPreventivoController extends BaseController {
 		if($data["user"]->idrol == 1){
 			$idotPreventivoxtarea = Input::get('idtareas_ot_preventivosxot_preventivo');
 			$otPreventivoxtarea = OrdenesTrabajoPreventivoxTarea::find($idotPreventivoxtarea);
-			$otPreventivoxtarea->idestado_realizado = 23;
+			$otPreventivoxtarea->idestado_realizado = 22;
 			$otPreventivoxtarea->save();
 			return Response::json(array( 'success' => true),200);
 		}else{

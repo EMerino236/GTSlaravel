@@ -219,7 +219,7 @@
 							<tr>
 								<td>{{$tarea->nombre_tarea}}</td>
 								<td>
-									@if($tarea->idestado_realizado == 24)
+									@if($tarea->idestado_realizado == 23)
 										{{ Form::button('Marcar realizada',array('class'=>'btn btn-default boton-tarea','data-id'=>$tarea->idtareas_ot_preventivosxot_preventivo)) }}
 									@else
 										Realizada
