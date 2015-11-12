@@ -84,7 +84,7 @@
 									<td class="text-nowrap text-center">{{$activo->nombre_familia}}</td>
 									<td class="text-nowrap text-center">{{$activo->nombre_modelo}}</td>
 									<td class="text-nowrap text-center">{{$activo->codigo_patrimonial}}</td>
-									<td class="text-nowrap text-center">{{Form::radio('reincidente','0',array('id'=>'fila'.$index)) }}</td>
+									<td class="text-nowrap text-center">{{Form::radio('seleccionar',$index,array('id'=>'fila'.$index)) }}</td>
 								</tr>
 								@endforeach
 							</table>
@@ -93,11 +93,12 @@
 				</div>				
 			</div>			
 		</div>
-		<div class="panel panel-default">
+		<div class="panel panel-default"  style="height:570px;"  >
 			<div class="panel-heading">
 				<h3 class="panel-title">Equipos Asociados</h3>
 			</div>
-			<div class="panel-body" id="body_equipos">
+			<div class="panel-body" id="body_equipos">				
+				
 				
 			</div>
 		</div>

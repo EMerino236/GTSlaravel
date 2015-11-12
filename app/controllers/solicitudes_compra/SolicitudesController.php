@@ -214,11 +214,11 @@ class SolicitudesController extends BaseController
 			if($data["user"]->idrol == 1){
 				$codigo = Input::get('numero_reporte_hidden');		
 				$documento = Documento::searchDocumentoByCodigoArchivamiento($codigo)->get();
-				$file= $documento[0]->url;
+				$file= $documento[0]->url.$documento[0]->nombre_archivo_encriptado;
 				$headers = array(
 		              'Content-Type',mime_content_type($file),
 	            );
-		        return Response::download($file,basename($file),$headers);
+		        return Response::download($file,basename($documento[0]->nombre_archivo),$headers);
 			}else{
 				return View::make('error/error');
 			}
