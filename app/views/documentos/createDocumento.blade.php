@@ -28,54 +28,62 @@
 	@endif
 
 	{{ Form::open(array('url'=>'documento/submit_create_documento', 'role'=>'form', 'files'=>true)) }}
-		<div class="col-xs-6">
-			<div class="row">
-				<div class="form-group col-xs-8 @if($errors->first('nombre')) has-error has-feedback @endif">
-					{{ Form::label('nombre','Nombre de Documento') }}
-					{{ Form::text('nombre',Input::old('nombre'),array('class'=>'form-control')) }}
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Datos del Documento</h3>
+			</div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="form-group col-md-4 @if($errors->first('idtipo_documento')) has-error has-feedback @endif">
+						{{ Form::label('idtipo_documento','Tipo de Documento') }}
+						{{ Form::select('idtipo_documento',$tipo_documentos,Input::old('idtipo_documento'),['class' => 'form-control']) }}
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-md-4 @if($errors->first('nombre')) has-error has-feedback @endif">
+						{{ Form::label('nombre','Nombre de Documento') }}
+						{{ Form::text('nombre',Input::old('nombre'),array('class'=>'form-control')) }}
+					</div>
+					<div class="form-group col-md-4 @if($errors->first('autor')) has-error has-feedback @endif">
+						{{ Form::label('autor','Autor') }}
+						{{ Form::text('autor',Input::old('autor'),array('class'=>'form-control')) }}
+					</div>
+				</div>		
+				<div class="row">
+					<div class="form-group col-md-4 @if($errors->first('codigo_archivamiento')) has-error has-feedback @endif">
+						{{ Form::label('codigo_archivamiento','Código de Archivamiento') }}
+						{{ Form::text('codigo_archivamiento',Input::old('codigo_archivamiento'),array('class'=>'form-control')) }}
+					</div>
+					<div class="form-group col-md-4 @if($errors->first('ubicacion')) has-error has-feedback @endif">
+						{{ Form::label('ubicacion','Ubicación') }}
+						{{ Form::text('ubicacion',Input::old('ubicacion'),array('class'=>'form-control')) }}
+					</div>
+				</div>	
+				<div class="row">
+					<div class="form-group col-md-8 @if($errors->first('descripcion')) has-error has-feedback @endif">
+						{{ Form::label('descripcion','Descripción') }}
+						{{ Form::text('descripcion',Input::old('descripcion'),array('class'=>'form-control')) }}
+					</div>
+				</div>	
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Subir Documentos</h3>
+			</div>
+			<div class="panel-body">
+				<div class="col-md-8">
+					<label class="control-label">Seleccione un Documento</label>(png,jpe,jpeg,jpg,gif,bmp,zip,rar,pdf,doc,docx,xls,xlsx,ppt,pptx)
+					<input name="archivo" id="input-1" type="file" class="file file-loading" data-show-upload="false" data-allowed-file-extensions='["pdf","doc","docx","xls","xlsx","ppt","pptx"]'>
 				</div>
 			</div>
+		</div>		
 			<div class="row">
-				<div class="form-group col-xs-8 @if($errors->first('descripcion')) has-error has-feedback @endif">
-					{{ Form::label('descripcion','Descripción') }}
-					{{ Form::text('descripcion',Input::old('descripcion'),array('class'=>'form-control')) }}
-				</div>
-			</div>	
-			<div class="row">
-				<div class="form-group col-xs-8 @if($errors->first('autor')) has-error has-feedback @endif">
-					{{ Form::label('autor','Autor') }}
-					{{ Form::text('autor',Input::old('autor'),array('class'=>'form-control')) }}
-				</div>
-			</div>		
-			<div class="row">
-				<div class="form-group col-xs-8 @if($errors->first('codigo_archivamiento')) has-error has-feedback @endif">
-					{{ Form::label('codigo_archivamiento','Código de Archivamiento') }}
-					{{ Form::text('codigo_archivamiento',Input::old('codigo_archivamiento'),array('class'=>'form-control')) }}
-				</div>
-			</div>		
-			<div class="row">
-				<div class="form-group col-xs-8 @if($errors->first('ubicacion')) has-error has-feedback @endif">
-					{{ Form::label('ubicacion','Ubicación') }}
-					{{ Form::text('ubicacion',Input::old('ubicacion'),array('class'=>'form-control')) }}
-				</div>
-			</div>	
-			<div class="row">
-				<div class="form-group col-xs-8 @if($errors->first('idtipo_documento')) has-error has-feedback @endif">
-					{{ Form::label('idtipo_documento','Tipo de Documento') }}
-					{{ Form::select('idtipo_documento',$tipo_documentos,Input::old('idtipo_documento'),['class' => 'form-control']) }}
-				</div>
-			</div>	
-			<div class="row">
-				<div class="form-group col-xs-8 @if($errors->first('url')) has-error has-feedback @endif">
-				    {{ Form::label('archivo','Seleccione archivo adjunto',array('id'=>'archivo','class'=>'')) }}
-  					{{ Form::file('archivo','',array('id'=>'archivo','class'=>'form-control')) }}
-				</div>
-			</div>				
-			<div class="row">
-				<div class="form-group col-xs-8">
-					{{ Form::submit('Crear',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}	
+				<div class="form-group col-md-2">
+					{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit_create', 'type'=>'submit','class' => 'btn btn-primary btn-block')) }}
 				</div>
 			</div>		
 		</div>	
 	{{ Form::close() }}
+	
 @stop
