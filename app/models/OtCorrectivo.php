@@ -32,7 +32,7 @@ class OtCorrectivo extends Eloquent{
 			  ->join('ubicacion_fisicas','ubicacion_fisicas.idubicacion_fisica','=','activos.idubicacion_fisica')
 			  ->join('grupos','grupos.idgrupo','=','activos.idgrupo')
 			  ->join('users','users.id','=','grupos.id_responsable')
-			  ->select('ubicacion_fisicas.nombre as nombre_ubicacion','areas.nombre as nombre_area','users.nombre as nombre_user','users.apellido_pat','users.apellido_mat','servicios.nombre as nombre_servicio','estados.nombre as nombre_estado','ot_correctivos.*');
+			  ->select('ubicacion_fisicas.nombre as nombre_ubicacion','areas.nombre as nombre_area','users.nombre as nombre_user','users.apellido_pat','users.apellido_mat','servicios.nombre as nombre_servicio','estados.nombre as nombre_estado','solicitud_orden_trabajos.sot_tipo_abreviatura','solicitud_orden_trabajos.sot_correlativo','solicitud_orden_trabajos.sot_activo_abreviatura','ot_correctivos.*');
 	  	return $query;
 	}
 

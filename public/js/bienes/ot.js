@@ -14,6 +14,22 @@ $( document ).ready(function(){
 		sideBySide: true
 	});
 
+    $('#btnLimpiar').click(function(){
+        limpiar_criterios();
+    })
+
+    var hoy = new Date();
+    var ayer = new Date();
+    ayer.setDate(hoy.getDate()-1);
+	$(".fecha-hora").datetimepicker({
+	    useCurrent: false,
+	    defaultDate: false,
+	    format: 'DD-MM-YYYY HH:ss',
+	    ignoreReadonly: true,
+	    minDate: ayer,
+	    disabledDates: [ayer]
+	});
+
 	var idactivo = $("input[name=idactivo]").val();
 	$.ajax({
 		url: inside_url+'mant_correctivo/calendario_ot_mant_correctivo',
@@ -55,6 +71,7 @@ $( document ).ready(function(){
 					},
 					complete: function(){
 						$(this).prop('disabled',false);
+						$("input[name=nombre_tarea]").val("");
 					},
 					success: function(response){
 						var str = "";
@@ -129,6 +146,10 @@ $( document ).ready(function(){
 					},
 					complete: function(){
 						$(this).prop('disabled',false);
+						$("input[name=nombre_repuesto]").val("");
+						$("input[name=codigo_repuesto]").val("");
+						$("input[name=cantidad_repuesto]").val("");
+						$("input[name=costo_repuesto]").val("");
 					},
 					success: function(response){
 						var str = "";
@@ -195,6 +216,9 @@ $( document ).ready(function(){
 					},
 					complete: function(){
 						$(this).prop('disabled',false);
+						$("input[name=nombre_personal]").val("");
+						$("input[name=horas_trabajadas]").val("");
+						$("input[name=costo_personal]").val("");
 					},
 					success: function(response){
 						var str = "";
@@ -298,4 +322,15 @@ function eliminar_personal(e,id){
 			}
 		});
 	}
+}
+
+function limpiar_criterios(){
+    $('#search_ing').val('');
+    $('#search_ot').val('');
+    $('#search_ubicacion').val('');
+    $('#search_equipo').val('');
+    $('#search_proveedor').val('');
+    $('#search_ini').val('');
+    $('#search_fin').val('');
+    $('#search_cod_pat').val('');
 }

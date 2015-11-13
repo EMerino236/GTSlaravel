@@ -32,8 +32,7 @@ class SolicitudOrdenTrabajo extends Eloquent{
 			  ->whereNested(function($query) use($search){
 			  		$query->where('users.nombre','LIKE',"%$search%")
 			  			  ->orWhere('users.apellido_pat','LIKE',"%$search%")
-			  			  ->orWhere('users.apellido_mat','LIKE',"%$search%")
-			  			  ->orWhere('solicitud_orden_trabajos.numero_ficha','LIKE',"%$search%");
+			  			  ->orWhere('users.apellido_mat','LIKE',"%$search%");
 			  });
 		if($search_estado != "0")
 			$query->where('solicitud_orden_trabajos.idestado','=',$search_estado);
@@ -43,5 +42,11 @@ class SolicitudOrdenTrabajo extends Eloquent{
 			$query->where('solicitud_orden_trabajos.fecha_solicitud','<=',date('Y-m-d H:i:s',strtotime($search_fin)));
 		$query->select('estados.nombre as nombre_estado','users.nombre','users.apellido_pat','users.apellido_mat','solicitud_orden_trabajos.*');
 		return $query;
+	}
+
+	public function scopeGetSots($query)
+	{
+		$query->orderBy('idsolicitud_orden_trabajo','desc');
+	  	return $query;
 	}
 }

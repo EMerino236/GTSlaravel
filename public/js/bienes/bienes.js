@@ -15,10 +15,15 @@ $( document ).ready(function(){
 		limpiar_criterios();
 	});
 
+    var hoy = new Date();
+    var ayer = new Date();
+    ayer.setDate(hoy.getDate()-1);
 	$(".fecha-hora").datetimepicker({
-		defaultDate: false,
-		ignoreReadonly: true,
-		format: 'DD-MM-YYYY HH:ss',
-		sideBySide: true
+	    useCurrent: false,
+	    defaultDate: false,
+	    format: 'DD-MM-YYYY HH:ss',
+	    ignoreReadonly: true,
+	    minDate: ayer,
+	    disabledDates: [ayer]
 	});
 });

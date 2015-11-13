@@ -1,9 +1,14 @@
-@extends('templates/bienesTemplate')
+@extends('templates/sotTemplate')
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
             <h3 class="page-header">Historial de Solicitudes de Ordenes de Trabajo</h3>
-            <p class="text-right">{{ HTML::link('/sot/create_sot','+ Generar Solicitud',array('class'=>'')) }}</p>
+            <div class="container-fluid form-group row">
+				<div class="col-md-4 col-md-offset-8">
+            		<a class="btn btn-primary btn-block" href="{{URL::to('/sot/create_sot')}}">
+					<span class="glyphicon glyphicon-plus"></span> Generar Solicitud</a>
+				</div>
+			</div>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -17,33 +22,29 @@
 			</div>
 			<div class="panel-body">
 			<div class="search_bar">
-				<div class="col-xs-6">
-					<div class="row">
-						<div class="form-group col-xs-8">
-							{{ Form::label('search','Número de ficha/Usuario solicitante') }}
-							{{ Form::text('search',$search,array('class'=>'form-control','placeholder'=>'Usuario solicitante')) }}
-						</div>
+				<div class="row">
+					<div class="form-group col-md-6">
+						{{ Form::label('search','Número de ficha/Usuario solicitante') }}
+						{{ Form::text('search',$search,array('class'=>'form-control','placeholder'=>'')) }}
 					</div>
-					<div class="row">
-						<div class="form-group col-xs-8">
-							{{ Form::label('search_estado','Estado') }}
-							{{ Form::select('search_estado',array("0"=>"Seleccione")+$estados,$search_estado,['class' => 'form-control']) }}
-						</div>
+					<div class="form-group col-md-6">
+						{{ Form::label('search_estado','Estado') }}
+						{{ Form::select('search_estado',array("0"=>"Seleccione")+$estados,$search_estado,['class' => 'form-control']) }}
 					</div>
 				</div>
-				<div class="col-xs-6">
-					<div class="row">
+				<div class="row">
+					<div class="form-group col-md-6">
 						{{ Form::label('search_ini','Fecha inicio') }}
-						<div id="datetimepicker1" class="form-group input-group date col-xs-8">
+						<div id="datetimepicker1" class="form-group input-group date">
 							{{ Form::text('search_ini',$search_ini,array('class'=>'form-control')) }}
 							<span class="input-group-addon">
 			                    <span class="glyphicon glyphicon-calendar"></span>
 			                </span>
 						</div>
 					</div>
-					<div class="row">
+					<div class="form-group col-md-6">
 						{{ Form::label('search_fin','Fecha de fin') }}
-						<div id="datetimepicker2" class="form-group input-group date col-xs-8">
+						<div id="datetimepicker2" class="form-group input-group date">
 							{{ Form::text('search_fin',$search_fin,array('class'=>'form-control')) }}
 							<span class="input-group-addon">
 		                        <span class="glyphicon glyphicon-calendar"></span>
@@ -51,11 +52,12 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-xs-12">
-					<div class="row">
-						<div class="form-group col-xs-8">
-							{{ Form::submit('Buscar',array('id'=>'submit-search-form','class'=>'btn btn-info')) }}
-						</div>
+				<div class="container-fluid form-group row">
+					<div class="form-group col-md-2 col-md-offset-8">
+					{{ Form::button('<span class="glyphicon glyphicon-search"></span> Buscar', array('id'=>'submit-search-form','type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}	
+					</div>
+					<div class="form-group col-md-2">
+						<div class="btn btn-default btn-block" id="btnLimpiar"><span class="glyphicon glyphicon-refresh"></span> Limpiar</div>				
 					</div>
 				</div>
 			</div>	
@@ -73,7 +75,7 @@
 		@foreach($sots_data as $sot_data)
 		<tr>
 			<td>
-				<a href="{{URL::to('/sot/edit_sot/')}}/{{$sot_data->idsolicitud_orden_trabajo}}">{{$sot_data->idsolicitud_orden_trabajo}}</a>
+				<a href="{{URL::to('/sot/edit_sot/')}}/{{$sot_data->idsolicitud_orden_trabajo}}">{{$sot_data->sot_tipo_abreviatura}}{{$sot_data->sot_correlativo}}{{$sot_data->sot_activo_abreviatura}}</a>
 			</td>
 			<td>
 				{{date('d-m-Y',strtotime($sot_data->fecha_solicitud))}}

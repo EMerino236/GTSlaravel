@@ -64,9 +64,12 @@
 						{{ Form::text('search_proveedor',$search_proveedor,array('class'=>'form-control','placeholder'=>'RUC, Razón social o Nombre de contacto')) }}
 					</div>
 				</div>
-				<div class="row">
-					<div class="form-group col-md-4">
-						{{ Form::submit('Buscar',array('id'=>'submit-search-form','class'=>'btn btn-info')) }}
+				<div class="container-fluid form-group row">
+					<div class="form-group col-md-2 col-md-offset-8">
+					{{ Form::button('<span class="glyphicon glyphicon-search"></span> Buscar', array('id'=>'submit-search-form','type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}	
+					</div>
+					<div class="form-group col-md-2">
+						<div class="btn btn-default btn-block" id="btnLimpiar"><span class="glyphicon glyphicon-refresh"></span> Limpiar</div>				
 					</div>
 				</div>
 			</div>	
@@ -91,10 +94,10 @@
 				<a href="{{URL::to('/mant_correctivo/create_ot/')}}/{{$mant_correctivo_data->idot_correctivo}}">{{$mant_correctivo_data->ot_tipo_abreviatura}}{{$mant_correctivo_data->ot_correlativo}}{{$mant_correctivo_data->ot_activo_abreviatura}}</a>
 			</td>
 			<td>
-				{{$mant_correctivo_data->numero_ficha_sot}}
+				{{$mant_correctivo_data->sot_tipo_abreviatura}}{{$mant_correctivo_data->sot_correlativo}}{{$mant_correctivo_data->sot_activo_abreviatura}}
 			</td>
 			<td>
-				{{date('d-m-Y H:i:s',strtotime($mant_correctivo_data->fecha_programacion))}}
+				{{date('d-m-Y H:i',strtotime($mant_correctivo_data->fecha_programacion))}}
 			</td>
 			<td>
 				{{$mant_correctivo_data->nombre_area}}

@@ -9,14 +9,17 @@
 
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
-			<p><strong>{{ $errors->first('prioridades',"Seleccione una Prioridad") }}</strong></p>
-			<p><strong>{{ $errors->first('idestado',"Seleccione estado ") }}</strong></p>
-			<p><strong>{{ $errors->first('descripcion_problema',"La descripción del problema es obligatoria y debe ser menor a 500 caracteres") }}</strong></p>
-			<p><strong>{{ $errors->first('tipo_falla',"Seleccione un tipo de falla") }}</strong></p>
-			<p><strong>{{ $errors->first('idestado_inicial',"Seleccione un estado inicial del activo") }}</strong></p>
-			<p><strong>{{ $errors->first('diagnostico_falla',"El diagnostico de falla es obligatorio y debe ser menor a 500 caracteres") }}</strong></p>
-			<p><strong>{{ $errors->first('sin_interrupcion_servicio',"Seleccione si hubo interrupción en el servicio") }}</strong></p>
-			<p><strong>{{ $errors->first('idestado_final',"Seleccione un estado final del activo") }}</strong></p>
+			<p><strong>{{ $errors->first('prioridades') }}</strong></p>
+			<p><strong>{{ $errors->first('idestado') }}</strong></p>
+			<p><strong>{{ $errors->first('descripcion_problema') }}</strong></p>
+			<p><strong>{{ $errors->first('tipo_falla') }}</strong></p>
+			<p><strong>{{ $errors->first('idestado_inicial') }}</strong></p>
+			<p><strong>{{ $errors->first('diagnostico_falla') }}</strong></p>
+			<p><strong>{{ $errors->first('sin_interrupcion_servicio') }}</strong></p>
+			<p><strong>{{ $errors->first('idestado_final') }}</strong></p>
+			<p><strong>{{ $errors->first('fecha_conformidad') }}</strong></p>
+			<p><strong>{{ $errors->first('fecha_inicio_ejecucion') }}</strong></p>
+			<p><strong>{{ $errors->first('fecha_termino_ejecucion') }}</strong></p>
 		</div>
 	@endif
 
@@ -120,7 +123,7 @@
 					@if(!$ot_info->fecha_conformidad)
 					<div class="form-group col-md-4">
 						{{ Form::label('fecha_conformidad','Ingrese Fecha de Conformidad') }}
-						<div class="datetimepicker form-group input-group date @if($errors->first('fecha_conformidad')) has-error has-feedback @endif">
+						<div class="fecha-hora form-group input-group date @if($errors->first('fecha_conformidad')) has-error has-feedback @endif">
 							{{ Form::text('fecha_conformidad',null,array('class'=>'form-control','readonly'=>'')) }}
 							<span class="input-group-addon">
 		                        <span class="glyphicon glyphicon-calendar"></span>
@@ -190,6 +193,7 @@
 				<h3 class="panel-title">Datos Generales de la Orden de Trabajo de Mantenimiento</h3>
 			</div>
 			<div class="panel-body">
+				@if($ot_info->idestado_ot == 9)
 				<div class="row">
 					<div class="form-group col-md-8">
 						{{ Form::text('nombre_tarea', null,array('class'=>'form-control','placeholder'=>'Ingrese aquí la tarea realizada')) }}
@@ -198,6 +202,7 @@
 						{{ Form::button('Agregar',array('id'=>'submit-tarea', 'class'=>'btn btn-primary')) }}
 					</div>
 				</div>
+				@endif
 				<table id="tareas-table" class="table">
 					<tr class="info">
 						<th>Descripción</th>
@@ -207,7 +212,9 @@
 					<tr id="tarea-row-{{ $tarea->idtareas_ot_correctivo }}">
 						<td>{{$tarea->nombre}}</td>
 						<td>
+							@if($ot_info->idestado_ot == 9)
 							<button class="btn btn-danger boton-eliminar-tarea" onclick="eliminar_tarea(event,{{$tarea->idtareas_ot_correctivo}})" type="button">Eliminar</button>
+							@endif
 						</td>
 					</tr>
 					@endforeach
@@ -215,7 +222,7 @@
 				<div class="row">
 					<div class="col-md-4">
 						{{ Form::label('fecha_inicio_ejecucion','Ingrese Fecha de Inicio') }}
-						<div class="datetimepicker form-group input-group date @if($errors->first('fecha_inicio_ejecucion')) has-error has-feedback @endif">
+						<div class="fecha-hora form-group input-group date @if($errors->first('fecha_inicio_ejecucion')) has-error has-feedback @endif">
 							{{ Form::text('fecha_inicio_ejecucion',null,array('class'=>'form-control','readonly'=>'')) }}
 							<span class="input-group-addon">
 		                        <span class="glyphicon glyphicon-calendar"></span>
@@ -224,7 +231,7 @@
 					</div>
 					<div class="col-md-4">
 						{{ Form::label('fecha_termino_ejecucion','Ingrese Fecha de Término') }}
-						<div class="datetimepicker form-group input-group date @if($errors->first('fecha_termino_ejecucion')) has-error has-feedback @endif">
+						<div class="fecha-hora form-group input-group date @if($errors->first('fecha_termino_ejecucion')) has-error has-feedback @endif">
 							{{ Form::text('fecha_termino_ejecucion',null,array('class'=>'form-control','readonly'=>'')) }}
 							<span class="input-group-addon">
 		                        <span class="glyphicon glyphicon-calendar"></span>
@@ -253,6 +260,7 @@
 				<h3 class="panel-title">Datos de Repuestos</h3>
 			</div>
 			<div class="panel-body">
+				@if($ot_info->idestado_ot == 9)
 				<div class="row">
 					<div class="form-group col-md-4">
 						{{ Form::text('nombre_repuesto', null,array('class'=>'form-control','placeholder'=>'Nombre y características técnicas')) }}
@@ -270,6 +278,7 @@
 						{{ Form::button('Agregar',array('id'=>'submit-repuesto', 'class'=>'btn btn-primary')) }}
 					</div>
 				</div>
+				@endif
 				<table id="repuestos-table" class="table">
 					<tr class="info">
 						<th>Nombre</th>
@@ -285,7 +294,9 @@
 						<td>{{$repuesto->cantidad}}</td>
 						<td>S/. {{number_format($repuesto->costo,2)}}</td>
 						<td>
+							@if($ot_info->idestado_ot == 9)
 							<button class="btn btn-danger boton-eliminar-repuesto" onclick="eliminar_repuesto(event,{{$repuesto->idrepuestos_ot_correctivo}})" type="button">Eliminar</button>
+							@endif
 						</td>
 					</tr>
 					@endforeach
@@ -305,6 +316,7 @@
 				<h3 class="panel-title">Datos de Mano de Obra</h3>
 			</div>
 			<div class="panel-body">
+				@if($ot_info->idestado_ot == 9)
 				<div class="row">
 					<div class="form-group col-md-5">
 						{{ Form::text('nombre_personal', null,array('class'=>'form-control','placeholder'=>'Nombres Apellidos')) }}
@@ -319,6 +331,7 @@
 						{{ Form::button('Agregar',array('id'=>'submit-personal', 'class'=>'btn btn-primary')) }}
 					</div>
 				</div>
+				@endif
 				<table id="personal-table" class="table">
 					<tr class="info">
 						<th>Nombres y Apellidos</th>
@@ -332,7 +345,9 @@
 						<td>{{$personal->horas_hombre}}</td>
 						<td>{{$personal->costo}}</td>
 						<td>
+							@if($ot_info->idestado_ot == 9)
 							<button class="btn btn-danger boton-eliminar-mano-obra" onclick="eliminar_personal(event,{{$personal->idpersonal_ot_correctivo}})" type="button">Eliminar</button>
+							@endif
 						</td>
 					</tr>
 					@endforeach
@@ -347,10 +362,12 @@
 			    </div>
 			</div>
 		</div>
+		@if($ot_info->idestado_ot == 9)
 		<div class="row">
 			<div class="col-md-6">
 				{{ Form::submit('Guardar',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}
 			</div>
 		</div>
+		@endif
 	{{ Form::close() }}
 @stop

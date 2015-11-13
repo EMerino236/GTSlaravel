@@ -13,6 +13,7 @@
 
 Route::get('/', 'HomeController@home');
 /* Login */
+Route::get('/login', 'LoginController@login_expires');
 Route::post('/login', 'LoginController@login');
 /* Dashboard */
 Route::group(array('before'=>'auth'),function(){
@@ -60,6 +61,8 @@ Route::group(array('prefix'=>'sot', 'before'=>'auth'),function(){
 	Route::post('/submit_disable_sot','SotController@submit_disable_sot');
 	Route::get('/search_sot','SotController@search_sot');
 	Route::post('/submit_program_ot','SotController@submit_program_ot');
+	Route::post('/search_equipo_ajax','SotController@search_equipo_ajax');
+	Route::post('/submit_disable_sot_false_alarm','SotController@submit_disable_sot_false_alarm');
 });
 
 /* Marcas */
@@ -213,6 +216,7 @@ Route::group(array('prefix'=>'mant_correctivo','before'=>'auth'),function(){
 	Route::post('/submit_delete_repuesto_ajax','OtController@submit_delete_repuesto_ajax');
 	Route::post('/submit_create_personal_ajax','OtController@submit_create_personal_ajax');
 	Route::post('/submit_delete_personal_ajax','OtController@submit_delete_personal_ajax');
+	Route::post('/ver_programaciones','OtController@search_programaciones');
 });
 /* Retiro Servicio */
 Route::group(array('prefix'=>'retiro_servicio','before'=>'auth'),function(){

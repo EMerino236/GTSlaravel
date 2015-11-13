@@ -12,7 +12,8 @@ class SotController extends BaseController {
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
 				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
-				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
+				$data["estado"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->first();//El primer estado siempre es pendiente
+
 				$data["activos"] = Activo::lists('codigo_patrimonial','idactivo');
 				return View::make('sot/createSot',$data);
 			}else{
@@ -24,6 +25,22 @@ class SotController extends BaseController {
 		}
 	}
 
+	public function getCorrelativeReportNumber(){
+		$sot = SolicitudOrdenTrabajo::getSots()->first();
+		$string = "";
+		if($sot!=null){	
+			$numero = $sot->sot_correlativo;
+			$cantidad_digitos = strlen($numero+1);						
+			for($i=0;$i<4-$cantidad_digitos;$i++){
+				$string = $string."0";
+			}
+			$string = $string.($numero+1);					
+		}else{
+			$string = "0001";
+		}
+		return $string;
+	}
+
 	public function submit_create_sot()
 	{
 		if(Auth::check()){
@@ -32,33 +49,54 @@ class SotController extends BaseController {
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
 				// Validate the info, create rules for the inputs
+				$attributes = array(
+							'cod_pat' => 'Código Patrimoniak',
+							'fecha_solicitud' => 'Fecha de Solicitud',
+							'especificacion_servicio' => 'Especificación de Servicio',
+							'motivo' => 'Motivo',
+							'justificacion' => 'Justificación'
+					);
+				$messages = array();
 				$rules = array(
-							//'numero_ficha' => 'required|numeric',
-							'idactivo' => 'required',
+							'cod_pat' => 'required|numeric',
 							'fecha_solicitud' => 'required',
 							'especificacion_servicio' => 'required|max:100',
-							'idestado' => 'required',
 							'motivo' => 'required|max:200',
 							'justificacion' => 'required|max:200'
 						);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					return Redirect::to('sot/create_sot')->withErrors($validator)->withInput(Input::all());
 				}else{
-					$sot = new SolicitudOrdenTrabajo;
-					$sot->fecha_solicitud = date('Y-m-d H:i:s',strtotime(Input::get('fecha_solicitud')));
-					$sot->especificacion_servicio = Input::get('especificacion_servicio');
-					//$sot->numero_ficha = Input::get('numero_ficha');
-					$sot->idestado = Input::get('idestado');
-					$sot->idactivo = Input::get('idactivo');
-					$sot->motivo = Input::get('motivo');
-					$sot->justificacion = Input::get('justificacion');
-					$sot->id = $data["user"]->id;
-					$sot->save();
-					Session::flash('message', 'Se generó correctamente la solicitud.');
-					return Redirect::to('sot/create_sot');
+
+					$cod_pat = Input::get('cod_pat');
+					$equipo = Activo::searchActivosByCodigoPatrimonial($cod_pat)->get();
+					if(!$equipo->isEmpty()){
+						$equipo = $equipo[0];
+						$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
+						$estado = Estado::where('idtabla','=',$tabla[0]->idtabla)->first();//El primer estado siempre es pendiente
+						// Algoritmo para añadir numeros correlativos
+						$string = $this->getCorrelativeReportNumber();
+						$sot = new SolicitudOrdenTrabajo;
+						$sot->sot_tipo_abreviatura = "SOT";
+						$sot->sot_correlativo = $string;
+						$sot->sot_activo_abreviatura = "TS";
+						$sot->fecha_solicitud = date('Y-m-d H:i:s',strtotime(Input::get('fecha_solicitud')));
+						$sot->especificacion_servicio = Input::get('especificacion_servicio');
+						$sot->idestado = $estado->idestado;
+						$sot->idactivo = $equipo->idactivo;
+						$sot->motivo = Input::get('motivo');
+						$sot->justificacion = Input::get('justificacion');
+						$sot->id = $data["user"]->id;
+						$sot->save();
+						Session::flash('message', 'Se generó correctamente la solicitud.');
+						return Redirect::to('sot/create_sot');
+					}else{
+						Session::flash('error', 'No se encontró un activo con el código patrimonial ingresado.');
+						return Redirect::to('sot/create_sot');
+					}
 				}
 			}else{
 				return View::make('error/error');
@@ -165,9 +203,30 @@ class SotController extends BaseController {
 			if($data["user"]->idrol == 1){
 				$sot_id = Input::get('sot_id');
 				$sot = SolicitudOrdenTrabajo::find($sot_id);
-				$sot->idestado = 17; // Si se elimina la SOT, se le cambia de estado a Falsa Alarma
+				$sot->idestado = 16; // Si se elimina la SOT, se le cambia de estado a Falsa Alarma
 				$sot->save();
-				Session::flash('message', 'Se eliminó correctamente la solicitud.');
+				Session::flash('message', 'Se marcó correctamente la solicitud como Falsa Alarma.');
+				return Redirect::to("sot/list_sots/");
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function submit_disable_sot_false_alarm()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1){
+				$sot_id = Input::get('sot_id');
+				$sot = SolicitudOrdenTrabajo::find($sot_id);
+				$sot->idestado = 26; // Si se elimina la SOT, se le cambia de estado a Mal Ingreso
+				$sot->save();
+				Session::flash('message', 'Se marcó correctamente la solicitud como Mal Ingreso.');
 				return Redirect::to("sot/list_sots/");
 			}else{
 				return View::make('error/error');
@@ -221,6 +280,33 @@ class SotController extends BaseController {
 
 		}else{
 			return View::make('error/error');
+		}
+	}
+
+	public function search_equipo_ajax(){
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$id = Auth::id();
+		$data["inside_url"] = Config::get('app.inside_url');
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1){
+			// Check if the current user is the "System Admin"
+			$data = Input::get('selected_id');
+			if($data !="vacio"){
+				$equipo = Activo::searchActivosByCodigoPatrimonial($data)->get();
+				if(!$equipo->isEmpty()){
+					$equipo = $equipo[0];
+				}else{
+				 	$equipo = null;
+				}
+			}else{
+				$equipo = null;
+			}
+
+			return Response::json(array( 'success' => true, 'equipo' => $equipo ),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
 		}
 	}
 }

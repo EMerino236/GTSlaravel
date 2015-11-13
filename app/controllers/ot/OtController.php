@@ -13,13 +13,13 @@ class OtController extends BaseController {
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1 && $id){
-				$mes_ini = date("Y-m-d",strtotime("first day of this month"));
-				$mes_fin = date("Y-m-d",strtotime("last day of this month"));
-				$trimestre_ini = null;
-				$trimestre_fin = null;
-				$this->calcular_trimestre($trimestre_ini,$trimestre_fin);
-				$data['mes'] = OtCorrectivo::getOtXPeriodo(9,$mes_ini,$mes_fin)->get()->count();
-				$data['trimestre'] = OtCorrectivo::getOtXPeriodo(9,$trimestre_ini,$trimestre_fin)->get()->count();
+				$data['mes_ini'] = date("Y-m-d",strtotime("first day of this month"));
+				$data['mes_fin'] = date("Y-m-d",strtotime("last day of this month"));
+				$data['trimestre_ini'] = null;
+				$data['trimestre_fin'] = null;
+				$this->calcular_trimestre($data['trimestre_ini'],$data['trimestre_fin']);
+				$data['mes'] = OtCorrectivo::getOtXPeriodo(9,$data['mes_ini'],$data['mes_fin'])->get()->count();
+				$data['trimestre'] = OtCorrectivo::getOtXPeriodo(9,$data['trimestre_ini'],$data['trimestre_fin'])->get()->count();
 				$data['solicitantes'] = User::getJefes()->get();
 				$data["sot_info"] = SolicitudOrdenTrabajo::searchSotById($id)->get();
 				$data["prioridades"] = Prioridad::lists('nombre','idprioridad');
@@ -63,6 +63,14 @@ class OtController extends BaseController {
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
 				// Validate the info, create rules for the inputs
+				$attributes = array(
+							'fecha_programacion' => 'Fecha de Programación',
+							'solicitante' => 'Solicitante',
+							'idprioridad' => 'Prioridad',
+							'idtipo_falla' => 'Tipo de Falla',
+							'numero_ficha' => 'Número de Ficha',
+						);
+				$messages = array();
 				$rules = array(
 							'fecha_programacion' => 'required',
 							'solicitante' => 'required',
@@ -101,6 +109,10 @@ class OtController extends BaseController {
 					$ot->costo_total_repuestos = 0.0;
 					$ot->costo_total_personal = 0.0;
 					$ot->save();
+
+					$sot = SolicitudOrdenTrabajo::find($sot_id);
+					$sot->idestado = 15;
+					$sot->save();
 					$url = "mant_correctivo/list_mant_correctivo";
 					Session::flash('message', 'Se programó correctamente la OT.');
 					return Redirect::to($url);
@@ -265,6 +277,20 @@ class OtController extends BaseController {
 			if(($data["user"]->idrol == 1)){
 				$idot_correctivo = Input::get('idot_correctivo');
 				// Validate the info, create rules for the inputs
+				$attributes = array(
+							'prioridades' => 'Prioridad',
+							'idestado' => 'Estado',
+							'descripcion_problema' => 'Descripción del Problema',
+							'tipo_falla' => 'Tipo de Falla',
+							'idestado_inicial' => 'Estado Inicial del Activo',
+							'diagnostico_falla' => 'Diagnóstico de la Falla',
+							'sin_interrupcion_servicio' => 'Sin Interrupción al Servicio',
+							'idestado_final' => 'Estado Final del Activo',
+							'fecha_conformidad' => 'Fecha de Conformidad',
+							'fecha_inicio_ejecucion' => 'Fecha de Inicio',
+							'fecha_termino_ejecucion' => 'Fecha Término',
+							);
+				$messages = array();
 				$rules = array(
 							'prioridades' => 'required',
 							'idestado' => 'required',
@@ -274,9 +300,12 @@ class OtController extends BaseController {
 							'diagnostico_falla' => 'required|max:500',
 							'sin_interrupcion_servicio' => 'required',
 							'idestado_final' => 'required',
+							'fecha_conformidad' => 'required',
+							'fecha_inicio_ejecucion' => 'required',
+							'fecha_termino_ejecucion' => 'required',
 						);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					return Redirect::to('mant_correctivo/create_ot/'.$idot_correctivo)->withErrors($validator)->withInput(Input::all());
@@ -286,16 +315,13 @@ class OtController extends BaseController {
 					$ot->idestado_ot = Input::get('idestado');
 					$ot->descripcion_problema = Input::get('descripcion_problema');
 					$ot->idtipo_falla = Input::get('tipo_falla');
-					//$ot->idestado_inicial = Input::get('idestado_inicial');
+					$ot->idestado_inicial = Input::get('idestado_inicial');
 					$ot->diagnostico_falla = Input::get('diagnostico_falla');
 					$ot->sin_interrupcion_servicio = Input::get('sin_interrupcion_servicio');
 					$ot->idestado_final = Input::get('idestado_final');
-					if(Input::get('fecha_conformidad'))
-						$ot->fecha_conformidad = Input::get('fecha_conformidad');
-					if(Input::get('fecha_inicio_ejecucion'))
-						$ot->fecha_inicio_ejecucion = Input::get('fecha_inicio_ejecucion');
-					if(Input::get('fecha_termino_ejecucion'))
-						$ot->fecha_termino_ejecucion = Input::get('fecha_termino_ejecucion');
+					$ot->fecha_conformidad = Input::get('fecha_conformidad');
+					$ot->fecha_inicio_ejecucion = Input::get('fecha_inicio_ejecucion');
+					$ot->fecha_termino_ejecucion = Input::get('fecha_termino_ejecucion');
 					$ot->save();
 
 					$activo = Activo::find(Input::get('idactivo'));
@@ -431,6 +457,45 @@ class OtController extends BaseController {
 			$ot->save();
 			$personal->delete();
 			return Response::json(array( 'success' => true,'costo_total_personal' => number_format($ot->costo_total_personal,2)),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
+	public function search_programaciones(){
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$id = Auth::id();
+		$data["inside_url"] = Config::get('app.inside_url');
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1){
+			// Check if the current user is the "System Admin"	
+			$fecha_ini=date("Y-m-d",strtotime("first day of january"));
+			$fecha_fin=date("Y-m-d",strtotime('last day of december'));
+			$array_ot = null;	
+			$array_ot =  OtCorrectivo::getOtXPeriodo(9,$fecha_ini,$fecha_fin)->orderBy('fecha_programacion','desc')->get()->toArray();
+			$programaciones = [];
+			$horas = [];
+			$estados = [];
+			$codigos = [];
+			$length = sizeof($array_ot);
+			$ids = [];
+
+			for($i=0;$i<$length;$i++){
+				$programaciones[] = date("Y-m-d",strtotime($array_ot[$i]['fecha_programacion']));
+				$codigo_ot = $array_ot[$i]['ot_tipo_abreviatura'].$array_ot[$i]['ot_correlativo'].$array_ot[$i]['ot_activo_abreviatura'];
+				$hora = date("H:i",strtotime($array_ot[$i]['fecha_programacion']));
+				$id = $array_ot[$i]['idot_correctivo'];
+				$idestado = $array_ot[$i]['idestado_ot'];
+				$estado = Estado::getEstadoById($idestado)->get();
+				$estado = $estado[0];
+				array_push($horas,$hora);
+				array_push($estados, $estado);
+				array_push($codigos,$codigo_ot);
+				array_push($ids,$id);
+			}		
+			return Response::json(array( 'success' => true, 'programaciones'=> $programaciones,'horas'=>$horas,'estados'=>$estados,'ots'=>$array_ot),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
 		}
