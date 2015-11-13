@@ -1,15 +1,14 @@
-@extends('templates/configuracionesTemplate')
+@extends('templates/bienesTemplate')
 @section('content')
 	<div class="row">
         <div class="col-md-12">
-            <h3 class="page-header">Agregar Soporte Técnico</h3>
+            <h3 class="page-header">Agregar Soporte Técnico: <strong>{{$proveedor_info->razon_social}}</strong></h3>
         </div>
         <!-- /.col-lg-12 -->
     </div>
 
 	@if ($errors->has())
-		<div class="alert alert-danger" role="alert">
-			<p><strong>{{ $errors->first('proveedor') }}</strong></p>
+		<div class="alert alert-danger" role="alert">			
 			<p><strong>{{ $errors->first('tipo_documento_identidad') }}</strong></p>
 			<p><strong>{{ $errors->first('numero_documento_soporte_tecnico') }}</strong></p>
 			<p><strong>{{ $errors->first('nombre_soporte_tecnico') }}</strong></p>
@@ -34,15 +33,12 @@
 		</div>
 	@endif
 
-	{{ Form::open(array('url'=>'soportes_tecnico/submit_create_soporte_tecnico', 'role'=>'form')) }}	
+	{{ Form::open(array('url'=>'proveedores/submit_create_soporte_tecnico_proveedor', 'role'=>'form')) }}	
+	{{ Form::hidden('proveedor', $proveedor_info->idproveedor) }}
 		<div class="panel panel-default">
 		  	<div class="panel-heading">Datos Generales</div>
 		  	<div class="panel-body">
-		  		<div class="row">
-		  			<div class="form-group col-md-4 @if($errors->first('proveedor')) has-error has-feedback @endif">
-			  			{{ Form::label('proveedor','Proveedor') }}
-						{{ Form::select('proveedor', array('' => 'Seleccione') + $proveedor,Input::old('proveedor'),['class' => 'form-control']) }}										
-					</div>
+		  		<div class="row">		  			
 		  			<div class="form-group col-md-4 @if($errors->first('tipo_documento_identidad')) has-error has-feedback @endif">
 						{{ Form::label('tipo_documento_identidad','Tipo de Documento') }}<span style="color:red">*</span>
 						{{ Form::select('tipo_documento_identidad', array('' => 'Seleccione') + $tipo_documento_identidad,Input::old('tipo_documento_identidad'),['class' => 'form-control']) }}						
@@ -88,7 +84,7 @@
 				{{ Form::button('<span class="glyphicon glyphicon-plus" ></span> Crear', array('id'=>'submit-create', 'type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}						
 			</div>
 			<div class="form-group col-md-2">
-				<a class="btn btn-default btn-block" href="{{URL::to('/soportes_tecnico/list_soporte_tecnico')}}">Cancelar</a>				
+				<a class="btn btn-default btn-block" href="{{URL::to('/proveedores/list_proveedores')}}">Cancelar</a>				
 			</div>
 		</div>
 	{{ Form::close() }}		

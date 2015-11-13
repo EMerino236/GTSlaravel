@@ -49,6 +49,12 @@ Route::group(array('prefix'=>'proveedores', 'before'=>'auth'),function(){
 	Route::post('/submit_enable_proveedor','ProveedorController@submit_enable_proveedor');
 	Route::get('/search_proveedor','ProveedorController@search_proveedor');
 	Route::get('/view_proveedor/{id}','ProveedorController@render_view_proveedor');
+	Route::get('/create_soporte_tecnico_proveedor/{id}','ProveedorController@render_create_soporte_tecnico_proveedor');
+	Route::post('/submit_create_soporte_tecnico_proveedor','ProveedorController@submit_create_soporte_tecnico_proveedor');
+	Route::get('/edit_soporte_tecnico_proveedor/{id}','ProveedorController@render_edit_soporte_tecnico_proveedor');
+	Route::post('/submit_edit_soporte_tecnico_proveedor','ProveedorController@submit_edit_soporte_tecnico_proveedor');
+	Route::get('/view_soporte_tecnico_proveedor/{id}','ProveedorController@render_view_soporte_tecnico_proveedor');
+	Route::post('submit_delete_soporte_tecnico_proveedor_ajax','ProveedorController@submit_delete_soporte_tecnico_proveedor_ajax');
 });
 
 /* SOT */
@@ -129,12 +135,7 @@ Route::group(array('prefix'=>'equipos','before'=>'auth'),function(){
 /*Soporte Técnico*/
 Route::group(array('prefix'=>'soportes_tecnico','before'=>'auth'),function(){
 	Route::get('/list_soporte_tecnico','SoportesTecnicoController@list_soporte_tecnico');
-	Route::get('/search_soporte_tecnico','SoportesTecnicoController@search_soporte_tecnico');
-	Route::get('/create_soporte_tecnico','SoportesTecnicoController@render_create_soporte_tecnico');
-	Route::post('/submit_create_soporte_tecnico','SoportesTecnicoController@submit_create_soporte_tecnico');
-	Route::get('/edit_soporte_tecnico/{id}','SoportesTecnicoController@render_edit_soporte_tecnico');
-	Route::post('/submit_edit_soporte_tecnico','SoportesTecnicoController@submit_edit_soporte_tecnico');
-	Route::get('/view_soporte_tecnico/{id}','SoportesTecnicoController@render_view_soporte_tecnico');
+	Route::get('/search_soporte_tecnico','SoportesTecnicoController@search_soporte_tecnico');	
 });
 
 /*Configuraciones*/

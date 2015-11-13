@@ -1,4 +1,4 @@
-@extends('templates/configuracionesTemplate')
+@extends('templates/bienesTemplate')
 @section('content')
 	<div class="row">
         <div class="col-md-12">
@@ -31,16 +31,13 @@
 		</div>
 	@endif
 
-	{{ Form::open(array('url'=>'soportes_tecnico/submit_edit_soporte_tecnico', 'role'=>'form')) }}
+	{{ Form::open(array('url'=>'proveedores/submit_edit_soporte_tecnico_proveedor', 'role'=>'form')) }}
+	{{ Form::hidden('idproveedor', $soporte_tecnico_info->idproveedor) }}
 	{{ Form::hidden('idsoporte_tecnico', $soporte_tecnico_info->idsoporte_tecnico) }}
 		<div class="panel panel-default">
 		  	<div class="panel-heading">Datos Generales</div>
 		  	<div class="panel-body">
-		  		<div class="row">
-		  			<div class="form-group col-md-4 @if($errors->first('proveedor')) has-error has-feedback @endif">
-			  			{{ Form::label('proveedor','Proveedor') }}
-						{{ Form::select('proveedor', array('' => 'Seleccione') + $proveedor,$soporte_tecnico_info->idproveedor,['class' => 'form-control']) }}										
-					</div>
+		  		<div class="row">		  			
 		  			<div class="form-group col-md-4 @if($errors->first('tipo_documento_identidad')) has-error has-feedback @endif">
 						{{ Form::label('tipo_documento_identidad','Tipo de Documento') }}<span style="color:red">*</span>
 						{{ Form::select('tipo_documento_identidad', array('' => 'Seleccione') + $tipo_documento_identidad,$soporte_tecnico_info->idtipo_documento,['class' => 'form-control', 'disabled']) }}						
@@ -82,15 +79,11 @@
 		</div>			
 
 	<div class="container-fluid row">
-		<div class="form-group col-md-offset-6 col-md-2">
+		<div class="form-group col-md-offset-8 col-md-2">
 			{{ Form::button('<span class="glyphicon glyphicon-floppy-disk" ></span> Guardar', array('id'=>'submit-create', 'type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}						
 		</div>
 		<div class="form-group col-md-2">
-			<a class="btn btn-danger btn-block" href="{{URL::to('/soportes_tecnico/list_soporte_tecnico')}}">
-			<span class="glyphicon glyphicon-trash"></span> Eliminar</a>				
-		</div>
-		<div class="form-group col-md-2">
-			<a class="btn btn-default btn-block" href="{{URL::to('/soportes_tecnico/list_soporte_tecnico')}}">Cancelar</a>				
+			<a class="btn btn-default btn-block" href="{{URL::to('/proveedores/view_proveedor/')}}/{{$soporte_tecnico_info->idproveedor}}">Cancelar</a>				
 		</div>
 	</div>
 	{{ Form::close() }}		

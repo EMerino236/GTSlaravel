@@ -1,4 +1,4 @@
-@extends('templates/configuracionesTemplate')
+@extends('templates/bienesTemplate')
 @section('content')
 	<div class="row">
         <div class="col-md-12">
@@ -26,15 +26,12 @@
 	@endif
 
 	{{ Form::open(array('url'=>'soportes_tecnico/submit_edit_soporte_tecnico', 'role'=>'form')) }}
+	{{ Form::hidden('idproveedor', $soporte_tecnico_info->idproveedor) }}
 	{{ Form::hidden('idsoporte_tecnico', $soporte_tecnico_info->idsoporte_tecnico) }}
 		<div class="panel panel-default">
 		  	<div class="panel-heading">Datos Generales</div>
 		  	<div class="panel-body">
-		  		<div class="row">
-		  			<div class="form-group col-md-4 @if($errors->first('proveedor')) has-error has-feedback @endif">
-			  			{{ Form::label('proveedor','Proveedor') }}
-						{{ Form::select('proveedor', array('' => 'Seleccione') + $proveedor,$soporte_tecnico_info->idproveedor,['class' => 'form-control','disabled']) }}										
-					</div>
+		  		<div class="row">		  			
 		  			<div class="form-group col-md-4 @if($errors->first('tipo_documento_identidad')) has-error has-feedback @endif">
 						{{ Form::label('tipo_documento_identidad','Tipo de Documento') }}
 						{{ Form::select('tipo_documento_identidad', array('' => 'Seleccione') + $tipo_documento_identidad,$soporte_tecnico_info->idtipo_documento,['class' => 'form-control', 'disabled']) }}						
@@ -73,12 +70,12 @@
 					</div>
 		  		</div>		  		
 			</div>
-		</div>			
+		</div>
 
 	<div class="container-fluid row">
 		<div class="form-group col-md-offset-10 col-md-2">
-			<a class="btn btn-default btn-block" href="{{URL::to('/soportes_tecnico/list_soporte_tecnico')}}">
+			<a class="btn btn-default btn-block" href="{{URL::to('/proveedores/view_proveedor/')}}/{{$soporte_tecnico_info->idproveedor}}">
 			<span class="glyphicon glyphicon-menu-left"></span> Regresar</a>				
 		</div>
-	</div>			
+	</div>		
 @stop

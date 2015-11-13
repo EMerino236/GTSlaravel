@@ -39,6 +39,8 @@
     <!-- Custom Theme JavaScript -->
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
     <script src="{{ asset('js/bienes/bienes.js') }}"></script>
+    <script src="{{ asset('js/soporte_tecnico/listSoporteTecnico.js') }}"></script>
+    <script src="{{ asset('js/soporte_tecnico/createSoporteTecnicoProveedor.js') }}"></script>
     
 </head>
 

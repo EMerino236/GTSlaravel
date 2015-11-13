@@ -1,4 +1,4 @@
-@extends('templates/configuracionesTemplate')
+@extends('templates/bienesTemplate')
 @section('content')
 	
 	<div class="row">
@@ -70,14 +70,7 @@
 	  </div>
 	</div>
 	
-	{{ Form::close() }}	
-	<div class="container-fluid form-group row">
-		<div class="col-md-2 col-md-offset-10">
-			<a class="btn btn-primary btn-block" href="{{URL::to('/soportes_tecnico/create_soporte_tecnico')}}">
-			<span class="glyphicon glyphicon-plus"></span> Agregar</a>
-		</div>
-	</div>
-
+	{{ Form::close() }}			
     <div class="row">
     	<div class="col-md-12">
 			<div class="table-responsive">
@@ -93,8 +86,7 @@
 						<th class="text-nowrap">Proveedor</th>
 						<th class="text-nowrap">Especialidad</th>
 						<th class="text-nowrap">Teléfono</th>				
-						<th class="text-nowrap">E-mail</th>
-						<th class="text-nowrap">Editar</th>
+						<th class="text-nowrap">E-mail</th>						
 					</tr>
 					@foreach($soportes_tecnico_data as $index => $soporte_tecnico)
 					<tr class="@if($soporte_tecnico->deleted_at) bg-danger @endif">			
@@ -104,8 +96,8 @@
 						<td class="text-nowrap">
 							{{$soporte_tecnico->tipo_documento}}
 						</td>
-						<td class="text-nowrap">
-							<a href="{{URL::to('/soportes_tecnico/view_soporte_tecnico')}}/{{$soporte_tecnico->idsoporte_tecnico}}">{{$soporte_tecnico->numero_doc_identidad}}</a>							
+						<td class="text-nowrap">							
+							<a href="{{URL::to('/proveedores/view_soporte_tecnico_proveedor')}}/{{$soporte_tecnico->idsoporte_tecnico}}">{{$soporte_tecnico->numero_doc_identidad}}</a>							
 						</td>	
 						<td class="text-nowrap">
 							{{$soporte_tecnico->nombres}}
@@ -127,11 +119,7 @@
 						</td>
 						<td class="text-nowrap">
 							{{$soporte_tecnico->email}}
-						</td>
-						<td class="text-nowrap">
-							<a class="btn btn-warning btn-block btn-sm" href="{{URL::to('/soportes_tecnico/edit_soporte_tecnico')}}/{{$soporte_tecnico->idsoporte_tecnico}}">
-							<span class="glyphicon glyphicon-pencil"></span> Editar</a>
-						</td>						
+						</td>										
 					</tr>
 					@endforeach							
 				</table>

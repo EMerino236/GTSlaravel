@@ -57,7 +57,7 @@ class SoportesTecnicoController extends BaseController
 		}
 	}
 
-	public function render_create_soporte_tecnico()
+	/*public function render_create_soporte_tecnico()
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
@@ -75,8 +75,9 @@ class SoportesTecnicoController extends BaseController
 			return View::make('error/error');
 		}
 	}
+	*/
 
-	public function submit_create_soporte_tecnico()
+	/*public function submit_create_soporte_tecnico()
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
@@ -115,6 +116,7 @@ class SoportesTecnicoController extends BaseController
 				$validator = Validator::make(Input::all(), $rules, $messages, $attributes);
 
 				if($validator->fails()){
+
 					return Redirect::to('soportes_tecnico/create_soporte_tecnico')->withErrors($validator)->withInput(Input::all());
 				}else{
 
@@ -140,8 +142,9 @@ class SoportesTecnicoController extends BaseController
 			return View::make('error/error');
 		}
 	}
+	*/
 
-	public function render_edit_soporte_tecnico($idsoporte_tecnico=null)
+	/*public function render_edit_soporte_tecnico($idsoporte_tecnico=null)
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
@@ -168,8 +171,9 @@ class SoportesTecnicoController extends BaseController
 			return View::make('error/error');
 		}
 	}
+	*/
 
-	public function submit_edit_soporte_tecnico()
+	/*public function submit_edit_soporte_tecnico()
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
@@ -230,8 +234,9 @@ class SoportesTecnicoController extends BaseController
 			return View::make('error/error');
 		}
 	}
+	*/
 
-	public function render_view_soporte_tecnico($idsoporte_tecnico=null)
+	/*public function render_view_soporte_tecnico($idsoporte_tecnico=null)
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
@@ -258,4 +263,5 @@ class SoportesTecnicoController extends BaseController
 			return View::make('error/error');
 		}
 	}
+	*/
 }

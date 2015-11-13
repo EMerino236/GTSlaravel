@@ -40,7 +40,8 @@
                                 <a href="#">Proveedores <span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">
 									<li>{{ HTML::link('/#','Reporte de supervisión') }}</li>
-                                    <li>{{ HTML::link('/proveedores/list_proveedores','Directorio') }}</li>
+                                    <li>{{ HTML::link('/proveedores/list_proveedores','Directorio de Proveedores') }}</li>
+                                    <li>{{ HTML::link('/soportes_tecnico/list_soporte_tecnico','Directorio de Soporte Técnico') }}</li>
 									<li>{{ HTML::link('/reportes_incumplimiento/list_reportes','Reporte de incumplimiento') }}</li>
                         			<li>{{ HTML::link('/actas_conformidad/list_actas','Acta de conformidad') }}</li>
 									<li>{{ HTML::link('/#','Indicadores') }}</li>

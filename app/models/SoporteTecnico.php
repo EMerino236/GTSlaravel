@@ -68,4 +68,13 @@ class SoporteTecnico extends Eloquent {
 		$query->select('proveedores.razon_social as proveedor','soporte_tecnicos.*');
 	}
 
+	public function scopeSearchSoporteTecnicoByProveedor($query,$idproveedor)
+	{
+		$query->join('tipo_doc_identidades','tipo_doc_identidades.idtipo_documento','=','soporte_tecnicos.idtipo_documento')
+			  ->where('idproveedor','=',$idproveedor);
+
+	    $query->select('tipo_doc_identidades.nombre as tipo_documento','soporte_tecnicos.*');
+
+	}
+
 }

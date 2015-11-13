@@ -43,8 +43,7 @@
     <script src="{{ asset('js/configuraciones/configuraciones.js') }}"></script>
     <script src="{{ asset('js/familia_activos/listFamiliaActivos.js') }}"></script>
     <script src="{{ asset('js/familia_activos/editFamiliaActivos.js') }}"></script>
-    <script src="{{ asset('js/modelo_activos/utilModeloActivos.js') }}"></script>
-    <script src="{{ asset('js/soporte_tecnico/listSoporteTecnico.js') }}"></script>
+    <script src="{{ asset('js/modelo_activos/utilModeloActivos.js') }}"></script>    
     
 </head>
 
@@ -93,15 +92,7 @@
                                     <li>{{ HTML::link('/servicios/list_servicios','Buscar Servicio') }}</li>
                                 </ul>
                                 <!-- /.nav-second-level -->
-                            </li>
-                            <li>
-                                <a href="#">Soporte Técnico <span class="fa arrow"></span></a>
-                                <ul class="nav nav-second-level">
-                                    <li>{{ HTML::link('/soportes_tecnico/create_soporte_tecnico','Nuevo Soporte Técnico') }}</li>
-                                    <li>{{ HTML::link('/soportes_tecnico/list_soporte_tecnico','Buscar Soporte Técnico') }}</li>
-                                </ul>
-                                <!-- /.nav-second-level -->
-                            </li>
+                            </li>                            
                             <li>
                                 <a href="#">Tipos de Tareas<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">

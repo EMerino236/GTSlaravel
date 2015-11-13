@@ -55,35 +55,40 @@
 
 	<table class="table">
 		<tr class="info">
-			<th>Nº</th>
-			<th>RUC</th>
-			<th>Razón Social</th>
-			<th>Nombre Contacto</th>
-			<th>Teléfono</th>
-			<th>Email</th>
-			<th>Editar</th>		
+			<th class="text-nowrap text-center">Nº</th>
+			<th class="text-nowrap text-center">RUC</th>
+			<th class="text-nowrap text-center">Razón Social</th>
+			<th class="text-nowrap text-center">Nombre Contacto</th>
+			<th class="text-nowrap text-center">Teléfono</th>
+			<th class="text-nowrap text-center">Email</th>
+			<th class="text-nowrap text-center">Soporte Técnico</th>
+			<th class="text-nowrap text-center">Editar</th>		
 		</tr>
 		@foreach($proveedores_data as $index => $proveedor_data)
 		<tr class="@if($proveedor_data->deleted_at) bg-danger @endif">
-			<td>
+			<td class="text-nowrap text-center">
 				{{$index + 1}}
 			</td>
-			<td>
+			<td class="text-nowrap text-center">
 				<a href="{{URL::to('/proveedores/view_proveedor/')}}/{{$proveedor_data->idproveedor}}">{{$proveedor_data->ruc}}</a>
 			</td>
-			<td>
+			<td class="text-nowrap text-center">
 				{{$proveedor_data->razon_social}}
 			</td>
-			<td>
+			<td class="text-nowrap text-center">
 				{{$proveedor_data->nombre_contacto}}
 			</td>
-			<td>
+			<td class="text-nowrap text-center">
 				{{$proveedor_data->telefono}}
 			</td>
-			<td>
+			<td class="text-nowrap text-center">
 				{{$proveedor_data->email}}
 			</td>
-			<td>
+			<td class="text-nowrap text-center">
+				<a class="btn btn-success btn-block btn-sm" href="{{URL::to('/proveedores/create_soporte_tecnico_proveedor/')}}/{{$proveedor_data->idproveedor}}">
+				<span class="glyphicon glyphicon-plus"></span> Agregar</a>
+			</td>
+			<td class="text-nowrap text-center">
 				<a class="btn btn-warning btn-block btn-sm" href="{{URL::to('/proveedores/edit_proveedor/')}}/{{$proveedor_data->idproveedor}}">
 				<span class="glyphicon glyphicon-pencil"></span> Editar</a>
 			</td>
