@@ -14,5 +14,10 @@ class TareasOtInspeccionEquipo extends Eloquent{
 		$query->where('idfamilia_activo','=',$idfamilia_activo);
 		return $query;
 	}
+
+	public function scopeGetTareaById($query,$idtarea){
+		$query->where('idtareas_inspec_equipo','=',$idtarea);
+		return $query;
+	}
 	
 }

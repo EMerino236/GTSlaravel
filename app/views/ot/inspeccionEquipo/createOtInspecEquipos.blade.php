@@ -83,7 +83,7 @@
 								<tr>
 									<td class="text-nowrap text-center">{{$activo->nombre_familia}}</td>
 									<td class="text-nowrap text-center">{{$activo->nombre_modelo}}</td>
-									<td class="text-nowrap text-center">{{$activo->codigo_patrimonial}}</td>
+									<td class="text-nowrap text-center" id={{"cod_pat".$index}}>{{$activo->codigo_patrimonial}}</td>
 									<td class="text-nowrap text-center">{{Form::radio('seleccionar',$index,array('id'=>'fila'.$index)) }}</td>
 								</tr>
 								@endforeach

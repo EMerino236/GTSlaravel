@@ -314,6 +314,7 @@ class OtInspeccionEquiposController extends BaseController {
 
 	public function render_create_ot($id=null)
 	{
+		
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
@@ -326,7 +327,8 @@ class OtInspeccionEquiposController extends BaseController {
 				}
 				$data["ot_info"] = $data["ot_info"][0];		
 				$idservicio = $data["ot_info"]->idservicio;
-				$data["activos_info"] = Activo::getEquiposActivosByServicioId($idservicio)->get();				
+				$data["activos_info"] = Activo::getEquiposActivosByServicioId($idservicio)->get();	
+							
 				return View::make('ot/inspeccionEquipo/createOtInspecEquipos',$data);
 			}else{
 				return View::make('error/error');
@@ -334,5 +336,30 @@ class OtInspeccionEquiposController extends BaseController {
 		}else{
 			return View::make('error/error');
 		}
+	}
+
+	public function getTareasEquipo(){
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1){
+			$idot_inspec_equipo = Input::get('idot_inspec_equipo');
+			$codigo_patrimonial = Input::get('codigo_patrimonial_selected');
+			$ot_info = OrdenesTrabajoInspeccionEquipo::find($idot_inspec_equipo);
+			$activo = Activo::searchActivosByCodigoPatrimonial($codigo_patrimonial)->get()[0];
+			$otInspeccionxActivo = OrdenesTrabajoInspeccionEquipoxActivo::getOtInspeccionxActivo($ot_info->idot_inspec_equipo,$activo->idactivo)->get()[0];
+			$tareasxOtxActivo = TareasOtInspeccionEquipoxActivo::getTareasxInspeccionxActivo($otInspeccionxActivo->idot_inspec_equiposxactivo)->get();
+			$tareas_inspeccion = [];
+			foreach($tareasxOtxActivo as $tareaxOtxActivo){
+				$idtarea = $tareaxOtxActivo->idtareas_inspec_equipo;
+				$tarea = TareasOtInspeccionEquipo::find($idtarea);
+				array_push($tareas_inspeccion,$tarea);
+			}			
+			return Response::json(array( 'success' => true, 'tareas'=>$tareas_inspeccion ),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+
 	}
 }
