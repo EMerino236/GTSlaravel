@@ -74,7 +74,7 @@
 			<div class="panel-body">
 				<div class="col-md-8">
 					<label class="control-label">Seleccione un Documento</label>(png,jpe,jpeg,jpg,gif,bmp,zip,rar,pdf,doc,docx,xls,xlsx,ppt,pptx)
-					<input name="archivo" id="input-1" type="file" class="file file-loading" data-show-upload="false" data-allowed-file-extensions='["pdf","doc","docx","xls","xlsx","ppt","pptx"]'>
+					<input name="archivo" id="input-file" type="file" class="file file-loading" data-show-upload="false">
 				</div>
 			</div>
 		</div>		
@@ -85,5 +85,13 @@
 			</div>		
 		</div>	
 	{{ Form::close() }}
+<!--
+	<script>
+		$("#input-file").fileinput({
+		    language: "es",
+		    allowedFileExtensions: ["png","jpe","jpeg","jpg","gif","bmp","zip","rar","pdf","doc","docx","xls","xlsx","ppt","pptx"]
+		});
+	</script>
+-->
 	
 @stop

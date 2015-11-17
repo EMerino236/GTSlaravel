@@ -17,6 +17,8 @@
     <link href="{{ asset('bower_components/morrisjs/morris.css') }}" rel="stylesheet">
     <!-- Custom Fonts -->
     <link href="{{ asset('bower_components/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+
+    <link href="{{ asset('css/fileinput.min.css') }}" rel="stylesheet">
     <script type="text/javascript">
 		var inside_url = "{{$inside_url}}";
 	</script>
@@ -27,8 +29,6 @@
     <script src="{{ asset('bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
     <!-- Moment JavaScript -->
     <script type="text/javascript" src="{{ asset('js/moment.min.js') }}"></script>
-    <!-- Bootstrap Datepicker JavaScript -->
-    <script type="text/javascript" src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
     <!-- Metis Menu Plugin JavaScript -->
     <script src="{{ asset('bower_components/metisMenu/dist/metisMenu.min.js') }}"></script>
     <!-- Morris Charts JavaScript -->
@@ -36,7 +36,9 @@
     <script src="{{ asset('bower_components/morrisjs/morris.min.js') }}"></script>
     <!-- Custom Theme JavaScript -->
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
-    <script src="{{ asset('js/user/user.js') }}"></script>
+    <script src="{{ asset('js/fileinput.min.js') }}"></script>
+    <script src="{{ asset('js/fileinput_locale_es.min.js') }}"></script>
+    <script src="{{ asset('js/language_file_upload_plugin.min.js') }}"></script>
 </head>
 
 <body>
