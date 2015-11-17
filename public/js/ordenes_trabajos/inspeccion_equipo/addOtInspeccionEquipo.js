@@ -152,7 +152,7 @@ function initialize_calendar_inspeccion(programaciones){
             $('#modal_header_ot').addClass("modal-header ");
             $('#modal_header_ot').addClass("bg-info");
             url =  inside_url+'inspec_equipos/create_ot_inspec_equipo/'+$(this)[key].id;
-            $output += '<a href="'+url+'">OT: '+$(this)[key].title+'</a>' + '<p>Estado: '+$(this)[key].status+'<br />Hora Inicio:'+$(this)[key].time+'</p>';
+            $output += 'OT: <a href="'+url+'" target="_blank">'+$(this)[key].title+'</a>' + '<p>Estado: '+$(this)[key].status+'<br />Hora Inicio:'+$(this)[key].time+'</p>';
             $('#modal_text_ot').append($output);
           });
         });       

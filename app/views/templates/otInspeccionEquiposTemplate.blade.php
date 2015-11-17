@@ -21,6 +21,7 @@
     <link href="{{ asset('bower_components/morrisjs/morris.css') }}" rel="stylesheet">
     <!-- Custom Fonts -->
     <link href="{{ asset('bower_components/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/fileinput.min.css') }}" rel="stylesheet">
     <script type="text/javascript">
         var inside_url = "{{$inside_url}}";
     </script>
@@ -43,6 +44,7 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
+    <script src="{{ asset('js/fileinput.min.js') }}"></script> 
     <script src="{{ asset('js/ordenes_trabajos/inspeccion_equipo/addOtInspeccionEquipo.js') }}"></script> 
     <script src="{{ asset('js/ordenes_trabajos/inspeccion_equipo/listOtInspeccionEquipo.js') }}"></script>
     <script src="{{ asset('js/ordenes_trabajos/inspeccion_equipo/OtInspeccionEquipo.js') }}"></script> 

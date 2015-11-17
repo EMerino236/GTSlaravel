@@ -189,7 +189,7 @@ function initialize_calendarX(programaciones){
             $('#modal_header_ot').addClass("modal-header ");
             $('#modal_header_ot').addClass("bg-info");
             url =  inside_url+'mant_preventivo/create_ot_preventivo/'+$(this)[key].id;
-            $output += '<a href="'+url+'">OT: '+$(this)[key].title+'</a>' + '<p>Estado: '+$(this)[key].status+'<br />Hora:'+$(this)[key].time+'</p>';
+            $output += 'OT: <a href="'+url+'" target="_blank">'+$(this)[key].title+'</a>' + '<p>Estado: '+$(this)[key].status+'<br />Hora:'+$(this)[key].time+'</p>';
             $('#modal_text_ot').append($output);
           });
         });

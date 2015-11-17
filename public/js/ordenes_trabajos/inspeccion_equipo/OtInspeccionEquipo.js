@@ -7,7 +7,9 @@ $( document ).ready(function(){
 		show_equipo(id);
 	});  
 	
-
+	$("#file-0").fileinput({
+        'allowedFileExtensions' : ['jpg', 'png','gif'],
+    });
 });
 
 function set_activos_html(max){	
@@ -63,7 +65,8 @@ function set_activos_html(max){
 							html += "<img id=\"myimage"+i+"\" style=\"height:100%;width:100%;\">";
 							html += "</div></div><div class=\"row  form-group\">";
 							html += "<div class=\"col-md-8\">";
-							html += "<input type=\"file\" onchange=\"onFileSelected(event,"+i+")\">";
+							//html += "<input id=\"file-0a\" class=\"file\" type=\"file\" multiple data-min-file-count=\"3\" onchange=\"onFileSelected(event,"+i+")\">";
+							html += "<form enctype=\"multipart/form-data\"><input id=\"file-0a\" class=\"file\" type=\"file\" multiple data-min-file-count=\"1\"></form>";
 							html += "</div></div>";
 							html +="</div></div>";
 							//fin del row para la tabla
