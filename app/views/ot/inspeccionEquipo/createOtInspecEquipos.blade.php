@@ -23,6 +23,8 @@
 	{{ Form::open(array('url'=>'inspec_equipos/submit_create_ot', 'role'=>'form')) }}
 		{{ Form::hidden('idot_inspec_equipo', $ot_info->idot_inspec_equipo,array('id'=>'idot_inspec_equipo'))}}
 		{{ Form::hidden('idservicio', $ot_info->idservicio) }}
+		{{ Form::hidden('count_activos', count($activos_info),array('id'=>'count_activos')) }}
+		
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">Datos de la OTM</h3>
@@ -93,13 +95,39 @@
 				</div>				
 			</div>			
 		</div>
-		<div class="panel panel-default"  style="height:570px;"  >
+		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">Equipos Asociados</h3>
 			</div>
-			<div class="panel-body" id="body_equipos">				
+			<div class="panel-body" id="body_equipos">
+			@foreach($activos_info as $index1 => $activo)
+				<div class="row">
+					<div class="col-md-6 form-group">
+						<div class="table-responsive">
+							<table class="table">
+								<tr class="info">
+									<th>Tarea</th>
+									<th>Estado</th>
+								</tr>
+								@foreach($tareas_activos[$index] as $index2 => $tarea)
+									<td>{{$tarea->nombre}}</td>
+								@endforeach
+							</table>
+						</div>
+					</div>
+					<div class="col-md-6 form-group">
+						<label class="control-label">Seleccione una Imagen</label>(png,jpe,jpeg,jpg)
+						<input name="archivo" id={{"input-file".$index1}} type="file" class="file file-loading" data-show-upload="false">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6 form-group">
+						{{ Form::label('observaciones_equipo','Observaciones del Equipo') }}
+						{{ Form::textarea('observaciones_equipo',null,array('class' => 'form-control','style'=>'resize:none;')) }}
+					</div>
+				</div>
 				
-				
+			@endforeach		
 			</div>
 		</div>
 

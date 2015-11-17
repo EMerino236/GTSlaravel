@@ -16,4 +16,6 @@ class OrdenesTrabajoInspeccionEquipoxActivo extends Eloquent{
 		return $query;
 	}
 
+	
+
 }
