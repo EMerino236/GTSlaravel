@@ -44,12 +44,13 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
-    <script src="{{ asset('js/fileinput.min.js') }}"></script> 
-    <script src="{{ asset('js/fileinput_locale_es.min.js') }}"></script>
-    <script src="{{ asset('js/language_file_upload_plugin.min.js') }}"></script> 
     <script src="{{ asset('js/ordenes_trabajos/inspeccion_equipo/addOtInspeccionEquipo.js') }}"></script> 
     <script src="{{ asset('js/ordenes_trabajos/inspeccion_equipo/listOtInspeccionEquipo.js') }}"></script>
     <script src="{{ asset('js/ordenes_trabajos/inspeccion_equipo/OtInspeccionEquipo.js') }}"></script> 
+    <script src="{{ asset('js/fileinput.min.js') }}"></script>
+    <script src="{{ asset('js/fileinput_locale_es.min.js') }}"></script>
+    <script src="{{ asset('js/language_file_upload_plugin.min.js') }}"></script>
+    
 </head>
 
 <body>

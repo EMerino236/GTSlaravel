@@ -370,7 +370,9 @@ Route::group(array('prefix'=>'inspec_equipos','before'=>'auth'),function(){
 	Route::post('/search_servicio_ajax','OtInspeccionEquiposController@search_servicio_ajax');
 	Route::get('/create_ot_inspeccion_equipos/{id}','OtInspeccionEquiposController@render_create_ot');
 	//Route::post('/submit_create_ot','OtInspecEquiposController@submit_create_ot');
+	Route::post('/submit_marcar_tarea_ajax','OtInspeccionEquiposController@submit_marcar_tarea_ajax');
 	Route::post('/validate_servicio','OtInspeccionEquiposController@validate_servicio');
 	Route::post('/submit_disable_inspeccion','OtInspeccionEquiposController@submit_disable_inspeccion');
-	Route::post('/getTareasInspeccionEquipo','OtInspeccionEquiposController@getTareasEquipo');
+	Route::post('/submit_create_ot','OtInspeccionEquiposController@submit_create_ot');
+	
 });

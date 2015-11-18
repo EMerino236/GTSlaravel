@@ -151,7 +151,7 @@ function initialize_calendar_inspeccion(programaciones){
             $('#modal_header_ot').removeClass();
             $('#modal_header_ot').addClass("modal-header ");
             $('#modal_header_ot').addClass("bg-info");
-            url =  inside_url+'inspec_equipos/create_ot_inspec_equipo/'+$(this)[key].id;
+            url =  inside_url+'inspec_equipos/create_ot_inspeccion_equipos/'+$(this)[key].id;
             $output += 'OT: <a href="'+url+'" target="_blank">'+$(this)[key].title+'</a>' + '<p>Estado: '+$(this)[key].status+'<br />Hora Inicio:'+$(this)[key].time+'</p>';
             $('#modal_text_ot').append($output);
           });
@@ -204,9 +204,10 @@ function search_servicio_ajax(){
             if(response.success){                
                 var count_mes = response['count_mes'];
                 var count_trimestre = response['count_trimestre'];
+                var count_activos = response['count_activos'];
                 $('#mes').val(count_mes);
                 $('#trimestre').val(count_trimestre);
-                
+                $('#cantidad_activos').val(count_activos);                
             }else{
                 alert('La petición no se pudo completar, inténtelo de nuevo.');
             }
@@ -229,45 +230,22 @@ function addFilaMantenimiento(){
     var mes = parseInt(fecha.split('-')[1]);
     var count_otMes = $('#mes').val();
     var count_otTrimestre = $('#trimestre').val();
-
+    var cantidad_activos = $('#cantidad_activos').val();
     var array_fecha_inicio = hora_inicio.split(':');
     var array_fecha_fin = hora_fin.split(':');
     var time_inicio = parseInt(array_fecha_inicio[0])*60 + parseInt(array_fecha_inicio[1]);
     var time_fin= parseInt(array_fecha_fin[0])*60 + parseInt(array_fecha_fin[1]);
-    
-    /*$.ajax({
-        url: inside_url+'inspec_equipos/validate_servicio',
-        type: 'POST',
-        data: { 'selected_id' : idservicio},
-        beforeSend: function(){
-            $("#delete-selected-profiles").addClass("disabled");
-            $("#delete-selected-profiles").hide();
-            $(".loader_container").show();
-        },
-        complete: function(){
-            $(".loader_container").hide();
-            $("#delete-selected-profiles").removeClass("disabled");
-            $("#delete-selected-profiles").show();
-            delete_selected_profiles = true;
-        },
-        success: function(response){
-            if(response.success){                
-                 list_activos = response["data"];                
-            }else{
-                alert('La petición no se pudo completar, inténtelo de nuevo.');
-            }
-        },
-        error: function(){
-            alert('La petición no se pudo completar, inténtelo de nuevo.');
-        }
-    });
-    alert(list_activos);*/
-
+   
     if(idservicio==0){
         $('#modal_create_text').empty();
         $('#modal_create_text').append('<p>Seleccionar servicio.</p>');
         $('#modal_create').modal('show');
-    }else if(fecha==''){
+    }else if(cantidad_activos==0){
+        $('#modal_create_text').empty();
+        $('#modal_create_text').append('<p>El servicio no cuenta con activos.</p>');
+        $('#modal_create').modal('show');
+    }
+    else if(fecha==''){
         $('#modal_create_text').empty();
         $('#modal_create_text').append('<p>Ingresar fecha.');
         $('#modal_create').modal('show');

@@ -33,6 +33,7 @@
 						<div class="form-group col-md-6 @if($errors->first('servicio')) has-error has-feedback @endif">
 							{{ Form::label('servicio','Servicio:') }}
 							{{ Form::select('servicio',array('0' => 'Seleccione') + $servicios,Input::old('servicio'),['class' => 'form-control','id'=>'idservicio'])}}
+							{{ Form::hidden('cantidad_activos',null,array('id'=>'cantidad_activos'))}}
 						</div>
 					</div>							        
 					<div class="row">
