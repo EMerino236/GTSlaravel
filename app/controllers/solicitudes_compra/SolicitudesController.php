@@ -1,8 +1,6 @@
 <?php
 
 class SolicitudesController extends BaseController
-
-
 {
 	private static $nombre_tabla = 'estado_solicitud_compra';
 	public function list_solicitudes()
@@ -11,7 +9,8 @@ class SolicitudesController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 5 || $data["user"]->idrol == 6
+				 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
 				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
 				$data["search_tipo_solicitud"]=null;
@@ -37,7 +36,8 @@ class SolicitudesController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 5 || $data["user"]->idrol == 6
+				 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 				$data["search_tipo_solicitud"] = Input::get('search_tipo_solicitud');				
 				$data["servicios"] = Servicio::lists('nombre','idservicio');
 				$data["tipos"] = TipoSolicitudCompra::lists('nombre','idtipo_solicitud_compra');
@@ -69,7 +69,8 @@ class SolicitudesController extends BaseController
 		$id = Auth::id();
 		$data["inside_url"] = Config::get('app.inside_url');
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 5 || $data["user"]->idrol == 6
+			 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 			// Check if the current user is the "System Admin"
 			$data = Input::get('selected_id');
 			if($data !=0){
@@ -91,7 +92,8 @@ class SolicitudesController extends BaseController
 		$id = Auth::id();
 		$data["inside_url"] = Config::get('app.inside_url');
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 5 || $data["user"]->idrol == 6
+			 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 			// Check if the current user is the "System Admin"
 			$data = Input::get('selected_id');
 			if($data !=0){
@@ -112,7 +114,7 @@ class SolicitudesController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){	
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 ){	
 				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
 				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
 				$data["tipos"] = TipoSolicitudCompra::lists('nombre','idtipo_solicitud_compra');
@@ -134,7 +136,8 @@ class SolicitudesController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){	
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 5 || $data["user"]->idrol == 6
+				 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){	
 				$data["reporte_data"] = SolicitudCompra::getSolicitudCompraById($idsolicitud)->get();
 				if($data["reporte_data"]->isEmpty()){
 					return Redirect::to('solicitudes_compra/list_solicitudes');
@@ -167,7 +170,8 @@ class SolicitudesController extends BaseController
 		$id = Auth::id();
 		$data["inside_url"] = Config::get('app.inside_url');
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 5 || $data["user"]->idrol == 6
+			 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 			// Check if the current user is the "System Admin"
 			$data = Input::get('selected_id');
 			if($data !="vacio"){
@@ -190,7 +194,8 @@ class SolicitudesController extends BaseController
 		$id = Auth::id();
 		$data["inside_url"] = Config::get('app.inside_url');
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 5 || $data["user"]->idrol == 6
+			 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 			// Check if the current user is the "System Admin"
 			$data = Input::get('selected_id');
 			if($data!="vacio"){
@@ -211,7 +216,8 @@ class SolicitudesController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 5 || $data["user"]->idrol == 6
+				 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 				$codigo = Input::get('numero_reporte_hidden');		
 				$documento = Documento::searchDocumentoByCodigoArchivamiento($codigo)->get();
 				$file= $documento[0]->url.$documento[0]->nombre_archivo_encriptado;
@@ -234,7 +240,7 @@ class SolicitudesController extends BaseController
 		$id = Auth::id();
 		$data["inside_url"] = Config::get('app.inside_url');
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1|| $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 ){
 			// Check if the current user is the "System Admin"
 			
 			$idtipo_solicitud_compra = Input::get('tipo_solicitud');
@@ -316,7 +322,7 @@ class SolicitudesController extends BaseController
 		$id = Auth::id();
 		$data["inside_url"] = Config::get('app.inside_url');
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1|| $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 ){
 			// Check if the current user is the "System Admin"
 			$idsolicitud_compra = Input::get('idsolicitud');
 			$idtipo_solicitud_compra = Input::get('tipo_solicitud');
@@ -427,7 +433,7 @@ class SolicitudesController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1|| $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 ){
 				$solicitud_id = Input::get('reporte_id');
 				$url = "solicitudes_compra/edit_solicitud_compra"."/".$solicitud_id;
 				$solicitud = SolicitudCompra::withTrashed()->find($solicitud_id);
@@ -447,7 +453,7 @@ class SolicitudesController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1|| $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 ){
 				$solicitud_id = Input::get('reporte_id');
 				$url = "solicitudes_compra/edit_solicitud_compra"."/".$solicitud_id;
 				$solicitud = SolicitudCompra::withTrashed()->find($solicitud_id);
@@ -467,7 +473,8 @@ class SolicitudesController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 5 || $data["user"]->idrol == 6
+				 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 				$solicitud_id = Input::get('solicitud_id');
 				$solicitud = SolicitudCompra::find($solicitud_id);
 

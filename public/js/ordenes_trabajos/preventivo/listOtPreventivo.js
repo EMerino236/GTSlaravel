@@ -45,8 +45,7 @@ function eliminar_ot(event,el){
     parent = parent.parentNode;
     index_value = parent.rowIndex-1;
     idot_preventivo = $('#fila'+index_value).val();
-    alert(idot_preventivo);
-
+    
         $.ajax({
             url: inside_url+'mant_preventivo/submit_disable_preventivo',
             type: 'POST',

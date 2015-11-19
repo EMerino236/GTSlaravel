@@ -7,7 +7,7 @@
                         <ul class="nav nav-second-level">                           
 							<li>{{ HTML::link('/equipos/list_equipos','Directorio de equipos') }}</li>
 							<li>{{ HTML::link('/equipos/list_inventario','Lista de inventario') }}</li>
-							<li>{{ HTML::link('/#','Registro histórico de OT') }}</li>
+							<li>{{ HTML::link('/registro_historico_otm/list_ot','Registro histórico de OT') }}</li>
 							<li>{{ HTML::link('/#','Servicio de búsqueda de información') }}</li>
 							<li>{{ HTML::link('/documento/list_documentos','Registro y servicio de biblioteca') }}</li>
                         </ul>
@@ -52,8 +52,6 @@
                                 <a href="#">Programación <span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">
 									<li>{{ HTML::link('/inspec_equipos/list_inspec_equipos','Inspecciones de Equipos') }}</li>
-                                    <li>{{ HTML::link('/#','Inspecciones de Infraestructura') }}</li>
-                                    <li>{{ HTML::link('/#','Inspecciones de Servicios Hospitalarios') }}</li>
                                     <li>{{ HTML::link('/mant_preventivo/list_mant_preventivo','Mantenimiento Preventivo') }}</li>
 									<li>{{ HTML::link('/verif_metrologica/list_verif_metrologica','Verificación metrológica') }}</li>
 									<li>{{ HTML::link('/mant_correctivo/list_mant_correctivo','Mantenimiento Correctivo') }}</li>

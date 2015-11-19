@@ -108,5 +108,59 @@ class OrdenesTrabajoPreventivo extends Eloquent{
 			  ->where('idactivo','=',$idactivo);
 		return $query;
 	}
+
+	public function scopeGetOtsMantPreventivoAllHistorico($query)
+	{
+		$query->join('estados','estados.idestado','=','ot_preventivos.idestado_ot')
+			  ->join('servicios','servicios.idservicio','=','ot_preventivos.idservicio')
+			  ->join('areas','areas.idarea','=','servicios.idarea')
+			  ->join('activos','activos.idactivo','=','ot_preventivos.idactivo')
+			  ->join('proveedores','proveedores.idproveedor','=','activos.idproveedor')
+			  ->join('modelo_activos','modelo_activos.idmodelo_equipo','=','activos.idmodelo_equipo')
+			  ->join('familia_activos','familia_activos.idfamilia_activo','=','modelo_activos.idfamilia_activo')
+			  ->join('marcas','marcas.idmarca','=','familia_activos.idmarca')			  
+			  ->join('ubicacion_fisicas','ubicacion_fisicas.idubicacion_fisica','=','activos.idubicacion_fisica')
+			  ->join('grupos','grupos.idgrupo','=','activos.idgrupo')
+			  ->select('activos.codigo_patrimonial as codigo_patrimonial','activos.numero_serie as serie','proveedores.razon_social as nombre_proveedor','ubicacion_fisicas.nombre as nombre_ubicacion','marcas.nombre as nombre_marca','familia_activos.nombre_equipo as nombre_equipo','modelo_activos.nombre as nombre_modelo','areas.nombre as nombre_area','servicios.nombre as nombre_servicio','estados.nombre as nombre_estado','grupos.nombre as nombre_grupo','ot_preventivos.*');
+	  	return $query;
+	}
+
+	public function scopeSearchOTHistorico($query,$search_nombre_equipo,$search_marca,$search_modelo,$search_grupo,$search_serie,$search_proveedor,$search_codigo_patrimonial,$search_ini,$search_fin)
+	{
+		$query->join('estados','estados.idestado','=','ot_preventivos.idestado_ot')
+			  ->join('servicios','servicios.idservicio','=','ot_preventivos.idservicio')
+			  ->join('areas','areas.idarea','=','servicios.idarea')
+			  ->join('activos','activos.idactivo','=','ot_preventivos.idactivo')
+			  ->join('ubicacion_fisicas','ubicacion_fisicas.idubicacion_fisica','=','activos.idubicacion_fisica')
+			  ->join('proveedores','proveedores.idproveedor','=','activos.idproveedor')
+			  ->join('modelo_activos','modelo_activos.idmodelo_equipo','=','activos.idmodelo_equipo')
+			  ->join('familia_activos','familia_activos.idfamilia_activo','=','modelo_activos.idfamilia_activo')
+			  ->join('marcas','marcas.idmarca','=','familia_activos.idmarca')
+			  ->join('grupos','grupos.idgrupo','=','activos.idgrupo');			  
+			  if($search_nombre_equipo!="")
+			  	$query->where('familia_activos.nombre_equipo','LIKE',"%$search_nombre_equipo%");
+			  if($search_marca!=0)
+			  	$query->where('marcas.idmarca','=',$search_marca);
+			  if($search_modelo!="")
+			  	$query->where('modelo_activos.nombre','LIKE',"%$search_modelo%");
+			  if($search_grupo!="")
+			  	$query->where('grupos.nombre','LIKE',"%$search_grupo%");
+			  if($search_serie!="")
+			  	$query->where('activos.numero_serie','LIKE',"%$search_serie%");
+			  if($search_codigo_patrimonial!="")
+			  	$query->where('activos.codigo_patrimonial','LIKE',"%$search_codigo_patrimonial%");
+			  if($search_proveedor!="")
+			  	$query->whereNested(function($query) use($search_proveedor){
+			  			$query->where('proveedores.ruc','LIKE',"%$search_proveedor%")
+			  			  	  ->orWhere('proveedores.razon_social','LIKE',"%$search_proveedor%")
+			  			  	  ->orWhere('proveedores.nombre_contacto','LIKE',"%$search_proveedor%");
+			  	});
+			  if($search_ini != "")
+				$query->where('ot_preventivos.fecha_programacion','>=',date('Y-m-d H:i:s',strtotime($search_ini)));
+			  if($search_fin != "")
+				$query->where('ot_preventivos.fecha_programacion','<=',date('Y-m-d H:i:s',strtotime($search_fin)));
+			  $query->select('activos.codigo_patrimonial as codigo_patrimonial','activos.numero_serie as serie','proveedores.razon_social as nombre_proveedor','ubicacion_fisicas.nombre as nombre_ubicacion','marcas.nombre as nombre_marca','familia_activos.nombre_equipo as nombre_equipo','modelo_activos.nombre as nombre_modelo','areas.nombre as nombre_area','servicios.nombre as nombre_servicio','estados.nombre as nombre_estado','grupos.nombre as nombre_grupo','ot_preventivos.*');
+	  	return $query;
+	}
 	
 }

@@ -376,3 +376,9 @@ Route::group(array('prefix'=>'inspec_equipos','before'=>'auth'),function(){
 	Route::post('/submit_create_ot','OtInspeccionEquiposController@submit_create_ot');
 	
 });
+
+/*Registro Historico de OTM*/
+Route::group(array('prefix'=>'registro_historico_otm','before'=>'auth'),function(){
+	Route::get('/list_ot','RegistroHistoricoOTController@list_ot');
+	Route::get('/search_ot','RegistroHistoricoOTController@search_ot');
+});
