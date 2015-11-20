@@ -8,7 +8,7 @@
 							<li>{{ HTML::link('/equipos/list_equipos','Directorio de equipos') }}</li>
 							<li>{{ HTML::link('/equipos/list_inventario','Lista de inventario') }}</li>
 							<li>{{ HTML::link('/registro_historico_otm/list_ot','Registro histórico de OT') }}</li>
-							<li>{{ HTML::link('/#','Servicio de búsqueda de información') }}</li>
+							<li>{{ HTML::link('/busqueda_informacion/list_busqueda_informacion','Servicio de búsqueda de información') }}</li>
 							<li>{{ HTML::link('/documento/list_documentos','Registro y servicio de biblioteca') }}</li>
                         </ul>
                         <!-- /.nav-second-level -->

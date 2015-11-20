@@ -382,3 +382,12 @@ Route::group(array('prefix'=>'registro_historico_otm','before'=>'auth'),function
 	Route::get('/list_ot','RegistroHistoricoOTController@list_ot');
 	Route::get('/search_ot','RegistroHistoricoOTController@search_ot');
 });
+
+/* Busqueda Informacion */
+Route::group(array('prefix'=>'busqueda_informacion','before'=>'auth'),function(){
+	Route::get('/programacion','OtBusquedaInformacionController@render_program_ot_busqueda_informacion');
+	Route::get('/list_busqueda_informacion','OtBusquedaInformacionController@list_busqueda_informacion');
+	Route::post('/submit_programacion','OtBusquedaInformacionController@submit_program_ot_busqueda_informacion');
+	Route::get('/search_ot_busqueda_informacion','OtBusquedaInformacionController@search_ot_busqueda_informacion');
+
+});
