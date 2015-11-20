@@ -12,7 +12,7 @@ class OtController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1 && $id){
+			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4) && $id){
 				$data['mes_ini'] = date("Y-m-d",strtotime("first day of this month"));
 				$data['mes_fin'] = date("Y-m-d",strtotime("last day of this month"));
 				$data['trimestre_ini'] = null;
@@ -61,7 +61,7 @@ class OtController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4)){
 				// Validate the info, create rules for the inputs
 				$attributes = array(
 							'fecha_programacion' => 'Fecha de Programación',
@@ -133,7 +133,7 @@ class OtController extends BaseController {
 			return Response::json(array( 'success' => false ),200);
 		}
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4)){
 			$idactivo = Input::get('idactivo');
 			$fecha_ini = null;
 			$fecha_fin = null;
@@ -186,7 +186,7 @@ class OtController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12)){
 				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
 				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
 				$data["search_ing"] = null;
@@ -214,7 +214,7 @@ class OtController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12)){
 
 				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
 				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
@@ -243,7 +243,7 @@ class OtController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if(($data["user"]->idrol == 1) && $id){
+			if((($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12)) && $id){
 				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
 				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
 				$data["prioridades"] = Prioridad::lists('nombre','idprioridad');
@@ -274,7 +274,7 @@ class OtController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if(($data["user"]->idrol == 1)){
+			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4)){
 				$idot_correctivo = Input::get('idot_correctivo');
 				// Validate the info, create rules for the inputs
 				$attributes = array(
@@ -345,7 +345,7 @@ class OtController extends BaseController {
 			return Response::json(array( 'success' => false ),200);
 		}
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 			$tarea = new TareasOtCorrectivo;
 			$tarea->nombre = Input::get('nombre_tarea');
 			$tarea->idot_correctivo = Input::get('idot_correctivo');
@@ -364,7 +364,7 @@ class OtController extends BaseController {
 			return Response::json(array( 'success' => false ),200);
 		}
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 			$tarea = TareasOtCorrectivo::find(Input::get('idtareas_ot_correctivo'));
 			$tarea->delete();
 			return Response::json(array( 'success' => true),200);
@@ -380,7 +380,7 @@ class OtController extends BaseController {
 			return Response::json(array( 'success' => false ),200);
 		}
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 
 			$repuesto = new RepuestosOtCorrectivo;
 			$repuesto->nombre = Input::get('nombre_repuesto');
@@ -405,7 +405,7 @@ class OtController extends BaseController {
 			return Response::json(array( 'success' => false ),200);
 		}
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 
 			$repuesto = RepuestosOtCorrectivo::find(Input::get('idrepuestos_ot_correctivo'));
 			$ot = OtCorrectivo::find(Input::get('idot_correctivo'));
@@ -425,7 +425,7 @@ class OtController extends BaseController {
 			return Response::json(array( 'success' => false ),200);
 		}
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 
 			$personal = new PersonalOtCorrectivo;
 			$personal->nombre = Input::get('nombre_personal');
@@ -449,7 +449,7 @@ class OtController extends BaseController {
 			return Response::json(array( 'success' => false ),200);
 		}
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 
 			$personal = PersonalOtCorrectivo::find(Input::get('idpersonal_ot_correctivo'));
 			$ot = OtCorrectivo::find(Input::get('idot_correctivo'));
@@ -469,7 +469,7 @@ class OtController extends BaseController {
 		$id = Auth::id();
 		$data["inside_url"] = Config::get('app.inside_url');
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 			// Check if the current user is the "System Admin"	
 			$fecha_ini=date("Y-m-d",strtotime("first day of january"));
 			$fecha_fin=date("Y-m-d",strtotime('last day of december'));

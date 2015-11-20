@@ -204,8 +204,11 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 	public function scopeSearchActivosByCodigoPatrimonial($query,$search_criteria)
 	{
 		$query->join('modelo_activos','modelo_activos.idmodelo_equipo','=','activos.idmodelo_equipo')
+			  ->join('proveedores','proveedores.idproveedor','=','activos.idproveedor')
+			  ->join('familia_activos','familia_activos.idfamilia_activo','=','modelo_activos.idfamilia_activo')
+			  ->join('servicios','servicios.idservicio','=','activos.idservicio')
 			  ->where('activos.codigo_patrimonial','=',$search_criteria)
-			  ->select('modelo_activos.nombre as nombre_equipo','activos.*');
+			  ->select('servicios.nombre as nombre_servicio','modelo_activos.nombre as nombre_modelo','familia_activos.nombre_equipo','proveedores.razon_social as razon_social','activos.*');
 		return $query;	
 	}
 

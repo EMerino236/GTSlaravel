@@ -10,7 +10,7 @@ class SotController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9){
 				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
 				$data["estado"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->first();//El primer estado siempre es pendiente
 
@@ -47,7 +47,7 @@ class SotController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9){
 				// Validate the info, create rules for the inputs
 				$attributes = array(
 							'cod_pat' => 'Código Patrimoniak',
@@ -113,7 +113,7 @@ class SotController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
 				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
 				$data["search"] = null;
@@ -137,7 +137,7 @@ class SotController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if(($data["user"]->idrol == 1) && $id){
+			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12) && $id){
 				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
 				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
 				$data["sot_info"] = SolicitudOrdenTrabajo::searchSotById($id)->get();
@@ -153,54 +153,14 @@ class SotController extends BaseController {
 			return View::make('error/error');
 		}
 	}
-	/*
-	public function submit_edit_sot()
-	{
-		if(Auth::check()){
-			$data["inside_url"] = Config::get('app.inside_url');
-			$data["user"] = Session::get('user');
-			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
-				// Validate the info, create rules for the inputs
-				$rules = array(
-							'especificacion_servicio' => 'required|max:100',
-							'idestado' => 'required',
-							'motivo' => 'required|max:200',
-							'justificacion' => 'required|max:200'
-						);
-				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
-				$sot_id = Input::get('sot_id');
-				$url = "sot/edit_sot/".$sot_id;
-				// If the validator fails, redirect back to the form
-				if($validator->fails()){
-					return Redirect::to($url)->withErrors($validator)->withInput(Input::all());
-				}else{
-					$sot = SolicitudOrdenTrabajo::find($sot_id);
-					$sot->especificacion_servicio = Input::get('especificacion_servicio');
-					$sot->idestado = Input::get('idestado');
-					$sot->motivo = Input::get('motivo');
-					$sot->justificacion = Input::get('justificacion');
-					$sot->save();
-					Session::flash('message', 'Se editó correctamente la solicitud.');
-					return Redirect::to($url);
-				}
-			}else{
-				return View::make('error/error');
-			}
-
-		}else{
-			return View::make('error/error');
-		}
-	}
-	*/
+	
 	public function submit_disable_sot()
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9){
 				$sot_id = Input::get('sot_id');
 				$sot = SolicitudOrdenTrabajo::find($sot_id);
 				$sot->idestado = 16; // Si se elimina la SOT, se le cambia de estado a Falsa Alarma
@@ -221,7 +181,7 @@ class SotController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9){
 				$sot_id = Input::get('sot_id');
 				$sot = SolicitudOrdenTrabajo::find($sot_id);
 				$sot->idestado = 26; // Si se elimina la SOT, se le cambia de estado a Mal Ingreso
@@ -242,7 +202,7 @@ class SotController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 
 				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
 				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
@@ -266,7 +226,7 @@ class SotController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				$sot_id = Input::get('sot_id');
 				$url = "mant_correctivo/programacion/".$sot_id;
 				$sot = SolicitudOrdenTrabajo::find($sot_id);
@@ -290,7 +250,7 @@ class SotController extends BaseController {
 		$id = Auth::id();
 		$data["inside_url"] = Config::get('app.inside_url');
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 			// Check if the current user is the "System Admin"
 			$data = Input::get('selected_id');
 			if($data !="vacio"){

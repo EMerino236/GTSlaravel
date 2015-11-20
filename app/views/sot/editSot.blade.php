@@ -64,13 +64,13 @@
 		</div>
 		<div class="row">
 			<div class="form-group col-md-6">
-				@if($sot_info->idestado == 14)
+				@if($sot_info->idestado == 14 && ($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 7 || $user->idrol == 8 || $user->idrol == 9))
 					{{ Form::submit('Programar OT',array('id'=>'submit-edit', 'class'=>'btn btn-success')) }}
 				@endif
 				{{ HTML::link('/sot/list_sots','Regresar',array('class'=>'')) }}
 				{{ Form::close() }}
 			</div>
-			@if($sot_info->idestado == 14)
+			@if($sot_info->idestado == 14 && ($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 7 || $user->idrol == 8 || $user->idrol == 9))
 				{{ Form::open(array('url'=>'sot/submit_disable_sot', 'role'=>'form')) }}
 					{{ Form::hidden('sot_id', $sot_info->idsolicitud_orden_trabajo) }}
 					<div class="form-group col-md-3">

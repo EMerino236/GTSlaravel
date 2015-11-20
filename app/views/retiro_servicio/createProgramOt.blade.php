@@ -1,8 +1,8 @@
-@extends('templates/otMantenimientoCorrectivoTemplate')
+@extends('templates/otRetiroServicioTemplate')
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Programar mantenimiento correctivo</h3>
+            <h3 class="page-header">Programar retiro de servicio</h3>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -21,9 +21,9 @@
 		<div class="alert alert-danger">{{ Session::get('error') }}</div>
 	@endif
 
-	{{ Form::open(array('url'=>'mant_correctivo/submit_programacion', 'role'=>'form')) }}
-		{{ Form::hidden('idactivo', $sot_info->idactivo) }}
-		{{ Form::hidden('sot_id', $sot_info->idsolicitud_orden_trabajo) }}
+	{{ Form::open(array('url'=>'retiro_servicio/submit_programacion', 'role'=>'form')) }}
+		{{ Form::hidden('idactivo', $reporte_info->idactivo) }}
+		{{ Form::hidden('reporte_info_id', $reporte_info->idreporte_retiro) }}
 		{{Form::hidden('mes_ini',$mes_ini,array('id'=>'mes_ini'))}}
 		{{Form::hidden('mes_fin',$mes_fin,array('id'=>'mes_fin'))}}
 		{{Form::hidden('trimestre_ini',$trimestre_ini,array('id'=>'trimestre_ini'))}}
@@ -36,12 +36,12 @@
 			  	<div class="panel-body">
 					<div class="row">
 						<div class="form-group col-md-6">
-							{{ Form::label('sot','Número de SOT') }}
-							{{ Form::text('sot',$sot_info->sot_tipo_abreviatura.$sot_info->sot_correlativo.$sot_info->sot_activo_abreviatura,array('class' => 'form-control','readonly'=>'')) }}
+							{{ Form::label('sot','Número de Reporte de Retiro') }}
+							{{ Form::text('sot',$reporte_info->reporte_tipo_abreviatura.$reporte_info->reporte_correlativo.$reporte_info->reporte_activo_abreviatura,array('class' => 'form-control','readonly'=>'')) }}
 						</div>
 						<div class="form-group col-md-6">
 							{{ Form::label('codigo_patrimonial','Código patrimonial del activo') }}
-							{{ Form::text('codigo_patrimonial',$sot_info->codigo_patrimonial,array('class' => 'form-control','readonly'=>'')) }}
+							{{ Form::text('codigo_patrimonial',$reporte_info->codigo_patrimonial,array('class' => 'form-control','readonly'=>'')) }}
 						</div>
 					</div>
 					<div class="row">
@@ -71,22 +71,6 @@
 						<div class="form-group col-md-6">
 							{{ Form::label('trimestre','Programaciones pendientes en el trimestre') }}
 							{{ Form::text('trimestre',$trimestre,array('class' => 'form-control','readonly'=>'')) }}
-						</div>
-					</div>
-					<div class="row">
-						<div class="form-group col-md-6">
-							{{ Form::label('numero_ficha','Número de ficha') }}
-							{{ Form::text('numero_ficha',Input::old('idprioridad'),array('class' => 'form-control')) }}
-						</div>
-						<div class="form-group col-md-6">
-							{{ Form::label('idprioridad','Prioridad') }}
-							{{ Form::select('idprioridad', $prioridades,Input::old('idprioridad'),['class' => 'form-control']) }}			
-						</div>
-					</div>
-					<div class="row">
-						<div class="form-group col-md-6">
-							{{ Form::label('idtipo_falla','Tipo de falla') }}
-							{{ Form::select('idtipo_falla', $tipo_fallas,Input::old('idtipo_falla'),['class' => 'form-control']) }}			
 						</div>
 					</div>
 					<div class="row">
@@ -132,7 +116,7 @@
       <div class="modal-content" >
         <div class="modal-header" id="modal_header_ot">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Órdenes de Trabajo de Mantenimiento Correctivo</h4>
+          <h4 class="modal-title">Órdenes de Trabajo de Retiro de Servicio</h4>
         </div>
         <div class="modal-body" id="modal_text_ot" style="height:150px; overflow: auto;">
          	
@@ -145,5 +129,5 @@
   </div>  
 </div>
 
-<script src="{{ asset('js/sot/program-ot.js') }}"></script>
+<script src="{{ asset('js/retiro_servicio/program-ot.js') }}"></script>
 @stop

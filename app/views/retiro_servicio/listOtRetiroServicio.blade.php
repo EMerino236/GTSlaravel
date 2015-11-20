@@ -16,69 +16,57 @@
 			</div>
 			<div class="panel-body">
 			<div class="search_bar">
-				<div class="col-xs-6">
-					<div class="row">
-						<div class="form-group col-xs-8">
-							{{ Form::label('search_ing','Ingeniero para retiro') }}
-							{{ Form::text('search_ing',$search_ing,array('class'=>'form-control','placeholder'=>'Nombre o apellidos')) }}
-						</div>
+				<div class="row">
+					<div class="form-group col-md-4">
+						{{ Form::label('search_ing','Ingeniero para retiro') }}
+						{{ Form::text('search_ing',$search_ing,array('class'=>'form-control','placeholder'=>'Nombre o apellidos')) }}
 					</div>
-					<div class="row">
-						<div class="form-group col-xs-8">
-							{{ Form::label('search_cod_pat','Código patrimonial') }}
-							{{ Form::text('search_cod_pat',$search_cod_pat,array('class'=>'form-control')) }}
-						</div>
+					<div class="form-group col-md-4">
+						{{ Form::label('search_cod_pat','Código patrimonial') }}
+						{{ Form::text('search_cod_pat',$search_cod_pat,array('class'=>'form-control')) }}
 					</div>
-					<div class="row">
-						<div class="form-group col-xs-8">
-							{{ Form::label('search_ubicacion','Ubicación') }}
-							{{ Form::text('search_ubicacion',$search_ubicacion,array('class'=>'form-control','placeholder'=>'Ubicación física')) }}
-						</div>
+					<div class="form-group col-md-4">
+						{{ Form::label('search_ubicacion','Ubicación') }}
+						{{ Form::text('search_ubicacion',$search_ubicacion,array('class'=>'form-control','placeholder'=>'Ubicación física')) }}
 					</div>
-					<div class="row">
+				</div>
+				<div class="row">
+					<div class="form-group col-md-4">
+						{{ Form::label('search_ot','OT') }}
+						{{ Form::text('search_ot',$search_ot,array('class'=>'form-control','placeholder'=>'Número de OT')) }}
+					</div>
+					<div class="form-group col-md-4">
+						{{ Form::label('search_equipo','Equipo relacionado') }}
+						{{ Form::text('search_equipo',$search_equipo,array('class'=>'form-control')) }}
+					</div>
+					<div class="form-group col-md-4">
+						{{ Form::label('search_proveedor','Proveedor') }}
+						{{ Form::text('search_proveedor',$search_proveedor,array('class'=>'form-control','placeholder'=>'RUC, Razón social o Nombre de contacto')) }}
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4">
 						{{ Form::label('search_ini','Fecha inicio') }}
-						<div id="datetimepicker1" class="form-group input-group date col-xs-8">
-							{{ Form::text('search_ini',$search_ini,array('class'=>'form-control')) }}
+						<div id="datetimepicker1" class="form-group input-group date">
+							{{ Form::text('search_ini',$search_ini,array('class'=>'form-control','readonly'=>'')) }}
 							<span class="input-group-addon">
 			                    <span class="glyphicon glyphicon-calendar"></span>
 			                </span>
 						</div>
 					</div>
-				</div>
-				<div class="col-xs-6">
-					<div class="row">
-						<div class="form-group col-xs-8">
-							{{ Form::label('search_ot','OT') }}
-							{{ Form::text('search_ot',$search_ot,array('class'=>'form-control','placeholder'=>'Número de OT')) }}
-						</div>
-					</div>
-					<div class="row">
-						<div class="form-group col-xs-8">
-							{{ Form::label('search_equipo','Equipo relacionado') }}
-							{{ Form::text('search_equipo',$search_equipo,array('class'=>'form-control')) }}
-						</div>
-					</div>
-					<div class="row">
-						<div class="form-group col-xs-8">
-							{{ Form::label('search_proveedor','Proveedor') }}
-							{{ Form::text('search_proveedor',$search_proveedor,array('class'=>'form-control','placeholder'=>'RUC, Razón social o Nombre de contacto')) }}
-						</div>
-					</div>
-					<div class="row">
+					<div class="col-md-4">
 						{{ Form::label('search_fin','Fecha de fin') }}
-						<div id="datetimepicker2" class="form-group input-group date col-xs-8">
-							{{ Form::text('search_fin',$search_fin,array('class'=>'form-control')) }}
+						<div id="datetimepicker2" class="form-group input-group date">
+							{{ Form::text('search_fin',$search_fin,array('class'=>'form-control','readonly'=>'')) }}
 							<span class="input-group-addon">
 		                        <span class="glyphicon glyphicon-calendar"></span>
 		                    </span>
 						</div>
 					</div>
 				</div>
-				<div class="col-xs-12">
-					<div class="row">
-						<div class="form-group col-xs-8">
-							{{ Form::submit('Buscar',array('id'=>'submit-search-form','class'=>'btn btn-info')) }}
-						</div>
+				<div class="row">
+					<div class="form-group col-md-4">
+						{{ Form::submit('Buscar',array('id'=>'submit-search-form','class'=>'btn btn-info')) }}
 					</div>
 				</div>
 			</div>	
@@ -88,6 +76,7 @@
 
 	<table class="table">
 		<tr class="info">
+			<th>OT</th>
 			<th>Fecha y hora</th>
 			<th>Departamento</th>
 			<th>Servicio Clínico</th>
@@ -95,10 +84,12 @@
 			<th>Ubicación</th>
 			<th>Estado</th>
 			<th>No. de reporte de retiro de servicio</th>
-			<th>OT</th>
 		</tr>
 		@foreach($retiro_servicios_data as $retiro_servicio_data)
 		<tr>
+			<td>
+				<a href="{{URL::to('/retiro_servicio/create_ot/')}}/{{$retiro_servicio_data->idot_retiro}}">{{$retiro_servicio_data->ot_tipo_abreviatura}}{{$retiro_servicio_data->ot_correlativo}}{{$retiro_servicio_data->ot_activo_abreviatura}}</a>
+			</td>
 			<td>
 				{{date('d-m-Y H:i:s',strtotime($retiro_servicio_data->fecha_programacion))}}
 			</td>
@@ -115,13 +106,10 @@
 				{{$retiro_servicio_data->nombre_ubicacion}}
 			</td>
 			<td>
-				
-			</td>
-			<td>
-				<a href="{{URL::to('/mant_correctivo/create_ot/')}}/{{$retiro_servicio_data->idordenes_trabajo}}">{{$retiro_servicio_data->idordenes_trabajo}}</a>
-			</td>
-			<td>
 				{{$retiro_servicio_data->nombre_estado}}
+			</td>
+			<td>
+				{{$retiro_servicio_data->reporte_tipo_abreviatura}}{{$retiro_servicio_data->reporte_correlativo}}{{$retiro_servicio_data->reporte_activo_abreviatura}}
 			</td>
 		</tr>
 		@endforeach

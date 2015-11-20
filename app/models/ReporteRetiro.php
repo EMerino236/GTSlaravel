@@ -57,4 +57,17 @@ class ReporteRetiro extends Eloquent{
 			  ->select('activos.idactivo','activos.codigo_patrimonial','activos.numero_serie','familia_activos.nombre_equipo','marcas.nombre as nombre_marca','modelo_activos.nombre as nombre_modelo','reporte_retiros.*','proveedores.razon_social as nombre_proveedor','servicios.nombre as nombre_servicio','motivo_retiros.nombre as nombre_motivo');
 	}
 
+	public function scopeGetReportesRetiro($query)
+	{
+		$query->orderBy('idreporte_retiro','desc');
+	  	return $query;
+	}
+	
+	public function scopeSearchReporteById($query,$search_criteria)
+	{
+		$query->join('activos','activos.idactivo','=','reporte_retiros.idactivo')
+			  ->where('idreporte_retiro','=',$search_criteria)
+			  ->select('activos.idactivo','activos.codigo_patrimonial','reporte_retiros.*');
+		return $query;
+	}
 }

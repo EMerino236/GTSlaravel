@@ -228,15 +228,20 @@ Route::group(array('prefix'=>'retiro_servicio','before'=>'auth'),function(){
 	Route::get('/search_reporte_retiro_servicio','RetiroServicioController@search_reporte_retiro_servicio');
 	Route::get('/edit_reporte_retiro_servicio/{id}','RetiroServicioController@render_edit_reporte_retiro_servicio');
 	Route::post('/submit_disable_reporte_retiro_servicio','RetiroServicioController@submit_disable_reporte_retiro_servicio');
+	Route::post('/search_equipo_ajax','RetiroServicioController@search_equipo_ajax');
 	/*
 	Route::get('/programacion','RetiroServicioController@render_program_ot_retiro_servicio');
 	Route::post('/submit_programacion','RetiroServicioController@submit_program_ot_mant_correctivo');
 	Route::post('/calendario_ot_mant_correctivo','RetiroServicioController@calendario_ot_mant_correctivo_ajax');
 	*/
+	Route::post('/ver_programaciones','RetiroServicioController@search_programaciones');
 	Route::get('/list_retiro_servicio','RetiroServicioController@list_retiro_servicio');
 	Route::get('/search_ot_retiro_servicio','RetiroServicioController@search_ot_retiro_servicio');
-	/*
+	Route::get('/programacion/{id}','RetiroServicioController@render_program_ot_retiro_servicio');
+	Route::post('/submit_programacion','RetiroServicioController@submit_program_ot_retiro_servicio');
+	Route::get('/search_ot_retiro_servicio','RetiroServicioController@search_ot_retiro_servicio');
 	Route::get('/create_ot/{id}','RetiroServicioController@render_create_ot');
+	/*
 	Route::post('/submit_create_ot','RetiroServicioController@submit_create_ot');
 	Route::post('/submit_create_repuesto_ajax','RetiroServicioController@submit_create_repuesto_ajax');
 	Route::post('/submit_delete_repuesto_ajax','RetiroServicioController@submit_delete_repuesto_ajax');
