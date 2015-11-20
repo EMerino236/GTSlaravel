@@ -56,90 +56,7 @@ class OtBusquedaInformacionController extends BaseController {
 		}
 	}	
 
-	public function render_program_ot_busqueda_informacion($id=null)
-	{
-		if(Auth::check()){
-			$data["inside_url"] = Config::get('app.inside_url');
-			$data["user"] = Session::get('user');
-			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
-				$data['solicitantes'] = User::getJefes()->get();
-				$data['tipos'] = TipoOtBusquedaInformacion::lists('nombre','idtipo_busqueda_info');
-				$data['areas'] = Area::lists('nombre','idarea');
-				
-				return View::make('ot/busquedaInformacion/createProgramOtBusquedaInformacion',$data);
-			}else{
-				return View::make('error/error');
-			}
-
-		}else{
-			return View::make('error/error');
-		}
-	}
-
-	public function submit_program_ot_busqueda_informacion(){
-		if(Auth::check()){
-			$data["inside_url"] = Config::get('app.inside_url');
-			$data["user"] = Session::get('user');
-			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
-				// Validate the info, create rules for the inputs
-				$attributes = array(
-					'solicitante' => 'Solicitante',
-					'area' => 'Área',
-					'tipo' => 'Tipo de Solicitud',
-					'fecha_programacion' => 'Fecha de Solicitud',
-					'motivo' => 'Motivo de Solicitud',
-					'detalle' => 'Detalle de Solicitud',
-					'descripcion' => 'Descripcion de la Solicitud'
-					);
-
-				$messages = array(
-					);
-
-				$rules = array(
-							'solicitante' => 'required',
-							'area' => 'required',
-							'tipo' => 'required',
-							'fecha_programacion' => 'required',
-							'detalle' => 'max:500',
-							'motivo' => 'max:500',
-							'descripcion' => 'max:500'
-						);
-				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules, $messages, $attributes);
-				// If the validator fails, redirect back to the form
-				if($validator->fails()){
-					return Redirect::to('busqueda_informacion/programacion')->withErrors($validator)->withInput(Input::all());
-				}else{
-					$ot = new OrdenesTrabajoBusquedaInformacion;
-					$fecha = date('Y-m-d H:i:s',strtotime(Input::get('fecha_programacion')));
-					$abreviatura = "BI";
-					// Algoritmo para añadir numeros correlativos
-					$string = $this->getCorrelativeReportNumber();
-					$ot->fecha_programacion = $fecha;
-					$ot->idarea = Input::get('area');
-					$ot->idestado_ot = 9;
-					$ot->id_usuarioelaborador = $data["user"]->id;
-					$ot->id_usuariosolicitante = Input::get('solicitante');
-					$ot->idtipo_busqueda_info = Input::get('tipo');
-					$ot->motivo = Input::get('motivo');
-					$ot->descripcion = Input::get('descripcion');
-					$ot->detalle_ot = Input::get('detalle');
-					$ot->ot_tipo_abreviatura = $abreviatura;
-					$ot->ot_correlativo = $string;
-					$ot->save();			
-					
-					return Redirect::to('busqueda_informacion/list_busqueda_informacion')->with('message', 'Se registró correctamente la solicitud: '.$ot->ot_tipo_abreviatura.$ot->ot_correlativo);
-				}
-			}else{
-				return View::make('error/error');
-			}
-
-		}else{
-			return View::make('error/error');
-		}
-	}
+	
 
 	public function getCorrelativeReportNumber(){
 		$ot = OrdenesTrabajoBusquedaInformacion::getLastOtBusqueda()->first();
@@ -157,5 +74,128 @@ class OtBusquedaInformacionController extends BaseController {
 		return $string;
 	}
 
+	public function render_create_ot($id=null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4) && $id){
+				
+				$data["ot_info"] = OrdenesTrabajoBusquedaInformacion::searchOtBusquedaInformacionById($id)->get();
+				if($data["ot_info"]->isEmpty()){
+					return Redirect::to('busqueda_informacion/list_busqueda_informacion');
+				}
+				$data["areas"] = Area::lists('nombre','idarea');				
+				$data["tipos"] = TipoOtBusquedaInformacion::lists('nombre','idtipo_busqueda_info');			
+				$data["ot_info"] = $data["ot_info"][0];		
+				$data["tareas"] = TareasOtBusquedaInformacion::getTareasXOt($data["ot_info"]->idot_busqueda_info)->get();
+				$data["personal_data"] = PersonalOtBusquedaInformacion::getPersonalXOt($data["ot_info"]->idot_busqueda_info)->get();
+				return View::make('ot/busquedaInformacion/createOtBusquedaInformacion',$data);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function submit_delete_tarea_ajax()
+	{
+		// If there was an error, respond with 404 status
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+			$tarea = TareasOtBusquedaInformacion::find(Input::get('idtareas_ot_busqueda_info'));
+			$tarea->delete();
+			return Response::json(array( 'success' => true),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
+	public function submit_create_personal_ajax()
+	{
+		// If there was an error, respond with 404 status
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+
+			$personal = new PersonalOtBusquedaInformacion;
+			$personal->nombre = Input::get('nombre_personal');
+			$personal->horas_hombre = Input::get('horas_trabajadas');
+			$personal->costo = Input::get('costo_personal');
+			$personal->idot_busqueda_info = Input::get('idot_busqueda_info');
+			$personal->save();
+			$ot = OrdenesTrabajoBusquedaInformacion::find(Input::get('idot_busqueda_info'));
+			$ot->costo_total_personal = $ot->costo_total_personal + Input::get('horas_trabajadas')*Input::get('costo_personal');
+			$ot->save();
+			return Response::json(array( 'success' => true,'personal'=>$personal,'costo_total_personal' => number_format($ot->costo_total_personal,2)),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
+	public function submit_delete_personal_ajax()
+	{
+			// If there was an error, respond with 404 status
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+
+			$personal = PersonalOtBusquedaInformacion::find(Input::get('idpersonal_ot_busqueda_info'));
+			$ot = OrdenesTrabajoBusquedaInformacion::find(Input::get('idot_busqueda_info'));
+			$ot->costo_total_personal = $ot->costo_total_personal - $personal->horas_hombre*$personal->costo;
+			$ot->save();
+			$personal->delete();
+			return Response::json(array( 'success' => true,'costo_total_personal' => number_format($ot->costo_total_personal,2)),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
+	public function submit_create_tarea_ajax()
+	{
+		// If there was an error, respond with 404 status
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+			$tarea = new TareasOtBusquedaInformacion;
+			$tarea->nombre = Input::get('nombre_tarea');
+			$tarea->idestado_realizado = 23;
+			$tarea->idot_busqueda_info = Input::get('idot_busqueda_info');
+			$tarea->save();
+			return Response::json(array( 'success' => true, 'tarea' => $tarea),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
+	public function submit_marcar_tarea_ajax()
+	{
+		// If there was an error, respond with 404 status
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+			$idtarea = Input::get('idtareas_ot_busqueda_info');
+			$tarea = TareasOtBusquedaInformacion::find($idtarea);
+			$tarea->idestado_realizado = 22;
+			$tarea->save();
+			return Response::json(array( 'success' => true),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
+		
 	
 }

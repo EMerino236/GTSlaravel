@@ -44,8 +44,8 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
-    <script src="{{ asset('js/ordenes_trabajos/busqueda_informacion/addOtBusquedaInformacion.js') }}"></script>
-    <script src="{{ asset('js/ordenes_trabajos/busqueda_informacion/otBusquedaInformacion.js') }}"></script>
+    <script src="{{ asset('js/sot_busqueda_informacion/sotBusquedaInformacion.js') }}"></script>
+    <script src="{{ asset('js/sot_busqueda_informacion/listSotBusquedaInformacion.js') }}"></script>
     
 </head>
 
