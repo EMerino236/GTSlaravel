@@ -23,6 +23,58 @@ class SotBusquedaInformacionController extends BaseController {
 		}
 	}
 
+	public function render_edit_sot($idsot=null){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if(($data["user"]->idrol == 1) && $idsot)
+			{	
+				$data['solicitantes'] = User::getJefes()->get();
+				$data['tipos'] = TipoOtBusquedaInformacion::lists('nombre','idtipo_busqueda_info');
+				$data['areas'] = Area::lists('nombre','idarea');
+				$data['encargados'] = User::getJefes()->get();
+				$data['sot_info'] = SolicitudBusquedaInformacion::searchSotById($idsot)->get();
+				if($data["sot_info"]->isEmpty()){
+					return Redirect::to('busqueda_informacion/list_busqueda_informacion');
+				}
+				$data["sot_info"] = $data["sot_info"][0];
+
+				return View::make('sot_busqueda_informacion/editSotBusquedaInformacion',$data);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function render_view_sot($idsot=null){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if(($data["user"]->idrol == 1) && $idsot)
+			{	
+				$data['solicitantes'] = User::getJefes()->get();
+				$data['tipos'] = TipoOtBusquedaInformacion::lists('nombre','idtipo_busqueda_info');
+				$data['areas'] = Area::lists('nombre','idarea');
+				$data['encargados'] = User::getJefes()->get();
+				$data['sot_info'] = SolicitudBusquedaInformacion::searchSotById($idsot)->get();
+				if($data["sot_info"]->isEmpty()){
+					return Redirect::to('busqueda_informacion/list_busqueda_informacion');
+				}
+				$data["sot_info"] = $data["sot_info"][0];
+
+				return View::make('sot_busqueda_informacion/viewSotBusquedaInformacion',$data);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
 	public function submit_create_sot(){
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
@@ -78,6 +130,65 @@ class SotBusquedaInformacionController extends BaseController {
 
 					
 					return Redirect::to('solicitud_busqueda_informacion/list_busqueda_informacion')->with('message', 'Se registró correctamente la solicitud: '.$sot->ot_tipo_abreviatura.$sot->ot_correlativo);
+				}
+			}else{
+				return View::make('error/error');
+			}
+
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function submit_edit_sot()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1){
+				// Validate the info, create rules for the inputs
+				$attributes = array(
+					'area' => 'Área',
+					'tipo' => 'Tipo de Solicitud',
+					'fecha_solicitud' => 'Fecha de Solicitud',
+					'motivo' => 'Motivo de Solicitud',
+					'detalle' => 'Detalle de Solicitud',
+					'descripcion' => 'Descripcion de la Solicitud',
+					'encargado' => 'Usuario Encargado'
+					);
+
+				$messages = array(
+					);
+
+				$rules = array(
+							'area' => 'required',
+							'tipo' => 'required',
+							'fecha_solicitud' => 'required',
+							'detalle' => 'max:500',
+							'motivo' => 'max:500',
+							'descripcion' => 'max:500',
+							'encargado' => 'required'
+						);
+				// Run the validation rules on the inputs from the form
+				$validator = Validator::make(Input::all(), $rules);
+				// If the validator fails, redirect back to the form
+				if($validator->fails()){
+					$idsot = Input::get('idsot');
+					$url = "solicitud_busqueda_informacion/edit_sot_busqueda_informacion"."/".$idsot;
+					return Redirect::to($url)->withErrors($validator)->withInput(Input::all());
+				}else{	
+					$idsot = Input::get('idsot');				
+					$url = $url = "solicitud_busqueda_informacion/edit_sot_busqueda_informacion"."/".$idsot;					
+					$sot = SolicitudBusquedaInformacion::find($idsot);
+					$sot->idtipo_busqueda_info = Input::get('tipo');
+					$sot->motivo = Input::get('motivo');
+					$sot->descripcion = Input::get('descripcion');
+					$sot->detalle = Input::get('detalle');
+					$sot->id_usuarioencargado = Input::get('encargado');	
+					$sot->save();
+					
+					return Redirect::to('solicitud_busqueda_informacion/list_busqueda_informacion')->with('message', 'Se editó correctamente la solicitud de búsqueda de información: '.$sot->ot_tipo_abreviatura.$sot->ot_correlativo);
 				}
 			}else{
 				return View::make('error/error');
@@ -159,20 +270,21 @@ class SotBusquedaInformacionController extends BaseController {
 			$idsot = Input::get('idsot');
 			$sot = SolicitudBusquedaInformacion::find($idsot);
 			$idsolicitante = Input::get('idsolicitante');
-			$fecha_programacion = Input::get('fecha_programacion');
+			$fecha_programacion = $sot->fecha_solicitud;
 
 			$ot = new OrdenesTrabajoBusquedaInformacion;
-			$fecha = date('Y-m-d H:i:s',strtotime(Input::get('fecha_programacion')));
 			$abreviatura = "BI";
 			// Algoritmo para añadir numeros correlativos
 			$string = $this->getCorrelativeReportNumberOt();
-			$ot->fecha_programacion = $fecha;
+			$ot->fecha_programacion = $fecha_programacion;
 			$ot->idarea = $sot->idarea;
 			$ot->idestado_ot = 9;			
 			$ot->ot_tipo_abreviatura = $abreviatura;
 			$ot->ot_correlativo = $string;
 			$ot->id_usuarioelaborador = $data["user"]->id;
-			$ot->id_usuariosolicitante = $idsolicitante;
+			//el solicitante de la ot es el encargado de la sot
+			$ot->id_usuariosolicitante = $sot->id;
+			$ot->id_usuarioencargado = $sot->id_usuarioencargado;
 			$ot->idsolicitud_busqueda_info = $idsot;	
 			$ot->save();		
 			

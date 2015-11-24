@@ -46,7 +46,6 @@
 			#table_tareas{
 				padding:20px 0px 0px 40px;
 				width: 600px;
-				height: 200px;
 			}
 
 			table, th, td {

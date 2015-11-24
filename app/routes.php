@@ -413,7 +413,10 @@ Route::group(array('prefix'=>'solicitud_busqueda_informacion','before'=>'auth'),
 	Route::post('/submit_sot','SotBusquedaInformacionController@submit_create_sot');
 	Route::get('/list_busqueda_informacion','SotBusquedaInformacionController@list_busqueda_informacion');
 	Route::post('/submit_create_ot_busqueda_informacion','SotBusquedaInformacionController@submit_ot');
-
+	Route::get('/edit_sot_busqueda_informacion/{id}','SotBusquedaInformacionController@render_edit_sot');
+	Route::get('/view_sot_busqueda_informacion/{id}','SotBusquedaInformacionController@render_view_sot');
+	Route::post('/submit_edit_sot','SotBusquedaInformacionController@submit_edit_sot');
+	
 });
 
 /* Búsqueda Informacion */
@@ -427,4 +430,5 @@ Route::group(array('prefix'=>'busqueda_informacion','before'=>'auth'),function()
 	Route::post('/submit_delete_tarea_ajax','OtBusquedaInformacionController@submit_delete_tarea_ajax');
 	Route::post('/submit_create_personal_ajax','OtBusquedaInformacionController@submit_create_personal_ajax');
 	Route::post('/submit_delete_personal_ajax','OtBusquedaInformacionController@submit_delete_personal_ajax');	
+	Route::post('/export_pdf','OtBusquedaInformacionController@export_pdf');
 });

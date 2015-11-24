@@ -15,7 +15,7 @@
 
 			.info_right{
 				margin-left: 350px;
-				padding-top:-63px;
+				padding-top:-65px;
 				padding-bottom: 5px;
 				padding-left: 5px;
 				padding-right: 5px;
@@ -43,19 +43,20 @@
 				padding-right: 5px;
 			}
 
-			#table_tareas{
-				padding:20px 0px 0px 40px;
+			table{
 				width: 600px;
-				height: 200px;
 			}
 
 			table, th, td {
 				border: 1px solid black;
 				border-collapse: collapse;
+				
 			}
 			th, td {
 				text-align: center;
 			}
+
+
 
 		</style>
 	</head>
@@ -65,7 +66,7 @@
 				<img id="logo" src="img/logo_uib.jpg" ></img>
 			</div>
 			<div class="titulo">
-				<h3>Orden de Trabajo de Busqueda de Informacion: {{$ot->ot_tipo_abreviatura}}{{$ot->ot_correlativo}}{{$ot->ot_activo_abreviatura}}</h3>
+				<h3>Orden de Trabajo de Busqueda de Informacion: {{$ot_info->ot_tipo_abreviatura}}{{$ot_info->ot_correlativo}}{{$ot_info->ot_activo_abreviatura}}</h3>
 			</div>
 		</div>
 		<div id="datos_otm">
@@ -73,28 +74,14 @@
 				<h3>DATOS DE LA OTM </h3>
 			</div>
 			<div class="info_left">
-				<label><strong>Usuario Solicitante: </strong></label>   {{$usuario_solicitante->nombre}} {{$usuario_solicitante->apellido_pat}} {{$usuario_solicitante->apellido_mat}}<br>
-				<label><strong>Servicio Hospitario: </strong></label>  {{$servicio->nombre}}<br>
-				<label><strong>Ubicacion Fisica: </strong></label>  {{$ubicacion->nombre}}
+				<label><strong>Usuario Solicitante: </strong></label>  {{$ot_info->nombre_solicitante}} {{$ot_info->apat_solicitante}} {{$ot_info->amat_solicitante}} <br>
+				<label><strong>Tipo: </strong></label> {{$tipo->nombre}} <br>
+				<label><strong>Departamento: </strong></label> {{$ot_info->nombre_area}}
 			</div>
 			<div class="info_right">
-				<label><strong>Documento Elaborado Por: </strong></label>  {{$usuario_elaborador->nombre}} {{$usuario_elaborador->apellido_pat}} {{$usuario_elaborador->apellido_mat}}</p><br>
-				<label><strong>Ejecutor del Mantenimiento: </strong></label>  {{$ot->nombre_ejecutor}}<br>
-				<label><strong>Numero de Ficha: </strong></label>  {{$ot->numero_ficha}}
-			</div>
-		</div>
-		<div id="datos_equipo">
-			<div style="padding-left:5px;">
-				<h3>DATOS DEL ACTIVO</h3>
-			</div>
-			<div class="info_left">
-				<label><strong>Nombre del Equipo: </strong></label>  {{$ot->nombre_equipo}}<br>
-				<label><strong>Marca: </strong></label>  {{$ot->nombre_marca}}<br>
-				<label><strong>Modelo: </strong></label>  {{$ot->modelo}}
-			</div>
-			<div class="info_right">
-				<label><strong>Codigo Patrimonial: </strong></label>  {{$ot->codigo_patrimonial}}</p><br>
-				<label><strong>Numero de Serie: </strong></label>  {{$ot->numero_serie}}
+				<label><strong>Documento Elaborado Por: </strong></label> {{$ot_info->nombre_elaborador}} {{$ot_info->apat_elaborador}} {{$ot_info->amat_elaborador}}  <br>
+				<label><strong>Ejecutor del Mantenimiento: </strong></label>  {{$ot_info->nombre_encargado}} {{$ot_info->apat_encargado}} {{$ot_info->amat_encargado}} <br>
+				<label><strong>Numero de Solicitud: </strong></label>  {{$ot_info->sot_tipo_abreviatura}}{{$ot_info->sot_correlativo}}
 			</div>
 		</div>
 		<div id="datos_solicitud">
@@ -102,49 +89,38 @@
 				<h3>DATOS DE LA SOLICITUD</h3>
 			</div>
 			<div class="info_left">
-				<label><strong>Fecha Programada: </strong></label>  {{date('d-m-Y',strtotime($ot->fecha_programacion))}}<br>
-				@if($ot->fecha_conformidad == null)
+				<label><strong>Fecha Programada: </strong></label>  {{date('d-m-Y',strtotime($ot_info->fecha_programacion))}}<br>
+				@if($ot_info->fecha_conformidad == null)
 					<label><strong>Fecha Conformidad: </strong></label> -
 				@else
-					<label><strong>Fecha Conformidad: </strong></label>  {{date('d-m-Y',strtotime($ot->fecha_conformidad))}}
+					<label><strong>Fecha Conformidad: </strong></label>  {{date('d-m-Y',strtotime($ot_info->fecha_conformidad))}}
 				@endif
 			</div>
 			<div class="info_right">
-				<label><strong>Hora Programada: </strong></label>  {{date('H:i',strtotime($ot->fecha_programacion))}}<br>
-				@if($ot->fecha_conformidad == null)
+				<label><strong>Hora Programada: </strong></label>  {{date('H:i',strtotime($ot_info->fecha_programacion))}}<br>
+				@if($ot_info->fecha_conformidad == null)
 					<label><strong>Hora Conformidad: </strong></label> -
 				@else
-					<label><strong>Hora Conformidad: </strong></label>  {{date('d-m-Y',strtotime($ot->fecha_conformidad))}}
+					<label><strong>Hora Conformidad: </strong></label>  {{date('d-m-Y',strtotime($ot_info->fecha_conformidad))}}
 				@endif
 			</div>
 		</div>
-		
-		<div id="actividades">
+
+		<div id="datos_solicitud">
 			<div style="padding-left:5px;">
-				<h3>ACTIVIDADES</h3>
+				<h3>DESCRIPCION DE LA SOLICITUD DE LA OTM</h3>
 			</div>
 			<div class="info_left">
-				@if($ot->fecha_inicio_ejecucion == null)
-					<label><strong>Fecha de Inicio: </strong></label> - <br>
-				@else
-					<label><strong>Fecha de Inicio: </strong></label>  {{date('d-m-Y',strtotime($ot->fecha_inicio_ejecucion))}}<br>
-				@endif
-				<label><strong>Garantia: </strong></label> {{$ot->garantia}}<br>
-				<label><strong>Estado Final del Activo: </strong></label> {{$estado_final->nombre}}
-			</div>
-			<div class="info_right">
-				@if($ot->fecha_termino_ejecucion == null)
-					<label><strong>Fecha de Termino: </strong></label> - <br>
-				@else
-					<label><strong>Fecha de Termino: </strong></label>  {{date('d-m-Y',strtotime($ot->fecha_termino_ejecucion))}}<br>
-				@endif
-				@if($ot->sin_interrupcion == 0)
-					<label><strong>Sin Interrupcion al Servicio: </strong></label> No
-				@else
-					<label><strong>Sin Interrupcion al Servicio: </strong></label> Si
-				@endif
-			</div>
-			<div  id="table_tareas">
+				<label><strong>Descripcion: </strong></label>  {{$ot_info->descripcion}}<br>
+				<label><strong>Motivo: </strong></label>  {{$ot_info->motivo}}<br>
+				<label><strong>Detalle: </strong></label>  {{$ot_info->detalle}}<br>
+			</div>			
+		</div>
+		<div >
+			<div style="padding-left:5px;">
+				<h3>ACTIVIDADES</h3>
+			</div>			
+			<div  >
 				<table style="width:100%">
 					<tr>
 						<th>Actividad</th>
@@ -152,7 +128,7 @@
 					</tr>
 					@foreach($tareas as $tarea)
 						<tr>
-							<td>{{$tarea->nombre_tarea}}</td>
+							<td>{{$tarea->nombre}}</td>
 							@if($tarea->idestado_realizado == 22)
 								<td>Realizado</td>
 							@else
@@ -165,36 +141,10 @@
 		</div>
 		<div>
 			<div style="padding-left:5px;">
-				<h3>REPUESTOS</h3>
-			</div>
-			<div>
-				<table style="width:100%">
-					<tr>
-						<th>Nombre</th>
-						<th>Codigo</th>
-						<th>Cantidad</th>
-						<th>Costo  (S/.)</th>
-					</tr>
-					@foreach($repuestos_ot as $repuesto)
-						<tr>
-							<td>{{$repuesto->nombre}}</td>
-							<td>{{$repuesto->codigo}}</td>
-							<td>{{$repuesto->cantidad}}</td>
-							<td>{{$repuesto->costo}}</td>
-						</tr>
-					@endforeach
-				</table>
-			</div>
-			<div style="padding-left:5px;padding-top:10px;">
-				<label><strong>Costo Total Repuestos:</strong></label>		S/.{{number_format($ot->costo_total_repuestos,2)}}
-			</div>
-		</div>
-		<div>
-			<div style="padding-left:5px;">
 				<h3>MANO DE OBRA</h3>
 			</div>
 			<div >
-				<table style="width:100%">
+				<table style="width:100%" class="mano_obra">
 					<tr>
 						<th>Nombres y Apellidos</th>
 						<th>Horas Trabajadas (Horas)</th>
@@ -209,17 +159,17 @@
 					@endforeach
 				</table>
 			</div>
-			<div style="padding-left:5px;padding-top:10px;">
-				<label><strong>Costo Total Mano de Obra:</strong></label>		S/.{{number_format($ot->costo_total_personal,2)}}
+			<div style="padding-left:5px;padding-top:20px;">
+				<label><strong>Costo Total Mano de Obra:</strong></label>		S/.{{number_format($ot_info->costo_total_personal,2)}}
 			</div>
-		</div>
-		<div id="sign_uib" style="border-top:solid;width:200px;margin-top:100px;position:absolute;">
+		</div>		
+		<div  style="border-top:solid;width:200px;margin-top:100px;position:absolute;">
 			<p style="text-align:center">Firma Jefe de UIB</p>
 		</div>
-		<div id="sign_uib" style="border-top:solid;width:200px;margin-left:250px;position:absolute;">
+		<div  style="border-top:solid;width:200px;margin-left:250px;position:absolute;">
 			<p style="text-align:center">Firma Jefe del Servicio</p>
 		</div>
-		<div id="sign_uib" style="border-top:solid;width:200px;margin-left:500px;">
+		<div style="border-top:solid;width:200px;margin-left:500px;position:absolute;">
 			<p style="text-align:center">Firma Jefe de Tumimet</p>
 		</div>
 	</body>

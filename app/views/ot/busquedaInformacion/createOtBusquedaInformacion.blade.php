@@ -41,13 +41,25 @@
 					<div class="row">
 						<div class="form-group col-md-8">
 							{{ Form::label('tipo','Tipo') }}
-							{{ Form::select('tipo', array('0'=>'Seleccione') + $tipos,$ot_info->idtipo_busqueda_info,array('class'=>'form-control')) }}
+							{{ Form::select('tipo', array('0'=>'Seleccione') + $tipos,$ot_info->idtipo_busqueda_info,array('class'=>'form-control','disabled'=>'disabled')) }}
 						</div>
 					</div>
 					<div class="row">
 						<div class="form-group col-md-8">
 							{{ Form::label('area','Departamento') }}
-							{{ Form::select('area', array('0'=>'Seleccione') + $areas,$ot_info->idarea,array('class'=>'form-control')) }}
+							{{ Form::select('area', array('0'=>'Seleccione') + $areas,$ot_info->idarea,array('class'=>'form-control','disabled'=>'disabled')) }}
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-10 form-group">
+							{{ Form::label('descripcion','Descripcion') }}
+							{{ Form::textarea('descripcion',$ot_info->descripcion,array('class' => 'form-control','rows'=>'3','maxlength'=>'500','style'=>'resize:none;','readonly'=>'')) }}
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-10 form-group">
+							{{ Form::label('motivo','Motivo') }}
+							{{ Form::textarea('motivo',$ot_info->motivo,array('class' => 'form-control','rows'=>'3','maxlength'=>'500','style'=>'resize:none;','readonly'=>'')) }}
 						</div>
 					</div>
 				</div>
@@ -60,14 +72,20 @@
 					</div>
 					<div class="row">
 						<div class="form-group col-md-8">
-							{{ Form::label('ingeniero','Ejecutor del Mantenimiento') }}
-							{{ Form::text('ingeniero',$ot_info->nombre_ejecutor,array('class' => 'form-control','placeholder'=>'Ejecutor del Mantenimiento')) }}
+							{{ Form::label('encargado','Ejecutor del Mantenimiento') }}
+							{{ Form::text('encargado',$ot_info->apat_encargado.' '.$ot_info->amat_encargado.', '.$ot_info->nombre_encargado,array('class' => 'form-control','placeholder'=>'Ejecutor del Mantenimiento','readonly'=>'')) }}
 						</div>
 					</div>
 					<div class="row">
 						<div class="form-group col-md-8">
 							{{ Form::label('numero_solicitud','Número de Solicitud') }}
 							{{ Form::text('numero_solicitud',$ot_info->sot_tipo_abreviatura.$ot_info->sot_correlativo,array('class' => 'form-control','readonly'=>'	')) }}
+						</div>
+					</div>		
+					<div class="row">
+						<div class="col-md-10 form-group">
+							{{ Form::label('detalle','Detalle') }}
+							{{ Form::textarea('detalle',$ot_info->detalle,array('class' => 'form-control','rows'=>'3','maxlength'=>'500','style'=>'resize:none;','readonly'=>'')) }}
 						</div>
 					</div>
 				</div>
@@ -124,21 +142,7 @@
 							</div>
 						</div>
 					</div>
-				</div>				
-				<div class="row">
-					<div class="col-md-6 form-group">
-						{{ Form::label('descripcion','Descripcion') }}
-						{{ Form::textarea('descripcion',$ot_info->descripcion,array('class' => 'form-control','rows'=>'3','maxlength'=>'500','style'=>'resize:none;')) }}
-					</div>
-					<div class="col-md-6 form-group">
-						{{ Form::label('motivo','Motivo') }}
-						{{ Form::textarea('motivo',$ot_info->motivo,array('class' => 'form-control','rows'=>'3','maxlength'=>'500','style'=>'resize:none;')) }}
-					</div>
-					<div class="col-md-6 form-group">
-						{{ Form::label('detalle','Detalle') }}
-						{{ Form::textarea('detalle',$ot_info->detalle_ot,array('class' => 'form-control','rows'=>'3','maxlength'=>'500','style'=>'resize:none;')) }}
-					</div>
-				</div>
+				</div>	
 			</div>
 		</div>
 		<div class="panel panel-default">
@@ -239,9 +243,15 @@
 			</div>
 			<div class="form-group col-md-2">
 				<a class="btn btn-default btn-block" href="{{URL::to('/busqueda_informacion/list_busqueda_informacion')}}">Cancelar</a>				
-			</div>
-		</div>	
+			</div>	
 	{{ Form::close() }}
+			{{Form::open(array('url'=>'busqueda_informacion/export_pdf', 'role'=>'form'))}}		
+			{{Form::hidden('idot_busqueda_info', $ot_info->idot_busqueda_info) }}
+			<div class="form-group col-md-2 col-md-offset-6">
+				{{ Form::button('<span class="glyphicon glyphicon-export"></span> Exportar', array('id'=>'exportar', 'type'=>'submit' ,'class' => 'btn btn-success btn-block')) }}
+			</div>
+			{{ Form::close() }}
+		</div>	
 
 <div class="container">
   <!-- Modal -->

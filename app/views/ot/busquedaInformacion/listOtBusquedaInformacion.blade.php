@@ -85,11 +85,17 @@
 						<td class="text-nowrap text-center">{{$busqueda->motivo}}</td>
 						<td class="text-nowrap text-center">{{$busqueda->nombre_area}}</td>
 						<td class="text-nowrap text-center">{{$busqueda->apat}} {{$busqueda->amat}}, {{$busqueda->nombre_user}}</td>
-						<td class="text-nowrap text-center">{{$busqueda->sot_tipo_abreviatura}}{{$busqueda->sot_correlativo}}</td>
-						<td class="text-nowrap text-center">{{date('d-m-Y H:i',strtotime($busqueda->fecha_solicitud))}}</td>
+						@if($busqueda->idot == null)
+							<td class="text-nowrap text-center">
+								<a href="{{URL::to('/solicitud_busqueda_informacion/edit_sot_busqueda_informacion/')}}/{{$busqueda->idsolicitud_busqueda_info}}">{{$busqueda->sot_tipo_abreviatura}}{{$busqueda->sot_correlativo}}</a></td>
+						@else
+							<td class="text-nowrap text-center">
+								<a href="{{URL::to('/solicitud_busqueda_informacion/view_sot_busqueda_informacion/')}}/{{$busqueda->idsolicitud_busqueda_info}}">{{$busqueda->sot_tipo_abreviatura}}{{$busqueda->sot_correlativo}}</a></td>
+						@endif
+							<td class="text-nowrap text-center">{{date('d-m-Y H:i',strtotime($busqueda->fecha_solicitud))}}</td>
 						@if($busqueda->idot == null)
 						<td>
-							<a class="btn btn-success btn-block btn-sm" onclick="showModal(event,this)">
+							<a class="btn btn-success btn-block btn-sm" onclick="setSotId(event,this)">
 							<span class="glyphicon glyphicon-plus"></span> Crear OTM</a>
 						</td>
 						@else
@@ -103,46 +109,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="container">
-  <!-- Modal -->
-  <div class="modal fade" id="modal_create_ot" role="dialog">
-    <div class="modal-dialog modal-md">    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header bg-info" id="modal_header_ot">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Creación de OTM de Búsqueda de Información</h4>
-        </div>
-        <div class="modal-body" id="modal_body_ot"> 
-        	{{Form::hidden('idsot_modal',null,array('id'=>'idsot_modal'))}} 
-        	<div class="row">
-        		<div class="col-md-6">
-        			{{ Form::label('fecha_programacion','Fecha Programacion') }}
-        			<div id="search_datetimepicker2" class="form-group input-group date">
-						{{ Form::text('fecha_programacion',null,array('class'=>'form-control','readonly'=>'','id'=>'fecha_programacion')) }}
-						<span class="input-group-addon">
-		                    <span class="glyphicon glyphicon-calendar"></span>
-		                </span>
-					</div>
-        		</div>
-    			<div class="form-group col-md-6">
-					{{ Form::label('solicitante','Usuario solicitante') }}
-					<select name="solicitante" class="form-control" id="solicitantes">
-						@foreach($solicitantes as $solicitante)
-							<option value="{{ $solicitante->id }}">{{ $solicitante->apellido_pat }} {{ $solicitante->apellido_mat }}, {{ $solicitante->nombre }}</option>
-						@endforeach
-					</select>
-				</div>
-    		</div>      	
-        </div>
-        <div class="modal-footer">
-          <button  class="btn btn-primary" id="btnCreate"><span class="glyphicon glyphicon-plus"></span> Aceptar</button>
-        </div>
-      </div>      
-    </div>
-  </div>  
-</div>
-
+	{{Form::hidden('idsot',null,array('id'=>'idsot'))}}
 
 	
 @stop

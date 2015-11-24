@@ -14,10 +14,11 @@ class SolicitudBusquedaInformacion extends Eloquent{
 	{
 		$query->join('estados','estados.idestado','=','solicitud_busqueda_infos.idestado')
 			  ->join('areas','areas.idarea','=','solicitud_busqueda_infos.idarea')
-			  ->join('users','users.id','=','solicitud_busqueda_infos.id')
+			  ->join('users as encargado','encargado.id','=','solicitud_busqueda_infos.id_usuarioencargado')
+			  ->join('users as solicitante','solicitante.id','=','solicitud_busqueda_infos.id')
 			  ->join('tipo_busqueda_infos','tipo_busqueda_infos.idtipo_busqueda_info','=','solicitud_busqueda_infos.idtipo_busqueda_info')
 			  ->leftJoin('ot_busqueda_infos','ot_busqueda_infos.idsolicitud_busqueda_info','=','solicitud_busqueda_infos.idsolicitud_busqueda_info')
-			  ->select('ot_busqueda_infos.idot_busqueda_info as idot','ot_busqueda_infos.ot_tipo_abreviatura as ot_tipo_abreviatura','ot_busqueda_infos.ot_correlativo as ot_correlativo','tipo_busqueda_infos.nombre as nombre_tipo','estados.nombre as nombre_estado','areas.nombre as nombre_area','users.nombre as nombre_user','users.apellido_pat as apat','users.apellido_mat as amat','solicitud_busqueda_infos.*');
+			  ->select('ot_busqueda_infos.idot_busqueda_info as idot','ot_busqueda_infos.ot_tipo_abreviatura as ot_tipo_abreviatura','ot_busqueda_infos.ot_correlativo as ot_correlativo','tipo_busqueda_infos.nombre as nombre_tipo','estados.nombre as nombre_estado','areas.nombre as nombre_area','encargado.nombre as nombre_user','encargado.apellido_pat as apat','encargado.apellido_mat as amat','solicitante.nombre as nombre_user_solicitante','solicitante.apellido_pat as apat_solicitante','solicitante.apellido_mat as amat_solicitante','solicitud_busqueda_infos.*');
 		return $query;
 	}
 
@@ -46,16 +47,19 @@ class SolicitudBusquedaInformacion extends Eloquent{
 	  	return $query;
 	}
 	
-	/*
+	
 	public function scopeSearchSotById($query,$search_criteria)
 	{
-		$query->join('activos','activos.idactivo','=','solicitud_orden_trabajos.idactivo')
-			  ->join('users','users.id','=','solicitud_orden_trabajos.id')
-			  ->where('idsolicitud_orden_trabajo','=',$search_criteria)
-			  ->select('activos.idactivo','activos.codigo_patrimonial','users.nombre','users.apellido_pat','users.apellido_mat','solicitud_orden_trabajos.*');
+		$query->join('estados','estados.idestado','=','solicitud_busqueda_infos.idestado')
+			  ->join('areas','areas.idarea','=','solicitud_busqueda_infos.idarea')
+			  ->join('users as encargado','encargado.id','=','solicitud_busqueda_infos.id_usuarioencargado')
+			  ->join('users as solicitante','solicitante.id','=','solicitud_busqueda_infos.id')
+			  ->join('tipo_busqueda_infos','tipo_busqueda_infos.idtipo_busqueda_info','=','solicitud_busqueda_infos.idtipo_busqueda_info')
+			  ->leftJoin('ot_busqueda_infos','ot_busqueda_infos.idsolicitud_busqueda_info','=','solicitud_busqueda_infos.idsolicitud_busqueda_info')
+			  ->select('ot_busqueda_infos.idot_busqueda_info as idot','ot_busqueda_infos.ot_tipo_abreviatura as ot_tipo_abreviatura','ot_busqueda_infos.ot_correlativo as ot_correlativo','tipo_busqueda_infos.nombre as nombre_tipo','estados.nombre as nombre_estado','areas.nombre as nombre_area','encargado.nombre as nombre_user','encargado.apellido_pat as apat','encargado.apellido_mat as amat','solicitante.nombre as nombre_user_solicitante','solicitante.apellido_pat as apat_solicitante','solicitante.apellido_mat as amat_solicitante','solicitud_busqueda_infos.*');
 		return $query;
 	}
-	
+	/*
 	public function scopeSearchSots($query,$search,$search_estado,$search_ini,$search_fin)
 	{
 		$query->join('estados','estados.idestado','=','solicitud_orden_trabajos.idestado')

@@ -198,5 +198,29 @@ class OtBusquedaInformacionController extends BaseController {
 		}
 	}
 		
-	
+	public function export_pdf(){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6)){
+				$idot_busqueda_info = Input::get('idot_busqueda_info');
+				$data["ot_info"] = OrdenesTrabajoBusquedaInformacion::searchOtBusquedaInformacionById($idot_busqueda_info)->get();
+				if($data["ot_info"]->isEmpty()){
+					return Redirect::to('busqueda_informacion/list_busqueda_informacion');
+				}
+				$data["ot_info"] = $data["ot_info"][0];
+				$data["tipo"] = TipoOtBusquedaInformacion::find($data["ot_info"]->idtipo_busqueda_info);		
+				$data["tareas"] = TareasOtBusquedaInformacion::getTareasXOt($data["ot_info"]->idot_busqueda_info)->get();
+				$data["personal_data"] = PersonalOtBusquedaInformacion::getPersonalXOt($data["ot_info"]->idot_busqueda_info)->get();
+				$html = View::make('ot/busquedaInformacion/otBusquedaInformacionExport',$data);
+				return PDF::load($html,"A4","portrait")->show();
+
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
 }
