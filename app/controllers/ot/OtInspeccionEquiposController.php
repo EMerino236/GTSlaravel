@@ -10,7 +10,8 @@ class OtInspeccionEquiposController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
 				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
 				$data["search_ing"] = null;
@@ -37,7 +38,7 @@ class OtInspeccionEquiposController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				$data["mes_ini"] = date("Y-m-d",strtotime("first day of this month"));;
 				$data["mes_fin"] = date("Y-m-d",strtotime("last day of this month"));;
 				$data["trimestre_ini"] = null;
@@ -91,7 +92,8 @@ class OtInspeccionEquiposController extends BaseController {
 		$id = Auth::id();
 		$data["inside_url"] = Config::get('app.inside_url');
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 			// Check if the current user is the "System Admin"	
 			$fecha_ini=date("Y-m-d",strtotime("first day of january"));
 			$fecha_fin=date("Y-m-d",strtotime('last day of december'));
@@ -125,7 +127,8 @@ class OtInspeccionEquiposController extends BaseController {
 		$id = Auth::id();
 		$data["inside_url"] = Config::get('app.inside_url');
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 			// Check if the current user is the "System Admin"
 			$data = Input::get('selected_id');
 			$mes = 0;
@@ -134,11 +137,14 @@ class OtInspeccionEquiposController extends BaseController {
 			$mes_fin = date("Y-m-d",strtotime(Input::get('mes_fin')));			
 			$trimestre_ini=date("Y-m-d",strtotime(Input::get('trimestre_ini')));
 			$trimestre_fin=date("Y-m-d",strtotime(Input::get('trimestre_fin')));
+			$count_activos = 0;
 			if($data !="vacio"){
 				$servicio = Servicio::find($data);
 				if($servicio != null){
 					$mes = OrdenesTrabajoInspeccionEquipo::getOtXPeriodoXServicio(9,$mes_ini,$mes_fin,$servicio->idservicio)->get()->count();
 					$trimestre = OrdenesTrabajoInspeccionEquipo::getOtXPeriodoXServicio(9,$trimestre_ini,$trimestre_fin,$servicio->idservicio)->get()->count();					
+					$listActivos = Activo::getEquiposActivosByServicioId($servicio->idservicio)->get(); 
+					$count_activos = count($listActivos);
 				}else{
 				 	$servicio = null;
 				 	$mes = 0;
@@ -150,7 +156,7 @@ class OtInspeccionEquiposController extends BaseController {
 			 	$trimestre = 0;
 			}
 
-			return Response::json(array( 'success' => true,'count_trimestre'=>$trimestre, 'count_mes'=>$mes ),200);
+			return Response::json(array( 'success' => true,'count_trimestre'=>$trimestre, 'count_mes'=>$mes,'count_activos'=>$count_activos ),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
 		}
@@ -180,7 +186,7 @@ class OtInspeccionEquiposController extends BaseController {
 		$id = Auth::id();
 		$data["inside_url"] = Config::get('app.inside_url');
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 			// Check if the current user is the "System Admin"			
 			$array_detalles = Input::get('matrix_detalle');
 			$row_size = count($array_detalles);
@@ -254,7 +260,8 @@ class OtInspeccionEquiposController extends BaseController {
 		$id = Auth::id();
 		$data["inside_url"] = Config::get('app.inside_url');
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 			// Check if the current user is the "System Admin"
 			$x = Input::get('selected_id');
 			//$list_activos = Activo::getEquiposActivosByServicioId($data)->get();
@@ -272,7 +279,8 @@ class OtInspeccionEquiposController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 
 				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
 				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
@@ -299,7 +307,7 @@ class OtInspeccionEquiposController extends BaseController {
 			return Response::json(array( 'success' => false ),200);
 		}
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$ot_inspeccion = OrdenesTrabajoInspeccionEquipo::find(Input::get('idot_inspec_equipo'));
 			$ot_inspeccion->idestado= 25;
@@ -314,12 +322,11 @@ class OtInspeccionEquiposController extends BaseController {
 
 	public function render_create_ot($id=null)
 	{
-		
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if(($data["user"]->idrol == 1) && $id){
+			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4) && $id){
 				
 				$data["ot_info"] = OrdenesTrabajoInspeccionEquipo::searchOtInspeccionEquipoById($id)->get();
 				if($data["ot_info"]->isEmpty()){
@@ -328,7 +335,14 @@ class OtInspeccionEquiposController extends BaseController {
 				$data["ot_info"] = $data["ot_info"][0];		
 				$idservicio = $data["ot_info"]->idservicio;
 				$data["activos_info"] = Activo::getEquiposActivosByServicioId($idservicio)->get();	
-							
+				$data["activosxot_info"] = OrdenesTrabajoInspeccionEquipoxActivo::getOtInspeccionxActivoByIdOtInspeccion($data["ot_info"]->idot_inspec_equipo)->get();
+				$cant_activos = count($data["activosxot_info"]);
+				$data["tareas_activos"] = [];
+				for($i=0;$i<$cant_activos;$i++){
+					$otInspeccionxActivo = OrdenesTrabajoInspeccionEquipoxActivo::getOtInspeccionxActivo($data["ot_info"]->idot_inspec_equipo,$data["activos_info"][$i]->idactivo)->get()[0];
+					$otInspeccionxActivoxTareas = TareasOtInspeccionEquipoxActivo::getTareasxInspeccionxActivo($otInspeccionxActivo->idot_inspec_equiposxactivo)->get();	
+					array_push($data["tareas_activos"],$otInspeccionxActivoxTareas);
+				}
 				return View::make('ot/inspeccionEquipo/createOtInspecEquipos',$data);
 			}else{
 				return View::make('error/error');
@@ -338,28 +352,113 @@ class OtInspeccionEquiposController extends BaseController {
 		}
 	}
 
-	public function getTareasEquipo(){
+	public function submit_marcar_tarea_ajax()
+	{
+		// If there was an error, respond with 404 status
 		if(!Request::ajax() || !Auth::check()){
 			return Response::json(array( 'success' => false ),200);
 		}
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
-			$idot_inspec_equipo = Input::get('idot_inspec_equipo');
-			$codigo_patrimonial = Input::get('codigo_patrimonial_selected');
-			$ot_info = OrdenesTrabajoInspeccionEquipo::find($idot_inspec_equipo);
-			$activo = Activo::searchActivosByCodigoPatrimonial($codigo_patrimonial)->get()[0];
-			$otInspeccionxActivo = OrdenesTrabajoInspeccionEquipoxActivo::getOtInspeccionxActivo($ot_info->idot_inspec_equipo,$activo->idactivo)->get()[0];
-			$tareasxOtxActivo = TareasOtInspeccionEquipoxActivo::getTareasxInspeccionxActivo($otInspeccionxActivo->idot_inspec_equiposxactivo)->get();
-			$tareas_inspeccion = [];
-			foreach($tareasxOtxActivo as $tareaxOtxActivo){
-				$idtarea = $tareaxOtxActivo->idtareas_inspec_equipo;
-				$tarea = TareasOtInspeccionEquipo::find($idtarea);
-				array_push($tareas_inspeccion,$tarea);
-			}			
-			return Response::json(array( 'success' => true, 'tareas'=>$tareas_inspeccion ),200);
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+			$idtareasxactivoxinspeccion = Input::get('idtareasxactivoxinspeccion');
+			$otInspeccionxActivoxTarea = TareasOtInspeccionEquipoxActivo::find($idtareasxactivoxinspeccion);
+			$otInspeccionxActivoxTarea->idestado_realizado = 22;
+			$otInspeccionxActivoxTarea->save();
+			return Response::json(array( 'success' => true),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
 		}
-
 	}
+
+	public function submit_create_ot(){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4)){
+				$idot_inspec_equipo = Input::get('idot_inspec_equipo');
+				// Validate the info, create rules for the inputs
+				$rules = array(
+							'numero_ficha' => 'required'
+				);
+
+				$count_activos = Input::get('count_activos');
+				for($i=0;$i<$count_activos;$i++){
+					$element = array('archivo'.$i =>'mimes:jpeg,png');
+					$rules += $element;
+				}				
+				// Run the validation rules on the inputs from the form
+				$validator = Validator::make(Input::all(), $rules);
+				// If the validator fails, redirect back to the form
+				if($validator->fails()){
+					return Redirect::to('inspec_equipos/create_ot_inspeccion_equipos/'.$idot_inspec_equipo)->withErrors($validator)->withInput(Input::all());
+				}else{
+					$ot = OrdenesTrabajoInspeccionEquipo::find($idot_inspec_equipo);
+					$ot->numero_ficha = Input::get('numero_ficha');
+					$count_activos = Input::get('count_activos');
+					$ot->save();
+					
+					for($i=0;$i<$count_activos;$i++){
+						$idactivo = Input::get('idactivo'.$i);
+						$ot_inspec_equiposxactivo = OrdenesTrabajoInspeccionEquipoxActivo::getOtInspeccionxActivo($idot_inspec_equipo,$idactivo)->get()[0];
+						$rutaDestino ='';
+					    $nombreArchivo ='';	
+					    $nombreArchivoEncriptado = '';
+					    
+					    if (Input::hasFile('archivo'.$i)) {
+					        $archivo = Input::file('archivo'.$i);
+					        $rutaDestino = 'inspeccion_equipos/' .$ot->ot_tipo_abreviatura.$ot->ot_correlativo.'/';
+					        $nombreArchivo = $archivo->getClientOriginalName();
+					        $nombreArchivoEncriptado = Str::random(27).'.'.pathinfo($nombreArchivo, PATHINFO_EXTENSION);
+					        $uploadSuccess = $archivo->move($rutaDestino, $nombreArchivoEncriptado);
+					    }
+					    if($ot_inspec_equiposxactivo->nombre_archivo !== $nombreArchivo && $nombreArchivo!== ''){
+					    	$ot_inspec_equiposxactivo->nombre_archivo = $nombreArchivo;
+							$ot_inspec_equiposxactivo->nombre_archivo_encriptado = $nombreArchivoEncriptado;
+							$ot_inspec_equiposxactivo->imagen_url = $rutaDestino;
+					    }
+					    $observaciones = Input::get('observaciones_equipo'.$i);
+						$ot_inspec_equiposxactivo->observaciones = $observaciones;
+						$ot_inspec_equiposxactivo->save();
+					}
+					Session::flash('message', 'Se guardó correctamente la información.');
+					return Redirect::to('inspec_equipos/create_ot_inspeccion_equipos/'.$idot_inspec_equipo);
+				}
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function export_pdf(){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6)){
+				$idot_inspec_equipo = Input::get('idot_inspec_equipo');
+				$data["ot_info"] = OrdenesTrabajoInspeccionEquipo::searchOtInspeccionEquipoById($idot_inspec_equipo)->get()[0];
+				$idservicio = $data["ot_info"]->idservicio;
+				$data["activos_info"] = Activo::getEquiposActivosByServicioId($idservicio)->get();	
+				$data["activosxot_info"] = OrdenesTrabajoInspeccionEquipoxActivo::getOtInspeccionxActivoByIdOtInspeccion($data["ot_info"]->idot_inspec_equipo)->get();
+				$cant_activos = count($data["activosxot_info"]);
+				$data["tareas_activos"] = [];				
+				for($i=0;$i<$cant_activos;$i++){
+					$otInspeccionxActivo = OrdenesTrabajoInspeccionEquipoxActivo::getOtInspeccionxActivo($data["ot_info"]->idot_inspec_equipo,$data["activos_info"][$i]->idactivo)->get()[0];
+					$otInspeccionxActivoxTareas = TareasOtInspeccionEquipoxActivo::getTareasxInspeccionxActivo($otInspeccionxActivo->idot_inspec_equiposxactivo)->get();	
+					array_push($data["tareas_activos"],$otInspeccionxActivoxTareas);
+				}
+				$html = View::make('ot/inspeccionEquipo/otInspeccionEquipoExport',$data);
+				return PDF::load($html,"A4","portrait")->show();
+
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
 }

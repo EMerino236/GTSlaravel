@@ -37,7 +37,7 @@
 					<div class="row">
 						<div class="form-group col-md-6">
 							{{ Form::label('sot','Número de SOT') }}
-							{{ Form::text('sot',$sot_info->idsolicitud_orden_trabajo,array('class' => 'form-control','readonly'=>'')) }}
+							{{ Form::text('sot',$sot_info->sot_tipo_abreviatura.$sot_info->sot_correlativo.$sot_info->sot_activo_abreviatura,array('class' => 'form-control','readonly'=>'')) }}
 						</div>
 						<div class="form-group col-md-6">
 							{{ Form::label('codigo_patrimonial','Código patrimonial del activo') }}

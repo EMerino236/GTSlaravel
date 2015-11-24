@@ -41,8 +41,8 @@
 					{{ Form::text('nombre_equipo',$reporte_info->nombre_equipo,array('class' => 'form-control','readonly'=>'')) }}
 				</div>
 				<div class="form-group col-md-4">
-					{{ Form::label('fabricante','Fabricante') }}
-					{{ Form::text('fabricante',null,array('class' => 'form-control','readonly'=>'')) }}
+					{{ Form::label('servicio_clinico','Servicio clínico') }}
+					{{ Form::text('servicio_clinico',$reporte_info->nombre_servicio,array('class' => 'form-control','readonly'=>'')) }}
 				</div>
 			</div>
 			<div class="row">
@@ -57,12 +57,6 @@
 				<div class="form-group col-md-4">
 					{{ Form::label('proveedor','Proveedor') }}
 					{{ Form::text('proveedor',$reporte_info->nombre_proveedor,array('class' => 'form-control','readonly'=>'')) }}
-				</div>
-			</div>
-			<div class="row">
-				<div class="form-group col-md-4">
-					{{ Form::label('servicio_clinico','Servicio clínico') }}
-					{{ Form::text('servicio_clinico',$reporte_info->nombre_servicio,array('class' => 'form-control','readonly'=>'')) }}
 				</div>
 			</div>
 		</div>
@@ -90,7 +84,7 @@
 				<div class="form-group col-md-12">
 					<div class="form-group @if($errors->first('descripcion')) has-error has-feedback @endif">
 					{{ Form::label('descripcion','Descripción') }}
-					{{ Form::textarea('descripcion',Input::old('descripcion'),array('class'=>'form-control','maxlength'=>'200','rows'=>'3','readonly'=>'')) }}
+					{{ Form::textarea('descripcion',$reporte_info->descripcion,array('class'=>'form-control','maxlength'=>'200','rows'=>'3','readonly'=>'')) }}
 					</div>
 				</div>
 			</div>

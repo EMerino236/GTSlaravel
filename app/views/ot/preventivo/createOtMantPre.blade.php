@@ -61,8 +61,8 @@
 					</div>
 					<div class="row">
 						<div class="form-group col-md-8">
-							{{ Form::label('ingeniero','Ejecutor del Mantenimiento') }}
-							{{ Form::text('ingeniero',$ot_info->apat_ingeniero.' '.$ot_info->amat_ingeniero.', '.$ot_info->nombre_ingeniero,array('class' => 'form-control','readonly'=>'')) }}
+							{{ Form::label('nombre_ejecutor','Ejecutor del Mantenimiento') }}
+							{{ Form::text('nombre_ejecutor',$ot_info->nombre_ejecutor,array('class' => 'form-control')) }}
 						</div>
 					</div>
 					<div class="row">
@@ -402,9 +402,15 @@
 			</div>
 			<div class="form-group col-md-2">
 				<a class="btn btn-default btn-block" href="{{URL::to('/mant_preventivo/list_mant_preventivo')}}">Cancelar</a>				
-			</div>
-		</div>	
+			</div>	
 	{{ Form::close() }}
+			{{Form::open(array('url'=>'mant_preventivo/export_pdf', 'role'=>'form'))}}		
+			{{Form::hidden('idot_preventivo', $ot_info->idot_preventivo) }}
+			<div class="form-group col-md-2 col-md-offset-6">
+				{{ Form::button('<span class="glyphicon glyphicon-export"></span> Exportar', array('id'=>'exportar', 'type'=>'submit' ,'class' => 'btn btn-success btn-block')) }}
+			</div>
+			{{ Form::close() }}
+		</div>	
 
 	<div class="container">
   <!-- Modal -->

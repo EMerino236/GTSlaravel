@@ -44,7 +44,6 @@ function eliminar_ot(event,el){
     parent = parent.parentNode;
     index_value = parent.rowIndex-1;
     idot_inspec_equipo = $('#fila'+index_value).val();
-    alert(idot_inspec_equipo);
 
         $.ajax({
             url: inside_url+'inspec_equipos/submit_disable_inspeccion',

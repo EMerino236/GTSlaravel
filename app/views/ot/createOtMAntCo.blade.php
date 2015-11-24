@@ -193,7 +193,7 @@
 				<h3 class="panel-title">Datos Generales de la Orden de Trabajo de Mantenimiento</h3>
 			</div>
 			<div class="panel-body">
-				@if($ot_info->idestado_ot == 9)
+				@if($ot_info->idestado_ot == 9 && ($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4))
 				<div class="row">
 					<div class="form-group col-md-8">
 						{{ Form::text('nombre_tarea', null,array('class'=>'form-control','placeholder'=>'Ingrese aquí la tarea realizada')) }}
@@ -212,7 +212,7 @@
 					<tr id="tarea-row-{{ $tarea->idtareas_ot_correctivo }}">
 						<td>{{$tarea->nombre}}</td>
 						<td>
-							@if($ot_info->idestado_ot == 9)
+							@if($ot_info->idestado_ot == 9 && ($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4))
 							<button class="btn btn-danger boton-eliminar-tarea" onclick="eliminar_tarea(event,{{$tarea->idtareas_ot_correctivo}})" type="button">Eliminar</button>
 							@endif
 						</td>
@@ -260,7 +260,7 @@
 				<h3 class="panel-title">Datos de Repuestos</h3>
 			</div>
 			<div class="panel-body">
-				@if($ot_info->idestado_ot == 9)
+				@if($ot_info->idestado_ot == 9 && ($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4))
 				<div class="row">
 					<div class="form-group col-md-4">
 						{{ Form::text('nombre_repuesto', null,array('class'=>'form-control','placeholder'=>'Nombre y características técnicas')) }}
@@ -294,7 +294,7 @@
 						<td>{{$repuesto->cantidad}}</td>
 						<td>S/. {{number_format($repuesto->costo,2)}}</td>
 						<td>
-							@if($ot_info->idestado_ot == 9)
+							@if($ot_info->idestado_ot == 9 && ($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4))
 							<button class="btn btn-danger boton-eliminar-repuesto" onclick="eliminar_repuesto(event,{{$repuesto->idrepuestos_ot_correctivo}})" type="button">Eliminar</button>
 							@endif
 						</td>
@@ -316,7 +316,7 @@
 				<h3 class="panel-title">Datos de Mano de Obra</h3>
 			</div>
 			<div class="panel-body">
-				@if($ot_info->idestado_ot == 9)
+				@if($ot_info->idestado_ot == 9 && ($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4))
 				<div class="row">
 					<div class="form-group col-md-5">
 						{{ Form::text('nombre_personal', null,array('class'=>'form-control','placeholder'=>'Nombres Apellidos')) }}
@@ -345,7 +345,7 @@
 						<td>{{$personal->horas_hombre}}</td>
 						<td>{{$personal->costo}}</td>
 						<td>
-							@if($ot_info->idestado_ot == 9)
+							@if($ot_info->idestado_ot == 9 && ($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4))
 							<button class="btn btn-danger boton-eliminar-mano-obra" onclick="eliminar_personal(event,{{$personal->idpersonal_ot_correctivo}})" type="button">Eliminar</button>
 							@endif
 						</td>
@@ -362,12 +362,18 @@
 			    </div>
 			</div>
 		</div>
-		@if($ot_info->idestado_ot == 9)
+		@if($ot_info->idestado_ot == 9 && ($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4))
 		<div class="row">
 			<div class="col-md-6">
 				{{ Form::submit('Guardar',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}
 			</div>
+		{{ Form::close() }}
+			<div class="col-md-6">
+				{{ Form::open(array('url'=>'mant_correctivo/export_pdf', 'role'=>'form')) }}
+				{{ Form::hidden('idot_correctivo', $ot_info->idot_correctivo) }}
+				{{ Form::submit('Exportar',array('class'=>'btn btn-info')) }}
+				{{ Form::close() }}
+			</div>
 		</div>
 		@endif
-	{{ Form::close() }}
 @stop

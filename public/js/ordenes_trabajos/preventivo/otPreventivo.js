@@ -5,6 +5,7 @@ $( document ).ready(function(){
 	
 
 	$("#submit-tarea").click(function(e){
+		idot_preventivo = $('#idot_preventivo').val();
 		e.preventDefault;
 		if($("input[name=nombre_tarea]").val().length<1){
 			$("input[name=nombre_tarea]").parent().addClass("has-error has-feedback");
@@ -27,10 +28,10 @@ $( document ).ready(function(){
 						$(this).prop('disabled',false);
 					},
 					success: function(response){
-						var str = "";
-						str += '<tr id="tarea-row-'+response.otPreventivoxtarea.idtareas_ot_preventivosxot_preventivo+'"><td>'+response.tarea.nombre+'</td>';
-						str += '<td><button class="btn btn-danger boton-eliminar-tarea" onclick="eliminar_tarea(event,'+response.otPreventivoxtarea.idtareas_ot_preventivosxot_preventivo+')" type="button">Eliminar</button></td></tr>';
-						$("#tareas-table").append(str);
+						console.log(response);
+						$(this).prop('disabled',true);
+						var url = inside_url + "mant_preventivo/create_ot_preventivo/"+idot_preventivo;
+						window.location = url;
 					},
 					error: function(){
 					}

@@ -218,6 +218,7 @@ Route::group(array('prefix'=>'mant_correctivo','before'=>'auth'),function(){
 	Route::post('/submit_create_personal_ajax','OtController@submit_create_personal_ajax');
 	Route::post('/submit_delete_personal_ajax','OtController@submit_delete_personal_ajax');
 	Route::post('/ver_programaciones','OtController@search_programaciones');
+	Route::post('/export_pdf','OtController@export_pdf');
 });
 /* Retiro Servicio */
 Route::group(array('prefix'=>'retiro_servicio','before'=>'auth'),function(){
@@ -228,21 +229,25 @@ Route::group(array('prefix'=>'retiro_servicio','before'=>'auth'),function(){
 	Route::get('/search_reporte_retiro_servicio','RetiroServicioController@search_reporte_retiro_servicio');
 	Route::get('/edit_reporte_retiro_servicio/{id}','RetiroServicioController@render_edit_reporte_retiro_servicio');
 	Route::post('/submit_disable_reporte_retiro_servicio','RetiroServicioController@submit_disable_reporte_retiro_servicio');
+	Route::post('/search_equipo_ajax','RetiroServicioController@search_equipo_ajax');
 	/*
 	Route::get('/programacion','RetiroServicioController@render_program_ot_retiro_servicio');
 	Route::post('/submit_programacion','RetiroServicioController@submit_program_ot_mant_correctivo');
 	Route::post('/calendario_ot_mant_correctivo','RetiroServicioController@calendario_ot_mant_correctivo_ajax');
 	*/
+	Route::post('/ver_programaciones','RetiroServicioController@search_programaciones');
 	Route::get('/list_retiro_servicio','RetiroServicioController@list_retiro_servicio');
 	Route::get('/search_ot_retiro_servicio','RetiroServicioController@search_ot_retiro_servicio');
-	/*
+	Route::get('/programacion/{id}','RetiroServicioController@render_program_ot_retiro_servicio');
+	Route::post('/submit_programacion','RetiroServicioController@submit_program_ot_retiro_servicio');
+	Route::get('/search_ot_retiro_servicio','RetiroServicioController@search_ot_retiro_servicio');
 	Route::get('/create_ot/{id}','RetiroServicioController@render_create_ot');
 	Route::post('/submit_create_ot','RetiroServicioController@submit_create_ot');
-	Route::post('/submit_create_repuesto_ajax','RetiroServicioController@submit_create_repuesto_ajax');
-	Route::post('/submit_delete_repuesto_ajax','RetiroServicioController@submit_delete_repuesto_ajax');
+	Route::post('/submit_create_tarea_ajax','RetiroServicioController@submit_create_tarea_ajax');
+	Route::post('/submit_delete_tarea_ajax','RetiroServicioController@submit_delete_tarea_ajax');
 	Route::post('/submit_create_personal_ajax','RetiroServicioController@submit_create_personal_ajax');
 	Route::post('/submit_delete_personal_ajax','RetiroServicioController@submit_delete_personal_ajax');
-	*/	
+	Route::post('/export_pdf','RetiroServicioController@export_pdf');
 });
 
 /* Marcar Tareas */
@@ -341,6 +346,7 @@ Route::group(array('prefix'=>'mant_preventivo','before'=>'auth'),function(){
 	Route::post('/submit_create_personal_ajax','OtPreventivoController@submit_create_personal_ajax');
 	Route::post('/submit_delete_personal_ajax','OtPreventivoController@submit_delete_personal_ajax');	
 	Route::post('/submit_disable_preventivo','OtPreventivoController@submit_disable_preventivo');
+	Route::post('/export_pdf','OtPreventivoController@export_pdf');
 });
 
 /* Verificación Metrológica */
@@ -371,9 +377,12 @@ Route::group(array('prefix'=>'inspec_equipos','before'=>'auth'),function(){
 	Route::post('/search_servicio_ajax','OtInspeccionEquiposController@search_servicio_ajax');
 	Route::get('/create_ot_inspeccion_equipos/{id}','OtInspeccionEquiposController@render_create_ot');
 	//Route::post('/submit_create_ot','OtInspecEquiposController@submit_create_ot');
+	Route::post('/submit_marcar_tarea_ajax','OtInspeccionEquiposController@submit_marcar_tarea_ajax');
 	Route::post('/validate_servicio','OtInspeccionEquiposController@validate_servicio');
 	Route::post('/submit_disable_inspeccion','OtInspeccionEquiposController@submit_disable_inspeccion');
-	Route::post('/getTareasInspeccionEquipo','OtInspeccionEquiposController@getTareasEquipo');
+	Route::post('/submit_create_ot','OtInspeccionEquiposController@submit_create_ot');
+	Route::post('/export_pdf','OtInspeccionEquiposController@export_pdf');
+	
 });
 
 /* Planificacion */
@@ -390,4 +399,32 @@ Route::group(array('prefix'=>'reporte_cn','before'=>'auth'),function(){
 	Route::post('/submit_create_reporte_cn','ReporteCNController@submit_create_reporte_cn');
 	Route::get('/search_reporte_cn','ReporteCNController@search_reporte_cn');
 	Route::get('/download_documento/{id?}','ReporteCNController@download_documento');
+
+/*Registro Historico de OTM*/
+Route::group(array('prefix'=>'registro_historico_otm','before'=>'auth'),function(){
+	Route::get('/list_ot','RegistroHistoricoOTController@list_ot');
+	Route::get('/search_ot','RegistroHistoricoOTController@search_ot');
+});
+
+/*SOT Busqueda Informacion*/
+Route::group(array('prefix'=>'solicitud_busqueda_informacion','before'=>'auth'),function(){
+	Route::get('/create_sot','SotBusquedaInformacionController@render_create_sot');
+	Route::post('/submit_sot','SotBusquedaInformacionController@submit_create_sot');
+	Route::get('/list_busqueda_informacion','SotBusquedaInformacionController@list_busqueda_informacion');
+	Route::post('/submit_create_ot_busqueda_informacion','SotBusquedaInformacionController@submit_ot');
+
+});
+
+
+/* Búsqueda Informacion */
+Route::group(array('prefix'=>'busqueda_informacion','before'=>'auth'),function(){
+	Route::get('/programacion','OtBusquedaInformacionController@render_program_ot_busqueda_informacion');
+	Route::post('/submit_programacion','OtBusquedaInformacionController@submit_program_ot_busqueda_informacion');
+	Route::get('/search_ot_busqueda_informacion','OtBusquedaInformacionController@search_ot_busqueda_informacion');
+	Route::get('/create_ot_busqueda_informacion/{id}','OtBusquedaInformacionController@render_create_ot');
+	Route::post('/submit_create_tarea_ajax','OtBusquedaInformacionController@submit_create_tarea_ajax');
+	Route::post('/submit_marcar_tarea_ajax','OtBusquedaInformacionController@submit_marcar_tarea_ajax');
+	Route::post('/submit_delete_tarea_ajax','OtBusquedaInformacionController@submit_delete_tarea_ajax');
+	Route::post('/submit_create_personal_ajax','OtBusquedaInformacionController@submit_create_personal_ajax');
+	Route::post('/submit_delete_personal_ajax','OtBusquedaInformacionController@submit_delete_personal_ajax');	
 });

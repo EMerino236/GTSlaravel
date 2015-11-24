@@ -87,6 +87,53 @@ class OrdenesTrabajoInspeccionEquipo extends Eloquent{
 		return $query;
 	}
 
+	public function scopeGetOtsMantInspeccionAllHistorico($query)
+	{
+		$query->join('estados','estados.idestado','=','ot_inspec_equipos.idestado')
+			  ->join('servicios','servicios.idservicio','=','ot_inspec_equipos.idservicio')
+			  ->join('areas','areas.idarea','=','servicios.idarea')
+			  ->select('areas.nombre as nombre_area','servicios.nombre as nombre_servicio','estados.nombre as nombre_estado','ot_inspec_equipos.*');
+	  	return $query;
+	}
 	
-	
+	public function scopeSearchOTHistorico($query,$search_nombre_equipo,$search_marca,$search_modelo,$search_grupo,$search_serie,$search_proveedor,$search_codigo_patrimonial,$search_ini,$search_fin)
+		{
+			$query->join('estados','estados.idestado','=','ot_inspec_equipos.idestado')
+				  ->join('servicios','servicios.idservicio','=','ot_inspec_equipos.idservicio')
+				  ->join('activos','activos.idservicio','=','servicios.idservicio')
+				  ->join('modelo_activos','modelo_activos.idmodelo_equipo','=','activos.idmodelo_equipo')
+				  ->join('familia_activos','familia_activos.idfamilia_activo','=','modelo_activos.idfamilia_activo')
+				  ->join('marcas','marcas.idmarca','=','familia_activos.idmarca')			 
+				  ->join('areas','areas.idarea','=','servicios.idarea')				  
+			  	  ->join('grupos','grupos.idgrupo','=','activos.idgrupo')
+			  	  ->join('proveedores','proveedores.idproveedor','=','activos.idproveedor')			  		
+				  ->join('users','users.id','=','ot_inspec_equipos.id_ingeniero');
+
+				  if($search_nombre_equipo!="")
+			  		$query->where('familia_activos.nombre_equipo','LIKE',"%$search_nombre_equipo%");
+				  if($search_marca!=0)
+				  	$query->where('marcas.idmarca','=',$search_marca);
+				  if($search_modelo!="")
+				  	$query->where('modelo_activos.nombre','LIKE',"%$search_modelo%");
+				  if($search_grupo!="")
+				  	$query->where('grupos.nombre','LIKE',"%$search_grupo%");
+				  if($search_serie!="")
+				  	$query->where('activos.numero_serie','LIKE',"%$search_serie%");
+				  if($search_codigo_patrimonial!="")
+				  	$query->where('activos.codigo_patrimonial','LIKE',"%$search_codigo_patrimonial%");
+				  if($search_proveedor!="")
+				  	$query->whereNested(function($query) use($search_proveedor){
+				  			$query->where('proveedores.ruc','LIKE',"%$search_proveedor%")
+				  			  	  ->orWhere('proveedores.razon_social','LIKE',"%$search_proveedor%")
+				  			  	  ->orWhere('proveedores.nombre_contacto','LIKE',"%$search_proveedor%");
+				  	});
+				  if($search_ini != "")
+					$query->where('ot_inspec_equipos.fecha_inicio','>=',date('Y-m-d H:i:s',strtotime($search_ini)));
+				  if($search_fin != "")
+					$query->where('ot_inspec_equipos.fecha_inicio','<=',date('Y-m-d H:i:s',strtotime($search_fin)));
+				  	  
+				  $query->select('areas.nombre as nombre_area','servicios.nombre as nombre_servicio','estados.nombre as nombre_estado','ot_inspec_equipos.*');
+		  	return $query;
+		}
+
 }

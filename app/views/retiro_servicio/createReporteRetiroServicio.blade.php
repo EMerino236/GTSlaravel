@@ -32,38 +32,32 @@
 		<div class="panel-body">
 			<div class="row">
 				<div class="form-group col-md-4">
-					<div class="form-group @if($errors->first('idactivo')) has-error has-feedback @endif">
-						{{ Form::label('idactivo','Activo') }}
-						{{ Form::select('idactivo',$activos,Input::old('idactivo'),['class' => 'form-control']) }}
+					<div class="form-group @if($errors->first('cod_pat')) has-error has-feedback @endif">
+						{{ Form::label('cod_pat','Activo') }}
+						{{ Form::text('cod_pat',null,array('class' => 'form-control','id'=>'cod_pat')) }}
 					</div>
 				</div>
 				<div class="form-group col-md-4">
 					{{ Form::label('nombre_equipo','Nombre de Equipo') }}
-					{{ Form::text('nombre_equipo',Input::old('nombre_equipo'),array('class' => 'form-control','readonly'=>'')) }}
+					{{ Form::text('nombre_equipo',null,array('class' => 'form-control','id'=>'nombre_equipo','readonly'=>'')) }}
 				</div>
 				<div class="form-group col-md-4">
-					{{ Form::label('fabricante','Fabricante') }}
-					{{ Form::text('fabricante',Input::old('fabricante'),array('class' => 'form-control','readonly'=>'')) }}
+					{{ Form::label('servicio_clinico','Servicio clínico') }}
+					{{ Form::text('servicio_clinico',null,array('class' => 'form-control','id'=>'servicio_clinico','readonly'=>'')) }}
 				</div>
 			</div>
 			<div class="row">
 				<div class="form-group col-md-4">
 					{{ Form::label('modelo','Modelo') }}
-					{{ Form::text('modelo',Input::old('modelo'),array('class' => 'form-control','readonly'=>'')) }}
+					{{ Form::text('modelo',null,array('class' => 'form-control','id'=>'modelo','readonly'=>'')) }}
 				</div>
 				<div class="form-group col-md-4">
 					{{ Form::label('serie','Serie') }}
-					{{ Form::text('serie',Input::old('serie'),array('class' => 'form-control','readonly'=>'')) }}
+					{{ Form::text('serie',null,array('class' => 'form-control','id'=>'serie','readonly'=>'')) }}
 				</div>
 				<div class="form-group col-md-4">
 					{{ Form::label('proveedor','Proveedor') }}
-					{{ Form::text('proveedor',Input::old('proveedor'),array('class' => 'form-control','readonly'=>'')) }}
-				</div>
-			</div>
-			<div class="row">
-				<div class="form-group col-md-4">
-					{{ Form::label('servicio_clinico','Servicio clínico') }}
-					{{ Form::text('servicio_clinico',Input::old('servicio_clinico'),array('class' => 'form-control','readonly'=>'')) }}
+					{{ Form::text('proveedor',null,array('class' => 'form-control','id'=>'proveedor','readonly'=>'')) }}
 				</div>
 			</div>
 		</div>
@@ -115,4 +109,6 @@
 		</div>
 	</div>
 	{{ Form::close() }}
+
+    <script src="{{ asset('js/retiro_servicio/retiro_servicio.js') }}"></script>  
 @stop

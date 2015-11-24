@@ -144,7 +144,7 @@
 			{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Crear', array('id'=>'submit_create_ots', 'class' => 'btn btn-primary btn-block')) }}
 		</div>
 		<div class="form-group col-md-2">
-			<a class="btn btn-default btn-block" href="{{URL::to('/inspec_equipos/list_mant_preventivo')}}">Cancelar</a>				
+			<a class="btn btn-default btn-block" href="{{URL::to('/mant_preventivo/list_mant_preventivo')}}">Cancelar</a>				
 		</div>
 	</div>	
 

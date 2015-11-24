@@ -3,7 +3,12 @@
 	<div class="row">
         <div class="col-lg-12">
             <h3 class="page-header">Reportes de Retiro de Servicios</h3>
-            <p class="text-right">{{ HTML::link('/retiro_servicio/create_reporte_retiro_servicio','+ Agregar Reporte',array('class'=>'')) }}</p>
+            <div class="container-fluid form-group row">
+				<div class="col-md-4 col-md-offset-8">
+            		<a class="btn btn-primary btn-block" href="{{URL::to('/retiro_servicio/create_reporte_retiro_servicio')}}">
+					<span class="glyphicon glyphicon-plus"></span> Agregar Reporte</a>
+				</div>
+			</div>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -70,7 +75,7 @@
 			@foreach($reporte_retiros_data as $reporte_retiro_data)
 			<tr>
 				<td>
-					<a href="{{URL::to('/retiro_servicio/edit_reporte_retiro_servicio/')}}/{{$reporte_retiro_data->idreporte_retiro}}">{{$reporte_retiro_data->idreporte_retiro}}</a>
+					<a href="{{URL::to('/retiro_servicio/edit_reporte_retiro_servicio/')}}/{{$reporte_retiro_data->idreporte_retiro}}">{{$reporte_retiro_data->reporte_tipo_abreviatura}}{{$reporte_retiro_data->reporte_correlativo}}{{$reporte_retiro_data->reporte_activo_abreviatura}}</a>
 				</td>
 				<td>
 					{{$reporte_retiro_data->codigo_patrimonial}}
@@ -95,7 +100,7 @@
 					{{$reporte_retiro_data->nombre_motivo}}
 				</td>
 				<td>
-					Programar
+					<a href="{{URL::to('/retiro_servicio/programacion/')}}/{{$reporte_retiro_data->idreporte_retiro}}">Programar</a>
 				</td>
 			</tr>
 			@endforeach

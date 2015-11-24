@@ -5,21 +5,28 @@ class OtPreventivoController extends BaseController {
 	private static $nombre_tabla = 'estado_ot';
 	private static $estado_activo = 'estado_activo';
 
-	public function render_program_ot_mant_preventivo($id=null)
+	public function list_mant_preventivo()
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
-				$data["mes_ini"] = date("Y-m-d",strtotime("first day of this month"));;
-				$data["mes_fin"] = date("Y-m-d",strtotime("last day of this month"));;
-				$data["trimestre_ini"] = null;
-				$data["trimestre_fin"] = null;
-				$this->calcular_trimestre($data["trimestre_ini"],$data["trimestre_fin"]);
-				$data['solicitantes'] = User::getJefes()->get();
-				
-				return View::make('ot/preventivo/createProgramOtMantPre',$data);
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
+				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
+				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
+				$data["search_ing"] = null;
+				$data["search_cod_pat"] = null;
+				$data["search_ubicacion"] = null;
+				$data["search_ot"] = null;
+				$data["search_equipo"] = null;
+				$data["search_proveedor"] = null;
+				$data["search_ini"] = null;
+				$data["search_fin"] = null;
+				$data["search_servicio"] = null;
+				$data["servicios"] = Servicio::lists('nombre','idservicio');
+				$data["mant_preventivos_data"] = OrdenesTrabajoPreventivo::getOtsMantPreventivoInfo()->get();
+				return View::make('ot/preventivo/listOtMantPreventivo',$data);
 			}else{
 				return View::make('error/error');
 			}
@@ -36,7 +43,8 @@ class OtPreventivoController extends BaseController {
 		$id = Auth::id();
 		$data["inside_url"] = Config::get('app.inside_url');
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 			// Check if the current user is the "System Admin"
 			$data = Input::get('selected_id');
 			$mes = 0;
@@ -98,35 +106,7 @@ class OtPreventivoController extends BaseController {
 		return;
 	}
 
-	public function list_mant_preventivo()
-	{
-		if(Auth::check()){
-			$data["inside_url"] = Config::get('app.inside_url');
-			$data["user"] = Session::get('user');
-			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
-				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
-				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
-				$data["search_ing"] = null;
-				$data["search_cod_pat"] = null;
-				$data["search_ubicacion"] = null;
-				$data["search_ot"] = null;
-				$data["search_equipo"] = null;
-				$data["search_proveedor"] = null;
-				$data["search_ini"] = null;
-				$data["search_fin"] = null;
-				$data["search_servicio"] = null;
-				$data["servicios"] = Servicio::lists('nombre','idservicio');
-				$data["mant_preventivos_data"] = OrdenesTrabajoPreventivo::getOtsMantPreventivoInfo()->get();
-				return View::make('ot/preventivo/listOtMantPreventivo',$data);
-			}else{
-				return View::make('error/error');
-			}
-
-		}else{
-			return View::make('error/error');
-		}
-	}
+	
 
 	public function search_programaciones(){
 		if(!Request::ajax() || !Auth::check()){
@@ -135,7 +115,8 @@ class OtPreventivoController extends BaseController {
 		$id = Auth::id();
 		$data["inside_url"] = Config::get('app.inside_url');
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 			// Check if the current user is the "System Admin"	
 			$fecha_ini=date("Y-m-d",strtotime("first day of january"));
 			$fecha_fin=date("Y-m-d",strtotime('last day of december'));
@@ -173,7 +154,8 @@ class OtPreventivoController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 
 				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
 				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
@@ -213,6 +195,30 @@ class OtPreventivoController extends BaseController {
 		return $string;
 	}
 
+	public function render_program_ot_mant_preventivo($id=null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+				$data["mes_ini"] = date("Y-m-d",strtotime("first day of this month"));;
+				$data["mes_fin"] = date("Y-m-d",strtotime("last day of this month"));;
+				$data["trimestre_ini"] = null;
+				$data["trimestre_fin"] = null;
+				$this->calcular_trimestre($data["trimestre_ini"],$data["trimestre_fin"]);
+				$data['solicitantes'] = User::getJefes()->get();
+				
+				return View::make('ot/preventivo/createProgramOtMantPre',$data);
+			}else{
+				return View::make('error/error');
+			}
+
+		}else{
+			return View::make('error/error');
+		}
+	}
+
 	public function submit_program_ot_mant_preventivo(){
 		if(!Request::ajax() || !Auth::check()){
 			return Response::json(array( 'success' => false ),200);
@@ -220,7 +226,7 @@ class OtPreventivoController extends BaseController {
 		$id = Auth::id();
 		$data["inside_url"] = Config::get('app.inside_url');
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 			// Check if the current user is the "System Admin"			
 			$array_detalles = Input::get('matrix_detalle');
 			$row_size = count($array_detalles);
@@ -286,7 +292,7 @@ class OtPreventivoController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if(($data["user"]->idrol == 1) && $id){
+			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4) && $id){
 				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
 				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
 				$tabla_estado_activo = Tabla::getTablaByNombre(self::$estado_activo)->get();
@@ -317,11 +323,12 @@ class OtPreventivoController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if(($data["user"]->idrol == 1)){
+			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6)){
 				$idot_preventivo = Input::get('idot_preventivo');
 				// Validate the info, create rules for the inputs
 				$rules = array(
 							'numero_ficha' => 'required',
+							'nombre_ejecutor' => 'max:200',
 							'idestado' => 'required',
 							'idestado_inicial' => 'required',
 							'sin_interrupcion_servicio' => 'required',
@@ -345,6 +352,7 @@ class OtPreventivoController extends BaseController {
 						$ot->fecha_inicio_ejecucion = date("Y-m-d H:i:s",strtotime(Input::get('fecha_inicio_ejecucion')));
 					if(Input::get('fecha_termino_ejecucion'))
 						$ot->fecha_termino_ejecucion = date("Y-m-d H:i:s",strtotime(Input::get('fecha_termino_ejecucion')));
+					$ot->nombre_ejecutor = Input::get('nombre_ejecutor');
 					$ot->save();
 					$activo = Activo::find(Input::get('idactivo'));
 					$activo->idestado = Input::get('idestado_final');
@@ -367,7 +375,7 @@ class OtPreventivoController extends BaseController {
 			return Response::json(array( 'success' => false ),200);
 		}
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 
 			$repuesto = new RepuestosOtPreventivos;
 			$repuesto->nombre = Input::get('nombre_repuesto');
@@ -392,7 +400,7 @@ class OtPreventivoController extends BaseController {
 			return Response::json(array( 'success' => false ),200);
 		}
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 
 			$repuesto = RepuestosOtPreventivos::find(Input::get('idrepuestos_ot_preventivo'));
 			$ot = OrdenesTrabajoPreventivo::find(Input::get('idot_preventivo'));
@@ -412,7 +420,7 @@ class OtPreventivoController extends BaseController {
 			return Response::json(array( 'success' => false ),200);
 		}
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 			$tarea = new TareaOtPreventivo;
 			$tarea->nombre = Input::get('nombre_tarea');
 			$tarea->estado = 1;
@@ -440,7 +448,7 @@ class OtPreventivoController extends BaseController {
 			return Response::json(array( 'success' => false ),200);
 		}
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 			$idotPreventivoxtarea = Input::get('idtareas_ot_preventivosxot_preventivo');
 			$otPreventivoxtarea = OrdenesTrabajoPreventivoxTarea::find($idotPreventivoxtarea);
 			$otPreventivoxtarea->idestado_realizado = 22;
@@ -458,7 +466,7 @@ class OtPreventivoController extends BaseController {
 			return Response::json(array( 'success' => false ),200);
 		}
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 
 			$personal = new PersonalOtPreventivo;
 			$personal->nombre = Input::get('nombre_personal');
@@ -482,7 +490,7 @@ class OtPreventivoController extends BaseController {
 			return Response::json(array( 'success' => false ),200);
 		}
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 
 			$personal = PersonalOtPreventivo::find(Input::get('idpersonal_ot_preventivo'));
 			$ot = OrdenesTrabajoPreventivo::find(Input::get('idot_preventivo'));
@@ -501,7 +509,7 @@ class OtPreventivoController extends BaseController {
 			return Response::json(array( 'success' => false ),200);
 		}
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$ot_preventivo = OrdenesTrabajoPreventivo::find(Input::get('idot_preventivo'));
 			$ot_preventivo->idestado_ot = 25;
@@ -521,12 +529,41 @@ class OtPreventivoController extends BaseController {
 			return Response::json(array( 'success' => false ),200);
 		}
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 			$idorden_trabajoxactivoxtarea = OrdenesTrabajoPreventivoxTarea::find(Input::get('idtareas_ot_preventivosxot_preventivo'));
 			$idorden_trabajoxactivoxtarea->delete();
 			return Response::json(array( 'success' => true),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
+	public function export_pdf(){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6)){
+				$idot_preventivo = Input::get('idot_preventivo');
+				$data["ot"] = OrdenesTrabajoPreventivo::searchOtPreventivoById($idot_preventivo)->get()[0];
+				$data["estado_inicial"] = Estado::find($data["ot"]->idestado_inicial);
+				$data["estado_final"] = Estado::find($data["ot"]->idestado_final);
+				$data["equipo_no_intervenido"] = Estado::find($data["ot"]->idestado_ot);	
+				$data["usuario_solicitante"] = User::find($data["ot"]->id_usuariosolicitante);
+				$data["usuario_elaborador"] = User::find($data["ot"]->id_usuarioelaborador);	
+				$data["servicio"] = Servicio::find($data["ot"]->idservicio);
+				$data["ubicacion"] = UbicacionFisica::find($data["ot"]->idubicacion_fisica);
+				$data["tareas"] = OrdenesTrabajoPreventivoxTarea::getTareasXOtXActivo($idot_preventivo)->get();
+				$data["repuestos_ot"] = RepuestosOtPreventivos::getRepuestosXOt($idot_preventivo)->get();
+				$data["personal_data"] = PersonalOtPreventivo::getPersonalXOt($idot_preventivo)->get();
+				$html = View::make('ot/preventivo/otPreventivoExport',$data);
+				return PDF::load($html,"A4","portrait")->show();
+
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
 		}
 	}
 
