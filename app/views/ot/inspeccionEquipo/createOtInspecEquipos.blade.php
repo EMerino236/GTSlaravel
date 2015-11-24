@@ -129,14 +129,16 @@
 									<th>Estado</th>
 								</tr>
 								@foreach($tareas_activos[$i] as $j => $tarea)
-									<td>{{$tarea->nombre_tarea}}</td>
-									<td>
-									@if($tarea->idestado_realizado == 23)
-										{{ Form::button('Marcar realizada',array('class'=>'btn btn-default boton-tarea','data-id'=>$tarea->idot_inspec_equiposxactivosxtareas_inspec_equipo)) }}
-									@else
-										Realizada
-									@endif
-								</td>
+									<tr>
+										<td>{{$tarea->nombre_tarea}}</td>
+										<td>
+										@if($tarea->idestado_realizado == 23)
+											{{ Form::button('Marcar realizada',array('class'=>'btn btn-default boton-tarea','data-id'=>$tarea->idot_inspec_equiposxactivosxtareas_inspec_equipo)) }}
+										@else
+											Realizada
+										@endif
+										</td>
+									</tr>
 								@endforeach
 							</table>
 						</div>
@@ -167,7 +169,13 @@
 			<div class="form-group col-md-2">
 				<a class="btn btn-default btn-block" href="{{URL::to('/inspec_equipos/list_inspec_equipos')}}">Cancelar</a>				
 			</div>
-		</div>	
 	{{Form::close()}}
+			{{Form::open(array('url'=>'inspec_equipos/export_pdf', 'role'=>'form'))}}		
+			{{Form::hidden('idot_inspec_equipo', $ot_info->idot_inspec_equipo) }}
+			<div class="form-group col-md-2 col-md-offset-6">
+				{{ Form::button('<span class="glyphicon glyphicon-export"></span> Exportar', array('id'=>'exportar', 'type'=>'submit' ,'class' => 'btn btn-success btn-block')) }}
+			</div>
+			{{ Form::close() }}
+		</div>
 
 @stop

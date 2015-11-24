@@ -410,7 +410,6 @@
 				{{ Form::button('<span class="glyphicon glyphicon-export"></span> Exportar', array('id'=>'exportar', 'type'=>'submit' ,'class' => 'btn btn-success btn-block')) }}
 			</div>
 			{{ Form::close() }}
-
 		</div>	
 
 	<div class="container">

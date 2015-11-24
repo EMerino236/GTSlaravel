@@ -380,6 +380,7 @@ Route::group(array('prefix'=>'inspec_equipos','before'=>'auth'),function(){
 	Route::post('/validate_servicio','OtInspeccionEquiposController@validate_servicio');
 	Route::post('/submit_disable_inspeccion','OtInspeccionEquiposController@submit_disable_inspeccion');
 	Route::post('/submit_create_ot','OtInspeccionEquiposController@submit_create_ot');
+	Route::post('/export_pdf','OtInspeccionEquiposController@export_pdf');
 	
 });
 
