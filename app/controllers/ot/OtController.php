@@ -500,4 +500,37 @@ class OtController extends BaseController {
 			return Response::json(array( 'success' => false ),200);
 		}
 	}
+
+	public function export_pdf(){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 5 || $data["user"]->idrol == 6
+				 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
+				
+				$idot_correctivo = Input::get('idot_correctivo');
+				$ot_correctivo = OtCorrectivo::searchOtById($idot_correctivo)->get();
+				if($ot_correctivo->isEmpty()){
+					Session::flash('error', 'No se encontró la OT.');
+					return Redirect::to('mant_correctivo/list_mant_correctivo');
+				}
+				$data["ot_correctivo"] = $ot_correctivo[0];
+				$data["tareas"] = TareasOtCorrectivo::getTareasXOtXActi($idot_correctivo)->get();
+				$data["repuestos"] = RepuestosOtCorrectivo::getRepuestosXOtXActi($idot_correctivo)->get();
+				$data["personal"] = PersonalOtCorrectivo::getPersonalXOtXActi($idot_correctivo)->get();
+				$data["estado_ot"] = Estado::find($data["ot_correctivo"]->idestado_ot);
+				$data["prioridad"] = Prioridad::find($data["ot_correctivo"]->idprioridad);
+				$data["tipo_falla"] = TipoFalla::find($data["ot_correctivo"]->idtipo_falla);
+				$data["estado_inicial_activo"] = Estado::find($data["ot_correctivo"]->idestado_inicial);
+				$data["estado_final_activo"] = Estado::find($data["ot_correctivo"]->idestado_final);
+				$html = View::make('ot/otCorrectivoExport',$data);
+				return PDF::load($html,"A4","portrait")->show();
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
 }

@@ -629,115 +629,14 @@ class RetiroServicioController extends BaseController {
 					Session::flash('error', 'No se encontró la OT.');
 					return Redirect::to('retiro_servicio/list_retiro_servicio');
 				}
-				$ot_retiro = $ot_retiro[0];
-				$tareas = TareasOtRetiro::getTareasXOtXActi($idot_retiro)->get();
-				$personal = PersonalOtRetiro::getPersonalXOtXActi($idot_retiro)->get();
-				$estado_ot = Estado::find($ot_retiro->idestado_ot);
-				$estado_inicial_activo = Estado::find($ot_retiro->idestado_inicial);
-				$estado_final_activo = Estado::find($ot_retiro->idestado_final);
+				$data["ot_retiro"] = $ot_retiro[0];
+				$data["tareas"] = TareasOtRetiro::getTareasXOtXActi($idot_retiro)->get();
+				$data["personal"] = PersonalOtRetiro::getPersonalXOtXActi($idot_retiro)->get();
+				$data["estado_ot"] = Estado::find($data["ot_retiro"]->idestado_ot);
+				$data["estado_inicial_activo"] = Estado::find($data["ot_retiro"]->idestado_inicial);
+				$data["estado_final_activo"] = Estado::find($data["ot_retiro"]->idestado_final);
+				$html = View::make('retiro_servicio/otRetiroServicioExport',$data);
 
-
-				$tabla_tareas = '<table style="width:100%"><tr><th>Tarea Realizada</th></tr>';
-				foreach($tareas as $tarea){
-					$tabla_tareas = $tabla_tareas.'<tr><td>'.$tarea->nombre.'</td></tr>';
-				}
-				$tabla_tareas=$tabla_tareas.'</table>';
-
-				$tabla_personal = '<table style="width:100%"><tr><th>Nombres y apellidos</th><th>Horas trabajadas</th><th>Subtotal</th></tr>';
-				foreach($personal as $p){
-					$tabla_personal = $tabla_personal.'<tr><td>'.$p->nombre.'</td><td>'.$p->horas_hombre.'</td><td>'.$p->costo.'</td></tr>';
-				}
-				$tabla_personal=$tabla_personal.'</table><p>Gasto total en mano de obra: S/. '.number_format($ot_retiro->costo_total_personal,2).'</p>';
-
-				$html = '<html><head><meta charset="UTF-8"><style>'.
-						'table, th, td {
-    						border: 1px solid black;
-    						border-collapse: collapse;
-						}'.
-						'th, td {
-							text-align: center;
-						}'
-						.'.lista_generales{
-							list-style-type:none;
-							border:1px solid black;
-							width:100%;
-						}'
-						.'li{
-							margin-bottom:5px;
-							margin-left:-15px;
-						}'
-						.'.nombre_general{
-							width:100%;
-						}'
-						.'#titulo{
-							text-align:center;
-							margin-top:60px;
-							position:fixed;
-						}'
-						.'#logo{
-							padding:10px 10px 10px 10px;	
-						}'
-						.'.firmas{
-							margin:100px 0 20px 0;
-						}'
-						.'.firma{
-							display: inline;
-							border-top: 1px solid #000000;
-						}'
-						.'.firma{
-							margin-right: 10px;
-						}'
-						.'.firma{
-							margin-left: 10px;
-							margin-right: 10px;
-						}'
-						.'.firma{
-							margin-left: 10px;
-						}'
-						.'</style>
-						</head>'.
-						'<div class="nombre_general"><img id="logo" src="img/logo_uib.jpg" ></img><h2 id="titulo" >Orden de trabajo de retiro de servicio</h2></div>'
-						.'<div>'
-						.'<h3>Datos de la orden de trabajo</h3>'
-						.'<ul class="lista_generales">'
-							.'<li><label><strong>Numero Orden de Mantenimiento:</strong></label> '.$ot_retiro->ot_tipo_abreviatura.$ot_retiro->ot_correlativo.$ot_retiro->ot_activo_abreviatura.'</li>'						
-							.'<li><label><strong>Solicitante: </strong></label> '.$ot_retiro->apat_solicitante.' '.$ot_retiro->amat_solicitante.', '.$ot_retiro->nombre_solicitante.'</li>'
-							.'<li><label><strong>Ejecutor del mantenimiento: </strong></label> '.$ot_retiro->apat_ingeniero.' '.$ot_retiro->amat_ingeniero.', '.$ot_retiro->nombre_ingeniero.'</li>'
-							.'<li><label><strong>Fecha programada: </strong></label> '.date("d-m-Y H:i",strtotime($ot_retiro->fecha_programacion)).'</li>'							
-							.'<li><label><strong>Servicio hospitalario: </strong></label> '.$ot_retiro->nombre_servicio.'</li>'
-							.'<li><label><strong>Ubicación física: </strong></label> '.$ot_retiro->nombre_ubicacion.'</li>'
-						.'</ul>'
-						.'<h3>Datos del equipo</h3>'
-						.'<ul class="lista_generales">'
-							.'<li><label><strong>Nombre del equipo: </strong></label> '.$ot_retiro->nombre_equipo.'</li>'
-							.'<li><label><strong>Código patrimonial: </strong></label> '.$ot_retiro->codigo_patrimonial.'</li>'
-							.'<li><label><strong>Número de serie: </strong></label> '.$ot_retiro->numero_serie.'</li>'
-							.'<li><label><strong>Marca: </strong></label> '.$ot_retiro->nombre_marca.'</li>'
-							.'<li><label><strong>Modelo: </strong></label> '.$ot_retiro->modelo.'</li>'
-						.'</ul>'
-						.'<h3>Datos del reporte de retiro</h3>'
-						.'<ul class="lista_generales">'
-							.'<li><label><strong>Fecha de baja: </strong></label> '.date('d-m-Y H:i:s',strtotime($ot_retiro->fecha_baja)).'</li>'
-							.'<li><label><strong>Fecha de conformidad: </strong></label> '.($ot_retiro->fecha_conformidad != null ? date('d-m-Y H:i:s',strtotime($ot_retiro->fecha_conformidad)) : 'N/A').'</li>'
-						.'</ul>'
-						.'<h3>Estado de la Orden de Trabajo</h3>'
-						.'<ul class="lista_generales">'
-							.'<li><label><strong>Equipo no intervenido: </strong></label> '.$estado_ot->nombre.'</li>'
-						.'</ul>'
-						.'<h3>Datos del Diagnóstico y Programación</h3>'
-						.'<ul class="lista_generales">'
-							.'<li><label><strong>Estado inicial del activo: </strong></label> '.$estado_inicial_activo->nombre.'</li>'
-							.'<li><label><strong>Estado final del activo: </strong></label> '.$estado_final_activo->nombre.'</li>'
-						.'</ul></div>'
-						.'<div><h3>Datos Generales de la Orden de Trabajo de Retiro de Servicio</h3>'.$tabla_tareas.'</div>'
-						.'<div><h3>Datos de Mano de Obra</h3>'.$tabla_personal.'</div>'
-						.'<div class="firmas"><h4 class="firma firma-izquierda">Firma del Jefe de servicio clinico</h4>'
-						.'<h4 class="firma firma-medio">Firma del Ingeniero UIB</h4>'
-						.'<h4 class="firma firma-derecha">Firma del Ingeniero de tumimed</h4></div>'
-						.'<ul class="lista_generales">'
-							.'<li><label><strong>Documento elaborado por: </strong></label> '.$ot_retiro->apat_elaborador.' '.$ot_retiro->amat_elaborador.', '.$ot_retiro->nombre_elaborador.'</li>'
-						.'</ul>'
-						.'</html>';
 				
 				return PDF::load($html,"A4","portrait")->show();
 			}else{

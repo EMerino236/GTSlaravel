@@ -367,7 +367,13 @@
 			<div class="col-md-6">
 				{{ Form::submit('Guardar',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}
 			</div>
+		{{ Form::close() }}
+			<div class="col-md-6">
+				{{ Form::open(array('url'=>'mant_correctivo/export_pdf', 'role'=>'form')) }}
+				{{ Form::hidden('idot_correctivo', $ot_info->idot_correctivo) }}
+				{{ Form::submit('Exportar',array('class'=>'btn btn-info')) }}
+				{{ Form::close() }}
+			</div>
 		</div>
 		@endif
-	{{ Form::close() }}
 @stop

@@ -218,6 +218,7 @@ Route::group(array('prefix'=>'mant_correctivo','before'=>'auth'),function(){
 	Route::post('/submit_create_personal_ajax','OtController@submit_create_personal_ajax');
 	Route::post('/submit_delete_personal_ajax','OtController@submit_delete_personal_ajax');
 	Route::post('/ver_programaciones','OtController@search_programaciones');
+	Route::post('/export_pdf','OtController@export_pdf');
 });
 /* Retiro Servicio */
 Route::group(array('prefix'=>'retiro_servicio','before'=>'auth'),function(){
