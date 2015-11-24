@@ -486,6 +486,7 @@ class RetiroServicioController extends BaseController {
 			return View::make('error/error');
 		}
 	}
+	
 	public function submit_create_ot()
 	{
 		if(Auth::check()){

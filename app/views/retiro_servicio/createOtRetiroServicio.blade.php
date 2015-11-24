@@ -23,7 +23,9 @@
 		<div class="alert alert-danger">{{ Session::get('error') }}</div>
 	@endif
 
+	@if($ot_info->idestado_ot == 9)
 	{{ Form::open(array('url'=>'retiro_servicio/submit_create_ot', 'role'=>'form')) }}
+	@endif
 		{{ Form::hidden('idot_retiro', $ot_info->idot_retiro) }}
 		{{ Form::hidden('idactivo', $ot_info->idactivo) }}
 		<div class="panel panel-default">
@@ -221,7 +223,7 @@
 					<tr class="info">
 						<th>Nombres y Apellidos</th>
 						<th>Horas Trabajadas</th>
-						<th>Subtotal</th>
+						<th>Costo</th>
 						<th>Operaciones</th>
 					</tr>
 					@foreach($personal_data as $personal)
@@ -247,18 +249,21 @@
 			    </div>
 			</div>
 		</div>
-		@if($ot_info->idestado_ot == 9 && ($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4))
-		<div class="row">
-			<div class="col-md-6">
-				{{ Form::submit('Guardar',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}
-				{{ Form::close() }}
+		@if($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4)
+			<div class="row">
+				@if($ot_info->idestado_ot == 9)
+				<div class="col-md-6">
+					{{ Form::submit('Guardar',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}
+					{{ Form::close() }}
+				</div>
+				@else
+				<div class="col-md-6">
+					{{ Form::open(array('url'=>'retiro_servicio/export_pdf', 'role'=>'form')) }}
+					{{ Form::hidden('idot_retiro', $ot_info->idot_retiro) }}
+					{{ Form::submit('Exportar',array('class'=>'btn btn-info')) }}
+					{{ Form::close() }}
+				</div>
+				@endif
 			</div>
-			<div class="col-md-6">
-				{{ Form::open(array('url'=>'retiro_servicio/export_pdf', 'role'=>'form')) }}
-				{{ Form::hidden('idot_retiro', $ot_info->idot_retiro) }}
-				{{ Form::submit('Exportar',array('class'=>'btn btn-info')) }}
-				{{ Form::close() }}
-			</div>
-		</div>
 		@endif
 @stop

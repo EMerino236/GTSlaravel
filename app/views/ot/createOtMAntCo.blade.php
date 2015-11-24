@@ -29,8 +29,9 @@
 	@if (Session::has('error'))
 		<div class="alert alert-danger">{{ Session::get('error') }}</div>
 	@endif
-
+	@if($ot_info->idestado_ot == 9)
 	{{ Form::open(array('url'=>'mant_correctivo/submit_create_ot', 'role'=>'form')) }}
+	@endif
 		{{ Form::hidden('idot_correctivo', $ot_info->idot_correctivo) }}
 		{{ Form::hidden('idactivo', $ot_info->idactivo) }}
 		<div class="panel panel-default">
@@ -362,18 +363,21 @@
 			    </div>
 			</div>
 		</div>
-		@if($ot_info->idestado_ot == 9 && ($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4))
-		<div class="row">
-			<div class="col-md-6">
-				{{ Form::submit('Guardar',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}
+		@if($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4)
+			<div class="row">
+				@if($ot_info->idestado_ot == 9)
+				<div class="col-md-6">
+					{{ Form::submit('Guardar',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}
+					{{ Form::close() }}
+				</div>
+				@else
+				<div class="col-md-6">
+					{{ Form::open(array('url'=>'mant_correctivo/export_pdf', 'role'=>'form')) }}
+					{{ Form::hidden('idot_correctivo', $ot_info->idot_correctivo) }}
+					{{ Form::submit('Exportar',array('class'=>'btn btn-info')) }}
+					{{ Form::close() }}
+				</div>
+				@endif
 			</div>
-		{{ Form::close() }}
-			<div class="col-md-6">
-				{{ Form::open(array('url'=>'mant_correctivo/export_pdf', 'role'=>'form')) }}
-				{{ Form::hidden('idot_correctivo', $ot_info->idot_correctivo) }}
-				{{ Form::submit('Exportar',array('class'=>'btn btn-info')) }}
-				{{ Form::close() }}
-			</div>
-		</div>
 		@endif
 @stop

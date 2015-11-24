@@ -2,6 +2,9 @@
 	<head>
 		<meta charset="UTF-8">
 		<style>
+			body{
+				font-size: 10px;
+			}
 			table, th, td {
 				border: 1px solid black;
 				border-collapse: collapse;
@@ -23,11 +26,12 @@
 			}
 			#titulo{
 				text-align:center;
-				margin-top:60px;
+				margin-top:30px;
 				position:fixed;
 			}
 			#logo{
-				padding:10px 10px 10px 10px;	
+				padding:10px 10px 10px 10px;
+				width: 80px;	
 			}
 			.firmas{
 				margin:100px 0 20px 0;
@@ -40,8 +44,8 @@
 				margin-right: 10px;
 			}
 			.firma{
-				margin-left: 10px;
-				margin-right: 10px;
+				margin-left: 85px;
+				margin-right: 85px;
 			}
 			.firma{
 				margin-left: 10px;
@@ -53,7 +57,7 @@
 		<div>
 		<h3>Datos de la orden de trabajo</h3>
 		<ul class="lista_generales">
-			<li><label><strong>Numero Orden de Mantenimiento:</strong></label> {{$ot_retiro->ot_tipo_abreviatura}}{{$ot_retiro->ot_correlativo}}{{$ot_retiro->ot_activo_abreviatura}}</li>				
+			<li><label><strong>Número Orden de Mantenimiento:</strong></label> {{$ot_retiro->ot_tipo_abreviatura}}{{$ot_retiro->ot_correlativo}}{{$ot_retiro->ot_activo_abreviatura}}</li>				
 			<li><label><strong>Solicitante: </strong></label>{{$ot_retiro->apat_solicitante}} {{$ot_retiro->amat_solicitante}}, {{$ot_retiro->nombre_solicitante}}</li>
 			<li><label><strong>Ejecutor del mantenimiento: </strong></label>{{$ot_retiro->apat_ingeniero}} {{$ot_retiro->amat_ingeniero}}, {{$ot_retiro->nombre_ingeniero}}</li>
 			<li><label><strong>Fecha programada: </strong></label> {{date("d-m-Y H:i",strtotime($ot_retiro->fecha_programacion))}}</li>						
@@ -93,7 +97,7 @@
 		</div>
 		<div>
 			<h3>Datos de Mano de Obra</h3>
-			<table style="width:100%"><tr><th>Nombres y apellidos</th><th>Horas trabajadas</th><th>Subtotal</th></tr>
+			<table style="width:100%"><tr><th>Nombres y apellidos</th><th>Horas trabajadas</th><th>Costo</th></tr>
 				@foreach($personal as $p)
 					<tr><td>{{$p->nombre}}</td><td>{{$p->horas_hombre}}</td><td>{{$p->costo}}</td></tr>
 				@endforeach
