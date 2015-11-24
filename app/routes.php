@@ -399,6 +399,7 @@ Route::group(array('prefix'=>'reporte_cn','before'=>'auth'),function(){
 	Route::post('/submit_create_reporte_cn','ReporteCNController@submit_create_reporte_cn');
 	Route::get('/search_reporte_cn','ReporteCNController@search_reporte_cn');
 	Route::get('/download_documento/{id?}','ReporteCNController@download_documento');
+});
 
 /*Registro Historico de OTM*/
 Route::group(array('prefix'=>'registro_historico_otm','before'=>'auth'),function(){
@@ -414,7 +415,6 @@ Route::group(array('prefix'=>'solicitud_busqueda_informacion','before'=>'auth'),
 	Route::post('/submit_create_ot_busqueda_informacion','SotBusquedaInformacionController@submit_ot');
 
 });
-
 
 /* Búsqueda Informacion */
 Route::group(array('prefix'=>'busqueda_informacion','before'=>'auth'),function(){
