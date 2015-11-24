@@ -9,33 +9,6 @@ class OrdenesTrabajoVerifMetrologica extends Eloquent{
 	protected $primaryKey = 'idot_vmetrologica';
 	protected $table = 'ot_vmetrologicas';
 
-	public function scopeSearchOtById($query,$search_criteria)
-	{
-		$query->join('estados','estados.idestado','=','ordenes_trabajos.idestado')
-			  ->join('servicios','servicios.idservicio','=','ordenes_trabajos.idservicio')
-			  ->join('areas','areas.idarea','=','servicios.idarea')
-			  ->join('ordenes_trabajosxactivos','ordenes_trabajosxactivos.idorden_trabajoxactivo','=','ordenes_trabajos.idordenes_trabajo')
-			  ->join('activos','activos.idactivo','=','ordenes_trabajosxactivos.idactivo')
-			  ->join('ubicacion_fisicas','ubicacion_fisicas.idubicacion_fisica','=','activos.idubicacion_fisica')
-			  ->join('proveedores','proveedores.idproveedor','=','activos.idproveedor')
-			  ->join('modelo_activos','modelo_activos.idmodelo_equipo','=','activos.idmodelo_equipo')
-			  ->join('familia_activos','familia_activos.idfamilia_activo','=','modelo_activos.idfamilia_activo')
-
-			  /*
-			  ->join('familia_activos','familia_activos.idfamilia_activo','=','activos.idfamilia_activo')
-				*/
-			  ->join('marcas','marcas.idmarca','=','familia_activos.idmarca')
-			  ->join('grupos','grupos.idgrupo','=','activos.idgrupo')
-			  ->join('users as elaborador','elaborador.id','=','ordenes_trabajos.id_usuarioelaborado')
-			  ->join('users as ingeniero','ingeniero.id','=','grupos.id_responsable')
-			  ->join('users as solicitante','solicitante.id','=','grupos.id_responsable')
-			  ->join('solicitud_orden_trabajos','solicitud_orden_trabajos.idsolicitud_orden_trabajo','=','ordenes_trabajos.idsolicitud_orden_trabajo')
-			  ->where('ordenes_trabajos.idordenes_trabajo','=',$search_criteria)
-			  ->select('solicitud_orden_trabajos.fecha_solicitud','activos.garantia','activos.idactivo','activos.numero_serie','activos.codigo_patrimonial','marcas.nombre as nombre_marca','familia_activos.nombre_equipo','modelo_activos.nombre as modelo','ubicacion_fisicas.nombre as nombre_ubicacion','areas.nombre as nombre_area','elaborador.nombre as nombre_elaborador','elaborador.apellido_pat as apat_elaborador','elaborador.apellido_mat as amat_elaborador','ingeniero.nombre as nombre_ingeniero','ingeniero.apellido_pat as apat_ingeniero','ingeniero.apellido_mat as amat_ingeniero','solicitante.nombre as nombre_solicitante','solicitante.apellido_pat as apat_solicitante','solicitante.apellido_mat as amat_solicitante','servicios.nombre as nombre_servicio','estados.nombre as nombre_estado','ordenes_trabajos.*');
-	  	return $query;
-	}
-
-
 	public function scopeGetLastOtVerifMetrologica($query)
 	{
 		$query->orderBy('idot_vmetrologica','desc');
@@ -109,7 +82,7 @@ class OrdenesTrabajoVerifMetrologica extends Eloquent{
 			  ->join('marcas','marcas.idmarca','=','familia_activos.idmarca')
 			  ->join('grupos','grupos.idgrupo','=','activos.idgrupo')
 			  ->join('users as elaborador','elaborador.id','=','ot_vmetrologicas.id_usuarioelaborador')
-			  ->join('users as solicitante','solicitante.id','=','grupos.id_responsable')
+			  ->join('users as solicitante','solicitante.id','=','ot_vmetrologicas.id_usuariosolicitante')
 			  ->where('ot_vmetrologicas.idot_vmetrologica','=',$search_criteria)
 			  ->select('activos.garantia','activos.idactivo','activos.numero_serie','activos.codigo_patrimonial','marcas.nombre as nombre_marca','familia_activos.nombre_equipo','modelo_activos.nombre as modelo','ubicacion_fisicas.nombre as nombre_ubicacion','areas.nombre as nombre_area','elaborador.nombre as nombre_elaborador','elaborador.apellido_pat as apat_elaborador','elaborador.apellido_mat as amat_elaborador','solicitante.nombre as nombre_solicitante','solicitante.apellido_pat as apat_solicitante','solicitante.apellido_mat as amat_solicitante','servicios.nombre as nombre_servicio','estados.nombre as nombre_estado','ot_vmetrologicas.*');
 	  	return $query;

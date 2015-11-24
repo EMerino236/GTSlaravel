@@ -93,7 +93,7 @@
 					<th>Servicio</th>
 					<th>Ingeniero</th>
 					<th>Ubicación</th>
-					<th>Orden Trabajo Mantenimiento</th>
+					<th>Orden Trabajo VM</th>
 					<th>Estado</th>
 				</tr>
 				@foreach($verif_metrologicas_data as $verif_metrologica_data)

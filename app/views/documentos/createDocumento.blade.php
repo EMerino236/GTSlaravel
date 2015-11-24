@@ -85,13 +85,12 @@
 			</div>		
 		</div>	
 	{{ Form::close() }}
-<!--
+	
 	<script>
 		$("#input-file").fileinput({
 		    language: "es",
 		    allowedFileExtensions: ["png","jpe","jpeg","jpg","gif","bmp","zip","rar","pdf","doc","docx","xls","xlsx","ppt","pptx"]
 		});
 	</script>
--->
 	
 @stop

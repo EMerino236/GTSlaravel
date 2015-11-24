@@ -186,8 +186,8 @@
 				<div class="col-md-6">
 					<div class="row">
 						<div class="form-group col-md-8 @if($errors->first('idestado')) has-error has-feedback @endif">
-							{{ Form::label('idestado','Equipo No Intervenido') }}
-							{{ Form::select('idestado', $estados,$ot_info->idestado,['class' => 'form-control']) }}
+							{{ Form::label('idestado_ot','Equipo No Intervenido') }}
+							{{ Form::select('idestado_ot', $estados,$ot_info->idestado_ot,['class' => 'form-control']) }}
 						</div>
 					</div>
 				</div>
@@ -302,9 +302,15 @@
 			<div class="form-group col-md-2">
 				{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit_create_ots', 'type'=>'submit','class' => 'btn btn-primary btn-block')) }}
 			</div>
+	{{ Form::close() }}
 			<div class="form-group col-md-2">
 				<a class="btn btn-default btn-block" href="{{URL::to('/verif_metrologica/list_verif_metrologica')}}">Cancelar</a>				
 			</div>
+			{{Form::open(array('url'=>'verif_metrologica/export_pdf', 'role'=>'form'))}}		
+				{{ Form::hidden('idot_vmetrologica', $ot_info->idot_vmetrologica) }}
+				<div class="form-group col-md-2">
+					{{ Form::button('<span class="glyphicon glyphicon-export"></span> Exportar', array('id'=>'exportar', 'type'=>'submit' ,'class' => 'btn btn-success btn-block')) }}
+				</div>
+			{{ Form::close() }}
 		</div>	
-	{{ Form::close() }}
 @stop

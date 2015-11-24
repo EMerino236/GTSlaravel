@@ -358,6 +358,7 @@ Route::group(array('prefix'=>'verif_metrologica','before'=>'auth'),function(){
 	Route::post('/submit_delete_personal_ajax','OtVerificacionMetrologicaController@submit_delete_personal_ajax');
 	Route::post('/return_name_doc_relacionado/{postData}','OtVerificacionMetrologicaController@return_name_doc_relacionado');
 	Route::get('/download_documento/{id?}','OtVerificacionMetrologicaController@download_documento');
+	Route::post('/export_pdf','OtVerificacionMetrologicaController@export_pdf');
 });
 
 /* Inspeccion de Equipos */
@@ -373,4 +374,20 @@ Route::group(array('prefix'=>'inspec_equipos','before'=>'auth'),function(){
 	Route::post('/validate_servicio','OtInspeccionEquiposController@validate_servicio');
 	Route::post('/submit_disable_inspeccion','OtInspeccionEquiposController@submit_disable_inspeccion');
 	Route::post('/getTareasInspeccionEquipo','OtInspeccionEquiposController@getTareasEquipo');
+});
+
+/* Planificacion */
+Route::group(array('prefix'=>'planeamiento', 'before'=>'auth'),function(){
+	Route::get('/','PlaneamientoController@home');
+});
+
+/* Reporte CN */
+Route::group(array('prefix'=>'reporte_cn','before'=>'auth'),function(){
+	Route::get('/list_reporte_cn','ReporteCNController@list_reporte_cn');
+	Route::get('/edit_reporte_cn/{id}','ReporteCNController@render_edit_reporte_cn');
+	Route::post('/submit_edit_reporte_cn','ReporteCNController@submit_edit_reporte_cn');
+	Route::get('/create_reporte_cn/{id?}','ReporteCNController@render_create_reporte_cn');
+	Route::post('/submit_create_reporte_cn','ReporteCNController@submit_create_reporte_cn');
+	Route::get('/search_reporte_cn','ReporteCNController@search_reporte_cn');
+	Route::get('/download_documento/{id?}','ReporteCNController@download_documento');
 });
