@@ -1,4 +1,4 @@
-@extends('templates/otMantenimientoCorrectivoTemplate')
+@extends('templates/otRetiroServicioTemplate')
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
@@ -52,7 +52,7 @@
 					</div>
 					<div class="form-group col-md-4">
 						{{ Form::label('fecha_programacion','Fecha Programada') }}
-						{{ Form::text('fecha_programacion',$ot_info->fecha_programacion,array('class' => 'form-control','readonly'=>'')) }}
+						{{ Form::text('fecha_programacion',date("d-m-Y H:i:s",strtotime($ot_info->fecha_programacion)),array('class' => 'form-control','readonly'=>'')) }}
 					</div>
 					<div class="form-group col-md-4">
 						{{ Form::label('nombre_servicio','Servicio Hospitalario') }}
@@ -107,7 +107,7 @@
 				<div class="row">
 					<div class="form-group col-md-4">
 						{{ Form::label('fecha_baja','Fecha de Baja') }}
-						{{ Form::text('fecha_baja',date('d-m-Y H:i:s',strtotime($ot_info->fecha_baja)),array('class' => 'form-control','readonly'=>'')) }}
+						{{ Form::text('fecha_baja',date('d-m-Y H:i',strtotime($ot_info->fecha_baja)),array('class' => 'form-control','readonly'=>'')) }}
 					</div>
 					@if(!$ot_info->fecha_conformidad)
 					<div class="form-group col-md-4">
@@ -122,7 +122,7 @@
 					@else
 					<div class="form-group col-md-4">
 						{{ Form::label('fecha_conformidad','Fecha de Conformidad') }}
-						{{ Form::text('fecha_conformidad',date('d-m-Y H:i:s',strtotime($ot_info->fecha_conformidad)),array('class'=>'form-control','readonly'=>'')) }}
+						{{ Form::text('fecha_conformidad',date('d-m-Y H:i',strtotime($ot_info->fecha_conformidad)),array('class'=>'form-control','readonly'=>'')) }}
 					</div>
 					@endif
 				</div>
@@ -159,7 +159,7 @@
 
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h3 class="panel-title">Datos Generales de la Orden de Trabajo de Mantenimiento</h3>
+				<h3 class="panel-title">Datos Generales de la Orden de Trabajo de Retiro de Servicio</h3>
 			</div>
 			<div class="panel-body">
 				@if($ot_info->idestado_ot == 9 && ($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4))
@@ -178,11 +178,11 @@
 						<th>Operaciones</th>
 					</tr>
 					@foreach($tareas as $tarea)
-					<tr id="tarea-row-{{ $tarea->idtareas_ot_correctivo }}">
+					<tr id="tarea-row-{{ $tarea->idtareas_ot_retiro }}">
 						<td>{{$tarea->nombre}}</td>
 						<td>
 							@if($ot_info->idestado_ot == 9 && ($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4))
-							<button class="btn btn-danger boton-eliminar-tarea" onclick="eliminar_tarea(event,{{$tarea->idtareas_ot_correctivo}})" type="button">Eliminar</button>
+							<button class="btn btn-danger boton-eliminar-tarea" onclick="eliminar_tarea(event,{{$tarea->idtareas_ot_retiro}})" type="button">Eliminar</button>
 							@endif
 						</td>
 					</tr>
@@ -225,13 +225,13 @@
 						<th>Operaciones</th>
 					</tr>
 					@foreach($personal_data as $personal)
-					<tr id="personal-row-{{ $personal->idpersonal_ot_correctivo }}">
+					<tr id="personal-row-{{ $personal->idpersonal_ot_retiro }}">
 						<td>{{$personal->nombre}}</td>
 						<td>{{$personal->horas_hombre}}</td>
 						<td>{{$personal->costo}}</td>
 						<td>
 							@if($ot_info->idestado_ot == 9 && ($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4))
-							<button class="btn btn-danger boton-eliminar-mano-obra" onclick="eliminar_personal(event,{{$personal->idpersonal_ot_correctivo}})" type="button">Eliminar</button>
+							<button class="btn btn-danger boton-eliminar-mano-obra" onclick="eliminar_personal(event,{{$personal->idpersonal_ot_retiro}})" type="button">Eliminar</button>
 							@endif
 						</td>
 					</tr>
@@ -251,8 +251,14 @@
 		<div class="row">
 			<div class="col-md-6">
 				{{ Form::submit('Guardar',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}
+				{{ Form::close() }}
+			</div>
+			<div class="col-md-6">
+				{{ Form::open(array('url'=>'retiro_servicio/export_pdf', 'role'=>'form')) }}
+				{{ Form::hidden('idot_retiro', $ot_info->idot_retiro) }}
+				{{ Form::submit('Exportar',array('class'=>'btn btn-info')) }}
+				{{ Form::close() }}
 			</div>
 		</div>
 		@endif
-	{{ Form::close() }}
 @stop

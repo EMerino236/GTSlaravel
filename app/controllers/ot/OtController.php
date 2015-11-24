@@ -319,9 +319,9 @@ class OtController extends BaseController {
 					$ot->diagnostico_falla = Input::get('diagnostico_falla');
 					$ot->sin_interrupcion_servicio = Input::get('sin_interrupcion_servicio');
 					$ot->idestado_final = Input::get('idestado_final');
-					$ot->fecha_conformidad = Input::get('fecha_conformidad');
-					$ot->fecha_inicio_ejecucion = Input::get('fecha_inicio_ejecucion');
-					$ot->fecha_termino_ejecucion = Input::get('fecha_termino_ejecucion');
+					$ot->fecha_conformidad = date("Y-m-d H:i:s",strtotime(Input::get('fecha_conformidad')));
+					$ot->fecha_inicio_ejecucion = date("Y-m-d H:i:s",strtotime(Input::get('fecha_inicio_ejecucion')));
+					$ot->fecha_termino_ejecucion = date("Y-m-d H:i:s",strtotime(Input::get('fecha_termino_ejecucion')));
 					$ot->save();
 
 					$activo = Activo::find(Input::get('idactivo'));

@@ -486,4 +486,265 @@ class RetiroServicioController extends BaseController {
 			return View::make('error/error');
 		}
 	}
+	public function submit_create_ot()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4)){
+				$idot_retiro = Input::get('idot_retiro');
+				// Validate the info, create rules for the inputs
+				$attributes = array(
+							'idestado' => 'Estado',
+							'idestado_inicial' => 'Estado Inicial del Activo',
+							'idestado_final' => 'Estado Final del Activo',
+							'fecha_conformidad' => 'Fecha de Conformidad',
+							);
+				$messages = array();
+				$rules = array(
+							'idestado' => 'required',
+							'idestado_inicial' => 'required',
+							'idestado_final' => 'required',
+							'fecha_conformidad' => 'required',
+						);
+				// Run the validation rules on the inputs from the form
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
+				// If the validator fails, redirect back to the form
+				if($validator->fails()){
+					return Redirect::to('retiro_servicio/create_ot/'.$idot_retiro)->withErrors($validator)->withInput(Input::all());
+				}else{
+					$ot = OtRetiro::find($idot_retiro);
+					//$ot->idprioridad = Input::get('prioridades');
+					$ot->idestado_ot = Input::get('idestado');
+					$ot->idestado_inicial = Input::get('idestado_inicial');
+					$ot->idestado_final = Input::get('idestado_final');
+					$ot->fecha_conformidad = date("Y-m-d H:i:s",strtotime(Input::get('fecha_conformidad')));
+					$ot->save();
+
+					$activo = Activo::find(Input::get('idactivo'));
+					$activo->idestado = Input::get('idestado_final');
+					$activo->save();
+					Session::flash('message', 'Se guardó correctamente la información.');
+					return Redirect::to('retiro_servicio/create_ot/'.$idot_retiro);
+				}
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function submit_create_tarea_ajax()
+	{
+		// If there was an error, respond with 404 status
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+			$tarea = new TareasOtRetiro;
+			$tarea->nombre = Input::get('nombre_tarea');
+			$tarea->idot_retiro = Input::get('idot_retiro');
+			$tarea->idestado_realizado = 24;
+			$tarea->save();
+			return Response::json(array( 'success' => true, 'tarea' => $tarea),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
+	public function submit_delete_tarea_ajax()
+	{
+		// If there was an error, respond with 404 status
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+			$tarea = TareasOtRetiro::find(Input::get('idtareas_ot_retiro'));
+			$tarea->delete();
+			return Response::json(array( 'success' => true),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
+	public function submit_create_personal_ajax()
+	{
+		// If there was an error, respond with 404 status
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+
+			$personal = new PersonalOtRetiro;
+			$personal->nombre = Input::get('nombre_personal');
+			$personal->horas_hombre = Input::get('horas_trabajadas');
+			$personal->costo = Input::get('costo_personal');
+			$personal->idot_retiro = Input::get('idot_retiro');
+			$personal->save();
+			$ot = OtRetiro::find(Input::get('idot_retiro'));
+			$ot->costo_total_personal = $ot->costo_total_personal + Input::get('horas_trabajadas')*Input::get('costo_personal');
+			$ot->save();
+			return Response::json(array( 'success' => true,'personal'=>$personal,'costo_total_personal' => number_format($ot->costo_total_personal,2)),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
+	public function submit_delete_personal_ajax()
+	{
+		// If there was an error, respond with 404 status
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+
+			$personal = PersonalOtRetiro::find(Input::get('idpersonal_ot_retiro'));
+			$ot = OtRetiro::find(Input::get('idot_retiro'));
+			$ot->costo_total_personal = $ot->costo_total_personal - $personal->horas_hombre*$personal->costo;
+			$ot->save();
+			$personal->delete();
+			return Response::json(array( 'success' => true,'costo_total_personal' => number_format($ot->costo_total_personal,2)),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
+	public function export_pdf(){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 5 || $data["user"]->idrol == 6
+				 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
+				
+				$idot_retiro = Input::get('idot_retiro');
+				$ot_retiro = OtRetiro::searchOtById($idot_retiro)->get();
+				if($ot_retiro->isEmpty()){
+					Session::flash('error', 'No se encontró la OT.');
+					return Redirect::to('retiro_servicio/list_retiro_servicio');
+				}
+				$ot_retiro = $ot_retiro[0];
+				$tareas = TareasOtRetiro::getTareasXOtXActi($idot_retiro)->get();
+				$personal = PersonalOtRetiro::getPersonalXOtXActi($idot_retiro)->get();
+				$estado_ot = Estado::find($ot_retiro->idestado_ot);
+				$estado_inicial_activo = Estado::find($ot_retiro->idestado_inicial);
+				$estado_final_activo = Estado::find($ot_retiro->idestado_final);
+
+
+				$tabla_tareas = '<table style="width:100%"><tr><th>Tarea Realizada</th></tr>';
+				foreach($tareas as $tarea){
+					$tabla_tareas = $tabla_tareas.'<tr><td>'.$tarea->nombre.'</td></tr>';
+				}
+				$tabla_tareas=$tabla_tareas.'</table>';
+
+				$tabla_personal = '<table style="width:100%"><tr><th>Nombres y apellidos</th><th>Horas trabajadas</th><th>Subtotal</th></tr>';
+				foreach($personal as $p){
+					$tabla_personal = $tabla_personal.'<tr><td>'.$p->nombre.'</td><td>'.$p->horas_hombre.'</td><td>'.$p->costo.'</td></tr>';
+				}
+				$tabla_personal=$tabla_personal.'</table><p>Gasto total en mano de obra: S/. '.number_format($ot_retiro->costo_total_personal,2).'</p>';
+
+				$html = '<html><head><meta charset="UTF-8"><style>'.
+						'table, th, td {
+    						border: 1px solid black;
+    						border-collapse: collapse;
+						}'.
+						'th, td {
+							text-align: center;
+						}'
+						.'.lista_generales{
+							list-style-type:none;
+							border:1px solid black;
+							width:100%;
+						}'
+						.'li{
+							margin-bottom:5px;
+							margin-left:-15px;
+						}'
+						.'.nombre_general{
+							width:100%;
+						}'
+						.'#titulo{
+							text-align:center;
+							margin-top:60px;
+							position:fixed;
+						}'
+						.'#logo{
+							padding:10px 10px 10px 10px;	
+						}'
+						.'.firmas{
+							margin:100px 0 20px 0;
+						}'
+						.'.firma{
+							display: inline;
+							border-top: 1px solid #000000;
+						}'
+						.'.firma{
+							margin-right: 10px;
+						}'
+						.'.firma{
+							margin-left: 10px;
+							margin-right: 10px;
+						}'
+						.'.firma{
+							margin-left: 10px;
+						}'
+						.'</style>
+						</head>'.
+						'<div class="nombre_general"><img id="logo" src="img/logo_uib.jpg" ></img><h2 id="titulo" >Orden de trabajo de retiro de servicio</h2></div>'
+						.'<div>'
+						.'<h3>Datos de la orden de trabajo</h3>'
+						.'<ul class="lista_generales">'
+							.'<li><label><strong>Numero Orden de Mantenimiento:</strong></label> '.$ot_retiro->ot_tipo_abreviatura.$ot_retiro->ot_correlativo.$ot_retiro->ot_activo_abreviatura.'</li>'						
+							.'<li><label><strong>Solicitante: </strong></label> '.$ot_retiro->apat_solicitante.' '.$ot_retiro->amat_solicitante.', '.$ot_retiro->nombre_solicitante.'</li>'
+							.'<li><label><strong>Ejecutor del mantenimiento: </strong></label> '.$ot_retiro->apat_ingeniero.' '.$ot_retiro->amat_ingeniero.', '.$ot_retiro->nombre_ingeniero.'</li>'
+							.'<li><label><strong>Fecha programada: </strong></label> '.date("d-m-Y H:i",strtotime($ot_retiro->fecha_programacion)).'</li>'							
+							.'<li><label><strong>Servicio hospitalario: </strong></label> '.$ot_retiro->nombre_servicio.'</li>'
+							.'<li><label><strong>Ubicación física: </strong></label> '.$ot_retiro->nombre_ubicacion.'</li>'
+						.'</ul>'
+						.'<h3>Datos del equipo</h3>'
+						.'<ul class="lista_generales">'
+							.'<li><label><strong>Nombre del equipo: </strong></label> '.$ot_retiro->nombre_equipo.'</li>'
+							.'<li><label><strong>Código patrimonial: </strong></label> '.$ot_retiro->codigo_patrimonial.'</li>'
+							.'<li><label><strong>Número de serie: </strong></label> '.$ot_retiro->numero_serie.'</li>'
+							.'<li><label><strong>Marca: </strong></label> '.$ot_retiro->nombre_marca.'</li>'
+							.'<li><label><strong>Modelo: </strong></label> '.$ot_retiro->modelo.'</li>'
+						.'</ul>'
+						.'<h3>Datos del reporte de retiro</h3>'
+						.'<ul class="lista_generales">'
+							.'<li><label><strong>Fecha de baja: </strong></label> '.date('d-m-Y H:i:s',strtotime($ot_retiro->fecha_baja)).'</li>'
+							.'<li><label><strong>Fecha de conformidad: </strong></label> '.($ot_retiro->fecha_conformidad != null ? date('d-m-Y H:i:s',strtotime($ot_retiro->fecha_conformidad)) : 'N/A').'</li>'
+						.'</ul>'
+						.'<h3>Estado de la Orden de Trabajo</h3>'
+						.'<ul class="lista_generales">'
+							.'<li><label><strong>Equipo no intervenido: </strong></label> '.$estado_ot->nombre.'</li>'
+						.'</ul>'
+						.'<h3>Datos del Diagnóstico y Programación</h3>'
+						.'<ul class="lista_generales">'
+							.'<li><label><strong>Estado inicial del activo: </strong></label> '.$estado_inicial_activo->nombre.'</li>'
+							.'<li><label><strong>Estado final del activo: </strong></label> '.$estado_final_activo->nombre.'</li>'
+						.'</ul></div>'
+						.'<div><h3>Datos Generales de la Orden de Trabajo de Retiro de Servicio</h3>'.$tabla_tareas.'</div>'
+						.'<div><h3>Datos de Mano de Obra</h3>'.$tabla_personal.'</div>'
+						.'<div class="firmas"><h4 class="firma firma-izquierda">Firma del Jefe de servicio clinico</h4>'
+						.'<h4 class="firma firma-medio">Firma del Ingeniero UIB</h4>'
+						.'<h4 class="firma firma-derecha">Firma del Ingeniero de tumimed</h4></div>'
+						.'<ul class="lista_generales">'
+							.'<li><label><strong>Documento elaborado por: </strong></label> '.$ot_retiro->apat_elaborador.' '.$ot_retiro->amat_elaborador.', '.$ot_retiro->nombre_elaborador.'</li>'
+						.'</ul>'
+						.'</html>';
+				
+				return PDF::load($html,"A4","portrait")->show();
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
 }

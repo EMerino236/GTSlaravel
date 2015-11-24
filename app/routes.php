@@ -241,13 +241,12 @@ Route::group(array('prefix'=>'retiro_servicio','before'=>'auth'),function(){
 	Route::post('/submit_programacion','RetiroServicioController@submit_program_ot_retiro_servicio');
 	Route::get('/search_ot_retiro_servicio','RetiroServicioController@search_ot_retiro_servicio');
 	Route::get('/create_ot/{id}','RetiroServicioController@render_create_ot');
-	/*
 	Route::post('/submit_create_ot','RetiroServicioController@submit_create_ot');
-	Route::post('/submit_create_repuesto_ajax','RetiroServicioController@submit_create_repuesto_ajax');
-	Route::post('/submit_delete_repuesto_ajax','RetiroServicioController@submit_delete_repuesto_ajax');
+	Route::post('/submit_create_tarea_ajax','RetiroServicioController@submit_create_tarea_ajax');
+	Route::post('/submit_delete_tarea_ajax','RetiroServicioController@submit_delete_tarea_ajax');
 	Route::post('/submit_create_personal_ajax','RetiroServicioController@submit_create_personal_ajax');
 	Route::post('/submit_delete_personal_ajax','RetiroServicioController@submit_delete_personal_ajax');
-	*/	
+	Route::post('/export_pdf','RetiroServicioController@export_pdf');
 });
 
 /* Marcar Tareas */
