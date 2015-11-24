@@ -2,6 +2,9 @@
 	<head>
 		<meta charset="UTF-8">
 		<style>
+			body{
+				font-size: 10px;
+			}
 			table, th, td {
 				border: 1px solid black;
 				border-collapse: collapse;
@@ -23,11 +26,12 @@
 			}
 			#titulo{
 				text-align:center;
-				margin-top:60px;
+				margin-top:30px;
 				position:fixed;
 			}
 			#logo{
-				padding:10px 10px 10px 10px;	
+				padding:10px 10px 10px 10px;
+				width: 80px;
 			}
 			.firmas{
 				margin:100px 0 20px 0;
@@ -40,8 +44,8 @@
 				margin-right: 10px;
 			}
 			.firma{
-				margin-left: 10px;
-				margin-right: 10px;
+				margin-left: 85px;
+				margin-right: 85px;
 			}
 			.firma{
 				margin-left: 10px;
@@ -53,7 +57,7 @@
 		<div>
 		<h3>Datos de la orden de trabajo</h3>
 		<ul class="lista_generales">
-			<li><label><strong>Numero Orden de Mantenimiento:</strong></label> {{$ot_correctivo->ot_tipo_abreviatura}}{{$ot_correctivo->ot_correlativo}}{{$ot_correctivo->ot_activo_abreviatura}}</li>				
+			<li><label><strong>Número Orden de Mantenimiento:</strong></label> {{$ot_correctivo->ot_tipo_abreviatura}}{{$ot_correctivo->ot_correlativo}}{{$ot_correctivo->ot_activo_abreviatura}}</li>				
 			<li><label><strong>Solicitante: </strong></label>{{$ot_correctivo->apat_solicitante}} {{$ot_correctivo->amat_solicitante}}, {{$ot_correctivo->nombre_solicitante}}</li>
 			<li><label><strong>Ejecutor del mantenimiento: </strong></label>{{$ot_correctivo->apat_ingeniero}} {{$ot_correctivo->amat_ingeniero}}, {{$ot_correctivo->nombre_ingeniero}}</li>
 			<li><label><strong>Fecha programada: </strong></label> {{date("d-m-Y H:i",strtotime($ot_correctivo->fecha_programacion))}}</li>						

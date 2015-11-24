@@ -21,13 +21,15 @@ $( document ).ready(function(){
     var hoy = new Date();
     var ayer = new Date();
     ayer.setDate(hoy.getDate()-1);
+    var ayer_array = new Array();
+    ayer_array.push(ayer);
 	$(".fecha-hora").datetimepicker({
 	    useCurrent: false,
 	    defaultDate: false,
 	    format: 'DD-MM-YYYY HH:ss',
 	    ignoreReadonly: true,
 	    minDate: ayer,
-	    disabledDates: [ayer]
+	    disabledDates: [ayer_array]
 	});
 
 	var idactivo = $("input[name=idactivo]").val();
