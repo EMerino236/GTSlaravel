@@ -79,54 +79,52 @@
 				<h3 class="panel-title">Datos de la Solicitud</h3>
 			</div>
 			<div class="panel-body">
-				<div class="row">	
-					<div class="col-md-6">					
-						<div class="row">
-							<div class="form-group col-md-8">
-								{{ Form::label('fecha_programacion','Fecha Programada') }}
-								{{ Form::text('fecha_programacion',date('d-m-Y',strtotime($ot_info->fecha_programacion)),array('class' => 'form-control','readonly'=>'','id'=>'fecha_programacion_ot')) }}
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-8 form-group ">						
-								{{ Form::label('fecha_conformidad','Fecha de Conformidad') }}
-								<div id="datetimepicker_conformidad_fecha" class="input-group date @if($errors->first('fecha_conformidad')) has-error has-feedback @endif">
-									@if($ot_info->fecha_conformidad == null)
-										{{ Form::text('fecha_conformidad',null,array('class'=>'form-control','readonly'=>'')) }}
-									@else
-										{{Form::text('fecha_conformidad',date('d-m-Y',strtotime($ot_info->fecha_conformidad)),array('class'=>'form-control','readonly'=>'')) }}
-									@endif
-									<span class="input-group-addon">
-				                        <span class="glyphicon glyphicon-calendar"></span>
-				                    </span>
-								</div>
-							</div>
+				<div class="col-md-6">					
+					<div class="row">
+						<div class="form-group col-md-8">
+							{{ Form::label('fecha_programacion','Fecha Programada') }}
+							{{ Form::text('fecha_programacion',date('d-m-Y',strtotime($ot_info->fecha_programacion)),array('class' => 'form-control','readonly'=>'','id'=>'fecha_programacion_ot')) }}
 						</div>
 					</div>
-					<div class="col-md-6">
-						<div class="row">
-							<div class="form-group col-md-8">
-								{{ Form::label('hora_programacion','Hora Programada') }}
-								{{ Form::text('hora_programacion',date('H:i',strtotime($ot_info->fecha_programacion)),array('class' => 'form-control','readonly'=>'')) }}
-							</div>
-						</div>
-						<div class="row">
-							<div class="form-group col-md-8">
-								{{ Form::label('fecha_conformidad','Hora de Conformidad') }}
-								<div id="datetimepicker_conformidad_hora" class="input-group date @if($errors->first('fecha_conformidad')) has-error has-feedback @endif">
-									@if($ot_info->fecha_conformidad == null)
-										{{ Form::text('hora_conformidad',null,array('class'=>'form-control','readonly'=>'')) }}
-									@else
-										{{Form::text('hora_conformidad',date('H:i',strtotime($ot_info->fecha_conformidad)),array('class'=>'form-control','readonly'=>'')) }}
-									@endif
-									<span class="input-group-addon">
-				                        <span class="glyphicon glyphicon-time"></span>
-				                    </span>
-								</div>
+					<div class="row">
+						<div class="col-md-8 form-group ">						
+							{{ Form::label('fecha_conformidad','Fecha de Conformidad') }}
+							<div id="datetimepicker_conformidad_fecha" class="input-group date @if($errors->first('fecha_conformidad')) has-error has-feedback @endif">
+								@if($ot_info->fecha_conformidad == null)
+									{{ Form::text('fecha_conformidad',null,array('class'=>'form-control','readonly'=>'')) }}
+								@else
+									{{Form::text('fecha_conformidad',date('d-m-Y',strtotime($ot_info->fecha_conformidad)),array('class'=>'form-control','readonly'=>'')) }}
+								@endif
+								<span class="input-group-addon">
+			                        <span class="glyphicon glyphicon-calendar"></span>
+			                    </span>
 							</div>
 						</div>
 					</div>
 				</div>
+				<div class="col-md-6">
+					<div class="row">
+						<div class="form-group col-md-8">
+							{{ Form::label('hora_programacion','Hora Programada') }}
+							{{ Form::text('hora_programacion',date('H:i',strtotime($ot_info->fecha_programacion)),array('class' => 'form-control','readonly'=>'')) }}
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-8">
+							{{ Form::label('fecha_conformidad','Hora de Conformidad') }}
+							<div id="datetimepicker_conformidad_hora" class="input-group date @if($errors->first('fecha_conformidad')) has-error has-feedback @endif">
+								@if($ot_info->fecha_conformidad == null)
+									{{ Form::text('hora_conformidad',null,array('class'=>'form-control','readonly'=>'')) }}
+								@else
+									{{Form::text('hora_conformidad',date('H:i',strtotime($ot_info->fecha_conformidad)),array('class'=>'form-control','readonly'=>'')) }}
+								@endif
+								<span class="input-group-addon">
+			                        <span class="glyphicon glyphicon-time"></span>
+			                    </span>
+							</div>
+						</div>
+					</div>
+				</div>				
 				<div class="row">
 					<div class="col-md-6 form-group">
 						{{ Form::label('descripcion','Descripcion') }}
@@ -176,7 +174,7 @@
 									@endif
 								</td>
 								<td>
-									<button class="btn btn-danger boton-eliminar-tarea" onclick="eliminar_tarea_preventivo(event,{{$tarea->idtareas_ot_busqueda_info}})" type="button">Eliminar</button>
+									<button class="btn btn-danger boton-eliminar-tarea" onclick="eliminar_tarea(event,{{$tarea->idtareas_ot_busqueda_info}})" type="button">Eliminar</button>
 								</td>
 							</tr>
 							@endforeach
@@ -245,7 +243,7 @@
 		</div>	
 	{{ Form::close() }}
 
-	<div class="container">
+<div class="container">
   <!-- Modal -->
   <div class="modal fade" id="modal_info_ot" role="dialog">
     <div class="modal-dialog modal-md">    
@@ -265,4 +263,3 @@
   </div>  
 </div>
 @stop
-

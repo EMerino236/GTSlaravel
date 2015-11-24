@@ -46,7 +46,8 @@ class OtBusquedaInformacionController extends BaseController {
 				$data["search_ini"] = Input::get('search_ini');
 				$data["areas"] = Area::lists('nombre','idarea');				
 				$data["tipos"] = TipoOtBusquedaInformacion::lists('nombre','idtipo_busqueda_info');			
-				$data["busquedas"] = OrdenesTrabajoBusquedaInformacion::searchOtsBusquedaInformacion($data["search_tipo"],$data["search_area"],$data["search_encargado"],$data["search_ot"],$data["search_ini"])->paginate(10);
+				$data["busquedas"] = SolicitudBusquedaInformacion::searchOtsBusquedaInformacion($data["search_tipo"],$data["search_area"],$data["search_encargado"],$data["search_ot"],$data["search_ini"])->paginate(10);
+				$data['solicitantes'] = User::getJefes()->get();
 				return View::make('ot/busquedaInformacion/listOtBusquedaInformacion',$data);
 			}else{
 				return View::make('error/error');

@@ -12,7 +12,7 @@ class SotBusquedaInformacionController extends BaseController {
 				$data['solicitantes'] = User::getJefes()->get();
 				$data['tipos'] = TipoOtBusquedaInformacion::lists('nombre','idtipo_busqueda_info');
 				$data['areas'] = Area::lists('nombre','idarea');
-				
+				$data['encargados'] = User::getJefes()->get();
 				return View::make('sot_busqueda_informacion/createSotBusquedaInformacion',$data);
 			}else{
 				return View::make('error/error');
@@ -36,7 +36,8 @@ class SotBusquedaInformacionController extends BaseController {
 					'fecha_solicitud' => 'Fecha de Solicitud',
 					'motivo' => 'Motivo de Solicitud',
 					'detalle' => 'Detalle de Solicitud',
-					'descripcion' => 'Descripcion de la Solicitud'
+					'descripcion' => 'Descripcion de la Solicitud',
+					'encargado' => 'Usuario Encargado'
 					);
 
 				$messages = array(
@@ -48,7 +49,8 @@ class SotBusquedaInformacionController extends BaseController {
 							'fecha_solicitud' => 'required',
 							'detalle' => 'max:500',
 							'motivo' => 'max:500',
-							'descripcion' => 'max:500'
+							'descripcion' => 'max:500',
+							'encargado' => 'required'
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules, $messages, $attributes);
@@ -70,7 +72,8 @@ class SotBusquedaInformacionController extends BaseController {
 					$sot->detalle = Input::get('detalle');
 					$sot->sot_tipo_abreviatura = $abreviatura;
 					$sot->sot_correlativo = $string;
-					$sot->id = $data["user"]->id;		
+					$sot->id = $data["user"]->id;
+					$sot->id_usuarioencargado = Input::get('encargado');		
 					$sot->save();			
 
 					
@@ -124,7 +127,6 @@ class SotBusquedaInformacionController extends BaseController {
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
 				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
-				
 				$data["search_tipo"] = null;
 				$data["search_area"] = null;
 				$data["search_encargado"] = null;

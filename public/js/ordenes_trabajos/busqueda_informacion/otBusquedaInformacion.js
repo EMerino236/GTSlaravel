@@ -11,60 +11,78 @@ $( document ).ready(function(){
 			alert("Ingrese una tarea válida.");
 		}else{
 			$("input[name=nombre_tarea]").parent().removeClass("has-error has-feedback");
-			if (confirm('¿Está seguro de esta acción?')){
-				$.ajax({
-					url: inside_url+'busqueda_informacion/submit_create_tarea_ajax',
-					type: 'POST',
-					data: { 
-						'idot_busqueda_info' : $("input[name=idot_busqueda_info]").val(),
-						'nombre_tarea' : $("input[name=nombre_tarea]").val()
-					},
-					beforeSend: function(){
-						$(this).prop('disabled',true);
-					},
-					complete: function(){
-						$(this).prop('disabled',false);
-					},
-					success: function(response){
-						var str = "";
-						str += '<tr id="tarea-row-'+response.tarea.idtareas_ot_busqueda_info+'"><td>'+response.tarea.nombre+'</td>';
-						str += '<td><button class="btn btn-default boton-tarea" data-id=\"'+ response.tarea.idtareas_ot_busqueda_info+'\" type="button">Marcar Realizada</button></td>';
-						str += '<td><button class="btn btn-danger boton-eliminar-tarea" onclick="eliminar_tarea(event,'+response.tarea.idtareas_ot_busqueda_info+')" type="button">Eliminar</button></td></tr>';
-						$("#tareas-table").append(str);
-					},
-					error: function(){
-					}
-				});
-			}
-		}
-
-	});
-
-	$(".boton-tarea").click(function(e){
-		idot_busqueda_info = $('#idot_busqueda_info').val();
-		e.preventDefault;	
-		if (confirm('¿Está seguro de esta acción?')){	
-			$.ajax({
-				url: inside_url+'busqueda_informacion/submit_marcar_tarea_ajax',
-				type: 'POST',
-				data: { 'idtareas_ot_busqueda_info' : $(this).data('id') },
-				beforeSend: function(){
-				},
-				complete: function(){
-				},
-				success: function(response){
-					console.log(response);
-					$(this).prop('disabled',true);
-					var url = inside_url + "busqueda_informacion/create_ot_busqueda_informacion/"+idot_busqueda_info;
-					window.location = url;
-				},
-				error: function(){
-				}
+			BootstrapDialog.confirm({
+					title: 'Mensaje de Confirmación',
+					message: '¿Está seguro que desea realizar esta acción?', 
+					type: BootstrapDialog.TYPE_INFO,
+					btnCancelLabel: 'Cancelar', 
+	            	btnOKLabel: 'Aceptar', 
+					callback: function(result){
+			            if(result) {
+			                $.ajax({
+								url: inside_url+'busqueda_informacion/submit_create_tarea_ajax',
+								type: 'POST',
+								data: { 
+									'idot_busqueda_info' : $("input[name=idot_busqueda_info]").val(),
+									'nombre_tarea' : $("input[name=nombre_tarea]").val()
+								},
+								beforeSend: function(){
+									$(this).prop('disabled',true);
+								},
+								complete: function(){
+									$(this).prop('disabled',false);
+								},
+								success: function(response){
+									/*var str = "";
+									str += '<tr id="tarea-row-'+response.tarea.idtareas_ot_busqueda_info+'"><td>'+response.tarea.nombre+'</td>';
+									str += '<td><button class="btn btn-default boton-tarea" data-id=\"'+ response.tarea.idtareas_ot_busqueda_info+'\" type="button">Marcar Realizada</button></td>';
+									str += '<td><button class="btn btn-danger boton-eliminar-tarea" onclick="eliminar_tarea(event,'+response.tarea.idtareas_ot_busqueda_info+')" type="button">Eliminar</button></td></tr>';
+									$("#tareas-table").append(str);*/
+									var url = inside_url + "busqueda_informacion/create_ot_busqueda_informacion/"+idot_busqueda_info;
+									window.location = url;
+								},
+								error: function(){
+								}
+							});
+	            		}
+	        		}
 			});
 		}
 	});
 
-
+	$(".boton-tarea").click(function(e){
+		e.preventDefault;	
+		idtareas_ot_busqueda_info = $(this).data('id');
+		idot_busqueda_info = $('#idot_busqueda_info').val();		
+		BootstrapDialog.confirm({
+			title: 'Mensaje de Confirmación',
+			message: '¿Está seguro que desea realizar esta acción?', 
+			type: BootstrapDialog.TYPE_INFO,
+			btnCancelLabel: 'Cancelar', 
+        	btnOKLabel: 'Aceptar', 
+			callback: function(result){
+	            if(result) {	            	
+	                $.ajax({
+						url: inside_url+'busqueda_informacion/submit_marcar_tarea_ajax',
+						type: 'POST',
+						data: { 'idtareas_ot_busqueda_info' : idtareas_ot_busqueda_info },
+						beforeSend: function(){
+						},
+						complete: function(){
+						},
+						success: function(response){
+							console.log(response);
+							$(this).prop('disabled',true);
+							var url = inside_url + "busqueda_informacion/create_ot_busqueda_informacion/"+idot_busqueda_info;
+							window.location = url;
+						},
+						error: function(){
+						}
+					});
+        		}
+    		}
+		});
+	});
 
 	$("#submit-personal").click(function(e){
 		e.preventDefault;
@@ -168,53 +186,72 @@ function init_ot_create(){
 
 function eliminar_personal(e,id){
 	e.preventDefault();
-	if (confirm('¿Está seguro de eliminar el personal de la OT?')){
-		$.ajax({
-			url: inside_url+'busqueda_informacion/submit_delete_personal_ajax',
-			type: 'POST',
-			data: { 
-				'idot_busqueda_info' : $("input[name=idot_busqueda_info]").val(),
-				'idpersonal_ot_busqueda_info' : id,
-			},
-			beforeSend: function(){
-				//$(this).prop('disabled',true);
-			},
-			complete: function(){
-				//$(this).prop('disabled',false);
-			},
-			success: function(response){
-				$("#personal-row-"+id).remove();
-				$("input[name=costo_total_personal]").val(response.costo_total_personal);
-			},
-			error: function(){
-			}
-		});
-	}
+	BootstrapDialog.confirm({
+		title: 'Mensaje de Confirmación',
+		message: '¿Está seguro que desea realizar esta acción?', 
+		type: BootstrapDialog.TYPE_DANGER,
+		btnCancelLabel: 'Cancelar', 
+    	btnOKLabel: 'Aceptar', 
+		callback: function(result){
+            if(result) {
+                $.ajax({
+					url: inside_url+'busqueda_informacion/submit_delete_personal_ajax',
+					type: 'POST',
+					data: { 
+						'idot_busqueda_info' : $("input[name=idot_busqueda_info]").val(),
+						'idpersonal_ot_busqueda_info' : id,
+					},
+					beforeSend: function(){
+						//$(this).prop('disabled',true);
+					},
+					complete: function(){
+						//$(this).prop('disabled',false);
+					},
+					success: function(response){
+						$("#personal-row-"+id).remove();
+						$("input[name=costo_total_personal]").val(response.costo_total_personal);
+					},
+					error: function(){
+					}
+				});
+    		}
+		}
+	});
+	
 }
 
-function eliminar_tarea_preventivo(e,id){
+function eliminar_tarea(e,id){
 	idot_busqueda_info = $('#idot_busqueda_info').val();
 	e.preventDefault();
-	if (confirm('¿Está seguro de eliminar la tarea?')){
-		$.ajax({
-			url: inside_url+'busqueda_informacion/submit_delete_tarea_ajax',
-			type: 'POST',
-			data: { 
-				'idtareas_ot_busqueda_info' : id,
-			},
-			beforeSend: function(){
-				//$(this).prop('disabled',true);
-			},
-			complete: function(){
-				//$(this).prop('disabled',false);
-			},
-			success: function(response){
-				$("#tarea-row-"+id).remove();
-				//var url = inside_url + "busqueda_informacion/create_ot_busqueda_informacion/"+idot_busqueda_info;
-				//window.location = url;
-			},
-			error: function(){
+	BootstrapDialog.confirm({
+		title: 'Mensaje de Confirmación',
+		message: '¿Está seguro que desea realizar esta acción?', 
+		type: BootstrapDialog.TYPE_DANGER,
+		btnCancelLabel: 'Cancelar', 
+    	btnOKLabel: 'Aceptar', 
+		callback: function(result){
+            if(result) {
+            	$.ajax({
+					url: inside_url+'busqueda_informacion/submit_delete_tarea_ajax',
+					type: 'POST',
+					data: { 
+						'idtareas_ot_busqueda_info' : id,
+					},
+					beforeSend: function(){
+						//$(this).prop('disabled',true);
+					},
+					complete: function(){
+						//$(this).prop('disabled',false);
+					},
+					success: function(response){
+						$("#tarea-row-"+id).remove();
+						//var url = inside_url + "busqueda_informacion/create_ot_busqueda_informacion/"+idot_busqueda_info;
+						//window.location = url;
+					},
+					error: function(){
+					}
+				});
 			}
-		});
-	}
+		}
+	});	
 }

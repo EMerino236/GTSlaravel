@@ -22,6 +22,7 @@
     <!-- Custom Fonts -->
     <link href="{{ asset('bower_components/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/fileinput.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-dialog.min.css') }}">
     <script type="text/javascript">
         var inside_url = "{{$inside_url}}";
     </script>
@@ -46,6 +47,8 @@
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
     <script src="{{ asset('js/sot_busqueda_informacion/sotBusquedaInformacion.js') }}"></script>
     <script src="{{ asset('js/sot_busqueda_informacion/listSotBusquedaInformacion.js') }}"></script>
+    <!--Bootstrap-Dialog Javascritp-->
+    <script src="{{asset('js/bootstrap-dialog.min.js') }}"></script>
     
 </head>
 

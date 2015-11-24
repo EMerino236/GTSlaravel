@@ -346,6 +346,7 @@ Route::group(array('prefix'=>'mant_preventivo','before'=>'auth'),function(){
 	Route::post('/submit_create_personal_ajax','OtPreventivoController@submit_create_personal_ajax');
 	Route::post('/submit_delete_personal_ajax','OtPreventivoController@submit_delete_personal_ajax');	
 	Route::post('/submit_disable_preventivo','OtPreventivoController@submit_disable_preventivo');
+	Route::post('/export_pdf','OtPreventivoController@export_pdf');
 });
 
 /* Verificación Metrológica */

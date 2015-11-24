@@ -12,7 +12,7 @@
 		<p><strong>{{ $errors->first('descripcion') }}</strong></p>
 		<p><strong>{{ $errors->first('motivo') }}</strong></p>
 		<p><strong>{{ $errors->first('area') }}</strong></p>		
-		<p><strong>{{ $errors->first('encargado') }}</strong></p>
+		<p><strong>{{ $errors->first('usuario_encargado') }}</strong></p>
 		<p><strong>{{ $errors->first('fecha') }}</strong></p>
 	</div>
 	@endif
@@ -54,6 +54,14 @@
 				                </span>
 			            	</div>
 			            </div>
+			            <div class="form-group col-md-6 @if($errors->first('usuario_encargado')) has-error has-feedback @endif">
+							{{ Form::label('usuario_encargado','Usuario Encargado') }}
+							<select name="encargado" class="form-control" id="encargados">
+								@foreach($encargados as $encargado)
+									<option value="{{ $encargado->id }}">{{ $encargado->apellido_pat }} {{ $encargado->apellido_mat }}, {{ $encargado->nombre }}</option>
+								@endforeach
+							</select>
+						</div>
 			        </div>						        
 					<div class="row">
 						<div class="form-group col-md-6">

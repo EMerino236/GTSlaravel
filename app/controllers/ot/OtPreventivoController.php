@@ -328,6 +328,7 @@ class OtPreventivoController extends BaseController {
 				// Validate the info, create rules for the inputs
 				$rules = array(
 							'numero_ficha' => 'required',
+							'nombre_ejecutor' => 'max:200',
 							'idestado' => 'required',
 							'idestado_inicial' => 'required',
 							'sin_interrupcion_servicio' => 'required',
@@ -351,6 +352,7 @@ class OtPreventivoController extends BaseController {
 						$ot->fecha_inicio_ejecucion = date("Y-m-d H:i:s",strtotime(Input::get('fecha_inicio_ejecucion')));
 					if(Input::get('fecha_termino_ejecucion'))
 						$ot->fecha_termino_ejecucion = date("Y-m-d H:i:s",strtotime(Input::get('fecha_termino_ejecucion')));
+					$ot->nombre_ejecutor = Input::get('nombre_ejecutor');
 					$ot->save();
 					$activo = Activo::find(Input::get('idactivo'));
 					$activo->idestado = Input::get('idestado_final');
@@ -533,6 +535,35 @@ class OtPreventivoController extends BaseController {
 			return Response::json(array( 'success' => true),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
+	public function export_pdf(){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6)){
+				$idot_preventivo = Input::get('idot_preventivo');
+				$data["ot"] = OrdenesTrabajoPreventivo::searchOtPreventivoById($idot_preventivo)->get()[0];
+				$data["estado_inicial"] = Estado::find($data["ot"]->idestado_inicial);
+				$data["estado_final"] = Estado::find($data["ot"]->idestado_final);
+				$data["equipo_no_intervenido"] = Estado::find($data["ot"]->idestado_ot);	
+				$data["usuario_solicitante"] = User::find($data["ot"]->id_usuariosolicitante);
+				$data["usuario_elaborador"] = User::find($data["ot"]->id_usuarioelaborador);	
+				$data["servicio"] = Servicio::find($data["ot"]->idservicio);
+				$data["ubicacion"] = UbicacionFisica::find($data["ot"]->idubicacion_fisica);
+				$data["tareas"] = OrdenesTrabajoPreventivoxTarea::getTareasXOtXActivo($idot_preventivo)->get();
+				$data["repuestos_ot"] = RepuestosOtPreventivos::getRepuestosXOt($idot_preventivo)->get();
+				$data["personal_data"] = PersonalOtPreventivo::getPersonalXOt($idot_preventivo)->get();
+				$html = View::make('ot/preventivo/otPreventivoExport',$data);
+				return PDF::load($html,"A4","portrait")->show();
+
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
 		}
 	}
 

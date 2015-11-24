@@ -84,8 +84,8 @@
 						<td class="text-nowrap text-center">{{$busqueda->descripcion}}</td>
 						<td class="text-nowrap text-center">{{$busqueda->motivo}}</td>
 						<td class="text-nowrap text-center">{{$busqueda->nombre_area}}</td>
-						<td class="text-nowrap text-center">{{$busqueda->sot_tipo_abreviatura}}{{$busqueda->sot_correlativo}}</td>
 						<td class="text-nowrap text-center">{{$busqueda->apat}} {{$busqueda->amat}}, {{$busqueda->nombre_user}}</td>
+						<td class="text-nowrap text-center">{{$busqueda->sot_tipo_abreviatura}}{{$busqueda->sot_correlativo}}</td>
 						<td class="text-nowrap text-center">{{date('d-m-Y H:i',strtotime($busqueda->fecha_solicitud))}}</td>
 						@if($busqueda->idot == null)
 						<td>
