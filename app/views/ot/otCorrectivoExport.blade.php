@@ -95,7 +95,7 @@
 			<ul class="lista_generales">
 				<li><label><strong>Fecha de inicio: </strong></label> {{($ot_correctivo->fecha_inicio_ejecucion != null ? date('d-m-Y H:i',strtotime($ot_correctivo->fecha_inicio_ejecucion)) : 'N/A')}}</li>
 				<li><label><strong>Fecha de término: </strong></label> {{($ot_correctivo->fecha_termino_ejecucion != null ? date('d-m-Y H:i',strtotime($ot_correctivo->fecha_termino_ejecucion)) : 'N/A')}}</li>
-				<li><label><strong>Garantía: </strong></label> {{$ot_correctivo->garantia}}</li>
+				<li><label><strong>Garantía (meses): </strong></label> {{$ot_correctivo->garantia}}</li>
 				<li><label><strong>Estado final del activo: </strong></label> {{($estado_final_activo != null? $estado_final_activo->nombre : 'N/A')}}</li>
 				<li><label><strong>Sin interrupción al servicio: </strong></label> {{($ot_correctivo->sin_interrupcion_servicio == 1 ? 'SI' : 'NO')}}</li>
 			</ul>
@@ -118,7 +118,7 @@
 		</div>
 		<div>
 			<h3>Datos de Mano de Obra</h3>
-			<table style="width:100%"><tr><th>Nombres y apellidos</th><th>Horas trabajadas</th><th>Subtotal</th></tr>
+			<table style="width:100%"><tr><th>Nombres y apellidos</th><th>Horas trabajadas</th><th>Costo</th></tr>
 				@foreach($personal as $p)
 					<tr><td>{{$p->nombre}}</td><td>{{$p->horas_hombre}}</td><td>{{$p->costo}}</td></tr>
 				@endforeach

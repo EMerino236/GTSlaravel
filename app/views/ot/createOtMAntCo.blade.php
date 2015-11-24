@@ -221,6 +221,7 @@
 					@endforeach
 				</table>
 				<div class="row">
+					@if(!$ot_info->fecha_inicio_ejecucion)
 					<div class="col-md-4">
 						{{ Form::label('fecha_inicio_ejecucion','Ingrese Fecha de Inicio') }}
 						<div class="fecha-hora form-group input-group date @if($errors->first('fecha_inicio_ejecucion')) has-error has-feedback @endif">
@@ -230,6 +231,13 @@
 		                    </span>
 						</div>
 					</div>
+					@else
+					<div class="form-group col-md-4">
+						{{ Form::label('fecha_inicio_ejecucion','Fecha de Inicio') }}
+						{{ Form::text('fecha_inicio_ejecucion',date('d-m-Y H:i',strtotime($ot_info->fecha_inicio_ejecucion)),array('class'=>'form-control','readonly'=>'')) }}
+					</div>
+					@endif
+					@if(!$ot_info->fecha_termino_ejecucion)
 					<div class="col-md-4">
 						{{ Form::label('fecha_termino_ejecucion','Ingrese Fecha de Término') }}
 						<div class="fecha-hora form-group input-group date @if($errors->first('fecha_termino_ejecucion')) has-error has-feedback @endif">
@@ -239,9 +247,15 @@
 		                    </span>
 						</div>
 					</div>
+					@else
+					<div class="form-group col-md-4">
+						{{ Form::label('fecha_termino_ejecucion','Fecha de Término') }}
+						{{ Form::text('fecha_termino_ejecucion',date('d-m-Y H:i',strtotime($ot_info->fecha_termino_ejecucion)),array('class'=>'form-control','readonly'=>'')) }}
+					</div>
+					@endif
 					<div class="form-group col-md-4 @if($errors->first('garantia')) has-error has-feedback @endif">
-						{{ Form::label('garantia','Garantía') }}
-						{{ Form::text('garantia', $ot_info->garantia,array('class'=>'form-control')) }}
+						{{ Form::label('garantia','Garantía (meses)') }}
+						{{ Form::text('garantia', $ot_info->garantia,array('class'=>'form-control','readonly'=>'')) }}
 					</div>
 				</div>
 				<div class="row">
