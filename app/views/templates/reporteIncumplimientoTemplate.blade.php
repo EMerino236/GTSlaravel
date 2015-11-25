@@ -22,6 +22,9 @@
     <script type="text/javascript">
         var inside_url = "{{$inside_url}}";
     </script>
+    <!--Bootstrap-Dialog CSS-->
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-dialog.min.css') }}">
+
 
     <!-- jQuery -->
     <script src="{{ asset('bower_components/jquery/dist/jquery.min.js') }}"></script>
@@ -40,6 +43,8 @@
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
     <script src="{{ asset('js/reporte_incumplimientos/listReporteIncumplimiento.js') }}"></script>
     <script src="{{ asset('js/reporte_incumplimientos/reportes_incumplimiento.js') }}"></script>
+    <!--Bootstrap-Dialog Javascritp-->
+    <script src="{{asset('js/bootstrap-dialog.min.js') }}"></script>
 </head>
 
 <body>

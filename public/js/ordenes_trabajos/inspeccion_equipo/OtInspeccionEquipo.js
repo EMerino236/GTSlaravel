@@ -5,25 +5,34 @@ $( document ).ready(function(){
 	$(".boton-tarea").click(function(e){
 		idot_inspec_equipo = $('#idot_inspec_equipo').val();
 		e.preventDefault;
-		if (confirm('¿Está seguro de esta acción?')){
-			$.ajax({
-				url: inside_url+'inspec_equipos/submit_marcar_tarea_ajax',
-				type: 'POST',
-				data: { 'idtareasxactivoxinspeccion' : $(this).data('id') },
-				beforeSend: function(){
-				},
-				complete: function(){
-				},
-				success: function(response){
-					console.log(response);
-					$(this).prop('disabled',true);
-					var url = inside_url + "inspec_equipos/create_ot_inspeccion_equipos/"+idot_inspec_equipo;
-					window.location = url;
-				},
-				error: function(){
+		BootstrapDialog.confirm({
+			title: 'Mensaje de Confirmación',
+			message: '¿Está seguro que desea realizar esta acción?', 
+			type: BootstrapDialog.TYPE_INFO,
+			btnCancelLabel: 'Cancelar', 
+	    	btnOKLabel: 'Aceptar', 
+			callback: function(result){
+		        if(result) {
+		        	$.ajax({
+						url: inside_url+'inspec_equipos/submit_marcar_tarea_ajax',
+						type: 'POST',
+						data: { 'idtareasxactivoxinspeccion' : $(this).data('id') },
+						beforeSend: function(){
+						},
+						complete: function(){
+						},
+						success: function(response){
+							console.log(response);
+							$(this).prop('disabled',true);
+							var url = inside_url + "inspec_equipos/create_ot_inspeccion_equipos/"+idot_inspec_equipo;
+							window.location = url;
+						},
+						error: function(){
+						}
+					});
 				}
-			});
-		}
+	        }
+       });
 	});
 });
 

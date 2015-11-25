@@ -150,8 +150,8 @@
 		        	</div>
 		        	<br>
 		        	<div class="row">
-						<div class="form-group col-md-2 @if($errors->first('numero_doc2')) has-error has-feedback @endif">
-							{{ Form::label('numero_doc2','Número Documento') }}<span style="color:red"> *</span>
+						<div class="form-group col-md-3 @if($errors->first('numero_doc2')) has-error has-feedback @endif">
+							{{ Form::label('numero_doc2','Documento de Identidad') }}<span style="color:red"> *</span>
 							{{ Form::text('numero_doc2',Input::old('numero_doc2'),['class' => 'form-control','id'=>'numero_doc2','placeholder'=>'Número de Doc.'])}}
 						</div>
 						<div class="form-group col-md-2" style="margin-top:25px">
@@ -167,8 +167,8 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="form-group col-md-2 @if($errors->first('numero_doc3')) has-error has-feedback @endif">
-							{{ Form::label('numero_doc3','Número Documento') }}<span style="color:red"> *</span>
+						<div class="form-group col-md-3 @if($errors->first('numero_doc3')) has-error has-feedback @endif">
+							{{ Form::label('numero_doc3','Documento de Identidad') }}<span style="color:red"> *</span>
 							{{ Form::text('numero_doc3',Input::old('numero_doc3'),['class' => 'form-control','id'=>'numero_doc3','placeholder'=>'Número de Doc.'])}}
 						</div>
 						<div class="form-group col-md-2" style="margin-top:25px">
@@ -202,7 +202,7 @@
 											<div class="btn btn-default btn-block" onclick="clean_name_contrato()"><span class="glyphicon glyphicon-refresh"></span> Limpiar</div>
 										</div>
 										<div class="form-group col-md-4">
-											{{ Form::label('nombre_contrato','Documento') }}
+											{{ Form::label('nombre_contrato','Contrato de Proveedor') }}
 											{{ Form::text('nombre_contrato',Input::old('nombre_contrato'),['class' => 'form-control','id'=>'nombre_contrato','disabled'=>'disabled','placeholder'=>'Nombre del Documento'])}}
 										</div>	
 										{{ Form::close()}}									

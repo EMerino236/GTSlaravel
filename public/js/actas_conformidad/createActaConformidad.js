@@ -13,6 +13,21 @@ $( document ).ready(function(){
 
     fill_name_acta();
     $('#btn_descarga').hide();
+
+    $('#submit-create').click(function(){
+        BootstrapDialog.confirm({
+            title: 'Mensaje de Confirmación',
+            message: '¿Está seguro que desea realizar esta acción?', 
+            type: BootstrapDialog.TYPE_INFO,
+            btnCancelLabel: 'Cancelar', 
+            btnOKLabel: 'Aceptar', 
+            callback: function(result){
+                if(result) {
+                    document.getElementById("submitForm").submit();
+                }
+            }
+        });
+    });
 	
 });
 

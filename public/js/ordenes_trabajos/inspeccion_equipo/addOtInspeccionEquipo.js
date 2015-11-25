@@ -286,47 +286,60 @@ function deleteRow(event,el){
 
 function sendDataToController_create(){
         var matrix = readTableData();
-        $.ajax({
-            url: inside_url+'inspec_equipos/submit_programacion',
-            type: 'POST',
-            data: {                
-                    'matrix_detalle' : matrix,
-                 },
-            beforeSend: function(){
-                $("#delete-selected-profiles").addClass("disabled");
-                $("#delete-selected-profiles").hide();
-                $(".loader_container").show();
-            },
-            complete: function(){
-                $(".loader_container").hide();
-                $("#delete-selected-profiles").removeClass("disabled");
-                $("#delete-selected-profiles").show();
-                delete_selected_profiles = true;
-            },
-            success: function(response){
-                if(response.success){                    
-                    var array_detalle = response["url"];
-                    var message = response["message"];
-                    var type_message = response["type_message"];
-                    var inside_url = array_detalle;
-                    $('#modal_header_confirm').removeClass();
-                    $('#modal_header_confirm').addClass("modal-header ");
-                    $('#modal_header_confirm').addClass(type_message);
-                    $('#modal_text_confirm').empty();
-                    $('#modal_text_confirm').append("<p>"+message+"</p>");
-                    $('#modal_confirm').modal('show');
-                    if(type_message == "bg-success"){
-                        var url = inside_url + "inspec_equipos/list_inspec_equipos";
-                        $('#btn_close_modal_confirm').click(function(){
-                            window.location = url;
-                        });
-                    }
-                }else{
-                    alert('La petición no se pudo completar, inténtelo de nuevo.');
+
+        BootstrapDialog.confirm({
+            title: 'Mensaje de Confirmación',
+            message: '¿Está seguro que desea realizar esta acción?', 
+            type: BootstrapDialog.TYPE_INFO,
+            btnCancelLabel: 'Cancelar', 
+            btnOKLabel: 'Aceptar', 
+            callback: function(result){
+                if(result) {
+                     $.ajax({
+                        url: inside_url+'inspec_equipos/submit_programacion',
+                        type: 'POST',
+                        data: {                
+                                'matrix_detalle' : matrix,
+                             },
+                        beforeSend: function(){
+                            $("#delete-selected-profiles").addClass("disabled");
+                            $("#delete-selected-profiles").hide();
+                            $(".loader_container").show();
+                        },
+                        complete: function(){
+                            $(".loader_container").hide();
+                            $("#delete-selected-profiles").removeClass("disabled");
+                            $("#delete-selected-profiles").show();
+                            delete_selected_profiles = true;
+                        },
+                        success: function(response){
+                            if(response.success){                    
+                                var array_detalle = response["url"];
+                                var message = response["message"];
+                                var type_message = response["type_message"];
+                                var inside_url = array_detalle;
+                                $('#modal_header_confirm').removeClass();
+                                $('#modal_header_confirm').addClass("modal-header ");
+                                $('#modal_header_confirm').addClass(type_message);
+                                $('#modal_text_confirm').empty();
+                                $('#modal_text_confirm').append("<p>"+message+"</p>");
+                                $('#modal_confirm').modal('show');
+                                if(type_message == "bg-success"){
+                                    var url = inside_url + "inspec_equipos/list_inspec_equipos";
+                                    $('#btn_close_modal_confirm').click(function(){
+                                        window.location = url;
+                                    });
+                                }
+                            }else{
+                                alert('La petición no se pudo completar, inténtelo de nuevo.');
+                            }
+                        },
+                        error: function(){
+                            alert('La petición no se pudo completar, inténtelo de nuevo.');
+                        }
+                    });
                 }
-            },
-            error: function(){
-                alert('La petición no se pudo completar, inténtelo de nuevo.');
             }
         });
+       
     }

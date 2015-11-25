@@ -256,17 +256,17 @@
 				</div>
 			{{ Form::close() }}
 			@if($reporte_data->deleted_at)
-			{{ Form::open(array('url'=>'solicitudes_compra/submit_enable_solicitud', 'role'=>'form')) }}
+			{{ Form::open(array('url'=>'solicitudes_compra/submit_enable_solicitud', 'role'=>'form','id'=>'submitState')) }}
 				{{ Form::hidden('reporte_id', $reporte_data->idsolicitud_compra) }}
 				<div class="form-group col-md-2 col-md-offset-8" style="margin-top:-15px">
-					{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-up"></span> Habilitar', array('id'=>'submit-delete', 'type' => 'submit', 'class' => 'btn btn-success btn-block')) }}
+					{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-up"></span> Habilitar', array('id'=>'submit-delete', 'class' => 'btn btn-success btn-block')) }}
 				</div>
 			{{ Form::close() }}
 			@else
-			{{ Form::open(array('url'=>'solicitudes_compra/submit_disable_solicitud', 'role'=>'form')) }}
+			{{ Form::open(array('url'=>'solicitudes_compra/submit_disable_solicitud', 'role'=>'form','id'=>'submitState')) }}
 				{{ Form::hidden('reporte_id', $reporte_data->idsolicitud_compra) }}
 				<div class="form-group col-md-2 col-md-offset-8" style="margin-top:-15px">
-					{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-down"></span> Inhabilitar', array('id'=>'submit-delete', 'type' => 'submit', 'class' => 'btn btn-danger btn-block')) }}
+					{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-down"></span> Inhabilitar', array('id'=>'submit-delete', 'class' => 'btn btn-danger btn-block')) }}
 				</div>
 			{{ Form::close() }}
 			@endif

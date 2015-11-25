@@ -218,7 +218,7 @@
 							<th>Operaciones</th>
 						</tr>
 						@foreach($personal_data as $personal)
-						<tr id="personal-row-{{ $personal->idpersonal_ot_preventivo }}">
+						<tr id="personal-row-{{ $personal->idpersonal_ot_busqueda_info }}">
 							<td>{{$personal->nombre}}</td>
 							<td>{{$personal->horas_hombre}}</td>
 							<td>{{$personal->costo}}</td>

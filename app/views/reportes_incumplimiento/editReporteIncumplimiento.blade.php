@@ -217,8 +217,8 @@
 		        		</div>
 		        	</div>
 		        	<div class="row">
-						<div class="form-group col-md-2 @if($errors->first('numero_doc2')) has-error has-feedback @endif">
-							{{ Form::label('numero_doc2','Número Documento') }}<span style="color:red"> *</span>
+						<div class="form-group col-md-3 @if($errors->first('numero_doc2')) has-error has-feedback @endif">
+							{{ Form::label('numero_doc2','Documento de Identidad') }}<span style="color:red"> *</span>
 							@if($reporte_data->deleted_at)
 								{{ Form::text('numero_doc2',$usuario_autorizado->numero_doc_identidad,array('class'=>'form-control','readonly'=>'','id'=>'numero_doc2','placeholder'=>'Número de Doc.')) }}
 							@else
@@ -242,8 +242,8 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="form-group col-md-2 @if($errors->first('numero_doc3')) has-error has-feedback @endif">
-							{{ Form::label('numero_doc3','Número Documento') }}<span style="color:red"> *</span>
+						<div class="form-group col-md-3 @if($errors->first('numero_doc3')) has-error has-feedback @endif">
+							{{ Form::label('numero_doc3','Documento de Identidad') }}<span style="color:red"> *</span>
 							@if($reporte_data->deleted_at)
 								{{ Form::text('numero_doc3',$usuario_elaborado->numero_doc_identidad,array('class'=>'form-control','readonly'=>'','id'=>'numero_doc3','placeholder'=>'Número de Doc.')) }}
 							@else
@@ -307,23 +307,23 @@
 					</div>
 					<div class="row">
 						@if($reporte_data->deleted_at)
-						{{ Form::open(array('url'=>'reportes_incumplimiento/submit_enable_reporte', 'role'=>'form')) }}
+						{{ Form::open(array('url'=>'reportes_incumplimiento/submit_enable_reporte', 'role'=>'form','id'=>'submitState')) }}
 							{{ Form::hidden('reporte_id', $reporte_data->idreporte_incumplimiento) }}
 							<div class="col-md-6">
 								<div class="row">
 									<div class="form-group col-md-6">
-										{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-up"></span> Habilitar', array('id'=>'submit-delete', 'type' => 'submit', 'class' => 'btn btn-success btn-block')) }}
+										{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-up"></span> Habilitar', array('id'=>'submit-delete', 'class' => 'btn btn-success btn-block')) }}
 									</div>
 								</div>	
 							</div>	
 						{{ Form::close() }}
 						@else
-						{{ Form::open(array('url'=>'reportes_incumplimiento/submit_disable_reporte', 'role'=>'form')) }}
+						{{ Form::open(array('url'=>'reportes_incumplimiento/submit_disable_reporte', 'role'=>'form','id'=>'submitState')) }}
 							{{ Form::hidden('reporte_id', $reporte_data->idreporte_incumplimiento) }}
 							<div class="col-md-6">
 								<div class="row">
 									<div class="form-group col-md-6">
-										{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-down"></span> Inhabilitar', array('id'=>'submit-delete', 'type' => 'submit', 'class' => 'btn btn-danger btn-block')) }}
+										{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-down"></span> Inhabilitar', array('id'=>'submit-delete', 'class' => 'btn btn-danger btn-block')) }}
 									</div>
 								</div>	
 							</div>	

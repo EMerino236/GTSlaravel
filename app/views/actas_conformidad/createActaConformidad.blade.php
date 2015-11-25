@@ -23,10 +23,10 @@
 		<div class="alert alert-danger">{{ Session::get('error') }}</div>
 	@endif
 
-	{{ Form::open(array('url'=>'actas_conformidad/submit_create_acta', 'role'=>'form')) }}	
+	{{ Form::open(array('url'=>'actas_conformidad/submit_create_acta', 'role'=>'form','id'=>'submitForm')) }}	
 		<div class="container-fluid row">
 			<div class="form-group col-md-2 col-md-offset-8">				
-				{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Crear', array('id'=>'submit-create', 'type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}
+				{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Crear', array('id'=>'submit-create', 'class' => 'btn btn-primary btn-block')) }}
 			</div>
 			<div class="form-group col-md-2">
 				<a class="btn btn-default btn-block" href="{{URL::to('/actas_conformidad/list_actas')}}">Cancelar</a>				

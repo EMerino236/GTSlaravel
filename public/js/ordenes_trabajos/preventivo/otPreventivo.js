@@ -12,57 +12,75 @@ $( document ).ready(function(){
 			alert("Ingrese una tarea válida.");
 		}else{
 			$("input[name=nombre_tarea]").parent().removeClass("has-error has-feedback");
-			if (confirm('¿Está seguro de esta acción?')){
-				$.ajax({
-					url: inside_url+'mant_preventivo/submit_create_tarea_ajax',
-					type: 'POST',
-					data: { 
-						'idot_preventivo' : $("input[name=idot_preventivo]").val(),
-						'nombre_tarea' : $("input[name=nombre_tarea]").val(),
-						'idactivo' : $("input[name=idactivo]").val(),
-					},
-					beforeSend: function(){
-						$(this).prop('disabled',true);
-					},
-					complete: function(){
-						$(this).prop('disabled',false);
-					},
-					success: function(response){
-						console.log(response);
-						$(this).prop('disabled',true);
-						var url = inside_url + "mant_preventivo/create_ot_preventivo/"+idot_preventivo;
-						window.location = url;
-					},
-					error: function(){
-					}
-				});
-			}
+			BootstrapDialog.confirm({
+			title: 'Mensaje de Confirmación',
+			message: '¿Está seguro que desea realizar esta acción?', 
+			type: BootstrapDialog.TYPE_INFO,
+			btnCancelLabel: 'Cancelar', 
+	    	btnOKLabel: 'Aceptar', 
+				callback: function(result){
+			        if(result) {
+			        	$.ajax({
+							url: inside_url+'mant_preventivo/submit_create_tarea_ajax',
+							type: 'POST',
+							data: { 
+								'idot_preventivo' : $("input[name=idot_preventivo]").val(),
+								'nombre_tarea' : $("input[name=nombre_tarea]").val(),
+								'idactivo' : $("input[name=idactivo]").val(),
+							},
+							beforeSend: function(){
+								$(this).prop('disabled',true);
+							},
+							complete: function(){
+								$(this).prop('disabled',false);
+							},
+							success: function(response){
+								console.log(response);
+								$(this).prop('disabled',true);
+								var url = inside_url + "mant_preventivo/create_ot_preventivo/"+idot_preventivo;
+								window.location = url;
+							},
+							error: function(){
+							}
+						});
+			        }
+			    }
+			});
 		}
-
 	});
 
 	$(".boton-tarea").click(function(e){
 		idot_preventivo = $('#idot_preventivo').val();
 		e.preventDefault;
-		if (confirm('¿Está seguro de esta acción?')){
-			$.ajax({
-				url: inside_url+'mant_preventivo/submit_marcar_tarea_ajax',
-				type: 'POST',
-				data: { 'idtareas_ot_preventivosxot_preventivo' : $(this).data('id') },
-				beforeSend: function(){
-				},
-				complete: function(){
-				},
-				success: function(response){
-					console.log(response);
-					$(this).prop('disabled',true);
-					var url = inside_url + "mant_preventivo/create_ot_preventivo/"+idot_preventivo;
-					window.location = url;
-				},
-				error: function(){
-				}
-			});
-		}
+		BootstrapDialog.confirm({
+			title: 'Mensaje de Confirmación',
+			message: '¿Está seguro que desea realizar esta acción?', 
+			type: BootstrapDialog.TYPE_INFO,
+			btnCancelLabel: 'Cancelar', 
+	    	btnOKLabel: 'Aceptar', 
+				callback: function(result){
+			        if(result) {
+			        	$.ajax({
+							url: inside_url+'mant_preventivo/submit_marcar_tarea_ajax',
+							type: 'POST',
+							data: { 'idtareas_ot_preventivosxot_preventivo' : $(this).data('id') },
+							beforeSend: function(){
+							},
+							complete: function(){
+							},
+							success: function(response){
+								console.log(response);
+								$(this).prop('disabled',true);
+								var url = inside_url + "mant_preventivo/create_ot_preventivo/"+idot_preventivo;
+								window.location = url;
+							},
+							error: function(){
+							}
+						});
+			        }
+			    }
+		});
+		
 	});
 
 	$("#submit-repuesto").click(function(e){
@@ -108,35 +126,46 @@ $( document ).ready(function(){
 			}
 
 			if(is_correct){
-				$.ajax({
-					url: inside_url+'mant_preventivo/submit_create_repuesto_ajax',
-					type: 'POST',
-					data: { 
-						'idot_preventivo' : $("input[name=idot_preventivo]").val(),
-						'nombre_repuesto' : $("input[name=nombre_repuesto]").val(),
-						'codigo_repuesto' : $("input[name=codigo_repuesto]").val(),
-						'cantidad_repuesto' : $("input[name=cantidad_repuesto]").val(),
-						'costo_repuesto' : $("input[name=costo_repuesto]").val()
-					},
-					beforeSend: function(){
-						$(this).prop('disabled',true);
-					},
-					complete: function(){
-						$(this).prop('disabled',false);
-					},
-					success: function(response){
-						var str = "";
-						str += '<tr id="repuesto-row-'+response.repuesto.idrepuestos_ot+'"><td>'+response.repuesto.nombre+'</td>';
-						str += "<td>"+response.repuesto.codigo+"</td>";
-						str += "<td>"+response.repuesto.cantidad+"</td>";
-						str += "<td>"+response.repuesto.costo+"</td>";
-						str += '<td><button class="btn btn-danger boton-eliminar-repuesto" onclick="eliminar_repuesto(event,'+response.repuesto.idrepuestos_ot_preventivo+')" type="button">Eliminar</button></td></tr>';
-						$("#repuestos-table").append(str);
-						$("input[name=costo_total_repuestos]").val(response.costo_total_repuestos);
-					},
-					error: function(){
-					}
-				});
+				BootstrapDialog.confirm({
+					title: 'Mensaje de Confirmación',
+					message: '¿Está seguro que desea realizar esta acción?', 
+					type: BootstrapDialog.TYPE_INFO,
+					btnCancelLabel: 'Cancelar', 
+		    		btnOKLabel: 'Aceptar', 
+					callback: function(result){
+			        	if(result) {
+			        		$.ajax({
+								url: inside_url+'mant_preventivo/submit_create_repuesto_ajax',
+								type: 'POST',
+								data: { 
+									'idot_preventivo' : $("input[name=idot_preventivo]").val(),
+									'nombre_repuesto' : $("input[name=nombre_repuesto]").val(),
+									'codigo_repuesto' : $("input[name=codigo_repuesto]").val(),
+									'cantidad_repuesto' : $("input[name=cantidad_repuesto]").val(),
+									'costo_repuesto' : $("input[name=costo_repuesto]").val()
+								},
+								beforeSend: function(){
+									$(this).prop('disabled',true);
+								},
+								complete: function(){
+									$(this).prop('disabled',false);
+								},
+								success: function(response){
+									var str = "";
+									str += '<tr id="repuesto-row-'+response.repuesto.idrepuestos_ot+'"><td>'+response.repuesto.nombre+'</td>';
+									str += "<td>"+response.repuesto.codigo+"</td>";
+									str += "<td>"+response.repuesto.cantidad+"</td>";
+									str += "<td>"+response.repuesto.costo+"</td>";
+									str += '<td><button class="btn btn-danger boton-eliminar-repuesto" onclick="eliminar_repuesto(event,'+response.repuesto.idrepuestos_ot_preventivo+')" type="button">Eliminar</button></td></tr>';
+									$("#repuestos-table").append(str);
+									$("input[name=costo_total_repuestos]").val(response.costo_total_repuestos);
+								},
+								error: function(){
+								}
+							});
+			        	}
+			        }
+			    });				
 			}else{
 				$('#modal_text_ot').html('<p>'+error_str+'</p>');
 				$('#modal_header_ot').addClass('bg-danger');
@@ -176,33 +205,46 @@ $( document ).ready(function(){
 				$("input[name=costo_personal]").parent().addClass("has-error has-feedback");
 			}
 			if(is_correct){
-				$.ajax({
-					url: inside_url+'mant_preventivo/submit_create_personal_ajax',
-					type: 'POST',
-					data: { 
-						'idot_preventivo' : $("input[name=idot_preventivo]").val(),
-						'nombre_personal' : $("input[name=nombre_personal]").val(),
-						'horas_trabajadas' : $("input[name=horas_trabajadas]").val(),
-						'costo_personal' : $("input[name=costo_personal]").val()
-					},
-					beforeSend: function(){
-						$(this).prop('disabled',true);
-					},
-					complete: function(){
-						$(this).prop('disabled',false);
-					},
-					success: function(response){
-						var str = "";
-						str += '<tr id="personal-row-'+response.personal.idpersonal_ot_preventivo+'"><td>'+response.personal.nombre+'</td>';
-						str += "<td>"+response.personal.horas_hombre+"</td>";
-						str += "<td>"+response.personal.costo+"</td>";
-						str += '<td><button class="btn btn-danger boton-eliminar-personal" onclick="eliminar_personal(event,'+response.personal.idpersonal_ot_preventivo+')" type="button">Eliminar</button></td></tr>';
-						$("#personal-table").append(str);
-						$("input[name=costo_total_personal]").val(response.costo_total_personal);
-					},
-					error: function(){
-					}
-				});
+				BootstrapDialog.confirm({
+					title: 'Mensaje de Confirmación',
+					message: '¿Está seguro que desea realizar esta acción?', 
+					type: BootstrapDialog.TYPE_INFO,
+					btnCancelLabel: 'Cancelar', 
+		    		btnOKLabel: 'Aceptar', 
+					callback: function(result){
+			        	if(result) {
+			        		$.ajax({
+								url: inside_url+'mant_preventivo/submit_create_personal_ajax',
+								type: 'POST',
+								data: { 
+									'idot_preventivo' : $("input[name=idot_preventivo]").val(),
+									'nombre_personal' : $("input[name=nombre_personal]").val(),
+									'horas_trabajadas' : $("input[name=horas_trabajadas]").val(),
+									'costo_personal' : $("input[name=costo_personal]").val()
+								},
+								beforeSend: function(){
+									$(this).prop('disabled',true);
+								},
+								complete: function(){
+									$(this).prop('disabled',false);
+								},
+								success: function(response){
+									var str = "";
+									str += '<tr id="personal-row-'+response.personal.idpersonal_ot_preventivo+'"><td>'+response.personal.nombre+'</td>';
+									str += "<td>"+response.personal.horas_hombre+"</td>";
+									str += "<td>"+response.personal.costo+"</td>";
+									str += '<td><button class="btn btn-danger boton-eliminar-personal" onclick="eliminar_personal(event,'+response.personal.idpersonal_ot_preventivo+')" type="button">Eliminar</button></td></tr>';
+									$("#personal-table").append(str);
+									$("input[name=costo_total_personal]").val(response.costo_total_personal);
+								},
+								error: function(){
+								}
+							});
+			        	}
+			        }
+			    });
+			    
+				
 			}else{
 				$('#modal_text_ot').html('<p>'+error_str+'</p>');
 				$('#modal_header_ot').addClass('bg-danger');
@@ -214,28 +256,38 @@ $( document ).ready(function(){
 
 function eliminar_repuesto(e,id){
 	e.preventDefault();
-	if (confirm('¿Está seguro de eliminar el repuesto?')){
-		$.ajax({
-			url: inside_url+'mant_preventivo/submit_delete_repuesto_ajax',
-			type: 'POST',
-			data: { 
-				'idot_preventivo' : $("input[name=idot_preventivo]").val(),
-				'idrepuestos_ot_preventivo' : id,
-			},
-			beforeSend: function(){
-				//$(this).prop('disabled',true);
-			},
-			complete: function(){
-				//$(this).prop('disabled',false);
-			},
-			success: function(response){
-				$("#repuesto-row-"+id).remove();
-				$("input[name=costo_total_repuestos]").val(response.costo_total_repuestos);
-			},
-			error: function(){
-			}
-		});
-	}
+	BootstrapDialog.confirm({
+		title: 'Mensaje de Confirmación',
+		message: '¿Está seguro que desea realizar esta acción?', 
+		type: BootstrapDialog.TYPE_INFO,
+		btnCancelLabel: 'Cancelar', 
+		btnOKLabel: 'Aceptar', 
+		callback: function(result){
+	    	if(result) {
+	    		$.ajax({
+					url: inside_url+'mant_preventivo/submit_delete_repuesto_ajax',
+					type: 'POST',
+					data: { 
+						'idot_preventivo' : $("input[name=idot_preventivo]").val(),
+						'idrepuestos_ot_preventivo' : id,
+					},
+					beforeSend: function(){
+						//$(this).prop('disabled',true);
+					},
+					complete: function(){
+						//$(this).prop('disabled',false);
+					},
+					success: function(response){
+						$("#repuesto-row-"+id).remove();
+						$("input[name=costo_total_repuestos]").val(response.costo_total_repuestos);
+					},
+					error: function(){
+					}
+				});
+	    	}
+	    }
+	});
+
 }
 
 function init_ot_create(){
@@ -274,53 +326,73 @@ function init_ot_create(){
 
 function eliminar_personal(e,id){
 	e.preventDefault();
-	if (confirm('¿Está seguro de eliminar el personal de la OT?')){
-		$.ajax({
-			url: inside_url+'mant_preventivo/submit_delete_personal_ajax',
-			type: 'POST',
-			data: { 
-				'idot_preventivo' : $("input[name=idot_preventivo]").val(),
-				'idpersonal_ot_preventivo' : id,
-			},
-			beforeSend: function(){
-				//$(this).prop('disabled',true);
-			},
-			complete: function(){
-				//$(this).prop('disabled',false);
-			},
-			success: function(response){
-				$("#personal-row-"+id).remove();
-				$("input[name=costo_total_personal]").val(response.costo_total_personal);
-			},
-			error: function(){
-			}
-		});
-	}
+	BootstrapDialog.confirm({
+		title: 'Mensaje de Confirmación',
+		message: '¿Está seguro que desea realizar esta acción?', 
+		type: BootstrapDialog.TYPE_INFO,
+		btnCancelLabel: 'Cancelar', 
+		btnOKLabel: 'Aceptar', 
+		callback: function(result){
+        	if(result) {
+        		$.ajax({
+					url: inside_url+'mant_preventivo/submit_delete_personal_ajax',
+					type: 'POST',
+					data: { 
+						'idot_preventivo' : $("input[name=idot_preventivo]").val(),
+						'idpersonal_ot_preventivo' : id,
+					},
+					beforeSend: function(){
+						//$(this).prop('disabled',true);
+					},
+					complete: function(){
+						//$(this).prop('disabled',false);
+					},
+					success: function(response){
+						$("#personal-row-"+id).remove();
+						$("input[name=costo_total_personal]").val(response.costo_total_personal);
+					},
+					error: function(){
+					}
+				});
+        	}
+        }
+	});
+	
 }
 
 function eliminar_tarea_preventivo(e,id){
 	idot_preventivo = $('#idot_preventivo').val();
 	e.preventDefault();
-	if (confirm('¿Está seguro de eliminar la tarea?')){
-		$.ajax({
-			url: inside_url+'mant_preventivo/submit_delete_tarea_ajax',
-			type: 'POST',
-			data: { 
-				'idtareas_ot_preventivosxot_preventivo' : id,
-			},
-			beforeSend: function(){
-				//$(this).prop('disabled',true);
-			},
-			complete: function(){
-				//$(this).prop('disabled',false);
-			},
-			success: function(response){
-				$("#tarea-row-"+id).remove();
-				var url = inside_url + "mant_preventivo/create_ot_preventivo/"+idot_preventivo;
-				window.location = url;
-			},
-			error: function(){
-			}
-		});
-	}
+	BootstrapDialog.confirm({
+		title: 'Mensaje de Confirmación',
+		message: '¿Está seguro que desea realizar esta acción?', 
+		type: BootstrapDialog.TYPE_INFO,
+		btnCancelLabel: 'Cancelar', 
+		btnOKLabel: 'Aceptar', 
+		callback: function(result){
+	    	if(result) {
+	    		$.ajax({
+					url: inside_url+'mant_preventivo/submit_delete_tarea_ajax',
+					type: 'POST',
+					data: { 
+						'idtareas_ot_preventivosxot_preventivo' : id,
+					},
+					beforeSend: function(){
+						//$(this).prop('disabled',true);
+					},
+					complete: function(){
+						//$(this).prop('disabled',false);
+					},
+					success: function(response){
+						$("#tarea-row-"+id).remove();
+						var url = inside_url + "mant_preventivo/create_ot_preventivo/"+idot_preventivo;
+						window.location = url;
+					},
+					error: function(){
+					}
+				});
+	    	}
+	    }
+	});
+
 }

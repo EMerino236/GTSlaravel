@@ -54,6 +54,21 @@ $( document ).ready(function(){
     $("#btn_descarga").hide();
     $("input[name=numero_reporte_hidden]").val(null);
     fill_name_reporte();
+
+    $('#submit-delete').click(function(){
+        BootstrapDialog.confirm({
+            title: 'Mensaje de Confirmación',
+            message: '¿Está seguro que desea realizar esta acción?', 
+            type: BootstrapDialog.TYPE_INFO,
+            btnCancelLabel: 'Cancelar', 
+            btnOKLabel: 'Aceptar', 
+            callback: function(result){
+                if(result) {
+                    document.getElementById("submitState").submit();
+                }
+            }
+        }); 
+    });
     
 });
 
@@ -113,13 +128,24 @@ function addRowDetalle(){
     cantidad = parseInt(cantidad);
     if(descripcion!='' && marca!='' && modelo !='' && serie_parte!='' && cantidad!=''){
         if(!isNaN(cantidad) || cantidad>999999){
-            $('#table_solicitud').append("<tr><td id="+cantidad_filas+">"+descripcion+"</td>"
-            +"<td>"+marca+"</td>"
-            +"<td>"+modelo+"</td>"
-            +"<td>"+serie_parte+"</td>"
-            +"<td>"+cantidad+"</td>"
-            +"<td><a href='' class='btn btn-danger delete-detail' onclick='deleteRow(event,this)'><span class=\"glyphicon glyphicon-remove\"></span>Eliminar</a></td></tr>");
-            refresh();
+            BootstrapDialog.confirm({
+                title: 'Mensaje de Confirmación',
+                message: '¿Está seguro que desea realizar esta acción?', 
+                type: BootstrapDialog.TYPE_INFO,
+                btnCancelLabel: 'Cancelar', 
+                btnOKLabel: 'Aceptar', 
+                callback: function(result){
+                    if(result) {
+                        $('#table_solicitud').append("<tr><td id="+cantidad_filas+">"+descripcion+"</td>"
+                        +"<td>"+marca+"</td>"
+                        +"<td>"+modelo+"</td>"
+                        +"<td>"+serie_parte+"</td>"
+                        +"<td>"+cantidad+"</td>"
+                        +"<td><a href='' class='btn btn-danger delete-detail' onclick='deleteRow(event,this)'><span class=\"glyphicon glyphicon-remove\"></span>Eliminar</a></td></tr>");
+                        refresh();
+                    }
+                }
+            });            
         }else{
             $('#modal_detail_text').html('<p>Campo Cantidad no es un numero entre 0 y 999999</p>');
             $('#myModal').modal('show');     
@@ -203,17 +229,29 @@ function clean_name_reporte(){
 
 function deleteRow(event,el)
 {    
-    event.preventDefault();
-    var parent = el.parentNode;
-    parent = parent.parentNode;
-    index_value = parent.rowIndex-1;
-    cells = parent.cells;
-    array_detalle = new Array();
-    array_detalle.push($('#iddetalle'+index_value).val());
-    for(i=1;i<cells.length-1;i++)
-        array_detalle.push(cells[i].innerHTML);
-    matrix_detalle_delete.push(array_detalle);
-    parent.parentNode.removeChild(parent);
+     BootstrapDialog.confirm({
+        title: 'Mensaje de Confirmación',
+        message: '¿Está seguro que desea realizar esta acción?', 
+        type: BootstrapDialog.TYPE_INFO,
+        btnCancelLabel: 'Cancelar', 
+        btnOKLabel: 'Aceptar', 
+        callback: function(result){
+            if(result) {
+                event.preventDefault();
+                var parent = el.parentNode;
+                parent = parent.parentNode;
+                index_value = parent.rowIndex-1;
+                cells = parent.cells;
+                array_detalle = new Array();
+                array_detalle.push($('#iddetalle'+index_value).val());
+                for(i=1;i<cells.length-1;i++)
+                    array_detalle.push(cells[i].innerHTML);
+                matrix_detalle_delete.push(array_detalle);
+                parent.parentNode.removeChild(parent);
+            }
+        }
+    });
+   
 }
 
 function readTableData(){
@@ -249,65 +287,77 @@ function readTableData(){
         var sustento = $('#sustento').val();
         var numero_reporte = $('#numero_reporte').val(); 
         var size_delete = matrix_detalle_delete.length;
-        $.ajax({
-            url: inside_url+'solicitudes_compra/submit_edit_solicitud_compra',
-            type: 'POST',
-            data: { 'idsolicitud' : idsolicitud,                    
-                    'matrix_detalle' : matrix,
-                    'matrix_detalle_delete': matrix_detalle_delete,
-                    'numero_ot': numero_ot,
-                    'servicio' : servicio,
-                    'equipo':equipo,
-                    'usuario_responsable':usuario_responsable,
-                    'tipo_solicitud':tipo_solicitud,
-                    'fecha':fecha,
-                    'estado':estado,
-                    'sustento':sustento,
-                    'numero_reporte':numero_reporte,
-                    'size_delete' : size_delete
-                },
-            beforeSend: function(){
-                $("#delete-selected-profiles").addClass("disabled");
-                $("#delete-selected-profiles").hide();
-                $(".loader_container").show();
-            },
-            complete: function(){
-                $(".loader_container").hide();
-                $("#delete-selected-profiles").removeClass("disabled");
-                $("#delete-selected-profiles").show();
-                delete_selected_profiles = true;
-            },
-            success: function(response){
-                if(response.success){                    
-                    var array_detalle = response["url"];
-                    var message = response["message"];
-                    var type_message = response["type_message"];
-                    var inside_url = array_detalle;
-                    $('#modal_header_edit').removeClass();
-                    $('#modal_header_edit').addClass("modal-header");
-                    $('#modal_header_edit').addClass(type_message);
-                    $('#modal_edit_text').empty();
-                    $('#modal_edit_text').append("<p>"+message+"</p>");
-                    $('#modal_edit').modal('show');
-                    if(type_message == "bg-success"){
-                        var url = inside_url + "/solicitudes_compra/list_solicitudes";
-                        $('#btn_close_modal').click(function(){
-                            window.location = url;
-                        });
-                    }else if(type_message == "bg-danger"){
-                        var url = inside_url + "/solicitudes_compra/edit_solicitud_compra/"+idsolicitud;
-                        $('#btn_close_modal').click(function(){
-                            window.location = url;
-                        });
-                    }
-                }else{
-                    alert('La petición no se pudo completar, inténtelo de nuevo.');
+        BootstrapDialog.confirm({
+            title: 'Mensaje de Confirmación',
+            message: '¿Está seguro que desea realizar esta acción?', 
+            type: BootstrapDialog.TYPE_INFO,
+            btnCancelLabel: 'Cancelar', 
+            btnOKLabel: 'Aceptar', 
+            callback: function(result){
+                if(result) {
+                     $.ajax({
+                        url: inside_url+'solicitudes_compra/submit_edit_solicitud_compra',
+                        type: 'POST',
+                        data: { 'idsolicitud' : idsolicitud,                    
+                                'matrix_detalle' : matrix,
+                                'matrix_detalle_delete': matrix_detalle_delete,
+                                'numero_ot': numero_ot,
+                                'servicio' : servicio,
+                                'equipo':equipo,
+                                'usuario_responsable':usuario_responsable,
+                                'tipo_solicitud':tipo_solicitud,
+                                'fecha':fecha,
+                                'estado':estado,
+                                'sustento':sustento,
+                                'numero_reporte':numero_reporte,
+                                'size_delete' : size_delete
+                            },
+                        beforeSend: function(){
+                            $("#delete-selected-profiles").addClass("disabled");
+                            $("#delete-selected-profiles").hide();
+                            $(".loader_container").show();
+                        },
+                        complete: function(){
+                            $(".loader_container").hide();
+                            $("#delete-selected-profiles").removeClass("disabled");
+                            $("#delete-selected-profiles").show();
+                            delete_selected_profiles = true;
+                        },
+                        success: function(response){
+                            if(response.success){                    
+                                var array_detalle = response["url"];
+                                var message = response["message"];
+                                var type_message = response["type_message"];
+                                var inside_url = array_detalle;
+                                $('#modal_header_edit').removeClass();
+                                $('#modal_header_edit').addClass("modal-header");
+                                $('#modal_header_edit').addClass(type_message);
+                                $('#modal_edit_text').empty();
+                                $('#modal_edit_text').append("<p>"+message+"</p>");
+                                $('#modal_edit').modal('show');
+                                if(type_message == "bg-success"){
+                                    var url = inside_url + "/solicitudes_compra/list_solicitudes";
+                                    $('#btn_close_modal').click(function(){
+                                        window.location = url;
+                                    });
+                                }else if(type_message == "bg-danger"){
+                                    var url = inside_url + "/solicitudes_compra/edit_solicitud_compra/"+idsolicitud;
+                                    $('#btn_close_modal').click(function(){
+                                        window.location = url;
+                                    });
+                                }
+                            }else{
+                                alert('La petición no se pudo completar, inténtelo de nuevo.');
+                            }
+                        },
+                        error: function(){
+                            alert('La petición no se pudo completar, inténtelo de nuevo.');
+                        }
+                    });
                 }
-            },
-            error: function(){
-                alert('La petición no se pudo completar, inténtelo de nuevo.');
             }
         });
+       
     }
     
     function sendDataToController_create(){
@@ -321,58 +371,70 @@ function readTableData(){
         var estado = $('#estado').val();
         var sustento = $('#sustento').val();
         var numero_reporte = $('#numero_reporte').val();
-        $.ajax({
-            url: inside_url+'solicitudes_compra/submit_create_solicitud_compra',
-            type: 'POST',
-            data: {                
-                    'matrix_detalle' : matrix,
-                    'numero_ot': numero_ot,
-                    'servicio' : servicio,
-                    'equipo':equipo,
-                    'usuario_responsable':usuario_responsable,
-                    'tipo_solicitud':tipo_solicitud,
-                    'fecha':fecha,
-                    'estado':estado,
-                    'sustento':sustento,
-                    'numero_reporte':numero_reporte
-                },
-            beforeSend: function(){
-                $("#delete-selected-profiles").addClass("disabled");
-                $("#delete-selected-profiles").hide();
-                $(".loader_container").show();
-            },
-            complete: function(){
-                $(".loader_container").hide();
-                $("#delete-selected-profiles").removeClass("disabled");
-                $("#delete-selected-profiles").show();
-                delete_selected_profiles = true;
-            },
-            success: function(response){
-                if(response.success){                    
-                    var array_detalle = response["url"];
-                    var message = response["message"];
-                    var type_message = response["type_message"];
-                    var inside_url = array_detalle;
-                    $('#modal_header_edit').removeClass();
-                    $('#modal_header_edit').addClass("modal-header");
-                    $('#modal_header_edit').addClass(type_message);
-                    $('#modal_edit_text').empty();
-                    $('#modal_edit_text').append("<p>"+message+"</p>");
-                    $('#modal_edit').modal('show');
-                    if(type_message == "bg-success"){
-                        var url = inside_url + "/solicitudes_compra/list_solicitudes";
-                        $('#btn_close_modal').click(function(){
-                            window.location = url;
-                        });
-                    }
-                }else{
-                    alert('La petición no se pudo completar, inténtelo de nuevo.');
+        BootstrapDialog.confirm({
+            title: 'Mensaje de Confirmación',
+            message: '¿Está seguro que desea realizar esta acción?', 
+            type: BootstrapDialog.TYPE_INFO,
+            btnCancelLabel: 'Cancelar', 
+            btnOKLabel: 'Aceptar', 
+            callback: function(result){
+                if(result) {
+                    $.ajax({
+                        url: inside_url+'solicitudes_compra/submit_create_solicitud_compra',
+                        type: 'POST',
+                        data: {                
+                                'matrix_detalle' : matrix,
+                                'numero_ot': numero_ot,
+                                'servicio' : servicio,
+                                'equipo':equipo,
+                                'usuario_responsable':usuario_responsable,
+                                'tipo_solicitud':tipo_solicitud,
+                                'fecha':fecha,
+                                'estado':estado,
+                                'sustento':sustento,
+                                'numero_reporte':numero_reporte
+                            },
+                        beforeSend: function(){
+                            $("#delete-selected-profiles").addClass("disabled");
+                            $("#delete-selected-profiles").hide();
+                            $(".loader_container").show();
+                        },
+                        complete: function(){
+                            $(".loader_container").hide();
+                            $("#delete-selected-profiles").removeClass("disabled");
+                            $("#delete-selected-profiles").show();
+                            delete_selected_profiles = true;
+                        },
+                        success: function(response){
+                            if(response.success){                    
+                                var array_detalle = response["url"];
+                                var message = response["message"];
+                                var type_message = response["type_message"];
+                                var inside_url = array_detalle;
+                                $('#modal_header_edit').removeClass();
+                                $('#modal_header_edit').addClass("modal-header");
+                                $('#modal_header_edit').addClass(type_message);
+                                $('#modal_edit_text').empty();
+                                $('#modal_edit_text').append("<p>"+message+"</p>");
+                                $('#modal_edit').modal('show');
+                                if(type_message == "bg-success"){
+                                    var url = inside_url + "/solicitudes_compra/list_solicitudes";
+                                    $('#btn_close_modal').click(function(){
+                                        window.location = url;
+                                    });
+                                }
+                            }else{
+                                alert('La petición no se pudo completar, inténtelo de nuevo.');
+                            }
+                        },
+                        error: function(){
+                            alert('La petición no se pudo completar, inténtelo de nuevo.');
+                        }
+                    });
                 }
-            },
-            error: function(){
-                alert('La petición no se pudo completar, inténtelo de nuevo.');
             }
         });
+        
     }
 
 function clean_criterios(){

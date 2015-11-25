@@ -7,7 +7,6 @@ $( document ).ready(function(){
  	});
 
 
-
     fill_responsable_servicio();
     fill_contacto_proveedor();
     fill_name_responsable(1);
@@ -16,6 +15,24 @@ $( document ).ready(function(){
     fill_name_contrato();
     $('#btn_descarga').hide();
 
+    $('#submit-delete').click(function(){
+        BootstrapDialog.confirm({
+            title: 'Mensaje de Confirmación',
+            message: '¿Está seguro que desea realizar esta acción?', 
+            type: BootstrapDialog.TYPE_INFO,
+            btnCancelLabel: 'Cancelar', 
+            btnOKLabel: 'Aceptar', 
+            callback: function(result){
+                if(result) {
+                    document.getElementById("submitState").submit();
+                }
+                else{
+                    aprobar_postulantes = true;
+                }
+            }
+        }); 
+    });
+    
 });
 
 

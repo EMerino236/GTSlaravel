@@ -78,8 +78,16 @@
 			</div>
 			<div class="info_right">
 				<label><strong>Documento Elaborado Por: </strong></label>  {{$usuario_elaborador->nombre}} {{$usuario_elaborador->apellido_pat}} {{$usuario_elaborador->apellido_mat}}</p><br>
-				<label><strong>Ejecutor del Mantenimiento: </strong></label>  {{$ot->nombre_ejecutor}}<br>
-				<label><strong>Numero de Ficha: </strong></label>  {{$ot->numero_ficha}}
+				@if($ot->nombre_ejecutor==null)
+					<label><strong>Ejecutor del Mantenimiento: </strong></label>- <br>
+				@else
+					<label><strong>Ejecutor del Mantenimiento: </strong></label>  {{$ot->nombre_ejecutor}}<br>
+				@endif
+				@if($ot->numero_ficha==null)
+					<label><strong>Numero de Ficha: </strong></label>  -<br>
+				@else
+					<label><strong>Numero de Ficha: </strong></label>  {{$ot->numero_ficha}}
+				@endif
 			</div>
 		</div>
 		<div id="datos_equipo">
@@ -122,7 +130,11 @@
 				<h3>ESTADO INICIAL DEL EQUIPO</h3>
 			</div>
 			<div class="info_left">
-				<label><strong>Estado Inicial del Activo: </strong></label>  {{$estado_inicial->nombre}}
+				@if($estado_inicial == null)
+					<label><strong>Estado Inicial del Activo: </strong></label> -
+				@else
+					<label><strong>Estado Inicial del Activo: </strong></label> {{$estado_inicial->nombre}}
+				@endif
 			</div>
 			<div class="info_right">
 				<label><strong>Equipo No Intervenido: </strong></label>	{{$equipo_no_intervenido->nombre}}
@@ -139,7 +151,11 @@
 					<label><strong>Fecha de Inicio: </strong></label>  {{date('d-m-Y',strtotime($ot->fecha_inicio_ejecucion))}}<br>
 				@endif
 				<label><strong>Garantia: </strong></label> {{$ot->garantia}}<br>
-				<label><strong>Estado Final del Activo: </strong></label> {{$estado_final->nombre}}
+				@if($estado_final==null)
+					<label><strong>Estado Final del Activo: </strong></label> -
+				@else
+					<label><strong>Estado Final del Activo: </strong></label> {{$estado_final->nombre}}
+				@endif
 			</div>
 			<div class="info_right">
 				@if($ot->fecha_termino_ejecucion == null)

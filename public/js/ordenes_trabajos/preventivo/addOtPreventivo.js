@@ -279,7 +279,15 @@ function limpiar(){
 
 function sendDataToController_create(){
         var matrix = readTableData();
-        $.ajax({
+        BootstrapDialog.confirm({
+            title: 'Mensaje de Confirmación',
+            message: '¿Está seguro que desea realizar esta acción?', 
+            type: BootstrapDialog.TYPE_INFO,
+            btnCancelLabel: 'Cancelar', 
+            btnOKLabel: 'Aceptar', 
+            callback: function(result){
+                if(result) {
+                    $.ajax({
             url: inside_url+'mant_preventivo/submit_programacion',
             type: 'POST',
             data: {                
@@ -322,4 +330,8 @@ function sendDataToController_create(){
                 alert('La petición no se pudo completar, inténtelo de nuevo.');
             }
         });
+                }
+            }
+        });
+        
     }

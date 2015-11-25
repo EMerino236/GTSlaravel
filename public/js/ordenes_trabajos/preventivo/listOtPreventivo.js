@@ -45,49 +45,61 @@ function eliminar_ot(event,el){
     parent = parent.parentNode;
     index_value = parent.rowIndex-1;
     idot_preventivo = $('#fila'+index_value).val();
-    
-        $.ajax({
-            url: inside_url+'mant_preventivo/submit_disable_preventivo',
-            type: 'POST',
-            data: {                
-                    'idot_preventivo' : idot_preventivo,
-                 },
-            beforeSend: function(){
-                $("#delete-selected-profiles").addClass("disabled");
-                $("#delete-selected-profiles").hide();
-                $(".loader_container").show();
-            },
-            complete: function(){
-                $(".loader_container").hide();
-                $("#delete-selected-profiles").removeClass("disabled");
-                $("#delete-selected-profiles").show();
-                delete_selected_profiles = true;
-            },
-            success: function(response){
-                if(response.success){                    
-                    var array_detalle = response["url"];
-                    var message = response["message"];
-                    var type_message = response["type_message"];
-                    var inside_url = array_detalle;
-                    $('#modal_list_header_ot').removeClass();
-                    $('#modal_list_header_ot').addClass("modal-header ");
-                    $('#modal_list_header_ot').addClass(type_message);
-                    $('#modal_text_list_ot').empty();
-                    $('#modal_text_list_ot').append("<p>"+message+"</p>");
-                    $('#modal_list_ot').modal('show');
-                    if(type_message == "bg-success"){
-                        var url = inside_url + "mant_preventivo/list_mant_preventivo";
-                        $('#btn_close_modal').click(function(){
-                            window.location = url;
-                        });
+    BootstrapDialog.confirm({
+        title: 'Mensaje de Confirmación',
+        message: '¿Está seguro que desea realizar esta acción?', 
+        type: BootstrapDialog.TYPE_INFO,
+        btnCancelLabel: 'Cancelar', 
+        btnOKLabel: 'Aceptar', 
+        callback: function(result){
+            if(result) {
+            $.ajax({
+                url: inside_url+'mant_preventivo/submit_disable_preventivo',
+                type: 'POST',
+                data: {                
+                        'idot_preventivo' : idot_preventivo,
+                     },
+                beforeSend: function(){
+                    $("#delete-selected-profiles").addClass("disabled");
+                    $("#delete-selected-profiles").hide();
+                    $(".loader_container").show();
+                },
+                complete: function(){
+                    $(".loader_container").hide();
+                    $("#delete-selected-profiles").removeClass("disabled");
+                    $("#delete-selected-profiles").show();
+                    delete_selected_profiles = true;
+                },
+                success: function(response){
+                    if(response.success){                    
+                        var array_detalle = response["url"];
+                        var message = response["message"];
+                        var type_message = response["type_message"];
+                        var inside_url = array_detalle;
+                        $('#modal_list_header_ot').removeClass();
+                        $('#modal_list_header_ot').addClass("modal-header ");
+                        $('#modal_list_header_ot').addClass(type_message);
+                        $('#modal_text_list_ot').empty();
+                        $('#modal_text_list_ot').append("<p>"+message+"</p>");
+                        $('#modal_list_ot').modal('show');
+                        if(type_message == "bg-success"){
+                            var url = inside_url + "mant_preventivo/list_mant_preventivo";
+                            $('#btn_close_modal').click(function(){
+                                window.location = url;
+                            });
+                        }
+                    }else{
+                        alert('La petición no se pudo completar, inténtelo de nuevo.');
                     }
-                }else{
+                },
+                error: function(){
                     alert('La petición no se pudo completar, inténtelo de nuevo.');
                 }
-            },
-            error: function(){
-                alert('La petición no se pudo completar, inténtelo de nuevo.');
+            });
             }
-        });
+        }
+    });
+    
+        
 }
 
