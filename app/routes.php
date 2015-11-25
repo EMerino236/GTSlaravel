@@ -395,10 +395,40 @@ Route::group(array('prefix'=>'reporte_cn','before'=>'auth'),function(){
 	Route::get('/list_reporte_cn','ReporteCNController@list_reporte_cn');
 	Route::get('/edit_reporte_cn/{id}','ReporteCNController@render_edit_reporte_cn');
 	Route::post('/submit_edit_reporte_cn','ReporteCNController@submit_edit_reporte_cn');
-	Route::get('/create_reporte_cn/{id?}','ReporteCNController@render_create_reporte_cn');
+	Route::get('/create_reporte_cn','ReporteCNController@render_create_reporte_cn');
 	Route::post('/submit_create_reporte_cn','ReporteCNController@submit_create_reporte_cn');
 	Route::get('/search_reporte_cn','ReporteCNController@search_reporte_cn');
-	Route::get('/download_documento/{id?}','ReporteCNController@download_documento');
+	Route::post('/return_num_ot_retiro/{postData}','ReporteCNController@return_num_ot_retiro');
+	Route::post('/return_area/{postData}','ReporteCNController@return_area');
+	Route::get('/download_documento/{id}','ReporteCNController@download_documento');
+	Route::post('/submit_disable_reporte_cn','ReporteCNController@submit_disable_reporte_cn');
+	Route::post('/submit_enable_reporte_cn','ReporteCNController@submit_enable_reporte_cn');
+});
+
+/* Reporte ETES */
+Route::group(array('prefix'=>'reporte_etes','before'=>'auth'),function(){
+	Route::get('/list_reporte_etes','ReporteETESController@list_reporte_etes');
+	Route::get('/edit_reporte_etes/{id}','ReporteETESController@render_edit_reporte_etes');
+	Route::post('/submit_edit_reporte_etes','ReporteETESController@submit_edit_reporte_etes');
+	Route::get('/create_reporte_etes','ReporteETESController@render_create_reporte_etes');
+	Route::post('/submit_create_reporte_etes','ReporteETESController@submit_create_reporte_etes');
+	Route::get('/search_reporte_etes','ReporteETESController@search_reporte_etes');
+	Route::get('/download_documento/{id}','ReporteETESController@download_documento');
+	Route::post('/submit_disable_reporte_etes','ReporteETESController@submit_disable_reporte_etes');
+	Route::post('/submit_enable_reporte_etes','ReporteETESController@submit_enable_reporte_etes');
+});
+
+/* Reporte PAAC */
+Route::group(array('prefix'=>'reporte_paac','before'=>'auth'),function(){
+	Route::get('/list_reporte_paac','ReportePAACController@list_reporte_paac');
+	Route::get('/edit_reporte_paac/{id}','ReportePAACController@render_edit_reporte_paac');
+	Route::post('/submit_edit_reporte_paac','ReportePAACController@submit_edit_reporte_paac');
+	Route::get('/create_reporte_paac','ReportePAACController@render_create_reporte_paac');
+	Route::post('/submit_create_reporte_paac','ReportePAACController@submit_create_reporte_paac');
+	Route::get('/search_reporte_paac','ReportePAACController@search_reporte_paac');
+	Route::get('/download_documento/{id}','ReportePAACController@download_documento');
+	Route::post('/submit_disable_reporte_paac','ReportePAACController@submit_disable_reporte_paac');
+	Route::post('/submit_enable_reporte_paac','ReportePAACController@submit_enable_reporte_paac');
 });
 
 /*Registro Historico de OTM*/

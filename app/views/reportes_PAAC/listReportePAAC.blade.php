@@ -2,15 +2,15 @@
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Reportes para Certificado de Necesidad</h3>
-            <p class="text-right">{{ HTML::link('/reporte_cn/create_reporte_cn','+ Generar Reporte',array('class'=>'')) }}</p>
+            <h3 class="page-header">Reportes Evaluación o Implantación</h3>
+            <p class="text-right">{{ HTML::link('/reporte_paac/create_reporte_paac','+ Generar Reporte',array('class'=>'')) }}</p>
         </div>
         <!-- /.col-lg-12 -->
     </div>
     @if (Session::has('message'))
 		<div class="alert alert-success">{{ Session::get('message') }}</div>
 	@endif
-    {{ Form::open(array('url'=>'/reporte_cn/search_reporte_cn','method'=>'get' ,'role'=>'form', 'id'=>'search-form','class' => 'form-group')) }}
+    {{ Form::open(array('url'=>'/reporte_paac/search_reporte_paac','method'=>'get' ,'role'=>'form', 'id'=>'search-form','class' => 'form-group')) }}
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">Búsqueda</h3>
@@ -19,8 +19,8 @@
 			<div class="search_bar">
 				<div class="row">
 					<div class="form-group col-md-4">
-						{{ Form::label('search_tipo_reporte_cn','Tipo de Reporte:')}}
-						{{ Form::select('search_tipo_reporte_cn',array('' => 'Seleccione')+$tipo_reporte_cn, $search_tipo_reporte_cn,array('class'=>'form-control')) }}
+						{{ Form::label('search_tipo_reporte_paac','Tipo de Reporte:')}}
+						{{ Form::select('search_tipo_reporte_paac',array('' => 'Seleccione')+$tipo_reporte_paac, $search_tipo_reporte_paac,array('class'=>'form-control')) }}
 					</div>
 					<div class="form-group col-md-4">
 						{{ Form::label('search_numero_reporte','Número de Reporte:') }}
@@ -29,10 +29,6 @@
 					<div class="form-group col-md-4">
 						{{ Form::label('search_usuario','Usuario:') }}
 						{{ Form::text('search_usuario',$search_usuario,array('class'=>'form-control','placeholder'=>'Usuario')) }}
-					</div>
-					<div class="form-group col-md-4">
-						{{ Form::label('search_nombre_equipo','Nombre de Equipo:') }}
-						{{ Form::text('search_nombre_equipo',$search_nombre_equipo,array('class'=>'form-control','placeholder'=>'Nombre de Equipo')) }}
 					</div>
 					<div class="form-group col-md-4">
 						{{ Form::label('search_servicio','Servicio:')}}
@@ -78,42 +74,34 @@
 			<th>N° Reporte</th>
 			<th>Fecha y Hora</th>
 			<th>Usuario</th>
-			<th>Nombre de Equipo</th>
 			<th>Servicio Clínico</th>
 			<th>Departamento</th>
-			<th>OT de Baja de Equipo</th>
 		</tr>
-		@foreach($reportes_cn_data as $reporte_cn_data)
-		<tr class="@if($reporte_cn_data->deleted_at) bg-danger @endif">
+		@foreach($reportes_paac_data as $reporte_paac_data)
+		<tr class="@if($reporte_paac_data->deleted_at) bg-danger @endif">
 			<td>
-				<a href="{{URL::to('/reporte_cn/edit_reporte_cn/')}}/{{$reporte_cn_data->idreporte_CN}}">{{$reporte_cn_data->numero_reporte_abreviatura}}{{$reporte_cn_data->numero_reporte_correlativo}}-{{$reporte_cn_data->numero_reporte_anho}}</a>
+				<a href="{{URL::to('/reporte_paac/edit_reporte_paac/')}}/{{$reporte_paac_data->idreporte_PAAC}}">{{$reporte_paac_data->numero_reporte_abreviatura}}{{$reporte_paac_data->numero_reporte_correlativo}}-{{$reporte_paac_data->numero_reporte_anho}}</a>
 			</td>
 			<td>
-				{{date('d-m-Y H:i',strtotime($reporte_cn_data->created_at))}}
+				{{date('d-m-Y H:i',strtotime($reporte_paac_data->created_at))}}
 			</td>
 			<td>
-				{{$reporte_cn_data->apellido_pat}} {{$reporte_cn_data->apellido_mat}} {{$reporte_cn_data->nombre}}
+				{{$reporte_paac_data->apellido_pat}} {{$reporte_paac_data->apellido_mat}} {{$reporte_paac_data->nombre}}
 			</td>
 			<td>
-				{{$reporte_cn_data->nombre_equipo}}
+				{{$reporte_paac_data->nombre_servicio}}
 			</td>
 			<td>
-				{{$reporte_cn_data->nombre_servicio}}
-			</td>
-			<td>
-				{{$reporte_cn_data->nombre_area}}
-			</td>	
-			<td>
-				<a href="{{URL::to('/retiro_servicio/create_ot/')}}/{{$reporte_cn_data->idot_retiro}}">{{$reporte_cn_data->ot_tipo_abreviatura}}{{$reporte_cn_data->ot_correlativo}}{{$reporte_cn_data->ot_activo_abreviatura}}
+				{{$reporte_paac_data->nombre_area}}
 			</td>		
 		</tr>
 		@endforeach
 	</table>
 	<div class="row">
-		@if($search_tipo_reporte_cn || $search_numero_reporte || $search_usuario || $search_servicio || $search_area || $search_nombre_equipo || $search_fecha_ini || $search_fecha_fin)
-			{{ $reportes_cn_data->appends(array('search_tipo_reporte_cn' => $search_tipo_reporte_cn,'search_numero_reporte'=>$search_numero_reporte,'search_usuario'=>$search_usuario,'search_servicio'=>$search_servicio,'search_area'=>$search_area,'search_nombre_equipo'=>$search_nombre_equipo,'search_fecha_ini'=>$search_fecha_ini,'search_fecha_fin'=>$search_fecha_fin))->links() }}
+		@if($search_tipo_reporte_paac || $search_numero_reporte || $search_usuario || $search_servicio || $search_area || $search_fecha_ini || $search_fecha_fin)
+			{{ $reportes_paac_data->appends(array('search_tipo_reporte_paac' => $search_tipo_reporte_paac,'search_numero_reporte'=>$search_numero_reporte,'search_usuario'=>$search_usuario,'search_servicio'=>$search_servicio,'search_area'=>$search_area,'search_fecha_ini'=>$search_fecha_ini,'search_fecha_fin'=>$search_fecha_fin))->links() }}
 		@else
-			{{ $reportes_cn_data->links() }}
+			{{ $reportes_paac_data->links() }}
 		@endif
 	</div>
 @stop

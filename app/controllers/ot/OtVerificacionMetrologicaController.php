@@ -455,98 +455,33 @@ class OtVerificacionMetrologicaController extends BaseController {
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
 				$idot_vmetrologica = Input::get('idot_vmetrologica');
-				$ot_vm = OrdenesTrabajoVerifMetrologica::find($idot_vmetrologica);
+				$data["ot_vm"] = OrdenesTrabajoVerifMetrologica::find($idot_vmetrologica);
 
-				if($ot_vm==null){
+				if($data["ot_vm"]==null){
 					$url = "verif_metrologica/create_ot_verif_metrologica"."/".$idot_vmetrologica;
 					return Redirect::to($url);
 				}
 
-				$usuarioSolicitante = User::find($ot_vm->id_usuariosolicitante);
-				$usuarioElaborador = User::find($ot_vm->id_usuarioelaborador);
-				$servicio = Servicio::find($ot_vm->idservicio);
-				$ejecutor = $ot_vm->nombre_ejecutor;
-				$ubicacion = UbicacionFisica::find($ot_vm->idubicacion_fisica);
-				$numero_ficha = $ot_vm->numero_ficha;
-				$activo = Activo::find($ot_vm->idactivo);
-				$modelo = ModeloActivo::find($activo->idmodelo_equipo);
-				$familia = FamiliaActivo::find($modelo->idfamilia_activo);
-				$marca = Marca::find($familia->idmarca);
-				$fecha_programacion = $ot_vm->fecha_programacion;
-				$fecha_conformidad = $ot_vm->fecha_conformidad;
-				$estado_inicial = Estado::find($ot_vm->idestado_inicial);
-				$estado_final = Estado::find($ot_vm->idestado_final);
-				$estado_ot = Estado::find($ot_vm->idestado_ot);
-				$documento = Documento::searchDocumentoByIdOtVerifMetrologica($idot_vmetrologica)->get();
-				$documento = $documento[0];
+				$data["usuarioSolicitante"] = User::find($data["ot_vm"]->id_usuariosolicitante);
+				$data["usuarioElaborador"] = User::find($data["ot_vm"]->id_usuarioelaborador);
+				$data["servicio"] = Servicio::find($data["ot_vm"]->idservicio);
+				$data["ejecutor"] = $data["ot_vm"]->nombre_ejecutor;
+				$data["ubicacion"] = UbicacionFisica::find($data["ot_vm"]->idubicacion_fisica);
+				$data["numero_ficha"] = $data["ot_vm"]->numero_ficha;
+				$data["activo"] = Activo::find($data["ot_vm"]->idactivo);
+				$data["modelo"] = ModeloActivo::find($data["activo"]->idmodelo_equipo);
+				$data["familia"] = FamiliaActivo::find($data["modelo"]->idfamilia_activo);
+				$data["marca"] = Marca::find($data["familia"]->idmarca);
+				$data["fecha_programacion"] = $data["ot_vm"]->fecha_programacion;
+				$data["fecha_conformidad"] = $data["ot_vm"]->fecha_conformidad;
+				$data["estado_inicial"] = Estado::find($data["ot_vm"]->idestado_inicial);
+				$data["estado_final"] = Estado::find($data["ot_vm"]->idestado_final);
+				$data["estado_ot"] = Estado::find($data["ot_vm"]->idestado_ot);
+				$data["documento"] = Documento::searchDocumentoByIdOtVerifMetrologica($idot_vmetrologica)->get();
+				$data["documento"] = $data["documento"][0];
 
-				
-				$personal_data = PersonalOtVerifMetrologica::getPersonalXOt($idot_vmetrologica)->get();
-				$size = count($personal_data);
-				$table = '<table style="width:100%">'
-						.'<tr><th>Nombres y Apellidos</th><th>Horas Trabajadas</th><th>Sub Total</th></tr>';
-				for($i = 0; $i < $size; $i++){
-					$detalle = $personal_data[$i];
-					$table = $table.'<tr>'.'<td>'.$detalle->nombre.'</td>'.
-							'<td>'.$detalle->horas_hombre.'</td>'.
-							'<td>'.$detalle->costo.'</td>'.
-							'</tr>';
-				}
-				$table=$table.'</table>';
-				$html = '<html><head><style>'.
-						'table, th, td {
-    						border: 1px solid black;
-    						border-collapse: collapse;
-						}'.
-						'th, td {
-							text-align: center;
-						}'
-						.'.lista_generales{
-							list-style-type:none;
-							border:1px solid black;
-							width:100%;
-						}'
-						.'li{
-							margin-bottom:5px;
-							margin-left:-15px;
-						}'
-						.'.nombre_general{
-							width:100%;
-						}'
-						.'#titulo{
-							text-align:center;
-							margin-top:60px;
-							position:fixed;
-						}'
-						.'#logo{
-							padding:10px 10px 10px 10px;	
-						}'
-						.'</style>
-						</head>'.
-						'<div class="nombre_general"><img id="logo" src="img/logo_uib.jpg" ></img><h2 id="titulo" >OT de Verificacion Metrologica: '.$ot_vm->ot_tipo_abreviatura.$ot_vm->ot_correlativo.$ot_vm->ot_activo_abreviatura.'</h2></div>'
-						.'<div>'
-						.'<ul class="lista_generales">'
-							.'<li><label><strong>Usuario Solicitante</strong></label>: '.$usuarioSolicitante->apellido_pat.' '.$usuarioSolicitante->apellido_mat.' '.$usuarioSolicitante->nombre.'</li>'						
-							.'<li><label><strong>Documento Elaborado por</strong></label>: '.$usuarioElaborador->apellido_pat.' '.$usuarioElaborador->apellido_mat.' '.$usuarioElaborador->nombre.'</li>'
-							.'<li><label><strong>Servicio Hospitalario</strong></label>: '.$servicio->nombre.'</li>'
-							.'<li><label><strong>Ejecutor del Mantenimiento</strong></label>: '.$ejecutor.'</li>'							
-							.'<li><label><strong>Ubicacion Fisica</strong></label>: '.$ubicacion->nombre.'</li>'
-							.'<li><label><strong>Numero de Ficha</strong></label>: '.$numero_ficha.'</li>'
-						.'</ul></div>'	
-						.'<ul class="lista_generales">'
-							.'<li><label><strong>Nombre del Equipo</strong></label>: '.$familia->nombre_equipo.'</li>'						
-							.'<li><label><strong>Codigo Patrimonial</strong></label>: '.$activo->codigo_patrimonial.'</li>'
-							.'<li><label><strong>Marca</strong></label>: '.$marca->nombre.'</li>'
-							.'<li><label><strong>Numero de Serie</strong></label>: '.$activo->numero_serie.'</li>'							
-							.'<li><label><strong>Modelo</strong></label>: '.$modelo->nombre.'</li>'
-						.'</ul></div>'	
-						.'<ul class="lista_generales">'
-							.'<li><label><strong>Fecha y Hora de Programacion</strong></label>: '.$fecha_programacion.'</li>'						
-							.'<li><label><strong>Fecha y Hora de Conformidad</strong></label>: '.$fecha_conformidad.'</li>'					.'</ul></div>'				
-						.'<div>'.$table.'</div>'	
-						.'<br><\br>'
-						.'<div>Gasto Total Mano de Obra: S/. '.$ot_vm->costo_total.'</div>'
-						.'</html>';
+				$data["personal_data"] = PersonalOtVerifMetrologica::getPersonalXOt($idot_vmetrologica)->get();
+				$html = View::make('ot/verifMetrologica/otVerifMetrologicaExport',$data);
 				
 				return PDF::load($html,"A4","portrait")->show();
 			}else{

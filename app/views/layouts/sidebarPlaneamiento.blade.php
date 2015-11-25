@@ -5,9 +5,9 @@
                 <a href="#">Evaluación de necesidades, alernativas e instalaciones<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">                           
                     <li>
-                        <li>{{ HTML::link('/reporte_cn/list_reporte_cn','Evaluación de necesidades') }}</li>
-                        <li>{{ HTML::link('#','Evaluación') }}</li>
-                        <li>{{ HTML::link('#','Evaluación de instalación o implantación') }}</li>
+                        <li>{{ HTML::link('/reporte_cn/list_reporte_cn','Necesidades') }}</li>
+                        <li>{{ HTML::link('/reporte_etes/list_reporte_etes','Alternativas') }}</li>
+                        <li>{{ HTML::link('/reporte_paac/list_reporte_paac','Instalación') }}</li>
                     </li>
                 </ul>
             </li>

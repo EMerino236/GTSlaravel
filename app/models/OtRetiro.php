@@ -96,4 +96,16 @@ class OtRetiro extends Eloquent{
 			  ->select('reporte_retiros.fecha_baja','activos.garantia','activos.idactivo','activos.numero_serie','activos.codigo_patrimonial','marcas.nombre as nombre_marca','familia_activos.nombre_equipo','modelo_activos.nombre as modelo','ubicacion_fisicas.nombre as nombre_ubicacion','areas.nombre as nombre_area','elaborador.nombre as nombre_elaborador','elaborador.apellido_pat as apat_elaborador','elaborador.apellido_mat as amat_elaborador','ingeniero.nombre as nombre_ingeniero','ingeniero.apellido_pat as apat_ingeniero','ingeniero.apellido_mat as amat_ingeniero','solicitante.nombre as nombre_solicitante','solicitante.apellido_pat as apat_solicitante','solicitante.apellido_mat as amat_solicitante','servicios.nombre as nombre_servicio','estados.nombre as nombre_estado','ot_retiros.*');
 	  	return $query;
 	}
+
+	public function scopeSearchOtByCodigoReporte($query,$abreviatura,$correlativo,$anho)
+	{
+		$query->where('ot_tipo_abreviatura','=',$abreviatura)
+			  ->where('ot_correlativo','=',$correlativo)
+			  ->where('ot_activo_abreviatura','=',$anho)
+			  ->join('activos','activos.idactivo','=','ot_retiros.idactivo')
+			  ->join('modelo_activos','modelo_activos.idmodelo_equipo','=','activos.idmodelo_equipo')
+			  ->join('familia_activos','familia_activos.idfamilia_activo','=','modelo_activos.idfamilia_activo')
+			  ->select('ot_retiros.*','familia_activos.nombre_equipo');
+	  	return $query;
+	}
 }

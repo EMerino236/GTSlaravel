@@ -39,6 +39,7 @@
     <script src="{{ asset('bower_components/morrisjs/morris.min.js') }}"></script>
     <!-- Custom Theme JavaScript -->
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
+    <script src="{{ asset('js/planeamiento/planeamiento.js') }}"></script>
     <script src="{{ asset('js/fileinput.min.js') }}"></script>
     <script src="{{ asset('js/fileinput_locale_es.min.js') }}"></script>
     <script src="{{ asset('js/language_file_upload_plugin.min.js') }}"></script>

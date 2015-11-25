@@ -22,7 +22,7 @@
 		<div class="alert alert-danger">{{ Session::get('error') }}</div>
 	@endif
 
-	{{ Form::open(array('url'=>'reporte_cn/submit_create_reporte_cn', 'role'=>'form', 'files'=>true)) }}
+	{{ Form::open(array('url'=>'reporte_paac/submit_create_reporte_paac', 'role'=>'form', 'files'=>true)) }}
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">Datos del Reporte</h3>
@@ -31,7 +31,7 @@
 				<div class="row">
 					<div class="form-group col-md-4 @if($errors->first('idtipo_reporte')) has-error has-feedback @endif">
 						{{ Form::label('idtipo_reporte','Tipo de Reporte') }}
-						{{ Form::select('idtipo_reporte',array(''=>'Seleccione') + $tipo_reporte_cn,Input::old('idtipo_reporte'),['class' => 'form-control']) }}
+						{{ Form::select('idtipo_reporte',array(''=>'Seleccione') + $tipo_reporte_paac,Input::old('idtipo_reporte'),['class' => 'form-control']) }}
 					</div>
 				</div>
 				<div class="row">
@@ -42,23 +42,6 @@
 						{{ Form::label('idarea_select','Departamento') }}
 						{{ Form::select('idarea_select',array(''=>'Seleccione') + $areas,Input::old('idarea_select'),['class' => 'form-control']) }}
 						{{ Form::hidden('idarea')}}
-					</div>
-				</div>		
-				<div class="row">
-					<div class="form-group col-md-4 @if($errors->first('codigo_ot_retiro')) has-error has-feedback @endif">
-						{{ Form::label('codigo_ot_retiro','OT de Baja de Equipo',array('id'=>'codigo_ot_retiro_label')) }}
-						{{ Form::text('codigo_ot_retiro',Input::old('codigo_ot_retiro'),array('placeholder'=>'RS0001TS','class'=>'form-control','maxlength'=>8)) }}
-						{{ Form::hidden('idot_retiro')}}
-					</div>
-					<div class="form-group col-md-2" style="margin-top:25px">
-						<a id="btn_agregar" class="btn btn-primary btn-block" onclick="llenar_nombre_equipo()"><span class="glyphicon glyphicon-plus"></span> Agregar</a>
-					</div>
-					<div class="form-group col-md-2" style="margin-top:25px; margin-left:15px">
-						<a id="btn_limpiar" class="btn btn-default btn-block" onclick="limpiar_nombre_equipo()"><span class="glyphicon glyphicon-refresh"></span> Limpiar</a>
-					</div>
-					<div class="form-group col-md-4 @if($errors->first('nombre_equipo')) has-error has-feedback @endif">
-						{{ Form::label('nombre_equipo','Nombre de Equipo',array('id'=>'nombre_equipo_label')) }}
-						{{ Form::text('nombre_equipo',Input::old('nombre_equipo'),array('class'=>'form-control','readonly'=>'')) }}
 					</div>
 				</div>	
 			</div>
@@ -79,7 +62,7 @@
 					{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit_create', 'type'=>'submit','class' => 'btn btn-primary btn-block')) }}
 				</div>
 				<div class="form-group col-md-2">
-					<a class="btn btn-default btn-block" href="{{URL::to('/reporte_cn/list_reporte_cn/')}}">Regresar</a>				
+					<a class="btn btn-default btn-block" href="{{URL::to('/reporte_paac/list_reporte_paac/')}}">Regresar</a>				
 				</div>
 			</div>		
 		</div>	
