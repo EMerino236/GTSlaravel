@@ -35,11 +35,11 @@ class SotBusquedaInformacionController extends BaseController {
 				$data['areas'] = Area::lists('nombre','idarea');
 				$data['encargados'] = User::getJefes()->get();
 				$data['sot_info'] = SolicitudBusquedaInformacion::searchSotById($idsot)->get();
+
 				if($data["sot_info"]->isEmpty()){
 					return Redirect::to('busqueda_informacion/list_busqueda_informacion');
 				}
 				$data["sot_info"] = $data["sot_info"][0];
-
 				return View::make('sot_busqueda_informacion/editSotBusquedaInformacion',$data);
 			}else{
 				return View::make('error/error');
@@ -117,7 +117,7 @@ class SotBusquedaInformacionController extends BaseController {
 					$string = $this->getCorrelativeReportNumberSot();
 					$sot->fecha_solicitud = $fecha;
 					$sot->idarea = Input::get('area');
-					$sot->idestado = 9;
+					$sot->idestado = 14;
 					$sot->idtipo_busqueda_info = Input::get('tipo');
 					$sot->motivo = Input::get('motivo');
 					$sot->descripcion = Input::get('descripcion');
@@ -292,6 +292,27 @@ class SotBusquedaInformacionController extends BaseController {
 			return Response::json(array( 'success' => true ),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
+	public function submit_disable_sot()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9){
+				$idsot = Input::get('idsot');
+				$sot = SolicitudBusquedaInformacion::find($idsot);
+				$sot->idestado = 26; // Si se elimina la SOT, se le cambia de estado a Mal Ingreso
+				$sot->save();
+				Session::flash('message', 'Se marcó correctamente la solicitud como Mal Ingreso.');
+				return Redirect::to("solicitud_busqueda_informacion/list_busqueda_informacion");
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
 		}
 	}
 }	

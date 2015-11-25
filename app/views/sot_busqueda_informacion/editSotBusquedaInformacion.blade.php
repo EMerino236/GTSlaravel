@@ -115,8 +115,16 @@
 		</div>
 		<div class="form-group col-md-2">
 			<a class="btn btn-default btn-block" href="{{URL::to('/solicitud_busqueda_informacion/list_busqueda_informacion')}}">Cancelar</a>				
-		</div>
+		</div>	
+	{{Form::close()}}
+	@if($sot_info->idestado == 14)
+		{{ Form::open(array('url'=>'solicitud_busqueda_informacion/submit_disable_sot', 'role'=>'form','id'=>'submitState')) }}
+			{{ Form::hidden('idsot', $sot_info->idsolicitud_busqueda_info) }}
+			<div class="form-group col-md-offset-4 col-md-3">
+				{{ Form::button('<span class="glyphicon glyphicon-remove"></span> Marcar como Mar Ingreso', array('id'=>'submit-delete', 'class'=>'btn  btn-block btn-danger')) }}	
+				
+			</div>
+		{{ Form::close() }}
+	@endif
 	</div>	
-{{Form::close()}}
-	
 @stop

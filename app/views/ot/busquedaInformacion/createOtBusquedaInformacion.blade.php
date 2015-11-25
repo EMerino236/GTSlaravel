@@ -242,7 +242,7 @@
 				{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit_create_ots', 'type'=>'submit','class' => 'btn btn-primary btn-block')) }}
 			</div>
 			<div class="form-group col-md-2">
-				<a class="btn btn-default btn-block" href="{{URL::to('/busqueda_informacion/list_busqueda_informacion')}}">Cancelar</a>				
+				<a class="btn btn-default btn-block" href="{{URL::to('/solicitud_busqueda_informacion/list_busqueda_informacion')}}">Cancelar</a>				
 			</div>	
 	{{ Form::close() }}
 			{{Form::open(array('url'=>'busqueda_informacion/export_pdf', 'role'=>'form'))}}		

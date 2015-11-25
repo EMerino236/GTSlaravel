@@ -1,9 +1,14 @@
 <html>
 	<head>
 		<style type="text/css">
+			body{
+				font-size: 10px;	
+			}
 			#logo {
 				padding:10px 10px 10px 10px;
 			}
+
+
 			#header .titulo{
 				height:20px;
 				width:500px;
@@ -11,11 +16,12 @@
 				text-align: center;
 				padding-left:200px;
 				padding-top:50px;
+				font-size: 20px;
 			}
 
 			.info_right{
 				margin-left: 350px;
-				padding-top:-63px;
+				padding-top:-40px;
 				padding-bottom: 5px;
 				padding-left: 5px;
 				padding-right: 5px;

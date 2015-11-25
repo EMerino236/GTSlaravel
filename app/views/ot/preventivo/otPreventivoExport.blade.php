@@ -1,6 +1,9 @@
 <html>
 	<head>
 		<style type="text/css">
+			body{
+				font-size: 10px;
+			}
 			#logo {
 				padding:10px 10px 10px 10px;
 			}
@@ -11,6 +14,7 @@
 				text-align: center;
 				padding-left:200px;
 				padding-top:50px;
+				font-size: 20px;
 			}
 
 			.info_right{
@@ -43,10 +47,6 @@
 				padding-right: 5px;
 			}
 
-			#table_tareas{
-				padding:20px 0px 0px 40px;
-				width: 600px;
-			}
 
 			table, th, td {
 				border: 1px solid black;
@@ -245,7 +245,7 @@
 			<p style="text-align:center">Firma Jefe del Servicio</p>
 		</div>
 		<div id="sign_uib" style="border-top:solid;width:200px;margin-left:500px;">
-			<p style="text-align:center">Firma Jefe de Tumimet</p>
+			<p style="text-align:center">Firma Jefe de Tumimed</p>
 		</div>
 	</body>
 </html>

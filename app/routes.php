@@ -446,7 +446,7 @@ Route::group(array('prefix'=>'solicitud_busqueda_informacion','before'=>'auth'),
 	Route::get('/edit_sot_busqueda_informacion/{id}','SotBusquedaInformacionController@render_edit_sot');
 	Route::get('/view_sot_busqueda_informacion/{id}','SotBusquedaInformacionController@render_view_sot');
 	Route::post('/submit_edit_sot','SotBusquedaInformacionController@submit_edit_sot');
-	
+	Route::post('/submit_disable_sot','SotBusquedaInformacionController@submit_disable_sot');	
 });
 
 /* Búsqueda Informacion */

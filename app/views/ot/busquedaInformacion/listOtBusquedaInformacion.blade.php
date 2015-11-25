@@ -75,6 +75,7 @@
 					<th class="text-nowrap text-center">Encargado</th>
 					<th class="text-nowrap text-center">Código SBI</th>
 					<th class="text-nowrap text-center">Fecha</th>
+					<th class="text-nowrap text-center">Estado</th>
 					<th class="text-nowrap text-center">Número de OT</th>
 				</tr>
 				@foreach($busquedas as $index => $busqueda)
@@ -85,7 +86,7 @@
 						<td class="text-nowrap text-center">{{$busqueda->motivo}}</td>
 						<td class="text-nowrap text-center">{{$busqueda->nombre_area}}</td>
 						<td class="text-nowrap text-center">{{$busqueda->apat}} {{$busqueda->amat}}, {{$busqueda->nombre_user}}</td>
-						@if($busqueda->idot == null)
+						@if($busqueda->idot == null && $busqueda->idestado==14)
 							<td class="text-nowrap text-center">
 								<a href="{{URL::to('/solicitud_busqueda_informacion/edit_sot_busqueda_informacion/')}}/{{$busqueda->idsolicitud_busqueda_info}}">{{$busqueda->sot_tipo_abreviatura}}{{$busqueda->sot_correlativo}}</a></td>
 						@else
@@ -93,11 +94,16 @@
 								<a href="{{URL::to('/solicitud_busqueda_informacion/view_sot_busqueda_informacion/')}}/{{$busqueda->idsolicitud_busqueda_info}}">{{$busqueda->sot_tipo_abreviatura}}{{$busqueda->sot_correlativo}}</a></td>
 						@endif
 							<td class="text-nowrap text-center">{{date('d-m-Y H:i',strtotime($busqueda->fecha_solicitud))}}</td>
-						@if($busqueda->idot == null)
+							<td class="text-nowrap text-center">{{$busqueda->nombre_estado}}</td>
+						@if($busqueda->idot == null && $busqueda->idestado==14)
 						<td>
 							<a class="btn btn-success btn-block btn-sm" onclick="setSotId(event,this)">
 							<span class="glyphicon glyphicon-plus"></span> Crear OTM</a>
 						</td>
+						@elseif ($busqueda->idestado == 26)
+							<td class="text-nowrap text-center">
+								-
+							</td>
 						@else
 						<td class="text-nowrap text-center">
 							<a href="{{URL::to('/busqueda_informacion/create_ot_busqueda_informacion/')}}/{{$busqueda->idot}}">{{$busqueda->ot_tipo_abreviatura}}{{$busqueda->ot_correlativo}}</a>

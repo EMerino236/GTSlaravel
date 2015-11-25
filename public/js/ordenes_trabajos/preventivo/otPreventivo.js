@@ -291,8 +291,13 @@ function eliminar_repuesto(e,id){
 }
 
 function init_ot_create(){
-	array_fecha = $('#fecha_programacion_ot').val().split('-');
-	fecha_str = array_fecha[2]+"-"+array_fecha[1]+"-"+array_fecha[0];
+	if($('#fecha_programacion_ot').length>0){
+		array_fecha = $('#fecha_programacion_ot').val().split('-');
+		fecha_str = array_fecha[2]+"-"+array_fecha[1]+"-"+array_fecha[0];	
+	}else{
+		fecha_str = "";
+	}
+	
 	$("#datetimepicker_conformidad_fecha").datetimepicker({
 		useCurrent: false,
 		defaultDate: false,

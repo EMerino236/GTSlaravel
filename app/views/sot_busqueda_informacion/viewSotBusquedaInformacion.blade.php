@@ -74,7 +74,7 @@
 	</div>
 	<div class="row">		
 		<div class="form-group col-md-2">
-			<a class="btn btn-default btn-block" href="{{URL::to('/solicitud_busqueda_informacion/list_busqueda_informacion')}}">Regresar</a>				
+			<a class="btn btn-default btn-block" href="{{URL::to('/solicitud_busqueda_informacion/list_busqueda_informacion')}}"><span class="glyphicon glyphicon-menu-left"></span> Regresar</a>				
 		</div>
 	</div>	
 	
