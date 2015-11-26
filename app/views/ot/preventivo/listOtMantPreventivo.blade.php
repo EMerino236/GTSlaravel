@@ -25,7 +25,7 @@
 				<div class="panel-body">
 					<div class="container-fluid form-group row">
 						<div class="form-group col-md-4">
-							{{ Form::label('search_ing','Ingeniero a cargo') }}
+							{{ Form::label('search_ing','Ingeniero a cargo del activo') }}
 							{{ Form::text('search_ing',$search_ing,array('class'=>'form-control','placeholder'=>'Nombre o apellidos')) }}
 						</div>
 						<div class="form-group col-md-4">
@@ -92,7 +92,8 @@
 					<th class="text-nowrap">Fecha y hora</th>
 					<th class="text-nowrap">Departamento</th>
 					<th class="text-nowrap">Servicio</th>
-					<th class="text-nowrap">Ingeniero</th>
+					<th class="text-nowrap">Ingeniero a cargo del activo</th>
+					<th class="text-nowrap">Usuario Solicitante</th>
 					<th class="text-nowrap">Ubicación</th>
 					<th class="text-nowrap">Orden Trabajo Mantenimiento</th>
 					<th class="text-nowrap">Estado</th>
@@ -112,6 +113,9 @@
 					</td>
 					<td class="text-nowrap">
 						{{$mant_preventivo_data->apellido_pat}} {{$mant_preventivo_data->apellido_mat}}, {{$mant_preventivo_data->nombre_user}}
+					</td>
+					<td class="text-nowrap">
+						{{$mant_preventivo_data->apellido_pat_sol}} {{$mant_preventivo_data->apellido_mat_sol}}, {{$mant_preventivo_data->nombre_user_sol}}
 					</td>
 					<td class="text-nowrap">
 						{{$mant_preventivo_data->nombre_ubicacion}}

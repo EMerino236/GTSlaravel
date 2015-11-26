@@ -19,7 +19,8 @@ class OrdenesTrabajoPreventivo extends Eloquent{
 			  ->join('ubicacion_fisicas','ubicacion_fisicas.idubicacion_fisica','=','activos.idubicacion_fisica')
 			  ->join('grupos','grupos.idgrupo','=','activos.idgrupo')
 			  ->join('users','users.id','=','grupos.id_responsable')
-			  ->select('ubicacion_fisicas.nombre as nombre_ubicacion','areas.nombre as nombre_area','users.nombre as nombre_user','users.apellido_pat','users.apellido_mat','servicios.nombre as nombre_servicio','estados.nombre as nombre_estado','ot_preventivos.*');
+			  ->join('users as solicitante','solicitante.id','=','ot_preventivos.id_usuariosolicitante')
+			  ->select('ubicacion_fisicas.nombre as nombre_ubicacion','areas.nombre as nombre_area','users.nombre as nombre_user','users.apellido_pat','users.apellido_mat','solicitante.nombre as nombre_user_sol','solicitante.apellido_pat as apellido_pat_sol','solicitante.apellido_mat as apellido_mat_sol','servicios.nombre as nombre_servicio','estados.nombre as nombre_estado','ot_preventivos.*');
 	  	return $query;
 	}
 
@@ -36,6 +37,7 @@ class OrdenesTrabajoPreventivo extends Eloquent{
 			  ->join('familia_activos','familia_activos.idfamilia_activo','=','modelo_activos.idfamilia_activo')
 			  ->join('grupos','grupos.idgrupo','=','activos.idgrupo')
 			  ->join('users','users.id','=','grupos.id_responsable')
+			  ->join('users as solicitante','solicitante.id','=','ot_preventivos.id_usuariosolicitante')
 			  ->whereNested(function($query) use($search_ing){
 			  		$query->where('users.nombre','LIKE',"%$search_ing%")
 			  			  ->orWhere('users.apellido_pat','LIKE',"%$search_ing%")
@@ -61,7 +63,7 @@ class OrdenesTrabajoPreventivo extends Eloquent{
 				$query->where('ot_preventivos.fecha_programacion','<=',date('Y-m-d H:i:s',strtotime($search_fin)));
 			  if($search_servicio!=0)
 			  	$query->where('ot_preventivos.idservicio','=',$search_servicio);
-			  $query->select('ubicacion_fisicas.nombre as nombre_ubicacion','areas.nombre as nombre_area','users.nombre as nombre_user','users.apellido_pat','users.apellido_mat','servicios.nombre as nombre_servicio','estados.nombre as nombre_estado','ot_preventivos.*');
+			  $query->select('ubicacion_fisicas.nombre as nombre_ubicacion','areas.nombre as nombre_area','users.nombre as nombre_user','users.apellido_pat','users.apellido_mat','solicitante.nombre as nombre_user_sol','solicitante.apellido_pat as apellido_pat_sol','solicitante.apellido_mat as apellido_mat_sol','servicios.nombre as nombre_servicio','estados.nombre as nombre_estado','ot_preventivos.*');
 	  	return $query;
 	}
 
@@ -85,7 +87,7 @@ class OrdenesTrabajoPreventivo extends Eloquent{
 			  ->join('grupos','grupos.idgrupo','=','activos.idgrupo')
 			  ->join('users as elaborador','elaborador.id','=','ot_preventivos.id_usuarioelaborador')
 			  ->join('users as ingeniero','ingeniero.id','=','grupos.id_responsable')
-			  ->join('users as solicitante','solicitante.id','=','grupos.id_responsable')
+			  ->join('users as solicitante','solicitante.id','=','ot_preventivos.id_usuariosolicitante')
 			  ->where('ot_preventivos.idot_preventivo','=',$search_criteria)
 			  ->select('activos.garantia','activos.idactivo','activos.numero_serie','activos.codigo_patrimonial','marcas.nombre as nombre_marca','familia_activos.nombre_equipo','modelo_activos.nombre as modelo','ubicacion_fisicas.nombre as nombre_ubicacion','areas.nombre as nombre_area','elaborador.nombre as nombre_elaborador','elaborador.apellido_pat as apat_elaborador','elaborador.apellido_mat as amat_elaborador','ingeniero.nombre as nombre_ingeniero','ingeniero.apellido_pat as apat_ingeniero','ingeniero.apellido_mat as amat_ingeniero','solicitante.nombre as nombre_solicitante','solicitante.apellido_pat as apat_solicitante','solicitante.apellido_mat as amat_solicitante','servicios.nombre as nombre_servicio','estados.nombre as nombre_estado','ot_preventivos.*');
 	  	return $query;

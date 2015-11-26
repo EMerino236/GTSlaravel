@@ -277,7 +277,7 @@ class OtPreventivoController extends BaseController {
 			}else{
 				$message = "No se cargaron todas las OTM con éxito.";
 				$type_message = "bg-danger";
-				return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'message' => $message, 'type_message'=>$type_message ),200);
+				return Response::json(array( 'success' => true, 'ot'=>$ot,'url' => $data["inside_url"], 'message' => $message, 'type_message'=>$type_message ),200);
 			}
 			
 			return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'message' => $message, 'type_message'=>$type_message ),200);
@@ -307,8 +307,8 @@ class OtPreventivoController extends BaseController {
 				$data["tareas"] = OrdenesTrabajoPreventivoxTarea::getTareasXOtXActivo($data["ot_info"]->idot_preventivo)->get();
 				$data["repuestos"] = RepuestosOtPreventivos::getRepuestosXOt($data["ot_info"]->idot_preventivo)->get();
 				$data["personal_data"] = PersonalOtPreventivo::getPersonalXOt($data["ot_info"]->idot_preventivo)->get();
-				
 				return View::make('ot/preventivo/createOtMantPre',$data);
+			
 			}else{
 				return View::make('error/error');
 			}
