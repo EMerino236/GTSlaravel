@@ -208,9 +208,6 @@ class OtPreventivoController extends BaseController {
 				$data["trimestre_fin"] = null;
 				$this->calcular_trimestre($data["trimestre_ini"],$data["trimestre_fin"]);
 				$data['solicitantes'] = User::getJefes()->get();
-				echo '<pre>';
-				print_r($data["solicitantes"]);
-				exit;
 				
 				return View::make('ot/preventivo/createProgramOtMantPre',$data);
 			}else{
