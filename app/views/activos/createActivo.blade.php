@@ -1,4 +1,4 @@
-@extends('templates/activosTemplate')
+@extends('templates/bienesTemplate')
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
@@ -20,6 +20,7 @@
 			<p><strong>{{ $errors->first('codigo_patrimonial') }}</strong></p>
 			<p><strong>{{ $errors->first('codigo_compra') }}</strong></p>
 			<p><strong>{{ $errors->first('fecha_adquisicion') }}</strong></p>
+			<p><strong>{{ $errors->first('costo') }}</strong></p>
 			<p><strong>{{ $errors->first('garantia') }}</strong></p>
 			<p><strong>{{ $errors->first('reporte_instalacion') }}</strong></p>
 			<p><strong>{{ $errors->first('idreporte_instalacion',"Ingrese un número de reporte válido. ") }}</strong></p>
@@ -101,6 +102,12 @@
 				                    </span>
 								</div>
 							</div>
+							<div class="col-md-4 @if($errors->first('costo')) has-error has-feedback @endif">
+								{{ Form::label('costo','Costo (S/.)') }}<span style="color:red">*</span>
+								{{ Form::text('costo',Input::old('costo'),array('class'=>'form-control','placeholder'=>'Costo (S/.)'))}}
+							</div>							
+						</div>
+						<div class="form-group row">							
 							<div class="col-md-4 @if($errors->first('garantia')) has-error has-feedback @endif">
 								{{ Form::label('garantia','Garantía (cantidad de meses)') }}<span style="color:red">*</span>
 								{{ Form::text('garantia',Input::old('garantia'),array('class'=>'form-control','placeholder'=>'Garantía'))}}

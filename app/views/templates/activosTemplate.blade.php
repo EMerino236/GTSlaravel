@@ -39,12 +39,6 @@
     <!-- Custom Theme JavaScript -->
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
     
-    <script src="{{ asset('js/activos/listActivos.js') }}"></script>
-    <script src="{{ asset('js/activos/utilActivo.js') }}"></script>
-    <script src="{{ asset('js/activos/createActivos.js') }}"></script>    
-    <script src="{{ asset('js/activos/editActivos.js') }}"></script>
-    <script src="{{ asset('js/soporte_tecnico/createSoporteTecnicoActivo.js') }}"></script>
-    
 </head>
 
 <body>

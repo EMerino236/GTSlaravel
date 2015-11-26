@@ -199,7 +199,8 @@ class ActivosController extends BaseController
 					'codigo_patrimonial' => 'Código Patrimonial',
 					'fecha_adquisicion' => 'Fecha de Adquisición',
 					'garantia' => 'Garantía',
-					'idreporte_instalacion' => 'Código de Reporte de Instalación'
+					'idreporte_instalacion' => 'Código de Reporte de Instalación',
+					'costo' => 'Costo'
 					);
 
 				$messages=array(
@@ -219,6 +220,7 @@ class ActivosController extends BaseController
 					'fecha_adquisicion' => 'required',
 					'garantia' => 'required',
 					'idreporte_instalacion' => 'required',
+					'costo' => 'required|numeric'
 					);
 
 				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
@@ -240,6 +242,7 @@ class ActivosController extends BaseController
 					$activo->idreporte_instalacion = Input::get('idreporte_instalacion');
 					$activo->idestado = 1;
 					$activo->idubicacion_fisica = Input::get('ubicacion_fisica');
+					$activo->costo = Input::get('costo');
 
 					$activo->save();
 
@@ -308,7 +311,8 @@ class ActivosController extends BaseController
 					'codigo_patrimonial' => 'Código Patrimonial',
 					'fecha_adquisicion' => 'Fecha de Adquisición',
 					'garantia' => 'Garantía',
-					'idreporte_instalacion' => 'Código de Reporte de Instalación'
+					'idreporte_instalacion' => 'Código de Reporte de Instalación',
+					'costo' => 'Costo'
 					);
 
 				$messages=array(
@@ -328,6 +332,7 @@ class ActivosController extends BaseController
 					'fecha_adquisicion' => 'required',
 					'garantia' => 'required',
 					'idreporte_instalacion' => 'required',
+					'costo' => 'required|numeric'
 					);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
@@ -351,7 +356,8 @@ class ActivosController extends BaseController
 					$activo->idproveedor = Input::get('proveedor');
 					$activo->idreporte_instalacion = Input::get('idreporte_instalacion');
 					$activo->idestado = 1;
-					$activo->idubicacion_fisica = Input::get('ubicacion_fisica');	
+					$activo->idubicacion_fisica = Input::get('ubicacion_fisica');
+					$activo->costo = Input::get('costo');
 
 					$activo->save();
 					

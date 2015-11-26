@@ -3,7 +3,7 @@
 	
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Directorio de Equipos</h3>
+            <h3 class="page-header">Inventario de Equipos</h3>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -86,77 +86,85 @@
 			<div class="table-responsive">
 				<table class="table">
 					<tr class="info">
-						<th class="text-nowrap">Nº</th>
-						<th class="text-nowrap">Grupo</th>
-						<th class="text-nowrap">Servicio Clinico</th>
-						<th class="text-nowrap">Ubicación Física</th>												
-						<th class="text-nowrap">Nombre de Equipo</th>
-						<th class="text-nowrap">Marca</th>
-						<th class="text-nowrap">Modelo</th>
-						<th class="text-nowrap">Número de Serie</th>
-						<th class="text-nowrap">Proveedor</th>
-						<th class="text-nowrap">Código Patrimonial</th>
-						<th class="text-nowrap">Año de Adquisición</th>
-						<th class="text-nowrap">Garantía Restante</th>
-						<th class="text-nowrap">Garantía Vigente</th>					
-						<th class="text-nowrap">Estado</th>
+						<th class="text-nowrap text-center">Nº</th>
+						<th class="text-nowrap text-center">Grupo</th>
+						<th class="text-nowrap text-center">Servicio Clinico</th>
+						<th class="text-nowrap text-center">Ubicación Física</th>												
+						<th class="text-nowrap text-center">Nombre de Equipo</th>
+						<th class="text-nowrap text-center">Marca</th>
+						<th class="text-nowrap text-center">Modelo</th>
+						<th class="text-nowrap text-center">Número de Serie</th>
+						<th class="text-nowrap text-center">Proveedor</th>
+						<th class="text-nowrap text-center">Código Patrimonial</th>
+						<th class="text-nowrap text-center">Año de Adquisición</th>
+						<th class="text-nowrap text-center">Garantía Restante</th>
+						<th class="text-nowrap text-center">Garantía Vigente</th>					
+						<th class="text-nowrap text-center">Estado</th>
 					</tr>
 					@foreach($activos_data as $index => $activo_data)					
 					<tr class="@if($activo_data->deleted_at) bg-danger @endif">			
 						<td class="text-nowrap">
 							{{$index + 1}}
 						</td>	
-						<td class="text-nowrap text-center text-center">
+						<td class="text-nowrap">
 							{{$activo_data->nombre_grupo}}
 						</td>
-						<td class="text-nowrap text-center">
+						<td class="text-nowrap">
 							{{$activo_data->nombre_servicio}}
 						</td>						
-						<td class="text-nowrap text-center">
+						<td class="text-nowrap">
 							{{$activo_data->nombre_ubicacion_fisica}}
 						</td>
-						<td class="text-nowrap text-center">
+						<td class="text-nowrap">
 							{{$activo_data->nombre_equipo}}
 						</td>
-						<td class="text-nowrap text-center">
+						<td class="text-nowrap">
 							{{$activo_data->nombre_marca}}
 						</td>
-						<td class="text-nowrap text-center">
+						<td class="text-nowrap">
 							{{$activo_data->modelo}}
 						</td>
-						<td class="text-nowrap text-center">
+						<td class="text-nowrap">
 							{{$activo_data->numero_serie}}
 						</td>
-						<td class="text-nowrap text-center">
+						<td class="text-nowrap">
 							{{$activo_data->nombre_proveedor}}
 						</td>
-						<td class="text-nowrap text-center">
+						<td class="text-nowrap">
 							<a href="{{URL::to('/equipos/view_inventario/')}}/{{$activo_data->idactivo}}">{{$activo_data->codigo_patrimonial}}</a>
 						</td>
-						<td class="text-nowrap text-center">
+						<td class="text-nowrap">
 							{{$activo_data->anho_adquisicion}}
 						</td>
-						<td class="text-nowrap text-center">
+						<td class="text-nowrap">
 							@if($activo_data->garantia->invert == 1)
 								{{$activo_data->garantia->m}} Meses, {{$activo_data->garantia->d}} Días
 							@else
 								0 Meses, 0 Días
 							@endif
 						</td>
-						<td class="text-nowrap text-center">
+						<td class="text-nowrap">
 							@if($activo_data->garantia->invert == 0)
 								NO
 							@else
 								SI
 							@endif
 						</td>						
-						<td class="text-nowrap text-center">
+						<td class="text-nowrap">
 							{{strtoupper($activo_data->estado)}}
 						</td>
 					</tr>
 					@endforeach				
 				</table>
+				@if($search_grupo || $search_servicio || $search_ubicacion || $search_nombre_equipo || $search_marca || $search_modelo
+					|| $search_proveedor || $search_codigo_patrimonial)
 
+					{{ $activos_data->appends(array('search_grupo' => $search_grupo,'search_servicio' => $search_servicio, 'search_ubicacion' => $search_ubicacion,
+						'search_nombre_equipo' => $search_nombre_equipo, 'search_marca' => $search_marca, 'search_modelo' => $search_modelo,
+						'search_proveedor' => $search_proveedor, 'search_codigo_patrimonial' => $search_codigo_patrimonial))->links() }}
+				@else	
+					{{ $activos_data->links()}}
+				@endif
 			</div>
 		</div>
 	</div>	

@@ -92,7 +92,11 @@
 				</td>
 			</tr>
 			@endforeach
-			
-		</table>
+		</table>			
+		@if($search_nombre_equipo || $search_nombre_siga || $search_marca)
+			{{ $familiaactivos_data->appends(array('search_nombre_equipo' => $search_nombre_equipo, 'search_nombre_siga' => $search_nombre_siga, 'search_marca' => $search_marca))->links() }}
+		@else	
+			{{ $familiaactivos_data->links()}}
+		@endif		
 	</div>
 @stop

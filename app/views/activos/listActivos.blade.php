@@ -1,4 +1,4 @@
-@extends('templates/activosTemplate')
+@extends('templates/bienesTemplate')
 @section('content')
 	
 	<div class="row">
@@ -107,53 +107,53 @@
 			<div class="table-responsive">
 				<table class="table">
 					<tr class="info">
-						<th class="text-nowrap">Nº</th>
-						<th class="text-nowrap">Grupo</th>
-						<th class="text-nowrap">Servicio Clinico</th>						
-						<th class="text-nowrap">Nombre SIGA</th>
-						<th class="text-nowrap">Nombre de Equipo</th>
-						<th class="text-nowrap">Marca</th>
-						<th class="text-nowrap">Modelo</th>
-						<th class="text-nowrap">Número de Serie</th>
-						<th class="text-nowrap">Proveedor</th>
-						<th class="text-nowrap">Código de Compra</th>
-						<th class="text-nowrap">Código Patrimonial</th>
-						<th class="text-nowrap">Soporte Técnico</th>
-						<th class="text-nowrap">Editar</th>
+						<th class="text-nowrap text-center">Nº</th>
+						<th class="text-nowrap text-center">Grupo</th>
+						<th class="text-nowrap text-center">Servicio Clinico</th>						
+						<th class="text-nowrap text-center">Nombre SIGA</th>
+						<th class="text-nowrap text-center">Nombre de Equipo</th>
+						<th class="text-nowrap text-center">Marca</th>
+						<th class="text-nowrap text-center">Modelo</th>
+						<th class="text-nowrap text-center">Número de Serie</th>
+						<th class="text-nowrap text-center">Proveedor</th>
+						<th class="text-nowrap text-center">Código de Compra</th>
+						<th class="text-nowrap text-center">Código Patrimonial</th>
+						<th class="text-nowrap text-center">Soporte Técnico</th>
+						<th class="text-nowrap text-center">Editar</th>
 					</tr>
 					@foreach($activos_data as $index => $activo_data)					
 					<tr class="@if($activo_data->deleted_at) bg-danger @endif">			
-						<td class="text-nowrap text-center">
+						<td class="text-nowrap">
 							{{$index + 1}}
 						</td>	
-						<td class="text-nowrap text-center">
+						<td class="text-nowrap">
 							{{$activo_data->nombre_grupo}}
 						</td>
-						<td class="text-nowrap text-center">
+						<td class="text-nowrap">
 							{{$activo_data->nombre_servicio}}
 						</td>						
-						<td class="text-nowrap text-center">
+						<td class="text-nowrap">
 							{{$activo_data->nombre_siga}}
 						</td>
-						<td class="text-nowrap text-center">
+						<td class="text-nowrap">
 							{{$activo_data->nombre_equipo}}
 						</td>
-						<td class="text-nowrap text-center">
+						<td class="text-nowrap">
 							{{$activo_data->nombre_marca}}
 						</td>
-						<td class="text-nowrap text-center">
+						<td class="text-nowrap">
 							{{$activo_data->modelo}}
 						</td>
-						<td class="text-nowrap text-center">
+						<td class="text-nowrap">
 							{{$activo_data->numero_serie}}
 						</td>
-						<td class="text-nowrap text-center">
+						<td class="text-nowrap">
 							{{$activo_data->nombre_proveedor}}
 						</td>
-						<td class="text-nowrap text-center">
+						<td class="text-nowrap">
 							{{$activo_data->codigo_compra}}
 						</td>
-						<td class="text-nowrap text-center">
+						<td class="text-nowrap">
 							<a href="{{URL::to('/equipos/view_equipo/')}}/{{$activo_data->idactivo}}">{{$activo_data->codigo_patrimonial}}</a>							
 						</td>
 						<td>
