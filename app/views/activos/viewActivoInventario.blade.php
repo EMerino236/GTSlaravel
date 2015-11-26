@@ -2,7 +2,7 @@
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Editar Equipo: <strong>{{$equipo_info->codigo_patrimonial}}</strong></h3>
+            <h3 class="page-header">Equipo: <strong>{{$equipo_info->codigo_patrimonial}}</strong></h3>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -87,12 +87,16 @@
 				                    </span>
 								</div>
 							</div>
+							<div class="col-md-4 @if($errors->first('costo')) has-error has-feedback @endif">
+								{{ Form::label('costo','Costo (S/.)') }}<span style="color:red">*</span>
+								{{ Form::text('costo',$equipo_info->costo,array('class'=>'form-control','placeholder'=>'Costo (S/.)','disabled'))}}
+							</div>							
+						</div>
+						<div class="form-group row">
 							<div class="col-md-4 @if($errors->first('garantia')) has-error has-feedback @endif">
 								{{ Form::label('garantia','Garantía (cantidad de meses)') }}<span style="color:red">*</span>
 								{{ Form::text('garantia',$equipo_info->garantia,array('class'=>'form-control','placeholder'=>'Garantía','disabled'))}}
-							</div>
-						</div>
-						<div class="form-group row">							
+							</div>						
 							<div class="col-md-4 @if($errors->first('garantia')) has-error has-feedback @endif">
 								{{ Form::label('reporte_instalacion','Reporte de Instalación') }}<span style="color:red">*</span>
 								{{ Form::text('reporte_instalacion',$reporte_instalacion->numero_reporte_abreviatura.$reporte_instalacion->numero_reporte_correlativo.'-'.$reporte_instalacion->numero_reporte_anho,['class' => 'form-control', 'placeholder'=>'Reporte de Instalación','disabled'])}}								

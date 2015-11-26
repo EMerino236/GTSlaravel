@@ -148,6 +148,20 @@ class ActivosController extends BaseController
 
 				$data["activos_data"] = Activo::searchInventario($data["search_grupo"],$data["search_servicio"],$data["search_ubicacion"],$data["search_nombre_equipo"],
 										$data["search_marca"],$data["search_modelo"],$data["search_proveedor"],$data["search_codigo_patrimonial"])->paginate(10);
+
+				foreach ($data["activos_data"] as $value)
+				{
+					$meses_garantia = $value->garantia;					
+					$inicio_garantia = Carbon\Carbon::createFromFormat('Y-m-d', $value->anho_adquisicion);
+					$fin_garantia = $inicio_garantia->addMonths($meses_garantia);
+
+					$fecha_actual = Carbon\Carbon::now();
+					
+					$meses_restantes = $fin_garantia->diff($fecha_actual);					
+					$value->garantia = ($meses_restantes);											
+					
+				}
+
 				return View::make('activos/listActivosInventario',$data);
 			}else{
 				return View::make('error/error');
