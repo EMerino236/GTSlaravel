@@ -18,6 +18,9 @@ INSERT INTO prioridades (idprioridad,nombre) VALUES ('1','normal');
 INSERT INTO prioridades (idprioridad,nombre) VALUES ('2','urgente');
 INSERT INTO prioridades (idprioridad,nombre) VALUES ('3','critica');
 
+/***ACTAS***/
+INSERT INTO tipo_actas (nombre) VALUES ('Conformidad del Proveedor');
+
 
 INSERT INTO tipo_activos(idtipo_activo,nombre,descripcion) VALUES('1','Bien','Bien');
 INSERT INTO tipo_activos(idtipo_activo,nombre,descripcion) VALUES('2','Tecnologia de Salud','Tecnologia de Salud');
