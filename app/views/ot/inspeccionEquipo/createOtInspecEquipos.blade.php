@@ -86,16 +86,18 @@
 			</div>
 			<div class="panel-body">
 				<div class="row">
-					<div class="col-md-9" >
-						<div class="table-responsive" style="margin-left:250px">
+					<div class="col-md-12" >
+						<div class="table-responsive">
 							<table class="table" id="table_equipos">
 								<tr class="info">
+									<th class="text-nowrap text-center">N°</th>
 									<th class="text-nowrap text-center">Equipo</th>
 									<th class="text-nowrap text-center">Modelo</th>
 									<th class="text-nowrap text-center">Código Patrimonial</th>
 								</tr>
 								@foreach($activos_info as $index => $activo)
 								<tr>
+									<td class="text-nowrap text-center">{{$index+1}}</td>
 									<td class="text-nowrap text-center">{{$activo->nombre_familia}}</td>
 									<td class="text-nowrap text-center">{{$activo->nombre_modelo}}</td>
 									<td class="text-nowrap text-center" id={{"cod_pat".$index}}>{{$activo->codigo_patrimonial}}</td>
@@ -116,7 +118,7 @@
 			@foreach($activosxot_info as $i => $otxactivo)
 				<div class="row">
 					<div class="col-md-12">
-						<h4>{{$otxactivo->nombre_equipo}} - {{$otxactivo->nombre_modelo}} - Código Patrimonial: {{$otxactivo->codigo_patrimonial}}</h4>
+						<h4>{{$i+1}}. {{$otxactivo->nombre_equipo}} - {{$otxactivo->nombre_modelo}} - Código Patrimonial: {{$otxactivo->codigo_patrimonial}}</h4>
 					</div>
 				</div>
 				{{Form::hidden('idactivo'.$i,$otxactivo->idactivo)}}
