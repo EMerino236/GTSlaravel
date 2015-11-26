@@ -116,7 +116,7 @@ class GruposController extends BaseController
 			{	
 				$data["grupo_info"] = Grupo::searchGrupoById($idgrupo)->get();
 				$data["usuario_responsable"] = Grupo::getUserList();
-				$data["activos_grupo"] = Activo::getActivosByGrupoId($idgrupo)->get();
+				$data["activos_grupo"] = Activo::getActivosByGrupoId($idgrupo)->paginate(10);
 				if($data["grupo_info"]->isEmpty()){
 					return Redirect::to('grupos/list_grupos');
 				}
@@ -189,7 +189,7 @@ class GruposController extends BaseController
 			{	
 				$data["grupo_info"] = Grupo::searchGrupoById($idgrupo)->get();
 				$data["usuario_responsable"] = Grupo::getUserList();
-				$data["activos_grupo"] = Activo::getActivosByGrupoId($idgrupo)->get();
+				$data["activos_grupo"] = Activo::getActivosByGrupoId($idgrupo)->paginate(10);
 				if($data["grupo_info"]->isEmpty()){
 					return Redirect::to('grupos/list_grupos');
 				}

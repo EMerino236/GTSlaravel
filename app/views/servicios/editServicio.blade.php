@@ -75,27 +75,30 @@
 				  		<div class="row">
 				  			<div class="col-md-1"></div>
 				  			<div class="col-md-12">
-					  			<table class="table">
-					  				<tr>
-					  					<th>Código Patrimonial</th>
-					  					<th>Número de Serie</th>
-					  					<th>Nombre de Equipo</th>
-					  				</tr>
-					  				@foreach($activos_servicio as $index => $activo_servicio)
-					  				<tr>
-					  					<td>{{$activo_servicio->codigo_patrimonial}}</td>
-					  					<td>{{$activo_servicio->numero_serie}}</td>
-					  					<td>{{$activo_servicio->nombre_equipo}}</td>
-
-					  				</tr>
-					  				@endforeach
-				  				</table>
+				  				<div class="table-responsive">
+						  			<table class="table">
+						  				<tr class="info">
+						  					<th class="text-nowrap text-center">Código Patrimonial</th>
+						  					<th class="text-nowrap text-center">Número de Serie</th>
+						  					<th class="text-nowrap text-center">Nombre de Equipo</th>
+						  				</tr>
+						  				@foreach($activos_servicio as $index => $activo_servicio)
+						  				<tr>
+						  					<td class="text-nowrap text-center">{{$activo_servicio->codigo_patrimonial}}</td>
+						  					<td class="text-nowrap text-center">{{$activo_servicio->numero_serie}}</td>
+						  					<td class="text-nowrap text-center">{{$activo_servicio->nombre_equipo}}</td>
+						  				</tr>
+						  				@endforeach
+					  				</table>
+				  				</div>
 				  			</div>
 				  		</div>
+				  		{{ $activos_servicio->links()}}
 				  	</div>
 				</div>
 			</div>
-		</div>
+		</div>		
+		
 		<div class="container-fluid row">			
 			@if(!$servicio_info->deleted_at)
 			<div class="col-md-2 form-group">

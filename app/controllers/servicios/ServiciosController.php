@@ -57,7 +57,7 @@ class ServiciosController extends BaseController
 				$idarea = $servicio->idarea;
 				$data["areas"] = Area::lists('nombre','idarea');
 				$data["personal"] = Area::getUserList($servicio->idarea);
-				$data["activos_servicio"] = Activo::getActivosByServicioId($idservicio)->get();
+				$data["activos_servicio"] = Activo::getActivosByServicioId($idservicio)->paginate(10);
 				if($data["servicio_info"]->isEmpty()){
 					return Redirect::to('servicios/list_servicios');
 				}

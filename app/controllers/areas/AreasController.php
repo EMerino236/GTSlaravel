@@ -126,7 +126,7 @@ class AreasController extends BaseController
 			{	
 				$data["tipo_areas"] = TipoArea::lists('nombre','idtipo_area');
 				$data["area_info"] = Area::searchAreaById($idarea)->get();
-				$data["personal"] = User::searchPersonalByIdArea($idarea)->get();
+				$data["personal"] = User::searchPersonalByIdArea($idarea)->paginate(10);
 
 				if($data["area_info"]->isEmpty()){
 					return Redirect::to('areas/list_areas');
@@ -201,7 +201,7 @@ class AreasController extends BaseController
 			{	
 				$data["tipo_areas"] = TipoArea::lists('nombre','idtipo_area');
 				$data["area_info"] = Area::searchAreaById($idarea)->get();
-				$data["personal"] = User::searchPersonalByIdArea($idarea)->get();
+				$data["personal"] = User::searchPersonalByIdArea($idarea)->paginate(10);
 
 				if($data["area_info"]->isEmpty()){
 					return Redirect::to('areas/list_areas');

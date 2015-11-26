@@ -32,35 +32,43 @@
 		</div>
 	</div>
  
-	<table class="table">
-		<tr class="info">
-			<th>N°</th>
-			<th>Nombre del Servicio</th>
-			<th>Tipo de Servicio</th>
-			<th>Fecha de Creación</th>
-			<th>Editar</th>
-		</tr>
-		@foreach($servicios_data as $index => $servicio_data)
-		<tr class="@if($servicio_data->deleted_at) bg-danger @endif">			
-			<td>
-				{{$index+1}}
-			</td>
-			<td>
-				{{$servicio_data->nombre}}
-			</td>
-			<td>
-				{{$servicio_data->nombre_tipo_servicio}}
-			</td>
-			<td>
-				{{$servicio_data->created_at->format('d-m-Y')}}
-			</td>
-			<td>
-				<a class="btn btn-warning btn-block btn-sm" href="{{URL::to('/servicios/edit_servicio/')}}/{{$servicio_data->idservicio}}">
-				<span class="glyphicon glyphicon-pencil"></span> Editar</a>
-			</td>
-		</tr>
-		@endforeach	
-	</table>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="table-responsive">
+				<table class="table">
+					<tr class="info">
+						<th>N°</th>
+						<th>Nombre del Servicio</th>
+						<th>Tipo de Servicio</th>
+						<th>Fecha de Creación</th>
+						<th>Editar</th>
+					</tr>
+					@foreach($servicios_data as $index => $servicio_data)
+					<tr class="@if($servicio_data->deleted_at) bg-danger @endif">			
+						<td>
+							{{$index+1}}
+						</td>
+						<td>
+							{{$servicio_data->nombre}}
+						</td>
+						<td>
+							{{$servicio_data->nombre_tipo_servicio}}
+						</td>
+						<td>
+							{{$servicio_data->created_at->format('d-m-Y')}}
+						</td>
+						<td>
+							<a class="btn btn-warning btn-block btn-sm" href="{{URL::to('/servicios/edit_servicio/')}}/{{$servicio_data->idservicio}}">
+							<span class="glyphicon glyphicon-pencil"></span> Editar</a>
+						</td>
+					</tr>
+					@endforeach	
+				</table>
+			</div>
+		</div>
+	</div>
+
+	
 	@if($search)
 		{{ $servicios_data->appends(array('search' => $search))->links() }}
 	@else	

@@ -88,6 +88,19 @@ INSERT INTO tipo_solicitud_compras (idtipo_solicitud_compra,nombre,descripcion) 
 INSERT INTO tipo_solicitud_compras (idtipo_solicitud_compra,nombre,descripcion) VALUES ('9','Compra/Equipos_NP','Solicita por compra equipos no comtemplados en el PAAC');
 
 
+
+INSERT INTO tipo_busqueda_infos (idtipo_busqueda_info,nombre) VALUES ('1','Paper');
+INSERT INTO tipo_busqueda_infos (idtipo_busqueda_info,nombre) VALUES ('2','Normas');
+INSERT INTO tipo_busqueda_infos (idtipo_busqueda_info,nombre) VALUES ('3','Regulaciones');
+INSERT INTO tipo_busqueda_infos (idtipo_busqueda_info,nombre) VALUES ('4','Protocolos');
+INSERT INTO tipo_busqueda_infos (idtipo_busqueda_info,nombre) VALUES ('5','Manuales');
+INSERT INTO tipo_busqueda_infos (idtipo_busqueda_info,nombre) VALUES ('6','Libros');
+INSERT INTO tipo_busqueda_infos (idtipo_busqueda_info,nombre) VALUES ('7','Tesis');
+INSERT INTO tipo_busqueda_infos (idtipo_busqueda_info,nombre) VALUES ('8','Estudios');
+INSERT INTO tipo_busqueda_infos (idtipo_busqueda_info,nombre) VALUES ('9','Publicaciones');
+INSERT INTO tipo_busqueda_infos (idtipo_busqueda_info,nombre) VALUES ('10','Otros');
+
+
 INSERT INTO tablas (nombre_tabla) VALUES ('estado_general');
 INSERT INTO tablas (nombre_tabla) VALUES ('estado_activo');
 INSERT INTO tablas (nombre_tabla) VALUES ('estado_ot');

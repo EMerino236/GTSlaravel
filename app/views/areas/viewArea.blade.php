@@ -69,27 +69,30 @@
 			<div class="panel panel-default">
 			  	<div class="panel-heading">Personal</div>
 			  	<div class="panel-body">
-			  		<table id="table" class="table">
-			  			<tr>
-			  				<th>Número de Identidad</th>
-			  				<th>Nombre del Personal</th>
-			  				<th>Rol</th>
-			  			</tr>
-			  			@foreach($personal as $persona)
-			  			<tr>
-			  				<td>
-			  					{{$persona->numero_doc_identidad}}
-			  				</td>
-			  				<td>
-			  					{{$persona->nombre}} {{$persona->apellido_pat}} {{$persona->apellido_mat}}
-			  				</td>
-			  				<td>
-			  					{{$persona->nombre_rol}}
-			  				</td>
-			  			</tr>
-			  			@endforeach	
-			  		</table>
+			  		<div class="table-responsive">
+				  		<table id="table" class="table">
+				  			<tr class="info">
+				  				<th class="text-nowrap text-center">Número de Identidad</th>
+				  				<th class="text-nowrap text-center">Nombre del Personal</th>
+				  				<th class="text-nowrap text-center">Rol</th>
+				  			</tr>
+				  			@foreach($personal as $persona)
+				  			<tr>
+				  				<td class="text-nowrap text-center">
+				  					{{$persona->numero_doc_identidad}}
+				  				</td>
+				  				<td class="text-nowrap">
+				  					{{$persona->nombre}} {{$persona->apellido_pat}} {{$persona->apellido_mat}}
+				  				</td>
+				  				<td class="text-nowrap text-center">
+				  					{{$persona->nombre_rol}}
+				  				</td>
+				  			</tr>
+				  			@endforeach	
+				  		</table>
+				  	</div>
 			  	</div>
+			  	{{ $personal->links()}}
 		 	</div>
 		</div>
 	</div>

@@ -47,36 +47,43 @@
 			<span class="glyphicon glyphicon-plus"></span> Agregar</a>
 		</div>
 	</div>
- 
-	<table class="table">
-		<tr class="info">
-			<th>N°</th>
-			<th>Nombre del Grupo</th>
-			<th>Usuario Responsable</th>
-			<th>Fecha de Creación</th>
-			<th>Editar</th>
-		</tr>
-		@foreach($grupos_data as $index => $grupo_data)
-		<tr class="@if($grupo_data->deleted_at) bg-danger @endif">			
-			<td>
-				{{$index+1}}
-			</td>
-			<td>
-				<a href="{{URL::to('/grupos/view_grupo')}}/{{$grupo_data->idgrupo}}">{{$grupo_data->nombre}}</a>				
-			</td>
-			<td>
-				{{$grupo_data->nombre_reponsable}} {{$grupo_data->apellido_pat_responsable}} {{$grupo_data->apellido_mat_responsable}}
-			</td>
-			<td>
-				{{$grupo_data->created_at->format('d-m-Y')}}
-			</td>
-			<td>
-				<a class="btn btn-warning btn-block btn-sm" href="{{URL::to('/grupos/edit_grupo/')}}/{{$grupo_data->idgrupo}}">
-				<span class="glyphicon glyphicon-pencil"></span> Editar</a>
-			</td>
-		</tr>
-		@endforeach		
-	</table>
+ 	<div class="row">
+ 		<div class="col-md-12">
+ 			<div class="table-responsive">
+ 				<table class="table">
+					<tr class="info">
+						<th class="text-nowrap text-center">N°</th>
+						<th>Nombre del Grupo</th>
+						<th>Usuario Responsable</th>
+						<th>Fecha de Creación</th>
+						<th>Editar</th>
+					</tr>
+					@foreach($grupos_data as $index => $grupo_data)
+					<tr class="@if($grupo_data->deleted_at) bg-danger @endif">			
+						<td>
+							{{$index+1}}
+						</td>
+						<td>
+							<a href="{{URL::to('/grupos/view_grupo')}}/{{$grupo_data->idgrupo}}">{{$grupo_data->nombre}}</a>				
+						</td>
+						<td>
+							{{$grupo_data->nombre_responsable}} {{$grupo_data->apellido_pat_responsable}} {{$grupo_data->apellido_mat_responsable}}
+						</td>
+						<td>
+							{{$grupo_data->created_at->format('d-m-Y')}}
+						</td>
+						<td>
+							<a class="btn btn-warning btn-block btn-sm" href="{{URL::to('/grupos/edit_grupo/')}}/{{$grupo_data->idgrupo}}">
+							<span class="glyphicon glyphicon-pencil"></span> Editar</a>
+						</td>
+					</tr>
+					@endforeach		
+				</table>
+ 			</div>
+ 		</div>
+ 	</div>
+
+		
 	@if($search_nombre_grupo)
 		{{ $grupos_data->appends(array('search_nombre_grupo' => $search_nombre_grupo))->links() }}
 	@else	

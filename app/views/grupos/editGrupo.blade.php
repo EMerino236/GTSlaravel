@@ -80,23 +80,25 @@
 			  		<div class="row">
 			  			<div class="col-md-1"></div>
 			  			<div class="col-md-10">
-				  			<table class="table">
-				  				<tr>
-				  					<th>Código Patrimonial</th>
-				  					<th>Número de Serie</th>
-				  					<th>Nombre de Equipo</th>
-				  				</tr>
-				  				@foreach($activos_grupo as $index => $activo_grupo)
-				  				<tr>
-				  					<td>{{$activo_grupo->codigo_patrimonial}}</td>
-				  					<td>{{$activo_grupo->numero_serie}}</td>
-				  					<td>{{$activo_grupo->nombre_equipo}}</td>
-
-				  				</tr>
-				  				@endforeach
-			  				</table>
+				  			<div class="table-responsive">
+					  			<table class="table">
+					  				<tr class="info">
+					  					<th class="text-nowrap text-center">Código Patrimonial</th>
+					  					<th class="text-nowrap text-center">Número de Serie</th>
+					  					<th class="text-nowrap text-center">Nombre de Equipo</th>
+					  				</tr>
+					  				@foreach($activos_grupo as $index => $activo_grupo)
+					  				<tr>
+					  					<td class="text-nowrap text-center">{{$activo_grupo->codigo_patrimonial}}</td>
+					  					<td class="text-nowrap text-center">{{$activo_grupo->numero_serie}}</td>
+					  					<td class="text-nowrap text-center">{{$activo_grupo->nombre_equipo}}</td>
+					  				</tr>
+					  				@endforeach
+				  				</table>
+				  			</div>
 			  			</div>
-			  		</div>
+			  		</div>			  		
+			  		{{ $activos_grupo->links()}}
 			  	</div>
 			</div>
 		</div>

@@ -14,7 +14,7 @@ class Grupo extends Eloquent{
 	{
 		$query->withTrashed()
 			  ->join('users','users.id','=','grupos.id_responsable')
-			  ->select('users.nombre as nombre_resp','users.apellido_pat as apellido_pat_responsable','users.apellido_mat as apellido_mat_responsable','grupos.*');
+			  ->select('users.nombre as nombre_responsable','users.apellido_pat as apellido_pat_responsable','users.apellido_mat as apellido_mat_responsable','grupos.*');
 		return $query;
 	}
 
@@ -31,7 +31,7 @@ class Grupo extends Eloquent{
 			  ->whereNested(function($query) use($search_criteria){
 			  		$query->where('grupos.nombre','LIKE',"%$search_criteria%");
 			  })
-			  ->select('users.nombre as nombre_reponsable','users.apellido_pat as apellido_pat_responsable','users.apellido_mat as apellido_mat_responsable','grupos.*');
+			  ->select('users.nombre as nombre_responsable','users.apellido_pat as apellido_pat_responsable','users.apellido_mat as apellido_mat_responsable','grupos.*');
 		return $query;
 	}
 
