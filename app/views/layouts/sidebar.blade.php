@@ -71,21 +71,6 @@
                                 </ul>
                                 <!-- /.nav-third-level -->
                             </li>
-                            <li>
-                                <a href="#">Ejecución <span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-									<li>{{ HTML::link('/#','OT de inspección de TS realizadas') }}</li>
-									<li>{{ HTML::link('/#','OT de inspección de ambientes y ser vicios no clínicos') }}</li>
-									<li>{{ HTML::link('/#','OT de inspección de servicios clínico realizada') }}</li>
-									<li>{{ HTML::link('/#','OT de mantenimiento preventivo realizada  de TS') }}</li>
-									<li>{{ HTML::link('/#','OT de mantenimiento preventivo realizada  de bienes') }}</li>
-									<li>{{ HTML::link('/#','OT de verificación metrológica') }}</li>
-									<li>{{ HTML::link('/#','OT de mantenimiento correctivo realizada') }}</li>
-									<li>{{ HTML::link('/#','OT de mantenimiento correctivo realizada  bienes') }}</li>
-									<li>{{ HTML::link('/#','Indicadores de ejecución de Inspecciones, mantenimiento preventivo MP y calibraciones') }}</li>
-                                </ul>
-                                <!-- /.nav-third-level -->
-                            </li>
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>

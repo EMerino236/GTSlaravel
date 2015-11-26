@@ -19,19 +19,19 @@
 		<a href="{{ URL::to('planeamiento') }}"><i class="fa fa-calendar fa-fw"></i> Planeamiento</a>
     </li>
 	<li>
-		<a href="{{ URL::to('adquisicion') }}"><i class="fa fa-credit-card fa-fw"></i> Adquisición</a>
+		<a href="{{ URL::to('#') }}"><i class="fa fa-credit-card fa-fw"></i> Adquisición</a>
     </li>
 	<li>
 		<a href="{{ URL::to('bienes') }}"><i class="fa fa-wrench fa-fw"></i> Bienes</a>
     </li>
 	<li>
-		<a href="{{ URL::to('riesgos') }}"><i class="fa fa-bomb fa-fw"></i> Riesgos</a>
+		<a href="{{ URL::to('#') }}"><i class="fa fa-bomb fa-fw"></i> Riesgos</a>
     </li>
 	<li>
-		<a href="{{ URL::to('investigacion') }}"><i class="fa fa-graduation-cap fa-fw"></i> Investigación</a>
+		<a href="{{ URL::to('#') }}"><i class="fa fa-graduation-cap fa-fw"></i> Investigación</a>
     </li>
 	<li>
-		<a href="{{ URL::to('rrhh') }}"><i class="fa fa-users fa-fw"></i> RRHH</a>
+		<a href="{{ URL::to('#') }}"><i class="fa fa-users fa-fw"></i> RRHH</a>
     </li>
     
     <!-- /.dropdown -->
