@@ -101,6 +101,33 @@ class OtBusquedaInformacionController extends BaseController {
 		}
 	}
 
+	public function render_view_ot($id=null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8
+				|| $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12) && $id){
+				
+				$data["ot_info"] = OrdenesTrabajoBusquedaInformacion::searchOtBusquedaInformacionById($id)->get();
+				if($data["ot_info"]->isEmpty()){
+					return Redirect::to('busqueda_informacion/list_busqueda_informacion');
+				}
+				$data["areas"] = Area::lists('nombre','idarea');				
+				$data["tipos"] = TipoOtBusquedaInformacion::lists('nombre','idtipo_busqueda_info');			
+				$data["ot_info"] = $data["ot_info"][0];		
+				$data["tareas"] = TareasOtBusquedaInformacion::getTareasXOt($data["ot_info"]->idot_busqueda_info)->get();
+				$data["personal_data"] = PersonalOtBusquedaInformacion::getPersonalXOt($data["ot_info"]->idot_busqueda_info)->get();
+				return View::make('ot/busquedaInformacion/viewOtBusquedaInformacion',$data);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
 	public function submit_delete_tarea_ajax()
 	{
 		// If there was an error, respond with 404 status

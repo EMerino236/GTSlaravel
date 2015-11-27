@@ -83,6 +83,7 @@ class SotBusquedaInformacionController extends BaseController {
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				// Validate the info, create rules for the inputs
+				 
 				$attributes = array(
 					'area' => 'Área',
 					'tipo' => 'Tipo de Solicitud',
@@ -105,8 +106,10 @@ class SotBusquedaInformacionController extends BaseController {
 							'descripcion' => 'max:500',
 							'encargado' => 'required'
 						);
+
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules, $messages, $attributes);
+
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					return Redirect::to('solicitud_busqueda_informacion/create_sot')->withErrors($validator)->withInput(Input::all());

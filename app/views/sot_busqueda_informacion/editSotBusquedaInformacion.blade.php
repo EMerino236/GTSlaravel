@@ -13,7 +13,7 @@
 		<p><strong>{{ $errors->first('motivo') }}</strong></p>
 		<p><strong>{{ $errors->first('area') }}</strong></p>		
 		<p><strong>{{ $errors->first('usuario_encargado') }}</strong></p>
-		<p><strong>{{ $errors->first('fecha') }}</strong></p>
+		<p><strong>{{ $errors->first('fecha_solicitud') }}</strong></p>
 	</div>
 	@endif
 
@@ -39,25 +39,25 @@
 						<div class="form-group col-md-6 @if($errors->first('tipo')) has-error has-feedback @endif">
 							{{ Form::label('tipo','Tipo') }}<span style="color:red"> *</span>
 							@if($sot_info->deleted_at)
-								{{ Form::select('tipo', array('0' => 'Seleccione') + $tipos ,$sot_info->idtipo_busqueda_info ,array('class'=>'form-control','readonly'=>'','disabled'=>'disabled')) }}
+								{{ Form::select('tipo', array('' => 'Seleccione') + $tipos ,$sot_info->idtipo_busqueda_info ,array('class'=>'form-control','readonly'=>'','disabled'=>'disabled')) }}
 							@else
-								{{ Form::select('tipo', array('0' => 'Seleccione') + $tipos ,$sot_info->idtipo_busqueda_info ,array('class'=>'form-control')) }}
+								{{ Form::select('tipo', array('' => 'Seleccione') + $tipos ,$sot_info->idtipo_busqueda_info ,array('class'=>'form-control')) }}
 							@endif
 						</div>
 						<div class="form-group col-md-6 @if($errors->first('area')) has-error has-feedback @endif">
 							{{ Form::label('area','Departamento') }}
 							@if($sot_info->deleted_at)
-								{{ Form::select('area', array('0' => 'Seleccione') + $areas ,$sot_info->idarea ,array('class'=>'form-control','readonly'=>'','disabled'=>'disabled')) }}
+								{{ Form::select('area', array('' => 'Seleccione') + $areas ,$sot_info->idarea ,array('class'=>'form-control','readonly'=>'','disabled'=>'disabled')) }}
 							@else
-								{{ Form::select('area', array('0' => 'Seleccione') + $areas ,$sot_info->idarea ,array('class'=>'form-control')) }}
+								{{ Form::select('area', array('' => 'Seleccione') + $areas ,$sot_info->idarea ,array('class'=>'form-control')) }}
 							@endif
 						</div>
 					</div>	
 					<div class="row">						
 						<div class="form-group col-md-6">
 							{{ Form::label('fecha_solicitud','Fecha Solicitud')}}<span style="color:red"> *</span>
-							<div id="datetimepicker_prog_fecha" class="form-group input-group date @if($errors->first('fecha')) has-error has-feedback @endif">					
-								{{ Form::text('fecha_solicitud',date('d-m-Y H:i',strtotime($sot_info->fecha_solicitud)),array('class'=>'form-control','readonly'=>'','id'=>'fecha')) }}
+							<div id="datetimepicker_prog_fecha" class="form-group input-group date @if($errors->first('fecha_solicitud')) has-error has-feedback @endif">					
+								{{ Form::text('fecha_solicitud',date('d-m-Y H:i',strtotime($sot_info->fecha_solicitud)),array('class'=>'form-control','readonly'=>'')) }}
 								<span class="input-group-addon">
 				                    <span class="glyphicon glyphicon-calendar"></span>
 				                </span>

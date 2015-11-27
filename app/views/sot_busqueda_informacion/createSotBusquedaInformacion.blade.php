@@ -6,6 +6,13 @@
         </div>
     </div>
 
+    @if (Session::has('message'))
+		<div class="alert alert-success">{{ Session::get('message') }}</div>
+	@endif
+	@if (Session::has('error'))
+		<div class="alert alert-danger">{{ Session::get('error') }}</div>
+	@endif
+
     @if ($errors->has())
 	<div class="alert alert-danger" role="alert">
 		<p><strong>{{ $errors->first('tipo') }}</strong></p>
@@ -13,16 +20,11 @@
 		<p><strong>{{ $errors->first('motivo') }}</strong></p>
 		<p><strong>{{ $errors->first('area') }}</strong></p>		
 		<p><strong>{{ $errors->first('usuario_encargado') }}</strong></p>
-		<p><strong>{{ $errors->first('fecha') }}</strong></p>
+		<p><strong>{{ $errors->first('fecha_solicitud') }}</strong></p>
 	</div>
 	@endif
 
-	@if (Session::has('message'))
-		<div class="alert alert-success">{{ Session::get('message') }}</div>
-	@endif
-	@if (Session::has('error'))
-		<div class="alert alert-danger">{{ Session::get('error') }}</div>
-	@endif
+	
 	{{ Form::open(array('url'=>'solicitud_busqueda_informacion/submit_sot', 'role'=>'form')) }}
 	<div class="row">
 			<div class="form-group col-md-12">
@@ -37,11 +39,11 @@
 					<div class="row">								
 						<div class="form-group col-md-6 @if($errors->first('tipo')) has-error has-feedback @endif">
 							{{ Form::label('tipo','Tipo') }}<span style="color:red"> *</span>
-							{{ Form::select('tipo', array('0' => 'Seleccione') + $tipos ,null ,array('class'=>'form-control')) }}
+							{{ Form::select('tipo', array('' => 'Seleccione') + $tipos ,Input::old('tipo') ,array('class'=>'form-control')) }}
 						</div>
 						<div class="form-group col-md-6 @if($errors->first('area')) has-error has-feedback @endif">
 							{{ Form::label('area','Departamento') }}
-							{{ Form::select('area', array('0' => 'Seleccione') + $areas ,null ,array('class'=>'form-control')) }}
+							{{ Form::select('area', array('' => 'Seleccione') + $areas ,Input::old('area') ,array('class'=>'form-control')) }}
 						</div>
 					</div>	
 					<div class="row">						
