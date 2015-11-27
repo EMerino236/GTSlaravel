@@ -41,7 +41,7 @@
 						{{ Form::text('cod_pat',Input::old('cod_pat'),['class' => 'form-control','id'=>'cod_pat'])}}
 					</div>
 					<div class="form-group col-md-6 @if($errors->first('modelo')) has-error has-feedback @endif">
-						{{ Form::label('modelo','Modelo') }}
+						{{ Form::label('modelo','Equipo') }}
 						{{ Form::text('modelo',Input::old('equipo'),['class' => 'form-control','id'=>'marca_equipo','readonly'=>''])}}
 					</div>
 				</div>
