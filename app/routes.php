@@ -453,6 +453,7 @@ Route::group(array('prefix'=>'solicitud_busqueda_informacion','before'=>'auth'),
 Route::group(array('prefix'=>'busqueda_informacion','before'=>'auth'),function(){
 	Route::get('/programacion','OtBusquedaInformacionController@render_program_ot_busqueda_informacion');
 	Route::post('/submit_programacion','OtBusquedaInformacionController@submit_program_ot_busqueda_informacion');
+	Route::post('/submit_create_ot','OtBusquedaInformacionController@submit_create_ot');
 	Route::get('/search_ot_busqueda_informacion','OtBusquedaInformacionController@search_ot_busqueda_informacion');
 	Route::get('/create_ot_busqueda_informacion/{id}','OtBusquedaInformacionController@render_create_ot');
 	Route::post('/submit_create_tarea_ajax','OtBusquedaInformacionController@submit_create_tarea_ajax');

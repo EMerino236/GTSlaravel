@@ -19,7 +19,7 @@
 
 			.info_right{
 				margin-left: 350px;
-				padding-top:-65px;
+				padding-top:-40px;
 				padding-bottom: 5px;
 				padding-left: 5px;
 				padding-right: 5px;

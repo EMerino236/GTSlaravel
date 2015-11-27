@@ -230,7 +230,8 @@ class OtBusquedaInformacionController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6)){
+			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6
+				|| $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10  || $data["user"]->idrol == 11 || $data["user"]->idrol == 12)){
 				$idot_busqueda_info = Input::get('idot_busqueda_info');
 				$data["ot_info"] = OrdenesTrabajoBusquedaInformacion::searchOtBusquedaInformacionById($idot_busqueda_info)->get();
 				if($data["ot_info"]->isEmpty()){
@@ -241,11 +242,56 @@ class OtBusquedaInformacionController extends BaseController {
 				$data["tareas"] = TareasOtBusquedaInformacion::getTareasXOt($data["ot_info"]->idot_busqueda_info)->get();
 				$data["personal_data"] = PersonalOtBusquedaInformacion::getPersonalXOt($data["ot_info"]->idot_busqueda_info)->get();
 				$html = View::make('ot/busquedaInformacion/otBusquedaInformacionExport',$data);
-				return PDF::load($html,"A4","portrait")->show();
+				return PDF::load($html,"A4","portrait")->download('OTM busqueda informacion '.$data["ot_info"]->ot_tipo_abreviatura.$data["ot_info"]->ot_correlativo);
 
 			}else{
 				return View::make('error/error');
 			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function submit_create_ot()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+				// Validate the info, create rules for the inputs
+				$attributes = array(
+					'fecha_conformidad' => 'Fecha de Conformidad',
+					'hora_conformidad' => 'Hora de Conformidad',
+					);
+
+				$messages = array(
+					);
+
+				$rules = array(
+							
+				);
+				// Run the validation rules on the inputs from the form
+				$validator = Validator::make(Input::all(), $rules);
+				// If the validator fails, redirect back to the form
+				if($validator->fails()){
+					$idot = Input::get('idot_busqueda_info');
+					$url = "busqueda_informacion/create_ot_busqueda_informacion"."/".$idot;
+					return Redirect::to($url)->withErrors($validator)->withInput(Input::all());
+				}else{	
+					$idot = Input::get('idot_busqueda_info');				
+					$url = $url =  "busqueda_informacion/create_ot_busqueda_informacion"."/".$idot;				
+					$ot = OrdenesTrabajoBusquedaInformacion::find($idot);
+					if(Input::get('fecha_conformidad') && Input::get('hora_conformidad'))
+						$ot->fecha_conformidad = date("Y-m-d H:i:s",strtotime(Input::get('fecha_conformidad')." ".Input::get('hora_conformidad')));
+					$ot->save();
+					
+					return Redirect::to('solicitud_busqueda_informacion/list_busqueda_informacion')->with('message', 'Se editó correctamente la solicitud de búsqueda de información: '.$ot->ot_tipo_abreviatura.$ot->ot_correlativo);
+				}
+			}else{
+				return View::make('error/error');
+			}
+
 		}else{
 			return View::make('error/error');
 		}

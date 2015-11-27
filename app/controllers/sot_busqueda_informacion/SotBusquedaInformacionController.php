@@ -318,4 +318,6 @@ class SotBusquedaInformacionController extends BaseController {
 			return View::make('error/error');
 		}
 	}
+
+	
 }	

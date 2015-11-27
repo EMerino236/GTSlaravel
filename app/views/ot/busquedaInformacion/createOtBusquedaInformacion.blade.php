@@ -9,11 +9,9 @@
 
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
-			<p><strong>{{ $errors->first('numero_ficha',"Ingrese el número de ficha de la OTM ") }}</strong></p>
-			<p><strong>{{ $errors->first('idestado',"Seleccione estado ") }}</strong></p>
-			<p><strong>{{ $errors->first('idestado_inicial',"Seleccione un estado inicial del activo") }}</strong></p>
-			<p><strong>{{ $errors->first('sin_interrupcion_servicio',"Seleccione si hubo interrupción en el servicio") }}</strong></p>
-			<p><strong>{{ $errors->first('idestado_final',"Seleccione un estado final del activo") }}</strong></p>
+			<p><strong>{{ $errors->first('fecha_conformidad',"Ingresa fecha de conformidad ") }}</strong></p>
+			<p><strong>{{ $errors->first('hora_conformidad',"Ingrese hora de conformidad") }}</strong></p>
+			
 		</div>
 	@endif
 
@@ -33,19 +31,19 @@
 			<div class="panel-body">
 				<div class="col-md-6">
 					<div class="row">
-						<div class="form-group col-md-8">
+						<div class="form-group col-md-10">
 							{{ Form::label('solicitante','Usuario Solicitante') }}
 							{{ Form::text('solicitante',$ot_info->apat_solicitante.' '.$ot_info->amat_solicitante.', '.$ot_info->nombre_solicitante,array('class' => 'form-control','readonly'=>'')) }}
 						</div>
 					</div>
 					<div class="row">
-						<div class="form-group col-md-8">
+						<div class="form-group col-md-10">
 							{{ Form::label('tipo','Tipo') }}
 							{{ Form::select('tipo', array('0'=>'Seleccione') + $tipos,$ot_info->idtipo_busqueda_info,array('class'=>'form-control','disabled'=>'disabled')) }}
 						</div>
 					</div>
 					<div class="row">
-						<div class="form-group col-md-8">
+						<div class="form-group col-md-10">
 							{{ Form::label('area','Departamento') }}
 							{{ Form::select('area', array('0'=>'Seleccione') + $areas,$ot_info->idarea,array('class'=>'form-control','disabled'=>'disabled')) }}
 						</div>
@@ -65,19 +63,19 @@
 				</div>
 				<div class="col-md-6">
 					<div class="row">
-						<div class="form-group col-md-8">
+						<div class="form-group col-md-10">
 							{{ Form::label('elaborador','Documento Elaborado Por') }}
 							{{ Form::text('elaborador',$ot_info->apat_elaborador.' '.$ot_info->amat_elaborador.', '.$ot_info->nombre_elaborador,array('class' => 'form-control','readonly'=>'')) }}
 						</div>
 					</div>
 					<div class="row">
-						<div class="form-group col-md-8">
+						<div class="form-group col-md-10">
 							{{ Form::label('encargado','Ejecutor del Mantenimiento') }}
 							{{ Form::text('encargado',$ot_info->apat_encargado.' '.$ot_info->amat_encargado.', '.$ot_info->nombre_encargado,array('class' => 'form-control','placeholder'=>'Ejecutor del Mantenimiento','readonly'=>'')) }}
 						</div>
 					</div>
 					<div class="row">
-						<div class="form-group col-md-8">
+						<div class="form-group col-md-10">
 							{{ Form::label('numero_solicitud','Número de Solicitud') }}
 							{{ Form::text('numero_solicitud',$ot_info->sot_tipo_abreviatura.$ot_info->sot_correlativo,array('class' => 'form-control','readonly'=>'	')) }}
 						</div>
@@ -99,17 +97,17 @@
 			<div class="panel-body">
 				<div class="col-md-6">					
 					<div class="row">
-						<div class="form-group col-md-8">
+						<div class="form-group col-md-10">
 							{{ Form::label('fecha_programacion','Fecha Programada') }}
 							{{ Form::text('fecha_programacion',date('d-m-Y',strtotime($ot_info->fecha_programacion)),array('class' => 'form-control','readonly'=>'','id'=>'fecha_programacion_ot')) }}
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-8 form-group ">						
+						<div class="col-md-10 form-group ">						
 							{{ Form::label('fecha_conformidad','Fecha de Conformidad') }}
 							<div id="datetimepicker_conformidad_fecha" class="input-group date @if($errors->first('fecha_conformidad')) has-error has-feedback @endif">
 								@if($ot_info->fecha_conformidad == null)
-									{{ Form::text('fecha_conformidad',null,array('class'=>'form-control','readonly'=>'')) }}
+									{{ Form::text('fecha_conformidad',Input::old('fecha_conformidad'),array('class'=>'form-control','readonly'=>'')) }}
 								@else
 									{{Form::text('fecha_conformidad',date('d-m-Y',strtotime($ot_info->fecha_conformidad)),array('class'=>'form-control','readonly'=>'')) }}
 								@endif
@@ -122,17 +120,17 @@
 				</div>
 				<div class="col-md-6">
 					<div class="row">
-						<div class="form-group col-md-8">
+						<div class="form-group col-md-10">
 							{{ Form::label('hora_programacion','Hora Programada') }}
 							{{ Form::text('hora_programacion',date('H:i',strtotime($ot_info->fecha_programacion)),array('class' => 'form-control','readonly'=>'')) }}
 						</div>
 					</div>
 					<div class="row">
-						<div class="form-group col-md-8">
+						<div class="form-group col-md-10">
 							{{ Form::label('fecha_conformidad','Hora de Conformidad') }}
-							<div id="datetimepicker_conformidad_hora" class="input-group date @if($errors->first('fecha_conformidad')) has-error has-feedback @endif">
+							<div id="datetimepicker_conformidad_hora" class="input-group date @if($errors->first('hora_conformidad')) has-error has-feedback @endif">
 								@if($ot_info->fecha_conformidad == null)
-									{{ Form::text('hora_conformidad',null,array('class'=>'form-control','readonly'=>'')) }}
+									{{ Form::text('hora_conformidad',Input::old('hora_conformidad'),array('class'=>'form-control','readonly'=>'')) }}
 								@else
 									{{Form::text('hora_conformidad',date('H:i',strtotime($ot_info->fecha_conformidad)),array('class'=>'form-control','readonly'=>'')) }}
 								@endif
@@ -150,39 +148,43 @@
 				<h3 class="panel-title">Datos generales de la Orden de Trabajo de Mantenimiento</h3>
 			</div>
 			<div class="panel-body">
-				<div class="row">
-					<div class="col-md-8 form-group">
-						{{ Form::label('nombre_tarea','Actividad:') }}
-						{{ Form::text('nombre_tarea',null,array('class' => 'form-control','placeholder'=>'Ingrese nombre de la tarea' ,'id'=>'nombre_tarea')) }}
-					</div>
-					<div class="col-md-4 form-group">
-						{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Agregar',array('id'=>'submit-tarea', 'class'=>'btn btn-primary','style'=>'margin-top:25px')) }}
+				<div class="col-md-12">
+					<div class="row">
+						<div class="col-md-8 form-group">
+							{{ Form::label('nombre_tarea','Actividad:') }}
+							{{ Form::text('nombre_tarea',null,array('class' => 'form-control','placeholder'=>'Ingrese nombre de la tarea' ,'id'=>'nombre_tarea')) }}
+						</div>
+						<div class="col-md-4 form-group">
+							{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Agregar',array('id'=>'submit-tarea', 'class'=>'btn btn-primary','style'=>'margin-top:25px')) }}
+						</div>
 					</div>
 				</div>
-				<div class="row">		
-					<div class="col-md-10">
-						<table class="table" id="tareas-table" >
-							<tr class="info">
-								<th>Actividad</th>
-								<th>Realizada</th>
-								<th>Operaciones</th>
-							</tr>
-							@foreach($tareas as $tarea)
-							<tr id="tarea-row-{{$tarea->idtareas_ot_busqueda_info}}">
-								<td>{{$tarea->nombre}}</td>
-								<td>
-									@if($tarea->idestado_realizado == 23)
-										{{ Form::button('Marcar realizada',array('class'=>'btn btn-default boton-tarea','data-id'=>$tarea->idtareas_ot_busqueda_info)) }}
-									@else
-										Realizada
-									@endif
-								</td>
-								<td>
-									<button class="btn btn-danger boton-eliminar-tarea" onclick="eliminar_tarea(event,{{$tarea->idtareas_ot_busqueda_info}})" type="button">Eliminar</button>
-								</td>
-							</tr>
-							@endforeach
-						</table>
+				<div class="col-md-12">
+					<div class="row">		
+						<div class="col-md-10">
+							<table class="table" id="tareas-table" >
+								<tr class="info">
+									<th>Actividad</th>
+									<th>Realizada</th>
+									<th>Operaciones</th>
+								</tr>
+								@foreach($tareas as $tarea)
+								<tr id="tarea-row-{{$tarea->idtareas_ot_busqueda_info}}">
+									<td>{{$tarea->nombre}}</td>
+									<td>
+										@if($tarea->idestado_realizado == 23)
+											{{ Form::button('Marcar realizada',array('class'=>'btn btn-default boton-tarea','data-id'=>$tarea->idtareas_ot_busqueda_info)) }}
+										@else
+											Realizada
+										@endif
+									</td>
+									<td>
+										<button class="btn btn-danger boton-eliminar-tarea" onclick="eliminar_tarea(event,{{$tarea->idtareas_ot_busqueda_info}})" type="button">Eliminar</button>
+									</td>
+								</tr>
+								@endforeach
+							</table>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -228,12 +230,16 @@
 						</tr>
 						@endforeach
 					</table>
-					<div class="col-md-8">
-				      {{ Form::label('costo_total_personal','Gasto Total Mano de Obra (S/.)',array('class'=>'col-sm-5')) }}
-				      <div class="col-md-3">
-				        {{ Form::text('costo_total_personal', number_format($ot_info->costo_total_personal,2),array('class'=>'form-control','placeholder'=>'Costo','readonly'=>'')) }}
-				      </div>
-				    </div>
+				</div>
+				<div class="col-md-12">
+					<div class="row">						
+						<div class="col-md-8">
+					      {{ Form::label('costo_total_personal','Gasto Total Mano de Obra (S/.)',array('class'=>'col-sm-5')) }}
+					      <div class="col-md-3">
+					        {{ Form::text('costo_total_personal', number_format($ot_info->costo_total_personal,2),array('class'=>'form-control','placeholder'=>'Costo','readonly'=>'')) }}
+					      </div>
+					    </div>
+					</div>
 				</div>
 			</div>
 		</div>

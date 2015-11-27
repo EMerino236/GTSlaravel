@@ -87,7 +87,8 @@
 	<div class="row">
 		<div class="col-md-12">
 			<h3>Ordenes de Mantenimiento Correctivo </h3>
-			<div class="table-responsive">
+			@if(count($correctivos)>0)
+				<div class="table-responsive">
 				<table class="table">
 					<tr class="info">
 						<th class="text-nowrap text-center">Fecha de Programación</th>
@@ -120,7 +121,10 @@
 						</tr>
 					@endforeach
 				</table>
-			</div>
+				</div>
+			@else
+				<h4 style="color:red;">No hay Registros Encontrados</h4>
+			@endif
 		</div>		
 	</div>
 	@endif
@@ -128,7 +132,8 @@
 	<div class="row">
 		<div class="col-md-12">
 			<h3>Ordenes de Mantenimiento Preventivo </h3>
-			<div class="table-responsive">
+			@if(count($preventivos)>0)
+				<div class="table-responsive">
 				<table class="table">
 					<tr class="info">
 						<th class="text-nowrap text-center">Fecha de Programación</th>
@@ -161,7 +166,10 @@
 						</tr>
 					@endforeach
 				</table>
-			</div>
+				</div>
+			@else
+				<h4 style="color:red;">No hay Registros Encontrados</h4>
+			@endif
 		</div>		
 	</div>
 	@endif
@@ -169,7 +177,8 @@
 	<div class="row">
 		<div class="col-md-12">
 			<h3>Ordenes de Verificación Metrológica </h3>
-			<div class="table-responsive">
+			@if(count($verificaciones)>0)
+				<div class="table-responsive">
 				<table class="table">
 					<tr class="info">
 						<th class="text-nowrap text-center">Fecha de Programación</th>
@@ -202,7 +211,10 @@
 						</tr>
 					@endforeach
 				</table>
-			</div>
+				</div>
+			@else
+				<h4 style="color:red;">No hay Registros Encontrados</h4>
+			@endif
 		</div>		
 	</div>
 	@endif
@@ -210,30 +222,34 @@
 	<div class="row">
 		<div class="col-md-12">
 			<h3>Ordenes de Inspección de Equipos </h3>
-			<div class="table-responsive">
-				<table class="table">
-					<tr class="info">
-						<th class="text-nowrap text-center">Fecha de Programación</th>
-						<th class="text-nowrap text-center">Hora Inicio</th>
-						<th class="text-nowrap text-center">Hora Fin</th>
-						<th class="text-nowrap text-center">Código de OTM</th>
-						<th class="text-nowrap text-center">Servicio Clínico</th>
-						<th class="text-nowrap text-center">Estado (OTM)</th>
-					</tr>
-					@foreach($inspecciones as $inspeccion)
-						<tr>
-							<td class="text-nowrap text-center">{{date('d-m-Y',strtotime($inspeccion->fecha_inicio))}}</td>
-							<td class="text-nowrap text-center">{{date('H:i',strtotime($inspeccion->fecha_inicio))}}</td>
-							<td class="text-nowrap text-center">{{date('H:i',strtotime($inspeccion->fecha_fin))}}</td>
-							<td class="text-nowrap text-center">
-								<a href="{{URL::to('/inspec_equipos/create_ot_inspeccion_equipos/')}}/{{$inspeccion->idot_inspec_equipo}}">{{$inspeccion->ot_tipo_abreviatura}}{{$inspeccion->ot_correlativo}}</a>
-							</td>
-							<td class="text-nowrap text-center">{{$inspeccion->nombre_servicio}}</td>	
-							<td class="text-nowrap text-center">{{$inspeccion->nombre_estado}}</td>						
+			@if(count($inspecciones)>0)
+				<div class="table-responsive">
+					<table class="table">
+						<tr class="info">
+							<th class="text-nowrap text-center">Fecha de Programación</th>
+							<th class="text-nowrap text-center">Hora Inicio</th>
+							<th class="text-nowrap text-center">Hora Fin</th>
+							<th class="text-nowrap text-center">Código de OTM</th>
+							<th class="text-nowrap text-center">Servicio Clínico</th>
+							<th class="text-nowrap text-center">Estado (OTM)</th>
 						</tr>
-					@endforeach
-				</table>
-			</div>
+						@foreach($inspecciones as $inspeccion)
+							<tr>
+								<td class="text-nowrap text-center">{{date('d-m-Y',strtotime($inspeccion->fecha_inicio))}}</td>
+								<td class="text-nowrap text-center">{{date('H:i',strtotime($inspeccion->fecha_inicio))}}</td>
+								<td class="text-nowrap text-center">{{date('H:i',strtotime($inspeccion->fecha_fin))}}</td>
+								<td class="text-nowrap text-center">
+									<a href="{{URL::to('/inspec_equipos/create_ot_inspeccion_equipos/')}}/{{$inspeccion->idot_inspec_equipo}}">{{$inspeccion->ot_tipo_abreviatura}}{{$inspeccion->ot_correlativo}}</a>
+								</td>
+								<td class="text-nowrap text-center">{{$inspeccion->nombre_servicio}}</td>	
+								<td class="text-nowrap text-center">{{$inspeccion->nombre_estado}}</td>						
+							</tr>
+						@endforeach
+					</table>
+				</div>
+			@else
+				<h4 style="color:red;">No hay Registros Encontrados</h4>
+			@endif
 		</div>		
 	</div>
 	@endif

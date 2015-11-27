@@ -114,31 +114,42 @@ $( document ).ready(function(){
 				$("input[name=costo_personal]").parent().addClass("has-error has-feedback");
 			}
 			if(is_correct){
-				$.ajax({
-					url: inside_url+'busqueda_informacion/submit_create_personal_ajax',
-					type: 'POST',
-					data: { 
-						'idot_busqueda_info' : $("input[name=idot_busqueda_info]").val(),
-						'nombre_personal' : $("input[name=nombre_personal]").val(),
-						'horas_trabajadas' : $("input[name=horas_trabajadas]").val(),
-						'costo_personal' : $("input[name=costo_personal]").val()
-					},
-					beforeSend: function(){
-						$(this).prop('disabled',true);
-					},
-					complete: function(){
-						$(this).prop('disabled',false);
-					},
-					success: function(response){
-						var str = "";
-						str += '<tr id="personal-row-'+response.personal.idpersonal_ot_busqueda_info+'"><td>'+response.personal.nombre+'</td>';
-						str += "<td>"+response.personal.horas_hombre+"</td>";
-						str += "<td>"+response.personal.costo+"</td>";
-						str += '<td><button class="btn btn-danger boton-eliminar-personal" onclick="eliminar_personal(event,'+response.personal.idpersonal_ot_busqueda_info+')" type="button">Eliminar</button></td></tr>';
-						$("#personal-table").append(str);
-						$("input[name=costo_total_personal]").val(response.costo_total_personal);
-					},
-					error: function(){
+				BootstrapDialog.confirm({
+					title: 'Mensaje de Confirmación',
+					message: '¿Está seguro que desea realizar esta acción?', 
+					type: BootstrapDialog.TYPE_INFO,
+					btnCancelLabel: 'Cancelar', 
+	            	btnOKLabel: 'Aceptar', 
+					callback: function(result){
+			            if(result) {
+							$.ajax({
+								url: inside_url+'busqueda_informacion/submit_create_personal_ajax',
+								type: 'POST',
+								data: { 
+									'idot_busqueda_info' : $("input[name=idot_busqueda_info]").val(),
+									'nombre_personal' : $("input[name=nombre_personal]").val(),
+									'horas_trabajadas' : $("input[name=horas_trabajadas]").val(),
+									'costo_personal' : $("input[name=costo_personal]").val()
+								},
+								beforeSend: function(){
+									$(this).prop('disabled',true);
+								},
+								complete: function(){
+									$(this).prop('disabled',false);
+								},
+								success: function(response){
+									var str = "";
+									str += '<tr id="personal-row-'+response.personal.idpersonal_ot_busqueda_info+'"><td>'+response.personal.nombre+'</td>';
+									str += "<td>"+response.personal.horas_hombre+"</td>";
+									str += "<td>"+response.personal.costo+"</td>";
+									str += '<td><button class="btn btn-danger boton-eliminar-personal" onclick="eliminar_personal(event,'+response.personal.idpersonal_ot_busqueda_info+')" type="button">Eliminar</button></td></tr>';
+									$("#personal-table").append(str);
+									$("input[name=costo_total_personal]").val(response.costo_total_personal);
+								},
+								error: function(){
+								}
+							});
+						}
 					}
 				});
 			}else{
