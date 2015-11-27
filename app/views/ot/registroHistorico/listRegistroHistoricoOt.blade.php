@@ -244,7 +244,7 @@
 								<td class="text-nowrap text-center">{{date('H:i',strtotime($inspeccion->fecha_fin))}}</td>
 								<td class="text-nowrap text-center">
 									@if($user->idrol==1 || $user->idrol==2 || $user->idrol==3 || $user->idrol==4)
-										@if($inspeccion->iestado !=25)
+										@if($inspeccion->idestado !=25)
 											<a href="{{URL::to('/inspec_equipos/create_ot_inspeccion_equipos/')}}/{{$inspeccion->idot_inspec_equipo}}">{{$inspeccion->ot_tipo_abreviatura}}{{$inspeccion->ot_correlativo}}</a>
 										@else
 											<a href="{{URL::to('/inspec_equipos/view_ot_inspeccion_equipos/')}}/{{$inspeccion->idot_inspec_equipo}}">{{$inspeccion->ot_tipo_abreviatura}}{{$inspeccion->ot_correlativo}}</a>
