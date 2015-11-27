@@ -102,16 +102,34 @@
 							{{$inspeccion_equipo_data->apellido_pat}} {{$inspeccion_equipo_data->apellido_mat}}, {{$inspeccion_equipo_data->nombre_user}}
 						</td>
 						<td class="text-nowrap text-center">
-							<a href="{{URL::to('/inspec_equipos/create_ot_inspeccion_equipos/')}}/{{$inspeccion_equipo_data->idot_inspec_equipo}}">{{$inspeccion_equipo_data->ot_tipo_abreviatura}}{{$inspeccion_equipo_data->ot_correlativo}}{{$inspeccion_equipo_data->ot_activo_abreviatura}}</a>
+						@if($user->idrol==1 || $user->idrol==2 || $user->idrol==3 || $user->idrol==4)
+							@if($inspeccion_equipo_data->idestado!=25)
+								<a href="{{URL::to('/inspec_equipos/create_ot_inspeccion_equipos/')}}/{{$inspeccion_equipo_data->idot_inspec_equipo}}">{{$inspeccion_equipo_data->ot_tipo_abreviatura}}{{$inspeccion_equipo_data->ot_correlativo}}{{$inspeccion_equipo_data->ot_activo_abreviatura}}</a>
+							@else
+								{{$inspeccion_equipo_data->ot_tipo_abreviatura}}{{$inspeccion_equipo_data->ot_correlativo}}{{$inspeccion_equipo_data->ot_activo_abreviatura}}
+							@endif
+						@else
+							@if($inspeccion_equipo_data->idestado!=25)
+								<a href="{{URL::to('/inspec_equipos/view_ot_inspeccion_equipos/')}}/{{$inspeccion_equipo_data->idot_inspec_equipo}}">{{$inspeccion_equipo_data->ot_tipo_abreviatura}}{{$inspeccion_equipo_data->ot_correlativo}}{{$inspeccion_equipo_data->ot_activo_abreviatura}}</a>
+							@else
+								{{$inspeccion_equipo_data->ot_tipo_abreviatura}}{{$inspeccion_equipo_data->ot_correlativo}}{{$inspeccion_equipo_data->ot_activo_abreviatura}}
+							@endif
+						@endif
 						</td>					
 						<td class="text-nowrap text-center">
 							{{$inspeccion_equipo_data->nombre_estado}}
 						</td>
 						<td class="text-nowrap text-center">
+						@if($user->idrol==1 || $user->idrol==2 || $user->idrol==3 || $user->idrol==4)
 							@if($inspeccion_equipo_data->idestado!=25)
 								<div class="btn btn-danger btn-block" onclick='eliminar_ot(event,this)'><span class="glyphicon glyphicon-trash"></span></div>
+							@else
+								-
 							@endif
-					</td>
+						@else
+							-
+						@endif
+						</td>
 					</tr>
 					@endforeach
 				</table>

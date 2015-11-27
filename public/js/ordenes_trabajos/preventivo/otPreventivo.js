@@ -51,6 +51,7 @@ $( document ).ready(function(){
 
 	$(".boton-tarea").click(function(e){
 		idot_preventivo = $('#idot_preventivo').val();
+		idtareas_ot_preventivosxot_preventivo =  $(this).data('id') ;
 		e.preventDefault;
 		BootstrapDialog.confirm({
 			title: 'Mensaje de Confirmación',
@@ -60,10 +61,11 @@ $( document ).ready(function(){
 	    	btnOKLabel: 'Aceptar', 
 				callback: function(result){
 			        if(result) {
+
 			        	$.ajax({
 							url: inside_url+'mant_preventivo/submit_marcar_tarea_ajax',
 							type: 'POST',
-							data: { 'idtareas_ot_preventivosxot_preventivo' : $(this).data('id') },
+							data: { 'idtareas_ot_preventivosxot_preventivo' : idtareas_ot_preventivosxot_preventivo},
 							beforeSend: function(){
 							},
 							complete: function(){

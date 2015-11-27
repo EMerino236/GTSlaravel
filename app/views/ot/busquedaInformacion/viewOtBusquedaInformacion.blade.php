@@ -90,16 +90,11 @@
 					<div class="row">
 						<div class="col-md-8 form-group ">						
 							{{ Form::label('fecha_conformidad','Fecha de Conformidad') }}
-							<div id="datetimepicker_conformidad_fecha" class="input-group date @if($errors->first('fecha_conformidad')) has-error has-feedback @endif">
-								@if($ot_info->fecha_conformidad == null)
-									{{ Form::text('fecha_conformidad',null,array('class'=>'form-control','readonly'=>'')) }}
-								@else
-									{{Form::text('fecha_conformidad',date('d-m-Y',strtotime($ot_info->fecha_conformidad)),array('class'=>'form-control','readonly'=>'','disabled'=>'disabled')) }}
-								@endif
-								<span class="input-group-addon">
-			                        <span class="glyphicon glyphicon-calendar"></span>
-			                    </span>
-							</div>
+							@if($ot_info->fecha_conformidad == null)
+								{{ Form::text('fecha_conformidad',null,array('class'=>'form-control','readonly'=>'')) }}
+							@else
+								{{Form::text('fecha_conformidad',date('d-m-Y',strtotime($ot_info->fecha_conformidad)),array('class'=>'form-control','readonly'=>'','disabled'=>'disabled')) }}
+							@endif
 						</div>
 					</div>
 				</div>
@@ -113,16 +108,11 @@
 					<div class="row">
 						<div class="form-group col-md-8">
 							{{ Form::label('fecha_conformidad','Hora de Conformidad') }}
-							<div id="datetimepicker_conformidad_hora" disabled='disabled' class="input-group date @if($errors->first('fecha_conformidad')) has-error has-feedback @endif">
-								@if($ot_info->fecha_conformidad == null)
-									{{ Form::text('hora_conformidad',null,array('class'=>'form-control','readonly'=>'')) }}
-								@else
-									{{Form::text('hora_conformidad',date('H:i',strtotime($ot_info->fecha_conformidad)),array('class'=>'form-control','readonly'=>'')) }}
-								@endif
-								<span class="input-group-addon">
-			                        <span class="glyphicon glyphicon-time"></span>
-			                    </span>
-							</div>
+							@if($ot_info->fecha_conformidad == null)
+								{{ Form::text('hora_conformidad',null,array('class'=>'form-control','readonly'=>'')) }}
+							@else
+								{{Form::text('hora_conformidad',date('H:i',strtotime($ot_info->fecha_conformidad)),array('class'=>'form-control','readonly'=>'')) }}
+							@endif
 						</div>
 					</div>
 				</div>	
@@ -191,7 +181,6 @@
 			<div class="form-group col-md-2">
 				<a class="btn btn-default btn-block" href="{{URL::to('/solicitud_busqueda_informacion/list_busqueda_informacion')}}"><span class="glyphicon glyphicon-menu-left"></span> Regresar</a>				
 			</div>	
-	{{ Form::close() }}
 			{{Form::open(array('url'=>'busqueda_informacion/export_pdf', 'role'=>'form'))}}		
 			{{Form::hidden('idot_busqueda_info', $ot_info->idot_busqueda_info) }}
 			<div class="form-group col-md-2 col-md-offset-6">
@@ -200,23 +189,4 @@
 			{{ Form::close() }}
 		</div>	
 
-<div class="container">
-  <!-- Modal -->
-  <div class="modal fade" id="modal_info_ot" role="dialog">
-    <div class="modal-dialog modal-md">    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header" id="modal_header_ot">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Advertencia</h4>
-        </div>
-        <div class="modal-body" id="modal_text_ot">         	
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" id="btn_close_modal" data-dismiss="modal">Aceptar</button>
-        </div>
-      </div>      
-    </div>
-  </div>  
-</div>
 @stop

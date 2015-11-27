@@ -543,7 +543,8 @@ class OtPreventivoController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6)){
+			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12)){
 				$idot_preventivo = Input::get('idot_preventivo');
 				$data["ot"] = OrdenesTrabajoPreventivo::searchOtPreventivoById($idot_preventivo)->get()[0];
 				$data["estado_inicial"] = Estado::find($data["ot"]->idestado_inicial);
@@ -557,8 +558,39 @@ class OtPreventivoController extends BaseController {
 				$data["repuestos_ot"] = RepuestosOtPreventivos::getRepuestosXOt($idot_preventivo)->get();
 				$data["personal_data"] = PersonalOtPreventivo::getPersonalXOt($idot_preventivo)->get();
 				$html = View::make('ot/preventivo/otPreventivoExport',$data);
-				return PDF::load($html,"A4","portrait")->show();
+				return PDF::load($html,"A4","portrait")->download('OTM Preventivo - '.$data["ot"]->ot_tipo_abreviatura.$data["ot"]->ot_correlativo.$data["ot"]->ot_activo_abreviatura);
+				
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
 
+	public function render_view_ot($id=null){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12) && $id){
+				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
+				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
+				$tabla_estado_activo = Tabla::getTablaByNombre(self::$estado_activo)->get();
+				$data["estado_activo"] = Estado::where('idtabla','=',$tabla_estado_activo[0]->idtabla)->lists('nombre','idestado');
+
+				$data["ot_info"] = OrdenesTrabajoPreventivo::searchOtPreventivoById($id)->get();
+				if($data["ot_info"]->isEmpty()){
+					return Redirect::to('mant_preventivo/list_mant_preventivo');
+				}
+
+				$data["ot_info"] = $data["ot_info"][0];		
+				$data["tareas"] = OrdenesTrabajoPreventivoxTarea::getTareasXOtXActivo($data["ot_info"]->idot_preventivo)->get();
+				$data["repuestos"] = RepuestosOtPreventivos::getRepuestosXOt($data["ot_info"]->idot_preventivo)->get();
+				$data["personal_data"] = PersonalOtPreventivo::getPersonalXOt($data["ot_info"]->idot_preventivo)->get();
+				return View::make('ot/preventivo/viewOtMantPre',$data);
+			
 			}else{
 				return View::make('error/error');
 			}

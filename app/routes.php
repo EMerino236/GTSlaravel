@@ -347,6 +347,7 @@ Route::group(array('prefix'=>'mant_preventivo','before'=>'auth'),function(){
 	Route::post('/submit_delete_personal_ajax','OtPreventivoController@submit_delete_personal_ajax');	
 	Route::post('/submit_disable_preventivo','OtPreventivoController@submit_disable_preventivo');
 	Route::post('/export_pdf','OtPreventivoController@export_pdf');
+	Route::get('/view_ot_preventivo/{id}','OtPreventivoController@render_view_ot');
 });
 
 /* Verificación Metrológica */
@@ -382,6 +383,7 @@ Route::group(array('prefix'=>'inspec_equipos','before'=>'auth'),function(){
 	Route::post('/submit_disable_inspeccion','OtInspeccionEquiposController@submit_disable_inspeccion');
 	Route::post('/submit_create_ot','OtInspeccionEquiposController@submit_create_ot');
 	Route::post('/export_pdf','OtInspeccionEquiposController@export_pdf');
+	Route::get('/view_ot_inspeccion_equipos/{id}','OtInspeccionEquiposController@render_view_ot');
 	
 });
 

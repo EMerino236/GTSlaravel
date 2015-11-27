@@ -20,7 +20,7 @@
 			  	<div class="panel-body">	
 					<div class="row">								
 						<div class="form-group col-md-6 @if($errors->first('tipo')) has-error has-feedback @endif">
-							{{ Form::label('tipo','Tipo') }}<span style="color:red"> *</span>
+							{{ Form::label('tipo','Tipo') }}
 							{{ Form::select('tipo', array('0' => 'Seleccione') + $tipos ,$sot_info->idtipo_busqueda_info ,array('class'=>'form-control','readonly'=>'','disabled'=>'disabled')) }}
 						</div>
 						<div class="form-group col-md-6 @if($errors->first('area')) has-error has-feedback @endif">
@@ -30,13 +30,8 @@
 					</div>	
 					<div class="row">						
 						<div class="form-group col-md-6">
-							{{ Form::label('fecha_solicitud','Fecha Solicitud')}}<span style="color:red"> *</span>
-							<div id="datetimepicker_prog_fecha" class="form-group input-group date @if($errors->first('fecha')) has-error has-feedback @endif">					
-								{{ Form::text('fecha_solicitud',date('d-m-Y H:i',strtotime($sot_info->fecha_solicitud)),array('class'=>'form-control','readonly'=>'','id'=>'fecha')) }}
-								<span class="input-group-addon">
-				                    <span class="glyphicon glyphicon-calendar"></span>
-				                </span>
-			            	</div>
+							{{ Form::label('fecha_solicitud','Fecha Solicitud')}}
+							{{ Form::text('fecha_solicitud',date('d-m-Y H:i',strtotime($sot_info->fecha_solicitud)),array('class'=>'form-control','readonly'=>'','id'=>'fecha_view')) }}
 			            </div>
 			            <div class="form-group col-md-6 @if($errors->first('usuario_encargado')) has-error has-feedback @endif">
 							{{ Form::label('usuario_encargado','Usuario Encargado') }}
@@ -53,17 +48,17 @@
 			        </div>						        
 					<div class="row">
 						<div class="form-group col-md-6">
-							{{ Form::label('descripcion','Descripcion') }}<span style="color:red"> *</span>
+							{{ Form::label('descripcion','Descripcion') }}
 							{{ Form::textarea('descripcion',$sot_info->descripcion,array('class' => 'form-control','placeholder'=>'Descripción de la solicitud','rows'=>'3','maxlength'=>'500','style'=>'resize:none;','readonly'=>'')) }}
 						</div>
 						<div class="form-group col-md-6">
-							{{ Form::label('motivo','Motivo') }}<span style="color:red"> *</span>
+							{{ Form::label('motivo','Motivo') }}
 							{{ Form::textarea('motivo',$sot_info->motivo,array('class' => 'form-control','placeholder'=>'Motivo de la solicitud','rows'=>'3','maxlength'=>'500','style'=>'resize:none;','readonly'=>'')) }}
 						</div>
 					</div>					
 			        <div class="row">
 						<div class="form-group col-md-6">
-							{{ Form::label('detalle','Detalle')}}<span style="color:red"> *</span>
+							{{ Form::label('detalle','Detalle')}}
 							{{ Form::textarea('detalle',$sot_info->detalle,array('class' => 'form-control','placeholder'=>'Detalle de la solicitud','rows'=>'3','maxlength'=>'500','style'=>'resize:none;','readonly'=>'')) }}
 			            </div>
 			        </div>

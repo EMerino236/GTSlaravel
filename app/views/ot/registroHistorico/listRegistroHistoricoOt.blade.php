@@ -152,7 +152,11 @@
 						<tr>
 							<td class="text-nowrap text-center">{{date('d-m-Y',strtotime($preventivo->fecha_programacion))}}</td>
 							<td class="text-nowrap text-center">
-								<a href="{{URL::to('/mant_preventivo/create_ot_preventivo/')}}/{{$preventivo->idot_preventivo}}">{{$preventivo->ot_tipo_abreviatura}}{{$preventivo->ot_correlativo}}{{$preventivo->ot_activo_abreviatura}}</a>
+								@if($user->idrol==1 || $user->idrol==2 || $user->idrol==3 || $user->idrol==4)
+									<a href="{{URL::to('/mant_preventivo/create_ot_preventivo/')}}/{{$preventivo->idot_preventivo}}">{{$preventivo->ot_tipo_abreviatura}}{{$preventivo->ot_correlativo}}{{$preventivo->ot_activo_abreviatura}}</a>
+								@else
+									<a href="{{URL::to('/mant_preventivo/view_ot_preventivo/')}}/{{$preventivo->idot_preventivo}}">{{$preventivo->ot_tipo_abreviatura}}{{$preventivo->ot_correlativo}}{{$preventivo->ot_activo_abreviatura}}</a>
+								@endif
 							</td>
 							<td class="text-nowrap text-center">{{$preventivo->nombre_servicio}}</td>	
 							<td class="text-nowrap text-center">{{$preventivo->nombre_equipo}}</td>
@@ -239,7 +243,12 @@
 								<td class="text-nowrap text-center">{{date('H:i',strtotime($inspeccion->fecha_inicio))}}</td>
 								<td class="text-nowrap text-center">{{date('H:i',strtotime($inspeccion->fecha_fin))}}</td>
 								<td class="text-nowrap text-center">
-									<a href="{{URL::to('/inspec_equipos/create_ot_inspeccion_equipos/')}}/{{$inspeccion->idot_inspec_equipo}}">{{$inspeccion->ot_tipo_abreviatura}}{{$inspeccion->ot_correlativo}}</a>
+									@if($user->idrol==1 || $user->idrol==2 || $user->idrol==3 || $user->idrol==4)
+										<a href="{{URL::to('/inspec_equipos/create_ot_inspeccion_equipos/')}}/{{$inspeccion->idot_inspec_equipo}}">{{$inspeccion->ot_tipo_abreviatura}}{{$inspeccion->ot_correlativo}}</a>
+									@else
+										<a href="{{URL::to('/inspec_equipos/view_ot_inspeccion_equipos/')}}/{{$inspeccion->idot_inspec_equipo}}">{{$inspeccion->ot_tipo_abreviatura}}{{$inspeccion->ot_correlativo}}</a>
+									@endif	
+									
 								</td>
 								<td class="text-nowrap text-center">{{$inspeccion->nombre_servicio}}</td>	
 								<td class="text-nowrap text-center">{{$inspeccion->nombre_estado}}</td>						

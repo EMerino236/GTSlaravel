@@ -19,7 +19,7 @@
 
 			.info_right{
 				margin-left: 350px;
-				padding-top:-63px;
+				padding-top:-40px;
 				padding-bottom: 5px;
 				padding-left: 5px;
 				padding-right: 5px;
@@ -33,7 +33,7 @@
 
 			#datos_solicitud .info_right{
 				margin-left: 350px;
-				padding-top:-40px;
+				padding-top:-30px;
 				padding-bottom: 5px;
 				padding-left: 5px;
 				padding-right: 5px;
@@ -41,7 +41,7 @@
 
 			#estado_inicial .info_right{
 				margin-left: 350px;
-				padding-top:-23px;
+				padding-top:-15px;
 				padding-bottom: 5px;
 				padding-left: 5px;
 				padding-right: 5px;

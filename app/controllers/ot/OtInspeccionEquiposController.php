@@ -437,7 +437,8 @@ class OtInspeccionEquiposController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6)){
+			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12)){
 				$idot_inspec_equipo = Input::get('idot_inspec_equipo');
 				$data["ot_info"] = OrdenesTrabajoInspeccionEquipo::searchOtInspeccionEquipoById($idot_inspec_equipo)->get()[0];
 				$idservicio = $data["ot_info"]->idservicio;
@@ -451,8 +452,40 @@ class OtInspeccionEquiposController extends BaseController {
 					array_push($data["tareas_activos"],$otInspeccionxActivoxTareas);
 				}
 				$html = View::make('ot/inspeccionEquipo/otInspeccionEquipoExport',$data);
-				return PDF::load($html,"A4","portrait")->show();
+				return PDF::load($html,"A4","portrait")->download('OTM Inspeccion Equipos - '.$data["ot_info"]->ot_tipo_abreviatura.$data["ot_info"]->ot_correlativo);
 
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function render_view_ot($id=null){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12) && $id){
+				
+				$data["ot_info"] = OrdenesTrabajoInspeccionEquipo::searchOtInspeccionEquipoById($id)->get();
+				if($data["ot_info"]->isEmpty()){
+					return Redirect::to('inspec_equipo/list_inspec_equipos');
+				}
+				$data["ot_info"] = $data["ot_info"][0];		
+				$idservicio = $data["ot_info"]->idservicio;
+				$data["activos_info"] = Activo::getEquiposActivosByServicioId($idservicio)->get();	
+				$data["activosxot_info"] = OrdenesTrabajoInspeccionEquipoxActivo::getOtInspeccionxActivoByIdOtInspeccion($data["ot_info"]->idot_inspec_equipo)->get();
+				$cant_activos = count($data["activosxot_info"]);
+				$data["tareas_activos"] = [];
+				for($i=0;$i<$cant_activos;$i++){
+					$otInspeccionxActivo = OrdenesTrabajoInspeccionEquipoxActivo::getOtInspeccionxActivo($data["ot_info"]->idot_inspec_equipo,$data["activos_info"][$i]->idactivo)->get()[0];
+					$otInspeccionxActivoxTareas = TareasOtInspeccionEquipoxActivo::getTareasxInspeccionxActivo($otInspeccionxActivo->idot_inspec_equiposxactivo)->get();	
+					array_push($data["tareas_activos"],$otInspeccionxActivoxTareas);
+				}
+				return View::make('ot/inspeccionEquipo/viewOtInspecEquipos',$data);
 			}else{
 				return View::make('error/error');
 			}
