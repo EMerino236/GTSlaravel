@@ -30,15 +30,15 @@
 	    <div class="form-group row">
 			<div class="col-md-4">
 				{{ Form::label('search_grupo','Grupo') }}
-				{{ Form::select('search_grupo', array('0' => 'Seleccione') + $grupos,$search_grupo,['class' => 'form-control']) }}
+				{{ Form::select('search_grupo', array('' => 'Seleccione') + $grupos,$search_grupo,['class' => 'form-control']) }}
 			</div>
 			<div class="col-md-4">
 				{{ Form::label('search_servicio','Servicio Clínico') }}
-				{{ Form::select('search_servicio', array('0' => 'Seleccione') + $servicio,$search_servicio,['class' => 'form-control']) }}
+				{{ Form::select('search_servicio', array('' => 'Seleccione') + $servicio,$search_servicio,['class' => 'form-control']) }}
 			</div>
 			<div class="col-md-4">
 				{{ Form::label('search_ubicacion','Ubicación') }}
-				{{ Form::select('search_ubicacion', array('0' => 'Seleccione') + $ubicacion,$search_ubicacion,['class' => 'form-control']) }}
+				{{ Form::select('search_ubicacion', array('' => 'Seleccione') + $ubicacion,$search_ubicacion,['class' => 'form-control']) }}
 			</div>
 		</div>
 
@@ -53,7 +53,7 @@
 			</div>
 			<div class="col-md-4">
 				{{ Form::label('search_marca','Marca') }}
-				{{ Form::select('search_marca', array('0' => 'Seleccione') + $marca,$search_marca,['class' => 'form-control']) }}				
+				{{ Form::select('search_marca', array('' => 'Seleccione') + $marca,$search_marca,['class' => 'form-control']) }}				
 			</div>
 		</div>
 
@@ -68,7 +68,7 @@
 			</div>
 			<div class="col-md-4">
 				{{ Form::label('search_proveedor','Proveedor') }}
-				{{ Form::select('search_proveedor', array('0' => 'Seleccione') + $proveedor,$search_proveedor,['class' => 'form-control']) }}								
+				{{ Form::select('search_proveedor', array('' => 'Seleccione') + $proveedor,$search_proveedor,['class' => 'form-control']) }}								
 			</div>
 		</div>
 

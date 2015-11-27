@@ -62,11 +62,12 @@ class ActivosController extends BaseController
 				$data["search_serie"] = Input::get('search_serie');
 				$data["search_proveedor"] = Input::get('search_proveedor');
 				$data["search_codigo_compra"] = Input::get('search_codigo_compra');
-				$data["search_codigo_patrimonial"] = Input::get('search_codigo_patrimonial');
+				$data["search_codigo_patrimonial"] = Input::get('search_codigo_patrimonial');			
 
 				$data["activos_data"] = Activo::searchActivos($data["search_grupo"],$data["search_servicio"],$data["search_ubicacion"],$data["search_nombre_siga"],$data["search_nombre_equipo"],
 										$data["search_marca"],$data["search_modelo"],$data["search_serie"],$data["search_proveedor"],
 										$data["search_codigo_compra"],$data["search_codigo_patrimonial"])->paginate(10);
+
 				return View::make('activos/listActivos',$data);
 			}else{
 				return View::make('error/error');

@@ -30,7 +30,7 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 	public function scopeGetActivosInfo($query)
 	{
 		$query->join('ubicacion_fisicas','ubicacion_fisicas.idubicacion_fisica','=','activos.idubicacion_fisica')
-			  ->join('servicios','servicios.idservicio','=','ubicacion_fisicas.idubicacion_fisica')
+			  ->join('servicios','servicios.idservicio','=','activos.idservicio')
 			  ->join('grupos','grupos.idgrupo','=','activos.idgrupo')
 			  ->join('modelo_activos','modelo_activos.idmodelo_equipo','=','activos.idmodelo_equipo')
 			  ->join('familia_activos','familia_activos.idfamilia_activo','=','modelo_activos.idfamilia_activo')			  
@@ -45,24 +45,24 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 									$search_serie, $search_proveedor,$search_codigo_compra,$search_codigo_patrimonial)
 	{
 		$query->join('ubicacion_fisicas','ubicacion_fisicas.idubicacion_fisica','=','activos.idubicacion_fisica')
-			  ->join('servicios','servicios.idservicio','=','ubicacion_fisicas.idubicacion_fisica')
+			  ->join('servicios','servicios.idservicio','=','activos.idservicio')
 			  ->join('grupos','grupos.idgrupo','=','activos.idgrupo')
 			  ->join('modelo_activos','modelo_activos.idmodelo_equipo','=','activos.idmodelo_equipo')
 			  ->join('familia_activos','familia_activos.idfamilia_activo','=','modelo_activos.idfamilia_activo')
 			  ->join('marcas','marcas.idmarca','=','familia_activos.idmarca')
 			  ->join('proveedores','proveedores.idproveedor','=','activos.idproveedor');
 			  
-			  if($search_grupo != '0')
+			  if($search_grupo != '')
 			  {
 			  	$query->where('activos.idgrupo','=',$search_grupo);
 			  }
 
-			  if($search_servico != '0')
+			  if($search_servico != '')
 			  {
 			  	$query->where('activos.idservicio','=',$search_servico);
 			  }
 
-			  if($search_ubicacion != '0' && $search_ubicacion != null)
+			  if($search_ubicacion != '' && $search_ubicacion != null)
 			  {
 			  	$query->where('activos.idubicacion_fisica','=',$search_ubicacion);
 			  }
@@ -77,7 +77,7 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 			  	$query->where('familia_activos.nombre_equipo','LIKE',"%$search_nombre_equipo%");
 			  }
 
-			  if($search_marca != '0')
+			  if($search_marca != '')
 			  {
 			  	$query->where('familia_activos.idmarca','=',$search_marca);
 			  }
@@ -92,7 +92,7 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 			  	$query->where('activos.numero_serie','LIKE',"%$search_serie%");
 			  }
 
-			  if($search_proveedor != "0")
+			  if($search_proveedor != "")
 			  {
 			  	$query->where('activos.idproveedor','=',$search_proveedor);
 			  }
@@ -116,7 +116,7 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 	public function scopeGetInventarioInfo($query)
 	{
 		$query->join('ubicacion_fisicas','ubicacion_fisicas.idubicacion_fisica','=','activos.idubicacion_fisica')
-			  ->join('servicios','servicios.idservicio','=','ubicacion_fisicas.idubicacion_fisica')
+			  ->join('servicios','servicios.idservicio','=','activos.idservicio')
 			  ->join('grupos','grupos.idgrupo','=','activos.idgrupo')
 			  ->join('modelo_activos','modelo_activos.idmodelo_equipo','=','activos.idmodelo_equipo')
 			  ->join('familia_activos','familia_activos.idfamilia_activo','=','modelo_activos.idfamilia_activo')			  
@@ -132,7 +132,7 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 									$search_proveedor,$search_codigo_patrimonial)
 	{
 		$query->join('ubicacion_fisicas','ubicacion_fisicas.idubicacion_fisica','=','activos.idubicacion_fisica')
-			  ->join('servicios','servicios.idservicio','=','ubicacion_fisicas.idubicacion_fisica')
+			  ->join('servicios','servicios.idservicio','=','activos.idservicio')
 			  ->join('grupos','grupos.idgrupo','=','activos.idgrupo')
 			  ->join('modelo_activos','modelo_activos.idmodelo_equipo','=','activos.idmodelo_equipo')
 			  ->join('familia_activos','familia_activos.idfamilia_activo','=','modelo_activos.idfamilia_activo')
