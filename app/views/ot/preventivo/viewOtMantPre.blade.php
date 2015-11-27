@@ -314,7 +314,7 @@
 			</div>	
 			{{Form::open(array('url'=>'mant_preventivo/export_pdf', 'role'=>'form'))}}		
 			{{Form::hidden('idot_preventivo', $ot_info->idot_preventivo) }}
-			<div class="form-group col-md-2 col-md-offset-6">
+			<div class="form-group col-md-2 col-md-offset-8">
 				{{ Form::button('<span class="glyphicon glyphicon-export"></span> Exportar', array('id'=>'exportar', 'type'=>'submit' ,'class' => 'btn btn-success btn-block')) }}
 			</div>
 			{{ Form::close() }}

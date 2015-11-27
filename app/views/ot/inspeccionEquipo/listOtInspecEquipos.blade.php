@@ -106,13 +106,13 @@
 							@if($inspeccion_equipo_data->idestado!=25)
 								<a href="{{URL::to('/inspec_equipos/create_ot_inspeccion_equipos/')}}/{{$inspeccion_equipo_data->idot_inspec_equipo}}">{{$inspeccion_equipo_data->ot_tipo_abreviatura}}{{$inspeccion_equipo_data->ot_correlativo}}{{$inspeccion_equipo_data->ot_activo_abreviatura}}</a>
 							@else
-								{{$inspeccion_equipo_data->ot_tipo_abreviatura}}{{$inspeccion_equipo_data->ot_correlativo}}{{$inspeccion_equipo_data->ot_activo_abreviatura}}
+								<a href="{{URL::to('/inspec_equipos/view_ot_inspeccion_equipos/')}}/{{$inspeccion_equipo_data->idot_inspec_equipo}}">{{$inspeccion_equipo_data->ot_tipo_abreviatura}}{{$inspeccion_equipo_data->ot_correlativo}}{{$inspeccion_equipo_data->ot_activo_abreviatura}}</a>
 							@endif
 						@else
 							@if($inspeccion_equipo_data->idestado!=25)
 								<a href="{{URL::to('/inspec_equipos/view_ot_inspeccion_equipos/')}}/{{$inspeccion_equipo_data->idot_inspec_equipo}}">{{$inspeccion_equipo_data->ot_tipo_abreviatura}}{{$inspeccion_equipo_data->ot_correlativo}}{{$inspeccion_equipo_data->ot_activo_abreviatura}}</a>
 							@else
-								{{$inspeccion_equipo_data->ot_tipo_abreviatura}}{{$inspeccion_equipo_data->ot_correlativo}}{{$inspeccion_equipo_data->ot_activo_abreviatura}}
+								<a href="{{URL::to('/inspec_equipos/view_ot_inspeccion_equipos/')}}/{{$inspeccion_equipo_data->idot_inspec_equipo}}">{{$inspeccion_equipo_data->ot_tipo_abreviatura}}{{$inspeccion_equipo_data->ot_correlativo}}{{$inspeccion_equipo_data->ot_activo_abreviatura}}</a>
 							@endif
 						@endif
 						</td>					

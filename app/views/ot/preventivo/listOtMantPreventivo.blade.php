@@ -123,16 +123,12 @@
 					<td class="text-nowrap text-center">
 					@if($user->idrol==1 || $user->idrol==2 || $user->idrol==3 || $user->idrol==4)
 						@if($mant_preventivo_data->idestado_ot==25)
-							{{$mant_preventivo_data->ot_tipo_abreviatura}}{{$mant_preventivo_data->ot_correlativo}}{{$mant_preventivo_data->ot_activo_abreviatura}}
+							<a href="{{URL::to('/mant_preventivo/view_ot_preventivo/')}}/{{$mant_preventivo_data->idot_preventivo}}">{{$mant_preventivo_data->ot_tipo_abreviatura}}{{$mant_preventivo_data->ot_correlativo}}{{$mant_preventivo_data->ot_activo_abreviatura}}</a>
 						@else
 							<a href="{{URL::to('/mant_preventivo/create_ot_preventivo/')}}/{{$mant_preventivo_data->idot_preventivo}}">{{$mant_preventivo_data->ot_tipo_abreviatura}}{{$mant_preventivo_data->ot_correlativo}}{{$mant_preventivo_data->ot_activo_abreviatura}}</a>
 						@endif
-					@else
-						@if($mant_preventivo_data->idestado_ot==25)
-							{{$mant_preventivo_data->ot_tipo_abreviatura}}{{$mant_preventivo_data->ot_correlativo}}{{$mant_preventivo_data->ot_activo_abreviatura}}
-						@else
-							<a href="{{URL::to('/mant_preventivo/view_ot_preventivo/')}}/{{$mant_preventivo_data->idot_preventivo}}">{{$mant_preventivo_data->ot_tipo_abreviatura}}{{$mant_preventivo_data->ot_correlativo}}{{$mant_preventivo_data->ot_activo_abreviatura}}</a>
-						@endif
+					@else						
+						<a href="{{URL::to('/mant_preventivo/view_ot_preventivo/')}}/{{$mant_preventivo_data->idot_preventivo}}">{{$mant_preventivo_data->ot_tipo_abreviatura}}{{$mant_preventivo_data->ot_correlativo}}{{$mant_preventivo_data->ot_activo_abreviatura}}</a>
 					@endif
 					</td>					
 					<td>

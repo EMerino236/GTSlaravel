@@ -4,6 +4,7 @@ $( document ).ready(function(){
 	
 	$(".boton-tarea").click(function(e){
 		idot_inspec_equipo = $('#idot_inspec_equipo').val();
+		idtareasxactivoxinspeccion = $(this).data('id');
 		e.preventDefault;
 		BootstrapDialog.confirm({
 			title: 'Mensaje de Confirmación',
@@ -16,7 +17,7 @@ $( document ).ready(function(){
 		        	$.ajax({
 						url: inside_url+'inspec_equipos/submit_marcar_tarea_ajax',
 						type: 'POST',
-						data: { 'idtareasxactivoxinspeccion' : $(this).data('id') },
+						data: { 'idtareasxactivoxinspeccion' :idtareasxactivoxinspeccion },
 						beforeSend: function(){
 						},
 						complete: function(){

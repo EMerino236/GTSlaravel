@@ -156,7 +156,7 @@
 	{{Form::close()}}
 			{{Form::open(array('url'=>'inspec_equipos/export_pdf', 'role'=>'form'))}}		
 			{{Form::hidden('idot_inspec_equipo', $ot_info->idot_inspec_equipo) }}
-			<div class="form-group col-md-2 col-md-offset-6">
+			<div class="form-group col-md-2 col-md-offset-8">
 				{{ Form::button('<span class="glyphicon glyphicon-export"></span> Exportar', array('id'=>'exportar', 'type'=>'submit' ,'class' => 'btn btn-success btn-block')) }}
 			</div>
 			{{ Form::close() }}

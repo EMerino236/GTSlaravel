@@ -146,6 +146,7 @@
 						</div>
 					</div>
 					<div class="col-md-6 form-group">
+						{{Form::label('imagen','Imagen del Equipo:')}}						
 						<div style="border:solid;width:400px;height:200px;">
 							@if($otxactivo->imagen_url!= null && $otxactivo->nombre_archivo!=null)
 								<img style="max-width:100%;max-height:100%;width:100%;height:100%;" src={{$inside_url.$otxactivo->imagen_url.$otxactivo->nombre_archivo_encriptado}}>

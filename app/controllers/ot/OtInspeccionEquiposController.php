@@ -405,18 +405,20 @@ class OtInspeccionEquiposController extends BaseController {
 					    $nombreArchivo ='';	
 					    $nombreArchivoEncriptado = '';
 					    
+
 					    if (Input::hasFile('archivo'.$i)) {
-					        $archivo = Input::file('archivo'.$i);
-					        $rutaDestino = 'inspeccion_equipos/' .$ot->ot_tipo_abreviatura.$ot->ot_correlativo.'/';
-					        $nombreArchivo = $archivo->getClientOriginalName();
-					        $nombreArchivoEncriptado = Str::random(27).'.'.pathinfo($nombreArchivo, PATHINFO_EXTENSION);
-					        $uploadSuccess = $archivo->move($rutaDestino, $nombreArchivoEncriptado);
+						    if(strcmp($ot_inspec_equiposxactivo->nombre_archivo, $nombreArchivo) != 0 && $nombreArchivo!== ''){ 
+						        $archivo = Input::file('archivo'.$i);
+						        $rutaDestino = 'inspeccion_equipos/' .$ot->ot_tipo_abreviatura.$ot->ot_correlativo.'/';
+						        $nombreArchivo = $archivo->getClientOriginalName();
+						        $nombreArchivoEncriptado = Str::random(27).'.'.pathinfo($nombreArchivo, PATHINFO_EXTENSION);
+						        $uploadSuccess = $archivo->move($rutaDestino, $nombreArchivoEncriptado);
+						    	$ot_inspec_equiposxactivo->nombre_archivo = $nombreArchivo;
+								$ot_inspec_equiposxactivo->nombre_archivo_encriptado = $nombreArchivoEncriptado;
+								$ot_inspec_equiposxactivo->imagen_url = $rutaDestino;
+							}
 					    }
-					    if($ot_inspec_equiposxactivo->nombre_archivo !== $nombreArchivo && $nombreArchivo!== ''){
-					    	$ot_inspec_equiposxactivo->nombre_archivo = $nombreArchivo;
-							$ot_inspec_equiposxactivo->nombre_archivo_encriptado = $nombreArchivoEncriptado;
-							$ot_inspec_equiposxactivo->imagen_url = $rutaDestino;
-					    }
+
 					    $observaciones = Input::get('observaciones_equipo'.$i);
 						$ot_inspec_equiposxactivo->observaciones = $observaciones;
 						$ot_inspec_equiposxactivo->save();
