@@ -20,10 +20,10 @@ class ModeloActivosController extends BaseController
 				$data["familia_activo_info"] = $data["familia_activo_info"];
 				return View::make('modelo_activos/createModeloActivo',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -55,10 +55,10 @@ class ModeloActivosController extends BaseController
 					return Redirect::to($url)->with('message','Se registró correctamente el Modeo de la Familia de Activo.');
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -79,10 +79,10 @@ class ModeloActivosController extends BaseController
 				$data["familia_activo_info"] = FamiliaActivo::find($data["modelo_info"]->idfamilia_activo);								
 				return View::make('modelo_activos/editModeloActivo',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -117,10 +117,10 @@ class ModeloActivosController extends BaseController
 					return Redirect::to($url)->with('message','Se actualizó correctamente el Modelo de la Familia de Activo.');
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -149,10 +149,10 @@ class ModeloActivosController extends BaseController
 				
 				return View::make('modelo_activos/createAccesorioModeloFamiliaActivo',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -198,10 +198,10 @@ class ModeloActivosController extends BaseController
 					return Redirect::to($url)->with('message','Se registro correctamente el accesorio.');
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -230,10 +230,10 @@ class ModeloActivosController extends BaseController
 				
 				return View::make('modelo_activos/createConsumibleModeloFamiliaActivo',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -276,10 +276,10 @@ class ModeloActivosController extends BaseController
 					return Redirect::to($url)->with('message','Se registro correctamente el accesorio.');
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -308,10 +308,10 @@ class ModeloActivosController extends BaseController
 				
 				return View::make('modelo_activos/createComponenteModeloFamiliaActivo',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -357,10 +357,10 @@ class ModeloActivosController extends BaseController
 					return Redirect::to($url)->with('message','Se registro correctamente el componente.');
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -380,10 +380,10 @@ class ModeloActivosController extends BaseController
 
 				return View::make('modelo_activos/viewModeloActivo',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 }

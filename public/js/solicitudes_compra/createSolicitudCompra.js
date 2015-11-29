@@ -69,6 +69,62 @@ $( document ).ready(function(){
             }
         }); 
     });
+
+     $('#numero_ot').change(function(){
+        numero_ot = $('#numero_ot').val();
+        $.ajax({
+            url: inside_url+'reportes_incumplimiento/validate_ot',
+            type: 'POST',
+            data: { 'numero_ot' : numero_ot,
+                },
+            beforeSend: function(){
+                $(".loader_container").show();
+            },
+            complete: function(){
+                $(".loader_container").hide();
+            },
+            success: function(response){
+                if(response.success){
+                    validate = response["existe"];
+                    if(validate == true){
+                        dialog = BootstrapDialog.show({
+                            title: 'Mensaje',
+                            type: BootstrapDialog.TYPE_SUCCESS,
+                            message: 'Orden de Mantenimiento Válida',
+                            buttons: [{
+                                label: 'Aceptar',
+                                cssClass: 'btn-default',
+                                action: function() {
+                                    dialog.close();
+                                }
+                            }]
+                        });
+                        $('#flag_ot').val(2);
+                    }else{
+                        dialog = BootstrapDialog.show({
+                            title: 'Mensaje',                            
+                            type: BootstrapDialog.TYPE_DANGER,
+                            message: 'Orden de Mantenimiento No Válida',
+                            buttons: [{
+                                label: 'Aceptar',
+                                cssClass: 'btn-default',
+                                action: function() {
+                                    dialog.close();
+                                }
+                            }]
+                        }); 
+                         $('#flag_ot').val(1);
+                    }
+
+                }else{
+                    alert('La petición no se pudo completar, inténtelo de nuevo.');
+                }
+            },
+            error: function(){
+                alert('La petición no se pudo completar, inténtelo de nuevo.');
+            }
+        });
+    });
     
 });
 
@@ -287,6 +343,7 @@ function readTableData(){
         var sustento = $('#sustento').val();
         var numero_reporte = $('#numero_reporte').val(); 
         var size_delete = matrix_detalle_delete.length;
+        var flag_ot = $('#flag_ot').val();
         BootstrapDialog.confirm({
             title: 'Mensaje de Confirmación',
             message: '¿Está seguro que desea realizar esta acción?', 
@@ -310,7 +367,8 @@ function readTableData(){
                                 'estado':estado,
                                 'sustento':sustento,
                                 'numero_reporte':numero_reporte,
-                                'size_delete' : size_delete
+                                'size_delete' : size_delete,
+                                'flag_ot':flag_ot
                             },
                         beforeSend: function(){
                             $("#delete-selected-profiles").addClass("disabled");
@@ -326,24 +384,36 @@ function readTableData(){
                         success: function(response){
                             if(response.success){                    
                                 var array_detalle = response["url"];
-                                var message = response["message"];
+                                var message_info = response["message"];
                                 var type_message = response["type_message"];
                                 var inside_url = array_detalle;
-                                $('#modal_header_edit').removeClass();
-                                $('#modal_header_edit').addClass("modal-header");
-                                $('#modal_header_edit').addClass(type_message);
-                                $('#modal_edit_text').empty();
-                                $('#modal_edit_text').append("<p>"+message+"</p>");
-                                $('#modal_edit').modal('show');
                                 if(type_message == "bg-success"){
-                                    var url = inside_url + "/solicitudes_compra/list_solicitudes";
-                                    $('#btn_close_modal').click(function(){
-                                        window.location = url;
+                                    BootstrapDialog.confirm({
+                                        title: 'Mensaje',
+                                        message: message_info, 
+                                        type: BootstrapDialog.TYPE_SUCCESS,
+                                        btnCancelLabel: 'Cancelar', 
+                                        btnOKLabel: 'Aceptar', 
+                                        callback: function(result){
+                                            if(result) {
+                                                var url = inside_url + "solicitudes_compra/list_solicitudes";
+                                                window.location = url;
+                                            }
+                                        }
                                     });
                                 }else if(type_message == "bg-danger"){
-                                    var url = inside_url + "/solicitudes_compra/edit_solicitud_compra/"+idsolicitud;
-                                    $('#btn_close_modal').click(function(){
-                                        window.location = url;
+                                    BootstrapDialog.confirm({
+                                        title: 'Mensaje',
+                                        message: message_info, 
+                                        type: BootstrapDialog.TYPE_DANGER,
+                                        btnCancelLabel: 'Cancelar', 
+                                        btnOKLabel: 'Aceptar', 
+                                        callback: function(result){
+                                            if(result) {
+                                                var url = inside_url + "solicitudes_compra/edit_solicitud_compra/"+idsolicitud;
+                                                window.location = url;
+                                            }
+                                        }
                                     });
                                 }
                             }else{
@@ -371,11 +441,11 @@ function readTableData(){
         var estado = $('#estado').val();
         var sustento = $('#sustento').val();
         var numero_reporte = $('#numero_reporte').val();
+        var flag_ot = $('#flag_ot').val();
         BootstrapDialog.confirm({
             title: 'Mensaje de Confirmación',
             message: '¿Está seguro que desea realizar esta acción?', 
-            type: BootstrapDialog.TYPE_INFO,
-            btnCancelLabel: 'Cancelar', 
+            type: BootstrapDialog.TYPE_SUCCESS,
             btnOKLabel: 'Aceptar', 
             callback: function(result){
                 if(result) {
@@ -392,7 +462,8 @@ function readTableData(){
                                 'fecha':fecha,
                                 'estado':estado,
                                 'sustento':sustento,
-                                'numero_reporte':numero_reporte
+                                'numero_reporte':numero_reporte,
+                                'flag_ot':flag_ot
                             },
                         beforeSend: function(){
                             $("#delete-selected-profiles").addClass("disabled");
@@ -408,20 +479,36 @@ function readTableData(){
                         success: function(response){
                             if(response.success){                    
                                 var array_detalle = response["url"];
-                                var message = response["message"];
+                                var message_info = response["message"];
                                 var type_message = response["type_message"];
                                 var inside_url = array_detalle;
-                                $('#modal_header_edit').removeClass();
-                                $('#modal_header_edit').addClass("modal-header");
-                                $('#modal_header_edit').addClass(type_message);
-                                $('#modal_edit_text').empty();
-                                $('#modal_edit_text').append("<p>"+message+"</p>");
-                                $('#modal_edit').modal('show');
                                 if(type_message == "bg-success"){
-                                    var url = inside_url + "/solicitudes_compra/list_solicitudes";
-                                    $('#btn_close_modal').click(function(){
-                                        window.location = url;
+                                    BootstrapDialog.confirm({
+                                        title: 'Mensaje',
+                                        message: message_info, 
+                                        type: BootstrapDialog.TYPE_INFO,
+                                        btnCancelLabel: 'Cancelar', 
+                                        btnOKLabel: 'Aceptar', 
+                                        callback: function(result){
+                                            if(result) {
+                                                var url = inside_url + "solicitudes_compra/list_solicitudes";
+                                                window.location = url;
+                                            }
+                                        }
                                     });
+                                }else if(type_message == "bg-danger"){
+                                    BootstrapDialog.confirm({
+                                        title: 'Mensaje',
+                                        message: message_info, 
+                                        type: BootstrapDialog.TYPE_DANGER,
+                                        btnCancelLabel: 'Cancelar', 
+                                        btnOKLabel: 'Aceptar', 
+                                        callback: function(result){
+                                            if(result) {
+                                                
+                                            }
+                                        }
+                                    }); 
                                 }
                             }else{
                                 alert('La petición no se pudo completar, inténtelo de nuevo.');

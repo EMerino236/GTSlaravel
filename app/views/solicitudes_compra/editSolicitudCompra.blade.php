@@ -28,7 +28,9 @@
 		<div class="alert alert-danger">{{ Session::get('error') }}</div>
 	@endif
 
-	
+		<div>						
+			{{ Form::hidden('flag_ot',2,array('id'=>'flag_ot'))}}
+		</div>
 		{{Form::hidden('reporte_id',$reporte_data->idsolicitud_compra,array('id'=>'reporte_id')) }}
 		<div class="row">
 			<div class="form-group col-md-2 col-md-offset-8">

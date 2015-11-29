@@ -34,11 +34,11 @@ class RegistroHistoricoOTController extends BaseController {
 				$data["inspecciones"] = OrdenesTrabajoInspeccionEquipo::getOtsMantInspeccionAllHistorico()->paginate(10);
 				return View::make('ot/registroHistorico/listRegistroHistoricoOt',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -95,10 +95,10 @@ class RegistroHistoricoOTController extends BaseController {
 				}
 				return View::make('ot/registroHistorico/listRegistroHistoricoOt',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 

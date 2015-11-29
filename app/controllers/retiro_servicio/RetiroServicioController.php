@@ -26,11 +26,11 @@ class RetiroServicioController extends BaseController {
 				$data["retiro_servicios_data"] = OtRetiro::getOtsRetiroServicioInfo()->paginate(10);
 				return View::make('retiro_servicio/listOtRetiroServicio',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -56,10 +56,10 @@ class RetiroServicioController extends BaseController {
 				$data["retiro_servicios_data"] = OtRetiro::searchOtsRetiroServicio($data["search_ing"],$data["search_cod_pat"],$data["search_ubicacion"],$data["search_ot"],$data["search_equipo"],$data["search_proveedor"],$data["search_ini"],$data["search_fin"])->paginate(10);
 				return View::make('retiro_servicio/listOtRetiroServicio',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 	/*
@@ -76,11 +76,11 @@ class RetiroServicioController extends BaseController {
 				$data["motivos"] = MotivoRetiro::lists('nombre','idmotivo_retiro');
 				return View::make('retiro_servicio/createReporteRetiroServicio',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -152,11 +152,11 @@ class RetiroServicioController extends BaseController {
 					}
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -180,11 +180,11 @@ class RetiroServicioController extends BaseController {
 				$data["reporte_retiros_data"] = ReporteRetiro::getReportesRetiroInfo()->paginate(10);
 				return View::make('retiro_servicio/listReporteRetiroServicio',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -209,10 +209,10 @@ class RetiroServicioController extends BaseController {
 				$data["reporte_retiros_data"] = ReporteRetiro::searchReportesRetiroInfo($data["search_motivo"],$data["search_equipo"],$data["search_cod_pat"],$data["search_marca"],$data["search_servicio"],$data["search_proveedor"])->paginate(10);
 				return View::make('retiro_servicio/listReporteRetiroServicio',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -229,10 +229,10 @@ class RetiroServicioController extends BaseController {
 				$data["reporte_info"] = $data["reporte_info"][0];
 				return View::make('retiro_servicio/editReporteRetiroServicio',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -248,10 +248,10 @@ class RetiroServicioController extends BaseController {
 				Session::flash('message', 'Se eliminó correctamente la solicitud.');
 				return Redirect::to('retiro_servicio/list_reporte_retiro_servicio');
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -305,11 +305,11 @@ class RetiroServicioController extends BaseController {
 				$data["reporte_info"] = $data["reporte_info"][0];
 				return View::make('retiro_servicio/createProgramOt',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -411,11 +411,11 @@ class RetiroServicioController extends BaseController {
 					return Redirect::to($url);
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -480,10 +480,10 @@ class RetiroServicioController extends BaseController {
 				$data["personal_data"] = PersonalOtRetiro::getPersonalXOtXActi($data["ot_info"]->idot_retiro)->get();
 				return View::make('retiro_servicio/createOtRetiroServicio',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 	
@@ -530,10 +530,10 @@ class RetiroServicioController extends BaseController {
 					return Redirect::to('retiro_servicio/create_ot/'.$idot_retiro);
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -641,10 +641,10 @@ class RetiroServicioController extends BaseController {
 				
 				return PDF::load($html,"A4","portrait")->show();
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 }

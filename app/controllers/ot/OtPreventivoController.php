@@ -28,11 +28,11 @@ class OtPreventivoController extends BaseController {
 				$data["mant_preventivos_data"] = OrdenesTrabajoPreventivo::getOtsMantPreventivoInfo()->get();
 				return View::make('ot/preventivo/listOtMantPreventivo',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -172,10 +172,10 @@ class OtPreventivoController extends BaseController {
 				$data["mant_preventivos_data"] = OrdenesTrabajoPreventivo::searchOtsMantPreventivo($data["search_ing"],$data["search_cod_pat"],$data["search_ubicacion"],$data["search_ot"],$data["search_equipo"],$data["search_proveedor"],$data["search_ini"],$data["search_fin"],$data["search_servicio"])->paginate(10);
 				return View::make('ot/preventivo/listOtMantPreventivo',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}	
 
@@ -211,11 +211,11 @@ class OtPreventivoController extends BaseController {
 				
 				return View::make('ot/preventivo/createProgramOtMantPre',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -310,10 +310,10 @@ class OtPreventivoController extends BaseController {
 				return View::make('ot/preventivo/createOtMantPre',$data);
 			
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -361,10 +361,10 @@ class OtPreventivoController extends BaseController {
 					return Redirect::to('mant_preventivo/create_ot_preventivo/'.$idot_preventivo);
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -561,10 +561,10 @@ class OtPreventivoController extends BaseController {
 				return PDF::load($html,"A4","portrait")->download('OTM Preventivo - '.$data["ot"]->ot_tipo_abreviatura.$data["ot"]->ot_correlativo.$data["ot"]->ot_activo_abreviatura);
 				
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -592,10 +592,10 @@ class OtPreventivoController extends BaseController {
 				return View::make('ot/preventivo/viewOtMantPre',$data);
 			
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 

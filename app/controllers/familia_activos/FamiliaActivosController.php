@@ -18,10 +18,10 @@ class FamiliaActivosController extends BaseController
 				$data["familiaactivos_data"] = FamiliaActivo::getFamiliaActivosInfo()->paginate(10);
 				return View::make('familia_activos/listFamiliaActivos',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -41,10 +41,10 @@ class FamiliaActivosController extends BaseController
 				$data["familiaactivos_data"] = FamiliaActivo::searchFamiliaActivo($data["search_nombre_equipo"],$data["search_marca"])->paginate(10);
 				return View::make('familia_activos/listFamiliaActivos',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -59,10 +59,10 @@ class FamiliaActivosController extends BaseController
 				$data["marca"] = Marca::lists('nombre','idmarca');			
 				return View::make('familia_activos/createFamiliaActivo',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -98,10 +98,10 @@ class FamiliaActivosController extends BaseController
 					return Redirect::to('familia_activos/list_familia_activos')->with('message', 'Se registró correctamente la Familia de Activo.');
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -123,10 +123,10 @@ class FamiliaActivosController extends BaseController
 				$data["familiaactivo_info"] = $data["familiaactivo_info"];
 				return View::make('familia_activos/editFamiliaActivo',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -164,11 +164,11 @@ class FamiliaActivosController extends BaseController
 					return Redirect::to('familia_activos/list_familia_activos')->with('message', 'Se editó correctamente la Familia de Activo.');
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -190,10 +190,10 @@ class FamiliaActivosController extends BaseController
 				$data["familiaactivo_info"] = $data["familiaactivo_info"];
 				return View::make('familia_activos/viewFamiliaActivo',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 

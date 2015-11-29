@@ -108,4 +108,9 @@ class OtRetiro extends Eloquent{
 			  ->select('ot_retiros.*','familia_activos.nombre_equipo');
 	  	return $query;
 	}
+
+	public function scopeGetOtByCodigo($query,$codigo_ot){
+		$query->where(DB::raw("CONCAT(ot_retiros.ot_tipo_abreviatura,ot_retiros.ot_correlativo,ot_retiros.ot_activo_abreviatura)"),'=',$codigo_ot);
+		return $query;
+	}
 }

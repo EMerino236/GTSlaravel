@@ -32,10 +32,10 @@ class ActivosController extends BaseController
 				$data["activos_data"] = Activo::getActivosInfo()->paginate(10);
 				return View::make('activos/listActivos',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -70,10 +70,10 @@ class ActivosController extends BaseController
 
 				return View::make('activos/listActivos',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -118,10 +118,10 @@ class ActivosController extends BaseController
 
 				return View::make('activos/listActivosInventario',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -165,10 +165,10 @@ class ActivosController extends BaseController
 
 				return View::make('activos/listActivosInventario',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -186,10 +186,10 @@ class ActivosController extends BaseController
 				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');			
 				return View::make('activos/createActivo',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -264,10 +264,10 @@ class ActivosController extends BaseController
 					return Redirect::to('equipos/list_equipos')->with('message', 'Se registró correctamente el activo.');
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -298,10 +298,10 @@ class ActivosController extends BaseController
 				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
 				return View::make('activos/editActivo',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -379,11 +379,11 @@ class ActivosController extends BaseController
 					return Redirect::to('equipos/list_equipos')->with('message', 'Se editó correctamente el equipo.');
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -411,10 +411,10 @@ class ActivosController extends BaseController
 				
 				return View::make('soporte_tecnico/createSoporteTecnicoActivo',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -460,11 +460,11 @@ class ActivosController extends BaseController
 					return Redirect::to($url)->with('message', 'Se agregó correctamente el soporte técnico.');
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -498,10 +498,10 @@ class ActivosController extends BaseController
 				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
 				return View::make('activos/viewActivo',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -535,10 +535,10 @@ class ActivosController extends BaseController
 				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
 				return View::make('activos/viewActivoInventario',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 

@@ -13,11 +13,11 @@ class ReporteETESController extends BaseController
 				$data["reporte_etes_info"] = null;
 				return View::make('reportes_ETES/createReporteETES',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -79,11 +79,11 @@ class ReporteETESController extends BaseController
 					return Redirect::to('reporte_etes/create_reporte_etes');
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -98,11 +98,11 @@ class ReporteETESController extends BaseController
 				$data["reporte_etes_info"] = ReporteETES::withTrashed()->find($id);
 				return View::make('reportes_ETES/editReporteETES',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -124,11 +124,11 @@ class ReporteETESController extends BaseController
 				$data["reportes_etes_data"] = ReporteETES::getReportesETESInfo()->paginate(10);				
 				return View::make('reportes_ETES/listReporteETES',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -151,11 +151,11 @@ class ReporteETESController extends BaseController
 														$data["search_tipo_reporte_etes"],$data["search_usuario"])->paginate(10);
 				return View::make('reportes_ETES/listReporteETES',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -189,10 +189,10 @@ class ReporteETESController extends BaseController
 	            );
 		        return Response::download($file,basename($reporte_etes->nombre_archivo),$headers);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -211,10 +211,10 @@ class ReporteETESController extends BaseController
 				Session::flash('message', 'Se inhabilitó correctamente el Reporte.');
 				return Redirect::to($url);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -233,10 +233,10 @@ class ReporteETESController extends BaseController
 				Session::flash('message', 'Se habilitó correctamente el Reporte.');
 				return Redirect::to($url);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 }

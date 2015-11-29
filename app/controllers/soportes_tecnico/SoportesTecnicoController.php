@@ -22,10 +22,10 @@ class SoportesTecnicoController extends BaseController
 				
 				return View::make('soporte_tecnico/listSoporteTecnico',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -50,10 +50,10 @@ class SoportesTecnicoController extends BaseController
 					$data["search_nombre"], $data["search_apPaterno"], $data["search_apMaterno"])->paginate(10);
 				return View::make('soporte_tecnico/listSoporteTecnico',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -69,10 +69,10 @@ class SoportesTecnicoController extends BaseController
 				
 				return View::make('soporte_tecnico/createSoporteTecnico',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 	*/
@@ -136,10 +136,10 @@ class SoportesTecnicoController extends BaseController
 					return Redirect::to('soportes_tecnico/list_soporte_tecnico')->with('message', 'Se registró correctamente al soporte técnico.');
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 	*/
@@ -165,10 +165,10 @@ class SoportesTecnicoController extends BaseController
 
 				return View::make('soporte_tecnico/editSoporteTecnico',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 	*/
@@ -228,10 +228,10 @@ class SoportesTecnicoController extends BaseController
 					return Redirect::to('soportes_tecnico/list_soporte_tecnico')->with('message', 'Se editó correctamente al soporte técnico.');
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 	*/
@@ -257,10 +257,10 @@ class SoportesTecnicoController extends BaseController
 
 				return View::make('soporte_tecnico/viewSoporteTecnico',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 	*/

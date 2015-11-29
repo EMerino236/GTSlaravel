@@ -2,11 +2,10 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="robots" content="noindex, follow">
-    <meta name="_token" content="{!! csrf_token() !!}"/>
-    <title>Configuraciones</title>
-    <!-- Bootstrap Core CSS -->
+	<meta charset="UTF-8">
+	<meta name="robots" content="noindex, follow">
+	<title>Acceso Denegado</title>
+	<!-- Bootstrap Core CSS -->
     <link href="{{ asset('bower_components/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- Datepicker CSS-->
     <link rel="stylesheet" href="{{ asset('css/bootstrap-datetimepicker.min.css') }}">
@@ -20,9 +19,7 @@
     <link href="{{ asset('bower_components/morrisjs/morris.css') }}" rel="stylesheet">
     <!-- Custom Fonts -->
     <link href="{{ asset('bower_components/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
-    <script type="text/javascript">
-        var inside_url = "{{$inside_url}}";
-    </script>
+   
 
     <!-- jQuery -->
     <script src="{{ asset('bower_components/jquery/dist/jquery.min.js') }}"></script>
@@ -38,26 +35,19 @@
     <script src="{{ asset('bower_components/raphael/raphael-min.js') }}"></script>
     <script src="{{ asset('bower_components/morrisjs/morris.min.js') }}"></script>
     <!-- Custom Theme JavaScript -->
-    <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
-    <script src="{{ asset('js/user/user.js') }}"></script>
-    <script src="{{ asset('js/configuraciones/configuraciones.js') }}"></script>
-    <script src="{{ asset('js/familia_activos/listFamiliaActivos.js') }}"></script>
-    <script src="{{ asset('js/familia_activos/editFamiliaActivos.js') }}"></script>
-    <script src="{{ asset('js/modelo_activos/utilModeloActivos.js') }}"></script>    
-    
+    <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script> 
 </head>
 
 <body>
-    <div id="wrapper">
-        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-            @include('layouts.header', array('user'=>$user))
+	<div id="wrapper">
+		<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+			@include('layouts.header', array('user'=>$user))
             @include('layouts.sidebar', array('user'=>$user))
-        </nav>
-        <div id="page-wrapper">
-            @yield('content')
+            
+		</nav>
+		<div id="page-wrapper">
+        	@yield('content')
         </div>
-    </div>
-
-
+	</div>
 </body>
 </html>

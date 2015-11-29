@@ -24,11 +24,11 @@ class OtInspeccionEquiposController extends BaseController {
 				$data["inspecciones_equipos_data"] = OrdenesTrabajoInspeccionEquipo::getOtsInspecEquipoInfo()->get();
 				return View::make('ot/inspeccionEquipo/listOtInspecEquipos',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -49,11 +49,11 @@ class OtInspeccionEquiposController extends BaseController {
 				
 				return View::make('ot/inspeccionEquipo/createProgramOtInspecEquipos',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -294,10 +294,10 @@ class OtInspeccionEquiposController extends BaseController {
 				$data["inspecciones_equipos_data"] = OrdenesTrabajoInspeccionEquipo::searchOtsInspecEquipo($data["search_ing"],$data["search_ot"],$data["search_ini"],$data["search_fin"],$data["search_servicio"],$data["search_equipo"])->paginate(10);
 				return View::make('ot/inspeccionEquipo/listOtInspecEquipos',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}	
 
@@ -345,10 +345,10 @@ class OtInspeccionEquiposController extends BaseController {
 				}
 				return View::make('ot/inspeccionEquipo/createOtInspecEquipos',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -427,10 +427,10 @@ class OtInspeccionEquiposController extends BaseController {
 					return Redirect::to('inspec_equipos/create_ot_inspeccion_equipos/'.$idot_inspec_equipo);
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -457,10 +457,10 @@ class OtInspeccionEquiposController extends BaseController {
 				return PDF::load($html,"A4","portrait")->download('OTM Inspeccion Equipos - '.$data["ot_info"]->ot_tipo_abreviatura.$data["ot_info"]->ot_correlativo);
 
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -489,10 +489,10 @@ class OtInspeccionEquiposController extends BaseController {
 				}
 				return View::make('ot/inspeccionEquipo/viewOtInspecEquipos',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 

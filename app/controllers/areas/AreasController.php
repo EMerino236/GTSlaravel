@@ -17,10 +17,10 @@ class AreasController extends BaseController
 				$data["areas_data"] = Area::getAreasInfo()->paginate(10);
 				return View::make('areas/listAreas',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -42,10 +42,10 @@ class AreasController extends BaseController
 				return View::make('areas/listAreas',$data);	
 				
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -61,11 +61,11 @@ class AreasController extends BaseController
 				
 				return View::make('areas/createArea',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -107,11 +107,11 @@ class AreasController extends BaseController
 					return Redirect::to('areas/list_areas')->with('message', 'Se registró correctamente el área: '.$area->nombre);
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -135,10 +135,10 @@ class AreasController extends BaseController
 
 				return View::make('areas/editArea',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}		
 
@@ -183,11 +183,11 @@ class AreasController extends BaseController
 					return Redirect::to('areas/list_areas')->with('message', 'Se editó correctamente el área: '.$area->nombre);
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -210,10 +210,10 @@ class AreasController extends BaseController
 
 				return View::make('areas/viewArea',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -231,10 +231,10 @@ class AreasController extends BaseController
 				Session::flash('message', 'Se habilitó correctamente el área.');
 				return Redirect::to($url);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -259,10 +259,10 @@ class AreasController extends BaseController
 				}				
 				return Redirect::to($url);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 }

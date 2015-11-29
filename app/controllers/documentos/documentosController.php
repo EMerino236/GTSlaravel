@@ -12,11 +12,11 @@ class DocumentoController extends BaseController {
 				$data["tipo_documentos"] = TipoDocumentos::lists('nombre','idtipo_documento');
 				return View::make('documentos/createDocumento',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -70,11 +70,11 @@ class DocumentoController extends BaseController {
 					return Redirect::to('documento/create_documento');
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -94,10 +94,10 @@ class DocumentoController extends BaseController {
 				$data["documento_info"] = $data["documento_info"][0];
 				return View::make('documentos/editDocumento',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -161,11 +161,11 @@ class DocumentoController extends BaseController {
 					return Redirect::to($url);
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -186,11 +186,11 @@ class DocumentoController extends BaseController {
 				$data["documentos_data"] = Documento::getDocumentosInfo()->paginate(10);
 				return View::make('documentos/listDocumentos',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -213,10 +213,10 @@ class DocumentoController extends BaseController {
 										$data["search_ubicacion"],$data["search_tipo_documento"])->paginate(10);
 				return View::make('documentos/listDocumentos',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -233,10 +233,10 @@ class DocumentoController extends BaseController {
 				Session::flash('message', 'Se habilitó correctamente el documento.');
 				return Redirect::to($url);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -253,10 +253,10 @@ class DocumentoController extends BaseController {
 				Session::flash('message','Se inhabilitó correctamente el documento.' );					
 				return Redirect::to($url);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -273,10 +273,10 @@ class DocumentoController extends BaseController {
 		            );
 		        return Response::download($rutaDestino,basename(Input::get('nombre_archivo')),$headers);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}	
 }

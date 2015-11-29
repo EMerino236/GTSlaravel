@@ -15,11 +15,11 @@ class ReportePAACController extends BaseController
 				$data["reporte_paac_info"] = null;
 				return View::make('reportes_PAAC/createReportePAAC',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -79,11 +79,11 @@ class ReportePAACController extends BaseController
 					return Redirect::to('reporte_paac/create_reporte_paac');
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -99,11 +99,11 @@ class ReportePAACController extends BaseController
 				$data["tipo_reporte_paac"] = TipoReportePAAC::lists('nombre','idtipo_reporte_PAAC');
 				$data["reporte_paac_info"] = ReportePAAC::withTrashed()->find($id);return View::make('reportes_PAAC/editReportePAAC',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -128,11 +128,11 @@ class ReportePAACController extends BaseController
 				$data["reportes_paac_data"] = ReportePAAC::getReportesPAACInfo()->paginate(10);
 				return View::make('reportes_PAAC/listReportePAAC',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -160,11 +160,11 @@ class ReportePAACController extends BaseController
 														$data["search_servicio"],$data["search_area"])->paginate(10);
 				return View::make('reportes_PAAC/listReportePAAC',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -199,10 +199,10 @@ class ReportePAACController extends BaseController
 	            );
 		        return Response::download($file,basename($reporte_paac->nombre_archivo),$headers);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -221,10 +221,10 @@ class ReportePAACController extends BaseController
 				Session::flash('message', 'Se inhabilitó correctamente el Reporte.');
 				return Redirect::to($url);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -243,10 +243,10 @@ class ReportePAACController extends BaseController
 				Session::flash('message', 'Se habilitó correctamente el Reporte.');
 				return Redirect::to($url);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 }

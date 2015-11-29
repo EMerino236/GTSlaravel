@@ -19,10 +19,10 @@ class ActasConformidadController extends BaseController
 				$data["actas_data"] = Documento::getActasInfo()->paginate(10);
 				return View::make('actas_conformidad/listActaConformidad',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -46,10 +46,10 @@ class ActasConformidadController extends BaseController
 				return View::make('actas_conformidad/listActaConformidad',$data);
 
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -65,11 +65,11 @@ class ActasConformidadController extends BaseController
 				
 				return View::make('actas_conformidad/createActaConformidad',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -91,10 +91,10 @@ class ActasConformidadController extends BaseController
 
 				return View::make('actas_conformidad/editActaConformidad',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 
 	}
@@ -134,11 +134,11 @@ class ActasConformidadController extends BaseController
 					return Redirect::to('actas_conformidad/list_actas');
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -180,11 +180,11 @@ class ActasConformidadController extends BaseController
 					return Redirect::to($url);
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -204,10 +204,10 @@ class ActasConformidadController extends BaseController
 	            );
 		        return Response::download($file,basename($file),$headers);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 

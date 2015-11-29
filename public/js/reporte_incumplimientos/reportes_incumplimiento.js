@@ -32,6 +32,118 @@ $( document ).ready(function(){
             }
         }); 
     });
+
+    $('#numero_ot').change(function(){
+        numero_ot = $('#numero_ot').val();
+        $.ajax({
+            url: inside_url+'reportes_incumplimiento/validate_ot',
+            type: 'POST',
+            data: { 'numero_ot' : numero_ot,
+                },
+            beforeSend: function(){
+                $(".loader_container").show();
+            },
+            complete: function(){
+                $(".loader_container").hide();
+            },
+            success: function(response){
+                if(response.success){
+                    validate = response["existe"];
+                    if(validate == true){
+                        dialog = BootstrapDialog.show({
+                            title: 'Mensaje',
+                            type: BootstrapDialog.TYPE_SUCCESS,
+                            message: 'Orden de Mantenimiento Válida',
+                            buttons: [{
+                                label: 'Aceptar',
+                                cssClass: 'btn-default',
+                                action: function() {
+                                    dialog.close();
+                                }
+                            }]
+                        });
+                        $('#flag_ot').val(2);
+                    }else{
+                        dialog = BootstrapDialog.show({
+                            title: 'Mensaje',                            
+                            type: BootstrapDialog.TYPE_DANGER,
+                            message: 'Orden de Mantenimiento No Válida',
+                            buttons: [{
+                                label: 'Aceptar',
+                                cssClass: 'btn-default',
+                                action: function() {
+                                    dialog.close();
+                                }
+                            }]
+                        }); 
+                         $('#flag_ot').val(1);
+                    }
+
+                }else{
+                    alert('La petición no se pudo completar, inténtelo de nuevo.');
+                }
+            },
+            error: function(){
+                alert('La petición no se pudo completar, inténtelo de nuevo.');
+            }
+        });
+    });
+
+    $('#btnValidate').click(function(){
+        numero_ot = $('#numero_ot').val();
+        $.ajax({
+            url: inside_url+'reportes_incumplimiento/validate_ot',
+            type: 'POST',
+            data: { 'numero_ot' : numero_ot,
+                },
+            beforeSend: function(){
+                $(".loader_container").show();
+            },
+            complete: function(){
+                $(".loader_container").hide();
+            },
+            success: function(response){
+                if(response.success){
+                    validate = response["existe"];
+                    if(validate == true){
+                        dialog = BootstrapDialog.show({
+                            title: 'Mensaje',
+                            type: BootstrapDialog.TYPE_SUCCESS,
+                            message: 'Orden de Mantenimiento Válida',
+                            buttons: [{
+                                label: 'Aceptar',
+                                cssClass: 'btn-default',
+                                action: function() {
+                                    dialog.close();
+                                }
+                            }]
+                        });
+                        $('#flag_ot').val(2);
+                    }else{
+                        dialog = BootstrapDialog.show({
+                            title: 'Mensaje',                            
+                            type: BootstrapDialog.TYPE_DANGER,
+                            message: 'Orden de Mantenimiento No Válida',
+                            buttons: [{
+                                label: 'Aceptar',
+                                cssClass: 'btn-default',
+                                action: function() {
+                                    dialog.close();
+                                }
+                            }]
+                        }); 
+                         $('#flag_ot').val(1);
+                    }
+
+                }else{
+                    alert('La petición no se pudo completar, inténtelo de nuevo.');
+                }
+            },
+            error: function(){
+                alert('La petición no se pudo completar, inténtelo de nuevo.');
+            }
+        });
+    });
     
 });
 

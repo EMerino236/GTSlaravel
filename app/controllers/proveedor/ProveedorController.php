@@ -16,11 +16,11 @@ class ProveedorController extends BaseController {
 				$data["proveedores_data"] = Proveedor::getProveedoresInfo()->paginate(10);
 				return View::make('proveedores/listProveedores',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -36,10 +36,10 @@ class ProveedorController extends BaseController {
 				$data["proveedores_data"] = Proveedor::searchProveedores($data["search_proveedor_ruc"], $data["search_proveedor_razon_social"])->paginate(10);
 				return View::make('proveedores/listProveedores',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -52,11 +52,11 @@ class ProveedorController extends BaseController {
 			if($data["user"]->idrol == 1){				
 				return View::make('proveedores/createProveedor',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -104,11 +104,11 @@ class ProveedorController extends BaseController {
 					return Redirect::to('proveedores/list_proveedores')->with('message', 'Se creó correctamente el proveedor.');
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -128,10 +128,10 @@ class ProveedorController extends BaseController {
 				$data["proveedor_info"] = $data["proveedor_info"][0];
 				return View::make('proveedores/editProveedor',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -186,11 +186,11 @@ class ProveedorController extends BaseController {
 					return Redirect::to('proveedores/list_proveedores')->with('message', 'Se editó correctamente el proveedor con RUC: '.$proveedor->ruc);
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -205,7 +205,7 @@ class ProveedorController extends BaseController {
 
 				if($data["proveedor_info"] == null)
 				{
-					return View::make('error/error');
+					return View::make('error/error',$data);
 				}
 
 				$data["tipo_documento_identidad"] = TipoDocumento::lists('nombre','idtipo_documento');
@@ -213,10 +213,10 @@ class ProveedorController extends BaseController {
 				
 				return View::make('soporte_tecnico/createSoporteTecnicoProveedor',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -278,10 +278,10 @@ class ProveedorController extends BaseController {
 					return Redirect::to('proveedores/list_proveedores')->with('message', 'Se registró correctamente al soporte técnico.');
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -306,10 +306,10 @@ class ProveedorController extends BaseController {
 
 				return View::make('soporte_tecnico/editSoporteTecnicoProveedor',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -370,10 +370,10 @@ class ProveedorController extends BaseController {
 					return Redirect::to($url)->with('message', 'Se editó correctamente al soporte técnico.');
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -397,10 +397,10 @@ class ProveedorController extends BaseController {
 
 				return View::make('proveedores/viewProveedor',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -426,10 +426,10 @@ class ProveedorController extends BaseController {
 
 				return View::make('soporte_tecnico/viewSoporteTecnicoProveedor',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -474,10 +474,10 @@ class ProveedorController extends BaseController {
 				Session::flash('message', 'Se inhabilitó correctamente al proveedor.');
 				return Redirect::to($url);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -495,10 +495,10 @@ class ProveedorController extends BaseController {
 				Session::flash('message', 'Se habilitó correctamente al proveedor.');
 				return Redirect::to($url);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 	

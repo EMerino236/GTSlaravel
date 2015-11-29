@@ -14,11 +14,11 @@ class UserController extends BaseController {
 				$data["roles"] = Rol::lists('nombre','idrol');
 				return View::make('user/createUser',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -76,11 +76,11 @@ class UserController extends BaseController {
 					return Redirect::to('user/create_user');
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -95,11 +95,11 @@ class UserController extends BaseController {
 				$data["users_data"] = User::getUsersInfo()->paginate(10);
 				return View::make('user/listUsers',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -120,10 +120,10 @@ class UserController extends BaseController {
 				$data["user_info"] = $data["user_info"][0];
 				return View::make('user/editUser',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -180,11 +180,11 @@ class UserController extends BaseController {
 					return Redirect::to($url);
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -202,10 +202,10 @@ class UserController extends BaseController {
 				Session::flash('message', 'Se inhabilitó correctamente al usuario.');
 				return Redirect::to($url);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -223,10 +223,10 @@ class UserController extends BaseController {
 				Session::flash('message', 'Se habilitó correctamente al usuario.');
 				return Redirect::to($url);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -241,10 +241,10 @@ class UserController extends BaseController {
 				$data["users_data"] = User::searchUsers($data["search"])->paginate(10);
 				return View::make('user/listUsers',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 }

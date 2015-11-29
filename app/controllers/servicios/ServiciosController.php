@@ -14,10 +14,10 @@ class ServiciosController extends BaseController
 				$data["servicios_data"] = Servicio::getServiciosInfo()->paginate(10);
 				return View::make('servicios/listServicios',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -36,10 +36,10 @@ class ServiciosController extends BaseController
 					return View::make('servicios/listServicios',$data);	
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -65,10 +65,10 @@ class ServiciosController extends BaseController
 
 				return View::make('servicios/editServicio',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 
 	}
@@ -85,11 +85,11 @@ class ServiciosController extends BaseController
 				$data["personal"] = array(0=>"");
 				return View::make('servicios/createServicio',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -126,11 +126,11 @@ class ServiciosController extends BaseController
 					return Redirect::to('servicios/list_servicios');
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}	
 
@@ -169,11 +169,11 @@ class ServiciosController extends BaseController
 					return Redirect::to($url);
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 	public function return_usuarios(){
@@ -207,10 +207,10 @@ class ServiciosController extends BaseController
 				Session::flash('message', 'Se habilitó correctamente el servicio.');
 				return Redirect::to($url);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -233,10 +233,10 @@ class ServiciosController extends BaseController
 				}				
 				return Redirect::to($url);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 }

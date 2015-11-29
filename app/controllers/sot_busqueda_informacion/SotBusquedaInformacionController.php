@@ -15,11 +15,11 @@ class SotBusquedaInformacionController extends BaseController {
 				$data['encargados'] = User::getJefes()->get();
 				return View::make('sot_busqueda_informacion/createSotBusquedaInformacion',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -42,10 +42,10 @@ class SotBusquedaInformacionController extends BaseController {
 				$data["sot_info"] = $data["sot_info"][0];
 				return View::make('sot_busqueda_informacion/editSotBusquedaInformacion',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -69,10 +69,10 @@ class SotBusquedaInformacionController extends BaseController {
 
 				return View::make('sot_busqueda_informacion/viewSotBusquedaInformacion',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -136,11 +136,11 @@ class SotBusquedaInformacionController extends BaseController {
 					return Redirect::to('solicitud_busqueda_informacion/list_busqueda_informacion')->with('message', 'Se registró correctamente la solicitud: '.$sot->ot_tipo_abreviatura.$sot->ot_correlativo);
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -195,11 +195,11 @@ class SotBusquedaInformacionController extends BaseController {
 					return Redirect::to('solicitud_busqueda_informacion/list_busqueda_informacion')->with('message', 'Se editó correctamente la solicitud de búsqueda de información: '.$sot->ot_tipo_abreviatura.$sot->ot_correlativo);
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -253,11 +253,11 @@ class SotBusquedaInformacionController extends BaseController {
 				$data["busquedas"] = SolicitudBusquedaInformacion::getSotsInfo()->get();
 				return View::make('ot/busquedaInformacion/listOtBusquedaInformacion',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -312,10 +312,10 @@ class SotBusquedaInformacionController extends BaseController {
 				Session::flash('message', 'Se marcó correctamente la solicitud como Mal Ingreso.');
 				return Redirect::to("solicitud_busqueda_informacion/list_busqueda_informacion");
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 

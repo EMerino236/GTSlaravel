@@ -31,11 +31,11 @@ class OtController extends BaseController {
 				$data["sot_info"] = $data["sot_info"][0];
 				return View::make('ot/createProgramOtMantCo',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -118,11 +118,11 @@ class OtController extends BaseController {
 					return Redirect::to($url);
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -200,11 +200,11 @@ class OtController extends BaseController {
 				$data["mant_correctivos_data"] = OtCorrectivo::getOtsMantCorrectivoInfo()->paginate(10);
 				return View::make('ot/listOtMantCorrectivo',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -230,10 +230,10 @@ class OtController extends BaseController {
 				$data["mant_correctivos_data"] = OtCorrectivo::searchOtsMantCorrectivo($data["search_ing"],$data["search_cod_pat"],$data["search_ubicacion"],$data["search_ot"],$data["search_equipo"],$data["search_proveedor"],$data["search_ini"],$data["search_fin"])->paginate(10);
 				return View::make('ot/listOtMantCorrectivo',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -261,10 +261,10 @@ class OtController extends BaseController {
 				$data["personal_data"] = PersonalOtCorrectivo::getPersonalXOtXActi($data["ot_info"]->idot_correctivo)->get();
 				return View::make('ot/createOtMantCo',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -331,10 +331,10 @@ class OtController extends BaseController {
 					return Redirect::to('mant_correctivo/create_ot/'.$idot_correctivo);
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -527,10 +527,10 @@ class OtController extends BaseController {
 				$html = View::make('ot/otCorrectivoExport',$data);
 				return PDF::load($html,"A4","portrait")->show();
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 }

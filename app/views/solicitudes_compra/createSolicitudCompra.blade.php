@@ -25,8 +25,12 @@
 		<div class="alert alert-success">{{ Session::get('message') }}</div>
 	@endif
 	@if (Session::has('error'))
-		<div class="alert alert-danger">{{ Session::get('error') }}</div>
+		<div class="alert alert-danger"><strong>{{ Session::get('error') }}</strong></div>
 	@endif
+
+		<div>						
+			{{ Form::hidden('flag_ot',1,array('id'=>'flag_ot'))}}
+		</div>	
 
 		<div class="row">
 			<div class="form-group col-md-2 col-md-offset-8">
@@ -40,7 +44,7 @@
 			<div class="col-md-12">
 				<div class="panel panel-default">
 			  	<div class="panel-heading">Datos Generales</div>
-			  	<div class="panel-body">	
+			  	<div class="panel-body">			  	
 					<div class="form-group row">								
 						<div class="form-group col-md-4 @if($errors->first('numero_ot')) has-error has-feedback @endif">
 							{{ Form::label('numero_ot','Número de OT:') }}<span style="color:red"> *</span>

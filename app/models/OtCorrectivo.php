@@ -152,4 +152,9 @@ class OtCorrectivo extends Eloquent{
 			  $query->select('activos.codigo_patrimonial as codigo_patrimonial','activos.numero_serie as serie','proveedores.razon_social as nombre_proveedor','ubicacion_fisicas.nombre as nombre_ubicacion','marcas.nombre as nombre_marca','familia_activos.nombre_equipo as nombre_equipo','modelo_activos.nombre as nombre_modelo','areas.nombre as nombre_area','servicios.nombre as nombre_servicio','estados.nombre as nombre_estado','grupos.nombre as nombre_grupo','ot_correctivos.*');
 	  	return $query;
 	}
+
+	public function scopeGetOtByCodigo($query,$codigo_ot){
+		$query->where(DB::raw("CONCAT(ot_correctivos.ot_tipo_abreviatura,ot_correctivos.ot_correlativo,ot_correctivos.ot_activo_abreviatura)"),'=',$codigo_ot);
+		return $query;
+	}
 }

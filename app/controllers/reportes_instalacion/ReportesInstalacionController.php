@@ -19,11 +19,11 @@ class ReportesInstalacionController extends BaseController {
 				}
 				return View::make('reportes_instalacion/createReporteInstalacion',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -163,11 +163,11 @@ class ReportesInstalacionController extends BaseController {
 					}
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -220,11 +220,11 @@ class ReportesInstalacionController extends BaseController {
 				}
 				return View::make('reportes_instalacion/editReporteInstalacion',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -339,11 +339,11 @@ class ReportesInstalacionController extends BaseController {
 					}
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -368,11 +368,11 @@ class ReportesInstalacionController extends BaseController {
 				$data["reportes_instalacion_data"] = ReporteInstalacion::getReportesInstalacionInfo();
 				return View::make('reportes_instalacion/listReporteInstalacion',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -391,10 +391,10 @@ class ReportesInstalacionController extends BaseController {
 				$data["reportes_instalacion_data"] = ReporteInstalacion::searchReportes($data["search_usuario_responsable"],$data["search_codigo_compra"],$data["search_proveedor"],$data["search_area"]);
 				return View::make('reportes_instalacion/listReporteInstalacion',$data);	
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 		
@@ -497,10 +497,10 @@ class ReportesInstalacionController extends BaseController {
 	            );
 		        return Response::download($file,basename($documento[0]->nombre_archivo),$headers);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 	

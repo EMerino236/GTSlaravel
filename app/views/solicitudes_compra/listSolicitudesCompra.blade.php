@@ -81,16 +81,16 @@
 			</tr>
 			@foreach($solicitudes_data as $index => $solicitud_data)
 				<tr>
-					<td class="text-nowrap">{{$index+1}}</td>
-					<td class="text-nowrap">						
-						{{$solicitud_data->idsolicitud_compra}}
+					<td class="text-nowrap text-center">{{$index+1}}</td>
+					<td class="text-nowrap text-center">						
+						<a href="{{URL::to('/solicitudes_compra/view_solicitud_compra/')}}/{{$solicitud_data->idsolicitud_compra}}">{{$solicitud_data->idsolicitud_compra}}</a>
 					</td>					
-					<td class="text-nowrap">{{$solicitud_data->nombre_tipo}}</td>
-					<td class="text-nowrap">{{$solicitud_data->nombre_equipo}}</td>
-					<td class="text-nowrap">{{$solicitud_data->nombre_servicio}}</td>
-					<td class="text-nowrap">{{$solicitud_data->codigo_ot}}</td>
-					<td class="text-nowrap">{{$solicitud_data->nombre_estado}}</td>
-					<td class="text-nowrap">
+					<td class="text-nowrap text-center">{{$solicitud_data->nombre_tipo}}</td>
+					<td class="text-nowrap text-center">{{$solicitud_data->nombre_equipo}}</td>
+					<td class="text-nowrap text-center">{{$solicitud_data->nombre_servicio}}</td>
+					<td class="text-nowrap text-center">{{$solicitud_data->codigo_ot}}</td>
+					<td class="text-nowrap text-center">{{$solicitud_data->nombre_estado}}</td>
+					<td class="text-nowrap text-center">
 						<a class="btn btn-warning btn-block btn-sm" href="{{URL::to('/solicitudes_compra/edit_solicitud_compra/')}}/{{$solicitud_data->idsolicitud_compra}}">
 						<span class="glyphicon glyphicon-pencil"></span> Editar</a>
 					</td>

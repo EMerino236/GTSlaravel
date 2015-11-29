@@ -74,23 +74,23 @@
  		<div class="table-responsive">
 			<table class="table">
 				<tr class="info">
-					<th class="text-nowrap">N°</th>
-					<th class="text-nowrap">Código de Reporte</th>
-					<th class="text-nowrap">Fecha de Registro</th>
-					<th class="text-nowrap">Servicio</th>
-					<th class="text-nowrap">Proveedor</th>
-					<th class="text-nowrap">Editar</th>
+					<th class="text-nowrap text-center">N°</th>
+					<th class="text-nowrap text-center">Código de Reporte</th>
+					<th class="text-nowrap text-center">Fecha de Registro</th>
+					<th class="text-nowrap text-center">Servicio</th>
+					<th class="text-nowrap text-center">Proveedor</th>
+					<th class="text-nowrap text-center">Editar</th>
 				</tr>
 				@foreach($reportes_data as $index => $reporte_data)
 					<tr>
-						<td class="text-nowrap">{{$index+1}}</td>
-						<td class="text-nowrap">
-							{{$reporte_data->numero_reporte_abreviatura}}{{$reporte_data->numero_reporte_correlativo}}-{{$reporte_data->numero_reporte_anho}}
+						<td class="text-nowrap text-center">{{$index+1}}</td>
+						<td class="text-nowrap text-center">
+							<a  href="{{URL::to('/reportes_incumplimiento/view_reporte/')}}/{{$reporte_data->idreporte_incumplimiento}}">{{$reporte_data->numero_reporte_abreviatura}}{{$reporte_data->numero_reporte_correlativo}}-{{$reporte_data->numero_reporte_anho}}</a>
 						</td>					
-						<td class="text-nowrap">{{$reporte_data->created_at->format('d-m-y')}}</td>
-						<td class="text-nowrap">{{$reporte_data->nomb_servicio}}</td>
-						<td class="text-nowrap">{{$reporte_data->nomb_proveedor}}</td>
-						<td class="text-nowrap">
+						<td class="text-nowrap text-center">{{$reporte_data->created_at->format('d-m-y')}}</td>
+						<td class="text-nowrap text-center">{{$reporte_data->nomb_servicio}}</td>
+						<td class="text-nowrap text-center">{{$reporte_data->nomb_proveedor}}</td>
+						<td class="text-nowrap text-center">
 							<a class="btn btn-warning btn-block btn-sm" href="{{URL::to('/reportes_incumplimiento/edit_reporte/')}}/{{$reporte_data->idreporte_incumplimiento}}">
 							<span class="glyphicon glyphicon-pencil"></span> Editar</a>
 						</td>

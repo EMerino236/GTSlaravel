@@ -19,10 +19,10 @@ class ReportesIncumplimientoController extends BaseController
 				array_unshift($data["proveedor"], "Seleccione");
 				return View::make('reportes_incumplimiento/listReportesIncumplimientos',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -41,10 +41,10 @@ class ReportesIncumplimientoController extends BaseController
 				$data["reportes_data"] = ReporteIncumplimiento::searchReportes($data["fecha_desde"],$data["fecha_hasta"],$data["search_proveedor"],$data["search_tipo_reporte"])->paginate(10);
 				return View::make('reportes_incumplimiento/listReportesIncumplimientos',$data);	
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -62,15 +62,49 @@ class ReportesIncumplimientoController extends BaseController
 				$data["documento_info"] =null;
 				return View::make('reportes_incumplimiento/createReporteIncumplimiento',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
 	public function render_edit_reporte($idreporte=null){
+		
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4) && $idreporte)
+			{	
+				$data["reporte_data"] = ReporteIncumplimiento::getReporteIncumplimientoById($idreporte)->get();
+				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
+				$data["servicios"] = Servicio::searchServiciosClinicos(1)->lists('nombre','idservicio');
+				
+				if($data["reporte_data"]->isEmpty()){
+					return Redirect::to('reportes_incumplimiento/list_reportes');
+				}
+				$data["reporte_data"] = $data["reporte_data"][0];
+				$data["documento_info"] = Documento::searchDocumentoByIdReporteIncumplimiento($data["reporte_data"]->idreporte_incumplimiento)->get();
+				$data["documento_info"] = $data["documento_info"][0];
+				$data["usuario_revision"] = User::searchUserById($data["reporte_data"]->id_responsable)->get();
+				$data["usuario_autorizado"] = User::searchUserById($data["reporte_data"]->id_autorizado)->get();
+				$data["usuario_elaborado"] = User::searchUserById($data["reporte_data"]->id_elaborado)->get();
+				$data["usuario_revision"] = $data["usuario_revision"][0];
+				$data["usuario_autorizado"] = $data["usuario_autorizado"][0];
+				$data["usuario_elaborado"] = $data["usuario_elaborado"][0];
+				return View::make('reportes_incumplimiento/editReporteIncumplimiento',$data);
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+
+	}
+
+	public function render_view_reporte($idreporte=null){
 		
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
@@ -95,12 +129,12 @@ class ReportesIncumplimientoController extends BaseController
 				$data["usuario_revision"] = $data["usuario_revision"][0];
 				$data["usuario_autorizado"] = $data["usuario_autorizado"][0];
 				$data["usuario_elaborado"] = $data["usuario_elaborado"][0];
-				return View::make('reportes_incumplimiento/editReporteIncumplimiento',$data);
+				return View::make('reportes_incumplimiento/viewReporteIncumplimiento',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 
 	}
@@ -235,6 +269,10 @@ class ReportesIncumplimientoController extends BaseController
 					$url = "reportes_incumplimiento/edit_reporte"."/".$reporte_id;
 					$reporte = ReporteIncumplimiento::find($reporte_id);
 					$reporte->codigo_ot = Input::get('numero_ot'); 
+					if(Input::get('flag_ot')==1){
+						Session::flash('error', 'Orden de Trabajo de Mantenimiento no existe.');
+						return Redirect::to($url);
+					}
 					$reporte->tipo_reporte = Input::get('tipo_reporte');
 					//validar si la fecha es mayor o igual que la actual
 					$fecha_reporte = date('Y-m-d',strtotime(Input::get('fecha_reporte')));
@@ -302,11 +340,11 @@ class ReportesIncumplimientoController extends BaseController
 					return Redirect::to($url);
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}	
 
@@ -333,7 +371,7 @@ class ReportesIncumplimientoController extends BaseController
 							'resultados' => 'required',				
 							'numero_doc2' => 'required',
 							'numero_doc3' => 'required',
-							'numero_contrato' => 'required',
+							'numero_contrato' => 'required'
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules);
@@ -341,6 +379,11 @@ class ReportesIncumplimientoController extends BaseController
 				if($validator->fails()){
 					return Redirect::to('reportes_incumplimiento/create_reporte')->withErrors($validator)->withInput(Input::all());
 				}else{
+					if(Input::get('flag_ot')==1){
+						Session::flash('error', 'Orden de Trabajo de Mantenimiento no existe.');
+						return Redirect::to('reportes_incumplimiento/create_reporte');
+					}
+
 					$reporte = new ReporteIncumplimiento;
 					$abreviatura = "RI";
 					
@@ -410,10 +453,10 @@ class ReportesIncumplimientoController extends BaseController
 					return Redirect::to('reportes_incumplimiento/create_reporte');
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}	
 
@@ -440,8 +483,7 @@ class ReportesIncumplimientoController extends BaseController
 		}
 	}
 
-	public function download_contrato()
-	{
+	public function download_contrato(){
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
@@ -456,13 +498,12 @@ class ReportesIncumplimientoController extends BaseController
 	            );
 		        return Response::download($file,basename($documento[0]->nombre_archivo),$headers);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
-
 
 	public function submit_enable_reporte(){
 		if(Auth::check()){
@@ -477,10 +518,10 @@ class ReportesIncumplimientoController extends BaseController
 				Session::flash('message', 'Se habilitó correctamente el reporte de incumplimiento.');
 				return Redirect::to($url);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -497,10 +538,10 @@ class ReportesIncumplimientoController extends BaseController
 				Session::flash('message','Se inhabilitó correctamente el reporte.' );
 				return Redirect::to($url);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -520,7 +561,34 @@ class ReportesIncumplimientoController extends BaseController
 		return $string;
 	}
 
-	
-	
+	public function validate_ot(){
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$id = Auth::id();
+		$data["inside_url"] = Config::get('app.inside_url');
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 5 || $data["user"]->idrol == 6
+				 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
+			// Check if the current user is the "System Admin"
+			$data = Input::get('numero_ot');
+			$existe = false;
+			$ot_correctivo = null;
+			$ot_preventivo = null;
+			$ot_retiro = null;
+			$ot_verificacion = null;
+			if($data != ""){
+				$ot_correctivo = OtCorrectivo::getOtByCodigo($data)->get();
+				$ot_preventivo = OrdenesTrabajoPreventivo::getOtByCodigo($data)->get();
+				$ot_verificacion = OrdenesTrabajoVerifMetrologica::getOtByCodigo($data)->get();
+				$ot_retiro = OtRetiro::getOtByCodigo($data)->get();
+				if(count($ot_correctivo)>0 || count($ot_preventivo)>0 || count($ot_verificacion)>0 || count($ot_retiro)>0)
+					$existe = true;
+			}
+			return Response::json(array( 'success' => true, 'existe' => $existe),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}	
 
 }

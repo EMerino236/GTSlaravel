@@ -15,11 +15,11 @@ class ReporteCNController extends BaseController
 				$data["reporte_cn_info"] = null;
 				return View::make('reportes_CN/createReporteCN',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -83,11 +83,11 @@ class ReporteCNController extends BaseController
 					return Redirect::to('reporte_cn/create_reporte_cn');
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -106,11 +106,11 @@ class ReporteCNController extends BaseController
 				$data["otretiro_info"] = OtRetiro::searchOtByCodigoReporte($data["otretiro_info"]->ot_tipo_abreviatura,$data["otretiro_info"]->ot_correlativo,$data["otretiro_info"]->ot_activo_abreviatura)->get()[0];
 				return View::make('reportes_CN/editReporteCN',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -136,11 +136,11 @@ class ReporteCNController extends BaseController
 				$data["reportes_cn_data"] = ReporteCN::getReportesCNInfo()->paginate(10);
 				return View::make('reportes_CN/listReporteCN',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -169,11 +169,11 @@ class ReporteCNController extends BaseController
 														$data["search_servicio"],$data["search_area"],$data["search_nombre_equipo"])->paginate(10);
 				return View::make('reportes_CN/listReporteCN',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -252,10 +252,10 @@ class ReporteCNController extends BaseController
 	            );
 		        return Response::download($file,basename($reporte_cn->nombre_archivo),$headers);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -274,10 +274,10 @@ class ReporteCNController extends BaseController
 				Session::flash('message', 'Se inhabilitó correctamente el Reporte.');
 				return Redirect::to($url);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -296,10 +296,10 @@ class ReporteCNController extends BaseController
 				Session::flash('message', 'Se habilitó correctamente el Reporte.');
 				return Redirect::to($url);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 }

@@ -13,10 +13,10 @@ class GruposController extends BaseController
 				$data["grupos_data"] = Grupo::getGruposInfo()->paginate(10);
 				return View::make('grupos/listGrupos',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -34,10 +34,10 @@ class GruposController extends BaseController
 				return View::make('grupos/listGrupos',$data);	
 				
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}	
 
@@ -52,11 +52,11 @@ class GruposController extends BaseController
 				
 				return View::make('grupos/createGrupo',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -98,11 +98,11 @@ class GruposController extends BaseController
 					return Redirect::to('grupos/list_grupos')->with('message', 'Se registró correctamente el grupo: '.$grupo->nombre);
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}	
 
@@ -124,10 +124,10 @@ class GruposController extends BaseController
 
 				return View::make('grupos/editGrupo',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -171,11 +171,11 @@ class GruposController extends BaseController
 					return Redirect::to('grupos/list_grupos')->with('message', 'Se editó correctamente el grupo: '.$grupo->nombre);
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -197,10 +197,10 @@ class GruposController extends BaseController
 
 				return View::make('grupos/viewGrupo',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 	
@@ -218,10 +218,10 @@ class GruposController extends BaseController
 				Session::flash('message', 'Se habilitó correctamente el grupo.');
 				return Redirect::to($url);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -245,10 +245,10 @@ class GruposController extends BaseController
 				}				
 				return Redirect::to($url);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 }

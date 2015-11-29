@@ -7,48 +7,9 @@
         <!-- /.col-lg-12 -->
     </div>
 
-	@if ($errors->has())
-		<div class="alert alert-danger" role="alert">
-			<p><strong>{{ $errors->first('numero_ot') }}</strong></p>
-			<p><strong>{{ $errors->first('tipo_reporte') }}</strong></p>
-			<p><strong>{{ $errors->first('numero_doc1') }}</strong></p>
-			<p><strong>{{ $errors->first('fecha_reporte') }}</strong></p>
-			<p><strong>{{ $errors->first('descripcion_corta') }}</strong></p>
-			<p><strong>{{ $errors->first('descripcion') }}</strong></p>
-			<p><strong>{{ $errors->first('servicio') }}</strong></p>
-			<p><strong>{{ $errors->first('proveedor') }}</strong></p>
-			<p><strong>{{ $errors->first('costo') }}</strong></p>
-			<p><strong>{{ $errors->first('accion_generada') }}</strong></p>
-			<p><strong>{{ $errors->first('reincidente') }}</strong></p>
-			<p><strong>{{ $errors->first('resultados') }}</strong></p>
-			<p><strong>{{ $errors->first('acciones') }}</strong></p>
-			<p><strong>{{ $errors->first('numero_doc2') }}</strong></p>
-			<p><strong>{{ $errors->first('numero_doc3') }}</strong></p>
-
-		</div>
-	@endif
-
-	@if (Session::has('message'))
-		<div class="alert alert-success">{{ Session::get('message') }}</div>
-	@endif
-	@if (Session::has('error'))
-		<div class="alert alert-danger"><strong>{{ Session::get('error') }}</strong></div>
-	@endif
-
-	{{ Form::open(array('url'=>'reportes_incumplimiento/submit_edit_reporte', 'role'=>'form')) }}
 		{{Form::hidden('reporte_id',$reporte_data->idreporte_incumplimiento) }}
 		<div>						
 			{{ Form::hidden('flag_ot',2,array('id'=>'flag_ot'))}}
-		</div>
-		<div class="container-fluid row">
-			<div class="form-group col-md-2 col-md-offset-8">
-			@if(!$reporte_data->deleted_at)				
-				{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit-edit', 'type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}
-			@endif
-			</div>
-			<div class="form-group col-md-2">				
-				<a class="btn btn-default btn-block" href="{{URL::to('/reportes_incumplimiento/list_reportes')}}">Cancelar</a>
-			</div>
 		</div>
 		<div class="row">
 			<div class="panel panel-default">
@@ -62,32 +23,24 @@
 						<div class="form-group col-md-4 @if($errors->first('numero_ot')) has-error has-feedback @endif">
 							{{ Form::label('numero_ot','Número de OT') }}<span style="color:red"> *</span>
 							@if($reporte_data->deleted_at)
-								{{ Form::text('numero_ot',$reporte_data->codigo_ot,array('class'=>'form-control','readonly'=>'','placeholder'=>'Número de OTM')) }}
+								{{ Form::text('numero_ot',$reporte_data->codigo_ot,array('class'=>'form-control','readonly'=>'','placeholder'=>'Número de OTM','readonly'=>'')) }}
 							@else
-								{{ Form::text('numero_ot',$reporte_data->codigo_ot,array('class'=>'form-control','placeholder'=>'Número de OTM')) }}
+								{{ Form::text('numero_ot',$reporte_data->codigo_ot,array('class'=>'form-control','placeholder'=>'Número de OTM','readonly'=>'')) }}
 							@endif							
-						</div>						
-						<div class="col-md-2" style="margin-top:25px">
-							<div class="btn btn-success btn-block" id="btnValidate"><span class="glyphicon glyphicon-ok"></span> Validar</div>
-						</div>				
+						</div>			
 					</div>
 					<div class="row">						
 						<div class="form-group col-md-4 @if($errors->first('tipo_reporte')) has-error has-feedback @endif">
 							{{ Form::label('tipo_reporte','Tipo') }}<span style="color:red"> *</span>
 							@if($reporte_data->deleted_at)
-								{{ Form::select('tipo_reporte',['0'=>'Seleccione','1'=>'Por Servicio','2'=>'Por Equipo'],$reporte_data->tipo_reporte,array('class'=>'form-control','readonly'=>'')) }}
+								{{ Form::select('tipo_reporte',['0'=>'Seleccione','1'=>'Por Servicio','2'=>'Por Equipo'],$reporte_data->tipo_reporte,array('class'=>'form-control','readonly'=>'','disabled'=>'disabled')) }}
 							@else
-								{{ Form::select('tipo_reporte',['0'=>'Seleccione','1'=>'Por Servicio','2'=>'Por Equipo'],$reporte_data->tipo_reporte,array('class'=>'form-control')) }}
+								{{ Form::select('tipo_reporte',['0'=>'Seleccione','1'=>'Por Servicio','2'=>'Por Equipo'],$reporte_data->tipo_reporte,array('class'=>'form-control','disabled'=>'disabled')) }}
 							@endif							
 						</div>		
 						<div class="col-md-4">
 							{{ Form::label('fecha','Fecha')}}<span style="color:red"> *</span>
-							<div id="datetimepicker1" class="form-group input-group  @if($errors->first('fecha_reporte')) has-error has-feedback @endif">					
-								{{ Form::text('fecha_reporte',date('d-m-Y',strtotime($reporte_data->fecha)),array('class'=>'form-control','readonly'=>'','type'=>'date')) }}
-								<span class="input-group-addon">
-				                    <span class="glyphicon glyphicon-calendar"></span>
-				                </span>
-				            </div>
+							{{ Form::text('fecha_reporte',date('d-m-Y',strtotime($reporte_data->fecha)),array('class'=>'form-control','readonly'=>'','type'=>'date'))}}
 				        </div>
 		        	</div>
 					<div class="row">						
@@ -96,15 +49,8 @@
 							@if($reporte_data->deleted_at)
 								{{ Form::text('numero_doc1',$usuario_revision->numero_doc_identidad,array('class'=>'form-control','readonly'=>'','id'=>'numero_doc1','placeholder'=>'Número de Doc.')) }}
 							@else
-								{{ Form::text('numero_doc1',$usuario_revision->numero_doc_identidad,array('class'=>'form-control','id'=>'numero_doc1','placeholder'=>'Número de Documento')) }}
+								{{ Form::text('numero_doc1',$usuario_revision->numero_doc_identidad,array('class'=>'form-control','readonly'=>'','id'=>'numero_doc1','placeholder'=>'Número de Documento')) }}
 							@endif							
-						</div>
-						<div class="form-group col-md-2" style="margin-top:25px">
-							<a class="btn btn-primary btn-block" onclick="fill_name_responsable(1)">
-							<span class="glyphicon glyphicon-plus"></span> Agregar</a>
-						</div>
-						<div class="form-group col-md-2" style="margin-top:25px">
-							<div class="btn btn-default btn-block" onclick="clean_name_responsable(1)"><span class="glyphicon glyphicon-refresh"></span> Limpiar</div>				
 						</div>
 						<div class="form-group col-md-4">
 							{{ Form::label('responsable','Responsable de la Revisión') }}
@@ -122,7 +68,7 @@
 							@if($reporte_data->deleted_at)
 								{{ Form::text('descripcion_corta',$reporte_data->descripcion_corta,array('class'=>'form-control','readonly'=>'','placeholder'=>'Ingrese una descripción corta')) }}
 							@else
-								{{ Form::text('descripcion_corta',$reporte_data->descripcion_corta,array('class'=>'form-control','placeholder'=>'Ingrese una descripción corta')) }}
+								{{ Form::text('descripcion_corta',$reporte_data->descripcion_corta,array('readonly'=>'','class'=>'form-control','placeholder'=>'Ingrese una descripción corta')) }}
 							@endif		        			
 		        		</div>
 		        	</div>
@@ -133,7 +79,7 @@
 							@if($reporte_data->deleted_at)
 								{{ Form::textarea('descripcion',$reporte_data->descripcion_servicio,array('class'=>'form-control','readonly'=>'','style'=>'resize:none;','placeholder'=>'Ingrese descripción')) }}
 							@else
-								{{ Form::textarea('descripcion',$reporte_data->descripcion_servicio,array('class'=>'form-control','style'=>'resize:none;','placeholder'=>'Ingrese descripción')) }}
+								{{ Form::textarea('descripcion',$reporte_data->descripcion_servicio,array('class'=>'form-control','style'=>'resize:none;','placeholder'=>'Ingrese descripción','readonly'=>'')) }}
 							@endif
 		        		</div>
 		        	</div>
@@ -142,9 +88,9 @@
 		        		<div class="form-group col-md-4 @if($errors->first('servicio')) has-error has-feedback @endif">
 							{{ Form::label('servicio','Servicio Clínico') }}<span style="color:red"> *</span>
 							@if($reporte_data->deleted_at)
-								{{ Form::select('servicio',array('0'=> 'Seleccione')+$servicios,$reporte_data->idservicio,array('class'=>'form-control','readonly'=>'',"onchange" => "fill_responsable_servicio()",'id'=>'servicio')) }}
+								{{ Form::select('servicio',array('0'=> 'Seleccione')+$servicios,$reporte_data->idservicio,array('class'=>'form-control','readonly'=>'',"onchange" => "fill_responsable_servicio()",'id'=>'servicio','disabled'=>'disabled')) }}
 							@else
-								{{ Form::select('servicio',array('0'=> 'Seleccione')+$servicios,$reporte_data->idservicio,array('class'=>'form-control',"onchange" => "fill_responsable_servicio()",'id'=>'servicio')) }}
+								{{ Form::select('servicio',array('0'=> 'Seleccione')+$servicios,$reporte_data->idservicio,array('class'=>'form-control',"onchange" => "fill_responsable_servicio()",'id'=>'servicio','disabled'=>'disabled')) }}
 							@endif
 						</div>
 						<div class="form-group col-md-4  @if($errors->first('responsable_servicio')) has-error has-feedback @endif">
@@ -160,9 +106,9 @@
 		        		<div class="form-group col-md-4 @if($errors->first('proveedor')) has-error has-feedback @endif">
 							{{ Form::label('proveedor','Proveedor') }}<span style="color:red"> *</span>
 							@if($reporte_data->deleted_at)
-								{{ Form::select('proveedor',array('0'=> 'Seleccione')+$proveedor,$reporte_data->idproveedor,array('class'=>'form-control','readonly'=>'',"onchange" => "fill_contacto_proveedor()",'id'=>'proveedor')) }}
+								{{ Form::select('proveedor',array('0'=> 'Seleccione')+$proveedor,$reporte_data->idproveedor,array('class'=>'form-control','readonly'=>'',"onchange" => "fill_contacto_proveedor()",'id'=>'proveedor','disabled'=>'disabled')) }}
 							@else
-								{{ Form::select('proveedor',array('0'=> 'Seleccione')+$proveedor,$reporte_data->idproveedor,array('class'=>'form-control',"onchange" => "fill_contacto_proveedor()",'id'=>'proveedor')) }}
+								{{ Form::select('proveedor',array('0'=> 'Seleccione')+$proveedor,$reporte_data->idproveedor,array('class'=>'form-control',"onchange" => "fill_contacto_proveedor()",'id'=>'proveedor','disabled'=>'disabled')) }}
 							@endif							
 						</div>
 						<div class="form-group col-md-4  @if($errors->first('contacto_proveedor')) has-error has-feedback @endif">
@@ -180,7 +126,7 @@
 							@if($reporte_data->deleted_at)
 								{{ Form::text('costo',$reporte_data->costo_generado,array('class'=>'form-control','readonly'=>'','placeholder'=>'Ingrese costo generado')) }}
 							@else
-								{{ Form::text('costo',$reporte_data->costo_generado,array('class'=>'form-control','placeholder'=>'Ingrese costo generado')) }}
+								{{ Form::text('costo',$reporte_data->costo_generado,array('class'=>'form-control','readonly'=>'','placeholder'=>'Ingrese costo generado')) }}
 							@endif
 		        		</div>
 						<div class="col-md-4 form-group @if($errors->first('accion_generada')) has-error has-feedback @endif">
@@ -188,7 +134,7 @@
 							@if($reporte_data->deleted_at)
 								{{ Form::text('accion_generada',$reporte_data->accion_correctiva,array('class'=>'form-control','readonly'=>'','placeholder'=>'Ingrese acción generada')) }}
 							@else
-								{{ Form::text('accion_generada',$reporte_data->accion_correctiva,array('class'=>'form-control','placeholder'=>'Ingrese acción generada')) }}
+								{{ Form::text('accion_generada',$reporte_data->accion_correctiva,array('class'=>'form-control','readonly'=>'','placeholder'=>'Ingrese acción generada')) }}
 							@endif
 		        		</div>
 		        	</div>
@@ -196,9 +142,9 @@
 						<div class="col-md-8 @if($errors->first('reincidente')) has-error has-feedback @endif">
 			        		{{ Form::label('reincidente','¿Es reincidente?') }}<span style="color:red"> *</span>
 			        			@if($reporte_data->flag_reincidente == 1)
-			        				{{ Form::radio('reincidente', '1',true) }}SI{{ Form::radio('reincidente', '0') }}NO
+			        				{{ Form::radio('reincidente', '1',true,array('disabled'=>'disabled')) }}SI{{ Form::radio('reincidente', '0',array('disabled'=>'disabled')) }}NO
 			        			@else
-			        				{{ Form::radio('reincidente', '1') }}SI{{ Form::radio('reincidente', '0', true) }}NO
+			        				{{ Form::radio('reincidente', '1',array('disabled'=>'disabled')) }}SI{{ Form::radio('reincidente', '0', true,array('disabled'=>'disabled')) }}NO
 								@endif							
 						</div> 
 					</div>
@@ -208,7 +154,7 @@
 							@if($reporte_data->deleted_at)
 								{{ Form::textarea('acciones',$reporte_data->acciones,array('class'=>'form-control','readonly'=>'','style'=>'resize:none;','placeholder'=>'Ingrese acciones')) }}
 							@else
-								{{ Form::textarea('acciones',$reporte_data->acciones,array('class'=>'form-control','style'=>'resize:none;','placeholder'=>'Ingrese acciones')) }}
+								{{ Form::textarea('acciones',$reporte_data->acciones,array('class'=>'form-control','readonly'=>'','style'=>'resize:none;','placeholder'=>'Ingrese acciones')) }}
 							@endif
 		        		</div>
 		        	</div>
@@ -219,7 +165,7 @@
 							@if($reporte_data->deleted_at)
 								{{ Form::textarea('resultados',$reporte_data->resultados,array('class'=>'form-control','readonly'=>'','style'=>'resize:none;','placeholder'=>'Ingrese resultados')) }}
 							@else
-								{{ Form::textarea('resultados',$reporte_data->resultados,array('class'=>'form-control','style'=>'resize:none;','placeholder'=>'Ingrese resultados')) }}
+								{{ Form::textarea('resultados',$reporte_data->resultados,array('class'=>'form-control','readonly'=>'','style'=>'resize:none;','placeholder'=>'Ingrese resultados')) }}
 							@endif
 		        		</div>
 		        	</div>
@@ -229,15 +175,8 @@
 							@if($reporte_data->deleted_at)
 								{{ Form::text('numero_doc2',$usuario_autorizado->numero_doc_identidad,array('class'=>'form-control','readonly'=>'','id'=>'numero_doc2','placeholder'=>'Número de Doc.')) }}
 							@else
-								{{ Form::text('numero_doc2',$usuario_autorizado->numero_doc_identidad,array('class'=>'form-control','id'=>'numero_doc2','placeholder'=>'Número de Documento')) }}
+								{{ Form::text('numero_doc2',$usuario_autorizado->numero_doc_identidad,array('class'=>'form-control','readonly'=>'','id'=>'numero_doc2','placeholder'=>'Número de Documento')) }}
 							@endif	
-						</div>
-						<div class="form-group col-md-2" style="margin-top:25px">
-							<a class="btn btn-primary btn-block" onclick="fill_name_responsable(2)">
-							<span class="glyphicon glyphicon-plus"></span> Agregar</a>
-						</div>
-						<div class="form-group col-md-2" style="margin-top:25px">
-							<div class="btn btn-default btn-block" onclick="clean_name_responsable(2)"><span class="glyphicon glyphicon-refresh"></span> Limpiar</div>				
 						</div>
 						<div class="form-group col-md-4">
 							{{ Form::label('autorizado','Autorizado por') }}
@@ -254,16 +193,8 @@
 							@if($reporte_data->deleted_at)
 								{{ Form::text('numero_doc3',$usuario_elaborado->numero_doc_identidad,array('class'=>'form-control','readonly'=>'','id'=>'numero_doc3','placeholder'=>'Número de Doc.')) }}
 							@else
-								{{ Form::text('numero_doc3',$usuario_elaborado->numero_doc_identidad,array('class'=>'form-control','id'=>'numero_doc3','placeholder'=>'Número de Documento')) }}
+								{{ Form::text('numero_doc3',$usuario_elaborado->numero_doc_identidad,array('class'=>'form-control','readonly'=>'','id'=>'numero_doc3','placeholder'=>'Número de Documento')) }}
 							@endif
-
-						</div>
-						<div class="form-group col-md-2" style="margin-top:25px">
-							<a class="btn btn-primary btn-block" onclick="fill_name_responsable(3)">
-							<span class="glyphicon glyphicon-plus"></span> Agregar</a>
-						</div>
-						<div class="form-group col-md-2" style="margin-top:25px">
-							<div class="btn btn-default btn-block" onclick="clean_name_responsable(3)"><span class="glyphicon glyphicon-refresh"></span> Limpiar</div>				
 						</div>
 						<div class="form-group col-md-4">
 							{{ Form::label('elaborado','Elaborado por') }}
@@ -285,15 +216,8 @@
 											@if($reporte_data->deleted_at)
 												{{ Form::text('numero_contrato',$documento_info->codigo_archivamiento,array('class'=>'form-control','readonly'=>'','id'=>'numero_contrato','placeholder'=>'Código')) }}
 											@else
-												{{ Form::text('numero_contrato',$documento_info->codigo_archivamiento,array('class'=>'form-control','id'=>'numero_contrato','placeholder'=>'Código')) }}
+												{{ Form::text('numero_contrato',$documento_info->codigo_archivamiento,array('class'=>'form-control','readonly'=>'','id'=>'numero_contrato','placeholder'=>'Código')) }}
 											@endif											
-										</div>
-										<div class="col-md-2" style="margin-top:25px">
-											<a class="btn btn-primary btn-block" onclick="fill_name_contrato()">
-											<span class="glyphicon glyphicon-plus"></span> Agregar</a>
-										</div>
-										<div class="col-md-2" style="margin-top:25px">
-											<div class="btn btn-default btn-block" onclick="clean_name_contrato()"><span class="glyphicon glyphicon-refresh"></span> Limpiar</div>
 										</div>
 										<div class="form-group col-md-4">
 											{{ Form::label('nombre_contrato','Contrato del Proveedor') }}
@@ -313,29 +237,9 @@
 						</div>
 					</div>
 					<div class="row">
-						@if($reporte_data->deleted_at)
-						{{ Form::open(array('url'=>'reportes_incumplimiento/submit_enable_reporte', 'role'=>'form','id'=>'submitState')) }}
-							{{ Form::hidden('reporte_id', $reporte_data->idreporte_incumplimiento) }}
-							<div class="col-md-6">
-								<div class="row">
-									<div class="form-group col-md-6">
-										{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-up"></span> Habilitar', array('id'=>'submit-delete', 'class' => 'btn btn-success btn-block')) }}
-									</div>
-								</div>	
-							</div>	
-						{{ Form::close() }}
-						@else
-						{{ Form::open(array('url'=>'reportes_incumplimiento/submit_disable_reporte', 'role'=>'form','id'=>'submitState')) }}
-							{{ Form::hidden('reporte_id', $reporte_data->idreporte_incumplimiento) }}
-							<div class="col-md-6">
-								<div class="row">
-									<div class="form-group col-md-6">
-										{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-down"></span> Inhabilitar', array('id'=>'submit-delete', 'class' => 'btn btn-danger btn-block')) }}
-									</div>
-								</div>	
-							</div>	
-						{{ Form::close() }}
-						@endif
+						<div class="form-group col-md-2">				
+							<a class="btn btn-default btn-block" href="{{URL::to('/reportes_incumplimiento/list_reportes')}}"><span class="glyphicon glyphicon-menu-left"></span> Regresar</a>		
+						</div>
 					</div>					
 				</div>			
 			</div>

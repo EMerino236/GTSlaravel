@@ -17,11 +17,11 @@ class SotController extends BaseController {
 				$data["activos"] = Activo::lists('codigo_patrimonial','idactivo');
 				return View::make('sot/createSot',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -99,11 +99,11 @@ class SotController extends BaseController {
 					}
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -123,11 +123,11 @@ class SotController extends BaseController {
 				$data["sots_data"] = SolicitudOrdenTrabajo::getSotsInfo()->paginate(10);
 				return View::make('sot/listSots',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -147,10 +147,10 @@ class SotController extends BaseController {
 				$data["sot_info"] = $data["sot_info"][0];
 				return View::make('sot/editSot',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 	
@@ -168,10 +168,10 @@ class SotController extends BaseController {
 				Session::flash('message', 'Se marcó correctamente la solicitud como Falsa Alarma.');
 				return Redirect::to("sot/list_sots/");
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -189,10 +189,10 @@ class SotController extends BaseController {
 				Session::flash('message', 'Se marcó correctamente la solicitud como Mal Ingreso.');
 				return Redirect::to("sot/list_sots/");
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -213,10 +213,10 @@ class SotController extends BaseController {
 				$data["sots_data"] = SolicitudOrdenTrabajo::searchSots($data["search"],$data["search_estado"],$data["search_ini"],$data["search_fin"])->paginate(10);
 				return View::make('sot/listSots',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -235,11 +235,11 @@ class SotController extends BaseController {
 				Session::flash('message', 'Proceda a programar la OT');
 				return Redirect::to($url);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 

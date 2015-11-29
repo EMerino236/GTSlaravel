@@ -190,6 +190,7 @@ Route::group(array('prefix'=>'reportes_incumplimiento','before'=>'auth'),functio
 	Route::post('/return_name_contrato/{postData}','ReportesIncumplimientoController@return_name_contrato');
 	Route::post('/download_contract/{postData}','ReportesIncumplimientoController@get_codigoArchivamento');
 	Route::post('/download_contrato','ReportesIncumplimientoController@download_contrato');
+	Route::post('/validate_ot','ReportesIncumplimientoController@validate_ot');
 	Route::get('/list_reportes','ReportesIncumplimientoController@list_reportes_incumplimiento');	
 	Route::get('/search_reporte','ReportesIncumplimientoController@search_reporte');
 	Route::get('/edit_reporte/{id}','ReportesIncumplimientoController@render_edit_reporte');
@@ -201,6 +202,7 @@ Route::group(array('prefix'=>'reportes_incumplimiento','before'=>'auth'),functio
 	Route::post('/submit_edit_reporte','ReportesIncumplimientoController@submit_edit_reporte');	
 	Route::post('/submit_disable_reporte','ReportesIncumplimientoController@submit_disable_reporte');
 	Route::post('/submit_enable_reporte','ReportesIncumplimientoController@submit_enable_reporte');
+	Route::get('/view_reporte/{id}','ReportesIncumplimientoController@render_view_reporte');
 });
 /* Mantenimiento Correctivo */
 Route::group(array('prefix'=>'mant_correctivo','before'=>'auth'),function(){
@@ -297,6 +299,8 @@ Route::group(array('prefix'=>'solicitudes_compra', 'before'=>'auth'),function(){
 	Route::post('/submit_disable_solicitud','SolicitudesController@submit_disable_solicitud');
 	Route::post('/submit_enable_solicitud','SolicitudesController@submit_enable_solicitud');	
 	Route::post('/export_pdf','SolicitudesController@export_pdf');
+	Route::get('/view_solicitud_compra/{id}','SolicitudesController@render_view_solicitud');
+	
 });
 
 

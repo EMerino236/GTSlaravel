@@ -14,10 +14,10 @@ class MarcasController extends BaseController
 				$data["marcas_data"] = Marca::getMarcasInfo()->paginate(10);
 				return View::make('marcas/listMarcas',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -32,10 +32,10 @@ class MarcasController extends BaseController
 				$data["marcas_data"] = Marca::SearchMarcasByNombre($data["search_nombre_marca"])->paginate(10);
 				return View::make('marcas/listMarcas',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -48,10 +48,10 @@ class MarcasController extends BaseController
 			if($data["user"]->idrol == 1){				
 				return View::make('marcas/createMarca',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -85,10 +85,10 @@ class MarcasController extends BaseController
 					return Redirect::to('marcas/list_marcas')->with('message', 'Se registró correctamente la marca: '.$marca->nombre);
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	} 
 
@@ -106,10 +106,10 @@ class MarcasController extends BaseController
 				$data["marca_info"] = $data["marca_info"][0];
 				return View::make('marcas/editMarca',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -146,11 +146,11 @@ class MarcasController extends BaseController
 					return Redirect::to('marcas/list_marcas')->with('message', 'Se editó correctamente la marca: '.$marca->nombre);
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 

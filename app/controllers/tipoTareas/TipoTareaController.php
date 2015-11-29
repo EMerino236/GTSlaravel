@@ -11,11 +11,11 @@ class TipoTareaController extends BaseController {
 			if($data["user"]->idrol == 1){
 				return View::make('tipoTarea/createTipoTarea',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -46,11 +46,11 @@ class TipoTareaController extends BaseController {
 					return Redirect::to('tipoTarea/create_tipoTarea');
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -65,11 +65,11 @@ class TipoTareaController extends BaseController {
 				$data["tipoTareas_data"] = TipoTarea::GetTipoTareasInfo()->paginate(10);
 				return View::make('tipoTarea/listTipoTareas',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -88,10 +88,10 @@ class TipoTareaController extends BaseController {
 				$data["tipoTarea_info"] = $data["tipoTarea_info"][0];
 				return View::make('tipoTarea/editTipoTarea',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -125,11 +125,11 @@ class TipoTareaController extends BaseController {
 					return Redirect::to($url);
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -144,10 +144,10 @@ class TipoTareaController extends BaseController {
 				$data["tipoTareas_data"] = TipoTarea::searchTipoTareas($data["search"])->paginate(10);
 				return View::make('tipoTarea/listTipoTareas',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -164,10 +164,10 @@ class TipoTareaController extends BaseController {
 				Session::flash('message', 'Se habilitó correctamente el tipo de tarea.');
 				return Redirect::to($url);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -191,10 +191,10 @@ class TipoTareaController extends BaseController {
 				}				
 				return Redirect::to($url);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 }

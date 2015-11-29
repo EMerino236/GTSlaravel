@@ -22,11 +22,11 @@ class OtBusquedaInformacionController extends BaseController {
 				$data["busquedas"] = OrdenesTrabajoBusquedaInformacion::getOtsBusquedaInfo()->paginate(10);
 				return View::make('ot/busquedaInformacion/listOtBusquedaInformacion',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -50,10 +50,10 @@ class OtBusquedaInformacionController extends BaseController {
 				$data['solicitantes'] = User::getJefes()->get();
 				return View::make('ot/busquedaInformacion/listOtBusquedaInformacion',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}	
 
@@ -94,10 +94,10 @@ class OtBusquedaInformacionController extends BaseController {
 				$data["personal_data"] = PersonalOtBusquedaInformacion::getPersonalXOt($data["ot_info"]->idot_busqueda_info)->get();
 				return View::make('ot/busquedaInformacion/createOtBusquedaInformacion',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -121,10 +121,10 @@ class OtBusquedaInformacionController extends BaseController {
 				$data["personal_data"] = PersonalOtBusquedaInformacion::getPersonalXOt($data["ot_info"]->idot_busqueda_info)->get();
 				return View::make('ot/busquedaInformacion/viewOtBusquedaInformacion',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -245,10 +245,10 @@ class OtBusquedaInformacionController extends BaseController {
 				return PDF::load($html,"A4","portrait")->download('OTM busqueda informacion '.$data["ot_info"]->ot_tipo_abreviatura.$data["ot_info"]->ot_correlativo);
 
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -289,11 +289,11 @@ class OtBusquedaInformacionController extends BaseController {
 					return Redirect::to('solicitud_busqueda_informacion/list_busqueda_informacion')->with('message', 'Se editó correctamente la solicitud de búsqueda de información: '.$ot->ot_tipo_abreviatura.$ot->ot_correlativo);
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 }

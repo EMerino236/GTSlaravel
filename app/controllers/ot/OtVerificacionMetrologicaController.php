@@ -22,11 +22,11 @@ class OtVerificacionMetrologicaController extends BaseController {
 				
 				return View::make('ot/verifMetrologica/createProgramOtVerificacionMetrologica',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -121,11 +121,11 @@ class OtVerificacionMetrologicaController extends BaseController {
 				$data["verif_metrologicas_data"] = OrdenesTrabajoVerifMetrologica::getOtsVerifMetrologicaInfo()->paginate(10);
 				return View::make('ot/verifMetrologica/listOtVerificacionMetrologica',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -152,10 +152,10 @@ class OtVerificacionMetrologicaController extends BaseController {
 				$data["verif_metrologicas_data"] = OrdenesTrabajoVerifMetrologica::searchOtsVerifMetrologica($data["search_ing"],$data["search_cod_pat"],$data["search_ubicacion"],$data["search_ot"],$data["search_equipo"],$data["search_proveedor"],$data["search_servicio"],$data["search_ini"],$data["search_fin"])->paginate(10);								
 				return View::make('ot/verifMetrologica/listOtVerificacionMetrologica',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -301,10 +301,10 @@ class OtVerificacionMetrologicaController extends BaseController {
 				$data["personal_data"] = PersonalOtVerifMetrologica::getPersonalXOt($data["ot_info"]->idot_vmetrologica)->get();
 				return View::make('ot/verifMetrologica/createOtVerificacionMetrologica',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -353,10 +353,10 @@ class OtVerificacionMetrologicaController extends BaseController {
 					return Redirect::to('verif_metrologica/create_ot_verif_metrologica/'.$idot_vmetrologica);
 				}
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -441,10 +441,10 @@ class OtVerificacionMetrologicaController extends BaseController {
 	            );
 		        return Response::download($file,basename($documento[0]->nombre_archivo),$headers);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -485,10 +485,10 @@ class OtVerificacionMetrologicaController extends BaseController {
 				
 				return PDF::load($html,"A4","portrait")->show();
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 

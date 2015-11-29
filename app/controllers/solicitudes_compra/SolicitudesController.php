@@ -24,10 +24,10 @@ class SolicitudesController extends BaseController
 				$data["solicitudes_data"] = SolicitudCompra::getSolicitudesInfo()->paginate(10);
 				return View::make('solicitudes_compra/listSolicitudesCompra',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -55,10 +55,10 @@ class SolicitudesController extends BaseController
 					return View::make('areas/listAreas',$data);	
 				}*/
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -109,6 +109,8 @@ class SolicitudesController extends BaseController
 	}
 
 
+
+
 	public function render_create_solicitud(){
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
@@ -124,14 +126,45 @@ class SolicitudesController extends BaseController
 				$data["usuarios_responsable"] = User::getJefes()->get();
 				return View::make('solicitudes_compra/createSolicitudCompra',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
 	public function render_edit_solicitud($idsolicitud=null){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9){	
+				$data["reporte_data"] = SolicitudCompra::getSolicitudCompraById($idsolicitud)->get();
+				if($data["reporte_data"]->isEmpty()){
+					return Redirect::to('solicitudes_compra/list_solicitudes');
+				}
+				$data["reporte_data"] = $data["reporte_data"][0];	
+				$data["documento_info"] = Documento::searchDocumentoByIdSolicitudCompra($data["reporte_data"]->idsolicitud_compra)->get();
+				$data["documento_info"] = $data["documento_info"][0];
+				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
+				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
+				$data["tipos"] = TipoSolicitudCompra::lists('nombre','idtipo_solicitud_compra');
+				$data["servicios"] = Servicio::searchServiciosClinicos(1)->lists('nombre','idservicio');
+				$familia = FamiliaActivo::find($data["reporte_data"]->idfamilia_activo);
+				$data["marcas1"] = Marca::lists('nombre','idmarca');
+				$data["nombre_equipos1"] = FamiliaActivo::searchFamiliaActivoByMarca($familia->idmarca)->lists('nombre_equipo','idfamilia_activo');
+				$data["usuarios_responsable"] = User::getJefes()->get();
+				$data["detalles_solicitud"] = DetalleSolicitudCompra::getDetalleSolicitudCompra($data["reporte_data"]->idsolicitud_compra)->get();
+				return View::make('solicitudes_compra/editSolicitudCompra',$data);
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+	public function render_view_solicitud($idsolicitud=null){
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
@@ -154,12 +187,12 @@ class SolicitudesController extends BaseController
 				$data["nombre_equipos1"] = FamiliaActivo::searchFamiliaActivoByMarca($familia->idmarca)->lists('nombre_equipo','idfamilia_activo');
 				$data["usuarios_responsable"] = User::getJefes()->get();
 				$data["detalles_solicitud"] = DetalleSolicitudCompra::getDetalleSolicitudCompra($data["reporte_data"]->idsolicitud_compra)->get();
-				return View::make('solicitudes_compra/editSolicitudCompra',$data);
+				return View::make('solicitudes_compra/viewSolicitudCompra',$data);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -226,10 +259,10 @@ class SolicitudesController extends BaseController
 	            );
 		        return Response::download($file,basename($documento[0]->nombre_archivo),$headers);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -244,6 +277,11 @@ class SolicitudesController extends BaseController
 			// Check if the current user is the "System Admin"
 			
 			$idtipo_solicitud_compra = Input::get('tipo_solicitud');
+			if(Input::get('flag_ot')==1){
+				$message = "No se guardaron los cambios del Requerimiento. Orden de Trabajo de Mantenimiento no existe.";
+				$type_message = "bg-danger";
+				return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'message' => $message, 'type_message'=>$type_message ),200);
+			}
 			$fecha_actual = date('Y-m-d');
 			$fecha = date('Y-m-d H:i:s',strtotime(Input::get('fecha')));
 			$numero_ot = Input::get('numero_ot');
@@ -304,7 +342,7 @@ class SolicitudesController extends BaseController
 			if($documento->isEmpty()){
 				$type_message = "bg-danger";
 				$message = "No se pudo registrar los cambios, el documento no existe";
-				return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'type_message' => $type_message, 'message' => $mensaje ),200);
+				return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'type_message' => $type_message, 'message' => $message ),200);
 			}
 			$documento = $documento[0];
 			$documento->idsolicitud_compra = $solicitud->idsolicitud_compra;
@@ -325,6 +363,11 @@ class SolicitudesController extends BaseController
 		if($data["user"]->idrol == 1|| $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 ){
 			// Check if the current user is the "System Admin"
 			$idsolicitud_compra = Input::get('idsolicitud');
+			if(Input::get('flag_ot')==1){
+				$message = "No se guardaron los cambios del Requerimiento. Orden de Trabajo de Mantenimiento no existe.";
+				$type_message = "bg-danger";
+				return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'message' => $message, 'type_message'=>$type_message ),200);
+			}
 			$idtipo_solicitud_compra = Input::get('tipo_solicitud');
 			$fecha = date('Y-m-d H:i:s',strtotime(Input::get('fecha')));
 			$fecha_actual = date('Y-m-d');
@@ -339,7 +382,7 @@ class SolicitudesController extends BaseController
 			$row_size = count($array_detalles);
 
 			if($idtipo_solicitud_compra==0 || $fecha=="" || $numero_ot=="" || $equipo==0 || $usuario_responsable==0 || $servicio==0 || $estado==0 || $codigo_archivamiento == "" || $row_size==0){				
-				$message = "No se guardaron los cambios del Requerimiento. No se puede registrar fecha pasada.";
+				$message = "No se guardaron los cambios del Requerimiento. Completar campos obligatorios ";
 				$type_message = "bg-danger";
 				return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'message' => $message, 'type_message'=>$type_message ),200);
 			}
@@ -347,7 +390,7 @@ class SolicitudesController extends BaseController
 			$solicitud = SolicitudCompra::find($idsolicitud_compra);
 			$solicitud->idtipo_solicitud_compra = Input::get('tipo_solicitud');
 			if($fecha_actual > $fecha){
-				$message = "No se guardaron los cambios del Requerimiento. Completar campos obligatorios.";
+				$message = "No se guardaron los cambios del Requerimiento. No se puede registrar fecha pasada.";
 				$type_message = "bg-danger";
 				return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'message' => $message, 'type_message'=>$type_message ),200);
 			}
@@ -441,10 +484,10 @@ class SolicitudesController extends BaseController
 				Session::flash('message', 'Se habilitó correctamente el requerimiento.');
 				return Redirect::to($url);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -461,10 +504,10 @@ class SolicitudesController extends BaseController
 				Session::flash('message','Se inhabilitó correctamente el requerimiento.' );
 				return Redirect::to($url);
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 
@@ -552,10 +595,10 @@ class SolicitudesController extends BaseController
 				
 				return PDF::load($html,"A4","portrait")->show();
 			}else{
-				return View::make('error/error');
+				return View::make('error/error',$data);
 			}
 		}else{
-			return View::make('error/error');
+			return View::make('error/error',$data);
 		}
 	}
 }

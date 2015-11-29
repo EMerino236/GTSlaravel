@@ -45,14 +45,7 @@
 	<div id="wrapper">
 		<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
 			@include('layouts.header', array('user'=>$user))
-            <div class="navbar-default sidebar" role="navigation">
-                <div class="sidebar-nav navbar-collapse">
-                    <ul class="nav" id="side-menu">
-                        <li>{{ HTML::link('/rep_instalacion/create_rep_instalacion','Nuevo Reporte de Instalacion') }}</li>
-                        <li>{{ HTML::link('/rep_instalacion/list_rep_instalacion','Buscar Reporte de Instalación') }}</li>
-                    </ul>
-                </div>
-            </div>
+            @include('layouts.sidebar', array('user'=>$user))
 		</nav>
 		<div id="page-wrapper">
         	@yield('content')
