@@ -49,7 +49,7 @@ class OrdenesTrabajoInspeccionEquipo extends Eloquent{
 			  			  ->orWhere('familia_activos.nombre_equipo','LIKE',"%$search_equipo%");
 			  	});			  
 			  $query->select('areas.nombre as nombre_area','users.nombre as nombre_user','users.apellido_pat','users.apellido_mat','servicios.nombre as nombre_servicio','estados.nombre as nombre_estado','ot_inspec_equipos.*');
-	  	return $query;
+	  	return $query->distinct('ot_inspec_equipos.idot_inspec_equipo');;
 	}
 
 	public function scopeGetLastOtInspeccionEquipo($query)
@@ -133,7 +133,7 @@ class OrdenesTrabajoInspeccionEquipo extends Eloquent{
 					$query->where('ot_inspec_equipos.fecha_inicio','<=',date('Y-m-d H:i:s',strtotime($search_fin)));
 				  	  
 				  $query->select('areas.nombre as nombre_area','servicios.nombre as nombre_servicio','estados.nombre as nombre_estado','ot_inspec_equipos.*');
-		  	return $query;
+		  	return $query->distinct('ot_inspec_equipos.idot_inspec_equipo');
 		}
 
 }

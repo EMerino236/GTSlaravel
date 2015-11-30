@@ -29,4 +29,5 @@ function limpiar_criterios(){
     $('#search_fin').val('');
     $('#search_serie').val('');
     $('#search_grupo').val('');
+    $('#tipo_ot').val(0);
 }

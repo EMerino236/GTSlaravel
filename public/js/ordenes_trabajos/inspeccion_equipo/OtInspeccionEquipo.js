@@ -35,6 +35,36 @@ $( document ).ready(function(){
 	        }
        });
 	});
+
+	$('#buscar').click(function(){
+		value_activo = $('#value_activo').val();
+		id = $('#numero_fila').val();
+	 	div = document.getElementById(id);
+	 	if(div!=null){
+	 		if(value_activo == 0){ //primera vez
+				$('#value_activo').val(id);			
+				div.style.visibility = "visible";
+			}else{
+				div_anterior = document.getElementById(value_activo);
+				div_anterior.style.visibility = "hidden";			
+				div.style.visibility = "visible";
+				$('#value_activo').val(id);
+			}	
+	 	}else{
+	 		dialog = BootstrapDialog.show({
+	            title: 'Advertencia',
+	            message: 'Fila no existe',
+	            type : BootstrapDialog.TYPE_DANGER,
+	            buttons: [{
+	                label: 'Aceptar',
+	                action: function(dialog) {
+	                    dialog.close();
+	                }
+	            }]
+       		});
+	 	}
+		
+	})
 });
 
 

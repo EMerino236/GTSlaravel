@@ -67,7 +67,7 @@
 						</div>
 						<div class="form-group col-md-4">
 							{{ Form::label('search_tipo','Tipo de OTM') }}
-							{{ Form::select('search_tipo',$tipos,$search_tipo,array('class'=>'form-control')) }}
+							{{ Form::select('search_tipo',$tipos,$search_tipo,array('class'=>'form-control','id'=>'tipo_ot')) }}
 						</div>				
 					</div>
 					<div class="container-fluid form-group row">
@@ -258,6 +258,51 @@
 							</tr>
 						@endforeach
 					</table>
+				</div>
+			@else
+				<h4 style="color:red;">No hay Registros Encontrados</h4>
+			@endif
+		</div>		
+	</div>
+	@endif
+	@if($search_tipo==5 || $search_tipo==0)
+	<div class="row">
+		<div class="col-md-12">
+			<h3>Ordenes de Retiro de Servicio </h3>
+			@if(count($retiros)>0)
+				<div class="table-responsive">
+				<table class="table">
+					<tr class="info">
+						<th class="text-nowrap text-center">Fecha de Programación</th>
+						<th class="text-nowrap text-center">Código de OTM</th>
+						<th class="text-nowrap text-center">Servicio Clínico</th>
+						<th class="text-nowrap text-center">Nombre del Equipo</th>
+						<th class="text-nowrap text-center">Marca</th>
+						<th class="text-nowrap text-center">Grupo</th>
+						<th class="text-nowrap text-center">Modelo</th>
+						<th class="text-nowrap text-center">Serie</th>
+						<th class="text-nowrap text-center">Proveedor</th>
+						<th class="text-nowrap text-center">Código Patrimonial</th>
+						<th class="text-nowrap text-center">Estado (OTM)</th>
+					</tr>
+					@foreach($retiros as $retiro)
+						<tr>
+							<td class="text-nowrap text-center">{{date('d-m-Y',strtotime($retiro->fecha_programacion))}}</td>
+							<td class="text-nowrap text-center">
+								<a href="{{URL::to('/retiro_servicio/create_ot/')}}/{{$retiro->idot_retiro}}">{{$retiro->ot_tipo_abreviatura}}{{$retiro->ot_correlativo}}{{$retiro->ot_activo_abreviatura}}</a>
+							</td>
+							<td class="text-nowrap text-center">{{$retiro->nombre_servicio}}</td>	
+							<td class="text-nowrap text-center">{{$retiro->nombre_equipo}}</td>
+							<td class="text-nowrap text-center">{{$retiro->nombre_marca}}</td>
+							<td class="text-nowrap text-center">{{$retiro->nombre_grupo}}</td>
+							<td class="text-nowrap text-center">{{$retiro->nombre_modelo}}</td>
+							<td class="text-nowrap text-center">{{$retiro->serie}}</td>
+							<td class="text-nowrap text-center">{{$retiro->nombre_proveedor}}
+							<td class="text-nowrap text-center">{{$retiro->codigo_patrimonial}}</td>
+							<td class="text-nowrap text-center">{{$retiro->nombre_estado}}</td>						
+						</tr>
+					@endforeach
+				</table>
 				</div>
 			@else
 				<h4 style="color:red;">No hay Registros Encontrados</h4>
