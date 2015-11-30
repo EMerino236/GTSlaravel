@@ -12,7 +12,7 @@ class RetiroServicioController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
 				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
 				$data["search_ing"] = null;
@@ -40,7 +40,7 @@ class RetiroServicioController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 
 				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
 				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
@@ -71,7 +71,7 @@ class RetiroServicioController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3){
 				$data["activos"] = Activo::lists('codigo_patrimonial','idactivo');
 				$data["motivos"] = MotivoRetiro::lists('nombre','idmotivo_retiro');
 				return View::make('retiro_servicio/createReporteRetiroServicio',$data);
@@ -106,7 +106,7 @@ class RetiroServicioController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3){
 				// Validate the info, create rules for the inputs
 				$attributes = array(
 							'cod_pat' => 'Código Patrimonial',
@@ -166,7 +166,7 @@ class RetiroServicioController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 				$data["motivos"] = MotivoRetiro::lists('nombre','idmotivo_retiro');
 				$data["marcas"] = Marca::lists('nombre','idmarca');
 				$data["servicios"] = Servicio::lists('nombre','idservicio');
@@ -194,7 +194,7 @@ class RetiroServicioController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 				$data["motivos"] = MotivoRetiro::lists('nombre','idmotivo_retiro');
 				$data["marcas"] = Marca::lists('nombre','idmarca');
 				$data["servicios"] = Servicio::lists('nombre','idservicio');
@@ -222,7 +222,7 @@ class RetiroServicioController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if(($data["user"]->idrol == 1) && $id){
+			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3) && $id){
 				//$data["activos"] = Activo::lists('codigo_patrimonial','idactivo');
 				$data["motivos"] = MotivoRetiro::lists('nombre','idmotivo_retiro');
 				$data["reporte_info"] = ReporteRetiro::searchReportesRetiroById($id)->get();
@@ -242,7 +242,7 @@ class RetiroServicioController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3){
 				$reporte_retiro = ReporteRetiro::find(Input::get('idreporte_retiro'));
 				$reporte_retiro->delete();
 				Session::flash('message', 'Se eliminó correctamente la solicitud.');
@@ -288,7 +288,7 @@ class RetiroServicioController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if(($data["user"]->idrol == 1) && $id){
+			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4) && $id){
 				$data['mes_ini'] = date("Y-m-d",strtotime("first day of this month"));
 				$data['mes_fin'] = date("Y-m-d",strtotime("last day of this month"));
 				$data['trimestre_ini'] = null;
@@ -363,7 +363,7 @@ class RetiroServicioController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if(($data["user"]->idrol == 1)){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				// Validate the info, create rules for the inputs
 				$attributes = array(
 							'fecha_programacion' => 'Fecha de Programación',
@@ -426,7 +426,7 @@ class RetiroServicioController extends BaseController {
 		$id = Auth::id();
 		$data["inside_url"] = Config::get('app.inside_url');
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 			// Check if the current user is the "System Admin"	
 			$fecha_ini=date("Y-m-d",strtotime("first day of january"));
 			$fecha_fin=date("Y-m-d",strtotime('last day of december'));
