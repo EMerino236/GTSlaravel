@@ -87,6 +87,8 @@ class OtBusquedaInformacionController extends BaseController {
 				if($data["ot_info"]->isEmpty()){
 					return Redirect::to('busqueda_informacion/list_busqueda_informacion');
 				}
+				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
+				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
 				$data["areas"] = Area::lists('nombre','idarea');				
 				$data["tipos"] = TipoOtBusquedaInformacion::lists('nombre','idtipo_busqueda_info');			
 				$data["ot_info"] = $data["ot_info"][0];		
@@ -114,6 +116,8 @@ class OtBusquedaInformacionController extends BaseController {
 				if($data["ot_info"]->isEmpty()){
 					return Redirect::to('busqueda_informacion/list_busqueda_informacion');
 				}
+				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
+				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
 				$data["areas"] = Area::lists('nombre','idarea');				
 				$data["tipos"] = TipoOtBusquedaInformacion::lists('nombre','idtipo_busqueda_info');			
 				$data["ot_info"] = $data["ot_info"][0];		
@@ -282,6 +286,7 @@ class OtBusquedaInformacionController extends BaseController {
 					$idot = Input::get('idot_busqueda_info');				
 					$url = $url =  "busqueda_informacion/create_ot_busqueda_informacion"."/".$idot;				
 					$ot = OrdenesTrabajoBusquedaInformacion::find($idot);
+					$ot->idestado_ot = Input::get('estado_ot');
 					if(Input::get('fecha_conformidad') && Input::get('hora_conformidad'))
 						$ot->fecha_conformidad = date("Y-m-d H:i:s",strtotime(Input::get('fecha_conformidad')." ".Input::get('hora_conformidad')));
 					$ot->save();
@@ -294,6 +299,25 @@ class OtBusquedaInformacionController extends BaseController {
 
 		}else{
 			return View::make('error/error',$data);
+		}
+	}
+
+	public function submit_disable_ot(){
+		// If there was an error, respond with 404 status
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$ot_busqueda = OrdenesTrabajoBusquedaInformacion::find(Input::get('idot_busqueda_info'));
+			$ot_busqueda->idestado_ot= 25;
+			$ot_busqueda->save();
+			$message = "Se ha cancelado la OTM.";
+			$type_message = "bg-success";
+			return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'message' => $message, 'type_message'=>$type_message ),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
 		}
 	}
 }

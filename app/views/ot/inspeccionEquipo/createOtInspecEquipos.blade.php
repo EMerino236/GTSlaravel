@@ -49,7 +49,7 @@
 							@if($ot_info->fecha_inicio == null)
 								{{ Form::text('fecha_inicio',null,array('class'=>'form-control','readonly'=>'')) }}
 							@else
-								{{Form::text('fecha_inicio',date('d-m-Y H:i',strtotime($ot_info->fecha_inicio)),array('class'=>'form-control','readonly'=>'')) }}
+								{{Form::text('fecha_inicio',date('d-m-Y',strtotime($ot_info->fecha_inicio)).' ['.date('H:i',strtotime($ot_info->fecha_inicio)).'-'.date('H:i',strtotime($ot_info->fecha_fin)).']',array('class'=>'form-control','readonly'=>'')) }}
 							@endif								
 						</div>
 					</div>
@@ -69,12 +69,8 @@
 					</div>
 					<div class="row">
 						<div class="col-md-8 form-group ">						
-							{{ Form::label('fecha_fin','Fecha Fin') }}
-							@if($ot_info->fecha_fin == null)
-								{{ Form::text('fecha_fin',null,array('class'=>'form-control','readonly'=>'')) }}
-							@else
-								{{Form::text('fecha_fin',date('d-m-Y H:i',strtotime($ot_info->fecha_fin)),array('class'=>'form-control','readonly'=>'')) }}
-							@endif
+							{{Form::label('estado_ot','Estado OT:')}}
+							{{ Form::select('estado_ot', array('0' => 'Seleccione') + $estados ,$ot_info->idestado ,array('class'=>'form-control')) }}
 						</div>
 					</div>
 				</div>
@@ -115,16 +111,14 @@
 			</div>
 			<div class="panel-body" id="body_equipos">
 				<div class="row">
-					<div class="col-md-2">
+					<div class="col-md-2" style="margin-top:5px;">
 						{{Form::label('numero_fila','Número de Fila:')}}						
-						{{Form::text('codigo_patrimonial',Input::old('codigo_patrimonial'),array('class'=>'form-control','id'=>'numero_fila','placeholder'=>'Ingrese N° de fila'))}}
+						
 					</div>
-					<div class="col-md-2" style="margin-top:25px;">
-						{{ Form::button('<span class="glyphicon glyphicon-search"></span> Buscar', array('id'=>'buscar','class' => 'btn btn-success btn-block')) }}
+					<div class="col-md-4" style="margin-left:-50px;">
+						{{ Form::select('filas', array('0' => 'Seleccione') + $filas ,null ,array('class'=>'form-control','id'=>'fila')) }}
 					</div>
-					<div class="col-md-2" style="margin-top:25px;">
-						{{ Form::button('<span class="glyphicon glyphicon-reload"></span> Limpiar', array('id'=>'limpiar','class' => 'btn btn-default btn-block')) }}
-					</div>
+					
 				</div>
 
 			@foreach($activosxot_info as $i => $otxactivo)

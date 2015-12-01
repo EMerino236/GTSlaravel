@@ -36,11 +36,11 @@ $( document ).ready(function(){
        });
 	});
 
-	$('#buscar').click(function(){
+	$('#fila').change(function(){
 		value_activo = $('#value_activo').val();
-		id = $('#numero_fila').val();
+		id = $('#fila').val();
 	 	div = document.getElementById(id);
-	 	if(div!=null){
+	 	if(div!=null || id==0){
 	 		if(value_activo == 0){ //primera vez
 				$('#value_activo').val(id);			
 				div.style.visibility = "visible";
@@ -63,16 +63,9 @@ $( document ).ready(function(){
 	            }]
        		});
 	 	}
-		
-	});
+	});	
 
-	$('#limpiar').click(function(){
-		value_activo = $('#value_activo').val();
-		$('#numero_fila').val('');
-		div = document.getElementById(value_activo);
-		div.style.visibility = "hidden";
-		$('#value_activo').val(0);
-	})
+	
 });
 
 

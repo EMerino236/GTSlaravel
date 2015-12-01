@@ -72,3 +72,70 @@ function create_otm(){
     });      
     
 }
+
+function eliminar_ot(event,el){
+        
+    event.preventDefault();
+    var parent = el.parentNode;
+    parent = parent.parentNode;
+    index_value = parent.rowIndex-1;
+    idot_busqueda = $('#idot_busqueda_info'+index_value).val();
+    alert(idot_busqueda);
+    BootstrapDialog.confirm({
+        title: 'Mensaje de Confirmación',
+        message: '¿Está seguro que desea realizar esta acción?', 
+        type: BootstrapDialog.TYPE_INFO,
+        btnCancelLabel: 'Cancelar', 
+        btnOKLabel: 'Aceptar', 
+        callback: function(result){
+            if(result) {
+                $.ajax({
+                    url: inside_url+'busqueda_informacion/submit_disable_busqueda',
+                    type: 'POST',
+                    data: {                
+                            'idot_busqueda_info' : idot_busqueda,
+                         },
+                    beforeSend: function(){
+                        $("#delete-selected-profiles").addClass("disabled");
+                        $("#delete-selected-profiles").hide();
+                        $(".loader_container").show();
+                    },
+                    complete: function(){
+                        $(".loader_container").hide();
+                        $("#delete-selected-profiles").removeClass("disabled");
+                        $("#delete-selected-profiles").show();
+                        delete_selected_profiles = true;
+                    },
+                    success: function(response){
+                        if(response.success){                    
+                            var array_detalle = response["url"];
+                            var message = response["message"];
+                            var type_message = response["type_message"];
+                            var inside_url = array_detalle;
+                            if(type_message == "bg-success"){
+                               dialog = BootstrapDialog.show({
+                                    title: 'Mensaje',
+                                    type: BootstrapDialog.TYPE_SUCCESS,
+                                    message: 'OT de Búsqueda Anulada',
+                                    buttons: [{
+                                        label: 'Aceptar',
+                                        cssClass: 'btn-default',
+                                        action: function() {
+                                            var url = inside_url + "solicitud_busqueda_informacion/list_busqueda_informacion";
+                                            window.location = url;
+                                        }
+                                    }]
+                                });
+                            }
+                        }else{
+                            alert('La petición no se pudo completar, inténtelo de nuevo.');
+                        }
+                    },
+                    error: function(){
+                        alert('La petición no se pudo completar, inténtelo de nuevo.');
+                    }
+                });
+            }
+        }
+    });
+}

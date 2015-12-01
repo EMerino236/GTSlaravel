@@ -274,7 +274,8 @@ class SotBusquedaInformacionController extends BaseController {
 			$sot = SolicitudBusquedaInformacion::find($idsot);
 			$idsolicitante = Input::get('idsolicitante');
 			$fecha_programacion = $sot->fecha_solicitud;
-
+			$sot->idestado = 15;
+			$sot->save();
 			$ot = new OrdenesTrabajoBusquedaInformacion;
 			$abreviatura = "BI";
 			// Algoritmo para añadir numeros correlativos

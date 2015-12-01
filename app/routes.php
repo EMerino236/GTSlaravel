@@ -472,4 +472,5 @@ Route::group(array('prefix'=>'busqueda_informacion','before'=>'auth'),function()
 	Route::post('/submit_delete_personal_ajax','OtBusquedaInformacionController@submit_delete_personal_ajax');	
 	Route::post('/export_pdf','OtBusquedaInformacionController@export_pdf');
 	Route::get('/view_ot_busqueda_informacion/{id}','OtBusquedaInformacionController@render_view_ot');
+	Route::post('/submit_disable_busqueda','OtBusquedaInformacionController@submit_disable_ot');
 });

@@ -75,8 +75,10 @@
 					<th class="text-nowrap text-center">Encargado</th>
 					<th class="text-nowrap text-center">Código SBI</th>
 					<th class="text-nowrap text-center">Fecha</th>
-					<th class="text-nowrap text-center">Estado</th>
+					<th class="text-nowrap text-center">Estado SOT</th>
 					<th class="text-nowrap text-center">Número de OT</th>
+					<th class="text-nowrap text-center">Estado OT</th>
+					<th class="text-nowrap text-center">Eliminar OT</th>
 				</tr>
 				@foreach($busquedas as $index => $busqueda)
 					{{Form::hidden('idsot',$busqueda->idsolicitud_busqueda_info,array('id'=>'idsot'.$index))}}
@@ -98,28 +100,68 @@
 						
 						@if($user->idrol==1 || $user->idrol==2 || $user->idrol==3 || $user->idrol==4)
 							@if($busqueda->idot == null)
-								<td>
-									<a class="btn btn-success btn-block btn-sm" onclick="setSotId(event,this)">
-									<span class="glyphicon glyphicon-plus"></span> Crear OTM</a>
-								</td>
-							@elseif($busqueda->idestado == 26)
+								@if($busqueda->idestado != 26)
+									<td class="text-nowrap text-center">
+										<a class="btn btn-success btn-block btn-sm" onclick="setSotId(event,this)">
+										<span class="glyphicon glyphicon-plus"></span> Crear OTM</a>
+									</td>
+									<td class="text-nowrap text-center"> - </td>
+									<td class="text-nowrap text-center"> - </td>
+								@else
+									<td class="text-nowrap text-center">
+										-
+									</td>
+									<td class="text-nowrap text-center"> - </td>
+									<td class="text-nowrap text-center"> - </td>
+								@endif
+							@elseif($busqueda->idestado == 26)								
 								<td class="text-nowrap text-center">
 									-
 								</td>
-							@else
 								<td class="text-nowrap text-center">
-									<a href="{{URL::to('/busqueda_informacion/create_ot_busqueda_informacion/')}}/{{$busqueda->idot}}">{{$busqueda->ot_tipo_abreviatura}}{{$busqueda->ot_correlativo}}</a>
+									{{$busqueda->nombre_estado_ot}}
 								</td>
+								<td class="text-nowrap text-center"> - </td>
+							@else
+								@if($busqueda->idestado_ot !=25)
+									{{Form::hidden('idot_busqueda_info',$busqueda->idot,array('id'=>'idot_busqueda_info'.$index))}}
+									
+									<td class="text-nowrap text-center">
+										<a href="{{URL::to('/busqueda_informacion/create_ot_busqueda_informacion/')}}/{{$busqueda->idot}}">{{$busqueda->ot_tipo_abreviatura}}{{$busqueda->ot_correlativo}}</a>
+									</td>
+									<td class="text-nowrap text-center">
+										{{$busqueda->nombre_estado_ot}}
+									</td>
+									<td class="text-nowrap text-center">
+										<div class="btn btn-danger btn-block" onclick='eliminar_ot(event,this)'><span class="glyphicon glyphicon-trash"></span></div>
+									</td>
+								@else
+									{{Form::hidden('idot_busqueda_info',$busqueda->idot,array('id'=>'idot_busqueda_info'.$index))}}
+									<td class="text-nowrap text-center">
+										<a href="{{URL::to('/busqueda_informacion/view_ot_busqueda_informacion/')}}/{{$busqueda->idot}}">{{$busqueda->ot_tipo_abreviatura}}{{$busqueda->ot_correlativo}}</a>
+									</td>
+									<td class="text-nowrap text-center">
+										{{$busqueda->nombre_estado_ot}}
+									</td>									
+									<td class="text-nowrap text-center">
+										-
+									</td>
+								@endif
 							@endif
 						@else
 							@if($busqueda->idot == null || $busqueda->idestado == 26)
 								<td class="text-nowrap text-center">
 									-
 								</td>
+								<td class="text-nowrap text-center"> - </td>
 							@else
 								<td class="text-nowrap text-center">
 									<a href="{{URL::to('/busqueda_informacion/view_ot_busqueda_informacion/')}}/{{$busqueda->idot}}">{{$busqueda->ot_tipo_abreviatura}}{{$busqueda->ot_correlativo}}</a>
 								</td>
+								<td class="text-nowrap text-center">
+									{{$busqueda->nombre_estado_ot}}
+								</td>
+								<td class="text-nowrap text-center"> - </td>
 							@endif
 						@endif
 					</tr>

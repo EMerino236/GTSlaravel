@@ -47,19 +47,14 @@
 							{{ Form::label('area','Departamento') }}
 							{{ Form::select('area', array('0'=>'Seleccione') + $areas,$ot_info->idarea,array('class'=>'form-control','disabled'=>'disabled')) }}
 						</div>
-					</div>
+					</div>					
 					<div class="row">
-						<div class="col-md-10 form-group">
-							{{ Form::label('descripcion','Descripcion') }}
-							{{ Form::textarea('descripcion',$ot_info->descripcion,array('class' => 'form-control','rows'=>'3','maxlength'=>'500','style'=>'resize:none;','readonly'=>'')) }}
+						<div class="col-md-10 form-group ">						
+							{{Form::label('estado_ot','Estado OT:')}}
+							{{ Form::select('estado_ot', array('0' => 'Seleccione') + $estados ,$ot_info->idestado_ot ,array('class'=>'form-control')) }}
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-md-10 form-group">
-							{{ Form::label('motivo','Motivo') }}
-							{{ Form::textarea('motivo',$ot_info->motivo,array('class' => 'form-control','rows'=>'3','maxlength'=>'500','style'=>'resize:none;','readonly'=>'')) }}
-						</div>
-					</div>
+					
 				</div>
 				<div class="col-md-6">
 					<div class="row">
@@ -80,6 +75,22 @@
 							{{ Form::text('numero_solicitud',$ot_info->sot_tipo_abreviatura.$ot_info->sot_correlativo,array('class' => 'form-control','readonly'=>'	')) }}
 						</div>
 					</div>		
+					
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Datos de la Solicitud</h3>
+			</div>
+			<div class="panel-body">
+				<div class="col-md-6">
+					<div class="row">
+						<div class="col-md-10 form-group">
+							{{ Form::label('descripcion','Descripcion') }}
+							{{ Form::textarea('descripcion',$ot_info->descripcion,array('class' => 'form-control','rows'=>'3','maxlength'=>'500','style'=>'resize:none;','readonly'=>'')) }}
+						</div>
+					</div>
 					<div class="row">
 						<div class="col-md-10 form-group">
 							{{ Form::label('detalle','Detalle') }}
@@ -87,12 +98,20 @@
 						</div>
 					</div>
 				</div>
+				<div class="col-md-6">
+					<div class="row">
+						<div class="col-md-10 form-group">
+							{{ Form::label('motivo','Motivo') }}
+							{{ Form::textarea('motivo',$ot_info->motivo,array('class' => 'form-control','rows'=>'3','maxlength'=>'500','style'=>'resize:none;','readonly'=>'')) }}
+						</div>
+					</div>
+				</div>				
 			</div>
 		</div>
 	
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h3 class="panel-title">Datos de la Solicitud</h3>
+				<h3 class="panel-title">Fecha de Programación y Conformidad</h3>
 			</div>
 			<div class="panel-body">
 				<div class="col-md-6">					

@@ -35,7 +35,7 @@
 							@if($ot_info->fecha_inicio == null)
 								{{ Form::text('fecha_inicio',null,array('class'=>'form-control','readonly'=>'')) }}
 							@else
-								{{Form::text('fecha_inicio',date('d-m-Y H:i',strtotime($ot_info->fecha_inicio)),array('class'=>'form-control','readonly'=>'')) }}
+								{{Form::text('fecha_inicio',date('d-m-Y',strtotime($ot_info->fecha_inicio)).' ['.date('H:i',strtotime($ot_info->fecha_inicio)).'-'.date('H:i',strtotime($ot_info->fecha_fin)).']',array('class'=>'form-control','readonly'=>'')) }}
 							@endif								
 						</div>
 					</div>
@@ -55,12 +55,8 @@
 					</div>
 					<div class="row">
 						<div class="col-md-8 form-group ">						
-							{{ Form::label('fecha_fin','Fecha Fin') }}
-							@if($ot_info->fecha_fin == null)
-								{{ Form::text('fecha_fin',null,array('class'=>'form-control','readonly'=>'')) }}
-							@else
-								{{Form::text('fecha_fin',date('d-m-Y H:i',strtotime($ot_info->fecha_fin)),array('class'=>'form-control','readonly'=>'')) }}
-							@endif
+							{{Form::label('estado_ot','Estado OT:')}}
+							{{ Form::select('estado_ot', array('0' => 'Seleccione') + $estados ,$ot_info->idestado ,array('class'=>'form-control','disabled'=>'disabled')) }}
 						</div>
 					</div>
 				</div>
@@ -95,21 +91,18 @@
 				</div>				
 			</div>			
 		</div>
-		<div class="panel panel-default"  style="height:1100px;">
+		<div class="panel panel-default"  style="height:750px;">
 			<div class="panel-heading">
 				<h3 class="panel-title">Equipos Asociados</h3>
 			</div>
 			<div class="panel-body" id="body_equipos">
 				<div class="row">
-					<div class="col-md-2">
+					<div class="col-md-2" style="margin-top:5px;">
 						{{Form::label('numero_fila','Número de Fila:')}}						
-						{{Form::text('codigo_patrimonial',Input::old('codigo_patrimonial'),array('class'=>'form-control','id'=>'numero_fila','placeholder'=>'Ingrese N° de fila'))}}
+						
 					</div>
-					<div class="col-md-2" style="margin-top:25px;">
-						{{ Form::button('<span class="glyphicon glyphicon-search"></span> Buscar', array('id'=>'buscar','class' => 'btn btn-success btn-block')) }}
-					</div>
-					<div class="col-md-2" style="margin-top:25px;">
-						{{ Form::button('<span class="glyphicon glyphicon-reload"></span> Limpiar', array('id'=>'limpiar','class' => 'btn btn-default btn-block')) }}
+					<div class="col-md-4" style="margin-left:-50px;">
+						{{ Form::select('filas', array('0' => 'Seleccione') + $filas ,null ,array('class'=>'form-control','id'=>'fila')) }}
 					</div>
 				</div>
 			@foreach($activosxot_info as $i => $otxactivo)
@@ -121,17 +114,17 @@
 					</div>
 					{{Form::hidden('idactivo'.$i,$otxactivo->idactivo)}}
 					<div class="row">
-						<div class="col-md-6 form-group">
+						<div class="col-md-8 form-group">
 							<div class="table-responsive">
 								<table class="table">
 									<tr class="info">
-										<th>Tarea</th>
-										<th>Estado</th>
+										<th class="text-nowrap text-center">Tarea</th>
+										<th class="text-nowrap text-center">Estado</th>
 									</tr>
 									@foreach($tareas_activos[$i] as $j => $tarea)
 										<tr>
-											<td>{{$tarea->nombre_tarea}}</td>
-											<td>
+											<td class="text-nowrap text-center">{{$tarea->nombre_tarea}}</td>
+											<td class="text-nowrap text-center">
 											@if($tarea->idestado_realizado == 23)
 												{{ Form::button('Marcar realizada',array('class'=>'btn btn-default boton-tarea','data-id'=>$tarea->idot_inspec_equiposxactivosxtareas_inspec_equipo)) }}
 											@else
@@ -153,7 +146,7 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-6 form-group">
+						<div class="col-md-10 form-group">
 							{{ Form::label('observaciones_equipo','Observaciones del Equipo') }}
 							{{ Form::textarea('observaciones_equipo'.$i,$otxactivo->observaciones,array('class' => 'form-control','style'=>'resize:none;','readonly'=>'')) }}
 						</div>

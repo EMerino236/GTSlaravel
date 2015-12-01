@@ -328,6 +328,8 @@ class OtInspeccionEquiposController extends BaseController {
 			// Verifico si el usuario es un Webmaster
 			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4) && $id){
 				
+				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
+				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
 				$data["ot_info"] = OrdenesTrabajoInspeccionEquipo::searchOtInspeccionEquipoById($id)->get();
 				if($data["ot_info"]->isEmpty()){
 					return Redirect::to('inspec_equipo/list_inspec_equipos');
@@ -343,6 +345,12 @@ class OtInspeccionEquiposController extends BaseController {
 					$otInspeccionxActivoxTareas = TareasOtInspeccionEquipoxActivo::getTareasxInspeccionxActivo($otInspeccionxActivo->idot_inspec_equiposxactivo)->get();	
 					array_push($data["tareas_activos"],$otInspeccionxActivoxTareas);
 				}
+
+				$data["filas"] = [];
+				for($i=0;$i<$cant_activos;$i++){
+					array_push($data["filas"],$i);
+				}
+				array_push($data["filas"], $cant_activos);
 				return View::make('ot/inspeccionEquipo/createOtInspecEquipos',$data);
 			}else{
 				return View::make('error/error',$data);
@@ -395,6 +403,7 @@ class OtInspeccionEquiposController extends BaseController {
 				}else{
 					$ot = OrdenesTrabajoInspeccionEquipo::find($idot_inspec_equipo);
 					$ot->numero_ficha = Input::get('numero_ficha');
+					$ot->idestado = Input::get('estado_ot');
 					$count_activos = Input::get('count_activos');
 					$ot->save();
 					
@@ -472,6 +481,8 @@ class OtInspeccionEquiposController extends BaseController {
 			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
 				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12) && $id){
 				
+				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
+				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
 				$data["ot_info"] = OrdenesTrabajoInspeccionEquipo::searchOtInspeccionEquipoById($id)->get();
 				if($data["ot_info"]->isEmpty()){
 					return Redirect::to('inspec_equipo/list_inspec_equipos');
@@ -487,6 +498,11 @@ class OtInspeccionEquiposController extends BaseController {
 					$otInspeccionxActivoxTareas = TareasOtInspeccionEquipoxActivo::getTareasxInspeccionxActivo($otInspeccionxActivo->idot_inspec_equiposxactivo)->get();	
 					array_push($data["tareas_activos"],$otInspeccionxActivoxTareas);
 				}
+				$data["filas"] = [];
+				for($i=0;$i<$cant_activos;$i++){
+					array_push($data["filas"],$i);
+				}
+				array_push($data["filas"], $cant_activos);
 				return View::make('ot/inspeccionEquipo/viewOtInspecEquipos',$data);
 			}else{
 				return View::make('error/error',$data);
