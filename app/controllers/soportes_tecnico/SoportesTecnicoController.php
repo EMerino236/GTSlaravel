@@ -57,6 +57,34 @@ class SoportesTecnicoController extends BaseController
 		}
 	}
 
+	public function render_view_soporte_tecnico($idsoporte_tecnico=null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if(($data["user"]->idrol == 1) && $idsoporte_tecnico){
+
+				$data["soporte_tecnico_info"] = SoporteTecnico::find($idsoporte_tecnico)->get();
+				$data["soporte_tecnico_info"] = $data["soporte_tecnico_info"][0];
+				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
+				
+				if($data["soporte_tecnico_info"] == null)
+				{
+					return Redirect::to('soportes_tecnicos/list_soporte_tecnico');
+				}
+				
+				$data["tipo_documento_identidad"] = TipoDocumento::lists('nombre','idtipo_documento');				
+
+				return View::make('soporte_tecnico/viewSoporteTecnico',$data);
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
 	/*public function render_create_soporte_tecnico()
 	{
 		if(Auth::check()){
@@ -234,34 +262,6 @@ class SoportesTecnicoController extends BaseController
 			return View::make('error/error',$data);
 		}
 	}
-	*/
-
-	/*public function render_view_soporte_tecnico($idsoporte_tecnico=null)
-	{
-		if(Auth::check()){
-			$data["inside_url"] = Config::get('app.inside_url');
-			$data["user"] = Session::get('user');
-			// Verifico si el usuario es un Webmaster
-			if(($data["user"]->idrol == 1) && $idsoporte_tecnico){
-
-				$data["soporte_tecnico_info"] = SoporteTecnico::find($idsoporte_tecnico)->get();
-				$data["soporte_tecnico_info"] = $data["soporte_tecnico_info"][0];
-				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
-				
-				if($data["soporte_tecnico_info"] == null)
-				{
-					return Redirect::to('soportes_tecnicos/list_soporte_tecnico');
-				}
-				
-				$data["tipo_documento_identidad"] = TipoDocumento::lists('nombre','idtipo_documento');				
-
-				return View::make('soporte_tecnico/viewSoporteTecnico',$data);
-			}else{
-				return View::make('error/error',$data);
-			}
-		}else{
-			return View::make('error/error',$data);
-		}
-	}
-	*/
+	*/	
+	
 }

@@ -97,7 +97,7 @@
 							{{$soporte_tecnico->tipo_documento}}
 						</td>
 						<td class="text-nowrap">							
-							<a href="{{URL::to('/proveedores/view_soporte_tecnico_proveedor')}}/{{$soporte_tecnico->idsoporte_tecnico}}">{{$soporte_tecnico->numero_doc_identidad}}</a>							
+							<a href="{{URL::to('/soportes_tecnico/view_soporte_tecnico')}}/{{$soporte_tecnico->idsoporte_tecnico}}">{{$soporte_tecnico->numero_doc_identidad}}</a>							
 						</td>	
 						<td class="text-nowrap">
 							{{$soporte_tecnico->nombres}}
