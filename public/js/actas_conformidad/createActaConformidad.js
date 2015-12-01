@@ -28,6 +28,16 @@ $( document ).ready(function(){
             }
         });
     });
+
+    $('#idRemoveActa').click(function(){
+        $('#numero_acta').val('');
+        $("#nombre_acta").css('background-color','white');
+        $("#nombre_acta").css('color','black');
+        $("#nombre_acta").val('');
+        $("#btn_descarga").hide();
+        $("input[name=numero_acta_hidden]").val(null);
+
+    });
 	
 });
 

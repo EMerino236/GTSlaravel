@@ -330,6 +330,7 @@ Route::group(array('prefix'=>'actas_conformidad','before'=>'auth'),function(){
 	Route::post('/submit_enable_acta','ActasConformidadController@submit_enable_acta');
 	Route::post('/return_name_acta','ActasConformidadController@return_name_acta');
 	Route::post('/download_acta','ActasConformidadController@download_acta');
+	Route::get('/view_acta/{id}','ActasConformidadController@render_view_acta');
 });
 
 /* Mantenimiento Preventivo */

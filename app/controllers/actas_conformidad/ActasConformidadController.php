@@ -78,6 +78,31 @@ class ActasConformidadController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
+			if(($data["user"]->idrol == 1|| $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 ) && $iddocumento)
+			{	
+				$data["tipo_actas"] = TipoActa::lists('nombre','idtipo_acta');
+				$data["proveedores"] = Proveedor::lists('razon_social','idproveedor');
+				$data["documento_info"] = Documento::searchDocumentoById($iddocumento)->get();
+				if($data["documento_info"]->isEmpty()){
+					return Redirect::to('actas_conformidad/list_actas');
+				}
+				$data["documento_info"] = $data["documento_info"][0];
+
+				return View::make('actas_conformidad/editActaConformidad',$data);
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+
+	}
+
+	public function render_view_acta($iddocumento=null){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
 			if(($data["user"]->idrol == 1|| $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4   || $data["user"]->idrol == 5  || $data["user"]->idrol == 6
 				|| $data["user"]->idrol == 7 || $data["user"]->idrol == 8  || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12) && $iddocumento)
 			{	
@@ -89,7 +114,7 @@ class ActasConformidadController extends BaseController
 				}
 				$data["documento_info"] = $data["documento_info"][0];
 
-				return View::make('actas_conformidad/editActaConformidad',$data);
+				return View::make('actas_conformidad/viewActaConformidad',$data);
 			}else{
 				return View::make('error/error',$data);
 			}
@@ -166,7 +191,7 @@ class ActasConformidadController extends BaseController
 					$url = "actas_conformidad/edit_acta"."/".$acta_id;
 					$documento = Documento::find($acta_id);
 					if($documento==null){
-						Session::flash('error', 'Se registró correctamente el area.');				
+						Session::flash('error', 'No hay documento registrado.');				
 						return Redirect::to('actas_conformidad/list_actas');
 					}
 					//verificar si es una nueva acta a la que se le está asignando el proveedor

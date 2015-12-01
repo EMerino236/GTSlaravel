@@ -389,11 +389,6 @@ class SolicitudesController extends BaseController
 			
 			$solicitud = SolicitudCompra::find($idsolicitud_compra);
 			$solicitud->idtipo_solicitud_compra = Input::get('tipo_solicitud');
-			if($fecha_actual > $fecha){
-				$message = "No se guardaron los cambios del Requerimiento. No se puede registrar fecha pasada.";
-				$type_message = "bg-danger";
-				return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'message' => $message, 'type_message'=>$type_message ),200);
-			}
 			$solicitud->fecha = $fecha;
 			$solicitud->codigo_ot = Input::get('numero_ot');
 			$solicitud->idfamilia_activo = Input::get('equipo');

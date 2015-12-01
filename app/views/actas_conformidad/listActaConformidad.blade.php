@@ -73,11 +73,17 @@
 						<tr>
 							<td class="text-nowrap">{{$index+1}}</td>					
 							<td class="text-nowrap">{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $acta_data->fecha_acta)->format('d-m-Y') }}</td>					
-							<td class="text-nowrap">{{$acta_data->codigo_archivamiento}}</td>
+							<td class="text-nowrap">
+								<a  href="{{URL::to('/actas_conformidad/view_acta/')}}/{{$acta_data->iddocumento}}">{{$acta_data->codigo_archivamiento}}</a>
+							</td>
 							<td class="text-nowrap">{{$acta_data->nombre_proveedor}}</td>
 							<td class="text-nowrap">
-								<a class="btn btn-warning btn-block btn-sm" href="{{URL::to('/actas_conformidad/edit_acta/')}}/{{$acta_data->iddocumento}}">
-								<span class="glyphicon glyphicon-pencil"></span> Editar</a>
+								@if($user->idrol == 1 || $user->idrol == 2  || $user->idrol == 3 || $user->idrol == 4 )
+									<a class="btn btn-warning btn-block btn-sm" href="{{URL::to('/actas_conformidad/edit_acta/')}}/{{$acta_data->iddocumento}}">
+									<span class="glyphicon glyphicon-pencil"></span> Editar</a>
+								@else
+									-
+								@endif
 							</td>
 						</tr>
 					@endforeach				

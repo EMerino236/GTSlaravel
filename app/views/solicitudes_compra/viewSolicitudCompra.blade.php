@@ -167,7 +167,7 @@
 								@if($documento_info->deleted_at)
 									{{ Form::text('numero_reporte',$documento_info->codigo_archivamiento,array('class'=>'form-control','readonly'=>'','id'=>'numero_reporte')) }}
 								@else
-									{{ Form::text('numero_reporte',$documento_info->codigo_archivamiento,array('class'=>'form-control','id'=>'numero_reporte')) }}
+									{{ Form::text('numero_reporte',$documento_info->codigo_archivamiento,array('class'=>'form-control','id'=>'numero_reporte','readonly'=>'')) }}
 								@endif								
 							</div>
 							<div class="form-group col-md-4">

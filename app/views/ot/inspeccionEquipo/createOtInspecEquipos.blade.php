@@ -115,12 +115,15 @@
 			</div>
 			<div class="panel-body" id="body_equipos">
 				<div class="row">
-					<div class="col-md-4">
+					<div class="col-md-2">
 						{{Form::label('numero_fila','Número de Fila:')}}						
-						{{Form::text('codigo_patrimonial',Input::old('codigo_patrimonial'),array('class'=>'form-control','id'=>'numero_fila','placeholder'=>'Ingrese número de fila:'))}}
+						{{Form::text('codigo_patrimonial',Input::old('codigo_patrimonial'),array('class'=>'form-control','id'=>'numero_fila','placeholder'=>'Ingrese N° de fila'))}}
 					</div>
 					<div class="col-md-2" style="margin-top:25px;">
 						{{ Form::button('<span class="glyphicon glyphicon-search"></span> Buscar', array('id'=>'buscar','class' => 'btn btn-success btn-block')) }}
+					</div>
+					<div class="col-md-2" style="margin-top:25px;">
+						{{ Form::button('<span class="glyphicon glyphicon-reload"></span> Limpiar', array('id'=>'limpiar','class' => 'btn btn-default btn-block')) }}
 					</div>
 				</div>
 
@@ -157,7 +160,7 @@
 						</div>
 						<div class="col-md-4 form-group">
 							{{Form::label('imagen','Imagen del Equipo:')}}						
-							<div style="border:solid;width:500px;height:300px;">
+							<div style="border:solid;width:450px;height:300px;">
 								@if($otxactivo->imagen_url!= null && $otxactivo->nombre_archivo!=null)
 									<img style="max-width:100%;max-height:100%;width:100%;height:100%;" src={{$inside_url.$otxactivo->imagen_url.$otxactivo->nombre_archivo_encriptado}}>
 								@endif

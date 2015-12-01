@@ -109,6 +109,7 @@ INSERT INTO tablas (nombre_tabla) VALUES ('estado_solicitud_compra');
 INSERT INTO tablas (nombre_tabla) VALUES ('estado_equipo_noint');
 INSERT INTO tablas (nombre_tabla) VALUES ('estado_actividad_realizada');
 
+INSERT INTO tipo_actas (nombre) VALUES ('Conformidad del Proveedor');
 
 INSERT INTO estados (nombre,idtabla) VALUES ('Activo','1');
 INSERT INTO estados (nombre,idtabla) VALUES ('Inactivo','1');

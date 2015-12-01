@@ -10,7 +10,7 @@
 		{{ Form::hidden('idot_inspec_equipo', $ot_info->idot_inspec_equipo,array('id'=>'idot_inspec_equipo'))}}
 		{{ Form::hidden('idservicio', $ot_info->idservicio) }}
 		{{ Form::hidden('count_activos', count($activos_info),array('id'=>'count_activos')) }}
-		
+		{{ Form::hidden('value_activo',0,array('id'=>'value_activo'))}}		
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">Datos de la OTM</h3>
@@ -95,55 +95,68 @@
 				</div>				
 			</div>			
 		</div>
-		<div class="panel panel-default">
+		<div class="panel panel-default"  style="height:1100px;">
 			<div class="panel-heading">
 				<h3 class="panel-title">Equipos Asociados</h3>
 			</div>
 			<div class="panel-body" id="body_equipos">
-
+				<div class="row">
+					<div class="col-md-2">
+						{{Form::label('numero_fila','Número de Fila:')}}						
+						{{Form::text('codigo_patrimonial',Input::old('codigo_patrimonial'),array('class'=>'form-control','id'=>'numero_fila','placeholder'=>'Ingrese N° de fila'))}}
+					</div>
+					<div class="col-md-2" style="margin-top:25px;">
+						{{ Form::button('<span class="glyphicon glyphicon-search"></span> Buscar', array('id'=>'buscar','class' => 'btn btn-success btn-block')) }}
+					</div>
+					<div class="col-md-2" style="margin-top:25px;">
+						{{ Form::button('<span class="glyphicon glyphicon-reload"></span> Limpiar', array('id'=>'limpiar','class' => 'btn btn-default btn-block')) }}
+					</div>
+				</div>
 			@foreach($activosxot_info as $i => $otxactivo)
-				<div class="row">
-					<div class="col-md-12">
-						<h4>{{$i+1}}. {{$otxactivo->nombre_equipo}} - {{$otxactivo->nombre_modelo}} - Código Patrimonial: {{$otxactivo->codigo_patrimonial}}</h4>
+				<div id="{{$i+1}}" style="position:absolute;visibility:hidden;" >	
+					<div class="row">
+						<div class="col-md-12">
+							<h4>{{$i+1}}. {{$otxactivo->nombre_equipo}} - {{$otxactivo->nombre_modelo}} - Código Patrimonial: {{$otxactivo->codigo_patrimonial}}</h4>
+						</div>
 					</div>
-				</div>
-				{{Form::hidden('idactivo'.$i,$otxactivo->idactivo)}}
-				<div class="row">
-					<div class="col-md-6 form-group">
-						<div class="table-responsive">
-							<table class="table">
-								<tr class="info">
-									<th>Tarea</th>
-									<th>Estado</th>
-								</tr>
-								@foreach($tareas_activos[$i] as $j => $tarea)
-									<tr>
-										<td>{{$tarea->nombre_tarea}}</td>
-										<td>
-										@if($tarea->idestado_realizado == 23)
-											{{ Form::button('Marcar realizada',array('class'=>'btn btn-default boton-tarea','data-id'=>$tarea->idot_inspec_equiposxactivosxtareas_inspec_equipo)) }}
-										@else
-											Realizada
-										@endif
-										</td>
+					{{Form::hidden('idactivo'.$i,$otxactivo->idactivo)}}
+					<div class="row">
+						<div class="col-md-6 form-group">
+							<div class="table-responsive">
+								<table class="table">
+									<tr class="info">
+										<th>Tarea</th>
+										<th>Estado</th>
 									</tr>
-								@endforeach
-							</table>
+									@foreach($tareas_activos[$i] as $j => $tarea)
+										<tr>
+											<td>{{$tarea->nombre_tarea}}</td>
+											<td>
+											@if($tarea->idestado_realizado == 23)
+												{{ Form::button('Marcar realizada',array('class'=>'btn btn-default boton-tarea','data-id'=>$tarea->idot_inspec_equiposxactivosxtareas_inspec_equipo)) }}
+											@else
+												Realizada
+											@endif
+											</td>
+										</tr>
+									@endforeach
+								</table>
+							</div>
+						</div>
+						<div class="col-md-4 form-group">
+							{{Form::label('imagen','Imagen del Equipo:')}}
+							<div style="border:solid;width:450px;height:300px;">
+								@if($otxactivo->imagen_url!= null && $otxactivo->nombre_archivo!=null)
+									<img style="max-width:100%;max-height:100%;width:100%;height:100%;" src={{$inside_url.$otxactivo->imagen_url.$otxactivo->nombre_archivo_encriptado}}>
+								@endif
+							</div>
 						</div>
 					</div>
-					<div class="col-md-6 form-group">
-						{{Form::label('imagen','Imagen del Equipo:')}}
-						<div style="border:solid;width:400px;height:200px;">
-							@if($otxactivo->imagen_url!= null && $otxactivo->nombre_archivo!=null)
-								<img style="max-width:100%;max-height:100%;width:100%;height:100%;" src={{$inside_url.$otxactivo->imagen_url.$otxactivo->nombre_archivo_encriptado}}>
-							@endif
+					<div class="row">
+						<div class="col-md-6 form-group">
+							{{ Form::label('observaciones_equipo','Observaciones del Equipo') }}
+							{{ Form::textarea('observaciones_equipo'.$i,$otxactivo->observaciones,array('class' => 'form-control','style'=>'resize:none;','readonly'=>'')) }}
 						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-6 form-group">
-						{{ Form::label('observaciones_equipo','Observaciones del Equipo') }}
-						{{ Form::textarea('observaciones_equipo'.$i,$otxactivo->observaciones,array('class' => 'form-control','style'=>'resize:none;','readonly'=>'')) }}
 					</div>
 				</div>				
 			@endforeach		

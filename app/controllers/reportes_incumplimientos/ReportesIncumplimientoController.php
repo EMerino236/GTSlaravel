@@ -277,10 +277,7 @@ class ReportesIncumplimientoController extends BaseController
 					//validar si la fecha es mayor o igual que la actual
 					$fecha_reporte = date('Y-m-d',strtotime(Input::get('fecha_reporte')));
 					$fecha_actual = date('Y-m-d');
-					if($fecha_actual>$fecha_reporte){
-						Session::flash('error', 'No se puede guardar una fecha pasada a la actual.');
-						return Redirect::to($url);
-					}
+					
 					$reporte->fecha = $fecha_reporte;
 					$id_usuario_revision = Input::get('numero_doc1');
 					$usuario_revision = User::searchPersonalByNumeroDoc($id_usuario_revision)->get();

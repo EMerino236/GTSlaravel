@@ -64,6 +64,14 @@ $( document ).ready(function(){
        		});
 	 	}
 		
+	});
+
+	$('#limpiar').click(function(){
+		value_activo = $('#value_activo').val();
+		$('#numero_fila').val('');
+		div = document.getElementById(value_activo);
+		div.style.visibility = "hidden";
+		$('#value_activo').val(0);
 	})
 });
 
