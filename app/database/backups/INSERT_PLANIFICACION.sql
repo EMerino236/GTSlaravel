@@ -6,3 +6,5 @@ INSERT INTO tipo_reporte_CN (idtipo_reporte_CN,nombre) VALUES ('3','R-CN Mediano
 INSERT INTO tipo_reporte_ETES (idtipo_reporte_ETES,nombre) VALUES ('1','R-ETES Clínico');
 INSERT INTO tipo_reporte_ETES (idtipo_reporte_ETES,nombre) VALUES ('2','R-ETES Tecnológico');
 INSERT INTO tipo_reporte_ETES (idtipo_reporte_ETES,nombre) VALUES ('3','R-ETES Económico');
+INSERT INTO tipo_referencia (idtipo_referencia,nombre) VALUES ('1','Cotización');
+INSERT INTO tipo_referencia (idtipo_referencia,nombre) VALUES ('2','SEACE');

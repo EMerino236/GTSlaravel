@@ -373,6 +373,7 @@ Route::group(array('prefix'=>'verif_metrologica','before'=>'auth'),function(){
 	Route::post('/return_name_doc_relacionado/{postData}','OtVerificacionMetrologicaController@return_name_doc_relacionado');
 	Route::get('/download_documento/{id?}','OtVerificacionMetrologicaController@download_documento');
 	Route::post('/export_pdf','OtVerificacionMetrologicaController@export_pdf');
+	Route::post('/submit_disable_verif_metrologica','OtVerificacionMetrologicaController@submit_disable_verif_metrologica');
 });
 
 /* Inspeccion de Equipos */
@@ -438,6 +439,21 @@ Route::group(array('prefix'=>'reporte_paac','before'=>'auth'),function(){
 	Route::get('/download_documento/{id}','ReportePAACController@download_documento');
 	Route::post('/submit_disable_reporte_paac','ReportePAACController@submit_disable_reporte_paac');
 	Route::post('/submit_enable_reporte_paac','ReportePAACController@submit_enable_reporte_paac');
+});
+
+/* Cotizaciones */
+Route::group(array('prefix'=>'cotizaciones','before'=>'auth'),function(){
+	Route::get('/list_cotizacion','CotizacionController@list_cotizacion');
+	Route::get('/edit_cotizacion/{id}','CotizacionController@render_edit_cotizacion');
+	Route::post('/submit_edit_cotizacion','CotizacionController@submit_edit_cotizacion');
+	Route::get('/create_cotizacion','CotizacionController@render_create_cotizacion');
+	Route::post('/submit_create_cotizacion','CotizacionController@submit_create_cotizacion');
+	Route::get('/search_cotizacion','CotizacionController@search_cotizacion');
+	Route::post('/return_num_ot_retiro/{postData}','CotizacionController@return_num_ot_retiro');
+	Route::post('/return_area/{postData}','CotizacionController@return_area');
+	Route::get('/download_documento/{id}','CotizacionController@download_documento');
+	Route::post('/submit_disable_cotizacion','CotizacionController@submit_disable_cotizacion');
+	Route::post('/submit_enable_cotizacion','CotizacionController@submit_enable_cotizacion');
 });
 
 /*Registro Historico de OTM*/

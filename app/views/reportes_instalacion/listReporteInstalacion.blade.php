@@ -2,14 +2,19 @@
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Reportes de Instalación</h3>
-            <p class="text-right">{{ HTML::link('/rep_instalacion/create_rep_instalacion','+ Generar Reporte de Instalación',array('class'=>'')) }}</p>
+            <h3 class="page-header">Reportes de Instalación</h3>            
         </div>
         <!-- /.col-lg-12 -->
     </div>
     @if (Session::has('message'))
 		<div class="alert alert-success">{{ Session::get('message') }}</div>
 	@endif
+	<div class="container-fluid form-group row">
+		<div class="col-md-4 col-md-offset-8">
+			<a class="btn btn-primary btn-block" href="{{URL::to('/rep_instalacion/create_rep_instalacion')}}">
+			<span class="glyphicon glyphicon-plus"></span> Agregar Reporte de Instalación</a>
+		</div>
+	</div>
     {{ Form::open(array('url'=>'/rep_instalacion/search_rep_instalacion','method'=>'get' ,'role'=>'form', 'id'=>'search-form','class' => 'form-group')) }}
 		<div class="panel panel-default">
 			<div class="panel-heading">
@@ -45,8 +50,8 @@
 				</div>
 				<div class="col-xs-12">
 					<div class="row">
-						<div class="form-group col-xs-8">
-							{{ Form::submit('Buscar',array('id'=>'submit-search-form','class'=>'btn btn-info')) }}
+						<div class="form-group col-md-2 col-md-offset-8">
+							{{ Form::button('<span class="glyphicon glyphicon-search"></span> Buscar', array('id'=>'submit-search-form','type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}	
 						</div>
 					</div>
 				</div>

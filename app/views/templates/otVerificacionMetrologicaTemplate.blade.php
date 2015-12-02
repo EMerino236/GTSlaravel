@@ -45,7 +45,8 @@
     <script src="{{ asset('js/ordenes_trabajos/verificacion_metrologica/addOtVerifMetrologica.js')}}"></script>
     <script src="{{ asset('js/ordenes_trabajos/verificacion_metrologica/listOtVerifMetrologica.js')}}"></script>
     <script src="{{ asset('js/ordenes_trabajos/verificacion_metrologica/otVerificacionMetrologica.js') }}"></script>
-
+    <!--Bootstrap-Dialog Javascritp-->
+    <script src="{{asset('js/bootstrap-dialog.min.js') }}"></script>
 </head>
 
 <body>

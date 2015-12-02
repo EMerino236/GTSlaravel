@@ -448,6 +448,25 @@ class OtVerificacionMetrologicaController extends BaseController {
 		}
 	}
 
+	public function submit_disable_verif_metrologia(){
+		// If there was an error, respond with 404 status
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$ot = OrdenesTrabajoVerifMetrologica::find(Input::get('idot_vmetrologica'));
+			$ot->idestado_ot = 25;
+			$ot->save();
+			$message = "Se ha cancelado la OT.";
+			$type_message = "bg-success";
+			return Response::json(array( 'success' => true,'url' => $data["inside_url"], 'message' => $message, 'type_message'=>$type_message ),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
 	public function export_pdf(){
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');

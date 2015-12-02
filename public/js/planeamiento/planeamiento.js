@@ -6,7 +6,7 @@ $( document ).ready(function(){
     $('#search_datetimepicker2').datetimepicker({
         ignoreReadonly: true,
         format:'DD-MM-YYYY'
-    });
+    });    
     $("#search_datetimepicker1").on("dp.change", function (e) {
         $('#search_datetimepicker2').data("DateTimePicker").minDate(e.date);
     });
@@ -19,6 +19,15 @@ $( document ).ready(function(){
         ignoreReadonly: true,
         format: 'DD-MM-YYYY HH:ss',
         sideBySide: true
+    });
+
+    var ayer = new Date();
+    ayer.setDate(new Date().getDate() -1);
+    $('#datetimepicker_cotizacion').datetimepicker({
+        defaultDate: false,
+        ignoreReadonly: true,
+        format: 'YYYY',
+        maxDate: ayer
     });
 
     $('#idservicio').change(function(){

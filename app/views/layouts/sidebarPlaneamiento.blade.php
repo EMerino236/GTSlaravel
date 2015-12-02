@@ -17,7 +17,7 @@
                     <li>
                         <a href="#">Elaboración de presupuesto<span class="fa arrow"></span></a>
                         <ul class="nav nav-third-level">                           
-                            <li>{{ HTML::link('#','Precios referenciales de TS y bienes') }}</li>
+                            <li>{{ HTML::link('/cotizaciones/list_cotizacion','Precios referenciales de TS y bienes') }}</li>
                             <li>{{ HTML::link('#','Elaboración de presupuesto para PAAC') }}</li>
                         </ul>  
                     </li>                  

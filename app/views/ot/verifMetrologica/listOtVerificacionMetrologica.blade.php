@@ -25,7 +25,7 @@
 				<div class="panel-body">
 					<div class="container-fluid form-group row">
 						<div class="form-group col-md-4">
-							{{ Form::label('search_ing','Ingeniero a cargo') }}
+							{{ Form::label('search_ing','Ingeniero a cargo del activo') }}
 							{{ Form::text('search_ing',$search_ing,array('class'=>'form-control','placeholder'=>'Nombre o apellidos','id'=>'search_ing')) }}
 						</div>
 						<div class="form-group col-md-4">
@@ -37,7 +37,7 @@
 							{{ Form::text('search_ubicacion',$search_ubicacion,array('class'=>'form-control','placeholder'=>'Ubicación física','id'=>'search_ubicacion')) }}
 						</div>
 						<div class="form-group col-md-4">
-							{{ Form::label('search_ot','Orden de Trabajo de Mantenimiento') }}
+							{{ Form::label('search_ot','Orden de Trabajo de VM') }}
 							{{ Form::text('search_ot',$search_ot,array('class'=>'form-control','placeholder'=>'Número de OT','id'=>'search_ot')) }}
 						</div>					
 						<div class="form-group col-md-4">
@@ -95,8 +95,10 @@
 					<th>Ubicación</th>
 					<th>Orden Trabajo VM</th>
 					<th>Estado</th>
+					<th class="text-nowrap">Eliminar</th>
 				</tr>
-				@foreach($verif_metrologicas_data as $verif_metrologica_data)
+				@foreach($verif_metrologicas_data as $index => $verif_metrologica_data)
+				{{form::hidden('fila',$verif_metrologica_data->idot_vmetrologica,array('id'=>'fila'.$index))}}
 				<tr>
 					<td>
 						{{date('d-m-Y H:i:s',strtotime($verif_metrologica_data->fecha_programacion))}}
@@ -119,10 +121,36 @@
 					<td>
 						{{$verif_metrologica_data->nombre_estado}}
 					</td>
+					<td class="text-nowrap text-center">
+					@if($user->idrol==1 || $user->idrol==2 || $user->idrol==3 || $user->idrol==4)
+						@if($verif_metrologica_data->idestado_ot!=25)
+							<div class="btn btn-danger btn-block" onclick='eliminar_ot(event,this)'><span class="glyphicon glyphicon-trash"></span></div>
+						@endif
+					@endif
+					</td>
 				</tr>
 				@endforeach
 			</table>
 		</div>
 	</div>
 	
+<div class="container">
+  <!-- Modal -->
+  <div class="modal fade" id="modal_list_ot" role="dialog">
+    <div class="modal-dialog modal-md">    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header" id="modal_list_header_ot">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Advertencia</h4>
+        </div>
+        <div class="modal-body" id="modal_text_list_ot">         	
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" id="btn_close_modal" data-dismiss="modal">Aceptar</button>
+        </div>
+      </div>      
+    </div>
+  </div>  
+</div>
 @stop

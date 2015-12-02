@@ -1,16 +1,18 @@
 <?php
 
-class DocumentoController extends BaseController {
+class CotizacionController extends BaseController {
 
-	public function render_create_documento()
+	public function render_create_cotizacion()
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
-				$data["tipo_documentos"] = TipoDocumentos::orderBy('nombre','asc')->lists('nombre','idtipo_documento');
-				return View::make('documentos/createDocumento',$data);
+				$data["nombres_equipo"] = FamiliaActivo::orderBy('nombre_equipo','asc')->lists('nombre_equipo','idfamilia_activo');
+				$data["tipos_referencia"] = TipoReferencia::lists('nombre','idtipo_referencia');
+				$data["proveedores"] = Proveedor::orderBy('razon_social','asc')->lists('razon_social','idproveedor');
+				return View::make('cotizaciones/createCotizacion',$data);
 			}else{
 				return View::make('error/error',$data);
 			}
@@ -20,7 +22,7 @@ class DocumentoController extends BaseController {
 		}
 	}
 
-	public function submit_create_documento()
+	public function submit_create_cotizacion()
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
@@ -29,45 +31,47 @@ class DocumentoController extends BaseController {
 			if($data["user"]->idrol == 1){
 				// Validate the info, create rules for the inputs
 				$rules = array(
-							'nombre' => 'required|max:100|unique:documentos',
-							'descripcion' => 'required|max:200',
-							'autor' => 'required|max:100',
-							'codigo_archivamiento' => 'required|max:100|unique:documentos',
-							'ubicacion' => 'required|max:100',	
+							'nombre_equipo' => 'required',
+							'modelo_equipo' => 'required|max:100',
+							'proveedor' => 'required',
+							'anho' => 'required',
+							'precio' => 'required',	
+							'tipo_referencia' => 'required',														
 							'archivo' => 'max:15360|mimes:png,jpe,jpeg,jpg,gif,bmp,zip,rar,pdf,doc,docx,xls,xlsx,ppt,pptx',			
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
-					return Redirect::to('documento/create_documento')->withErrors($validator)->withInput(Input::all());
+					return Redirect::to('cotizaciones/create_cotizacion')->withErrors($validator)->withInput(Input::all());
 				}else{
-				    $data["tipo_documentos"] = TipoDocumentos::searchTipoDocumentosById(Input::get('idtipo_documento'))->get();	
 				    $rutaDestino ='';
-				    $nombreArchivo        ='';	
+				    $nombreArchivo ='';	
 				    if (Input::hasFile('archivo')) {
-				        $archivo            = Input::file('archivo');
-				        $rutaDestino = 'documentos/' . $data["tipo_documentos"][0]->nombre . '/';
+				        $archivo = Input::file('archivo');
+				        $rutaDestino = 'documentos/cotizaciones/';
 				        $nombreArchivo        = $archivo->getClientOriginalName();
 				        $nombreArchivoEncriptado = Str::random(27).'.'.pathinfo($nombreArchivo, PATHINFO_EXTENSION);
 				        $uploadSuccess = $archivo->move($rutaDestino, $nombreArchivoEncriptado);
 				    }
 
 
-					$documento = new Documento;
-					$documento->nombre = Input::get('nombre');
-					$documento->nombre_archivo = $nombreArchivo;
-					$documento->nombre_archivo_encriptado = $nombreArchivoEncriptado;
-					$documento->descripcion = Input::get('descripcion');
-					$documento->autor = Input::get('autor');
-					$documento->codigo_archivamiento = Input::get('codigo_archivamiento');
-					$documento->ubicacion = Input::get('ubicacion');
-					$documento->url = $rutaDestino;
-					$documento->idtipo_documento = Input::get('idtipo_documento');
-					$documento->idestado = 1;
-					$documento->save();
-					Session::flash('message', 'Se registró correctamente el Documento.');				
-					return Redirect::to('documento/create_documento');
+					$cotizacion = new Cotizacion;
+					$cotizacion->precio = Input::get('precio');
+					$cotizacion->anho = Input::get('anho');
+					$cotizacion->nombre_archivo = $nombreArchivo;
+					$cotizacion->nombre_archivo_encriptado = $nombreArchivoEncriptado;
+					$cotizacion->anho = Input::get('anho');
+					$cotizacion->idproveedor = Input::get('proveedor');
+					$cotizacion->idtipo_referencia = Input::get('tipo_referencia');
+					$cotizacion->codigo_cotizacion = Input::get('codigo_cotizacion');
+					$cotizacion->url = $rutaDestino;
+					$cotizacion->enlace_seace = Input::get('enlace_seace');
+					$cotizacion->modelo_equipo = Input::get('modelo_equipo');
+					$cotizacion->nombre_detallado = Input::get('nombre_detallado');
+					$cotizacion->save();
+					Session::flash('message', 'Se registró correctamente el cotizacion.');				
+					return Redirect::to('cotizaciones/create_cotizacion');
 				}
 			}else{
 				return View::make('error/error',$data);
@@ -169,22 +173,21 @@ class DocumentoController extends BaseController {
 		}
 	}
 
-	public function list_documentos()
+	public function list_cotizacion()
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
-				$data["tipo_documentos"] = TipoDocumentos::orderBy('nombre','asc')->lists('nombre','idtipo_documento');
 
-				$data["search_nombre"] = null;
-				$data["search_autor"] = null;
-				$data["search_codigo_archivamiento"] = null;
-				$data["search_ubicacion"] = null;
-				$data["search_tipo_documento"] = null;
-				$data["documentos_data"] = Documento::getDocumentosInfo()->paginate(10);
-				return View::make('documentos/listDocumentos',$data);
+				$data["search_nombre_equipo"] = null;
+				$data["search_nombre_detallado"] = null;
+				$data["search_marca"] = null;
+				$data["search_modelo"] = null;
+				//$data["cotizaciones_data"] = Cotizacion::getCotizacionInfo()->paginate(10);
+				$data["cotizaciones_data"] = array();
+				return View::make('cotizaciones/listCotizacion',$data);
 			}else{
 				return View::make('error/error',$data);
 			}
