@@ -490,3 +490,24 @@ Route::group(array('prefix'=>'busqueda_informacion','before'=>'auth'),function()
 	Route::get('/view_ot_busqueda_informacion/{id}','OtBusquedaInformacionController@render_view_ot');
 	Route::post('/submit_disable_busqueda','OtBusquedaInformacionController@submit_disable_ot');
 });
+
+/* Investigacion */
+Route::group(array('prefix'=>'investigacion', 'before'=>'auth'),function(){
+	Route::get('/','InvestigacionController@home');
+});
+
+/* Repositorio de documentos de investigacion */
+Route::group(array('prefix'=>'documento_investigacion', 'before'=>'auth'),function(){
+	Route::get('/list_documentos','DocumentosInvestigacionController@list_documentos');
+	Route::get('/create_documento','DocumentosInvestigacionController@render_create_documento');
+	Route::post('/create_documento','DocumentosInvestigacionController@submit_create_documento');
+	Route::get('/search_documento','DocumentosInvestigacionController@search_documento');
+	/*
+	Route::get('/edit_documento/{id}','DocumentoController@render_edit_documento');
+	Route::post('/submit_edit_documento','DocumentoController@submit_edit_documento');
+		
+	Route::post('/download_documento','DocumentoController@download_documento');
+	Route::post('/submit_disable_documento','DocumentoController@submit_disable_documento');
+	Route::post('/submit_enable_documento','DocumentoController@submit_enable_documento');	
+	 */
+});
