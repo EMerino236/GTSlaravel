@@ -31,7 +31,8 @@
 				{{ Form::text('search_ubicacion',$search_ubicacion,array('class'=>'form-control','placeholder'=>'Ubicación')) }}
 			</div>
 			<div class="col-xs-4">
-
+				{{ Form::label('search_nombre','Nombre de Documento') }}
+				{{ Form::text('search_nombre',$search_nombre,array('class'=>'form-control','placeholder'=>'Nombre de Documento')) }}
 			</div>
 		</div>
 

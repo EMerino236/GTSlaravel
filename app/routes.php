@@ -534,3 +534,8 @@ Route::group(array('prefix'=>'documento_investigacion', 'before'=>'auth'),functi
 	Route::post('/submit_enable_documento','DocumentoController@submit_enable_documento');	
 	 */
 });
+
+/*Plantillas de inspecciones de servicios*/
+Route::group(array('prefix'=>'plantillas_servicios', 'before'=>'auth'),function(){
+	Route::get('/list_servicios','PlantillasServiciosController@list_servicios');
+});
