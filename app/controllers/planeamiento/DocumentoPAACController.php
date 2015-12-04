@@ -43,7 +43,7 @@ class DocumentoPAACController extends BaseController
 				    $nombreArchivo ='';	
 				    if (Input::hasFile('archivo')) {
 				        $archivo = Input::file('archivo');
-				        $rutaDestino = 'documentos/DocumentosPAAC/';
+				        $rutaDestino = 'documentos/planeamiento/DocumentosPAAC/';
 				        $nombreArchivo        = $archivo->getClientOriginalName();
 				        $nombreArchivoEncriptado = Str::random(27).'.'.pathinfo($nombreArchivo, PATHINFO_EXTENSION);
 				        $uploadSuccess = $archivo->move($rutaDestino, $nombreArchivoEncriptado);

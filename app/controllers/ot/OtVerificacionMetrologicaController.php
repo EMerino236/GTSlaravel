@@ -448,7 +448,7 @@ class OtVerificacionMetrologicaController extends BaseController {
 		}
 	}
 
-	public function submit_disable_verif_metrologia(){
+	public function submit_disable_verif_metrologica(){
 		// If there was an error, respond with 404 status
 		if(!Request::ajax() || !Auth::check()){
 			return Response::json(array( 'success' => false ),200);
