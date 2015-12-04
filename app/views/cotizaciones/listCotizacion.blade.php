@@ -40,7 +40,7 @@
 				{{ Form::button('<span class="glyphicon glyphicon-search"></span> Buscar', array('id'=>'submit-search-form','type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}				
 			</div>
 			<div class="form-group col-md-2">
-				<div class="btn btn-default btn-block" id="btnLimpiar">Limpiar</div>				
+				<div class="btn btn-default btn-block" id="btnLlimpiar_criterios_list_cotizaciones"><span class="glyphicon glyphicon-refresh"></span> Limpiar</div>				
 			</div>
 		</div>
 
@@ -48,9 +48,9 @@
 	</div>
 	{{ Form::close() }}</br>	
 	<div class="container-fluid form-group row">
-		<div class="col-md-2 col-md-offset-10">
-			<a class="btn btn-primary btn-block" href="{{URL::to('/documento/create_documento')}}">
-			<span class="glyphicon glyphicon-plus"></span> Agregar</a>
+		<div class="col-md-3 col-md-offset-9">
+			<a class="btn btn-primary btn-block" href="{{URL::to('/cotizaciones/create_cotizacion')}}">
+			<span class="glyphicon glyphicon-plus"></span> Agregar Cotización</a>
 		</div>
 	</div>
 
@@ -64,18 +64,24 @@
 		@foreach($cotizaciones_data as $cotizacion_data)
 		<tr class="@if($cotizacion_data->deleted_at) bg-danger @endif">
 			<td>
-				<a>{{$cotizacion_data->nombre}}</a>
+				<a href="{{URL::to('/cotizaciones/view_cotizacion/')}}/{{$cotizacion_data->idcotizacion}}">{{$cotizacion_data->nombre_equipo}}</a>				
 			</td>
 			<td>
-				{{$cotizacion_data->autor}}
+				{{$cotizacion_data->nombre_detallado}}
 			</td>
 			<td>
-				{{$cotizacion_data->codigo_archivamiento}}
+				{{$cotizacion_data->marca}}
 			</td>
 			<td>
-				{{$cotizacion_data->ubicacion}}
+				{{$cotizacion_data->modelo_equipo}}
 			</td>
 		</tr>
 		@endforeach
 	</table>
+	@if($search_nombre_equipo || $search_nombre_detallado || $search_marca || $search_modelo)
+		{{ $cotizaciones_data->appends(array('search_nombre_equipo' => $search_nombre_equipo, 
+		'search_nombre_detallado' => $search_nombre_detallado,'search_marca' => $search_marca, 'search_modelo' => $search_modelo))->links() }}
+	@else
+		{{ $cotizaciones_data->links()}}
+	@endif
 @stop

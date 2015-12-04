@@ -9,9 +9,8 @@ class CotizacionController extends BaseController {
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
-				$data["nombres_equipo"] = FamiliaActivo::orderBy('nombre_equipo','asc')->lists('nombre_equipo','idfamilia_activo');
+				$data["nombres_equipo"] = FamiliaActivo::orderBy('nombre_equipo','asc')->distinct()->lists('nombre_equipo');
 				$data["tipos_referencia"] = TipoReferencia::lists('nombre','idtipo_referencia');
-				$data["proveedores"] = Proveedor::orderBy('razon_social','asc')->lists('razon_social','idproveedor');
 				return View::make('cotizaciones/createCotizacion',$data);
 			}else{
 				return View::make('error/error',$data);
@@ -37,7 +36,7 @@ class CotizacionController extends BaseController {
 							'anho' => 'required',
 							'precio' => 'required',	
 							'tipo_referencia' => 'required',														
-							'archivo' => 'max:15360|mimes:png,jpe,jpeg,jpg,gif,bmp,zip,rar,pdf,doc,docx,xls,xlsx,ppt,pptx',			
+							'archivo' => 'max:15360',			
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules);
@@ -57,12 +56,14 @@ class CotizacionController extends BaseController {
 
 
 					$cotizacion = new Cotizacion;
+					$cotizacion->nombre_equipo = Input::get('nombre_equipo_string');
+					$cotizacion->marca = Input::get('marca');
 					$cotizacion->precio = Input::get('precio');
 					$cotizacion->anho = Input::get('anho');
 					$cotizacion->nombre_archivo = $nombreArchivo;
 					$cotizacion->nombre_archivo_encriptado = $nombreArchivoEncriptado;
 					$cotizacion->anho = Input::get('anho');
-					$cotizacion->idproveedor = Input::get('proveedor');
+					$cotizacion->proveedor = Input::get('proveedor');
 					$cotizacion->idtipo_referencia = Input::get('tipo_referencia');
 					$cotizacion->codigo_cotizacion = Input::get('codigo_cotizacion');
 					$cotizacion->url = $rutaDestino;
@@ -82,92 +83,31 @@ class CotizacionController extends BaseController {
 		}
 	}
 
-	public function render_edit_documento($id=null)
+	public function render_view_cotizacion($id=null)
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if(($data["user"]->idrol == 1) && $id){
-				$data["tipo_documentos"] = TipoDocumentos::lists('nombre','idtipo_documento');
-				$data["documento_info"] = Documento::searchDocumentoById($id)->get();
-				$data["archivo"] = basename($data["documento_info"][0]->url);
-				if($data["documento_info"]->isEmpty()){
-					return Redirect::to('documento/list_documento');
-				}
-				$data["documento_info"] = $data["documento_info"][0];
-				return View::make('documentos/editDocumento',$data);
+			if(($data["user"]->idrol == 1) && $id){				
+				$data["cotizacion_data"] = Cotizacion::find($id);
+				$data["anho_actual"] = date('Y');	
+				$data["cotizaciones_historico"] = Cotizacion::getCotizacionesHistorico($data["cotizacion_data"]->nombre_equipo,
+									$data["cotizacion_data"]->nombre_detallado,
+									$data["anho_actual"]-5,$data["anho_actual"]-4,$data["anho_actual"]-3,$data["anho_actual"]-2,$data["anho_actual"]-1,$data["anho_actual"]);				
+				$data["referencias_seace_historico"] = Cotizacion::getReferenciasSeaceHistorico($data["cotizacion_data"]->nombre_equipo,
+									$data["cotizacion_data"]->nombre_detallado,
+									$data["anho_actual"]-5,$data["anho_actual"]-4,$data["anho_actual"]-3,$data["anho_actual"]-2,$data["anho_actual"]-1,$data["anho_actual"]);				
+				if($data["cotizacion_data"]->nombre_detallado == '')
+					$data["activos_precio_historico"] = FamiliaActivo::getActivosPrecioHistorico($data["cotizacion_data"]->nombre_equipo,
+									$data["anho_actual"]-5,$data["anho_actual"]-4,$data["anho_actual"]-3,$data["anho_actual"]-2,$data["anho_actual"]-1,$data["anho_actual"]);				
+				else
+					$data["activos_precio_historico"] = array();
+				
+				return View::make('cotizaciones/viewCotizacion',$data);
 			}else{
 				return View::make('error/error',$data);
 			}
-		}else{
-			return View::make('error/error',$data);
-		}
-	}
-
-	public function submit_edit_documento()
-	{
-		if(Auth::check()){
-			$data["inside_url"] = Config::get('app.inside_url');
-			$data["user"] = Session::get('user');
-			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
-				// Validate the info, create rules for the inputs
-				$rules = array(
-							'descripcion' => 'required|max:200',
-							'autor' => 'required|max:100',
-							'codigo_archivamiento' => 'required|max:100',
-							'ubicacion' => 'required|max:100',				
-						);
-				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
-				// If the validator fails, redirect back to the form
-				if($validator->fails()){
-					$iddocumento = Input::get('documento_id');
-					$url = "documento/edit_documento"."/".$iddocumento;
-					return Redirect::to($url)->withErrors($validator)->withInput(Input::all());
-				}else{
-					$data["tipo_documentos"] = TipoDocumentos::searchTipoDocumentosById(Input::get('idtipo_documento'))->get();
-					$data["documento_info"] = Documento::searchDocumentoById(Input::get('documento_id'))->get();
-					/*
-					if(!Input::file('archivo')){
-						$archivo = readfile($data["documento_info"][0]->url);
-						echo "<pre>";						
-						print_r($archivo);
-						exit;
-				        $rutaDestino = 'documentos/' . $data["tipo_documentos"][0]->nombre . '/';
-				        $nombreArchivo        = basename($data["documento_info"][0]->url);
-				        $uploadSuccess   = $archivo->move($rutaDestino, $nombreArchivo);
-					}
-				    $rutaDestino ='';
-				    $nombreArchivo        ='';		    
-				    if (Input::hasFile('archivo')) {
-				        $archivo            = Input::file('archivo');
-				        $rutaDestino = 'documentos/' . $data["tipo_documentos"][0]->nombre . '/';
-				        $nombreArchivo        = $archivo->getClientOriginalName();
-				        $uploadSuccess   = $archivo->move($rutaDestino, $nombreArchivo);
-				    }
-				    */
-
-					$iddocumento = Input::get('documento_id');
-					$url = "documento/edit_documento"."/".$iddocumento;
-					$documento = Documento::find($iddocumento);
-					$documento->nombre = Input::get('nombre');
-					$documento->descripcion = Input::get('descripcion');
-					$documento->autor = Input::get('autor');
-					$documento->codigo_archivamiento = Input::get('codigo_archivamiento');
-					$documento->ubicacion = Input::get('ubicacion');
-					$documento->url = $data["documento_info"][0]->url;
-					$documento->idtipo_documento = $data["documento_info"][0]->idtipo_documento;
-					$documento->idestado = 1;
-					$documento->save();
-					Session::flash('message', 'Se editó correctamente el Documento.');
-					return Redirect::to($url);
-				}
-			}else{
-				return View::make('error/error',$data);
-			}
-
 		}else{
 			return View::make('error/error',$data);
 		}
@@ -185,8 +125,11 @@ class CotizacionController extends BaseController {
 				$data["search_nombre_detallado"] = null;
 				$data["search_marca"] = null;
 				$data["search_modelo"] = null;
-				//$data["cotizaciones_data"] = Cotizacion::getCotizacionInfo()->paginate(10);
-				$data["cotizaciones_data"] = array();
+				$data["cotizaciones_data"] = Cotizacion::getCotizacionInfo()->paginate(10);
+				//$data["cotizaciones_data"] = FamiliaActivo::getFamiliaActivosCotizacionesInfo()->get();
+				//$page = Input::get('page', 1);
+				//$slice = array_slice($data["cotizaciones_data"], 10 * ($page - 1), 10);
+				//$data["cotizaciones_data"] = Paginator::make($slice,count($data["cotizaciones_data"]),10);
 				return View::make('cotizaciones/listCotizacion',$data);
 			}else{
 				return View::make('error/error',$data);
@@ -197,64 +140,58 @@ class CotizacionController extends BaseController {
 		}
 	}
 
-	public function search_documento()
+	public function search_cotizacion()
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
-				$data["tipo_documentos"] = TipoDocumentos::lists('nombre','idtipo_documento');
-
-				$data["search_nombre"] = Input::get('search_nombre');
-				$data["search_autor"] = Input::get('search_autor');
-				$data["search_codigo_archivamiento"] = Input::get('search_codigo_archivamiento');
-				$data["search_ubicacion"] = Input::get('search_ubicacion');
-				$data["search_tipo_documento"] = Input::get('search_tipo_documento');
-
-				$data["documentos_data"] = Documento::searchDocumentos($data["search_nombre"],$data["search_autor"],$data["search_codigo_archivamiento"],
-										$data["search_ubicacion"],$data["search_tipo_documento"])->paginate(10);
-				return View::make('documentos/listDocumentos',$data);
+				$data["search_nombre_equipo"] = Input::get('search_nombre_equipo');
+				$data["search_nombre_detallado"] = Input::get('search_nombre_detallado');;
+				$data["search_marca"] = Input::get('search_marca');;
+				$data["search_modelo"] = Input::get('search_modelo');;
+				$data["cotizaciones_data"] = Cotizacion::searchCotizacionInfo($data["search_nombre_equipo"],
+					$data["search_nombre_detallado"],$data["search_marca"],$data["search_modelo"])->paginate(10);
+				/*
+				$data["cotizaciones_data"] = FamiliaActivo::searchFamiliaActivosCotizacionesInfo($data["search_nombre_equipo"],
+											$data["search_nombre_detallado"],$data["search_marca"],$data["search_modelo"])->get();
+				$page = Input::get('page', 1);
+				$slice = array_slice($data["cotizaciones_data"], 10 * ($page - 1), 10);
+				$data["cotizaciones_data"] = Paginator::make($slice,count($data["cotizaciones_data"]),10);
+				*/
+				return View::make('cotizaciones/listCotizacion',$data);
 			}else{
 				return View::make('error/error',$data);
 			}
 		}else{
 			return View::make('error/error',$data);
 		}
-	}
+	}	
 
-	public function submit_enable_documento(){
+	public function export_pdf(){
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
-				$documento_id = Input::get('documento_id');
-				$url = "documento/edit_documento"."/".$documento_id;
-				$documento = Documento::withTrashed()->find($documento_id);
-				$documento->restore();
-				Session::flash('message', 'Se habilitó correctamente el documento.');
-				return Redirect::to($url);
-			}else{
-				return View::make('error/error',$data);
-			}
-		}else{
-			return View::make('error/error',$data);
-		}
-	}
+				$data["cotizacion_data"] = Cotizacion::find(Input::get('idcotizacion'));
+				$data["anho_actual"] = date('Y');	
+				$data["cotizaciones_historico"] = Cotizacion::getCotizacionesHistorico($data["cotizacion_data"]->nombre_equipo,
+									$data["cotizacion_data"]->nombre_detallado,
+									$data["anho_actual"]-5,$data["anho_actual"]-4,$data["anho_actual"]-3,$data["anho_actual"]-2,$data["anho_actual"]-1,$data["anho_actual"]);				
+				$data["referencias_seace_historico"] = Cotizacion::getReferenciasSeaceHistorico($data["cotizacion_data"]->nombre_equipo,
+									$data["cotizacion_data"]->nombre_detallado,
+									$data["anho_actual"]-5,$data["anho_actual"]-4,$data["anho_actual"]-3,$data["anho_actual"]-2,$data["anho_actual"]-1,$data["anho_actual"]);				
+				if($data["cotizacion_data"]->nombre_detallado == '')
+					$data["activos_precio_historico"] = FamiliaActivo::getActivosPrecioHistorico($data["cotizacion_data"]->nombre_equipo,
+									$data["anho_actual"]-5,$data["anho_actual"]-4,$data["anho_actual"]-3,$data["anho_actual"]-2,$data["anho_actual"]-1,$data["anho_actual"]);				
+				else
+					$data["activos_precio_historico"] = array();
 
-	public function submit_disable_documento(){
-		if(Auth::check()){
-			$data["inside_url"] = Config::get('app.inside_url');
-			$data["user"] = Session::get('user');
-			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
-				$documento_id = Input::get("documento_id");
-				$url = "documento/edit_documento"."/".$documento_id;
-				$documento = Documento::find($documento_id);
-				$documento->delete();
-				Session::flash('message','Se inhabilitó correctamente el documento.' );					
-				return Redirect::to($url);
+				$html = View::make('cotizaciones/CotizacionExport',$data);
+				
+				return PDF::load($html,"A4","portrait")->show();
 			}else{
 				return View::make('error/error',$data);
 			}

@@ -444,16 +444,39 @@ Route::group(array('prefix'=>'reporte_paac','before'=>'auth'),function(){
 /* Cotizaciones */
 Route::group(array('prefix'=>'cotizaciones','before'=>'auth'),function(){
 	Route::get('/list_cotizacion','CotizacionController@list_cotizacion');
-	Route::get('/edit_cotizacion/{id}','CotizacionController@render_edit_cotizacion');
+	Route::get('/view_cotizacion/{id}','CotizacionController@render_view_cotizacion');
 	Route::post('/submit_edit_cotizacion','CotizacionController@submit_edit_cotizacion');
 	Route::get('/create_cotizacion','CotizacionController@render_create_cotizacion');
 	Route::post('/submit_create_cotizacion','CotizacionController@submit_create_cotizacion');
 	Route::get('/search_cotizacion','CotizacionController@search_cotizacion');
-	Route::post('/return_num_ot_retiro/{postData}','CotizacionController@return_num_ot_retiro');
-	Route::post('/return_area/{postData}','CotizacionController@return_area');
 	Route::get('/download_documento/{id}','CotizacionController@download_documento');
-	Route::post('/submit_disable_cotizacion','CotizacionController@submit_disable_cotizacion');
-	Route::post('/submit_enable_cotizacion','CotizacionController@submit_enable_cotizacion');
+	Route::post('/export_pdf','CotizacionController@export_pdf');
+});
+
+/* Documentos PAAC */
+Route::group(array('prefix'=>'documentos_PAAC','before'=>'auth'),function(){
+	Route::get('/list_documento_paac','DocumentoPAACController@list_documento_paac');
+	Route::get('/edit_documento_paac/{id}','DocumentoPAACController@render_edit_documento_paac');
+	Route::post('/submit_edit_documento_paac','DocumentoPAACController@submit_edit_documento_paac');
+	Route::get('/create_documento_paac','DocumentoPAACController@render_create_documento_paac');
+	Route::post('/submit_create_documento_paac','DocumentoPAACController@submit_create_documento_paac');
+	Route::get('/search_documento_paac','DocumentoPAACController@search_documento_paac');
+	Route::get('/download_documento/{id}','DocumentoPAACController@download_documento');
+	Route::post('/submit_disable_documento_paac','DocumentoPAACController@submit_disable_documento_paac');
+	Route::post('/submit_enable_documento_paac','DocumentoPAACController@submit_enable_documento_paac');
+});
+
+/* Plan Director */
+Route::group(array('prefix'=>'plan_director','before'=>'auth'),function(){
+	Route::get('/list_documento_plan_director','DocumentoPlanDirectorController@list_documento_plan_director');
+	Route::get('/edit_documento_plan_director/{id}','DocumentoPlanDirectorController@render_edit_documento_plan_director');
+	Route::post('/submit_edit_documento_plan_director','DocumentoPlanDirectorController@submit_edit_documento_plan_director');
+	Route::get('/create_documento_plan_director','DocumentoPlanDirectorController@render_create_documento_plan_director');
+	Route::post('/submit_create_documento_plan_director','DocumentoPlanDirectorController@submit_create_documento_plan_director');
+	Route::get('/search_documento_plan_director','DocumentoPlanDirectorController@search_documento_plan_director');
+	Route::get('/download_documento/{id}','DocumentoPlanDirectorController@download_documento');
+	Route::post('/submit_disable_documento_plan_director','DocumentoPlanDirectorController@submit_disable_documento_plan_director');
+	Route::post('/submit_enable_documento_plan_director','DocumentoPlanDirectorController@submit_enable_documento_plan_director');
 });
 
 /*Registro Historico de OTM*/

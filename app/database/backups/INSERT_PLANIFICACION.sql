@@ -8,3 +8,13 @@ INSERT INTO tipo_reporte_ETES (idtipo_reporte_ETES,nombre) VALUES ('2','R-ETES T
 INSERT INTO tipo_reporte_ETES (idtipo_reporte_ETES,nombre) VALUES ('3','R-ETES Económico');
 INSERT INTO tipo_referencia (idtipo_referencia,nombre) VALUES ('1','Cotización');
 INSERT INTO tipo_referencia (idtipo_referencia,nombre) VALUES ('2','SEACE');
+INSERT INTO tipo_documentosPAAC (idtipo_documentosPAAC,nombre) VALUES ('1','ASIGNACIÓN DE COSTOS PARA PAAC');
+INSERT INTO tipo_documentosPAAC (idtipo_documentosPAAC,nombre) VALUES ('2','ASIGNACIÓN DE COSTOS PARA PAAC COMPLEMENTARIO');
+INSERT INTO tipo_documentosPAAC (idtipo_documentosPAAC,nombre) VALUES ('3','PRESUPUESTO PARA PAAC');
+INSERT INTO tipo_documentosPAAC (idtipo_documentosPAAC,nombre) VALUES ('4','PRESUPUESTO PARA PAAC COMPLEMENTARIO');
+INSERT INTO tipo_documentosPAAC (idtipo_documentosPAAC,nombre) VALUES ('5','PAAC');
+INSERT INTO tipo_documentosPAAC (idtipo_documentosPAAC,nombre) VALUES ('6','PAAC COMPLEMENTARIO');
+INSERT INTO tipo_documentosPlanDirector (idtipo_documentosPlanDirector,nombre) VALUES ('1','PLAN DIRECTOR');
+INSERT INTO tipo_documentosPlanDirector (idtipo_documentosPlanDirector,nombre) VALUES ('2','POLÍTICAS INSTITUCIONALES');
+INSERT INTO tipo_documentosPlanDirector (idtipo_documentosPlanDirector,nombre) VALUES ('3','PLAN ESTRATÉGICO INSTITUCIONAL EN TS');
+INSERT INTO tipo_documentosPlanDirector (idtipo_documentosPlanDirector,nombre) VALUES ('4','PLAN OPERATIVO ANUAL');

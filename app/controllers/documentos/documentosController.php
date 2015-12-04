@@ -34,7 +34,7 @@ class DocumentoController extends BaseController {
 							'autor' => 'required|max:100',
 							'codigo_archivamiento' => 'required|max:100|unique:documentos',
 							'ubicacion' => 'required|max:100',	
-							'archivo' => 'max:15360|mimes:png,jpe,jpeg,jpg,gif,bmp,zip,rar,pdf,doc,docx,xls,xlsx,ppt,pptx',			
+							'archivo' => 'max:15360',			
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules);

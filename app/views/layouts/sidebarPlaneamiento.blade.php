@@ -18,10 +18,10 @@
                         <a href="#">Elaboración de presupuesto<span class="fa arrow"></span></a>
                         <ul class="nav nav-third-level">                           
                             <li>{{ HTML::link('/cotizaciones/list_cotizacion','Precios referenciales de TS y bienes') }}</li>
-                            <li>{{ HTML::link('#','Elaboración de presupuesto para PAAC') }}</li>
+                            <li>{{ HTML::link('/documentos_PAAC/list_documento_paac','Elaboración de presupuesto para PAAC') }}</li>
                         </ul>  
                     </li>                  
-                    <li>{{ HTML::link('#','Plan de ejecución') }}</li>
+                    <li>{{ HTML::link('/plan_director/list_documento_plan_director','Plan de ejecución') }}</li>
                 </ul>                
             </li>
             <li>{{ HTML::link('#','Asignación y control de reportes') }}</li>

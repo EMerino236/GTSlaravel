@@ -22,12 +22,58 @@ $( document ).ready(function(){
     });
 
     var ayer = new Date();
-    ayer.setDate(new Date().getDate() -1);
+    ayer.setDate(new Date().getDate() +1);
     $('#datetimepicker_cotizacion').datetimepicker({
+        useCurrent: false,
         defaultDate: false,
         ignoreReadonly: true,
         format: 'YYYY',
         maxDate: ayer
+    });
+
+    var ayer = new Date();
+    ayer.setDate(new Date().getDate() +1);
+    $('#datetimepicker_search_anho1').datetimepicker({
+        useCurrent: false,
+        defaultDate: false,
+        ignoreReadonly: true,
+        format: 'YYYY',
+        maxDate: ayer
+    });
+    var ayer = new Date();
+    ayer.setDate(new Date().getDate() +1);
+    $('#datetimepicker_search_anho2').datetimepicker({
+        useCurrent: false,
+        defaultDate: false,
+        ignoreReadonly: true,
+        format: 'YYYY',
+        maxDate: ayer
+    });
+    $('#tipo_referencia').ready(function(){
+        $("#enlace_seace").prop('readonly',true);
+        $("#codigo_cotizacion").prop('readonly',true);
+    });
+    
+    $('#tipo_referencia').on('change', function(e){
+        var selectTipoReporte = document.getElementById("tipo_referencia");
+        var selectedId = selectTipoReporte.options[selectTipoReporte.selectedIndex].value;// will gives u 2
+        if(selectedId == 1){
+            $("#enlace_seace").prop('readonly',true);
+            $("#codigo_cotizacion").prop('readonly',false);
+        }
+        if(selectedId == 2){
+            $("#enlace_seace").prop('readonly',false);
+            $("#codigo_cotizacion").prop('readonly',true);
+        }
+        if(selectedId == 0){
+            $("#enlace_seace").prop('readonly',true);
+            $("#codigo_cotizacion").prop('readonly',true);
+        }
+    });
+
+    $('#nombre_equipo').on('change', function(e){
+        var selectTipoReporte = document.getElementById("nombre_equipo");
+        $('#nombre_equipo_string').val(selectTipoReporte.options[selectTipoReporte.selectedIndex].text);        
     });
 
     $('#idservicio').change(function(){
@@ -97,6 +143,18 @@ $( document ).ready(function(){
 
     })
 
+    $('#btnLlimpiar_criterios_list_cotizaciones').click(function(){
+        $("#search_nombre_equipo").val('');
+        $("#search_nombre_detallado").val('');
+        $("#search_marca").val('');
+        $("#search_modelo").val('');
+    });
+
+    $('#btnLlimpiar_criterios_list_documentos').click(function(){
+        $("#search_tipo_documento").val('');
+        $("#search_fecha_ini").val('');
+        $("#search_fecha_fin").val('');
+    });
 
 });
 

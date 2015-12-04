@@ -9,7 +9,13 @@
 
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
-			<p><strong>{{ $errors->first('nombre') }}</strong></p>
+			<p><strong>{{ $errors->first('nombre_equipo') }}</strong></p>
+			<p><strong>{{ $errors->first('modelo_equipo') }}</strong></p>
+			<p><strong>{{ $errors->first('proveedor') }}</strong></p>
+			<p><strong>{{ $errors->first('anho') }}</strong></p>
+			<p><strong>{{ $errors->first('precio') }}</strong></p>
+			<p><strong>{{ $errors->first('tipo_referencia') }}</strong></p>
+			<p><strong>{{ $errors->first('archivo') }}</strong></p>
 		</div>
 	@endif
 
@@ -28,27 +34,32 @@
 			<div class="panel-body">
 				<div class="row">
 					<div class="form-group col-md-4 @if($errors->first('nombre_equipo')) has-error has-feedback @endif">
-						{{ Form::label('nombre_equipo','Nombre de Equipo') }}
+						{{ Form::label('nombre_equipo','Nombre de Equipo') }}<span style="color:red">*</span>
+						<input type="hidden" id="nombre_equipo_string" name="nombre_equipo_string" />
 						{{ Form::select('nombre_equipo',array(''=>'Seleccione') + $nombres_equipo,Input::old('nombre_equipo'),['class' => 'form-control']) }}
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('nombre_detallado')) has-error has-feedback @endif">
 						{{ Form::label('nombre_detallado','Nombre Detallado') }}
 						{{ Form::text('nombre_detallado',Input::old('nombre_detallado'),['placeholder'=>'Nombre de Accesorio o Componente','class' => 'form-control']) }}
 					</div>
+					<div class="form-group col-md-4 @if($errors->first('marca')) has-error has-feedback @endif">
+						{{ Form::label('marca','Marca') }}<span style="color:red">*</span>
+						{{ Form::text('marca',Input::old('marca'),['placeholder'=>'Marca','class' => 'form-control']) }}
+					</div>
 					<div class="form-group col-md-4 @if($errors->first('modelo_equipo')) has-error has-feedback @endif">
-						{{ Form::label('modelo_equipo','Modelo de Equipo') }}
-						{{ Form::text('modelo_equipo',Input::old('modelo_equipo'),['placeholder'=>'modelo_equipo de Equipo','class' => 'form-control']) }}
+						{{ Form::label('modelo_equipo','Modelo de Equipo') }}<span style="color:red">*</span>
+						{{ Form::text('modelo_equipo',Input::old('modelo_equipo'),['placeholder'=>'Modelo de Equipo','class' => 'form-control']) }}
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('proveedor')) has-error has-feedback @endif">
-						{{ Form::label('proveedor','Proveedor') }}
-						{{ Form::select('proveedor',array(''=>'Seleccione') + $proveedores,Input::old('proveedor'),['class' => 'form-control']) }}
+						{{ Form::label('proveedor','Proveedor') }}<span style="color:red">*</span>
+						{{ Form::text('proveedor',Input::old('proveedor'),['placeholder'=>'Proveedor','class' => 'form-control']) }}
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('precio')) has-error has-feedback @endif">
-						{{ Form::label('precio','Precio') }}
+						{{ Form::label('precio','Precio') }}<span style="color:red">*</span>
 						{{ Form::text('precio',Input::old('precio'),['placeholder'=>'Precio Referencial','class' => 'form-control']) }}
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('año')) has-error has-feedback @endif">
-						{{ Form::label('año','Año') }}
+						{{ Form::label('año','Año') }}<span style="color:red">*</span>
 						<div id="datetimepicker_cotizacion" class="input-group date">
 							{{ Form::text('anho',Input::old('anho'),array('class'=>'form-control','readonly'=>'')) }}
 							<span class="input-group-addon">
@@ -57,14 +68,14 @@
 						</div>
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('tipo_referencia')) has-error has-feedback @endif">
-						{{ Form::label('tipo_referencia','Tipo de Referencia') }}
+						{{ Form::label('tipo_referencia','Tipo de Referencia') }}<span style="color:red">*</span>
 						{{ Form::select('tipo_referencia',array(''=>'Seleccione') + $tipos_referencia,Input::old('tipo_referencia'),['class' => 'form-control']) }}
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('codigo_cotizacion')) has-error has-feedback @endif">
 						{{ Form::label('codigo_cotizacion','Código de Cotización') }}
 						{{ Form::text('codigo_cotizacion',Input::old('codigo_cotizacion'),['placeholder'=>'Código de Cotización','class' => 'form-control']) }}
 					</div>
-					<div class="form-group col-md-4 @if($errors->first('enlace_seace')) has-error has-feedback @endif">
+					<div class="form-group col-md-8 @if($errors->first('enlace_seace')) has-error has-feedback @endif">
 						{{ Form::label('enlace_seace','Enlace SEACE') }}
 						{{ Form::text('enlace_seace',Input::old('enlace_seace'),['placeholder'=>'Enlace SEACE','class' => 'form-control']) }}
 					</div>
