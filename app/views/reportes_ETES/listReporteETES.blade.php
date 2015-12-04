@@ -63,7 +63,7 @@
 	{{ Form::close() }}</br>
 	<div class="container-fluid form-group row">
 		<div class="col-md-3 col-md-offset-9">
-			<a class="btn btn-primary btn-block" href="{{URL::to('/reporte_cn/create_reporte_etes')}}">
+			<a class="btn btn-primary btn-block" href="{{URL::to('/reporte_etes/create_reporte_etes')}}">
 			<span class="glyphicon glyphicon-plus"></span> Agregar Reporte</a>
 		</div>
 	</div>
