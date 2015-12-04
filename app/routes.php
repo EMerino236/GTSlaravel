@@ -444,16 +444,13 @@ Route::group(array('prefix'=>'reporte_paac','before'=>'auth'),function(){
 /* Cotizaciones */
 Route::group(array('prefix'=>'cotizaciones','before'=>'auth'),function(){
 	Route::get('/list_cotizacion','CotizacionController@list_cotizacion');
-	Route::get('/edit_cotizacion/{id}','CotizacionController@render_edit_cotizacion');
+	Route::get('/view_cotizacion/{id}','CotizacionController@render_view_cotizacion');
 	Route::post('/submit_edit_cotizacion','CotizacionController@submit_edit_cotizacion');
 	Route::get('/create_cotizacion','CotizacionController@render_create_cotizacion');
 	Route::post('/submit_create_cotizacion','CotizacionController@submit_create_cotizacion');
 	Route::get('/search_cotizacion','CotizacionController@search_cotizacion');
-	Route::post('/return_num_ot_retiro/{postData}','CotizacionController@return_num_ot_retiro');
-	Route::post('/return_area/{postData}','CotizacionController@return_area');
 	Route::get('/download_documento/{id}','CotizacionController@download_documento');
-	Route::post('/submit_disable_cotizacion','CotizacionController@submit_disable_cotizacion');
-	Route::post('/submit_enable_cotizacion','CotizacionController@submit_enable_cotizacion');
+	Route::post('/export_pdf','CotizacionController@export_pdf');
 });
 
 /*Registro Historico de OTM*/

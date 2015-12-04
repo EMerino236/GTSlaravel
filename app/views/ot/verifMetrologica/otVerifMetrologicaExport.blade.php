@@ -49,6 +49,7 @@
 				<li><label><strong>Numero de Ficha: </strong></label> {{$numero_ficha}}</li>
 			</ul>
 		</div>	
+		<div>
 			<h3>Datos del equipo</h3>
 			<ul class="lista_generales">
 				<li><label><strong>Nombre del Equipo: </strong></label> {{$familia->nombre_equipo}}</li>						
@@ -58,6 +59,7 @@
 				<li><label><strong>Modelo: </strong></label> {{$modelo->nombre}}</li>
 			</ul>
 		</div>	
+		<div>
 			<h3>Datos del reporte de Verificacion Metrologica</h3>
 			<ul class="lista_generales">
 				<li><label><strong>Fecha y Hora de Programacion: </strong></label> {{$fecha_programacion}}</li>						

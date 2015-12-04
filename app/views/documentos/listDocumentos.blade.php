@@ -50,7 +50,7 @@
 				{{ Form::button('<span class="glyphicon glyphicon-search"></span> Buscar', array('id'=>'submit-search-form','type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}				
 			</div>
 			<div class="form-group col-md-2">
-				<div class="btn btn-default btn-block" id="btnLimpiar">Limpiar</div>				
+				<div class="btn btn-default btn-block" id="btnLimpiar"><span class="glyphicon glyphicon-refresh"></span> Limpiar</div>				
 			</div>
 		</div>
 

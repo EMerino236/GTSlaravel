@@ -30,6 +30,33 @@ $( document ).ready(function(){
         maxDate: ayer
     });
 
+    $('#tipo_referencia').ready(function(){
+        $("#enlace_seace").prop('readonly',true);
+        $("#codigo_cotizacion").prop('readonly',true);
+    });
+    
+    $('#tipo_referencia').on('change', function(e){
+        var selectTipoReporte = document.getElementById("tipo_referencia");
+        var selectedId = selectTipoReporte.options[selectTipoReporte.selectedIndex].value;// will gives u 2
+        if(selectedId == 1){
+            $("#enlace_seace").prop('readonly',true);
+            $("#codigo_cotizacion").prop('readonly',false);
+        }
+        if(selectedId == 2){
+            $("#enlace_seace").prop('readonly',false);
+            $("#codigo_cotizacion").prop('readonly',true);
+        }
+        if(selectedId == 0){
+            $("#enlace_seace").prop('readonly',true);
+            $("#codigo_cotizacion").prop('readonly',true);
+        }
+    });
+
+    $('#nombre_equipo').on('change', function(e){
+        var selectTipoReporte = document.getElementById("nombre_equipo");
+        $('#nombre_equipo_string').val(selectTipoReporte.options[selectTipoReporte.selectedIndex].text);        
+    });
+
     $('#idservicio').change(function(){
         var selectServicio = document.getElementById("idservicio");
         var selectedId = selectServicio.options[selectServicio.selectedIndex].value;// will gives u 2
@@ -97,6 +124,12 @@ $( document ).ready(function(){
 
     })
 
+    $('#btnLlimpiar_criterios_list_cotizaciones').click(function(){
+        $("#search_nombre_equipo").val('');
+        $("#search_nombre_detallado").val('');
+        $("#search_marca").val('');
+        $("#search_modelo").val('');
+    });
 
 });
 
