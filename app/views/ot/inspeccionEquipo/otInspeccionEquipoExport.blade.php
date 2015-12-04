@@ -118,7 +118,7 @@
 					<h3>{{$i+1}}. {{$otxactivo->nombre_equipo}} - {{$otxactivo->nombre_modelo}} - Codigo Patrimonial: {{$otxactivo->codigo_patrimonial}} </h3>
 				</div>
 				<div>
-					<table style="width:100%">
+					<table style="width:50%">
 						<tr>
 							<th>Tarea</th>
 							<th>Estado</th>
@@ -142,11 +142,11 @@
 						<label><strong>Observaciones del Equipo:</strong></label>
 						{{ Form::textarea('observaciones_equipo'.$i,$otxactivo->observaciones) }}
 					</div>	
+					@if($otxactivo->imagen_url!= null && $otxactivo->nombre_archivo!=null)
 					<div style="border:solid;width:300px;height:200px;margin-left:400px;position:absolute;">
-						@if($otxactivo->imagen_url!= null && $otxactivo->nombre_archivo!=null)
 							<img style="max-width:100%;max-height:100%;width:100%;height:100%;" src={{$otxactivo->imagen_url.$otxactivo->nombre_archivo_encriptado}}>
-						@endif
 					</div>
+					@endif
 				</div>					
 			@endforeach	
 		</div>
