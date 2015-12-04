@@ -453,6 +453,32 @@ Route::group(array('prefix'=>'cotizaciones','before'=>'auth'),function(){
 	Route::post('/export_pdf','CotizacionController@export_pdf');
 });
 
+/* Documentos PAAC */
+Route::group(array('prefix'=>'documentos_PAAC','before'=>'auth'),function(){
+	Route::get('/list_documento_paac','DocumentoPAACController@list_documento_paac');
+	Route::get('/edit_documento_paac/{id}','DocumentoPAACController@render_edit_documento_paac');
+	Route::post('/submit_edit_documento_paac','DocumentoPAACController@submit_edit_documento_paac');
+	Route::get('/create_documento_paac','DocumentoPAACController@render_create_documento_paac');
+	Route::post('/submit_create_documento_paac','DocumentoPAACController@submit_create_documento_paac');
+	Route::get('/search_documento_paac','DocumentoPAACController@search_documento_paac');
+	Route::get('/download_documento/{id}','DocumentoPAACController@download_documento');
+	Route::post('/submit_disable_documento_paac','DocumentoPAACController@submit_disable_documento_paac');
+	Route::post('/submit_enable_documento_paac','DocumentoPAACController@submit_enable_documento_paac');
+});
+
+/* Plan Director */
+Route::group(array('prefix'=>'plan_director','before'=>'auth'),function(){
+	Route::get('/list_documento_plan_director','DocumentoPlanDirectorController@list_documento_plan_director');
+	Route::get('/edit_documento_plan_director/{id}','DocumentoPlanDirectorController@render_edit_documento_plan_director');
+	Route::post('/submit_edit_documento_plan_director','DocumentoPlanDirectorController@submit_edit_documento_plan_director');
+	Route::get('/create_documento_plan_director','DocumentoPlanDirectorController@render_create_documento_plan_director');
+	Route::post('/submit_create_documento_plan_director','DocumentoPlanDirectorController@submit_create_documento_plan_director');
+	Route::get('/search_documento_plan_director','DocumentoPlanDirectorController@search_documento_plan_director');
+	Route::get('/download_documento/{id}','DocumentoPlanDirectorController@download_documento');
+	Route::post('/submit_disable_documento_plan_director','DocumentoPlanDirectorController@submit_disable_documento_plan_director');
+	Route::post('/submit_enable_documento_plan_director','DocumentoPlanDirectorController@submit_enable_documento_plan_director');
+});
+
 /*Registro Historico de OTM*/
 Route::group(array('prefix'=>'registro_historico_otm','before'=>'auth'),function(){
 	Route::get('/list_ot','RegistroHistoricoOTController@list_ot');
