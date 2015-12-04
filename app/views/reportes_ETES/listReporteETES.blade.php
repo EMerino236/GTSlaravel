@@ -3,7 +3,6 @@
 	<div class="row">
         <div class="col-lg-12">
             <h3 class="page-header">Reportes Evaluación de Tecnologías para la Salud</h3>
-            <p class="text-right">{{ HTML::link('/reporte_etes/create_reporte_etes','+ Generar Reporte',array('class'=>'')) }}</p>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -50,17 +49,24 @@
 					</div>
 				</div>
 				<div class="col-md-12">
-					<div class="row">
-						<div class="form-group col-md-8">
-							{{ Form::submit('Buscar',array('id'=>'submit-search-form','class'=>'btn btn-info')) }}
-						</div>
+					<div class="col-md-12">
+					<div class="form-group col-md-2 col-md-offset-8">
+						{{ Form::button('<span class="glyphicon glyphicon-search"></span> Buscar', array('id'=>'submit-search-form','type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}				
+					</div>
+					<div class="form-group col-md-2">
+						<div class="btn btn-default btn-block" id="btnLlimpiar_criterios_list_reporte_etes"><span class="glyphicon glyphicon-refresh"></span> Limpiar</div>				
 					</div>
 				</div>
 			</div>	
 			</div>
 		</div>
 	{{ Form::close() }}</br>
-
+	<div class="container-fluid form-group row">
+		<div class="col-md-3 col-md-offset-9">
+			<a class="btn btn-primary btn-block" href="{{URL::to('/reporte_cn/create_reporte_etes')}}">
+			<span class="glyphicon glyphicon-plus"></span> Agregar Reporte</a>
+		</div>
+	</div>
 	<table class="table">
 		<tr class="info">
 			<th>N° Reporte</th>
