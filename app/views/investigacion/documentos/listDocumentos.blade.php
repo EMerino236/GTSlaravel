@@ -81,7 +81,7 @@
 				{{$documento_data->nombre_tipo_documento}}
 			</td>
 			<td>
-				<a href="{{URL::to('/documento/edit_documento/')}}/{{$documento_data->iddocumento}}">{{$documento_data->nombre}}</a>
+				<a href="{{URL::to('/documento_investigacion/edit_documento/')}}/{{$documento_data->iddocumentosinf}}">{{$documento_data->nombre}}</a>
 			</td>
 			<td>
 				{{$documento_data->autor}}
@@ -97,7 +97,7 @@
 				{{$documento_data->created_at}}
 			</td>
 			<td>
-				{{ Form::open(array('url'=>'/documento/download_documento','role'=>'form', 'id'=>'search-form','class' => 'form-inline')) }}
+				{{ Form::open(array('url'=>'/documento_investigacion/download_documento','role'=>'form', 'id'=>'search-form','class' => 'form-inline')) }}
 					<div class="search_bar">
 						@if($documento_data->url != '')
 							{{ Form::hidden('url', $documento_data->url) }}

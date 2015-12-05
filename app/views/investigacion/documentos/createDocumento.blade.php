@@ -78,12 +78,11 @@
 				</div>
 			</div>
 		</div>		
-			<div class="row">
-				<div class="form-group col-md-2">
-					{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit_create', 'type'=>'submit','class' => 'btn btn-primary btn-block')) }}
-				</div>
-			</div>		
-		</div>	
+		<div class="row">
+			<div class="form-group col-md-2">
+				{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit_create', 'type'=>'submit','class' => 'btn btn-primary btn-block')) }}
+			</div>
+		</div>		
 	{{ Form::close() }}
 	
 	<script>
