@@ -49,7 +49,7 @@
                                 <!-- /.nav-third-level -->
                             </li>
                             <li>
-                                <a href="#">Programación <span class="fa arrow"></span></a>
+                                <a href="#">Órdenes de Trabajo <span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">
 									<li>{{ HTML::link('/inspec_equipos/list_inspec_equipos','Inspecciones de Equipos') }}</li>
                                     <li>{{ HTML::link('/mant_preventivo/list_mant_preventivo','Mantenimiento Preventivo') }}</li>

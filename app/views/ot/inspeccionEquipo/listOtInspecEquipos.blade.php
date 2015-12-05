@@ -2,7 +2,7 @@
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Programación de Inspección de Equipos</h3>
+            <h3 class="page-header">Inspección de Equipos</h3>
         </div>
         <!-- /.col-lg-12 -->
     </div>
