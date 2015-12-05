@@ -107,7 +107,7 @@
 		</div>
 		<div class="panel panel-default" style="height:1100px;">
 			<div class="panel-heading">
-				<h3 class="panel-title">Detalle de la Inspeccion</h3>
+				<h3 class="panel-title">Equipos Asociados</h3>
 			</div>
 			<div class="panel-body" id="body_equipos">
 				<div class="row">

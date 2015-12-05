@@ -156,6 +156,34 @@ $( document ).ready(function(){
         $("#search_fecha_fin").val('');
     });
 
+    $('#btnLlimpiar_criterios_list_reporte_cn').click(function(){
+        $("#search_tipo_reporte_cn").val('');
+        $("#search_numero_reporte").val('');
+        $("#search_usuario").val('');
+        $("#search_nombre_equipo").val('');
+        $("#search_servicio").val('');
+        $("#search_area").val('');
+        $("#search_fecha_ini").val('');
+        $("#search_fecha_fin").val('');
+    });
+
+    $('#btnLlimpiar_criterios_list_reporte_etes').click(function(){
+        $("#search_tipo_reporte_etes").val('');
+        $("#search_numero_reporte").val('');
+        $("#search_usuario").val('');
+        $("#search_fecha_ini").val('');
+        $("#search_fecha_fin").val('');
+    });
+
+    $('#btnLlimpiar_criterios_list_reporte_paac').click(function(){
+        $("#search_tipo_reporte_paac").val('');
+        $("#search_numero_reporte").val('');
+        $("#search_usuario").val('');
+        $("#search_servicio").val('');
+        $("#search_area").val('');
+        $("#search_fecha_ini").val('');
+        $("#search_fecha_fin").val('');
+    });
 });
 
 function llenar_nombre_equipo(){

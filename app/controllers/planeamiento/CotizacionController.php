@@ -48,7 +48,7 @@ class CotizacionController extends BaseController {
 				    $nombreArchivo ='';	
 				    if (Input::hasFile('archivo')) {
 				        $archivo = Input::file('archivo');
-				        $rutaDestino = 'documentos/cotizaciones/';
+				        $rutaDestino = 'documentos/planeamiento/cotizaciones/';
 				        $nombreArchivo        = $archivo->getClientOriginalName();
 				        $nombreArchivoEncriptado = Str::random(27).'.'.pathinfo($nombreArchivo, PATHINFO_EXTENSION);
 				        $uploadSuccess = $archivo->move($rutaDestino, $nombreArchivoEncriptado);

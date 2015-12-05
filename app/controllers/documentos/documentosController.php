@@ -47,7 +47,7 @@ class DocumentoController extends BaseController {
 				    $nombreArchivo        ='';	
 				    if (Input::hasFile('archivo')) {
 				        $archivo            = Input::file('archivo');
-				        $rutaDestino = 'documentos/' . $data["tipo_documentos"][0]->nombre . '/';
+				        $rutaDestino = 'documentos/bienes/' . $data["tipo_documentos"][0]->nombre . '/';
 				        $nombreArchivo        = $archivo->getClientOriginalName();
 				        $nombreArchivoEncriptado = Str::random(27).'.'.pathinfo($nombreArchivo, PATHINFO_EXTENSION);
 				        $uploadSuccess = $archivo->move($rutaDestino, $nombreArchivoEncriptado);
