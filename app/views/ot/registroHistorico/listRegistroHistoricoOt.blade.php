@@ -107,7 +107,16 @@
 						<tr>
 							<td class="text-nowrap text-center">{{date('d-m-Y',strtotime($correctivo->fecha_programacion))}}</td>
 							<td class="text-nowrap text-center" >
-								<a href="{{URL::to('/mant_correctivo/create_ot/')}}/{{$correctivo->idot_correctivo}}">{{$correctivo->ot_tipo_abreviatura}}{{$correctivo->ot_correlativo}}{{$correctivo->ot_activo_abreviatura}}</a>
+								@if($user->idrol==1 || $user->idrol==2 || $user->idrol==3 || $user->idrol==4)
+									@if($correctivo->idestado_ot == 9)
+										<a href="{{URL::to('/mant_correctivo/create_ot/')}}/{{$correctivo->idot_correctivo}}">{{$correctivo->ot_tipo_abreviatura}}{{$correctivo->ot_correlativo}}{{$correctivo->ot_activo_abreviatura}}</a>
+									@else
+										<a href="{{URL::to('/mant_correctivo/view_ot/')}}/{{$correctivo->idot_correctivo}}">{{$correctivo->ot_tipo_abreviatura}}{{$correctivo->ot_correlativo}}{{$correctivo->ot_activo_abreviatura}}</a>
+									@endif
+								@else
+									<a href="{{URL::to('/mant_correctivo/view_ot/')}}/{{$correctivo->idot_correctivo}}">{{$correctivo->ot_tipo_abreviatura}}{{$correctivo->ot_correlativo}}{{$correctivo->ot_activo_abreviatura}}</a>
+								@endif
+								
 							</td>
 							<td class="text-nowrap text-center">{{$correctivo->nombre_servicio}}</td>	
 							<td class="text-nowrap text-center">{{$correctivo->nombre_equipo}}</td>
@@ -153,7 +162,11 @@
 							<td class="text-nowrap text-center">{{date('d-m-Y',strtotime($preventivo->fecha_programacion))}}</td>
 							<td class="text-nowrap text-center">
 								@if($user->idrol==1 || $user->idrol==2 || $user->idrol==3 || $user->idrol==4)
-									<a href="{{URL::to('/mant_preventivo/create_ot_preventivo/')}}/{{$preventivo->idot_preventivo}}">{{$preventivo->ot_tipo_abreviatura}}{{$preventivo->ot_correlativo}}{{$preventivo->ot_activo_abreviatura}}</a>
+									@if($preventivo->idestado_ot == 9)
+										<a href="{{URL::to('/mant_preventivo/create_ot_preventivo/')}}/{{$preventivo->idot_preventivo}}">{{$preventivo->ot_tipo_abreviatura}}{{$preventivo->ot_correlativo}}{{$preventivo->ot_activo_abreviatura}}</a>
+									@else
+										<a href="{{URL::to('/mant_preventivo/view_ot_preventivo/')}}/{{$preventivo->idot_preventivo}}">{{$preventivo->ot_tipo_abreviatura}}{{$preventivo->ot_correlativo}}{{$preventivo->ot_activo_abreviatura}}</a>
+									@endif
 								@else
 									<a href="{{URL::to('/mant_preventivo/view_ot_preventivo/')}}/{{$preventivo->idot_preventivo}}">{{$preventivo->ot_tipo_abreviatura}}{{$preventivo->ot_correlativo}}{{$preventivo->ot_activo_abreviatura}}</a>
 								@endif
@@ -201,7 +214,16 @@
 						<tr>
 							<td class="text-nowrap text-center">{{date('d-m-Y',strtotime($verificacion->fecha_programacion))}}</td>
 							<td class="text-nowrap text-center">
-								<a href="{{URL::to('/verif_metrologica/create_ot_verif_metrologica/')}}/{{$verificacion->idot_vmetrologica}}">{{$verificacion->ot_tipo_abreviatura}}{{$verificacion->ot_correlativo}}{{$verificacion->ot_activo_abreviatura}}</a>
+								@if($user->idrol==1 || $user->idrol==2 || $user->idrol==3 || $user->idrol == 4)
+									@if($verificacion->idestado_ot==9)
+										<a href="{{URL::to('/verif_metrologica/create_ot_verif_metrologica/')}}/{{$verificacion->idot_vmetrologica}}">{{$verificacion->ot_tipo_abreviatura}}{{$verificacion->ot_correlativo}}{{$verificacion->ot_activo_abreviatura}}</a>
+									@else
+										<a href="{{URL::to('/verif_metrologica/view_ot_verif_metrologica/')}}/{{$verificacion->idot_vmetrologica}}">{{$verificacion->ot_tipo_abreviatura}}{{$verificacion->ot_correlativo}}{{$verificacion->ot_activo_abreviatura}}</a>
+									@endif
+								@else
+									<a href="{{URL::to('/verif_metrologica/view_ot_verif_metrologica/')}}/{{$verificacion->idot_vmetrologica}}">{{$verificacion->ot_tipo_abreviatura}}{{$verificacion->ot_correlativo}}{{$verificacion->ot_activo_abreviatura}}</a>
+								@endif
+								
 							</td>
 							<td class="text-nowrap text-center">{{$verificacion->nombre_servicio}}</td>	
 							<td class="text-nowrap text-center">{{$verificacion->nombre_equipo}}</td>
@@ -244,7 +266,7 @@
 								<td class="text-nowrap text-center">{{date('H:i',strtotime($inspeccion->fecha_fin))}}</td>
 								<td class="text-nowrap text-center">
 									@if($user->idrol==1 || $user->idrol==2 || $user->idrol==3 || $user->idrol==4)
-										@if($inspeccion->idestado !=25)
+										@if($inspeccion->idestado == 9)
 											<a href="{{URL::to('/inspec_equipos/create_ot_inspeccion_equipos/')}}/{{$inspeccion->idot_inspec_equipo}}">{{$inspeccion->ot_tipo_abreviatura}}{{$inspeccion->ot_correlativo}}</a>
 										@else
 											<a href="{{URL::to('/inspec_equipos/view_ot_inspeccion_equipos/')}}/{{$inspeccion->idot_inspec_equipo}}">{{$inspeccion->ot_tipo_abreviatura}}{{$inspeccion->ot_correlativo}}</a>
@@ -289,7 +311,15 @@
 						<tr>
 							<td class="text-nowrap text-center">{{date('d-m-Y',strtotime($retiro->fecha_programacion))}}</td>
 							<td class="text-nowrap text-center">
-								<a href="{{URL::to('/retiro_servicio/create_ot/')}}/{{$retiro->idot_retiro}}">{{$retiro->ot_tipo_abreviatura}}{{$retiro->ot_correlativo}}{{$retiro->ot_activo_abreviatura}}</a>
+								@if($user->idrol==1 || $user->idrol==2 || $user->idrol==3 || $user->idrol==4)
+										@if($inspeccion->idestado_ot == 9)
+											<a href="{{URL::to('/retiro_servicio/create_ot/')}}/{{$retiro->idot_retiro}}">{{$retiro->ot_tipo_abreviatura}}{{$retiro->ot_correlativo}}{{$retiro->ot_activo_abreviatura}}</a>
+										@else
+											<a href="{{URL::to('/retiro_servicio/view_ot/')}}/{{$retiro->idot_retiro}}">{{$retiro->ot_tipo_abreviatura}}{{$retiro->ot_correlativo}}{{$retiro->ot_activo_abreviatura}}</a>
+										@endif
+									@else
+										<a href="{{URL::to('/retiro_servicio/view_ot/')}}/{{$retiro->idot_retiro}}">{{$retiro->ot_tipo_abreviatura}}{{$retiro->ot_correlativo}}{{$retiro->ot_activo_abreviatura}}</a>
+									@endif								
 							</td>
 							<td class="text-nowrap text-center">{{$retiro->nombre_servicio}}</td>	
 							<td class="text-nowrap text-center">{{$retiro->nombre_equipo}}</td>
@@ -318,6 +348,8 @@
 		{{ $verificaciones->links()}}
 	@elseif($search_tipo==4)
 		{{ $inspecciones->links()}}
+	@elseif($search_tipo==5)
+		{{ $retiros->links()}}
 	@endif
 	
 @stop

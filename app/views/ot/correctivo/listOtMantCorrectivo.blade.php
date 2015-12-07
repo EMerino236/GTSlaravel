@@ -91,7 +91,15 @@
 		@foreach($mant_correctivos_data as $mant_correctivo_data)
 		<tr>
 			<td>
-				<a href="{{URL::to('/mant_correctivo/create_ot/')}}/{{$mant_correctivo_data->idot_correctivo}}">{{$mant_correctivo_data->ot_tipo_abreviatura}}{{$mant_correctivo_data->ot_correlativo}}{{$mant_correctivo_data->ot_activo_abreviatura}}</a>
+				@if($user->idrol == 1 || $user->idrol==2 || $user->idrol==3 || $user->idrol==4)
+					@if($mant_correctivo_data->idestado_ot == 9)
+						<a href="{{URL::to('/mant_correctivo/create_ot/')}}/{{$mant_correctivo_data->idot_correctivo}}">{{$mant_correctivo_data->ot_tipo_abreviatura}}{{$mant_correctivo_data->ot_correlativo}}{{$mant_correctivo_data->ot_activo_abreviatura}}</a>
+					@else
+						<a href="{{URL::to('/mant_correctivo/view_ot/')}}/{{$mant_correctivo_data->idot_correctivo}}">{{$mant_correctivo_data->ot_tipo_abreviatura}}{{$mant_correctivo_data->ot_correlativo}}{{$mant_correctivo_data->ot_activo_abreviatura}}</a>
+					@endif
+				@else
+					<a href="{{URL::to('/mant_correctivo/view_ot/')}}/{{$mant_correctivo_data->idot_correctivo}}">{{$mant_correctivo_data->ot_tipo_abreviatura}}{{$mant_correctivo_data->ot_correlativo}}{{$mant_correctivo_data->ot_activo_abreviatura}}</a>
+				@endif
 			</td>
 			<td>
 				{{$mant_correctivo_data->sot_tipo_abreviatura}}{{$mant_correctivo_data->sot_correlativo}}{{$mant_correctivo_data->sot_activo_abreviatura}}

@@ -9,7 +9,8 @@ class ActivosController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 				$data["search_grupo"] = null;
 				$data["search_servicio"] = null;
 				$data["search_nombre_equipo"] =null;
@@ -45,7 +46,8 @@ class ActivosController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 				$data["grupos"] = Grupo::lists('nombre','idgrupo');
 				$data["servicio"] = Servicio::lists('nombre','idservicio');
 				$data["marca"] = Marca::lists('nombre','idmarca');
@@ -83,7 +85,8 @@ class ActivosController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 				$data["search_grupo"] = null;
 				$data["search_servicio"] = null;
 				$data["search_nombre_equipo"] =null;
@@ -131,7 +134,8 @@ class ActivosController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 				$data["grupos"] = Grupo::lists('nombre','idgrupo');
 				$data["servicio"] = Servicio::lists('nombre','idservicio');
 				$data["marca"] = Marca::lists('nombre','idmarca');
@@ -178,7 +182,7 @@ class ActivosController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"]= Session::get('user');
 
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				$data["grupos"] = Grupo::lists('nombre','idgrupo');
 				$data["servicios"] = Servicio::lists('nombre','idservicio');
 				$data["ubicacion"] = UbicacionFisica::lists('nombre','idubicacion_fisica');		
@@ -199,7 +203,7 @@ class ActivosController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"]= Session::get('user');
 
-			if($data["user"]->idrol	== 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 
 				$attributes=array(
 					'servicio_clinico' => 'Servicio Clínico',
@@ -277,7 +281,7 @@ class ActivosController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if(($data["user"]->idrol == 1) && $idequipo){
+			if(($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4) && $idequipo){
 				$data["equipo_info"] = Activo::searchActivosById($idequipo)->get();
 
 				if($data["equipo_info"]->isEmpty())
@@ -311,7 +315,7 @@ class ActivosController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				// Validate the info, create rules for the inputs
 				$attributes=array(
 					'servicio_clinico' => 'Servicio Clínico',
@@ -474,7 +478,8 @@ class ActivosController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if(($data["user"]->idrol == 1) && $idequipo){
+			if(($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12) && $idequipo){
 				$data["equipo_info"] = Activo::searchActivosById($idequipo)->get();
 				if($data["equipo_info"]->isEmpty()){
 					return Redirect::to('equipos/list_equipos');
@@ -511,7 +516,8 @@ class ActivosController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if(($data["user"]->idrol == 1) && $idequipo){
+			if(($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12) && $idequipo){
 				$data["equipo_info"] = Activo::searchActivosById($idequipo)->get();
 				if($data["equipo_info"]->isEmpty()){
 					return Redirect::to('equipos/list_equipos');
@@ -553,7 +559,8 @@ class ActivosController extends BaseController
 		$id = Auth::id();
 		$data["inside_url"] = Config::get('app.inside_url');
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 			// Check if the current user is the "System Admin"
 			$data = Input::get('selected_id');			
 			if($data !=0){
@@ -578,7 +585,8 @@ class ActivosController extends BaseController
 		$id = Auth::id();
 		$data["inside_url"] = Config::get('app.inside_url');
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 			// Check if the current user is the "System Admin"
 			$data = Input::get('selected_id');			
 			if($data !=0){
@@ -603,7 +611,8 @@ class ActivosController extends BaseController
 		$id = Auth::id();
 		$data["inside_url"] = Config::get('app.inside_url');
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 			// Check if the current user is the "System Admin"
 			$data = Input::get('selected_id');			
 			if($data !=0){
@@ -628,7 +637,8 @@ class ActivosController extends BaseController
 		$id = Auth::id();
 		$data["inside_url"] = Config::get('app.inside_url');
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 			// Check if the current user is the "System Admin"
 			$data = Input::get('numero_reporte');
 			
@@ -654,7 +664,8 @@ class ActivosController extends BaseController
 		$id = Auth::id();
 		$data["inside_url"] = Config::get('app.inside_url');
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 			// Check if the current user is the "System Admin"
 			$idtipo_documento = Input::get('idtipo_documento');
 			$numero_documento_identidad = Input::get('numero_documento_identidad');
@@ -679,7 +690,8 @@ class ActivosController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1)
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12)
 			{				
 				$idsoporte_tecnico_activo = Input::get('idsoporte_tecnico');				
 				$soporte_tecnico_activo = SoporteTecnicoxActivo::find($idsoporte_tecnico_activo);

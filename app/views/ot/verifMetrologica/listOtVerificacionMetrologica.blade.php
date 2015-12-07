@@ -116,7 +116,16 @@
 						{{$verif_metrologica_data->nombre_ubicacion}}
 					</td>
 					<td>
-						<a href="{{URL::to('/verif_metrologica/create_ot_verif_metrologica/')}}/{{$verif_metrologica_data->idot_vmetrologica}}">{{$verif_metrologica_data->ot_tipo_abreviatura}}{{$verif_metrologica_data->ot_correlativo}}{{$verif_metrologica_data->ot_activo_abreviatura}}</a>
+						@if($user->idrol==1 || $user->idrol==2 || $user->idrol==3 ||$user->idrol==4)
+							@if($verif_metrologica_data->idestado_ot == 9)
+								<a href="{{URL::to('/verif_metrologica/create_ot_verif_metrologica/')}}/{{$verif_metrologica_data->idot_vmetrologica}}">{{$verif_metrologica_data->ot_tipo_abreviatura}}{{$verif_metrologica_data->ot_correlativo}}{{$verif_metrologica_data->ot_activo_abreviatura}}</a>		
+							@else
+								<a href="{{URL::to('/verif_metrologica/view_ot_verif_metrologica/')}}/{{$verif_metrologica_data->idot_vmetrologica}}">{{$verif_metrologica_data->ot_tipo_abreviatura}}{{$verif_metrologica_data->ot_correlativo}}{{$verif_metrologica_data->ot_activo_abreviatura}}</a>
+							@endif
+						@else
+							<a href="{{URL::to('/verif_metrologica/view_ot_verif_metrologica/')}}/{{$verif_metrologica_data->idot_vmetrologica}}">{{$verif_metrologica_data->ot_tipo_abreviatura}}{{$verif_metrologica_data->ot_correlativo}}{{$verif_metrologica_data->ot_activo_abreviatura}}</a>
+						@endif
+						
 					</td>					
 					<td>
 						{{$verif_metrologica_data->nombre_estado}}

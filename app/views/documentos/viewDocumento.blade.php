@@ -2,34 +2,12 @@
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Editar Documento: <strong>{{$documento_info->nombre}}</strong></h3>
+            <h3 class="page-header">Documento: <strong>{{$documento_info->nombre}}</strong></h3>
         </div>
         <!-- /.col-lg-12 -->
     </div>
-
-	@if ($errors->has())
-		<div class="alert alert-danger" role="alert">
-			<p><strong>{{ $errors->first('nombre') }}</strong></p>
-			<p><strong>{{ $errors->first('descripcion') }}</strong></p>
-			<p><strong>{{ $errors->first('autor') }}</strong></p>
-			<p><strong>{{ $errors->first('codigo_archivamiento') }}</strong></p>
-			<p><strong>{{ $errors->first('ubicacion') }}</strong></p>
-			<p><strong>{{ $errors->first('url') }}</strong></p>
-			<p><strong>{{ $errors->first('idtipo_documento') }}</strong></p>
-			<p><strong>{{ $errors->first('archivo') }}</strong></p>
-		</div>
-	@endif
-
-	@if (Session::has('message'))
-		<div class="alert alert-success">{{ Session::get('message') }}</div>
-	@endif
-	@if (Session::has('error'))
-		<div class="alert alert-danger">{{ Session::get('error') }}</div>
-	@endif
-
-	{{ Form::open(array('url'=>'documento/submit_edit_documento', 'role'=>'form', 'files'=>true)) }}
-		{{ Form::hidden('documento_id', $documento_info->iddocumento) }}
-
+	
+	<div class="row">
 		<div class="col-md-12">
 			<div class="panel panel-default">
 			  	<div class="panel-heading">Datos Generales</div>
@@ -40,7 +18,7 @@
 							@if($documento_info->deleted_at)
 								{{ Form::text('nombre',$documento_info->nombre,array('class'=>'form-control','readonly'=>'')) }}
 							@else
-								{{ Form::text('nombre',$documento_info->nombre,array('class'=>'form-control')) }}
+								{{ Form::text('nombre',$documento_info->nombre,array('class'=>'form-control','readonly'=>'')) }}
 							@endif
 						</div>
 						<div class="form-group col-md-4 @if($errors->first('descripcion')) has-error has-feedback @endif">
@@ -48,7 +26,7 @@
 							@if($documento_info->deleted_at)
 								{{ Form::text('descripcion',$documento_info->descripcion,array('class'=>'form-control','readonly'=>'')) }}
 							@else
-								{{ Form::text('descripcion',$documento_info->descripcion,array('class'=>'form-control')) }}
+								{{ Form::text('descripcion',$documento_info->descripcion,array('class'=>'form-control','readonly'=>'')) }}
 							@endif
 						</div>
 						<div class="form-group col-md-4 @if($errors->first('autor')) has-error has-feedback @endif">
@@ -56,7 +34,7 @@
 							@if($documento_info->deleted_at)
 								{{ Form::text('autor',$documento_info->autor,array('class'=>'form-control','readonly'=>'')) }}
 							@else
-								{{ Form::text('autor',$documento_info->autor,array('class'=>'form-control')) }}
+								{{ Form::text('autor',$documento_info->autor,array('class'=>'form-control','readonly'=>'')) }}
 							@endif
 						</div>
 						<div class="form-group col-md-4 @if($errors->first('codigo_archivamiento')) has-error has-feedback @endif">
@@ -64,7 +42,7 @@
 							@if($documento_info->deleted_at)
 								{{ Form::text('codigo_archivamiento',$documento_info->codigo_archivamiento,array('class'=>'form-control','readonly'=>'')) }}
 							@else
-								{{ Form::text('codigo_archivamiento',$documento_info->codigo_archivamiento,array('class'=>'form-control')) }}
+								{{ Form::text('codigo_archivamiento',$documento_info->codigo_archivamiento,array('class'=>'form-control','readonly'=>'')) }}
 							@endif
 						</div>
 						<div class="form-group col-md-4 @if($errors->first('ubicacion')) has-error has-feedback @endif">
@@ -72,7 +50,7 @@
 							@if($documento_info->deleted_at)
 								{{ Form::text('ubicacion',$documento_info->ubicacion,array('class'=>'form-control','readonly'=>'')) }}
 							@else
-								{{ Form::text('ubicacion',$documento_info->ubicacion,array('class'=>'form-control')) }}
+								{{ Form::text('ubicacion',$documento_info->ubicacion,array('class'=>'form-control','readonly'=>'')) }}
 							@endif
 						</div>
 						<div class="form-group col-md-4">
@@ -82,13 +60,12 @@
 						<div class="form-group col-md-4 @if($errors->first('idtipo_documento')) has-error has-feedback @endif">
 							{{ Form::label('idtipo_documento','Tipo de Documento') }}
 							@if($documento_info->deleted_at)
-								{{ Form::select('idtipo_documento',$tipo_documentos,Input::old('idtipo_documento'),['class' => 'form-control','readonly'=>'','disabled'=>'disabled']) }}
+								{{ Form::select('idtipo_documento',$tipo_documentos,$documento_info->idtipo_documento,['class' => 'form-control','disabled'=>'disabled','readonly'=>'']) }}
 							@else
-								{{ Form::select('idtipo_documento',$tipo_documentos,Input::old('idtipo_documento'),['class' => 'form-control','disabled'=>'disabled']) }}	
+								{{ Form::select('idtipo_documento',$tipo_documentos,$documento_info->idtipo_documento,['class' => 'form-control','disabled'=>'disabled']) }}	
 							@endif	
 						</div>
-						{{Form::close()}}
-						<div class="form-group col-md-2">
+						<div class="form-group col-md-4">
 							{{ Form::label('arch_adjunto','Archivo Adjunto') }}
 							{{ Form::text('arch_adjunto', $documento_info->nombre_archivo,array('class'=>'form-control','readonly'=>'')) }}
 						</div>
@@ -104,36 +81,14 @@
 								@endif
 							{{ Form::close()}}
 						</div>	
-					</div>
-			</div>
-		</div>
-		<div class="row">
-		</div>
-
-				<div class="container-fluid row">			
-				@if(!$documento_info->deleted_at)
-				<div class="col-md-2 form-group">
-					{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit-edit', 'type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}						
+					</div>	
 				</div>
-				@endif
-				<div class="col-md-2 form-group">
-					<a class="btn btn-default btn-block" href="{{URL::to('/documento/list_documentos')}}">Cancelar</a>
-				</div>	
-		{{ Form::close() }}
-			@if($documento_info->deleted_at)
-			{{ Form::open(array('url'=>'documento/submit_enable_documento', 'role'=>'form')) }}
-				{{ Form::hidden('documento_id', $documento_info->iddocumento) }}
-					<div class="form-group col-md-2 col-md-offset-8">
-						{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-up"></span> Habilitar', array('id'=>'submit-delete', 'type' => 'submit', 'class' => 'btn btn-success btn-block')) }}
-					</div>
-			{{ Form::close() }}
-			@else
-			{{ Form::open(array('url'=>'documento/submit_disable_documento', 'role'=>'form')) }}
-				{{ Form::hidden('documento_id', $documento_info->iddocumento) }}
-					<div class="form-group col-md-2 col-md-offset-6">
-						{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-down"></span> Inhabilitar', array('id'=>'submit-delete', 'type' => 'submit', 'class' => 'btn btn-danger btn-block')) }}
-					</div>
-			{{ Form::close() }}
-			@endif
 			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="form-group col-md-2">
+			<a class="btn btn-default btn-block" href="{{URL::previous()}}"><span class="glyphicon glyphicon-menu-left"></span> Regresar</a>				
+		</div>
+	</div>
 @stop

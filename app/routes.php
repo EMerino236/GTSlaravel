@@ -223,6 +223,7 @@ Route::group(array('prefix'=>'mant_correctivo','before'=>'auth'),function(){
 	Route::post('/submit_delete_personal_ajax','OtController@submit_delete_personal_ajax');
 	Route::post('/ver_programaciones','OtController@search_programaciones');
 	Route::post('/export_pdf','OtController@export_pdf');
+	Route::get('/view_ot/{id}','OtController@render_view_ot');	
 });
 /* Retiro Servicio */
 Route::group(array('prefix'=>'retiro_servicio','before'=>'auth'),function(){
@@ -252,6 +253,7 @@ Route::group(array('prefix'=>'retiro_servicio','before'=>'auth'),function(){
 	Route::post('/submit_create_personal_ajax','RetiroServicioController@submit_create_personal_ajax');
 	Route::post('/submit_delete_personal_ajax','RetiroServicioController@submit_delete_personal_ajax');
 	Route::post('/export_pdf','RetiroServicioController@export_pdf');
+	Route::get('/view_ot/{id}','RetiroServicioController@render_view_ot');
 });
 
 /* Marcar Tareas */
@@ -282,7 +284,8 @@ Route::group(array('prefix'=>'documento', 'before'=>'auth'),function(){
 	Route::get('/search_documento','DocumentoController@search_documento');
 	Route::post('/download_documento','DocumentoController@download_documento');
 	Route::post('/submit_disable_documento','DocumentoController@submit_disable_documento');
-	Route::post('/submit_enable_documento','DocumentoController@submit_enable_documento');	
+	Route::post('/submit_enable_documento','DocumentoController@submit_enable_documento');
+	Route::get('/view_documento/{id}','DocumentoController@render_view_documento');	
 });
 
 /* Solicitudes Compra */
@@ -374,6 +377,7 @@ Route::group(array('prefix'=>'verif_metrologica','before'=>'auth'),function(){
 	Route::get('/download_documento/{id?}','OtVerificacionMetrologicaController@download_documento');
 	Route::post('/export_pdf','OtVerificacionMetrologicaController@export_pdf');
 	Route::post('/submit_disable_verif_metrologica','OtVerificacionMetrologicaController@submit_disable_verif_metrologica');
+	Route::get('/view_ot_verif_metrologica/{id}','OtVerificacionMetrologicaController@render_view_ot_verif_metrologica');
 });
 
 /* Inspeccion de Equipos */

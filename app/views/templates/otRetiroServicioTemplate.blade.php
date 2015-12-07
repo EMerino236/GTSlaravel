@@ -43,6 +43,7 @@
     <!-- Custom Theme JavaScript -->
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
     <script src="{{ asset('js/ordenes_trabajos/retiro_servicio/addOtRetiro.js') }}"></script>
+    <script src="{{ asset('js/ordenes_trabajos/retiro_servicio/listOtRetiro.js') }}"></script>
 
 </head>
 

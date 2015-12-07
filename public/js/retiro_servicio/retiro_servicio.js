@@ -50,6 +50,7 @@ function search_equipo_ajax(){
 }
 
 function limpiar_criterios(){
+    alert("hola");
     $('#search_ing').val('');
     $('#search_ot').val('');
     $('#search_ubicacion').val('');

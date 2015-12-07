@@ -156,14 +156,19 @@
 						<td class="text-nowrap">
 							<a href="{{URL::to('/equipos/view_equipo/')}}/{{$activo_data->idactivo}}">{{$activo_data->codigo_patrimonial}}</a>							
 						</td>
-						<td>
-							<a class="btn btn-success btn-block btn-sm" href="{{URL::to('/equipos/create_soporte_tecnico_equipo/')}}/{{$activo_data->idactivo}}">
-							<span class="glyphicon glyphicon-plus"></span> Agregar</a>
-						</td>
-						<td>
-							<a class="btn btn-warning btn-block btn-sm" href="{{URL::to('/equipos/edit_equipo/')}}/{{$activo_data->idactivo}}">
-							<span class="glyphicon glyphicon-pencil"></span> Editar</a>
-						</td>
+						@if($user->idrol==1 || $user->idrol==2 || $user->idrol==3 || $user->idrol==4)
+							<td>
+								<a class="btn btn-success btn-block btn-sm" href="{{URL::to('/equipos/create_soporte_tecnico_equipo/')}}/{{$activo_data->idactivo}}">
+								<span class="glyphicon glyphicon-plus"></span> Agregar</a>
+							</td>
+							<td>
+								<a class="btn btn-warning btn-block btn-sm" href="{{URL::to('/equipos/edit_equipo/')}}/{{$activo_data->idactivo}}">
+								<span class="glyphicon glyphicon-pencil"></span> Editar</a>
+							</td>
+						@else
+							<td class="text-center"> - </td>
+							<td class="text-center"> - </td>
+						@endif
 					</tr>
 					@endforeach				
 				</table>

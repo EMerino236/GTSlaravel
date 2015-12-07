@@ -1,8 +1,8 @@
-@extends('templates/bienesTemplate')
+@extends('templates/otRetiroServicioTemplate')
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Programación de OT de retiro de servicio</h3>
+            <h3 class="page-header">Retiro de Servicio</h3>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -64,11 +64,14 @@
 						</div>
 					</div>
 				</div>
-				<div class="row">
-					<div class="form-group col-md-4">
-						{{ Form::submit('Buscar',array('id'=>'submit-search-form','class'=>'btn btn-info')) }}
-					</div>
-				</div>
+				<div class="container-fluid form-group row">
+						<div class="col-md-2 col-md-offset-8">
+						{{ Form::button('<span class="glyphicon glyphicon-search"></span> Buscar', array('id'=>'submit-search-form','type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}	
+						</div>
+						<div class="col-md-2">
+							<div class="btn btn-default btn-block" id="btnLimpiar"><span class="glyphicon glyphicon-refresh"></span> Limpiar</div>				
+						</div>					
+					</div>				
 			</div>	
 		</div>
 	</div>	
@@ -88,7 +91,15 @@
 		@foreach($retiro_servicios_data as $retiro_servicio_data)
 		<tr>
 			<td>
-				<a href="{{URL::to('/retiro_servicio/create_ot/')}}/{{$retiro_servicio_data->idot_retiro}}">{{$retiro_servicio_data->ot_tipo_abreviatura}}{{$retiro_servicio_data->ot_correlativo}}{{$retiro_servicio_data->ot_activo_abreviatura}}</a>
+				@if($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4)
+					@if($retiro_servicio_data->idestado_ot == 9)
+						<a href="{{URL::to('/retiro_servicio/create_ot/')}}/{{$retiro_servicio_data->idot_retiro}}">{{$retiro_servicio_data->ot_tipo_abreviatura}}{{$retiro_servicio_data->ot_correlativo}}{{$retiro_servicio_data->ot_activo_abreviatura}}</a>
+					@else
+						<a href="{{URL::to('/retiro_servicio/view_ot/')}}/{{$retiro_servicio_data->idot_retiro}}">{{$retiro_servicio_data->ot_tipo_abreviatura}}{{$retiro_servicio_data->ot_correlativo}}{{$retiro_servicio_data->ot_activo_abreviatura}}</a>
+					@endif
+				@else
+					<a href="{{URL::to('/retiro_servicio/view_ot/')}}/{{$retiro_servicio_data->idot_retiro}}">{{$retiro_servicio_data->ot_tipo_abreviatura}}{{$retiro_servicio_data->ot_correlativo}}{{$retiro_servicio_data->ot_activo_abreviatura}}</a>
+				@endif
 			</td>
 			<td>
 				{{date('d-m-Y H:i:s',strtotime($retiro_servicio_data->fecha_programacion))}}

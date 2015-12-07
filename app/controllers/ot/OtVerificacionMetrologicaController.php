@@ -12,7 +12,7 @@ class OtVerificacionMetrologicaController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				$data["mes_ini"] = date("Y-m-d",strtotime("first day of this month"));;
 				$data["mes_fin"] = date("Y-m-d",strtotime("last day of this month"));;
 				$data["trimestre_ini"] = null;
@@ -37,7 +37,8 @@ class OtVerificacionMetrologicaController extends BaseController {
 		$id = Auth::id();
 		$data["inside_url"] = Config::get('app.inside_url');
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 			// Check if the current user is the "System Admin"
 			$data = Input::get('selected_id');
 			$mes = 0;
@@ -105,7 +106,8 @@ class OtVerificacionMetrologicaController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
 				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
 				$data["search_ing"] = null;
@@ -135,7 +137,8 @@ class OtVerificacionMetrologicaController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 
 				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
 				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
@@ -166,7 +169,7 @@ class OtVerificacionMetrologicaController extends BaseController {
 		$id = Auth::id();
 		$data["inside_url"] = Config::get('app.inside_url');
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 			// Check if the current user is the "System Admin"
 			$array_detalles = Input::get('matrix_detalle');
 			$row_size = count($array_detalles);
@@ -226,7 +229,8 @@ class OtVerificacionMetrologicaController extends BaseController {
 		$id = Auth::id();
 		$data["inside_url"] = Config::get('app.inside_url');
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 			// Check if the current user is the "System Admin"	
 			$fecha_ini=date("Y-m-d",strtotime("first day of january"));
 			$fecha_fin=date("Y-m-d",strtotime('last day of december'));
@@ -280,7 +284,7 @@ class OtVerificacionMetrologicaController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if(($data["user"]->idrol == 1) && $id){
+			if(($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4) && $id){
 				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
 				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
 				$tabla_estado_activo = Tabla::getTablaByNombre(self::$estado_activo)->get();
@@ -314,7 +318,7 @@ class OtVerificacionMetrologicaController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if(($data["user"]->idrol == 1)){
+			if(($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4)){
 				$idot_vmetrologica = Input::get('idot_vmetrologica');
 				// Validate the info, create rules for the inputs
 				$rules = array(
@@ -367,7 +371,7 @@ class OtVerificacionMetrologicaController extends BaseController {
 			return Response::json(array( 'success' => false ),200);
 		}
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 
 			$personal = new PersonalOtVerifMetrologica;
 			$personal->nombre = Input::get('nombre_personal');
@@ -391,7 +395,7 @@ class OtVerificacionMetrologicaController extends BaseController {
 			return Response::json(array( 'success' => false ),200);
 		}
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 
 			$personal = PersonalOtVerifMetrologica::find(Input::get('idpersonal_ot_vmetrologica'));
 			$ot = OrdenesTrabajoVerifMetrologica::find(Input::get('idot_vmetrologica'));
@@ -411,7 +415,8 @@ class OtVerificacionMetrologicaController extends BaseController {
 		$id = Auth::id();
 		$data["inside_url"] = Config::get('app.inside_url');
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
+			|| $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 			// Check if the current user is the "System Admin"
 			$data = Input::get('selected_id');
 			if($data !="vacio"){
@@ -432,7 +437,8 @@ class OtVerificacionMetrologicaController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 				$iddocumento = $id;		
 				$documento = Documento::searchDocumentoById($id)->get();
 				$file= $documento[0]->url.$documento[0]->nombre_archivo_encriptado;
@@ -472,7 +478,8 @@ class OtVerificacionMetrologicaController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 				$idot_vmetrologica = Input::get('idot_vmetrologica');
 				$data["ot_vm"] = OrdenesTrabajoVerifMetrologica::find($idot_vmetrologica);
 
@@ -503,6 +510,41 @@ class OtVerificacionMetrologicaController extends BaseController {
 				$html = View::make('ot/verifMetrologica/otVerifMetrologicaExport',$data);
 				
 				return PDF::load($html,"A4","portrait")->show();
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+	public function render_view_ot_verif_metrologica($id=null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if(($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12) && $id){
+				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
+				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
+				$tabla_estado_activo = Tabla::getTablaByNombre(self::$estado_activo)->get();
+				$data["estado_activo"] = Estado::where('idtabla','=',$tabla_estado_activo[0]->idtabla)->lists('nombre','idestado');
+
+				$data["ot_info"] = OrdenesTrabajoVerifMetrologica::searchOtVerifMetrologicaById($id)->get();
+				if($data["ot_info"]->isEmpty()){
+					return Redirect::to('verif_metrologica/list_verif_metrologica');
+				}
+				$data["ot_info"] = $data["ot_info"][0];
+				$data["documento_info"] = Documento::searchDocumentoByIdOtVerifMetrologica($id)->get();
+				if(!$data["documento_info"]->isEmpty()){
+					$data["documento_info"] = $data["documento_info"][0];
+				}
+				else{
+					$data["documento_info"] = null;
+				}
+				$data["personal_data"] = PersonalOtVerifMetrologica::getPersonalXOt($data["ot_info"]->idot_vmetrologica)->get();
+				return View::make('ot/verifMetrologica/viewOtVerificacionMetrologica',$data);
 			}else{
 				return View::make('error/error',$data);
 			}

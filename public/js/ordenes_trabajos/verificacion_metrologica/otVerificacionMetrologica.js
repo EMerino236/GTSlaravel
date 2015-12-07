@@ -134,7 +134,7 @@ function eliminar_personal(e,id){
 function llenar_nombre_doc_relacionado(id){
         var val = $("#num_doc_relacionado"+id).val();
         if(val=="")
-            val = "vacio";    
+            return;    
         $.ajax({
             url: inside_url+'rep_instalacion/return_name_doc_relacionado/'+val,
             type: 'POST',
