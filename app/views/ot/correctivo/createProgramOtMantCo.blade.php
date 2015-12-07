@@ -1,4 +1,4 @@
-@extends('templates/otMantenimientoCorrectivoTemplate')
+@extends('templates/sotTemplate')
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
@@ -90,8 +90,8 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="form-group col-md-12">
-							{{ Form::submit('Programar',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}
+						<div class="form-group col-md-4">
+							{{ Form::button('<span class="glyphicon glyphicon-time"></span>  Programar', array('id'=>'submit-edit','type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}
 						</div>
 					</div>
 				</div>
@@ -144,6 +144,4 @@
     </div>
   </div>  
 </div>
-
-<script src="{{ asset('js/sot/program-ot.js') }}"></script>
 @stop

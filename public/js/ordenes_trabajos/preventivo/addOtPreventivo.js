@@ -52,7 +52,7 @@ function ver_programaciones(){
                 array_ot = response["ots"];
                 array_hora = response["horas"];
                 array_estado = response["estados"];
-                fecha_anterior = array[0];  
+                fecha_anterior = array[0]; 
                 for(var i=0;i<array.length;i++){
                     var prog = array[i];
                     if(i==0)
@@ -193,9 +193,6 @@ function initialize_calendarX(programaciones){
             $('#modal_text_ot').append($output);
           });
         });
-        
-        
-                
         },
     /* end $cal */
     });

@@ -1,8 +1,8 @@
-@extends('templates/bienesTemplate')
+@extends('templates/sotTemplate')
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Solicitud de Orden de Trabajo</h3>
+            <h3 class="page-header">Solicitud de Orden de Trabajo: <strong>{{$sot_info->sot_tipo_abreviatura}}{{$sot_info->sot_correlativo}}{{$sot_info->sot_activo_abreviatura}}</strong></h3>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -25,7 +25,11 @@
 
 	{{ Form::open(array('url'=>'sot/submit_program_ot', 'role'=>'form')) }}
 		{{ Form::hidden('sot_id', $sot_info->idsolicitud_orden_trabajo) }}
-		
+		<div class="row">
+			<div class="form-group col-md-2 col-md-offset-10">
+				<a class="btn btn-default btn-block" href="{{URL::previous()}}"><span class="glyphicon glyphicon-menu-left"></span> Regresar</a>				
+			</div>	
+		</div>
 		<div class="row">
 			<div class="form-group col-md-6">
 				{{ Form::label('solicitante','Usuario solicitante') }}
@@ -63,27 +67,25 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="form-group col-md-6">
-				@if($sot_info->idestado == 14 && ($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 7 || $user->idrol == 8 || $user->idrol == 9))
-					{{ Form::submit('Programar OT',array('id'=>'submit-edit', 'class'=>'btn btn-success')) }}
+			<div class="form-group col-md-2">
+				@if($sot_info->idestado == 14 && ($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4))
+					{{ Form::button('<span class="glyphicon glyphicon-time"></span>  Programar OTM', array('id'=>'submit-edit','type' => 'submit', 'class' => 'btn btn-success btn-block')) }}
 				@endif
-				{{ HTML::link('/sot/list_sots','Regresar',array('class'=>'')) }}
-				{{ Form::close() }}
-			</div>
+			</div>		
+			{{ Form::close() }}			
 			@if($sot_info->idestado == 14 && ($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 7 || $user->idrol == 8 || $user->idrol == 9))
 				{{ Form::open(array('url'=>'sot/submit_disable_sot', 'role'=>'form')) }}
 					{{ Form::hidden('sot_id', $sot_info->idsolicitud_orden_trabajo) }}
-					<div class="form-group col-md-3">
-						{{ Form::submit('Marcar como Falsa Alarma',array('id'=>'submit-delete', 'class'=>'btn btn-danger')) }}	
+					<div class="form-group col-md-3 col-md-offset-4">
+						{{ Form::button('<span class="glyphicon glyphicon-remove"></span> Marcar como Falsa Alarma', array('id'=>'submit-delete','type' => 'submit', 'class' => 'btn btn-danger btn-block')) }}
 					</div>
 				{{ Form::close() }}
-
 				{{ Form::open(array('url'=>'sot/submit_disable_sot_false_alarm', 'role'=>'form')) }}
 					{{ Form::hidden('sot_id', $sot_info->idsolicitud_orden_trabajo) }}
 					<div class="form-group col-md-3">
-						{{ Form::submit('Marcar como Mal Ingreso',array('id'=>'submit-delete', 'class'=>'btn btn-danger')) }}	
+						{{ Form::button('<span class="glyphicon glyphicon-remove"></span> Marcar como Mal Ingreso', array('id'=>'submit-delete','type' => 'submit', 'class' => 'btn btn-danger btn-block')) }}
 					</div>
 				{{ Form::close() }}
-			@endif
+			@endif			
 		</div>
 @stop

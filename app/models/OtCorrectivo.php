@@ -69,9 +69,9 @@ class OtCorrectivo extends Eloquent{
 			  			  	  ->orWhere('proveedores.nombre_contacto','LIKE',"%$search_proveedor%");
 			  	});
 			  if($search_ini != "")
-				$query->where('ot_correctivos.fecha_programacion','>=',date('Y-m-d H:i:s',strtotime($search_ini)));
+				$query->where(DB::raw('STR_TO_DATE(ot_correctivos.fecha_programacion,\'%Y-%m-%d\')'),'>=',date('Y-m-d',strtotime($search_ini)));
 			  if($search_fin != "")
-				$query->where('ot_correctivos.fecha_programacion','<=',date('Y-m-d H:i:s',strtotime($search_fin)));
+				$query->where(DB::raw('STR_TO_DATE(ot_correctivos.fecha_programacion,\'%Y-%m-%d\')'),'<=',date('Y-m-d',strtotime($search_fin)));
 			  $query->select('ubicacion_fisicas.nombre as nombre_ubicacion','areas.nombre as nombre_area','users.nombre as nombre_user','users.apellido_pat','users.apellido_mat','servicios.nombre as nombre_servicio','estados.nombre as nombre_estado','ot_correctivos.*');
 	  	return $query;
 	}
@@ -146,9 +146,9 @@ class OtCorrectivo extends Eloquent{
 			  			  	  ->orWhere('proveedores.nombre_contacto','LIKE',"%$search_proveedor%");
 			  	});
 			  if($search_ini != "")
-				$query->where('ot_correctivos.fecha_programacion','>=',date('Y-m-d H:i:s',strtotime($search_ini)));
+				$query->where(DB::raw('STR_TO_DATE(ot_correctivos.fecha_programacion,\'%Y-%m-%d\')'),'>=',date('Y-m-d H:i:s',strtotime($search_ini)));
 			  if($search_fin != "")
-				$query->where('ot_correctivos.fecha_programacion','<=',date('Y-m-d H:i:s',strtotime($search_fin)));
+				$query->where(DB::raw('STR_TO_DATE(ot_correctivos.fecha_programacion,\'%Y-%m-%d\')'),'<=',date('Y-m-d H:i:s',strtotime($search_fin)));
 			  $query->select('activos.codigo_patrimonial as codigo_patrimonial','activos.numero_serie as serie','proveedores.razon_social as nombre_proveedor','ubicacion_fisicas.nombre as nombre_ubicacion','marcas.nombre as nombre_marca','familia_activos.nombre_equipo as nombre_equipo','modelo_activos.nombre as nombre_modelo','areas.nombre as nombre_area','servicios.nombre as nombre_servicio','estados.nombre as nombre_estado','grupos.nombre as nombre_grupo','ot_correctivos.*');
 	  	return $query;
 	}

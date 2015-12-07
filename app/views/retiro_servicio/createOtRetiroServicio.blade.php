@@ -170,7 +170,7 @@
 						{{ Form::text('nombre_tarea', null,array('class'=>'form-control','placeholder'=>'Ingrese aquí la tarea realizada')) }}
 					</div>
 					<div class="form-group col-md-2">
-						{{ Form::button('Agregar',array('id'=>'submit-tarea', 'class'=>'btn btn-primary')) }}
+						{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Agregar',array('id'=>'submit-tarea', 'class'=>'btn btn-primary')) }}
 					</div>
 				</div>
 				@endif
@@ -215,7 +215,7 @@
 						{{ Form::text('costo_personal', null,array('class'=>'form-control','placeholder'=>'Costo')) }}
 					</div>
 					<div class="form-group col-md-2">
-						{{ Form::button('Agregar',array('id'=>'submit-personal', 'class'=>'btn btn-primary')) }}
+						{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Agregar',array('id'=>'submit-personal', 'class'=>'btn btn-primary')) }}
 					</div>
 				</div>
 				@endif
@@ -252,18 +252,20 @@
 		@if($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4)
 			<div class="row">
 				@if($ot_info->idestado_ot == 9)
-				<div class="col-md-6">
-					{{ Form::submit('Guardar',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}
-					{{ Form::close() }}
-				</div>
-				@else
-				<div class="col-md-6">
-					{{ Form::open(array('url'=>'retiro_servicio/export_pdf', 'role'=>'form')) }}
-					{{ Form::hidden('idot_retiro', $ot_info->idot_retiro) }}
-					{{ Form::submit('Exportar',array('class'=>'btn btn-info')) }}
+				<div class="col-md-2 form-group">
+					{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit-edit', 'type'=>'submit','class' => 'btn btn-primary btn-block')) }}
 					{{ Form::close() }}
 				</div>
 				@endif
+				<div class="form-group col-md-2">
+					<a class="btn btn-default btn-block" href="{{URL::to('/retiro_servicio/list_retiro_servicio')}}">Cancelar</a>				
+				</div>	
+				<div class="col-md-2 col-md-offset-6 form-group">
+					{{ Form::open(array('url'=>'retiro_servicio/export_pdf', 'role'=>'form')) }}
+					{{ Form::hidden('idot_retiro', $ot_info->idot_retiro) }}
+					{{ Form::button('<span class="glyphicon glyphicon-export"></span> Exportar', array('id'=>'exportar', 'type'=>'submit' ,'class' => 'btn btn-success btn-block')) }}
+					{{ Form::close() }}
+				</div>
 			</div>
 		@endif
 @stop

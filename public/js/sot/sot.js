@@ -66,12 +66,8 @@ function search_equipo_ajax(){
 }
 
 function limpiar_criterios(){
-    $('#search_ing').val('');
-    $('#search_ot').val('');
-    $('#search_ubicacion').val('');
-    $('#search_equipo').val('');
-    $('#search_proveedor').val('');
+    $('#search').val('');
     $('#search_ini').val('');
     $('#search_fin').val('');
-    $('#search_cod_pat').val('');
+    $('#search_estado').val(0);
 }

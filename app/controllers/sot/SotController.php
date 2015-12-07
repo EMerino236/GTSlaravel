@@ -250,7 +250,7 @@ class SotController extends BaseController {
 		$id = Auth::id();
 		$data["inside_url"] = Config::get('app.inside_url');
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9){
 			// Check if the current user is the "System Admin"
 			$data = Input::get('selected_id');
 			if($data !="vacio"){

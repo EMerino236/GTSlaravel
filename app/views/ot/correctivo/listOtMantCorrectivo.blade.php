@@ -37,8 +37,8 @@
 					</div>
 					<div class="form-group col-md-4">
 					{{ Form::label('search_ini','Fecha inicio') }}
-						<div class="form-group input-group date datetimepicker">
-							{{ Form::text('search_ini',$search_ini,array('class'=>'form-control')) }}
+						<div id="search_datetimepicker1" class="input-group date datetimepicker">
+							{{ Form::text('search_ini',$search_ini,array('class'=>'form-control','readonly'=>'')) }}
 							<span class="input-group-addon">
 			                    <span class="glyphicon glyphicon-calendar"></span>
 			                </span>
@@ -46,8 +46,8 @@
 					</div>
 					<div class="form-group col-md-4">
 						{{ Form::label('search_fin','Fecha de fin') }}
-						<div class="form-group input-group date datetimepicker">
-							{{ Form::text('search_fin',$search_fin,array('class'=>'form-control')) }}
+						<div id="search_datetimepicker2"  class="input-group date datetimepicker">
+							{{ Form::text('search_fin',$search_fin,array('class'=>'form-control','readonly'=>'')) }}
 							<span class="input-group-addon">
 		                        <span class="glyphicon glyphicon-calendar"></span>
 		                    </span>

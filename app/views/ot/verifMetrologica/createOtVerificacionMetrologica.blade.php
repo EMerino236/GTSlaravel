@@ -215,34 +215,36 @@
 				<div class="panel panel-default" id="panel-documentos-relacionados">
 	  				<div class="panel-heading">Documento Relacionado</div>
 	  				<div class="panel-body">
-						<div class="row">
-							<div class="form-group col-md-2 @if($errors->first('num_doc_relacionado1')) has-error has-feedback @endif">
-								{{ Form::label('num_doc_relacionado1','Cód. Archivamiento') }}
-								@if($documento_info != null)
-									{{ Form::text('num_doc_relacionado1',$documento_info->codigo_archivamiento,['class' => 'form-control','id'=>'num_doc_relacionado1'])}}
-								@else
-									{{ Form::text('num_doc_relacionado1','',['class' => 'form-control','id'=>'num_doc_relacionado1'])}}
-								@endif
+	  					<div class="col-md-12">
+							<div class="row">
+								<div class="form-group col-md-2 @if($errors->first('num_doc_relacionado1')) has-error has-feedback @endif">
+									{{ Form::label('num_doc_relacionado1','Cód. Archivamiento') }}
+									@if($documento_info != null)
+										{{ Form::text('num_doc_relacionado1',$documento_info->codigo_archivamiento,['class' => 'form-control','id'=>'num_doc_relacionado1'])}}
+									@else
+										{{ Form::text('num_doc_relacionado1','',['class' => 'form-control','id'=>'num_doc_relacionado1'])}}
+									@endif
+								</div>
+								<div class="form-group col-md-2" style="margin-top:25px">
+									<a class="btn btn-primary btn-block" onclick="llenar_nombre_doc_relacionado(1)"><span class="glyphicon glyphicon-plus"></span> Agregar</a>
+								</div>
+								<div class="form-group col-md-2" style="margin-top:25px">
+									<a class="btn btn-default btn-block" onclick="limpiar_nombre_doc_relacionado(1)"><span class="glyphicon glyphicon-refresh"></span> Limpiar</a>
+								</div>
+								<div class="form-group col-md-4">
+									{{ Form::label('nombre_doc_relacionado1','Nombre de Documento') }}
+									@if($documento_info != null)
+										{{ Form::text('nombre_doc_relacionado1',$documento_info->nombre,['class' => 'form-control','id'=>'nombre_doc_relacionado1','disabled'=>'disabled'])}}
+									@else
+										{{ Form::text('nombre_doc_relacionado1','',['class' => 'form-control','id'=>'nombre_doc_relacionado1','disabled'=>'disabled'])}}
+									@endif
+								</div>	
+								<div class="form-group col-md-2" style="margin-top:25px">
+									@if($documento_info != null)
+										<a class="btn btn-primary btn-block" href="{{URL::to('/verif_metrologica/download_documento/')}}/{{$documento_info->iddocumento}}"><span class="glyphicon glyphicon-download"></span> Descargar</a>
+									@endif
+								</div>						
 							</div>
-							<div class="form-group col-md-2" style="margin-top:25px">
-								<a class="btn btn-primary btn-block" onclick="llenar_nombre_doc_relacionado(1)"><span class="glyphicon glyphicon-plus"></span> Agregar</a>
-							</div>
-							<div class="form-group col-md-2" style="margin-top:25px">
-								<a class="btn btn-default btn-block" onclick="limpiar_nombre_doc_relacionado(1)"><span class="glyphicon glyphicon-refresh"></span> Limpiar</a>
-							</div>
-							<div class="form-group col-md-4">
-								{{ Form::label('nombre_doc_relacionado1','Nombre de Documento') }}
-								@if($documento_info != null)
-									{{ Form::text('nombre_doc_relacionado1',$documento_info->nombre,['class' => 'form-control','id'=>'nombre_doc_relacionado1','disabled'=>'disabled'])}}
-								@else
-									{{ Form::text('nombre_doc_relacionado1','',['class' => 'form-control','id'=>'nombre_doc_relacionado1','disabled'=>'disabled'])}}
-								@endif
-							</div>	
-							<div class="form-group col-md-2" style="margin-top:25px">
-								@if($documento_info != null)
-									<a class="btn btn-primary btn-block" href="{{URL::to('/verif_metrologica/download_documento/')}}/{{$documento_info->iddocumento}}"><span class="glyphicon glyphicon-download"></span> Descargar</a>
-								@endif
-							</div>						
 						</div>
 					</div>
 				</div>
@@ -266,7 +268,7 @@
 							{{ Form::text('costo_personal', null,array('class'=>'form-control','placeholder'=>'Costo')) }}
 						</div>
 						<div class="form-group col-md-2">
-							{{ Form::button('Agregar',array('id'=>'submit-personal', 'class'=>'btn btn-primary')) }}
+							{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Agregar',array('id'=>'submit-personal', 'class'=>'btn btn-primary')) }}
 						</div>
 					</div>
 				</div>
@@ -308,7 +310,7 @@
 			</div>
 			{{Form::open(array('url'=>'verif_metrologica/export_pdf', 'role'=>'form'))}}		
 				{{ Form::hidden('idot_vmetrologica', $ot_info->idot_vmetrologica) }}
-				<div class="form-group col-md-2">
+				<div class="form-group col-md-2 col-md-offset-6">
 					{{ Form::button('<span class="glyphicon glyphicon-export"></span> Exportar', array('id'=>'exportar', 'type'=>'submit' ,'class' => 'btn btn-success btn-block')) }}
 				</div>
 			{{ Form::close() }}

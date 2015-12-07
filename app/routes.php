@@ -321,6 +321,7 @@ Route::group(array('prefix'=>'rep_instalacion','before'=>'auth'),function(){
 	Route::post('/return_name_doc_relacionado/{postData}','ReportesInstalacionController@return_name_doc_relacionado');
 	Route::post('/return_num_rep_entorno_concluido/{postData}','ReportesInstalacionController@return_num_rep_entorno_concluido');	
 	Route::get('/download_documento/{id?}','ReportesInstalacionController@download_documento');
+	Route::get('/view_rep_instalacion/{id}','ReportesInstalacionController@render_view_rep_instalacion');
 });
 
 /*Acta de Conformidad*/
