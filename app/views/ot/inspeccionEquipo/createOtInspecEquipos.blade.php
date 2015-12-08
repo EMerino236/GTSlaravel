@@ -105,7 +105,7 @@
 				</div>				
 			</div>			
 		</div>
-		<div class="panel panel-default" style="height:1100px;">
+		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">Equipos Asociados</h3>
 			</div>
@@ -115,14 +115,15 @@
 						{{Form::label('numero_fila','Número de Fila:')}}						
 						
 					</div>
-					<div class="col-md-4" style="margin-left:-50px;">
+					<div class="col-md-4">
 						{{ Form::select('filas', array('0' => 'Seleccione') + $filas ,null ,array('class'=>'form-control','id'=>'fila')) }}
 					</div>
 					
 				</div>
 
 			@foreach($activosxot_info as $i => $otxactivo)
-				<div id="{{$i+1}}" style="position:absolute;visibility:hidden;" >
+				<!--<div id="{{$i+1}}" style="position:relative;visibility:hidden;" >-->
+				<div id="{{$i+1}}" >
 					<div class="row">
 						<div class="col-md-12">
 							<h4>{{$i+1}}. {{$otxactivo->nombre_equipo}} - {{$otxactivo->nombre_modelo}} - Código Patrimonial: {{$otxactivo->codigo_patrimonial}}</h4>

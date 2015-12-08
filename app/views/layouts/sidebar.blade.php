@@ -22,9 +22,11 @@
                                 <ul class="nav nav-third-level">
 									<li>{{ HTML::link('/retiro_servicio/list_reporte_retiro_servicio','Reporte de retiro de equipos') }}</li>
                                     <li>{{ HTML::link('/retiro_servicio/list_retiro_servicio','Programación de OT de retiro de servicio') }}</li>
+                                    <!--
                                     <li>{{ HTML::link('/#','OT de retiro de servicio') }}</li>
 									<li>{{ HTML::link('/#','Listado de baja definitiva') }}</li>
 									<li>{{ HTML::link('/#','Indicadores baja de bienes') }}</li>
+                                    -->
                                 </ul>
                                 <!-- /.nav-third-level -->
                             </li>
@@ -32,19 +34,19 @@
                                 <a href="#">Requerimiento <span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">
 									<li>{{ HTML::link('/solicitudes_compra/list_solicitudes','Listado de requerimientos') }}</li>
-									<li>{{ HTML::link('/#','Indicadores') }}</li>
+									<!--<li>{{ HTML::link('/#','Indicadores') }}</li>-->
                                 </ul>
                                 <!-- /.nav-third-level -->
                             </li>
                             <li>
                                 <a href="#">Proveedores <span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">
-									<li>{{ HTML::link('/#','Reporte de supervisión') }}</li>
+									<!--<li>{{ HTML::link('/#','Reporte de supervisión') }}</li>-->
                                     <li>{{ HTML::link('/proveedores/list_proveedores','Directorio de Proveedores') }}</li>
                                     <li>{{ HTML::link('/soportes_tecnico/list_soporte_tecnico','Directorio de Soporte Técnico') }}</li>
 									<li>{{ HTML::link('/reportes_incumplimiento/list_reportes','Reporte de incumplimiento') }}</li>
                         			<li>{{ HTML::link('/actas_conformidad/list_actas','Acta de conformidad') }}</li>
-									<li>{{ HTML::link('/#','Indicadores') }}</li>
+									<!--<li>{{ HTML::link('/#','Indicadores') }}</li>-->
                                 </ul>
                                 <!-- /.nav-third-level -->
                             </li>
@@ -58,7 +60,7 @@
                                 </ul>
                                 <!-- /.nav-third-level -->
                             </li>
-                            <li>
+                            <!--<li>
                                 <a href="#">Estado de TS <span class="fa arrow"></span></a>
                                 <ul class="nav nav-third-level">
 									<li>{{ HTML::link('/#','Reporte MENSUAL de estado de TS por servicio clínico actualizado') }}</li>
@@ -70,7 +72,7 @@
 									<li>{{ HTML::link('/#','Reporte trimestral de evaluación de resultados') }}</li>
                                 </ul>
                                 <!-- /.nav-third-level -->
-                            </li>
+                            <!--</li>-->
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>

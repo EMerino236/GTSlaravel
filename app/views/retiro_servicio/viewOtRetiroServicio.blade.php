@@ -7,25 +7,6 @@
         <!-- /.col-lg-12 -->
     </div>
 
-	@if ($errors->has())
-		<div class="alert alert-danger" role="alert">
-			<p><strong>{{ $errors->first('idestado') }}</strong></p>
-			<p><strong>{{ $errors->first('idestado_inicial') }}</strong></p>
-			<p><strong>{{ $errors->first('idestado_final') }}</strong></p>
-			<p><strong>{{ $errors->first('fecha_conformidad') }}</strong></p>
-		</div>
-	@endif
-
-	@if (Session::has('message'))
-		<div class="alert alert-success">{{ Session::get('message') }}</div>
-	@endif
-	@if (Session::has('error'))
-		<div class="alert alert-danger">{{ Session::get('error') }}</div>
-	@endif
-
-	@if($ot_info->idestado_ot == 9)
-	{{ Form::open(array('url'=>'retiro_servicio/submit_create_ot', 'role'=>'form')) }}
-	@endif
 		{{ Form::hidden('idot_retiro', $ot_info->idot_retiro) }}
 		{{ Form::hidden('idactivo', $ot_info->idactivo) }}
 		<div class="panel panel-default">
@@ -111,22 +92,14 @@
 						{{ Form::label('fecha_baja','Fecha de Baja') }}
 						{{ Form::text('fecha_baja',date('d-m-Y H:i',strtotime($ot_info->fecha_baja)),array('class' => 'form-control','readonly'=>'')) }}
 					</div>
-					@if(!$ot_info->fecha_conformidad)
-					<div class="form-group col-md-4">
-						{{ Form::label('fecha_conformidad','Ingrese Fecha de Conformidad') }}
-						<div class="fecha-hora form-group input-group date @if($errors->first('fecha_conformidad')) has-error has-feedback @endif">
-							{{ Form::text('fecha_conformidad',null,array('class'=>'form-control','readonly'=>'')) }}
-							<span class="input-group-addon">
-		                        <span class="glyphicon glyphicon-calendar"></span>
-		                    </span>
-						</div>
-					</div>
-					@else
 					<div class="form-group col-md-4">
 						{{ Form::label('fecha_conformidad','Fecha de Conformidad') }}
-						{{ Form::text('fecha_conformidad',date('d-m-Y H:i',strtotime($ot_info->fecha_conformidad)),array('class'=>'form-control','readonly'=>'')) }}
+						@if(!$ot_info->fecha_conformidad)					
+							{{ Form::text('fecha_conformidad',null,array('class'=>'form-control','readonly'=>'')) }}
+						@else
+							{{ Form::text('fecha_conformidad',date('d-m-Y H:i',strtotime($ot_info->fecha_conformidad)),array('class'=>'form-control','readonly'=>'')) }}
+						@endif
 					</div>
-					@endif
 				</div>
 			</div>
 		</div>
@@ -139,7 +112,7 @@
 				<div class="row">
 					<div class="form-group col-md-4 @if($errors->first('idestado')) has-error has-feedback @endif">
 						{{ Form::label('idestado','Equipo No Intervenido') }}
-						{{ Form::select('idestado', $estados,$ot_info->idestado_ot,['class' => 'form-control']) }}
+						{{ Form::select('idestado', $estados,$ot_info->idestado_ot,['class' => 'form-control','disabled'=>'disabled']) }}
 					</div>
 				</div>
 			</div>
@@ -153,7 +126,7 @@
 				<div class="row">
 					<div class="form-group col-md-4 @if($errors->first('idestado_inicial')) has-error has-feedback @endif">
 						{{ Form::label('idestado_inicial','Estado Inicial del Activo') }}
-						{{ Form::select('idestado_inicial', $estado_activo,$ot_info->idestado_inicial,array('class'=>'form-control')) }}
+						{{ Form::select('idestado_inicial', $estado_activo,$ot_info->idestado_inicial,array('class'=>'form-control','disabled'=>'disabled')) }}
 					</div>
 				</div>
 			</div>
@@ -164,27 +137,19 @@
 				<h3 class="panel-title">Datos Generales de la Orden de Trabajo de Retiro de Servicio</h3>
 			</div>
 			<div class="panel-body">
-				@if($ot_info->idestado_ot == 9 && ($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4))
-				<div class="row">
-					<div class="form-group col-md-8">
-						{{ Form::text('nombre_tarea', null,array('class'=>'form-control','placeholder'=>'Ingrese aquí la tarea realizada')) }}
-					</div>
-					<div class="form-group col-md-2">
-						{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Agregar',array('id'=>'submit-tarea', 'class'=>'btn btn-primary')) }}
-					</div>
-				</div>
-				@endif
 				<table id="tareas-table" class="table">
 					<tr class="info">
 						<th>Descripción</th>
-						<th>Operaciones</th>
+						<th>Estado</th>
 					</tr>
 					@foreach($tareas as $tarea)
 					<tr id="tarea-row-{{ $tarea->idtareas_ot_retiro }}">
 						<td>{{$tarea->nombre}}</td>
 						<td>
-							@if($ot_info->idestado_ot == 9 && ($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4))
-							<button class="btn btn-danger boton-eliminar-tarea" onclick="eliminar_tarea(event,{{$tarea->idtareas_ot_retiro}})" type="button">Eliminar</button>
+							@if($tarea->idestado_realizado != 23)
+								Realizada
+							@else
+								No Realizada
 							@endif
 						</td>
 					</tr>
@@ -193,7 +158,7 @@
 				<div class="row">
 					<div class="form-group col-md-4 @if($errors->first('idestado_final')) has-error has-feedback @endif">
 						{{ Form::label('idestado_final','Estado Final del Activo') }}
-						{{ Form::select('idestado_final', $estado_activo,$ot_info->idestado_final,array('class'=>'form-control')) }}
+						{{ Form::select('idestado_final', $estado_activo,$ot_info->idestado_final,array('class'=>'form-control','disabled'=>'disabled')) }}
 					</div>
 				</div>
 			</div>
@@ -203,39 +168,17 @@
 				<h3 class="panel-title">Datos de Mano de Obra</h3>
 			</div>
 			<div class="panel-body">
-				@if($ot_info->idestado_ot == 9 && ($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4))
-				<div class="row">
-					<div class="form-group col-md-5">
-						{{ Form::text('nombre_personal', null,array('class'=>'form-control','placeholder'=>'Nombres Apellidos')) }}
-					</div>
-					<div class="form-group col-md-3">
-						{{ Form::text('horas_trabajadas', null,array('class'=>'form-control','placeholder'=>'Hrs. Trab. ejem: 0.5')) }}
-					</div>
-					<div class="form-group col-md-2">
-						{{ Form::text('costo_personal', null,array('class'=>'form-control','placeholder'=>'Costo')) }}
-					</div>
-					<div class="form-group col-md-2">
-						{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Agregar',array('id'=>'submit-personal', 'class'=>'btn btn-primary')) }}
-					</div>
-				</div>
-				@endif
 				<table id="personal-table" class="table">
 					<tr class="info">
 						<th>Nombres y Apellidos</th>
 						<th>Horas Trabajadas</th>
 						<th>Costo</th>
-						<th>Operaciones</th>
 					</tr>
 					@foreach($personal_data as $personal)
 					<tr id="personal-row-{{ $personal->idpersonal_ot_retiro }}">
 						<td>{{$personal->nombre}}</td>
 						<td>{{$personal->horas_hombre}}</td>
 						<td>{{$personal->costo}}</td>
-						<td>
-							@if($ot_info->idestado_ot == 9 && ($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4))
-							<button class="btn btn-danger boton-eliminar-mano-obra" onclick="eliminar_personal(event,{{$personal->idpersonal_ot_retiro}})" type="button">Eliminar</button>
-							@endif
-						</td>
 					</tr>
 					@endforeach
 				</table>
@@ -249,23 +192,15 @@
 			    </div>
 			</div>
 		</div>
-		@if($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4)
-			<div class="row">
-				@if($ot_info->idestado_ot == 9)
-				<div class="col-md-2 form-group">
-					{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit-edit', 'type'=>'submit','class' => 'btn btn-primary btn-block')) }}
-					{{ Form::close() }}
-				</div>
-				@endif
-				<div class="form-group col-md-2">
-					<a class="btn btn-default btn-block" href="{{URL::to('/retiro_servicio/list_retiro_servicio')}}">Cancelar</a>				
-				</div>	
-				<div class="col-md-2 col-md-offset-6 form-group">
-					{{ Form::open(array('url'=>'retiro_servicio/export_pdf', 'role'=>'form')) }}
-					{{ Form::hidden('idot_retiro', $ot_info->idot_retiro) }}
-					{{ Form::button('<span class="glyphicon glyphicon-export"></span> Exportar', array('id'=>'exportar', 'type'=>'submit' ,'class' => 'btn btn-success btn-block')) }}
-					{{ Form::close() }}
-				</div>
-			</div>
-		@endif
+		<div class="row">			
+			<div class="form-group col-md-2">
+				<a class="btn btn-default btn-block" href="{{URL::previous()}}"><span class="glyphicon glyphicon-menu-left"></span> Regresar</a>				
+			</div>	
+			<div class="form-group col-md-2 col-md-offset-8">
+				{{ Form::open(array('url'=>'retiro_servicio/export_pdf', 'role'=>'form')) }}
+				{{ Form::hidden('idot_retiro', $ot_info->idot_retiro) }}
+				{{ Form::button('<span class="glyphicon glyphicon-export"></span> Exportar', array('id'=>'exportar', 'type'=>'submit' ,'class' => 'btn btn-success btn-block')) }}
+				{{ Form::close() }}
+			</div>			
+		</div>			
 @stop

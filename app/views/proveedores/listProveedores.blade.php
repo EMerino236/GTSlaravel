@@ -62,8 +62,10 @@
 				<th class="text-nowrap">Nombre Contacto</th>
 				<th class="text-nowrap">Teléfono</th>
 				<th class="text-nowrap">Email</th>
-				<th class="text-nowrap">Soporte Técnico</th>
-				<th class="text-nowrap">Editar</th>		
+				@if($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4)
+					<th class="text-nowrap">Soporte Técnico</th>
+					<th class="text-nowrap">Editar</th>
+				@endif		
 			</tr>
 			@foreach($proveedores_data as $index => $proveedor_data)
 			<tr class="@if($proveedor_data->deleted_at) bg-danger @endif">
@@ -85,14 +87,16 @@
 				<td class="text-nowrap">
 					{{$proveedor_data->email}}
 				</td>
-				<td class="text-nowrap">
-					<a class="btn btn-success btn-block btn-sm" href="{{URL::to('/proveedores/create_soporte_tecnico_proveedor/')}}/{{$proveedor_data->idproveedor}}">
-					<span class="glyphicon glyphicon-plus"></span> Agregar</a>
-				</td>
-				<td class="text-nowrap">
-					<a class="btn btn-warning btn-block btn-sm" href="{{URL::to('/proveedores/edit_proveedor/')}}/{{$proveedor_data->idproveedor}}">
-					<span class="glyphicon glyphicon-pencil"></span> Editar</a>
-				</td>
+				@if($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4)
+					<td class="text-nowrap">
+						<a class="btn btn-success btn-block btn-sm" href="{{URL::to('/proveedores/create_soporte_tecnico_proveedor/')}}/{{$proveedor_data->idproveedor}}">
+						<span class="glyphicon glyphicon-plus"></span> Agregar</a>
+					</td>
+					<td class="text-nowrap">
+						<a class="btn btn-warning btn-block btn-sm" href="{{URL::to('/proveedores/edit_proveedor/')}}/{{$proveedor_data->idproveedor}}">
+						<span class="glyphicon glyphicon-pencil"></span> Editar</a>
+					</td>
+				@endif
 			</tr>
 			@endforeach
 		</table>

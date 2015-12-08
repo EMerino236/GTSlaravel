@@ -200,7 +200,7 @@
 						{{ Form::text('nombre_tarea', null,array('class'=>'form-control','placeholder'=>'Ingrese aquí la tarea realizada')) }}
 					</div>
 					<div class="form-group col-md-2">
-						{{ Form::button('Agregar',array('id'=>'submit-tarea', 'class'=>'btn btn-primary')) }}
+						{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Agregar',array('id'=>'submit-tarea', 'class'=>'btn btn-primary')) }}
 					</div>
 				</div>
 				@endif
@@ -290,7 +290,7 @@
 						{{ Form::text('costo_repuesto', null,array('class'=>'form-control','placeholder'=>'Costo')) }}
 					</div>
 					<div class="form-group col-md-2">
-						{{ Form::button('Agregar',array('id'=>'submit-repuesto', 'class'=>'btn btn-primary')) }}
+						{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Agregar',array('id'=>'submit-repuesto', 'class'=>'btn btn-primary')) }}
 					</div>
 				</div>
 				@endif
@@ -343,7 +343,7 @@
 						{{ Form::text('costo_personal', null,array('class'=>'form-control','placeholder'=>'Costo')) }}
 					</div>
 					<div class="form-group col-md-2">
-						{{ Form::button('Agregar',array('id'=>'submit-personal', 'class'=>'btn btn-primary')) }}
+						{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Agregar',array('id'=>'submit-personal', 'class'=>'btn btn-primary')) }}
 					</div>
 				</div>
 				@endif
@@ -379,19 +379,19 @@
 		</div>
 		@if($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4)
 			<div class="row">
-				@if($ot_info->idestado_ot == 9)
-				<div class="col-md-6">
-					{{ Form::submit('Guardar',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}
+				<div class="form-group col-md-2">
+					{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit-edit', 'type'=>'submit','class' => 'btn btn-primary btn-block')) }}
 					{{ Form::close() }}
 				</div>
-				@else
-				<div class="col-md-6">
+				<div class="form-group col-md-2">
 					{{ Form::open(array('url'=>'mant_correctivo/export_pdf', 'role'=>'form')) }}
 					{{ Form::hidden('idot_correctivo', $ot_info->idot_correctivo) }}
-					{{ Form::submit('Exportar',array('class'=>'btn btn-info')) }}
+					{{ Form::button('<span class="glyphicon glyphicon-export"></span> Exportar', array('id'=>'exportar', 'type'=>'submit' ,'class' => 'btn btn-success btn-block')) }}
 					{{ Form::close() }}
 				</div>
-				@endif
+				<div class="form-group col-md-2 col-md-offset-6">
+					<a class="btn btn-default btn-block" href="{{URL::to('/mant_correctivo/list_mant_correctivo')}}">Cancelar</a>				
+				</div>
 			</div>
 		@endif
 @stop

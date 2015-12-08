@@ -10,7 +10,8 @@ class ProveedorController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 				$data["search_proveedor_ruc"] = null;
 				$data["search_proveedor_razon_social"] = null;
 				$data["proveedores_data"] = Proveedor::getProveedoresInfo()->paginate(10);
@@ -30,7 +31,8 @@ class ProveedorController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 				$data["search_proveedor_ruc"] = Input::get('search_proveedor_ruc');
 				$data["search_proveedor_razon_social"] = Input::get('search_proveedor_razon_social');
 				$data["proveedores_data"] = Proveedor::searchProveedores($data["search_proveedor_ruc"], $data["search_proveedor_razon_social"])->paginate(10);
@@ -49,7 +51,7 @@ class ProveedorController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){				
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){				
 				return View::make('proveedores/createProveedor',$data);
 			}else{
 				return View::make('error/error',$data);
@@ -66,7 +68,7 @@ class ProveedorController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				// Validate the info, create rules for the inputs
 				$attributes = array(
 					'proveedor_ruc' => 'Número de RUC',
@@ -118,7 +120,7 @@ class ProveedorController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if(($data["user"]->idrol == 1) && $id){
+			if(($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4) && $id){
 				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
 				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
 				$data["proveedor_info"] = Proveedor::searchProveedorById($id)->get();
@@ -141,7 +143,7 @@ class ProveedorController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				// Validate the info, create rules for the inputs
 				$attributes = array(
 					'proveedor_ruc' => 'Número de RUC',
@@ -200,7 +202,7 @@ class ProveedorController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"]= Session::get('user');
 
-			if($data["user"]->idrol == 1 && $idproveedor){
+			if(($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4) && $idproveedor){
 				$data["proveedor_info"] = Proveedor::find($idproveedor);
 
 				if($data["proveedor_info"] == null)
@@ -226,7 +228,7 @@ class ProveedorController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"]= Session::get('user');
 
-			if($data["user"]->idrol	== 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 
 				$attributes = array(					
 					'tipo_documento_identidad' => 'Tipo de Documento',
@@ -291,7 +293,7 @@ class ProveedorController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if(($data["user"]->idrol == 1) && $idsoporte_tecnico){
+			if(($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4) && $idsoporte_tecnico){
 
 				$data["soporte_tecnico_info"] = SoporteTecnico::find($idsoporte_tecnico)->get();
 				$data["soporte_tecnico_info"] = $data["soporte_tecnico_info"][0];
@@ -319,7 +321,7 @@ class ProveedorController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"]= Session::get('user');
 
-			if($data["user"]->idrol	== 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 
 				$attributes = array(
 					'tipo_documento_identidad' => 'Tipo de Documento',
@@ -383,7 +385,8 @@ class ProveedorController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if(($data["user"]->idrol == 1) && $idproveedor){
+			if(($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12) && $idproveedor){
 
 				$data["proveedor_info"] = Proveedor::searchProveedorById($idproveedor)->get();
 
@@ -410,7 +413,8 @@ class ProveedorController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if(($data["user"]->idrol == 1) && $idsoporte_tecnico){
+			if(($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12) && $idsoporte_tecnico){
 
 				$data["soporte_tecnico_info"] = SoporteTecnico::find($idsoporte_tecnico)->get();
 				$data["soporte_tecnico_info"] = $data["soporte_tecnico_info"][0];				
@@ -466,7 +470,7 @@ class ProveedorController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				$proveedor_id = Input::get('proveedor_id');
 				$url = "proveedores/edit_proveedor/".$proveedor_id;
 				$proveedor = Proveedor::find($proveedor_id);
@@ -487,7 +491,7 @@ class ProveedorController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				$proveedor_id = Input::get('proveedor_id');
 				$url = "proveedores/edit_proveedor/".$proveedor_id;
 				$proveedor = Proveedor::withTrashed()->find($proveedor_id);

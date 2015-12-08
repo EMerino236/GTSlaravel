@@ -11,17 +11,7 @@ $( document ).ready(function(){
         format: 'DD-MM-YYYY'
     });
 
-    var hoy = new Date();
-    var ayer = new Date();
-    ayer.setDate(hoy.getDate()-1);
-    $(".fecha-hora").datetimepicker({
-        useCurrent: false,
-        defaultDate: false,
-        format: 'DD-MM-YYYY HH:ss',
-        ignoreReadonly: true,
-        minDate: ayer,
-        disabledDates: [ayer]
-    });
+    
     
     $('#cod_pat').change(function(){
         search_equipo_ajax();
@@ -66,12 +56,8 @@ function search_equipo_ajax(){
 }
 
 function limpiar_criterios(){
-    $('#search_ing').val('');
-    $('#search_ot').val('');
-    $('#search_ubicacion').val('');
-    $('#search_equipo').val('');
-    $('#search_proveedor').val('');
+    $('#search').val('');
     $('#search_ini').val('');
     $('#search_fin').val('');
-    $('#search_cod_pat').val('');
+    $('#search_estado').val(0);
 }

@@ -102,6 +102,7 @@
 		</div>
 	</div>
 
+
     <div class="row">
     	<div class="col-md-12">
 			<div class="table-responsive">
@@ -118,8 +119,10 @@
 						<th class="text-nowrap text-center">Proveedor</th>
 						<th class="text-nowrap text-center">Código de Compra</th>
 						<th class="text-nowrap text-center">Código Patrimonial</th>
-						<th class="text-nowrap text-center">Soporte Técnico</th>
-						<th class="text-nowrap text-center">Editar</th>
+						@if($user->idrol==1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4)
+							<th class="text-nowrap text-center">Soporte Técnico</th>
+							<th class="text-nowrap text-center">Editar</th>
+						@endif
 					</tr>
 					@foreach($activos_data as $index => $activo_data)					
 					<tr class="@if($activo_data->deleted_at) bg-danger @endif">			
@@ -156,14 +159,16 @@
 						<td class="text-nowrap">
 							<a href="{{URL::to('/equipos/view_equipo/')}}/{{$activo_data->idactivo}}">{{$activo_data->codigo_patrimonial}}</a>							
 						</td>
-						<td>
-							<a class="btn btn-success btn-block btn-sm" href="{{URL::to('/equipos/create_soporte_tecnico_equipo/')}}/{{$activo_data->idactivo}}">
-							<span class="glyphicon glyphicon-plus"></span> Agregar</a>
-						</td>
-						<td>
-							<a class="btn btn-warning btn-block btn-sm" href="{{URL::to('/equipos/edit_equipo/')}}/{{$activo_data->idactivo}}">
-							<span class="glyphicon glyphicon-pencil"></span> Editar</a>
-						</td>
+						@if($user->idrol==1 || $user->idrol==2 || $user->idrol==3 || $user->idrol==4)
+							<td>
+								<a class="btn btn-success btn-block btn-sm" href="{{URL::to('/equipos/create_soporte_tecnico_equipo/')}}/{{$activo_data->idactivo}}">
+								<span class="glyphicon glyphicon-plus"></span> Agregar</a>
+							</td>
+							<td>
+								<a class="btn btn-warning btn-block btn-sm" href="{{URL::to('/equipos/edit_equipo/')}}/{{$activo_data->idactivo}}">
+								<span class="glyphicon glyphicon-pencil"></span> Editar</a>
+							</td>
+						@endif
 					</tr>
 					@endforeach				
 				</table>

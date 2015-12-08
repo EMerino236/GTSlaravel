@@ -29,7 +29,7 @@ class OtController extends BaseController {
 					return Redirect::to('sot/list_sots');
 				}
 				$data["sot_info"] = $data["sot_info"][0];
-				return View::make('ot/createProgramOtMantCo',$data);
+				return View::make('ot/correctivo/createProgramOtMantCo',$data);
 			}else{
 				return View::make('error/error',$data);
 			}
@@ -198,7 +198,7 @@ class OtController extends BaseController {
 				$data["search_ini"] = null;
 				$data["search_fin"] = null;
 				$data["mant_correctivos_data"] = OtCorrectivo::getOtsMantCorrectivoInfo()->paginate(10);
-				return View::make('ot/listOtMantCorrectivo',$data);
+				return View::make('ot/correctivo/listOtMantCorrectivo',$data);
 			}else{
 				return View::make('error/error',$data);
 			}
@@ -228,7 +228,7 @@ class OtController extends BaseController {
 				$data["search_ini"] = Input::get('search_ini');
 				$data["search_fin"] = Input::get('search_fin');
 				$data["mant_correctivos_data"] = OtCorrectivo::searchOtsMantCorrectivo($data["search_ing"],$data["search_cod_pat"],$data["search_ubicacion"],$data["search_ot"],$data["search_equipo"],$data["search_proveedor"],$data["search_ini"],$data["search_fin"])->paginate(10);
-				return View::make('ot/listOtMantCorrectivo',$data);
+				return View::make('ot/correctivo/listOtMantCorrectivo',$data);
 			}else{
 				return View::make('error/error',$data);
 			}
@@ -259,7 +259,7 @@ class OtController extends BaseController {
 				$data["tareas"] = TareasOtCorrectivo::getTareasXOtXActi($data["ot_info"]->idot_correctivo)->get();
 				$data["repuestos"] = RepuestosOtCorrectivo::getRepuestosXOtXActi($data["ot_info"]->idot_correctivo)->get();
 				$data["personal_data"] = PersonalOtCorrectivo::getPersonalXOtXActi($data["ot_info"]->idot_correctivo)->get();
-				return View::make('ot/createOtMantCo',$data);
+				return View::make('ot/correctivo/createOtMantCo',$data);
 			}else{
 				return View::make('error/error',$data);
 			}
@@ -524,8 +524,39 @@ class OtController extends BaseController {
 				$data["tipo_falla"] = TipoFalla::find($data["ot_correctivo"]->idtipo_falla);
 				$data["estado_inicial_activo"] = Estado::find($data["ot_correctivo"]->idestado_inicial);
 				$data["estado_final_activo"] = Estado::find($data["ot_correctivo"]->idestado_final);
-				$html = View::make('ot/otCorrectivoExport',$data);
+				$html = View::make('ot/correctivo/otCorrectivoExport',$data);
 				return PDF::load($html,"A4","portrait")->show();
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+	public function render_view_ot($id=null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if((($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12)) && $id){
+				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
+				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
+				$data["prioridades"] = Prioridad::lists('nombre','idprioridad');
+				$data["tipo_fallas"] = TipoFalla::lists('nombre','idtipo_falla');
+				$tabla_estado_activo = Tabla::getTablaByNombre(self::$estado_activo)->get();
+				$data["estado_activo"] = Estado::where('idtabla','=',$tabla_estado_activo[0]->idtabla)->lists('nombre','idestado');
+				
+				$data["ot_info"] = OtCorrectivo::searchOtById($id)->get();
+				if($data["ot_info"]->isEmpty()){
+					return Redirect::to('ot/createOtMantCo');
+				}
+				$data["ot_info"] = $data["ot_info"][0];
+				$data["tareas"] = TareasOtCorrectivo::getTareasXOtXActi($data["ot_info"]->idot_correctivo)->get();
+				$data["repuestos"] = RepuestosOtCorrectivo::getRepuestosXOtXActi($data["ot_info"]->idot_correctivo)->get();
+				$data["personal_data"] = PersonalOtCorrectivo::getPersonalXOtXActi($data["ot_info"]->idot_correctivo)->get();
+				return View::make('ot/correctivo/viewOtMantCo',$data);
 			}else{
 				return View::make('error/error',$data);
 			}

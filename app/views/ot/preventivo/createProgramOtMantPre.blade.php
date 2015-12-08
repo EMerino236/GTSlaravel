@@ -116,7 +116,6 @@
 			  <div class="days" data-group="days">
 			    <!-- the place where days will be generated -->
 			  </div>
-			  <div class="responsive-calendar-placeholder"></div>	
 			</div>
 			<!-- Responsive calendar - END -->
 		</div>

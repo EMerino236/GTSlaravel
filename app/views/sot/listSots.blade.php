@@ -21,36 +21,34 @@
 				<h3 class="panel-title">Búsqueda</h3>
 			</div>
 			<div class="panel-body">
-			<div class="search_bar">
+			<div class="search_bar">	
 				<div class="row">
-					<div class="form-group col-md-6">
-						{{ Form::label('search','Número de ficha/Usuario solicitante') }}
-						{{ Form::text('search',$search,array('class'=>'form-control','placeholder'=>'')) }}
-					</div>
-					<div class="form-group col-md-6">
-						{{ Form::label('search_estado','Estado') }}
-						{{ Form::select('search_estado',array("0"=>"Seleccione")+$estados,$search_estado,['class' => 'form-control']) }}
-					</div>
-				</div>
-				<div class="row">
-					<div class="form-group col-md-6">
+					<div class="form-group col-md-4">
 						{{ Form::label('search_ini','Fecha inicio') }}
-						<div id="datetimepicker1" class="form-group input-group date">
-							{{ Form::text('search_ini',$search_ini,array('class'=>'form-control')) }}
+						<div id="datetimepicker1" class="input-group date">
+							{{ Form::text('search_ini',$search_ini,array('class'=>'form-control','readonly'=>'')) }}
 							<span class="input-group-addon">
 			                    <span class="glyphicon glyphicon-calendar"></span>
 			                </span>
 						</div>
 					</div>
-					<div class="form-group col-md-6">
+					<div class="form-group col-md-4">
 						{{ Form::label('search_fin','Fecha de fin') }}
-						<div id="datetimepicker2" class="form-group input-group date">
-							{{ Form::text('search_fin',$search_fin,array('class'=>'form-control')) }}
+						<div id="datetimepicker2" class=" input-group date">
+							{{ Form::text('search_fin',$search_fin,array('class'=>'form-control','readonly'=>'')) }}
 							<span class="input-group-addon">
 		                        <span class="glyphicon glyphicon-calendar"></span>
 		                    </span>
 						</div>
 					</div>
+					<div class="form-group col-md-4">
+						{{ Form::label('search','Número de ficha/Usuario solicitante') }}
+						{{ Form::text('search',$search,array('class'=>'form-control','placeholder'=>'Ingrese Número de Ficha/Usuario Solicitante')) }}
+					</div>
+					<div class="form-group col-md-4">
+						{{ Form::label('search_estado','Estado') }}
+						{{ Form::select('search_estado',array("0"=>"Seleccione")+$estados,$search_estado,['class' => 'form-control']) }}
+					</div>					
 				</div>
 				<div class="container-fluid form-group row">
 					<div class="form-group col-md-2 col-md-offset-8">

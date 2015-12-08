@@ -55,8 +55,8 @@
 						</div>
 						<div class="form-group col-md-6">
 							{{ Form::label('fecha_programacion','Ingrese fecha de programación') }}
-							<div class="fecha-hora form-group input-group date @if($errors->first('fecha_programacion')) has-error has-feedback @endif">
-								{{ Form::text('fecha_programacion',null,array('class'=>'form-control','readonly'=>'')) }}
+							<div id="datetimepicker_prog_fecha" class="form-group input-group date @if($errors->first('fecha_programacion')) has-error has-feedback @endif">
+								{{ Form::text('fecha_programacion',null,array('id'=>'fecha_programacion','class'=>'form-control','readonly'=>'')) }}
 								<span class="input-group-addon">
 			                        <span class="glyphicon glyphicon-calendar"></span>
 			                    </span>
@@ -90,8 +90,8 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="form-group col-md-12">
-							{{ Form::submit('Programar',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}
+						<div class="form-group col-md-4">
+							{{ Form::button('<span class="glyphicon glyphicon-time"></span>  Programar', array('id'=>'submit-edit','type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}
 						</div>
 					</div>
 				</div>
@@ -144,6 +144,4 @@
     </div>
   </div>  
 </div>
-
-<script src="{{ asset('js/sot/program-ot.js') }}"></script>
 @stop

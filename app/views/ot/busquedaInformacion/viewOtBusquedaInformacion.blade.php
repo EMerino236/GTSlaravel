@@ -198,7 +198,7 @@
 		</div>
 		<div class="row">			
 			<div class="form-group col-md-2">
-				<a class="btn btn-default btn-block" href="{{URL::to('/solicitud_busqueda_informacion/list_busqueda_informacion')}}"><span class="glyphicon glyphicon-menu-left"></span> Regresar</a>				
+				<a class="btn btn-default btn-block" href="{{URL::previous()}}"><span class="glyphicon glyphicon-menu-left"></span> Regresar</a>				
 			</div>	
 			{{Form::open(array('url'=>'busqueda_informacion/export_pdf', 'role'=>'form'))}}		
 			{{Form::hidden('idot_busqueda_info', $ot_info->idot_busqueda_info) }}
