@@ -102,24 +102,25 @@
 		</div>
 	</div>
 
+
     <div class="row">
     	<div class="col-md-12">
 			<div class="table-responsive">
 				<table class="table">
 					<tr class="info">
-						<th class="text-nowrap text-center">Nº</th>
-						<th class="text-nowrap text-center">Grupo</th>
-						<th class="text-nowrap text-center">Servicio Clinico</th>						
-						<th class="text-nowrap text-center">Nombre SIGA</th>
-						<th class="text-nowrap text-center">Nombre de Equipo</th>
-						<th class="text-nowrap text-center">Marca</th>
-						<th class="text-nowrap text-center">Modelo</th>
-						<th class="text-nowrap text-center">Número de Serie</th>
-						<th class="text-nowrap text-center">Proveedor</th>
-						<th class="text-nowrap text-center">Código de Compra</th>
-						<th class="text-nowrap text-center">Código Patrimonial</th>
-						<th class="text-nowrap text-center">Soporte Técnico</th>
-						<th class="text-nowrap text-center">Editar</th>
+						<th class="text-nowrap">Nº</th>
+						<th class="text-nowrap">Grupo</th>
+						<th class="text-nowrap">Servicio Clinico</th>						
+						<th class="text-nowrap">Nombre SIGA</th>
+						<th class="text-nowrap">Nombre de Equipo</th>
+						<th class="text-nowrap">Marca</th>
+						<th class="text-nowrap">Modelo</th>
+						<th class="text-nowrap">Número de Serie</th>
+						<th class="text-nowrap">Proveedor</th>
+						<th class="text-nowrap">Código de Compra</th>
+						<th class="text-nowrap">Código Patrimonial</th>
+						<th class="text-nowrap">Soporte Técnico</th>
+						<th class="text-nowrap">Editar</th>
 					</tr>
 					@foreach($activos_data as $index => $activo_data)					
 					<tr class="@if($activo_data->deleted_at) bg-danger @endif">			
