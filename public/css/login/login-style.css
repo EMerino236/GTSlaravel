@@ -1,6 +1,6 @@
 div#login-container,
 div#message-container{
-	width: 360px;
+	width: 400px;
 	margin: 0 auto;
 }
 
@@ -16,7 +16,7 @@ div#login-container{
 @media (max-width: 600px) {
 	div#login-container,
 	div#message-container{
-		width: 40%;
+		width: 100%;
 		margin: 0 auto;
 	}
 }

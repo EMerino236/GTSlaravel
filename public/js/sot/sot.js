@@ -11,17 +11,7 @@ $( document ).ready(function(){
         format: 'DD-MM-YYYY'
     });
 
-    var hoy = new Date();
-    var ayer = new Date();
-    ayer.setDate(hoy.getDate()-1);
-    $(".fecha-hora").datetimepicker({
-        useCurrent: false,
-        defaultDate: false,
-        format: 'DD-MM-YYYY HH:ss',
-        ignoreReadonly: true,
-        minDate: ayer,
-        disabledDates: [ayer]
-    });
+    
     
     $('#cod_pat').change(function(){
         search_equipo_ajax();

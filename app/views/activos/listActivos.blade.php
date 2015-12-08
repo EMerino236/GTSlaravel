@@ -118,8 +118,10 @@
 						<th class="text-nowrap text-center">Proveedor</th>
 						<th class="text-nowrap text-center">Código de Compra</th>
 						<th class="text-nowrap text-center">Código Patrimonial</th>
-						<th class="text-nowrap text-center">Soporte Técnico</th>
-						<th class="text-nowrap text-center">Editar</th>
+						@if($user->idrol==1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4)
+							<th class="text-nowrap text-center">Soporte Técnico</th>
+							<th class="text-nowrap text-center">Editar</th>
+						@endif
 					</tr>
 					@foreach($activos_data as $index => $activo_data)					
 					<tr class="@if($activo_data->deleted_at) bg-danger @endif">			
@@ -165,9 +167,6 @@
 								<a class="btn btn-warning btn-block btn-sm" href="{{URL::to('/equipos/edit_equipo/')}}/{{$activo_data->idactivo}}">
 								<span class="glyphicon glyphicon-pencil"></span> Editar</a>
 							</td>
-						@else
-							<td class="text-center"> - </td>
-							<td class="text-center"> - </td>
 						@endif
 					</tr>
 					@endforeach				

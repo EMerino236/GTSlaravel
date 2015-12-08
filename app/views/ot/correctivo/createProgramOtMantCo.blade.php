@@ -1,4 +1,4 @@
-@extends('templates/sotTemplate')
+@extends('templates/otMantenimientoCorrectivoTemplate')
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
@@ -55,8 +55,8 @@
 						</div>
 						<div class="form-group col-md-6">
 							{{ Form::label('fecha_programacion','Ingrese fecha de programación') }}
-							<div class="fecha-hora form-group input-group date @if($errors->first('fecha_programacion')) has-error has-feedback @endif">
-								{{ Form::text('fecha_programacion',null,array('class'=>'form-control','readonly'=>'')) }}
+							<div id="datetimepicker_prog_fecha" class="form-group input-group date @if($errors->first('fecha_programacion')) has-error has-feedback @endif">
+								{{ Form::text('fecha_programacion',null,array('id'=>'fecha_programacion','class'=>'form-control','readonly'=>'')) }}
 								<span class="input-group-addon">
 			                        <span class="glyphicon glyphicon-calendar"></span>
 			                    </span>

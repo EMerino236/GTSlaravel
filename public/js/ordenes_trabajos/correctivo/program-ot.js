@@ -1,9 +1,5 @@
 $( document ).ready(function(){
-
-    
-    init_ot_program();
-
-    
+     init_ot_program();
 });
 
 function ver_programaciones(){
@@ -97,5 +93,16 @@ function fadeOutModalBox(num) {
 function removeModalBox() { $(".responsive-calendar-modal").remove(); }
 
 function init_ot_program(){
+
+    $("#datetimepicker_prog_fecha").datetimepicker({
+            defaultDate: false,
+            ignoreReadonly: true,
+            format: 'DD-MM-YYYY HH:mm',
+            sideBySide: true,
+            minDate: new Date()
+    });
+    if($('#fecha_programacion').length)
+        $('#fecha_programacion').val('');
+    
     ver_programaciones();
 }

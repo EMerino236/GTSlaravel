@@ -1,5 +1,4 @@
 $( document ).ready(function(){
-
 	$("#submit-tarea").click(function(e){
 		e.preventDefault;
 		if($("input[name=nombre_tarea]").val().length <1){
@@ -283,7 +282,6 @@ function eliminar_repuesto(e,id){
 	});
 	
 }
-
 
 function eliminar_personal(e,id){
 	e.preventDefault();
