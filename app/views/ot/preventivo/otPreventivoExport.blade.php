@@ -29,6 +29,7 @@
 				padding-bottom: 5px;
 				padding-left: 5px;
 				padding-right: 5px;
+				border:1px solid black;
 			}
 
 			#datos_solicitud .info_right{
@@ -54,6 +55,10 @@
 			}
 			th, td {
 				text-align: center;
+			}
+
+			#table_tareas{
+				padding-top: 10px;
 			}
 
 		</style>

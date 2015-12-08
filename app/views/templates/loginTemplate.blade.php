@@ -20,6 +20,41 @@
 		body{
 			background-color:;
 		}
+
+		#header .row{
+			border-bottom: solid 2px;
+			border-color: #337ab7;
+			background-color:#f5f5f5;
+		}
+
+		#title1{
+			float:left;
+			display:block;
+			width:200px;
+			margin-top:10px;
+			font-size:12px;
+			font-weight:bold;
+		}
+
+		#logo1{
+			width:10%;
+			display:inline-block;
+			float:left;
+			margin-left:20px;
+		}
+
+		@media (max-width: 767px) {
+			#title1 {
+				float:left;
+				display:inline;
+				font-size:12px;
+				font-weight:bold;
+			}
+
+			#logo1{
+				width:20%;
+			}
+		} 
 	</style>
 </head>
 

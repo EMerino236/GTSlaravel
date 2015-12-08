@@ -504,8 +504,11 @@ class OtVerificacionMetrologicaController extends BaseController {
 				$data["estado_final"] = Estado::find($data["ot_vm"]->idestado_final);
 				$data["estado_ot"] = Estado::find($data["ot_vm"]->idestado_ot);
 				$data["documento"] = Documento::searchDocumentoByIdOtVerifMetrologica($idot_vmetrologica)->get();
-				$data["documento"] = $data["documento"][0];
-
+				
+				if(count($data["documento"])!=0){
+					$data["documento"] = $data["documento"][0];
+				}
+					
 				$data["personal_data"] = PersonalOtVerifMetrologica::getPersonalXOt($idot_vmetrologica)->get();
 				$html = View::make('ot/verifMetrologica/otVerifMetrologicaExport',$data);
 				
