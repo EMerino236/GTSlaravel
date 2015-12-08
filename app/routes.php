@@ -535,4 +535,12 @@ Route::group(array('prefix'=>'documento_investigacion', 'before'=>'auth'),functi
 /*Plantillas de inspecciones de servicios*/
 Route::group(array('prefix'=>'plantillas_servicios', 'before'=>'auth'),function(){
 	Route::get('/list_servicios','PlantillasServiciosController@list_servicios');
+	Route::get('/search_servicio','PlantillasServiciosController@search_servicio');
+	Route::get('/create_servicio','PlantillasServiciosController@render_create_servicio');
+	Route::post('/create_servicio','PlantillasServiciosController@submit_create_servicio');
+	Route::post('/search_equipo_ajax','PlantillasServiciosController@search_equipo_ajax');
+	//TO DO
+	Route::get('/show_servicio/{id}','PlantillasServiciosController@render_show_servicio');
+	Route::get('/edit_servicio/{id}','PlantillasServiciosController@render_edit_servicio');
+	Route::post('/submit_edit_servicio','PlantillasServiciosController@submit_edit_servicio');
 });

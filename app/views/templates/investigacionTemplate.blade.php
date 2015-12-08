@@ -44,6 +44,7 @@
     <script src="{{ asset('js/fileinput.min.js') }}"></script>
     <script src="{{ asset('js/fileinput_locale_es.min.js') }}"></script>
     <script src="{{ asset('js/language_file_upload_plugin.min.js') }}"></script>
+    <script src="{{ asset('js/investigacion/solicitud_servicio.js') }}"></script>
     
 </head>
 
