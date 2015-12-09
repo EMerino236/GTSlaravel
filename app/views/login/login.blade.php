@@ -17,18 +17,18 @@
 	</div>
 		
 	<div id="header">
-		<div class="row">
-			<img id="logo1" src="{{asset('img')}}/logo_uib.jpg">
-			<p id="title1" >PROGRAMA DE GESTION EN TECNOLOGIAS DE SALUD E INGENIERIA CLINICA</p>
+		<div class="row row-header">
+			<img id="logo1" src="{{asset('img')}}/logo_uib.png">
+			<p id="title1" >PROGRAMA DE GESTIÓN EN TECNOLOGÍAS DE SALUD E INGENIERÍA CLÍNICA</p>
 		</div>
 	</div>
 	<div class="top-content">        	
        <div class="container">
             <div class="row">
                 <div class="col-sm-6 col-sm-offset-3 form-box">
-                	<div class="form-top">
+                	<div class="form-top" style="border-radius:8px 8px 8px 8px;">
                 		<div class="form-top-left">
-                			<h3><strong>Bienvenido al Sistema GTS</strong></h3>
+                			<h3><strong>BIENVENIDO AL SISTEMA GTS</strong></h3>
                     		<p>Ingrese a su cuenta</p>
                 		</div>
                 		<div class="form-top-right">
