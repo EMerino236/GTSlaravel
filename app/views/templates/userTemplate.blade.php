@@ -4,6 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="robots" content="noindex, follow">
+    <link rel="shortcut icon" href="{{ asset('img')}}/logoGTS.png">
 	<title>Usuarios</title>
 	<!-- Bootstrap Core CSS -->
     <link href="{{ asset('bower_components/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">

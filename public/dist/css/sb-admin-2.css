@@ -127,6 +127,11 @@ body {
     padding-left: 52px;
 }
 
+@font-face {
+    font-family: 'softwareTest'; /*a name to be used later*/
+    src: url('../../fonts/software_tester_7.ttf'); /*URL to font*/
+}
+
 @media(min-width:768px) {
     .sidebar {
         z-index: 1;

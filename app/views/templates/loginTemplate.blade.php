@@ -7,6 +7,7 @@
 	<title>Home</title>
 	<!-- Styles -->
 	<link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+	<link rel="shortcut icon" href="{{ asset('img')}}/logoGTS.png">
 	<link rel="stylesheet" href="{{ asset('css/login/form-elements.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/login/style.css') }}">
 	<script src="{{ asset('bower_components/jquery/dist/jquery.min.js') }}"></script>
@@ -30,13 +31,13 @@
 			float:left;
 			display:block;
 			width:200px;
-			margin-top:20px;
+			margin-top:10px;
 			font-size:12px;
 			font-weight:bold;
 		}
 
 		#logo1{
-			width:10%;
+			width:8%;
 			display:inline-block;
 			float:left;
 			margin:10px 10px 10px 100px;
