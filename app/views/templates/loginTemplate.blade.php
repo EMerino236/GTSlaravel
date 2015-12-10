@@ -18,11 +18,10 @@
 	<!-- Scripts -->
 	<style type="text/css">
 		body{
-			background-color:;
+			background-color: #eee;
 		}
 
 		#header .row{
-			border-bottom: solid 2px;
 			border-color: #337ab7;
 			background-color:#f5f5f5;
 		}
@@ -31,7 +30,7 @@
 			float:left;
 			display:block;
 			width:200px;
-			margin-top:10px;
+			margin-top:20px;
 			font-size:12px;
 			font-weight:bold;
 		}
@@ -40,7 +39,11 @@
 			width:10%;
 			display:inline-block;
 			float:left;
-			margin-left:20px;
+			margin:10px 10px 10px 100px;
+		}
+
+		.row-header{
+			width:100%;
 		}
 
 		@media (max-width: 767px) {
@@ -53,6 +56,10 @@
 
 			#logo1{
 				width:20%;
+			}
+
+			.row-header{
+				width:100%;
 			}
 		} 
 	</style>

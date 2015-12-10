@@ -24,7 +24,7 @@
                     <li>{{ HTML::link('/plan_director/list_documento_plan_director','Plan de ejecución') }}</li>
                 </ul>                
             </li>
-            <li>{{ HTML::link('#','Asignación y control de reportes') }}</li>
+            <li>{{ HTML::link('/programacion_reportes/list_programacion_reportes','Asignación y control de reportes') }}</li>
         </ul>
     </div>
     <!-- /.sidebar-collapse -->

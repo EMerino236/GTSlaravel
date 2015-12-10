@@ -222,19 +222,42 @@ function addFilaMantenimiento(){
     var count_otTrimestre = $('#trimestre').val();
    
     if(nombre_equipo=='Equipo no registrado' || nombre_equipo==''){
-        $('#modal_create_text').empty();
-        $('#modal_create_text').append('<p>Ingresar equipo correcto</p>');
-        $('#modal_create').modal('show');
+        dialog = BootstrapDialog.show({
+            title: 'Advertencia',
+            message: 'Ingresar equipo correcto',
+            type : BootstrapDialog.TYPE_DANGER,
+            buttons: [{
+                label: 'Aceptar',
+                action: function(dialog) {
+                    dialog.close();
+                }
+            }]
+        });
     }else if(fecha==''){
-        $('#modal_create_text').empty();
-        $('#modal_create_text').append('<p>Ingresar fecha.');
-        $('#modal_create').modal('show');
+        dialog = BootstrapDialog.show({
+            title: 'Advertencia',
+            message: 'Ingresar fecha',
+            type : BootstrapDialog.TYPE_DANGER,
+            buttons: [{
+                label: 'Aceptar',
+                action: function(dialog) {
+                    dialog.close();
+                }
+            }]
+        });
     }else if(hora==''){
-        $('#modal_create_text').empty();
-        $('#modal_create_text').append('<p>Ingresar hora</p>');
-        $('#modal_create').modal('show');
+        dialog = BootstrapDialog.show({
+            title: 'Advertencia',
+            message: 'Ingresar hora',
+            type : BootstrapDialog.TYPE_DANGER,
+            buttons: [{
+                label: 'Aceptar',
+                action: function(dialog) {
+                    dialog.close();
+                }
+            }]
+        });
     }else{
-        $('#modal_create_text').empty();
         $('#table_programacion').append("<tr>"
                 +"<td>"+codigo_patrimonial+"</td>"
                 +"<td>"+nombre_equipo+"</td>"
@@ -302,18 +325,33 @@ function sendDataToController_create(){
                     var message = response["message"];
                     var type_message = response["type_message"];
                     var inside_url = array_detalle;
-                    $('#modal_header_confirm').removeClass();
-                    $('#modal_header_confirm').addClass("modal-header ");
-                    $('#modal_header_confirm').addClass(type_message);
-                    $('#modal_text_confirm').empty();
-                    $('#modal_text_confirm').append("<p>"+message+"</p>");
-                    $('#modal_confirm').modal('show');
-                    if(type_message == "bg-success"){
-                        var url = inside_url + "verif_metrologica/list_verif_metrologica";
-                        $('#btn_close_modal_confirm').click(function(){
-                            window.location = url;
+                    if(type_message=="bg-success"){
+                        dialog = BootstrapDialog.show({
+                            title: 'Advertencia',
+                            message: message,
+                            type : BootstrapDialog.TYPE_SUCCESS,
+                            buttons: [{
+                                label: 'Aceptar',
+                                action: function(dialog) {
+                                    var url = inside_url + "verif_metrologica/list_verif_metrologica";
+                                    window.location = url;
+                                }
+                            }]
+                        });
+                    }else{
+                        dialog = BootstrapDialog.show({
+                            title: 'Advertencia',
+                            message: message,
+                            type : BootstrapDialog.TYPE_DANGER,
+                            buttons: [{
+                                label: 'Aceptar',
+                                action: function(dialog) {
+                                    dialog.close();
+                                }
+                            }]
                         });
                     }
+                    
                 }else{
                     alert('La petición no se pudo completar, inténtelo de nuevo.');
                 }

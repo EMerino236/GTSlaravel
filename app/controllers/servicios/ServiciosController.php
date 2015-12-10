@@ -10,7 +10,6 @@ class ServiciosController extends BaseController
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
 				$data["search"] = null;
-				$data["tipo_servicio"] = TipoServicio::lists('nombre','idtipo_servicios');
 				$data["servicios_data"] = Servicio::getServiciosInfo()->paginate(10);
 				return View::make('servicios/listServicios',$data);
 			}else{
@@ -28,9 +27,8 @@ class ServiciosController extends BaseController
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
 				$data["search"] = Input::get('search');
-				$data["tipo_servicio"] = TipoServicio::lists('nombre','idtipo_servicios'); 
 				$data["servicios_data"] = Servicio::searchServicios($data["search"])->paginate(10);
-				if($data["search"]==0){
+				if($data["search"]==null){
 					return Redirect::to('servicios/list_servicios');
 				}else{
 					return View::make('servicios/listServicios',$data);	
@@ -107,8 +105,12 @@ class ServiciosController extends BaseController
 							'area'=>'required',		
 							'personal' => 'required',	
 						);
+
+				$messages=array(
+					'tipo_servicio' => 'Seleccionar un tipo de servicio.'
+					);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					return Redirect::to('servicios/create_servicio')->withErrors($validator)->withInput(Input::all());
@@ -144,12 +146,18 @@ class ServiciosController extends BaseController
 				$rules = array(
 							'nombre' => 'required|max:100',
 							'descripcion' => 'required|max:200',
-							'tipo_servicio' => 'required',	
-							'area'=>'required',		
-							'personal' => 'required',
+							'tipo_servicio' => 'required|integer|min:1',	
+							'area'=>'required|integer|min:1',		
+							'personal' => 'required|integer|min:1',
 						);
+
+				$messages=array(
+					'tipo_servicio.min' => 'Seleccionar un tipo de servicio.',
+					'area.min' => 'Seleccionar un area.',
+					'personal.min' => 'Seleccionar un usuario.'
+				);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					$servicio_id = Input::get('servicio_id');

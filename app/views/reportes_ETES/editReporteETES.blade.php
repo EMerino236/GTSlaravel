@@ -31,13 +31,13 @@
 				<div class="row">
 					<div class="form-group col-md-4 @if($errors->first('idtipo_reporte')) has-error has-feedback @endif">
 						{{ Form::label('idtipo_reporte','Tipo de Reporte') }}
-						{{ Form::select('idtipo_reporte',array(''=>'Seleccione') + $tipo_reporte_etes,$reporte_etes_info->idtipo_reporte_ETES,['class' => 'form-control','disabled'=>'disabled']) }}
+						{{ Form::select('idtipo_reporte',array(''=>'Seleccione') + $tipo_reporte_etes,$programacion_reporte_etes_info->idtipo_reporte_ETES,['class' => 'form-control','disabled'=>'disabled']) }}
 					</div>
 				</div>	
 				<div class="row">
 					<div class="form-group col-md-8 @if($errors->first('nombre')) has-error has-feedback @endif">
 						{{ Form::label('nombre','Nombre de Reporte') }}
-						{{ Form::text('nombre',$reporte_etes_info->nombre,['class' => 'form-control','readonly'=>'']) }}
+						{{ Form::text('nombre',$programacion_reporte_etes_info->nombre_reporte,['class' => 'form-control','readonly'=>'']) }}
 					</div>
 				</div>	
 			</div>

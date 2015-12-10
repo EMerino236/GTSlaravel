@@ -37,7 +37,7 @@ function edit_numero_documento()
 
 function limpiar_criterios()
 {
-	$('#proveedor').prop('selectedIndex',0);
+	$('#search_cod_pat').prop('selectedIndex',0);
 	$('#tipo_documento_identidad').prop('selectedIndex',0);
 	$('#numero_documento_soporte_tecnico').prop('disabled',true);
 	$('#numero_documento_soporte_tecnico').val("");

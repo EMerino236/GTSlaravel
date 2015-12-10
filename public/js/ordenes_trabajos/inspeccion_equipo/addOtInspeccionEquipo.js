@@ -237,33 +237,82 @@ function addFilaMantenimiento(){
     var time_fin= parseInt(array_fecha_fin[0])*60 + parseInt(array_fecha_fin[1]);
    
     if(idservicio==0){
-        $('#modal_create_text').empty();
-        $('#modal_create_text').append('<p>Seleccionar servicio.</p>');
-        $('#modal_create').modal('show');
+        dialog = BootstrapDialog.show({
+            title: 'Advertencia',
+            message: 'Seleccionar servicio',
+            type : BootstrapDialog.TYPE_DANGER,
+            buttons: [{
+                label: 'Aceptar',
+                action: function(dialog) {
+                    dialog.close();
+                }
+            }]
+        });
     }else if(cantidad_activos==0){
-        $('#modal_create_text').empty();
-        $('#modal_create_text').append('<p>El servicio no cuenta con activos.</p>');
-        $('#modal_create').modal('show');
+        dialog = BootstrapDialog.show({
+            title: 'Advertencia',
+            message: 'El servicio no cuenta con activos',
+            type : BootstrapDialog.TYPE_DANGER,
+            buttons: [{
+                label: 'Aceptar',
+                action: function(dialog) {
+                    dialog.close();
+                }
+            }]
+        });
     }
     else if(fecha==''){
-        $('#modal_create_text').empty();
-        $('#modal_create_text').append('<p>Ingresar fecha.');
-        $('#modal_create').modal('show');
+        dialog = BootstrapDialog.show({
+            title: 'Advertencia',
+            message: 'Ingresar fecha',
+            type : BootstrapDialog.TYPE_DANGER,
+            buttons: [{
+                label: 'Aceptar',
+                action: function(dialog) {
+                    dialog.close();
+                }
+            }]
+        });
     }else if(hora_inicio==''){
-        $('#modal_create_text').empty();
-        $('#modal_create_text').append('<p>Ingresar hora inicio</p>');
-        $('#modal_create').modal('show');
+        dialog = BootstrapDialog.show({
+            title: 'Advertencia',
+            message: 'Ingresar hora inicio',
+            type : BootstrapDialog.TYPE_DANGER,
+            buttons: [{
+                label: 'Aceptar',
+                action: function(dialog) {
+                    dialog.close();
+                }
+            }]
+        });
     }else if(hora_fin==''){
-        $('#modal_create_text').empty();
-        $('#modal_create_text').append('<p>Ingresar hora fin</p>');
-        $('#modal_create').modal('show');
+        dialog = BootstrapDialog.show({
+            title: 'Advertencia',
+            message: 'Ingresar hora fin',
+            type : BootstrapDialog.TYPE_DANGER,
+            buttons: [{
+                label: 'Aceptar',
+                action: function(dialog) {
+                    dialog.close();
+                }
+            }]
+        });
     }else if(time_inicio > time_fin){
-        $('#modal_create_text').empty();
-        $('#modal_create_text').append('<p>Hora fin debe ser posterior a la fecha de inicio.</p>');
-        $('#modal_create').modal('show');
+        dialog = BootstrapDialog.show({
+            title: 'Advertencia',
+            message: 'Hora fin debe ser posterior a la fecha de inicio',
+            type : BootstrapDialog.TYPE_DANGER,
+            buttons: [{
+                label: 'Aceptar',
+                action: function(dialog) {
+                    dialog.close();
+                }
+            }]
+        });
+        
     }
     else{
-        $('#modal_create_text').empty();
+        
         $('#table_programacion').append("<tr>"
                 +"<td class='text-nowrap text-center' id=\""+idservicio+"\">"+servicio+"</td>"
                 +"<td class='text-nowrap text-center'>"+count_otMes+"</td>"
@@ -286,7 +335,7 @@ function deleteRow(event,el){
 
 function sendDataToController_create(){
         var matrix = readTableData();
-
+        document.body.style.cursor='wait';
         BootstrapDialog.confirm({
             title: 'Mensaje de Confirmación',
             message: '¿Está seguro que desea realizar esta acción?', 
@@ -313,23 +362,39 @@ function sendDataToController_create(){
                             delete_selected_profiles = true;
                         },
                         success: function(response){
-                            if(response.success){                    
+                            if(response.success){ 
+                                document.body.style.cursor='default';                   
                                 var array_detalle = response["url"];
                                 var message = response["message"];
                                 var type_message = response["type_message"];
                                 var inside_url = array_detalle;
-                                $('#modal_header_confirm').removeClass();
-                                $('#modal_header_confirm').addClass("modal-header ");
-                                $('#modal_header_confirm').addClass(type_message);
-                                $('#modal_text_confirm').empty();
-                                $('#modal_text_confirm').append("<p>"+message+"</p>");
-                                $('#modal_confirm').modal('show');
-                                if(type_message == "bg-success"){
-                                    var url = inside_url + "inspec_equipos/list_inspec_equipos";
-                                    $('#btn_close_modal_confirm').click(function(){
-                                        window.location = url;
+                                if(type_message=="bg-success"){
+                                    dialog = BootstrapDialog.show({
+                                        title: 'Advertencia',
+                                        message: message,
+                                        type : BootstrapDialog.TYPE_SUCCESS,
+                                        buttons: [{
+                                            label: 'Aceptar',
+                                            action: function(dialog) {
+                                                var url = inside_url + "inspec_equipos/list_inspec_equipos";
+                                                window.location = url;
+                                            }
+                                        }]
+                                    });
+                                }else{
+                                    dialog = BootstrapDialog.show({
+                                        title: 'Advertencia',
+                                        message: message,
+                                        type : BootstrapDialog.TYPE_DANGER,
+                                        buttons: [{
+                                            label: 'Aceptar',
+                                            action: function(dialog) {
+                                                dialog.close();
+                                            }
+                                        }]
                                     });
                                 }
+                                
                             }else{
                                 alert('La petición no se pudo completar, inténtelo de nuevo.');
                             }

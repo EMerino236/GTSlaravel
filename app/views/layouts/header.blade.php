@@ -6,7 +6,7 @@
         <span class="icon-bar"></span>
     </button>
     <a href="{{ URL::to('/') }}">
-		<img src="{{ asset('img') }}/logo_uib.jpg" width="50" style="display:block;margin-top:4px;"/>
+		<img src="{{ asset('img') }}/logo_uib.png" width="50" style="display:block;margin-top:4px;"/>
 	</a>
 </div>
 <!-- /.navbar-header -->

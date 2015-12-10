@@ -22,7 +22,7 @@
 
 	{{ Form::open(array('url'=>'familia_activos/submit_edit_modelo_familia_activo', 'role'=>'form')) }}
 	{{ Form::hidden('familia_activo_id',$familia_activo_info->idfamilia_activo)}}
-	{{ Form::hidden('idmodelo_equipo', $modelo_info->idmodelo_equipo) }}
+	{{ Form::hidden('modelo_id', $modelo_info->idmodelo_equipo) }}
 			<div class="panel panel-default">
 			  	<div class="panel-heading">Datos Generales</div>
 			  	<div class="panel-body">

@@ -19,13 +19,14 @@ class ReporteCN extends Eloquent{
 	public function scopeGetReportesCNInfo($query)
 	{
 		$query->withTrashed()
+			  ->join('programacion_reporte_cn','programacion_reporte_cn.idprogramacion_reporte_cn','=','reporte_cn.idprogramacion_reporte_cn')
 			  ->join('ot_retiros','ot_retiros.idot_retiro','=','reporte_cn.idot_retiro')
 			  ->join('activos','activos.idactivo','=','ot_retiros.idactivo')
 			  ->join('modelo_activos','modelo_activos.idmodelo_equipo','=','activos.idmodelo_equipo')
 			  ->join('familia_activos','familia_activos.idfamilia_activo','=','modelo_activos.idfamilia_activo')
-			  ->leftjoin('servicios','servicios.idservicio','=','reporte_cn.idservicio')
-			  ->join('areas','areas.idarea','=','reporte_cn.idarea')
-			  ->join('users','users.id','=','reporte_cn.iduser')
+			  ->leftjoin('servicios','servicios.idservicio','=','programacion_reporte_cn.idservicio')
+			  ->join('areas','areas.idarea','=','programacion_reporte_cn.idarea')
+			  ->join('users','users.id','=','programacion_reporte_cn.iduser')
 			  ->select('familia_activos.nombre_equipo','servicios.nombre as nombre_servicio','areas.nombre as nombre_area',
 			  			'users.apellido_pat','users.apellido_mat','users.nombre','ot_retiros.idot_retiro',
 			  			'ot_retiros.ot_tipo_abreviatura','ot_retiros.ot_correlativo','ot_retiros.ot_activo_abreviatura','reporte_cn.*');
@@ -36,13 +37,14 @@ class ReporteCN extends Eloquent{
 											$search_usuario,$search_servicio,$search_area,$search_nombre_equipo)
 	{
 		$query->withTrashed()
-			  ->leftjoin('servicios','servicios.idservicio','=','reporte_cn.idservicio')
-			  ->join('areas','areas.idarea','=','reporte_cn.idarea')
+			  ->join('programacion_reporte_cn','programacion_reporte_cn.idprogramacion_reporte_cn','=','reporte_cn.idprogramacion_reporte_cn')
+			  ->leftjoin('servicios','servicios.idservicio','=','programacion_reporte_cn.idservicio')
+			  ->join('areas','areas.idarea','=','programacion_reporte_cn.idarea')
 			  ->join('ot_retiros','ot_retiros.idot_retiro','=','reporte_cn.idot_retiro')
 			  ->join('activos','activos.idactivo','=','ot_retiros.idactivo')
 			  ->join('modelo_activos','modelo_activos.idmodelo_equipo','=','activos.idmodelo_equipo')
 			  ->join('familia_activos','familia_activos.idfamilia_activo','=','modelo_activos.idfamilia_activo')
-			  ->join('users','users.id','=','reporte_cn.iduser')
+			  ->join('users','users.id','=','programacion_reporte_cn.iduser')
 			  ->whereNested(function($query) use($search_usuario){
 			  		$query->where('users.nombre','LIKE',"%$search_usuario%")
 			  			  ->orWhere('users.apellido_pat','LIKE',"%$search_usuario%")
@@ -57,11 +59,11 @@ class ReporteCN extends Eloquent{
 			  if($search_fecha_fin != "")
 				$query->where('reporte_cn.created_at','<=',date('Y-m-d H:i:s',strtotime($search_fecha_fin)));
 			  if($search_servicio!='')
-			  	$query->where('reporte_cn.idservicio','=',$search_servicio);
+			  	$query->where('programacion_reporte_cn.idservicio','=',$search_servicio);
 			  if($search_area!='')
-			  	$query->where('reporte_cn.idarea','=',$search_area);
+			  	$query->where('programacion_reporte_cn.idarea','=',$search_area);
 			  if($search_tipo_reporte_cn!='')
-			  	$query->where('reporte_cn.idtipo_reporte_CN','=',$search_tipo_reporte_cn);
+			  	$query->where('programacion_reporte_cn.idtipo_reporte_CN','=',$search_tipo_reporte_cn);
 			  $query->select('familia_activos.nombre_equipo','servicios.nombre as nombre_servicio','areas.nombre as nombre_area',
 			  			'users.apellido_pat','users.apellido_mat','users.nombre','ot_retiros.idot_retiro',
 			  			'ot_retiros.ot_tipo_abreviatura','ot_retiros.ot_correlativo','ot_retiros.ot_activo_abreviatura','reporte_cn.*');

@@ -2,7 +2,7 @@
 
 class ReporteETESController extends BaseController
 {
-	public function render_create_reporte_etes()
+	public function render_create_reporte_etes($id=null)
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
@@ -10,6 +10,15 @@ class ReporteETESController extends BaseController
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
 				$data["tipo_reporte_etes"] = TipoReporteETES::lists('nombre','idtipo_reporte_etes');
+				$data["programaciones_reporte_etes"] = ProgramacionReporteETES::where('idestado_programacion_reportes',1)
+																			->where('iduser',$data["user"]->id)
+																			->orwhere('idestado_programacion_reportes',3)
+																			->lists('nombre_reporte','idprogramacion_reporte_etes');
+				$data["programacion_reporte_etes_id"] = $id;
+				$data["programacion_reporte_etes"] = null;
+				if($id){
+					$data["programacion_reporte_etes"] = ProgramacionReporteETES::where('idprogramacion_reporte_etes','=',$id)->get()[0];					
+				}
 				$data["reporte_etes_info"] = null;
 				return View::make('reportes_ETES/createReporteETES',$data);
 			}else{
@@ -29,9 +38,8 @@ class ReporteETESController extends BaseController
 			if($data["user"]->idrol == 1){
 				// Validate the info, create rules for the inputs	
 				$rules = array(
-							'idtipo_reporte' => 'required',
-							'nombre' => 'required|unique:reporte_etes',	
-							'archivo' => 'max:15360|mimes:png,jpe,jpeg,jpg,gif,bmp,zip,rar,pdf,doc,docx,xls,xlsx,ppt,pptx',										
+							'idprogramacion_reporte_etes' => 'required',
+							'archivo' => 'max:15360',										
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules);
@@ -67,15 +75,17 @@ class ReporteETESController extends BaseController
 					$reporte_etes->numero_reporte_abreviatura = $abreviatura;
 					$reporte_etes->numero_reporte_correlativo = $correlativo;
 					$reporte_etes->numero_reporte_anho = $anho;
-					$reporte_etes->nombre = Input::get('nombre');
 					$reporte_etes->url = $rutaDestino;
 					$reporte_etes->nombre_archivo = $nombreArchivo;
 					$reporte_etes->nombre_archivo_encriptado = $nombreArchivoEncriptado;
-					$reporte_etes->idtipo_reporte_ETES = Input::get('idtipo_reporte');					
-					$reporte_etes->iduser = $data["user"]->id;
+					$reporte_etes->idprogramacion_reporte_etes = Input::get('idprogramacion_reporte_etes');
 					$reporte_etes->save();
+
+					$programacion_reporte_etes = ProgramacionReporteETES::find(Input::get('idprogramacion_reporte_etes'));
+					$programacion_reporte_etes->idestado_programacion_reportes = 2;
+					$programacion_reporte_etes->save();
 					
-					Session::flash('message', 'Se registró correctamente el Reporte para Certificado de Necesidad.');
+					Session::flash('message', 'Se registró correctamente el Reporte.');
 					return Redirect::to('reporte_etes/create_reporte_etes');
 				}
 			}else{
@@ -94,8 +104,9 @@ class ReporteETESController extends BaseController
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
-				$data["tipo_reporte_etes"] = TipoReporteETES::lists('nombre','idtipo_reporte_ETES');
+				$data["tipo_reporte_etes"] = TipoReporteETES::lists('nombre','idtipo_reporte_etes');
 				$data["reporte_etes_info"] = ReporteETES::withTrashed()->find($id);
+				$data["programacion_reporte_etes_info"] = ProgramacionReporteETES::withTrashed()->find($data["reporte_etes_info"]->idprogramacion_reporte_etes);
 				return View::make('reportes_ETES/editReporteETES',$data);
 			}else{
 				return View::make('error/error',$data);

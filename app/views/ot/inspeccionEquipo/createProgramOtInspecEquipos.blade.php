@@ -157,48 +157,6 @@
 		</div>
 	</div>	
 
-	<div class="container">
-	  <!-- Modal -->
-	  <div class="modal fade" id="modal_create" role="dialog">
-	    <div class="modal-dialog modal-md">    
-	      <!-- Modal content-->
-	      <div class="modal-content">
-	        <div class="modal-header bg-danger" id="modal_header_edit">
-	          <button type="button" class="close" data-dismiss="modal">&times;</button>
-	          <h4 class="modal-title">Advertencia</h4>
-	        </div>
-	        <div class="modal-body" id="modal_create_text">
-	         	
-	        </div>
-	        <div class="modal-footer">
-	          <button type="button" class="btn btn-default" id="btn_close_modal" data-dismiss="modal">Aceptar</button>
-	        </div>
-	      </div>      
-	    </div>
-	  </div>  
-	</div>
-
-
-<div class="container">
-  <!-- Modal -->
-  <div class="modal fade" id="modal_confirm" role="dialog">
-    <div class="modal-dialog modal-md">    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header" id="modal_header_confirm">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Advertencia</h4>
-        </div>
-        <div class="modal-body" id="modal_text_confirm">
-         	
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" id="btn_close_modal_confirm" data-dismiss="modal">Aceptar</button>
-        </div>
-      </div>      
-    </div>
-  </div>  
-</div>
 
 <div class="container" >
   <!-- Modal -->

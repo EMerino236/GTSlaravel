@@ -21,6 +21,25 @@ $( document ).ready(function(){
         sideBySide: true
     });
 
+    $("#datetimepicker_cn").datetimepicker({
+        defaultDate: false,
+        ignoreReadonly: true,
+        format: 'DD-MM-YYYY',
+        sideBySide: true
+    });
+    $("#datetimepicker_etes").datetimepicker({
+        defaultDate: false,
+        ignoreReadonly: true,
+        format: 'DD-MM-YYYY',
+        sideBySide: true
+    });
+    $("#datetimepicker_paac").datetimepicker({
+        defaultDate: false,
+        ignoreReadonly: true,
+        format: 'DD-MM-YYYY',
+        sideBySide: true
+    });
+
     var ayer = new Date();
     ayer.setDate(new Date().getDate() +1);
     $('#datetimepicker_cotizacion').datetimepicker({
@@ -49,6 +68,13 @@ $( document ).ready(function(){
         format: 'YYYY',
         maxDate: ayer
     });
+
+    $('#datetimepicker_search_anho3').datetimepicker({
+        useCurrent: false,
+        defaultDate: false,
+        ignoreReadonly: true,
+        format: 'YYYY'
+    });
     $('#tipo_referencia').ready(function(){
         $("#enlace_seace").prop('readonly',true);
         $("#codigo_cotizacion").prop('readonly',true);
@@ -76,12 +102,12 @@ $( document ).ready(function(){
         $('#nombre_equipo_string').val(selectTipoReporte.options[selectTipoReporte.selectedIndex].text);        
     });
 
-    $('#idservicio').change(function(){
-        var selectServicio = document.getElementById("idservicio");
+    $('#idservicio_cn').change(function(){
+        var selectServicio = document.getElementById("idservicio_cn");
         var selectedId = selectServicio.options[selectServicio.selectedIndex].value;// will gives u 2
         if(selectedId != ''){
             $.ajax({
-                url: inside_url+'reporte_cn/return_area/'+selectedId,
+                url: inside_url+'programacion_reportes/return_area/'+selectedId,
                 type: 'POST',
                 data: { 'selected_id' : selectedId },
                 beforeSend: function(){
@@ -91,9 +117,9 @@ $( document ).ready(function(){
                 success: function(response){
                     if(response.success){
                         var resp = response['servicio']; 
-                        document.getElementById("idarea_select").value = resp[0].idarea;    
-                        $('#idarea_select').prop('disabled','disabled');
-                        $('input[name=idarea]').val(resp[0].idarea);
+                        document.getElementById("idarea_select_cn").value = resp[0].idarea;    
+                        $('#idarea_select_cn').prop('disabled','disabled');
+                        $('input[name=idarea_cn]').val(resp[0].idarea);
                     }else{
                         alert('La petición no se pudo completar, inténtelo de nuevo1.');
                     }
@@ -104,19 +130,63 @@ $( document ).ready(function(){
             }); 
         }
         else{
-            $('#idarea_select').prop('disabled',false);
+            $('#idarea_select_cn').prop('disabled',false);
         }
     })
 
-    $('#idarea_select').change(function(){
-        var selectArea = document.getElementById("idarea_select");
+    $('#idarea_select_cn').change(function(){
+        var selectArea = document.getElementById("idarea_select_cn");
         var selectedId = selectArea.options[selectArea.selectedIndex].value;// will gives u 2
         if(selectedId != ''){   
-            $('#idservicio').prop('disabled','disabled');
-            $('input[name=idarea]').val(selectedId);
+            $('#idservicio_cn').prop('disabled','disabled');
+            $('input[name=idarea_cn]').val(selectedId);
         }
         else{
-            $('#idservicio').prop('disabled',false);
+            $('#idservicio_cn').prop('disabled',false);
+               }
+    })
+
+    $('#idservicio_paac').change(function(){
+        var selectServicio = document.getElementById("idservicio_paac");
+        var selectedId = selectServicio.options[selectServicio.selectedIndex].value;// will gives u 2
+        if(selectedId != ''){
+            $.ajax({
+                url: inside_url+'programacion_reportes/return_area/'+selectedId,
+                type: 'POST',
+                data: { 'selected_id' : selectedId },
+                beforeSend: function(){
+                },
+                complete: function(){
+                },
+                success: function(response){
+                    if(response.success){
+                        var resp = response['servicio']; 
+                        document.getElementById("idarea_select_paac").value = resp[0].idarea;    
+                        $('#idarea_select_paac').prop('disabled','disabled');
+                        $('input[name=idarea_paac]').val(resp[0].idarea);
+                    }else{
+                        alert('La petición no se pudo completar, inténtelo de nuevo1.');
+                    }
+                },
+                error: function(){
+                    alert('La petición no se pudo completar, inténtelo de nuevo2.');
+                }
+            }); 
+        }
+        else{
+            $('#idarea_select_paac').prop('disabled',false);
+        }
+    })
+
+    $('#idarea_select_paac').change(function(){
+        var selectArea = document.getElementById("idarea_select_paac");
+        var selectedId = selectArea.options[selectArea.selectedIndex].value;// will gives u 2
+        if(selectedId != ''){   
+            $('#idservicio_paac').prop('disabled','disabled');
+            $('input[name=idarea_paac]').val(selectedId);
+        }
+        else{
+            $('#idservicio_paac').prop('disabled',false);
         }
     })
 
@@ -143,6 +213,213 @@ $( document ).ready(function(){
 
     })
 
+    $('#idprogramacion_reporte_cn').ready(function(){
+        var selectServicio = document.getElementById("idprogramacion_reporte_cn");
+        var selectedId = selectServicio.options[selectServicio.selectedIndex].value;// will gives u 2
+        if(selectedId != ''){
+            $.ajax({
+                url: inside_url+'programacion_reportes/return_programacion_cn/'+selectedId,
+                type: 'POST',
+                data: { 'selected_id' : selectedId },
+                beforeSend: function(){
+                },
+                complete: function(){
+                },
+                success: function(response){
+                    if(response.success){
+                        var resp = response['programacion_reporte_cn']; 
+                        document.getElementById("idtipo_reporte_select").value = resp[0].idtipo_reporte_CN; 
+                        $('input[name=idtipo_reporte]').val(resp[0].idtipo_reporte_CN);   
+                        document.getElementById("idservicio").value = resp[0].idservicio;
+                        document.getElementById("idarea_select").value = resp[0].idarea;
+                    }else{
+                        alert('La petición no se pudo completar, inténtelo de nuevo1.');
+                    }
+                },
+                error: function(){
+                    alert('La petición no se pudo completar, inténtelo de nuevo2.');
+                }
+            }); 
+        }
+        else{
+            document.getElementById("idtipo_reporte").value = '';    
+            document.getElementById("idservicio").value = '';
+            document.getElementById("idarea_select").value = '';
+        }
+    })
+
+    $('#idprogramacion_reporte_cn').change(function(){
+        var selectServicio = document.getElementById("idprogramacion_reporte_cn");
+        var selectedId = selectServicio.options[selectServicio.selectedIndex].value;// will gives u 2
+        if(selectedId != ''){
+            $.ajax({
+                url: inside_url+'programacion_reportes/return_programacion_cn/'+selectedId,
+                type: 'POST',
+                data: { 'selected_id' : selectedId },
+                beforeSend: function(){
+                },
+                complete: function(){
+                },
+                success: function(response){
+                    if(response.success){
+                        var resp = response['programacion_reporte_cn']; 
+                        document.getElementById("idtipo_reporte_select").value = resp[0].idtipo_reporte_CN; 
+                        $('input[name=idtipo_reporte]').val(resp[0].idtipo_reporte_CN);   
+                        document.getElementById("idservicio").value = resp[0].idservicio;
+                        document.getElementById("idarea_select").value = resp[0].idarea;
+                    }else{
+                        alert('La petición no se pudo completar, inténtelo de nuevo1.');
+                    }
+                },
+                error: function(){
+                    alert('La petición no se pudo completar, inténtelo de nuevo2.');
+                }
+            }); 
+        }
+        else{
+            document.getElementById("idtipo_reporte").value = '';    
+            document.getElementById("idservicio").value = '';
+            document.getElementById("idarea_select").value = '';
+        }
+    })
+
+    $('#idprogramacion_reporte_etes').ready(function(){
+        alert("hola");
+        var selectServicio = document.getElementById("idprogramacion_reporte_etes");
+        var selectedId = selectServicio.options[selectServicio.selectedIndex].value;// will gives u 2
+        if(selectedId != ''){
+            $.ajax({
+                url: inside_url+'programacion_reportes/return_programacion_etes/'+selectedId,
+                type: 'POST',
+                data: { 'selected_id' : selectedId },
+                beforeSend: function(){
+                },
+                complete: function(){
+                },
+                success: function(response){
+                    if(response.success){
+                        var resp = response['programacion_reporte_etes']; 
+                        document.getElementById("idtipo_reporte_select").value = resp[0].idtipo_reporte_ETES; 
+                        $('input[name=idtipo_reporte]').val(resp[0].idtipo_reporte_ETES);  
+                        document.getElementById("nombre").value = resp[0].nombre_reporte;
+                    }else{
+                        alert('La petición no se pudo completar, inténtelo de nuevo1.');
+                    }
+                },
+                error: function(){
+                    alert('La petición no se pudo completar, inténtelo de nuevo2.');
+                }
+            }); 
+        }
+        else{
+            document.getElementById("idtipo_reporte").value = '';    
+            document.getElementById("nombre").value = '';
+        }
+    })
+    
+    $('#idprogramacion_reporte_etes').change(function(){
+        var selectServicio = document.getElementById("idprogramacion_reporte_etes");
+        var selectedId = selectServicio.options[selectServicio.selectedIndex].value;// will gives u 2
+        if(selectedId != ''){
+            $.ajax({
+                url: inside_url+'programacion_reportes/return_programacion_etes/'+selectedId,
+                type: 'POST',
+                data: { 'selected_id' : selectedId },
+                beforeSend: function(){
+                },
+                complete: function(){
+                },
+                success: function(response){
+                    if(response.success){
+                        var resp = response['programacion_reporte_etes']; 
+                        document.getElementById("idtipo_reporte_select").value = resp[0].idtipo_reporte_ETES; 
+                        $('input[name=idtipo_reporte]').val(resp[0].idtipo_reporte_ETES);  
+                        document.getElementById("nombre").value = resp[0].nombre_reporte;
+                    }else{
+                        alert('La petición no se pudo completar, inténtelo de nuevo1.');
+                    }
+                },
+                error: function(){
+                    alert('La petición no se pudo completar, inténtelo de nuevo2.');
+                }
+            }); 
+        }
+        else{
+            document.getElementById("idtipo_reporte").value = '';    
+            document.getElementById("nombre").value = '';
+        }
+    })
+
+    $('#idprogramacion_reporte_paac').ready(function(){
+        var selectServicio = document.getElementById("idprogramacion_reporte_paac");
+        var selectedId = selectServicio.options[selectServicio.selectedIndex].value;// will gives u 2
+        if(selectedId != ''){
+            $.ajax({
+                url: inside_url+'programacion_reportes/return_programacion_paac/'+selectedId,
+                type: 'POST',
+                data: { 'selected_id' : selectedId },
+                beforeSend: function(){
+                },
+                complete: function(){
+                },
+                success: function(response){
+                    if(response.success){
+                        var resp = response['programacion_reporte_paac']; 
+                        document.getElementById("idtipo_reporte_select").value = resp[0].idtipo_reporte_PAAC; 
+                        $('input[name=idtipo_reporte]').val(resp[0].idtipo_reporte_PAAC);   
+                        document.getElementById("idservicio").value = resp[0].idservicio;
+                        document.getElementById("idarea_select").value = resp[0].idarea;
+                    }else{
+                        alert('La petición no se pudo completar, inténtelo de nuevo1.');
+                    }
+                },
+                error: function(){
+                    alert('La petición no se pudo completar, inténtelo de nuevo2.');
+                }
+            }); 
+        }
+        else{
+            document.getElementById("idtipo_reporte").value = '';    
+            document.getElementById("idservicio").value = '';
+            document.getElementById("idarea_select").value = '';
+        }
+    })
+
+    $('#idprogramacion_reporte_paac').change(function(){
+        var selectServicio = document.getElementById("idprogramacion_reporte_paac");
+        var selectedId = selectServicio.options[selectServicio.selectedIndex].value;// will gives u 2
+        if(selectedId != ''){
+            $.ajax({
+                url: inside_url+'programacion_reportes/return_programacion_paac/'+selectedId,
+                type: 'POST',
+                data: { 'selected_id' : selectedId },
+                beforeSend: function(){
+                },
+                complete: function(){
+                },
+                success: function(response){
+                    if(response.success){
+                        var resp = response['programacion_reporte_paac']; 
+                        document.getElementById("idtipo_reporte_select").value = resp[0].idtipo_reporte_PAAC; 
+                        $('input[name=idtipo_reporte]').val(resp[0].idtipo_reporte_PAAC);   
+                        document.getElementById("idservicio").value = resp[0].idservicio;
+                        document.getElementById("idarea_select").value = resp[0].idarea;
+                    }else{
+                        alert('La petición no se pudo completar, inténtelo de nuevo1.');
+                    }
+                },
+                error: function(){
+                    alert('La petición no se pudo completar, inténtelo de nuevo2.');
+                }
+            }); 
+        }
+        else{
+            document.getElementById("idtipo_reporte").value = '';    
+            document.getElementById("idservicio").value = '';
+            document.getElementById("idarea_select").value = '';
+        }
+    })    
+
     $('#btnLlimpiar_criterios_list_cotizaciones').click(function(){
         $("#search_nombre_equipo").val('');
         $("#search_nombre_detallado").val('');
@@ -160,6 +437,7 @@ $( document ).ready(function(){
         $("#search_tipo_reporte_cn").val('');
         $("#search_numero_reporte").val('');
         $("#search_usuario").val('');
+        $("#search_fecha").val('');
         $("#search_nombre_equipo").val('');
         $("#search_servicio").val('');
         $("#search_area").val('');

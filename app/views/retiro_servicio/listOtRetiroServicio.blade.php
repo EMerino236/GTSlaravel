@@ -65,13 +65,13 @@
 					</div>
 				</div>
 				<div class="container-fluid form-group row">
-						<div class="col-md-2 col-md-offset-8">
-						{{ Form::button('<span class="glyphicon glyphicon-search"></span> Buscar', array('id'=>'submit-search-form','type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}	
-						</div>
-						<div class="col-md-2">
-							<div class="btn btn-default btn-block" id="btnLimpiar"><span class="glyphicon glyphicon-refresh"></span> Limpiar</div>				
-						</div>					
-					</div>				
+					<div class="col-md-2 col-md-offset-8">
+					{{ Form::button('<span class="glyphicon glyphicon-search"></span> Buscar', array('id'=>'submit-search-form','type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}	
+					</div>
+					<div class="col-md-2">
+						<div class="btn btn-default btn-block" id="btnLimpiar"><span class="glyphicon glyphicon-refresh"></span> Limpiar</div>				
+					</div>					
+				</div>				
 			</div>	
 		</div>
 	</div>	

@@ -2,7 +2,7 @@
 
 class ReportePAACController extends BaseController
 {
-	public function render_create_reporte_paac()
+	public function render_create_reporte_paac($id=null)
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
@@ -12,6 +12,15 @@ class ReportePAACController extends BaseController
 				$data["areas"] = Area::lists('nombre','idarea');
 				$data["servicios"] = Servicio::lists('nombre','idservicio');
 				$data["tipo_reporte_paac"] = TipoReportePAAC::lists('nombre','idtipo_reporte_PAAC');
+				$data["programaciones_reporte_paac"] = ProgramacionReportePAAC::where('idestado_programacion_reportes',1)
+																			->where('iduser',$data["user"]->id)
+																			->orwhere('idestado_programacion_reportes',3)
+																			->lists('nombre_reporte','idprogramacion_reporte_paac');
+				$data["programacion_reporte_paac_id"] = $id;
+				$data["programacion_reporte_paac"] = null;
+				if($id){
+					$data["programacion_reporte_paac"] = ProgramacionReportePAAC::where('idprogramacion_reporte_paac','=',$id)->get()[0];
+				}
 				$data["reporte_paac_info"] = null;
 				return View::make('reportes_PAAC/createReportePAAC',$data);
 			}else{
@@ -31,9 +40,8 @@ class ReportePAACController extends BaseController
 			if($data["user"]->idrol == 1){
 				// Validate the info, create rules for the inputs	
 				$rules = array(
-							'idtipo_reporte' => 'required',
-							'idarea' => 'required',
-							'archivo' => 'max:15360|mimes:png,jpe,jpeg,jpg,gif,bmp,zip,rar,pdf,doc,docx,xls,xlsx,ppt,pptx',											
+							'idprogramacion_reporte_paac' => 'required',
+							'archivo' => 'max:15360',											
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules);
@@ -69,11 +77,12 @@ class ReportePAACController extends BaseController
 					$reporte_paac->url = $rutaDestino;
 					$reporte_paac->nombre_archivo = $nombreArchivo;
 					$reporte_paac->nombre_archivo_encriptado = $nombreArchivoEncriptado;
-					$reporte_paac->idtipo_reporte_PAAC = Input::get('idtipo_reporte');
-					$reporte_paac->idservicio = Input::get('idservicio');					
-					$reporte_paac->iduser = $data["user"]->id;
-					$reporte_paac->idarea = Input::get('idarea');
+					$reporte_paac->idprogramacion_reporte_paac = Input::get('idprogramacion_reporte_paac');
 					$reporte_paac->save();
+
+					$programacion_reporte_paac = ProgramacionReportePAAC::find(Input::get('idprogramacion_reporte_paac'));
+					$programacion_reporte_paac->idestado_programacion_reportes = 2;
+					$programacion_reporte_paac->save();
 					
 					Session::flash('message', 'Se registró correctamente el Reporte de Instalación.');
 					return Redirect::to('reporte_paac/create_reporte_paac');
@@ -97,7 +106,9 @@ class ReportePAACController extends BaseController
 				$data["areas"] = Area::lists('nombre','idarea');
 				$data["servicios"] = Servicio::lists('nombre','idservicio');
 				$data["tipo_reporte_paac"] = TipoReportePAAC::lists('nombre','idtipo_reporte_PAAC');
-				$data["reporte_paac_info"] = ReportePAAC::withTrashed()->find($id);return View::make('reportes_PAAC/editReportePAAC',$data);
+				$data["reporte_paac_info"] = ReportePAAC::withTrashed()->find($id);
+				$data["programacion_reporte_paac_info"] = ProgramacionReportePAAC::withTrashed()->find($data["reporte_paac_info"]->idprogramacion_reporte_paac);
+				return View::make('reportes_PAAC/editReportePAAC',$data);
 			}else{
 				return View::make('error/error',$data);
 			}
