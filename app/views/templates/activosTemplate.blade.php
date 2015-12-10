@@ -5,7 +5,8 @@
 	<meta charset="UTF-8">
 	<meta name="robots" content="noindex, follow">
 	<title>Directorio de Equipo</title>
-	<!-- Bootstrap Core CSS -->
+	<link rel="shortcut icon" href="{{ asset('img')}}/logoGTS.png">
+    <!-- Bootstrap Core CSS -->
     <link href="{{ asset('bower_components/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- Datepicker CSS-->
     <link rel="stylesheet" href="{{ asset('css/bootstrap-datetimepicker.min.css') }}">

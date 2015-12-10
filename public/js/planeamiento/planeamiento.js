@@ -21,23 +21,31 @@ $( document ).ready(function(){
         sideBySide: true
     });
 
+    var ayer = new Date();
+    ayer.setDate(new Date().getDate()-1);
     $("#datetimepicker_cn").datetimepicker({
+        useCurrent: false,
         defaultDate: false,
         ignoreReadonly: true,
         format: 'DD-MM-YYYY',
-        sideBySide: true
+        minDate: ayer,
+        disabledDates: [ayer]
     });
     $("#datetimepicker_etes").datetimepicker({
+        useCurrent: false,
         defaultDate: false,
         ignoreReadonly: true,
         format: 'DD-MM-YYYY',
-        sideBySide: true
+        minDate: ayer,
+        disabledDates: [ayer]
     });
     $("#datetimepicker_paac").datetimepicker({
+        useCurrent: false,
         defaultDate: false,
         ignoreReadonly: true,
         format: 'DD-MM-YYYY',
-        sideBySide: true
+        minDate: ayer,
+        disabledDates: [ayer]
     });
 
     var ayer = new Date();

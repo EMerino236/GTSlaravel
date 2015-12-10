@@ -30,9 +30,16 @@
 			<div class="panel-body">
 				<div class="row">
 					<div class="form-group col-md-4 @if($errors->first('idprogramacion_reporte_etes')) has-error has-feedback @endif">
-						{{ Form::label('idprogramacion_reporte_etes','Programaciones No Concluidas') }}
+						{{ Form::label('idprogramacion_reporte_etes','Programaciones No Concluidas') }}<span style='color:red'>*</span>
 						{{ Form::select('idprogramacion_reporte_etes',array(''=>'Seleccione') + $programaciones_reporte_etes,$programacion_reporte_etes_id,['class' => 'form-control']) }}
 					</div>
+				<div class="row">
+					<div class="form-group col-md-8">
+						@if(!$programaciones_reporte_etes)
+							<span style='color:red'>No existen reportes CN programados. </span><a href="{{URL::to('/programacion_reportes/create_programacion_reportes')}}"><span style='color:red'><u>Agregar Programación aquí.</u></span></a>						
+						@endif
+					</div>
+				</div>
 				</div>
 				<div class="row">
 					<div class="form-group col-md-4 @if($errors->first('idtipo_reporte_select')) has-error has-feedback @endif">
@@ -63,7 +70,7 @@
 			</div>
 			<div class="panel-body">
 				<div class="col-md-8">
-					<label class="control-label">Seleccione un Documento</label>(png,jpe,jpeg,jpg,gif,bmp,zip,rar,pdf,doc,docx,xls,xlsx,ppt,pptx)
+					<label class="control-label">Seleccione un Documento<span style='color:red'>*</span></label>(png,jpe,jpeg,jpg,gif,bmp,zip,rar,pdf,doc,docx,xls,xlsx,ppt,pptx)
 					<input name="archivo" id="input-file" type="file" class="file file-loading" data-show-upload="false">
 				</div>
 			</div>
