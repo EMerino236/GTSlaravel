@@ -210,4 +210,12 @@ class FamiliaActivo extends Eloquent{
 		return $this->belongsTo('Marca','idmarca');
 	}
 
+	public function tipo(){
+		return $this->belongsTo('TipoActivo','idtipo_activo');
+	}
+
+	public function estado(){
+		return $this->belongsTo('Estado','idestado');
+	}
+
 }

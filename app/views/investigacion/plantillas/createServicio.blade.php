@@ -29,13 +29,22 @@
 			<div class="panel-body">
 				<div class="row">
 					<div class="form-group col-md-4 @if($errors->first('nombre')) has-error has-feedback @endif">
-						
 						{{ Form::label('nombre','Nombre de Familia') }}
 						{{ Form::text('nombre',$familia_activo->nombre_equipo,array('id'=>'nombre','class'=>'form-control','readonly')) }}
 					</div>
-					<div class="form-group col-md-4 @if($errors->first('marca')) has-error has-feedback @endif">
+					<div class="form-group col-md-4">
 						{{ Form::label('marca','Marca') }}
 						{{ Form::text('marca', $familia_activo->marca->nombre,array('id'=>'marca','class'=>'form-control','readonly')) }}
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-md-4">
+						{{ Form::label('tipo','Tipo') }}
+						{{ Form::text('tipo', $familia_activo->tipo->nombre,array('id'=>'tipo','class'=>'form-control','readonly')) }}
+					</div>
+					<div class="form-group col-md-4">
+						{{ Form::label('estado','Estado') }}
+						{{ Form::text('estado', $familia_activo->estado->nombre,array('id'=>'estado','class'=>'form-control','readonly')) }}
 					</div>
 				</div>
 				<div class="row">

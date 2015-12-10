@@ -24,28 +24,6 @@
 				{{ Form::select('search_marca',array('0' => 'Seleccione') + $marcas, $search_marca,array('class'=>'form-control','placeholder'=>'Marca'))  }}
 			</div>
 		</div>
-		<!--
-		<div class="form-group row">
-			<div class="col-xs-4">
-				{{ Form::label('search_departamento','Departamento') }}
-				{{ Form::text('search_departamento',$search_departamento,array('class'=>'form-control','placeholder'=>'Departamento')) }}
-			</div>
-			<div class="col-xs-4">
-				{{ Form::label('search_usuario','Usuario') }}				
-				{{ Form::text('search_usuario',$search_usuario,array('class'=>'form-control','placeholder'=>'Usuario')) }}
-			</div>
-		</div>
-
-		<div class="form-group row">
-			<div class="col-xs-4">
-				{{ Form::label('search_servicio_clinico','Servicio Clínico') }}				
-				{{ Form::text('search_servicio_clinico',$search_servicio_clinico,array('class'=>'form-control','placeholder'=>'Servicio Clínico')) }}
-			</div>
-			<div class="col-xs-4">
-				
-			</div>
-		</div>
-		-->
 		<div class="row">
 			<div class="form-group col-md-2 col-md-offset-8">
 				{{ Form::button('<span class="glyphicon glyphicon-search"></span> Filtrar', array('id'=>'submit-search-form','type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}				
@@ -63,14 +41,17 @@
 			<tr class="info">
 				<th>Nombre de familia</th>
 				<th>Nombre de la marca</th>
+				<th>Tipo</th>
+				<th>Estado</th>
 			</tr>
 			@foreach($servicios_data as $servicio_data)
 			<tr class="@if($servicio_data->deleted_at) bg-danger @endif">
 				<td>
 					<a href="{{URL::to('/plantillas_servicios/create_servicio/')}}/{{$servicio_data->idfamilia_activo}}">{{$servicio_data->nombre_equipo}}</a>
-					
 				</td>
 				<td>{{$servicio_data->marca->nombre}}</td>
+				<td>{{$servicio_data->tipo->nombre}}</td>
+				<td>{{$servicio_data->estado->nombre}}</td>
 			</tr>
 			@endforeach
 		</table>

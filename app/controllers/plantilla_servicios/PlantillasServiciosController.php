@@ -128,7 +128,7 @@ class PlantillasServiciosController extends \BaseController {
 				    	}
 				    }
 				    
-					Session::flash('message', 'Se registraron correctamente las Tareas.');				
+					Session::flash('message', 'Se modificaron correctamente las Tareas.');				
 					return Redirect::to('plantillas_servicios/create_servicio/'.$id);
 				}
 			}else{
@@ -140,38 +140,4 @@ class PlantillasServiciosController extends \BaseController {
 		}
 	}
 
-	public function search_equipo_ajax(){
-		if(!Request::ajax() || !Auth::check()){
-			return Response::json(array( 'success' => false ),200);
-		}
-		$id = Auth::id();
-		$data["inside_url"] = Config::get('app.inside_url');
-		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
-			// Check if the current user is the "System Admin"
-			$data = Input::get('selected_id');
-			if($data !="vacio"){
-				$equipo = Activo::searchActivosByCodigoPatrimonial($data)->get();
-				if(!$equipo->isEmpty()){
-					$departamento 		= UbicacionFisica::find($equipo[0]->idubicacion_fisica);
-					$servicio_clinico 	= Servicio::find($equipo[0]->idservicio);
-					$grupo 				= Grupo::find($equipo[0]->idgrupo);
-					$equipo = [
-							'nombre_equipo'		=>	$equipo[0]->nombre_equipo,
-							'departamento'		=>	$departamento->nombre,
-							'servicio_clinico'	=>	$servicio_clinico->nombre,
-							'grupo'				=>	$grupo->nombre,
-						];
-				}else{
-				 	$equipo = null;
-				}
-			}else{
-				$equipo = null;
-			}
-
-			return Response::json(array( 'success' => true, 'equipo' => $equipo ),200);
-		}else{
-			return Response::json(array( 'success' => false ),200);
-		}
-	}
 }
