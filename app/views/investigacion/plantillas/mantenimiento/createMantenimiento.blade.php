@@ -90,7 +90,7 @@
 												@endif
 											</td>
 											<td>
-												<a href='' class='btn btn-default delete-detail' onclick='deleteRow(event,this, {{$tarea->idtareas_inspec_equipo}})'>Eliminar</a>
+												<a href='' class='btn btn-default delete-detail' onclick='deleteRow(event,this, {{$tarea->idtareas_ot_preventivo}})'>Eliminar</a>
 											</td>						
 										</tr>
 									@endforeach
