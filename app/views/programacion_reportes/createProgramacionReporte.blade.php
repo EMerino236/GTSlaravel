@@ -39,7 +39,7 @@
 			<div class="panel-body">
 				<div class="row">
 					<div class="form-group col-md-4 @if($errors->first('idtipo_reporte_cn')) has-error has-feedback @endif">
-						{{ Form::label('idtipo_reporte_cn','Tipo de Reporte') }}
+						{{ Form::label('idtipo_reporte_cn','Tipo de Reporte') }}<span style='color:red'>*</span>
 						{{ Form::select('idtipo_reporte_cn',array(''=>'Seleccione') + $tipo_reporte_cn,Input::old('idtipo_reporte_cn'),['class' => 'form-control']) }}
 					</div>
 				</div>
@@ -48,20 +48,20 @@
 						{{ Form::label('idservicio_cn','Servicio') }}
 						{{ Form::select('idservicio_cn',array(''=>'Seleccione') + $servicios,Input::old('idservicio_cn'),['class' => 'form-control']) }}
 					</div><div class="form-group col-md-4 @if($errors->first('idarea_select_cn')) has-error has-feedback @endif">
-						{{ Form::label('idarea_select_cn','Departamento') }}
+						{{ Form::label('idarea_select_cn','Departamento') }}<span style='color:red'>*</span>
 						{{ Form::select('idarea_select_cn',array(''=>'Seleccione') + $areas,Input::old('idarea_select_cn'),['class' => 'form-control']) }}
 						{{ Form::hidden('idarea_cn')}}
 					</div>
 				</div>	
 				<div class="row">
 					<div class="form-group col-md-8 @if($errors->first('nombre_cn')) has-error has-feedback @endif">
-						{{ Form::label('nombre_cn','Nombre de Reporte') }}
+						{{ Form::label('nombre_cn','Nombre de Reporte') }}<span style='color:red'>*</span>
 						{{ Form::text('nombre_cn',Input::old('nombre_cn'),['class' => 'form-control']) }}
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-md-4">
-						{{ Form::label('fecha_cn','Fecha de Presentación') }}
+						{{ Form::label('fecha_cn','Fecha de Presentación') }}<span style='color:red'>*</span>
 						<div id="datetimepicker_cn" class="form-group input-group date @if($errors->first('fecha_cn')) has-error has-feedback @endif">
 							{{ Form::text('fecha_cn',Input::old('fecha_cn'),array('class'=>'form-control', 'readonly'=>'')) }}
 							<span class="input-group-addon">
@@ -87,19 +87,19 @@
 			<div class="panel-body">
 				<div class="row">
 					<div class="form-group col-md-4 @if($errors->first('idtipo_reporte_etes')) has-error has-feedback @endif">
-						{{ Form::label('idtipo_reporte_etes','Tipo de Reporte') }}
+						{{ Form::label('idtipo_reporte_etes','Tipo de Reporte') }}<span style='color:red'>*</span>
 						{{ Form::select('idtipo_reporte_etes',array(''=>'Seleccione') + $tipo_reporte_etes,Input::old('idtipo_reporte_etes'),['class' => 'form-control']) }}
 					</div>
 				</div>	
 				<div class="row">
 					<div class="form-group col-md-8 @if($errors->first('nombre_etes')) has-error has-feedback @endif">
-						{{ Form::label('nombre_etes','Nombre de Reporte') }}
+						{{ Form::label('nombre_etes','Nombre de Reporte') }}<span style='color:red'>*</span>
 						{{ Form::text('nombre_etes',Input::old('nombre_etes'),['class' => 'form-control']) }}
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-md-4">
-						{{ Form::label('fecha_etes','Fecha de Presentación') }}
+						{{ Form::label('fecha_etes','Fecha de Presentación') }}<span style='color:red'>*</span>
 						<div id="datetimepicker_etes" class="form-group input-group date @if($errors->first('fecha_etes')) has-error has-feedback @endif">
 							{{ Form::text('fecha_etes',Input::old('fecha_etes'),array('class'=>'form-control', 'readonly'=>'')) }}
 							<span class="input-group-addon">
@@ -125,7 +125,7 @@
 			<div class="panel-body">
 				<div class="row">
 					<div class="form-group col-md-4 @if($errors->first('idtipo_reporte_paac')) has-error has-feedback @endif">
-						{{ Form::label('idtipo_reporte_paac','Tipo de Reporte') }}
+						{{ Form::label('idtipo_reporte_paac','Tipo de Reporte') }}<span style='color:red'>*</span>
 						{{ Form::select('idtipo_reporte_paac',array(''=>'Seleccione') + $tipo_reporte_paac,Input::old('idtipo_reporte_paac'),['class' => 'form-control']) }}
 					</div>
 				</div>
@@ -134,20 +134,20 @@
 						{{ Form::label('idservicio_paac','Servicio') }}
 						{{ Form::select('idservicio_paac',array(''=>'Seleccione') + $servicios,Input::old('idservicio_paac'),['class' => 'form-control']) }}
 					</div><div class="form-group col-md-4 @if($errors->first('idarea_select_paac')) has-error has-feedback @endif">
-						{{ Form::label('idarea_select_paac','Departamento') }}
+						{{ Form::label('idarea_select_paac','Departamento') }}<span style='color:red'>*</span>
 						{{ Form::select('idarea_select_paac',array(''=>'Seleccione') + $areas,Input::old('idarea_select_paac'),['class' => 'form-control']) }}
 						{{ Form::hidden('idarea_paac')}}
 					</div>
 				</div>
 				<div class="row">
 					<div class="form-group col-md-8 @if($errors->first('nombre_paac')) has-error has-feedback @endif">
-						{{ Form::label('nombre_paac','Nombre de Reporte') }}
+						{{ Form::label('nombre_paac','Nombre de Reporte') }}<span style='color:red'>*</span>
 						{{ Form::text('nombre_paac',Input::old('nombre_paac'),['class' => 'form-control']) }}
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-md-4">
-						{{ Form::label('fecha_paac','Fecha de Presentación') }}
+						{{ Form::label('fecha_paac','Fecha de Presentación') }}<span style='color:red'>*</span>
 						<div id="datetimepicker_paac" class="form-group input-group date @if($errors->first('fecha_paac')) has-error has-feedback @endif">
 							{{ Form::text('fecha_paac',Input::old('fecha_paac'),array('class'=>'form-control', 'readonly'=>'')) }}
 							<span class="input-group-addon">
