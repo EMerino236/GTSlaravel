@@ -19,5 +19,9 @@ class TareasOtInspeccionEquipo extends Eloquent{
 		$query->where('idtareas_inspec_equipo','=',$idtarea);
 		return $query;
 	}
+
+	public function usuario(){
+		return $this->belongsTo('User','creador');
+	}
 	
 }

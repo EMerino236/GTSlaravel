@@ -16,15 +16,15 @@
 	  <div class="panel-body">
 	    <div class="form-group row">
 			<div class="col-xs-4">
-				{{ Form::label('search_nombre','Nombre de Equipo') }}
-				{{ Form::text('search_nombre',$search_nombre,array('class'=>'form-control','placeholder'=>'Nombre de Equipo')) }}
+				{{ Form::label('search_nombre','Nombre de Familia') }}
+				{{ Form::text('search_nombre',$search_nombre,array('class'=>'form-control','placeholder'=>'Nombre de Familia')) }}
 			</div>
 			<div class="col-xs-4">
-				{{ Form::label('search_grupo','Grupo') }}
-				{{ Form::text('search_grupo',$search_grupo,array('class'=>'form-control','placeholder'=>'Grupo'))  }}
+				{{ Form::label('search_marca','Marca') }}
+				{{ Form::select('search_marca',array('0' => 'Seleccione') + $marcas, $search_marca,array('class'=>'form-control','placeholder'=>'Marca'))  }}
 			</div>
 		</div>
-
+		<!--
 		<div class="form-group row">
 			<div class="col-xs-4">
 				{{ Form::label('search_departamento','Departamento') }}
@@ -45,52 +45,41 @@
 				
 			</div>
 		</div>
-		
+		-->
 		<div class="row">
 			<div class="form-group col-md-2 col-md-offset-8">
 				{{ Form::button('<span class="glyphicon glyphicon-search"></span> Filtrar', array('id'=>'submit-search-form','type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}				
 			</div>
 			<div class="form-group col-md-2">
-				<div class="btn btn-default btn-block" id="btnLimpiar">Limpiar</div>				
+				<div class="btn btn-default btn-block" id="btnLimpiar" onclick="limpiar_criterios_ins_serv()">Limpiar</div>				
 			</div>
 		</div>
-
+		
 	  </div>
 	</div>
 	{{ Form::close() }}</br>	
-	<div class="container-fluid form-group row">
-		<div class="col-md-3 col-md-offset-9">
-			<a class="btn btn-primary btn-block" href="{{URL::to('plantillas_servicios/create_servicio')}}">
-			<span class="glyphicon glyphicon-plus"></span> Crear nueva plantilla</a>
-		</div>
+	<div class="col-md-6">
+		<table class="table">
+			<tr class="info">
+				<th>Nombre de familia</th>
+				<th>Nombre de la marca</th>
+			</tr>
+			@foreach($servicios_data as $servicio_data)
+			<tr class="@if($servicio_data->deleted_at) bg-danger @endif">
+				<td>
+					<a href="{{URL::to('/plantillas_servicios/create_servicio/')}}/{{$servicio_data->idfamilia_activo}}">{{$servicio_data->nombre_equipo}}</a>
+					
+				</td>
+				<td>{{$servicio_data->marca->nombre}}</td>
+			</tr>
+			@endforeach
+		</table>
 	</div>
-
-	<table class="table">
-		<tr class="info">
-			<th>Nombre de equipo</th>
-			<th>Departamento</th>
-			<th>Servicio Clínico</th>
-			<th>Grupo</th>
-			<th>Usuario</th>
-		</tr>
-		@foreach($servicios_data as $servicio_data)
-		<tr class="@if($servicio_data->deleted_at) bg-danger @endif">
-			<td>
-				<a href="{{URL::to('/documento_investigacion/edit_documento/')}}/{{$servicio_data->iddocumentosinf}}">{{$servicio_data->nombre}}</a>
-			</td>
-			<td>
-				{{$servicio_data->nombre_tipo_documento}}
-			</td>
-			<td>
-				{{$servicio_data->autor}}
-			</td>
-			<td>
-				{{$servicio_data->codigo_archivamiento}}
-			</td>
-			<td>
-				{{$servicio_data->ubicacion}}
-			</td>
-		</tr>
-		@endforeach
-	</table>
+	<div class="col-md-12">
+	@if($search_nombre || $search_marca!=0)
+		{{ $servicios_data->appends(array('search_nombre' => $search_nombre, 'search_marca'=> $search_marca))->links() }}
+	@else
+		{{ $servicios_data->links() }}
+	@endif
+	</div>
 @stop

@@ -113,4 +113,12 @@
 		</tr>
 		@endforeach
 	</table>
+	@if($search_tipo_documento || $search_autor || $search_ubicacion || $search_nombre || $search_codigo_archivamiento)
+		{{ $documentos_data->appends(array('search_tipo_documento' => $search_tipo_documento, 'search_autor'=> $search_autor,
+		'search_nombre'=> $search_nombre, 'search_nombre'=> $search_nombre, 
+		'search_codigo_archivamiento'=>$search_codigo_archivamiento))->links() }}
+	@else
+		{{ $documentos_data->links() }}
+	@endif
+
 @stop

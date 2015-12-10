@@ -206,4 +206,8 @@ class FamiliaActivo extends Eloquent{
 		return $query;
 	}
 
+	public function marca(){
+		return $this->belongsTo('Marca','idmarca');
+	}
+
 }

@@ -11,12 +11,15 @@ class PlantillasServiciosController extends \BaseController {
 			if($data["user"]->idrol == 1){
 				
 				$data["search_nombre"] = null;
+				$data["search_marca"] = null;
+				
 				$data["search_grupo"] = null;
 				$data["search_departamento"] = null;
 				$data["search_usuario"] = null;
 				$data["search_servicio_clinico"] = null;
-				//USAR MODELO
-				$data["servicios_data"] = DocumentoInf::getDocumentosInfo()->paginate(10);
+				
+				$data["marcas"] = Marca::all()->lists('nombre','idmarca');
+				$data["servicios_data"] = FamiliaActivo::GetFamiliaActivosInfo()->paginate(10);
 				
 				return View::make('investigacion/plantillas/listServicios',$data);
 			}else{
@@ -37,14 +40,19 @@ class PlantillasServiciosController extends \BaseController {
 			if($data["user"]->idrol == 1){
 
 				$data["search_nombre"] = Input::get('search_nombre');
-				$data["search_grupo"] = Input::get('search_grupo');
-				$data["search_departamento"] = Input::get('search_departamento');
-				$data["search_usuario"] = Input::get('search_usuario');
-				$data["search_servicio_clinico"] = Input::get('search_servicio_clinico');
-				//HACER UNA BUSQUEDA PARA EL NUEVO MODELO
-				$data["servicios_data"] = DocumentoInf::getDocumentosInfo()->paginate(10);
-				//$data["servicios_data"] = DocumentoInf::searchDocumentos($data["search_nombre"],$data["search_autor"],$data["search_codigo_archivamiento"],
-				//						$data["search_ubicacion"],$data["search_tipo_documento"])->paginate(10);
+				$data["search_marca"] = Input::get('search_marca');
+
+				if($data["search_nombre"]==null && $data["search_marca"] == "0"){
+					return Redirect::to('plantillas_servicios/list_servicios');
+				}
+
+				$data["search_grupo"] = null;
+				$data["search_departamento"] = null;
+				$data["search_usuario"] = null;
+				$data["search_servicio_clinico"] = null;
+				
+				$data["marcas"] = Marca::all()->lists('nombre','idmarca');
+				$data["servicios_data"] = FamiliaActivo::searchFamiliaActivo($data["search_nombre"],$data["search_marca"])->paginate(10);
 				return View::make('investigacion/plantillas/listServicios',$data);
 			}else{
 				return View::make('error/error',$data);
@@ -54,14 +62,16 @@ class PlantillasServiciosController extends \BaseController {
 		}
 	}
 
-	public function render_create_servicio()
+	public function render_create_servicio($id=null)
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1 && $id){
+				$data["familia_activo"] = FamiliaActivo::find($id);
 				$data["usuarios"] = User::where('idrol',3)->lists('nombre','id');
+				$data["tareas"] = TareasOtInspeccionEquipo::where('idfamilia_activo',$data["familia_activo"]->idfamilia_activo)->get();
 				return View::make('investigacion/plantillas/createServicio',$data);
 			}else{
 				return View::make('error/error',$data);
@@ -72,7 +82,7 @@ class PlantillasServiciosController extends \BaseController {
 		}
 	}
 
-	public function submit_create_servicio()
+	public function submit_create_servicio($id=null)
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
@@ -81,70 +91,50 @@ class PlantillasServiciosController extends \BaseController {
 			if($data["user"]->idrol == 1){
 				// Validate the info, create rules for the inputs
 				$rules = array(
-							'nombre' => 'required|max:100',
-							'departamento' => 'required|max:100',
-							'servicio_clinico' => 'required|max:100',
-							'grupo' => 'required|max:100',
-							'usuario' => 'required|max:100',	
-							'tareas' => 'required',
+							'familia_id' => 'required',
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
-					return Redirect::to('plantillas_servicios/create_servicio')->withErrors($validator)->withInput(Input::all());
+					return Redirect::to('plantillas_servicios/create_servicio/'.$id)->withErrors($validator)->withInput(Input::all());
 				}else{
-
+					var_dump(Input::all());
+					$data['tareas_borradas'] = Input::get('tareas_borradas');
+					$data['tareas'] = Input::get('tareas');
+					$data['usuarios'] = Input::get('usuarios');
 				    //DO SOMETHING
-					Session::flash('message', 'Se registró correctamente el Documento.');				
-					return Redirect::to('plantillas_servicios/create_servicio');
+				    
+				    if(!$data['tareas_borradas'] == ""){
+				    	var_dump("borrar");
+				    	$tareas_borradas = json_decode($data['tareas_borradas']);
+				    	foreach ($tareas_borradas as $tarea) {
+				    		$tarea_borrar = TareasOtInspeccionEquipo::find($tarea);
+				    		$tarea_borrar->delete();
+				    	}
+				    }
+
+				    if($data['tareas']!="" && $data['usuarios']!=""){
+				    	//crear tareas
+				    	var_dump("crear");
+				    	$tareas = $data['tareas'];
+				    	$usuarios = $data['usuarios'];
+				    	foreach ($tareas as $key => $tarea) {
+				    		$tarea_crear = new TareasOtInspeccionEquipo;
+				    		$tarea_crear->nombre = $tarea;
+				    		$tarea_crear->idfamilia_activo = $id;
+				    		$tarea_crear->creador = $usuarios[$key];
+				    		$tarea_crear->save();
+				    	}
+				    }
+				    
+					Session::flash('message', 'Se registraron correctamente las Tareas.');				
+					return Redirect::to('plantillas_servicios/create_servicio/'.$id);
 				}
 			}else{
 				return View::make('error/error',$data);
 			}
 
-		}else{
-			return View::make('error/error',$data);
-		}
-	}
-
-	public function render_edit_servicio($id=null)
-	{
-		if(Auth::check()){
-			$data["inside_url"] = Config::get('app.inside_url');
-			$data["user"] = Session::get('user');
-			// Verifico si el usuario es un Webmaster
-			if(($data["user"]->idrol == 1) && $id){
-				$data["documento_info"] = DocumentoInf::searchDocumentoById($id)->get();
-				if($data["documento_info"]->isEmpty()){
-					return Redirect::to('plantillas_servicios/list_servicios');
-				}
-				$data["documento_info"] = $data["documento_info"][0];
-				return View::make('investigacion/plantillas/editServicio',$data);
-			}else{
-				return View::make('error/error',$data);
-			}
-		}else{
-			return View::make('error/error',$data);
-		}
-	}
-
-	public function render_show_servicio($id=null)
-	{
-		if(Auth::check()){
-			$data["inside_url"] = Config::get('app.inside_url');
-			$data["user"] = Session::get('user');
-			// Verifico si el usuario es un Webmaster
-			if(($data["user"]->idrol == 1) && $id){
-				$data["documento_info"] = DocumentoInf::searchDocumentoById($id)->get();
-				if($data["documento_info"]->isEmpty()){
-					return Redirect::to('plantillas_servicios/list_servicios');
-				}
-				$data["documento_info"] = $data["documento_info"][0];
-				return View::make('investigacion/plantillas/showServicio',$data);
-			}else{
-				return View::make('error/error',$data);
-			}
 		}else{
 			return View::make('error/error',$data);
 		}
