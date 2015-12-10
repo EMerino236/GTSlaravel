@@ -10,6 +10,13 @@ $(document).ready(function(){
         format:'DD-MM-YYYY'
     });
 
+    $("#search_datetimepicker1").on("dp.change", function (e) {
+        $('#search_datetimepicker2').data("DateTimePicker").minDate(e.date);
+    });
+    $("#search_datetimepicker2").on("dp.change", function (e) {
+        $('#search_datetimepicker1').data("DateTimePicker").maxDate(e.date);
+    });
+
     $('#btnLimpiar').click(function(){
         limpiar_criterios();
     }); 
@@ -23,6 +30,7 @@ function limpiar_criterios(){
     $('#search_area').val(0);
     $('#search_encargado').val('');
     $('#search_ini').val('');
+    $('#search_fin').val('');
     $('#search_ot').val('');
 }
 

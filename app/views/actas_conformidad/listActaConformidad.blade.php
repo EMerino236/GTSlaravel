@@ -88,6 +88,13 @@
 						</tr>
 					@endforeach				
 				</table>
+				@if($fecha_desde || $fecha_hasta || $search_tipo_acta || $search_proveedor)
+
+					{{ $actas_data->appends(array('fecha_desde' => $fecha_desde,'fecha_hasta' => $fecha_hasta, 'search_tipo_acta' => $search_tipo_acta,
+						'search_proveedor' => $search_proveedor))->links() }}
+				@else	
+					{{ $actas_data->links()}}
+				@endif
 			</div>
 		</div>
 	</div>	

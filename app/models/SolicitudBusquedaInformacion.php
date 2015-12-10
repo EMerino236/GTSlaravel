@@ -24,7 +24,7 @@ class SolicitudBusquedaInformacion extends Eloquent{
 		return $query;
 	}
 
-	public function scopeSearchOtsBusquedaInformacion($query,$search_tipo,$search_area,$search_encargado,$search_ot,$search_ini)
+	public function scopeSearchOtsBusquedaInformacion($query,$search_tipo,$search_area,$search_encargado,$search_ot,$search_ini,$search_fin)
 	{
 		$query->join('estados','estados.idestado','=','solicitud_busqueda_infos.idestado')
 			  ->join('areas','areas.idarea','=','solicitud_busqueda_infos.idarea')
@@ -44,8 +44,9 @@ class SolicitudBusquedaInformacion extends Eloquent{
 			  if($search_area!=0)
 			  	$query->where('areas.idarea','=',$search_area);			 
 			  if($search_ini != "")
-				$query->where('ot_busqueda_infos.fecha_programacion','>=',date('Y-m-d H:i:s',strtotime($search_ini)));
-			  
+			  	$query->where(DB::raw('STR_TO_DATE(ot_busqueda_infos.fecha_programacion,\'%Y-%m-%d\')'),'>=',date('Y-m-d',strtotime($search_ini)));
+			  if($search_fin != "")
+			  	$query->where(DB::raw('STR_TO_DATE(ot_busqueda_infos.fecha_programacion,\'%Y-%m-%d\')'),'<=',date('Y-m-d',strtotime($search_fin)));
 			 $query->select('ot_busqueda_infos.idot_busqueda_info as idot','ot_busqueda_infos.ot_tipo_abreviatura as ot_tipo_abreviatura','ot_busqueda_infos.ot_correlativo as ot_correlativo','tipo_busqueda_infos.nombre as nombre_tipo','estados.nombre as nombre_estado','areas.nombre as nombre_area','users.nombre as nombre_user','users.apellido_pat as apat','users.apellido_mat as amat','solicitud_busqueda_infos.*','ot_busqueda_infos.idestado_ot as idestado_ot','estados_ot.nombre as nombre_estado_ot')
 	  				->orderBy('solicitud_busqueda_infos.idsolicitud_busqueda_info','asc');
 	  	return $query;

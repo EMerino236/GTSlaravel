@@ -46,6 +46,15 @@
 							</div>
 						</div>
 						<div class="form-group col-md-4">
+							{{ Form::label('search_fin','Fecha fin') }}
+							<div id="search_datetimepicker2" class="form-group input-group date">
+								{{ Form::text('search_fin',$search_fin,array('class'=>'form-control','readonly'=>'')) }}
+								<span class="input-group-addon">
+				                    <span class="glyphicon glyphicon-calendar"></span>
+				                </span>
+							</div>
+						</div>
+						<div class="form-group col-md-4">
 							{{ Form::label('search_ot','Orden de Trabajo de Mantenimiento') }}
 							{{ Form::text('search_ot',$search_ot,array('class'=>'form-control','placeholder'=>'Número de OT')) }}
 						</div>									
@@ -74,7 +83,7 @@
 					<th class="text-nowrap text-center">Departamento</th>
 					<th class="text-nowrap text-center">Encargado</th>
 					<th class="text-nowrap text-center">Código SBI</th>
-					<th class="text-nowrap text-center">Fecha</th>
+					<th class="text-nowrap text-center">Fecha Solicitud</th>
 					<th class="text-nowrap text-center">Estado SOT</th>
 					<th class="text-nowrap text-center">Número de OT</th>
 					<th class="text-nowrap text-center">Estado OT</th>
@@ -167,6 +176,12 @@
 					</tr>
 				@endforeach				
 				</table>
+				@if($search_tipo || $search_area || $search_encargado || $search_ini || $search_fin || $search_ot)
+					{{ $busquedas->appends(array('search_tipo' => $search_tipo,'search_area' => $search_area, 'search_encargado' => $search_encargado,
+						'search_ini' => $search_ini, 'search_fin' => $search_fin, 'search_ot' => $search_ot))->links() }}
+				@else	
+					{{ $busquedas->links()}}
+				@endif
 			</div>
 		</div>
 	</div>
