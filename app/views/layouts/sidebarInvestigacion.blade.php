@@ -12,6 +12,7 @@
                     <li>{{ HTML::link('plantillas_servicios/list_servicios','Plantillas de inspecciones de servicios') }}</li>
                     <li>{{ HTML::link('#','Plantillas de inspecciones de infraestructura ') }}</li>
                     <li>{{ HTML::link('#','Plantillas de inspecciones hospitalario ') }}</li>
+                    <li>{{ HTML::link('plantillas_mant_preventivo/list_mantenimientos','Plantillas de mantenimiento por TS') }}</li>
                     <li>{{ HTML::link('#','Indicadores de diseño de procesos y procedimientos') }}</li>
                 </ul>                
             </li>
