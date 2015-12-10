@@ -12,6 +12,8 @@
 			<p><strong>{{ $errors->first('nombre') }}</strong></p>
 			<p><strong>{{ $errors->first('descripcion') }}</strong></p>
 			<p><strong>{{ $errors->first('tipo_servicio') }}</strong></p>
+			<p><strong>{{ $errors->first('area') }}</strong></p>
+			<p><strong>{{ $errors->first('personal') }}</strong></p>
 		</div>
 	@endif
 

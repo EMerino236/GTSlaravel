@@ -335,7 +335,7 @@ function deleteRow(event,el){
 
 function sendDataToController_create(){
         var matrix = readTableData();
-
+        document.body.style.cursor='wait';
         BootstrapDialog.confirm({
             title: 'Mensaje de Confirmación',
             message: '¿Está seguro que desea realizar esta acción?', 
@@ -362,7 +362,8 @@ function sendDataToController_create(){
                             delete_selected_profiles = true;
                         },
                         success: function(response){
-                            if(response.success){                    
+                            if(response.success){ 
+                                document.body.style.cursor='default';                   
                                 var array_detalle = response["url"];
                                 var message = response["message"];
                                 var type_message = response["type_message"];

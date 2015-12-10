@@ -1,4 +1,4 @@
-@extends('templates/bienesTemplate')
+@extends('templates/reporteRetiroTemplate')
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
@@ -25,36 +25,39 @@
 				<div class="row">
 					<div class="form-group col-md-4">
 						{{ Form::label('search_cod_pat','Código patrimonial') }}
-						{{ Form::text('search_cod_pat',$search_cod_pat,array('class'=>'form-control')) }}
+						{{ Form::text('search_cod_pat',$search_cod_pat,array('class'=>'form-control','placeholder'=>'Ingrese código patrimonial')) }}
 					</div>
 					<div class="form-group col-md-4">
 						{{ Form::label('search_equipo','Equipo relacionado') }}
-						{{ Form::text('search_equipo',$search_equipo,array('class'=>'form-control')) }}
+						{{ Form::text('search_equipo',$search_equipo,array('class'=>'form-control','placeholder'=>'Ingrese nombre de equipo')) }}
 					</div>
 					<div class="form-group col-md-4">
 						{{ Form::label('search_motivo','Motivo') }}
-						{{ Form::select('search_motivo', $motivos,Input::old('search_motivo'),['class' => 'form-control']) }}
+						{{ Form::select('search_motivo',array('0'=>'Seleccione')+ $motivos,Input::old('search_motivo'),['class' => 'form-control']) }}
 					</div>
 				</div>
 				<div class="row">
 					<div class="form-group col-md-4">
 						{{ Form::label('search_marca','Marca') }}
-						{{ Form::select('search_marca', $marcas,Input::old('search_marca'),['class' => 'form-control']) }}
+						{{ Form::select('search_marca',array('0'=>'Seleccione')+  $marcas,Input::old('search_marca'),['class' => 'form-control']) }}
 					</div>
 					<div class="form-group col-md-4">
 						{{ Form::label('search_servicio','Servicio') }}
-						{{ Form::select('search_servicio', $servicios,Input::old('search_servicio'),['class' => 'form-control']) }}
+						{{ Form::select('search_servicio',array('0'=>'Seleccione')+  $servicios,Input::old('search_servicio'),['class' => 'form-control']) }}
 					</div>
 					<div class="form-group col-md-4">
 						{{ Form::label('search_proveedor','Proveedor') }}
-						{{ Form::select('search_proveedor', $proveedores,Input::old('search_proveedor'),['class' => 'form-control']) }}
+						{{ Form::select('search_proveedor',array('0'=>'Seleccione')+  $proveedores,Input::old('search_proveedor'),['class' => 'form-control']) }}
 					</div>
 				</div>
-				<div class="row">
-					<div class="form-group col-md-4">
-						{{ Form::submit('Buscar',array('id'=>'submit-search-form','class'=>'btn btn-info')) }}
+				<div class="container-fluid form-group row">
+					<div class="col-md-2 col-md-offset-8">
+					{{ Form::button('<span class="glyphicon glyphicon-search"></span> Buscar', array('id'=>'submit-search-form','type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}	
 					</div>
-				</div>
+					<div class="col-md-2">
+						<div class="btn btn-default btn-block" id="btnLimpiar"><span class="glyphicon glyphicon-refresh"></span> Limpiar</div>				
+					</div>					
+				</div>				
 			</div>	
 		</div>
 	</div>	

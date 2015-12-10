@@ -29,7 +29,7 @@
 	{{ Form::open(array('url'=>'familia_activos/submit_create_componente_modelo_familia_activo', 'role'=>'form')) }}
 	{{ Form::hidden('idmodelo_equipo', $modelo_info->idmodelo_equipo) }}
 		<div class="panel panel-default">
-		  	<div class="panel-heading">Nuevo Accesorio</div>
+		  	<div class="panel-heading">Nuevo Componente</div>
 		  	<div class="panel-body">
 		  		<div class="row">
 		  			<div class="form-group col-md-4 @if($errors->first('nombre_componente')) has-error has-feedback @endif">

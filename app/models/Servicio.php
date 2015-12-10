@@ -28,7 +28,7 @@ class Servicio extends Eloquent{
 		$query->withTrashed()
 			  ->join('tipo_servicios','tipo_servicios.idtipo_servicios','=','servicios.idtipo_servicios')
 			  ->whereNested(function($query) use($search_criteria){
-			  		$query->where('tipo_servicios.idtipo_servicios','LIKE',"%$search_criteria%");
+			  		$query->where('servicios.nombre','LIKE',"%$search_criteria%");
 			  })
 			  ->select('tipo_servicios.nombre as nombre_tipo_servicio','servicios.*');
 		return $query;

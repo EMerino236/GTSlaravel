@@ -15,8 +15,8 @@
 	 	<div class="panel-body">
 		 	<div class="row">
 				<div class="col-md-4 form-group">
-					{{ Form::label('tipo_servicio','Tipo de Servicio:')}}
-					{{ Form::select('search',array('0'=> 'Seleccione')+$tipo_servicio,Input::old('search'),['class' => 'form-control']) }}
+					{{ Form::label('nombre','Nombre de Servicio:')}}
+					{{ Form::text('search',Input::old('search'),['class' => 'form-control','placeholder'=>'Ingrese búsqueda']) }}
 				</div>
 				<div class="col-md-2 form-group" style="margin-top:25px">
 					{{ Form::button('<span class="glyphicon glyphicon-search"></span> Buscar',array('id'=>'submit-search-form','type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}

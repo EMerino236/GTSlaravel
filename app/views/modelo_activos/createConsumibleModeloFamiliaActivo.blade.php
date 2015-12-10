@@ -28,7 +28,7 @@
 	{{ Form::open(array('url'=>'familia_activos/submit_create_consumible_modelo_familia_activo', 'role'=>'form')) }}
 	{{ Form::hidden('idmodelo_equipo', $modelo_info->idmodelo_equipo) }}
 		<div class="panel panel-default">
-		  	<div class="panel-heading">Nuevo Accesorio</div>
+		  	<div class="panel-heading">Nuevo Consumible</div>
 		  	<div class="panel-body">
 		  		<div class="row">
 		  			<div class="form-group col-md-4 @if($errors->first('nombre_consumible')) has-error has-feedback @endif">
@@ -36,7 +36,7 @@
 						{{ Form::text('nombre_consumible',Input::old('nombre_consumible'),array('class'=>'form-control')) }}
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('cantidad_consumible')) has-error has-feedback @endif">
-						{{ Form::label('cantidad_consumible','Canitdad') }}
+						{{ Form::label('cantidad_consumible','Cantidad') }}
 						{{ Form::text('cantidad_consumible',Input::old('cantidad_consumible'),array('class'=>'form-control')) }}
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('costo_consumible')) has-error has-feedback @endif">
