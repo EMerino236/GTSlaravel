@@ -19,9 +19,10 @@ class ReportePAAC extends Eloquent{
 	public function scopeGetReportesPAACInfo($query)
 	{
 		$query->withTrashed()
-			  ->leftjoin('servicios','servicios.idservicio','=','reporte_paac.idservicio')
-			  ->join('areas','areas.idarea','=','reporte_paac.idarea')
-			  ->join('users','users.id','=','reporte_paac.iduser')
+			  ->join('programacion_reporte_paac','programacion_reporte_paac.idprogramacion_reporte_paac','=','reporte_paac.idprogramacion_reporte_paac')
+			  ->leftjoin('servicios','servicios.idservicio','=','programacion_reporte_paac.idservicio')
+			  ->join('areas','areas.idarea','=','programacion_reporte_paac.idarea')
+			  ->join('users','users.id','=','programacion_reporte_paac.iduser')
 			  ->select('servicios.nombre as nombre_servicio','areas.nombre as nombre_area',
 			  			'users.apellido_pat','users.apellido_mat','users.nombre','reporte_paac.*');
 	  	return $query;
@@ -31,9 +32,10 @@ class ReportePAAC extends Eloquent{
 							$search_tipo_reporte_paac,$search_usuario,$search_servicio,$search_area)
 	{
 		$query->withTrashed()
-			  ->leftjoin('servicios','servicios.idservicio','=','reporte_paac.idservicio')
-			  ->join('areas','areas.idarea','=','reporte_paac.idarea')
-			  ->join('users','users.id','=','reporte_paac.iduser')
+			  ->join('programacion_reporte_paac','programacion_reporte_paac.idprogramacion_reporte_paac','=','reporte_paac.idprogramacion_reporte_paac')
+			  ->leftjoin('servicios','servicios.idservicio','=','programacion_reporte_paac.idservicio')
+			  ->join('areas','areas.idarea','=','programacion_reporte_paac.idarea')
+			  ->join('users','users.id','=','programacion_reporte_paac.iduser')
 			  ->whereNested(function($query) use($search_usuario){
 			  		$query->where('users.nombre','LIKE',"%$search_usuario%")
 			  			  ->orWhere('users.apellido_pat','LIKE',"%$search_usuario%")
@@ -46,11 +48,11 @@ class ReportePAAC extends Eloquent{
 			  if($search_fecha_fin != "")
 				$query->where('reporte_paac.created_at','<=',date('Y-m-d H:i:s',strtotime($search_fecha_fin)));
 			  if($search_servicio!='')
-			  	$query->where('reporte_paac.idservicio','=',$search_servicio);
+			  	$query->where('programacion_reporte_paac.idservicio','=',$search_servicio);
 			  if($search_area!='')
-			  	$query->where('reporte_paac.idarea','=',$search_area);
+			  	$query->where('programacion_reporte_paac.idarea','=',$search_area);
 			  if($search_tipo_reporte_paac!='')
-			  	$query->where('reporte_paac.idtipo_reporte_paac','=',$search_tipo_reporte_paac);
+			  	$query->where('programacion_reporte_paac.idtipo_reporte_paac','=',$search_tipo_reporte_paac);
 			  $query->select('servicios.nombre as nombre_servicio','areas.nombre as nombre_area',
 			  			'users.apellido_pat','users.apellido_mat','users.nombre','reporte_paac.*');
 	  	return $query;

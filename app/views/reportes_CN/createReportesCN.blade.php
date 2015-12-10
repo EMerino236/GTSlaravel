@@ -2,15 +2,14 @@
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Crear Reporte</h3>
+            <h3 class="page-header">Crear Reporte Certificado de Necesidad</h3>
         </div>
         <!-- /.col-lg-12 -->
     </div>
 
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
-			<p><strong>{{ $errors->first('idtipo_reporte') }}</strong></p>
-			<p><strong>{{ $errors->first('idarea') }}</strong></p>
+			<p><strong>{{ $errors->first('idprogramacion_reporte_cn') }}</strong></p>
 			<p><strong>{{ $errors->first('archivo') }}</strong></p>
 		</div>
 	@endif
@@ -29,18 +28,37 @@
 			</div>
 			<div class="panel-body">
 				<div class="row">
-					<div class="form-group col-md-4 @if($errors->first('idtipo_reporte')) has-error has-feedback @endif">
-						{{ Form::label('idtipo_reporte','Tipo de Reporte') }}
-						{{ Form::select('idtipo_reporte',array(''=>'Seleccione') + $tipo_reporte_cn,Input::old('idtipo_reporte'),['class' => 'form-control']) }}
+					<div class="form-group col-md-4 @if($errors->first('idprogramacion_reporte_cn')) has-error has-feedback @endif">
+						{{ Form::label('idprogramacion_reporte_cn','Programaciones No Concluidas') }}
+						{{ Form::select('idprogramacion_reporte_cn',array(''=>'Seleccione') + $programaciones_reporte_cn,$programacion_reporte_cn_id,['class' => 'form-control']) }}
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-md-4 @if($errors->first('idtipo_reporte_select')) has-error has-feedback @endif">
+						{{ Form::label('idtipo_reporte_select','Tipo de Reporte') }}
+						@if($programacion_reporte_cn)
+							{{ Form::select('idtipo_reporte_select',array(''=>'Seleccione') + $tipo_reporte_cn,$programacion_reporte_cn->idtipo_reporte_CN,['class' => 'form-control','disabled'=>'disabled']) }}
+						@else
+							{{ Form::select('idtipo_reporte_select',array(''=>'Seleccione') + $tipo_reporte_cn,'',['class' => 'form-control','disabled'=>'disabled']) }}
+						@endif
+						{{ Form::hidden('idtipo_reporte')}}
 					</div>
 				</div>
 				<div class="row">
 					<div class="form-group col-md-4 @if($errors->first('idservicio')) has-error has-feedback @endif">
 						{{ Form::label('idservicio','Servicio') }}
-						{{ Form::select('idservicio',array(''=>'Seleccione') + $servicios,Input::old('idservicio'),['class' => 'form-control']) }}
+						@if($programacion_reporte_cn)
+							{{ Form::select('idservicio',array(''=>'Seleccione') + $servicios,$programacion_reporte_cn->idservicio,['class' => 'form-control','disabled'=>'disabled']) }}
+						@else
+							{{ Form::select('idservicio',array(''=>'Seleccione') + $servicios,'',['class' => 'form-control','disabled'=>'disabled']) }}
+						@endif
 					</div><div class="form-group col-md-4 @if($errors->first('idarea_select')) has-error has-feedback @endif">
 						{{ Form::label('idarea_select','Departamento') }}
-						{{ Form::select('idarea_select',array(''=>'Seleccione') + $areas,Input::old('idarea_select'),['class' => 'form-control']) }}
+						@if($programacion_reporte_cn)
+							{{ Form::select('idarea_select',array(''=>'Seleccione') + $areas,$programacion_reporte_cn->idarea,['class' => 'form-control','disabled'=>'disabled']) }}	
+						@else
+							{{ Form::select('idarea_select',array(''=>'Seleccione') + $areas,'',['class' => 'form-control','disabled'=>'disabled']) }}	
+						@endif
 						{{ Form::hidden('idarea')}}
 					</div>
 				</div>		
@@ -51,7 +69,7 @@
 						{{ Form::hidden('idot_retiro')}}
 					</div>
 					<div class="form-group col-md-2" style="margin-top:25px">
-						<a id="btn_agregar" class="btn btn-primary btn-block" onclick="llenar_nombre_equipo()"><span class="glyphicon glyphicon-plus"></span> Agregar</a>
+						<a id="btn_agregar" class="btn btn-primary btn-block" onclick="llenar_nombre_equipo()"><span class="glyphicon glyphicon-plus"></span> Agregar OT</a>
 					</div>
 					<div class="form-group col-md-2" style="margin-top:25px; margin-left:15px">
 						<a id="btn_limpiar" class="btn btn-default btn-block" onclick="limpiar_nombre_equipo()"><span class="glyphicon glyphicon-refresh"></span> Limpiar</a>

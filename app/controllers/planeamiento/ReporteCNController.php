@@ -2,7 +2,7 @@
 
 class ReporteCNController extends BaseController
 {
-	public function render_create_reporte_cn()
+	public function render_create_reporte_cn($id=null)
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
@@ -12,8 +12,17 @@ class ReporteCNController extends BaseController
 				$data["areas"] = Area::lists('nombre','idarea');
 				$data["servicios"] = Servicio::lists('nombre','idservicio');
 				$data["tipo_reporte_cn"] = TipoReporteCN::lists('nombre','idtipo_reporte_CN');
+				$data["programaciones_reporte_cn"] = ProgramacionReporteCN::where('idestado_programacion_reportes',1)
+																			->where('iduser',$data["user"]->id)
+																			->orwhere('idestado_programacion_reportes',3)
+																			->lists('nombre_reporte','idprogramacion_reporte_cn');
+				$data["programacion_reporte_cn_id"] = $id;
+				$data["programacion_reporte_cn"] = null;
+				if($id){
+					$data["programacion_reporte_cn"] = ProgramacionReporteCN::where('idprogramacion_reporte_cn','=',$id)->get()[0];
+				}
 				$data["reporte_cn_info"] = null;
-				return View::make('reportes_CN/createReporteCN',$data);
+				return View::make('reportes_CN/createReportesCN',$data);
 			}else{
 				return View::make('error/error',$data);
 			}
@@ -31,9 +40,8 @@ class ReporteCNController extends BaseController
 			if($data["user"]->idrol == 1){
 				// Validate the info, create rules for the inputs	
 				$rules = array(
-							'idtipo_reporte' => 'required',
-							'idarea' => 'required',
-							'archivo' => 'max:15360|mimes:png,jpe,jpeg,jpg,gif,bmp,zip,rar,pdf,doc,docx,xls,xlsx,ppt,pptx',											
+							'idprogramacion_reporte_cn' => 'required',
+							'archivo' => 'max:15360',											
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules);
@@ -72,12 +80,13 @@ class ReporteCNController extends BaseController
 					$reporte_cn->url = $rutaDestino;
 					$reporte_cn->nombre_archivo = $nombreArchivo;
 					$reporte_cn->nombre_archivo_encriptado = $nombreArchivoEncriptado;
-					$reporte_cn->idtipo_reporte_CN = Input::get('idtipo_reporte');
-					$reporte_cn->idservicio = Input::get('idservicio');					
-					$reporte_cn->iduser = $data["user"]->id;
 					$reporte_cn->idot_retiro = Input::get('idot_retiro');
-					$reporte_cn->idarea = Input::get('idarea');
+					$reporte_cn->idprogramacion_reporte_cn = Input::get('idprogramacion_reporte_cn');
 					$reporte_cn->save();
+
+					$programacion_reporte_cn = ProgramacionReporteCN::find(Input::get('idprogramacion_reporte_cn'));
+					$programacion_reporte_cn->idestado_programacion_reportes = 2;
+					$programacion_reporte_cn->save();
 					
 					Session::flash('message', 'Se registró correctamente el Reporte para Certificado de Necesidad.');
 					return Redirect::to('reporte_cn/create_reporte_cn');
@@ -102,6 +111,7 @@ class ReporteCNController extends BaseController
 				$data["servicios"] = Servicio::lists('nombre','idservicio');
 				$data["tipo_reporte_cn"] = TipoReporteCN::lists('nombre','idtipo_reporte_CN');
 				$data["reporte_cn_info"] = ReporteCN::withTrashed()->find($id);
+				$data["programacion_reporte_cn_info"] = ProgramacionReporteCN::withTrashed()->find($data["reporte_cn_info"]->idprogramacion_reporte_cn);
 				$data["otretiro_info"] = OtRetiro::find($data["reporte_cn_info"]->idot_retiro);
 				$data["otretiro_info"] = OtRetiro::searchOtByCodigoReporte($data["otretiro_info"]->ot_tipo_abreviatura,$data["otretiro_info"]->ot_correlativo,$data["otretiro_info"]->ot_activo_abreviatura)->get()[0];
 				return View::make('reportes_CN/editReporteCN',$data);

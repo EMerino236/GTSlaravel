@@ -2,15 +2,14 @@
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Crear Reporte</h3>
+            <h3 class="page-header">Crear Reporte de Instalación</h3>
         </div>
         <!-- /.col-lg-12 -->
     </div>
 
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
-			<p><strong>{{ $errors->first('idtipo_reporte') }}</strong></p>
-			<p><strong>{{ $errors->first('idarea') }}</strong></p>
+			<p><strong>{{ $errors->first('idprogramacion_reporte_paac') }}</strong></p>
 			<p><strong>{{ $errors->first('archivo') }}</strong></p>
 		</div>
 	@endif
@@ -29,18 +28,37 @@
 			</div>
 			<div class="panel-body">
 				<div class="row">
-					<div class="form-group col-md-4 @if($errors->first('idtipo_reporte')) has-error has-feedback @endif">
-						{{ Form::label('idtipo_reporte','Tipo de Reporte') }}
-						{{ Form::select('idtipo_reporte',array(''=>'Seleccione') + $tipo_reporte_paac,Input::old('idtipo_reporte'),['class' => 'form-control']) }}
+					<div class="form-group col-md-4 @if($errors->first('idprogramacion_reporte_paac')) has-error has-feedback @endif">
+						{{ Form::label('idprogramacion_reporte_paac','Programaciones No Concluidas') }}
+						{{ Form::select('idprogramacion_reporte_paac',array(''=>'Seleccione') + $programaciones_reporte_paac,$programacion_reporte_paac_id,['class' => 'form-control']) }}
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-md-4 @if($errors->first('idtipo_reporte_select')) has-error has-feedback @endif">
+						{{ Form::label('idtipo_reporte_select','Tipo de Reporte') }}
+						@if($programacion_reporte_paac)
+							{{ Form::select('idtipo_reporte_select',array(''=>'Seleccione') + $tipo_reporte_paac,$programacion_reporte_paac->idtipo_reporte_PAAC,['class' => 'form-control','disabled'=>'disabled']) }}
+						@else
+							{{ Form::select('idtipo_reporte_select',array(''=>'Seleccione') + $tipo_reporte_paac,'',['class' => 'form-control','disabled'=>'disabled']) }}
+						@endif
+						{{ Form::hidden('idtipo_reporte')}}
 					</div>
 				</div>
 				<div class="row">
 					<div class="form-group col-md-4 @if($errors->first('idservicio')) has-error has-feedback @endif">
 						{{ Form::label('idservicio','Servicio') }}
-						{{ Form::select('idservicio',array(''=>'Seleccione') + $servicios,Input::old('idservicio'),['class' => 'form-control']) }}
+						@if($programacion_reporte_paac)
+							{{ Form::select('idservicio',array(''=>'Seleccione') + $servicios,$programacion_reporte_paac->idservicio,['class' => 'form-control','disabled'=>'disabled']) }}
+						@else
+							{{ Form::select('idservicio',array(''=>'Seleccione') + $servicios,'',['class' => 'form-control','disabled'=>'disabled']) }}
+						@endif
 					</div><div class="form-group col-md-4 @if($errors->first('idarea_select')) has-error has-feedback @endif">
 						{{ Form::label('idarea_select','Departamento') }}
-						{{ Form::select('idarea_select',array(''=>'Seleccione') + $areas,Input::old('idarea_select'),['class' => 'form-control']) }}
+						@if($programacion_reporte_paac)
+							{{ Form::select('idarea_select',array(''=>'Seleccione') + $areas,$programacion_reporte_paac->idarea,['class' => 'form-control','disabled'=>'disabled']) }}
+						@else
+							{{ Form::select('idarea_select',array(''=>'Seleccione') + $areas,'',['class' => 'form-control','disabled'=>'disabled']) }}
+						@endif
 						{{ Form::hidden('idarea')}}
 					</div>
 				</div>	

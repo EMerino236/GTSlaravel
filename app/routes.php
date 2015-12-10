@@ -483,6 +483,20 @@ Route::group(array('prefix'=>'plan_director','before'=>'auth'),function(){
 	Route::post('/submit_enable_documento_plan_director','DocumentoPlanDirectorController@submit_enable_documento_plan_director');
 });
 
+/* Programacion de Reportes */
+Route::group(array('prefix'=>'programacion_reportes','before'=>'auth'),function(){
+	Route::get('/list_programacion_reportes','ProgramacionReportesController@list_programacion_reportes');
+	Route::get('/search_programacion_reportes','ProgramacionReportesController@search_programacion_reportes');
+	Route::get('/create_programacion_reportes','ProgramacionReportesController@render_create_programacion_reportes');
+	Route::post('/submit_create_programacion_reporte_cn','ProgramacionReportesController@submit_create_programacion_reporte_cn');
+	Route::post('/submit_create_programacion_reporte_etes','ProgramacionReportesController@submit_create_programacion_reporte_etes');
+	Route::post('/submit_create_programacion_reporte_paac','ProgramacionReportesController@submit_create_programacion_reporte_paac');
+	Route::post('/return_area/{postData}','ProgramacionReportesController@return_area');
+	Route::post('/return_programacion_cn/{postData}','ProgramacionReportesController@return_programacion_cn');
+	Route::post('/return_programacion_etes/{postData}','ProgramacionReportesController@return_programacion_etes');
+	Route::post('/return_programacion_paac/{postData}','ProgramacionReportesController@return_programacion_paac');
+});
+
 /*Registro Historico de OTM*/
 Route::group(array('prefix'=>'registro_historico_otm','before'=>'auth'),function(){
 	Route::get('/list_ot','RegistroHistoricoOTController@list_ot');

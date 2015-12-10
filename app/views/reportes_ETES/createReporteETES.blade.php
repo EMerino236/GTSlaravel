@@ -2,14 +2,14 @@
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Crear Reporte</h3>
+            <h3 class="page-header">Crear Reporte ETES</h3>
         </div>
         <!-- /.col-lg-12 -->
     </div>
 
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
-			<p><strong>{{ $errors->first('idtipo_reporte') }}</strong></p>
+			<p><strong>{{ $errors->first('idprogramacion_reporte_etes') }}</strong></p>
 			<p><strong>{{ $errors->first('archivo') }}</strong></p>
 			<p><strong>{{ $errors->first('nombre') }}</strong></p>
 		</div>
@@ -29,15 +29,30 @@
 			</div>
 			<div class="panel-body">
 				<div class="row">
-					<div class="form-group col-md-4 @if($errors->first('idtipo_reporte')) has-error has-feedback @endif">
-						{{ Form::label('idtipo_reporte','Tipo de Reporte') }}
-						{{ Form::select('idtipo_reporte',array(''=>'Seleccione') + $tipo_reporte_etes,Input::old('idtipo_reporte'),['class' => 'form-control']) }}
+					<div class="form-group col-md-4 @if($errors->first('idprogramacion_reporte_etes')) has-error has-feedback @endif">
+						{{ Form::label('idprogramacion_reporte_etes','Programaciones No Concluidas') }}
+						{{ Form::select('idprogramacion_reporte_etes',array(''=>'Seleccione') + $programaciones_reporte_etes,$programacion_reporte_etes_id,['class' => 'form-control']) }}
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-md-4 @if($errors->first('idtipo_reporte_select')) has-error has-feedback @endif">
+						{{ Form::label('idtipo_reporte_select','Tipo de Reporte') }}
+						@if($programacion_reporte_etes)
+							{{ Form::select('idtipo_reporte_select',array(''=>'Seleccione') + $tipo_reporte_etes,$programacion_reporte_etes->idtipo_reporte_ETES,['class' => 'form-control','disabled'=>'disabled']) }}
+						@else
+							{{ Form::select('idtipo_reporte_select',array(''=>'Seleccione') + $tipo_reporte_etes,'',['class' => 'form-control','disabled'=>'disabled']) }}
+						@endif
+						{{ Form::hidden('idtipo_reporte')}}
 					</div>
 				</div>	
 				<div class="row">
 					<div class="form-group col-md-8 @if($errors->first('nombre')) has-error has-feedback @endif">
 						{{ Form::label('nombre','Nombre de Reporte') }}
-						{{ Form::text('nombre',Input::old('nombre'),['class' => 'form-control']) }}
+						@if($programacion_reporte_etes)
+							{{ Form::text('nombre',$programacion_reporte_etes->nombre_reporte,['class' => 'form-control','disabled'=>'disabled']) }}
+						@else
+							{{ Form::text('nombre','',['class' => 'form-control','disabled'=>'disabled']) }}
+						@endif
 					</div>
 				</div>
 			</div>

@@ -19,7 +19,8 @@ class ReporteETES extends Eloquent{
 	public function scopeGetReportesETESInfo($query)
 	{
 		$query->withTrashed()
-			  ->join('users','users.id','=','reporte_etes.iduser')
+			  ->join('programacion_reporte_etes','programacion_reporte_etes.idprogramacion_reporte_etes','=','reporte_etes.idprogramacion_reporte_etes')
+			  ->join('users','users.id','=','programacion_reporte_etes.iduser')
 			  ->select('users.apellido_pat','users.apellido_mat','users.nombre as nombre_usuario','reporte_etes.*');
 	  	return $query;
 	}
@@ -28,7 +29,8 @@ class ReporteETES extends Eloquent{
 											$search_tipo_reporte_etes,$search_usuario)
 	{
 		$query->withTrashed()
-			  ->join('users','users.id','=','reporte_etes.iduser')
+			  ->join('programacion_reporte_etes','programacion_reporte_etes.idprogramacion_reporte_etes','=','reporte_etes.idprogramacion_reporte_etes')
+			  ->join('users','users.id','=','programacion_reporte_etes.iduser')
 			  ->whereNested(function($query) use($search_usuario){
 			  		$query->where('users.nombre','LIKE',"%$search_usuario%")
 			  			  ->orWhere('users.apellido_pat','LIKE',"%$search_usuario%")
@@ -41,7 +43,7 @@ class ReporteETES extends Eloquent{
 			  if($search_fecha_fin != "")
 				$query->where('reporte_etes.created_at','<=',date('Y-m-d H:i:s',strtotime($search_fecha_fin)));
 			  if($search_tipo_reporte_etes!='')
-			  	$query->where('reporte_etes.idtipo_reporte_etes','=',$search_tipo_reporte_etes);
+			  	$query->where('programacion_reporte_etes.idtipo_reporte_etes','=',$search_tipo_reporte_etes);
 			  $query->select('users.apellido_pat','users.apellido_mat','users.nombre as nombre_usuario','reporte_etes.*');
 	  	return $query;
 	}
