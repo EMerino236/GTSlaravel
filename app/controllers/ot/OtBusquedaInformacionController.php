@@ -17,6 +17,7 @@ class OtBusquedaInformacionController extends BaseController {
 				$data["search_encargado"] = null;
 				$data["search_ot"] = null;
 				$data["search_ini"] = null;
+				$data["search_fin"] = null;
 				$data["areas"] = Area::lists('nombre','idarea');
 				$data["tipos"] = TipoOtBusquedaInformacion::lists('nombre','idtipo_busqueda_info');
 				$data["busquedas"] = OrdenesTrabajoBusquedaInformacion::getOtsBusquedaInfo()->paginate(10);
@@ -44,9 +45,10 @@ class OtBusquedaInformacionController extends BaseController {
 				$data["search_encargado"] = Input::get('search_encargado');
 				$data["search_ot"] = Input::get('search_ot');
 				$data["search_ini"] = Input::get('search_ini');
+				$data["search_fin"] = Input::get('search_fin');
 				$data["areas"] = Area::lists('nombre','idarea');				
 				$data["tipos"] = TipoOtBusquedaInformacion::lists('nombre','idtipo_busqueda_info');			
-				$data["busquedas"] = SolicitudBusquedaInformacion::searchOtsBusquedaInformacion($data["search_tipo"],$data["search_area"],$data["search_encargado"],$data["search_ot"],$data["search_ini"])->paginate(10);
+				$data["busquedas"] = SolicitudBusquedaInformacion::searchOtsBusquedaInformacion($data["search_tipo"],$data["search_area"],$data["search_encargado"],$data["search_ot"],$data["search_ini"],$data["search_fin"])->paginate(10);
 				$data['solicitantes'] = User::getJefes()->get();
 				return View::make('ot/busquedaInformacion/listOtBusquedaInformacion',$data);
 			}else{

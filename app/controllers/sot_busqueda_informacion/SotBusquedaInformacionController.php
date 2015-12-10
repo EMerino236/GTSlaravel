@@ -247,6 +247,7 @@ class SotBusquedaInformacionController extends BaseController {
 				$data["search_encargado"] = null;
 				$data["search_ot"] = null;
 				$data["search_ini"] = null;
+				$data["search_fin"] = null;
 				$data["areas"] = Area::lists('nombre','idarea');
 				$data['solicitantes'] = User::getJefes()->get();
 				$data["tipos"] = TipoOtBusquedaInformacion::lists('nombre','idtipo_busqueda_info');
