@@ -108,8 +108,9 @@ class ModeloActivosController extends BaseController
 					$idfamilia_activo = Input::get('familia_activo_id');				
 					$url = "familia_activos/edit_familia_activo"."/".$idfamilia_activo;
 
-					$idmodelo = Input::get('modelo_id');
-					$modelo_activo = ModeloActivo::find($idmodelo);					
+					$idmodelo = Input::get('idmodelo_equipo');
+					$modelo_activo = ModeloActivo::find($idmodelo);				
+
 					$modelo_activo->nombre = Input::get('nombre_modelo');
 					
 					$modelo_activo->save();					

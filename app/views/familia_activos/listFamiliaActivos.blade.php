@@ -37,7 +37,7 @@
 				</div>
 				<div class="col-md-4">
 					{{ Form::label('search_marca','Marca') }}
-					{{ Form::select('search_marca', array('0' => 'Seleccione') + $marca,$search_marca,['class' => 'form-control']) }}
+					{{ Form::select('search_marca', array('' => 'Seleccione') + $marca,$search_marca,['class' => 'form-control']) }}
 				</div>
 			</div>
 			<div class="row">
@@ -75,7 +75,7 @@
 					{{$index + 1}}
 				</td>
 				<td>
-					{{$familiaactivo_data->nombre_tipo_activo}}
+					{{$familiaactivo_data->tipoActivo->nombre}}
 				</td>
 				<td>
 					{{$familiaactivo_data->nombre_siga}}
@@ -84,11 +84,11 @@
 					<a href="{{URL::to('/familia_activos/view_familia_activo')}}/{{$familiaactivo_data->idfamilia_activo}}">{{$familiaactivo_data->nombre_equipo}}</a>					
 				</td>
 				<td>
-					{{$familiaactivo_data->nombre_marca}}
+					{{$familiaactivo_data->marca->nombre}}
 				</td>
 				<td>
 					<a class="btn btn-warning btn-block btn-sm" href="{{URL::to('/familia_activos/edit_familia_activo')}}/{{$familiaactivo_data->idfamilia_activo}}">
-					<span class="glyphicon glyphicon-pencil"></span> Editar</a>
+					<span class="glyphicon glyphicon-pencil"></span></a>
 				</td>
 			</tr>
 			@endforeach
