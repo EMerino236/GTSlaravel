@@ -22,6 +22,12 @@
                     <li>{{ HTML::link('#','Indicadores de elaboración de guía de práctica clínica  ') }}</li>
                 </ul>
             </li>
+            <li>
+                <a href="#">Evaluación de necesidades, alternativas e instalaciones<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">                           
+                    <li>{{ HTML::link('/reporte_etes/list_reporte_etes','Alternativas') }}</li>
+                </ul>
+            </li>
         </ul>
     </div>
     <!-- /.sidebar-collapse -->
