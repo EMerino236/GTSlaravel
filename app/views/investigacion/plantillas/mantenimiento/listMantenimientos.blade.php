@@ -36,7 +36,7 @@
 	  </div>
 	</div>
 	{{ Form::close() }}</br>	
-	<div class="col-md-6">
+	<div class="col-md-12">
 		<table class="table">
 			<tr class="info">
 				<th>Nombre de familia</th>
