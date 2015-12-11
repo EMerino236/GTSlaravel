@@ -46,14 +46,17 @@ class SolicitudesController extends BaseController
 				$data["search_nombre_equipo"]=Input::get('search_nombre_equipo');
 				$data["fecha_desde"] = Input::get('fecha_desde');
 				$data["fecha_hasta"] = Input::get('fecha_hasta');
-				$data["solicitudes_data"] = SolicitudCompra::searchSolicitudes($data["search_tipo_solicitud"],$data["search_servicio"],$data["search_estado"],$data["search_nombre_equipo"],$data["fecha_desde"],$data["fecha_hasta"])->paginate(10);
 				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
+				
 				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
-				//if($data["search"]==0){
+				if($data["search_tipo_solicitud"]==0 && $data["search_servicio"]==0 && $data["search_estado"]==0
+					&& $data["search_nombre_equipo"]==null && $data["fecha_desde"] == null && $data["fecha_hasta"]==null){
+					$data["solicitudes_data"] = SolicitudCompra::getSolicitudesInfo()->paginate(10);
 					return View::make('solicitudes_compra/listSolicitudesCompra',$data);
-				/*}else{
-					return View::make('areas/listAreas',$data);	
-				}*/
+				}else{
+					$data["solicitudes_data"] = SolicitudCompra::searchSolicitudes($data["search_tipo_solicitud"],$data["search_servicio"],$data["search_estado"],$data["search_nombre_equipo"],$data["fecha_desde"],$data["fecha_hasta"])->paginate(10);
+					return View::make('solicitudes_compra/listSolicitudesCompra',$data);	
+				}
 			}else{
 				return View::make('error/error',$data);
 			}

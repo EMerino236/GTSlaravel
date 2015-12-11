@@ -155,5 +155,11 @@
     </div>
   </div>  
 </div>
-	
+@if($search_ing || $search_ot || $search_servicio || $search_equipo || $search_ini || $search_fin)
+	{{ $inspecciones_equipos_data->appends(array('search_ing' => $search_ing,'search_ot'=>$search_ot,'search_servicio'=>$search_servicio,
+	'search_equipo'=>$search_equipo,'search_ini'=>$search_ini,'search_fin'=>$search_fin))->links() }}
+@else
+	{{ $inspecciones_equipos_data->links() }}
+@endif
+
 @stop

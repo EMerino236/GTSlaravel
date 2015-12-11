@@ -98,4 +98,10 @@
 			@endforeach	
 		</table>
 	</div>
+	@if($search_tipo_solicitud || $search_nombre_equipo || $search_servicio || $search_estado || $fecha_hasta || $fecha_desde)
+		{{ $solicitudes_data->appends(array('search_tipo_solicitud' => $search_tipo_solicitud,'search_nombre_equipo' => $search_nombre_equipo, 'search_servicio' => $search_servicio,
+			'search_estado' => $search_estado,'fecha_hasta' => $fecha_hasta,'fecha_desde'=>$fecha_desde))->links() }}
+	@else	
+		{{ $solicitudes_data->links()}}
+	@endif
 @stop

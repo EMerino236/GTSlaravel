@@ -7,7 +7,7 @@
 	<title>Home</title>
 	<!-- Styles -->
 	<link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
-	<link rel="shortcut icon" href="{{ asset('img')}}/logoGTS.png">
+	<link rel="shortcut icon" href="{{ asset('img')}}/logo_gts.png">
 	<link rel="stylesheet" href="{{ asset('css/login/form-elements.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/login/style.css') }}">
 	<script src="{{ asset('bower_components/jquery/dist/jquery.min.js') }}"></script>

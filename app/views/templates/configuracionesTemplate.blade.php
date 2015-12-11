@@ -6,7 +6,7 @@
     <meta name="robots" content="noindex, follow">
     <meta name="_token" content="{!! csrf_token() !!}"/>
     <title>Configuraciones</title>
-    <link rel="shortcut icon" href="{{ asset('img')}}/logoGTS.png">
+    <link rel="shortcut icon" href="{{ asset('img')}}/logo_gts.png">
     <!-- Bootstrap Core CSS -->
     <link href="{{ asset('bower_components/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- Datepicker CSS-->

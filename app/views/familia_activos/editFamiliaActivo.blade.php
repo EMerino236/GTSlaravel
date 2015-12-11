@@ -86,7 +86,7 @@
 				<tr class="info">
 					<th>Nº</th>							
 					<th>Modelo</th>
-					<th>Opciones</th>
+					<th class="text-center">Opciones</th>
 					<th>Editar</th>					
 				</tr>
 				@foreach($modelo_equipo_info as $index => $modelo)
@@ -98,17 +98,25 @@
 						{{$modelo->nombre}}
 					</td>
 					<td>
-						<a class="btn btn-success btn-sm" href="{{URL::to('/familia_activos/create_accesorio_modelo_familia_activo')}}/{{$modelo->idmodelo_equipo}}">
-						<span class="glyphicon glyphicon-paperclip"></span> Agregar Accesorio</a>
-						<a class="btn btn-success btn-sm" href="{{URL::to('/familia_activos/create_componente_modelo_familia_activo')}}/{{$modelo->idmodelo_equipo}}">
-						<span class="glyphicon glyphicon-wrench"></span> Agregar Componente</a>
-						<a class="btn btn-success btn-sm" href="{{URL::to('/familia_activos/create_consumible_modelo_familia_activo')}}/{{$modelo->idmodelo_equipo}}">
-						<span class="glyphicon glyphicon-tint"></span> Agregar Consumible</a>
+						<div class="text-center">
+						<div>					  
+						  	<a class="btn btn-success btn-sm" href="{{URL::to('/familia_activos/create_accesorio_modelo_familia_activo')}}/{{$modelo->idmodelo_equipo}}">
+							<span class="glyphicon glyphicon-cog"></span> Agregar Accesorio</a>   
+						  
+						 
+						    <a class="btn btn-success btn-sm" href="{{URL::to('/familia_activos/create_componente_modelo_familia_activo')}}/{{$modelo->idmodelo_equipo}}">
+							<span class="glyphicon glyphicon-wrench"></span> Agregar Componente</a>
+						  
+						  
+						    <a class="btn btn-success btn-sm" href="{{URL::to('/familia_activos/create_consumible_modelo_familia_activo')}}/{{$modelo->idmodelo_equipo}}">
+							<span class="glyphicon glyphicon-tint"></span> Agregar Consumible</a>					  
+						</div>
 					</td>
 					<td>
 						<a class="btn btn-warning btn-block btn-sm" href="{{URL::to('/familia_activos/edit_modelo_familia_activo')}}/{{$modelo->idmodelo_equipo}}">
-						<span class="glyphicon glyphicon-pencil"></span> Editar</a>
-					</td>								
+						<span class="glyphicon glyphicon-pencil"></span></a>
+					</td>
+					</div>								
 				</tr>
 			@endforeach				
 			</table>

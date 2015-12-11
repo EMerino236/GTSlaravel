@@ -6,7 +6,7 @@
         <span class="icon-bar"></span>
     </button>
     <a href="{{ URL::to('/') }}">
-		<img src="{{ asset('img') }}/logoGTS.png" width="50" style="display:inline-block;margin-left:30px;"/>
+		<img src="{{asset('img')}}/logo_gts.png" width="50" style="display:inline-block;margin-left:30px;"/>
         <h4 style="display:inline-block;margin-top:5px;font-family:'softwareTest';font-weight:bold;"> GTS SOFTWARE </h4>
 	</a>
 </div>

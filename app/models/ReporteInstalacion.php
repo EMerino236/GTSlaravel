@@ -49,6 +49,7 @@ class ReporteInstalacion extends Eloquent{
 	}	
 
 	public function scopeSearchReportes($query,$search_usuario_responsable,$search_codigo_compra,$search_proveedor,$search_area){
+		
 		$sql = 'select a.codigo_compra,
 						CONCAT(u.apellido_pat," ",u.apellido_mat," ",u.nombre) as nombre_responsable,
 						p.razon_social as nombre_proveedor,

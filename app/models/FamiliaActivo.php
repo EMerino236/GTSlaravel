@@ -9,30 +9,35 @@ class FamiliaActivo extends Eloquent{
 	protected $table = 'familia_activos';
 	protected $primaryKey = 'idfamilia_activo';
 
+	public function tipoActivo()
+	{
+		return $this->belongsTo('TipoActivo','idtipo_activo');
+	}
+
+	public function marca()
+	{
+		return $this->belongsTo('Marca','idmarca');
+	}
+
 	public function scopeGetFamiliaActivosInfo($query)
 	{
 		$query->withTrashed()
-			  ->join('tipo_activos','tipo_activos.idtipo_activo','=','familia_activos.idtipo_activo')
-			  ->join('marcas','marcas.idmarca','=','familia_activos.idmarca')			  
-			  ->select('tipo_activos.nombre as nombre_tipo_activo','marcas.nombre as nombre_marca','familia_activos.*');
+			  ->select('familia_activos.*');
 	    return $query;
 	}
 
 	public function scopeSearchFamiliaActivo($query,$search_nombre_equipo,$search_marca)
 	{
-		$query->withTrashed()
-			  ->join('tipo_activos','tipo_activos.idtipo_activo','=','familia_activos.idtipo_activo')
-			  ->join('marcas','marcas.idmarca','=','familia_activos.idmarca')
-			  ->whereNested(function($query) use ($search_nombre_equipo,$search_marca){
-			  			$query->where('familia_activos.nombre_equipo','LIKE',"%$search_nombre_equipo%");			  		
-			  });
+		$query->where('familia_activos.nombre_equipo','LIKE',"%$search_nombre_equipo%");
+			  
 
-			  if($search_marca != '0')
-			  {
-			  	$query->where('familia_activos.idmarca','=',$search_marca);
-			  }
+		if($search_marca != "")
+		{
+			$query->where('familia_activos.idmarca','=',$search_marca);
+		}
 
-			  $query->select('tipo_activos.nombre as nombre_tipo_activo','marcas.nombre as nombre_marca','familia_activos.*');
+	 	$query->select('familia_activos.*');
+	 	
 		return $query;
 	}
 

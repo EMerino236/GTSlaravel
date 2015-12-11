@@ -213,8 +213,15 @@ class DocumentoController extends BaseController {
 				$data["search_ubicacion"] = Input::get('search_ubicacion');
 				$data["search_tipo_documento"] = Input::get('search_tipo_documento');
 
-				$data["documentos_data"] = Documento::searchDocumentos($data["search_nombre"],$data["search_autor"],$data["search_codigo_archivamiento"],
+				
+				if($data["search_nombre"]==null && $data["search_autor"] == null && $data["search_codigo_archivamiento"]==null &&
+					$data["search_ubicacion"] == null && $data["search_tipo_documento"]==null){
+					$data["documentos_data"] = Documento::getDocumentosInfo()->paginate(10);
+				}else{
+					$data["documentos_data"] = Documento::searchDocumentos($data["search_nombre"],$data["search_autor"],$data["search_codigo_archivamiento"],
 										$data["search_ubicacion"],$data["search_tipo_documento"])->paginate(10);
+				}
+
 				return View::make('documentos/listDocumentos',$data);
 			}else{
 				return View::make('error/error',$data);

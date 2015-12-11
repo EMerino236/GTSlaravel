@@ -251,7 +251,7 @@ class SotBusquedaInformacionController extends BaseController {
 				$data["areas"] = Area::lists('nombre','idarea');
 				$data['solicitantes'] = User::getJefes()->get();
 				$data["tipos"] = TipoOtBusquedaInformacion::lists('nombre','idtipo_busqueda_info');
-				$data["busquedas"] = SolicitudBusquedaInformacion::getSotsInfo()->get();
+				$data["busquedas"] = SolicitudBusquedaInformacion::getSotsInfo()->paginate(10);
 				return View::make('ot/busquedaInformacion/listOtBusquedaInformacion',$data);
 			}else{
 				return View::make('error/error',$data);

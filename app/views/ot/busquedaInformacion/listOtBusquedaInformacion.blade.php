@@ -37,7 +37,7 @@
 							{{ Form::text('search_encargado',$search_encargado,array('class'=>'form-control','placeholder'=>'Encargado')) }}
 						</div>
 						<div class="form-group col-md-4">
-							{{ Form::label('search_ini','Fecha inicio') }}
+							{{ Form::label('search_ini','Fecha Solicitud Desde') }}
 							<div id="search_datetimepicker1" class="form-group input-group date">
 								{{ Form::text('search_ini',$search_ini,array('class'=>'form-control','readonly'=>'')) }}
 								<span class="input-group-addon">
@@ -46,7 +46,7 @@
 							</div>
 						</div>
 						<div class="form-group col-md-4">
-							{{ Form::label('search_fin','Fecha fin') }}
+							{{ Form::label('search_fin','Fecha Solicitud Hasta') }}
 							<div id="search_datetimepicker2" class="form-group input-group date">
 								{{ Form::text('search_fin',$search_fin,array('class'=>'form-control','readonly'=>'')) }}
 								<span class="input-group-addon">
@@ -176,16 +176,17 @@
 					</tr>
 				@endforeach				
 				</table>
-				@if($search_tipo || $search_area || $search_encargado || $search_ini || $search_fin || $search_ot)
-					{{ $busquedas->appends(array('search_tipo' => $search_tipo,'search_area' => $search_area, 'search_encargado' => $search_encargado,
-						'search_ini' => $search_ini, 'search_fin' => $search_fin, 'search_ot' => $search_ot))->links() }}
-				@else	
-					{{ $busquedas->links()}}
-				@endif
+				
 			</div>
 		</div>
 	</div>
-	{{Form::hidden('idsot',null,array('id'=>'idsot'))}}
+	@if($search_tipo || $search_area || $search_encargado || $search_ini || $search_fin || $search_ot)
+		{{ $busquedas->appends(array('search_tipo' => $search_tipo,'search_area' => $search_area, 'search_encargado' => $search_encargado,
+			'search_ini' => $search_ini, 'search_fin' => $search_fin, 'search_ot' => $search_ot))->links() }}
+	@else	
+		{{ $busquedas->links() }}
+	@endif
+{{Form::hidden('idsot',null,array('id'=>'idsot'))}}
 
 	
 @stop
