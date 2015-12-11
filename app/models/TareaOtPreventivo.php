@@ -21,4 +21,7 @@ class TareaOtPreventivo extends Eloquent{
 		return $query;
 	}
 	
+	public function usuario(){
+		return $this->belongsTo('User','creador');
+	}
 }
