@@ -38,7 +38,13 @@ class ReportesIncumplimientoController extends BaseController
 				$data["search_proveedor"] = Input::get('search_proveedor');
 				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
 				$data["search_tipo_reporte"] = Input::get('search_tipo_reporte');
-				$data["reportes_data"] = ReporteIncumplimiento::searchReportes($data["fecha_desde"],$data["fecha_hasta"],$data["search_proveedor"],$data["search_tipo_reporte"])->paginate(10);
+				
+				if($data["fecha_desde"]==null && $data["fecha_hasta"]==null && $data["search_proveedor"]==0 &&
+					$data["search_tipo_reporte"]==0){
+					$data["reportes_data"] = ReporteIncumplimiento::getReporteIncumplimientoInfo()->paginate(10);
+				}else{
+					$data["reportes_data"] = ReporteIncumplimiento::searchReportes($data["fecha_desde"],$data["fecha_hasta"],$data["search_proveedor"],$data["search_tipo_reporte"])->paginate(10);
+				}
 				return View::make('reportes_incumplimiento/listReportesIncumplimientos',$data);	
 			}else{
 				return View::make('error/error',$data);

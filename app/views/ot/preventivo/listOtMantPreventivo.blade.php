@@ -149,7 +149,12 @@
 		</div>
 	</div>
 
-	
+@if($search_ing || $search_cod_pat || $search_ubicacion || $search_ot || $search_equipo || $search_proveedor || $search_ini || $search_fin)
+	{{ $mant_preventivos_data->appends(array('search_ing' => $search_ing,'search_cod_pat'=>$search_cod_pat,'search_ubicacion'=>$search_ubicacion,'search_ot'=>$search_ot,'search_equipo'=>$search_equipo,'search_proveedor'=>$search_proveedor,'search_ini'=>$search_ini,'search_fin'=>$search_fin))->links() }}
+@else
+	{{ $mant_preventivos_data->links() }}
+@endif
+
 <div class="container">
   <!-- Modal -->
   <div class="modal fade" id="modal_list_ot" role="dialog">

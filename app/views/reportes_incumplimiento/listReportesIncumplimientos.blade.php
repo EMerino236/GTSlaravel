@@ -98,5 +98,11 @@
 				@endforeach				
 			</table>
 		</div>
-	</div>	
+	</div>
+	@if($fecha_desde || $fecha_hasta || $search_tipo_reporte || $search_proveedor)
+		{{ $reportes_data->appends(array('fecha_desde' => $fecha_desde,'fecha_hasta' => $fecha_hasta, 'search_tipo_reporte' => $search_tipo_reporte,
+			'search_proveedor' => $search_proveedor))->links() }}
+	@else	
+		{{ $reportes_data->links()}}
+	@endif	
 @stop

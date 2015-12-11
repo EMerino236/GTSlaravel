@@ -152,7 +152,14 @@ class OtVerificacionMetrologicaController extends BaseController {
 				$data["search_fin"] = Input::get('search_fin');
 				$data["search_servicio"] = Input::get('search_servicio');
 				$data["servicios"] = Servicio::lists('nombre','idservicio');
-				$data["verif_metrologicas_data"] = OrdenesTrabajoVerifMetrologica::searchOtsVerifMetrologica($data["search_ing"],$data["search_cod_pat"],$data["search_ubicacion"],$data["search_ot"],$data["search_equipo"],$data["search_proveedor"],$data["search_servicio"],$data["search_ini"],$data["search_fin"])->paginate(10);								
+				if($data["search_ing"]==null && $data["search_cod_pat"] == null && $data["search_ubicacion"]==null && $data["search_ot"]==null &&
+					$data["search_equipo"]==null && $data["search_proveedor"]==null && $data["search_ini"] == null && $data["search_fin"]==null &&
+					$data["search_servicio"]==0){
+					$data["verif_metrologicas_data"] = OrdenesTrabajoVerifMetrologica::getOtsVerifMetrologicaInfo()->paginate(10);
+				}else{
+					$data["verif_metrologicas_data"] = OrdenesTrabajoVerifMetrologica::searchOtsVerifMetrologica($data["search_ing"],$data["search_cod_pat"],$data["search_ubicacion"],$data["search_ot"],$data["search_equipo"],$data["search_proveedor"],$data["search_servicio"],$data["search_ini"],$data["search_fin"])->paginate(10);								
+				}
+				
 				return View::make('ot/verifMetrologica/listOtVerificacionMetrologica',$data);
 			}else{
 				return View::make('error/error',$data);

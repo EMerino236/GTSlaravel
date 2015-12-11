@@ -35,6 +35,8 @@ function limpiar_criterios(){
     $('#search_ot').val('');
     $('#search_ini').val('');
     $('#search_fin').val('');
+    $('#search_equipo').val('');
+    $('#search_servicio').val(0);
 }
 
 function eliminar_ot(event,el){

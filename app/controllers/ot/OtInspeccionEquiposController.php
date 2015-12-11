@@ -21,7 +21,7 @@ class OtInspeccionEquiposController extends BaseController {
 				$data["search_servicio"] = null;
 				$data["search_equipo"] = null;
 				$data["servicios"] = Servicio::lists('nombre','idservicio');
-				$data["inspecciones_equipos_data"] = OrdenesTrabajoInspeccionEquipo::getOtsInspecEquipoInfo()->get();
+				$data["inspecciones_equipos_data"] = OrdenesTrabajoInspeccionEquipo::getOtsInspecEquipoInfo()->paginate(10);
 				return View::make('ot/inspeccionEquipo/listOtInspecEquipos',$data);
 			}else{
 				return View::make('error/error',$data);
@@ -291,7 +291,12 @@ class OtInspeccionEquiposController extends BaseController {
 				$data["search_servicio"] = Input::get('search_servicio');
 				$data["search_equipo"] = Input::get('search_equipo');
 				$data["servicios"] = Servicio::lists('nombre','idservicio');
-				$data["inspecciones_equipos_data"] = OrdenesTrabajoInspeccionEquipo::searchOtsInspecEquipo($data["search_ing"],$data["search_ot"],$data["search_ini"],$data["search_fin"],$data["search_servicio"],$data["search_equipo"])->paginate(10);
+				if($data["search_ing"]==null && $data["search_ot"]==null && $data["search_ini"]==null && $data["search_fin"]==null
+					&& $data["search_servicio"] == 0 && $data["search_equipo"]==null){
+					$data["inspecciones_equipos_data"] = OrdenesTrabajoInspeccionEquipo::getOtsInspecEquipoInfo()->paginate(10);
+				}else{
+					$data["inspecciones_equipos_data"] = OrdenesTrabajoInspeccionEquipo::searchOtsInspecEquipo($data["search_ing"],$data["search_ot"],$data["search_ini"],$data["search_fin"],$data["search_servicio"],$data["search_equipo"])->paginate(10);
+				}
 				return View::make('ot/inspeccionEquipo/listOtInspecEquipos',$data);
 			}else{
 				return View::make('error/error',$data);
