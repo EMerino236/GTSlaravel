@@ -36,31 +36,33 @@
 	  </div>
 	</div>
 	{{ Form::close() }}</br>	
-	<div class="col-md-12">
-		<table class="table">
-			<tr class="info">
-				<th>Nombre de familia</th>
-				<th>Nombre de la marca</th>
-				<th>Tipo</th>
-				<th>Estado</th>
-			</tr>
-			@foreach($servicios_data as $servicio_data)
-			<tr class="@if($servicio_data->deleted_at) bg-danger @endif">
-				<td>
-					<a href="{{URL::to('/plantillas_servicios/create_servicio/')}}/{{$servicio_data->idfamilia_activo}}">{{$servicio_data->nombre_equipo}}</a>
-				</td>
-				<td>{{$servicio_data->marca->nombre}}</td>
-				<td>{{$servicio_data->tipo->nombre}}</td>
-				<td>{{$servicio_data->estado->nombre}}</td>
-			</tr>
-			@endforeach
-		</table>
-	</div>
-	<div class="col-md-12">
-	@if($search_nombre || $search_marca!=0)
-		{{ $servicios_data->appends(array('search_nombre' => $search_nombre, 'search_marca'=> $search_marca))->links() }}
-	@else
-		{{ $servicios_data->links() }}
-	@endif
+	<div class="row">
+		<div class="col-md-12">
+			<table class="table">
+				<tr class="info">
+					<th>Nombre de familia</th>
+					<th>Nombre de la marca</th>
+					<th>Tipo</th>
+					<th>Estado</th>
+				</tr>
+				@foreach($servicios_data as $servicio_data)
+				<tr class="@if($servicio_data->deleted_at) bg-danger @endif">
+					<td>
+						<a href="{{URL::to('/plantillas_servicios/create_servicio/')}}/{{$servicio_data->idfamilia_activo}}">{{$servicio_data->nombre_equipo}}</a>
+					</td>
+					<td>{{$servicio_data->marca->nombre}}</td>
+					<td>{{$servicio_data->tipo->nombre}}</td>
+					<td>{{$servicio_data->estado->nombre}}</td>
+				</tr>
+				@endforeach
+			</table>
+		</div>
+		<div class="col-md-12">
+		@if($search_nombre || $search_marca!=0)
+			{{ $servicios_data->appends(array('search_nombre' => $search_nombre, 'search_marca'=> $search_marca))->links() }}
+		@else
+			{{ $servicios_data->links() }}
+		@endif
+		</div>
 	</div>
 @stop

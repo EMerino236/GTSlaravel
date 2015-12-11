@@ -36,31 +36,33 @@
 	  </div>
 	</div>
 	{{ Form::close() }}</br>	
-	<div class="col-md-12">
-		<table class="table">
-			<tr class="info">
-				<th>Nombre de familia</th>
-				<th>Nombre de la marca</th>
-				<th>Tipo</th>
-				<th>Estado</th>
-			</tr>
-			@foreach($mantenimientos_data as $mantenimiento_data)
-			<tr class="@if($mantenimiento_data->deleted_at) bg-danger @endif">
-				<td>
-					<a href="{{URL::to('/plantillas_mant_preventivo/create_mantenimiento/')}}/{{$mantenimiento_data->idfamilia_activo}}">{{$mantenimiento_data->nombre_equipo}}</a>
-				</td>
-				<td>{{$mantenimiento_data->marca->nombre}}</td>
-				<td>{{$mantenimiento_data->tipo->nombre}}</td>
-				<td>{{$mantenimiento_data->estado->nombre}}</td>
-			</tr>
-			@endforeach
-		</table>
-	</div>
-	<div class="col-md-12">
-	@if($search_nombre || $search_marca!=0)
-		{{ $mantenimientos_data->appends(array('search_nombre' => $search_nombre, 'search_marca'=> $search_marca))->links() }}
-	@else
-		{{ $mantenimientos_data->links() }}
-	@endif
+	<div class="row">
+		<div class="col-md-12">
+			<table class="table">
+				<tr class="info">
+					<th>Nombre de familia</th>
+					<th>Nombre de la marca</th>
+					<th>Tipo</th>
+					<th>Estado</th>
+				</tr>
+				@foreach($mantenimientos_data as $mantenimiento_data)
+				<tr class="@if($mantenimiento_data->deleted_at) bg-danger @endif">
+					<td>
+						<a href="{{URL::to('/plantillas_mant_preventivo/create_mantenimiento/')}}/{{$mantenimiento_data->idfamilia_activo}}">{{$mantenimiento_data->nombre_equipo}}</a>
+					</td>
+					<td>{{$mantenimiento_data->marca->nombre}}</td>
+					<td>{{$mantenimiento_data->tipo->nombre}}</td>
+					<td>{{$mantenimiento_data->estado->nombre}}</td>
+				</tr>
+				@endforeach
+			</table>
+		</div>
+		<div class="col-md-12">
+		@if($search_nombre || $search_marca!=0)
+			{{ $mantenimientos_data->appends(array('search_nombre' => $search_nombre, 'search_marca'=> $search_marca))->links() }}
+		@else
+			{{ $mantenimientos_data->links() }}
+		@endif
+		</div>
 	</div>
 @stop
