@@ -1,18 +1,20 @@
 <div class="navbar-header">
+    
+     <a href="{{ URL::to('/') }}">
+        <img src="{{asset('img')}}/logo_gts.png" width="50" style="display:inline-block;margin-left:30px;"/>
+        <h4 style="display:inline-block;margin-top:5px;font-family:'softwareTest';font-weight:bold;"> GTS SOFTWARE </h4>
+    </a>    
     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
     </button>
-    <a href="{{ URL::to('/') }}">
-		<img src="{{asset('img')}}/logo_gts.png" width="50" style="display:inline-block;margin-left:30px;"/>
-        <h4 style="display:inline-block;margin-top:5px;font-family:'softwareTest';font-weight:bold;"> GTS SOFTWARE </h4>
-	</a>
 </div>
 <!-- /.navbar-header -->
 
 <ul class="nav navbar-top-links navbar-right">
+    
 	<li>
 		<a href="{{ URL::to('dashboard') }}"><i class="fa fa-dashboard fa-fw"></i> Panel</a>
     </li>
@@ -59,3 +61,4 @@
     <!-- /.dropdown -->
 </ul>
 <!-- /.navbar-top-links -->
+

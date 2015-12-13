@@ -132,7 +132,7 @@ body {
     src: url('../../fonts/software_tester_7.ttf'); /*URL to font*/
 }
 
-@media(min-width:768px) {
+@media(min-width:1100px) {
     .sidebar {
         z-index: 1;
         position: absolute;
@@ -146,6 +146,8 @@ body {
         margin-left: auto;
     }
 }
+
+
 
 .btn-outline {
     color: inherit;
