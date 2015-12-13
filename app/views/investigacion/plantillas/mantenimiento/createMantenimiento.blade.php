@@ -48,6 +48,55 @@
 						{{ Form::text('estado', $familia_activo->estado->nombre,array('id'=>'estado','class'=>'form-control','readonly')) }}
 					</div>
 				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Adjuntar Archivo</h3>
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="form-group col-md-4">
+								{{ Form::label('autor','Autor') }}
+								@if($guia)
+								{{ Form::text('autor',$guia->autor,array('class'=>'form-control')) }}
+								@else
+								{{ Form::text('autor',Input::old('autor'),array('class'=>'form-control')) }}
+								@endif
+							</div>
+							<div class="form-group col-md-4">
+								{{ Form::label('ubicacion','Ubicación') }}
+								@if($guia)
+								{{ Form::text('ubicacion',$guia->ubicacion,array('class'=>'form-control')) }}
+								@else
+								{{ Form::text('ubicacion',Input::old('ubicacion'),array('class'=>'form-control')) }}
+								@endif
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-4">
+								{{ Form::label('nombre','Nombre de Documento') }}
+								@if($guia)
+								{{ Form::text('nombre',$guia->nombre,array('class'=>'form-control')) }}
+								@else
+								{{ Form::text('nombre',Input::old('nombre'),array('class'=>'form-control')) }}
+								@endif
+							</div>
+							<div class="form-group col-md-4">
+								{{ Form::label('codigo_archivamiento','Código de Archivamiento') }}
+								@if($guia)
+								{{ Form::text('codigo_archivamiento',$guia->codigo_archivamiento,array('class'=>'form-control')) }}
+								@else
+								{{ Form::text('codigo_archivamiento',Input::old('codigo_archivamiento'),array('class'=>'form-control')) }}
+								@endif
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-8">
+								<label class="control-label">Seleccione un Documento</label>(png,jpe,jpeg,jpg,gif,bmp,zip,rar,pdf,doc,docx,xls,xlsx,ppt,pptx)
+								<input name="archivo" id="input-file" type="file" class="file file-loading" data-show-upload="false">
+							</div>
+						</div>
+					</div>
+				</div>
 				<div class="row">
 					<div class="form-group col-md-4 @if($errors->first('tareas')) has-error has-feedback @endif">
 						{{ Form::label('nombre_tarea','Nombre de Tarea') }}
@@ -60,17 +109,6 @@
 					<div class="form-group col-md-2">
 						{{ Form::label('','&zwnj;&zwnj;') }}
 						<div class="btn btn-primary btn-block" id="btnAgregarFila"><span class="glyphicon glyphicon-plus"></span> Agregar</div>
-					</div>
-				</div>
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h3 class="panel-title">Adjuntar Archivo</h3>
-					</div>
-					<div class="panel-body">
-						<div class="col-md-8">
-							<label class="control-label">Seleccione un Documento</label>(png,jpe,jpeg,jpg,gif,bmp,zip,rar,pdf,doc,docx,xls,xlsx,ppt,pptx)
-							<input name="archivo" id="input-file" type="file" class="file file-loading" data-show-upload="false">
-						</div>
 					</div>
 				</div>
 				<div class="row">
