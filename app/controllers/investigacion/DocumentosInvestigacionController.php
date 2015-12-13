@@ -8,7 +8,8 @@ class DocumentosInvestigacionController extends \BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if(	$data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 ||
+				$data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 12){
 				
 				$data["tipo_documentos"] = TipoDocumentoInf::orderBy('nombre','asc')->lists('nombre','idtipo_documentosinf');
 
@@ -35,7 +36,7 @@ class DocumentosInvestigacionController extends \BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 
 				$data["tipo_documentos"] = TipoDocumentoInf::orderBy('nombre','asc')->lists('nombre','idtipo_documentosinf');
 				return View::make('investigacion/documentos/createDocumento',$data);
@@ -54,7 +55,7 @@ class DocumentosInvestigacionController extends \BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				// Validate the info, create rules for the inputs
 				$rules = array(
 							'nombre' => 'required|max:100|unique:documentosinf',
@@ -113,7 +114,8 @@ class DocumentosInvestigacionController extends \BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 ||
+				$data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 12){
 				$data["tipo_documentos"] = TipoDocumentoInf::lists('nombre','idtipo_documentosinf');
 
 				$data["search_nombre"] = Input::get('search_nombre');
@@ -139,7 +141,7 @@ class DocumentosInvestigacionController extends \BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if(($data["user"]->idrol == 1) && $id){
+			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4) && $id){
 				$data["tipo_documentos"] = TipoDocumentoInf::lists('nombre','idtipo_documentosinf');
 				$data["documento_info"] = DocumentoInf::searchDocumentoById($id)->get();
 				$data["archivo"] = basename($data["documento_info"][0]->url);
@@ -162,7 +164,7 @@ class DocumentosInvestigacionController extends \BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				// Validate the info, create rules for the inputs
 				$rules = array(
 							'nombre' => 'required|max:100',
@@ -226,7 +228,8 @@ class DocumentosInvestigacionController extends \BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 ||
+				$data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 12){
 				$rutaDestino = Input::get('url').Input::get('nombre_archivo_encriptado');
 		        $headers = array(
 		              'Content-Type',mime_content_type($rutaDestino),
@@ -245,7 +248,7 @@ class DocumentosInvestigacionController extends \BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				$documento_id = Input::get('documento_id');
 				$url = "documento_investigacion/edit_documento"."/".$documento_id;
 				$documento = DocumentoInf::withTrashed()->find($documento_id);
@@ -265,7 +268,7 @@ class DocumentosInvestigacionController extends \BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				$documento_id = Input::get("documento_id");
 				$url = "documento_investigacion/edit_documento"."/".$documento_id;
 				$documento = DocumentoInf::find($documento_id);

@@ -8,7 +8,7 @@ class ReporteETESController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				$data["tipo_reporte_etes"] = TipoReporteETES::lists('nombre','idtipo_reporte_etes');
 				$data["programaciones_reporte_etes"] = ProgramacionReporteETES::where('idestado_programacion_reportes',1)
 																			->where('iduser',$data["user"]->id)
@@ -35,7 +35,7 @@ class ReporteETESController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				// Validate the info, create rules for the inputs	
 				$rules = array(
 							'idprogramacion_reporte_etes' => 'required',
@@ -103,7 +103,7 @@ class ReporteETESController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				$data["tipo_reporte_etes"] = TipoReporteETES::lists('nombre','idtipo_reporte_etes');
 				$data["reporte_etes_info"] = ReporteETES::withTrashed()->find($id);
 				$data["programacion_reporte_etes_info"] = ProgramacionReporteETES::withTrashed()->find($data["reporte_etes_info"]->idprogramacion_reporte_etes);
@@ -123,7 +123,9 @@ class ReporteETESController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 ||
+				$data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || 
+				$data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 				$data["search_numero_reporte"] = null;	
 				$data["search_fecha_ini"] = null;			
 				$data["search_fecha_fin"] = null;
@@ -149,7 +151,9 @@ class ReporteETESController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 ||
+				$data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || 
+				$data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 				$data["search_numero_reporte"] = Input::get('search_numero_reporte');
 				$data["search_fecha_ini"] = Input::get('search_fecha_ini');			
 				$data["search_fecha_fin"] = Input::get('search_fecha_fin');		
@@ -192,7 +196,9 @@ class ReporteETESController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 ||
+				$data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || 
+				$data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 				$reporte_etes = ReporteETES::find($id);
 				$file= $reporte_etes->url.$reporte_etes->nombre_archivo_encriptado;
 				$headers = array(
@@ -213,7 +219,7 @@ class ReporteETESController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				$idreporte_ETES = Input::get('idreporte_ETES');
 				$url = "reporte_etes/edit_reporte_etes/".$idreporte_ETES;
 				$reporte_etes = ReporteETES::find($idreporte_ETES);
@@ -235,7 +241,7 @@ class ReporteETESController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				$idreporte_ETES = Input::get('idreporte_ETES');
 				$url = "reporte_etes/edit_reporte_etes/".$idreporte_ETES;
 				$reporte_etes = ReporteETES::withTrashed()->find($idreporte_ETES);

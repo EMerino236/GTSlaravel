@@ -554,6 +554,7 @@ Route::group(array('prefix'=>'documento_investigacion', 'before'=>'auth'),functi
 Route::group(array('prefix'=>'plantillas_servicios', 'before'=>'auth'),function(){
 	Route::get('/list_servicios','PlantillasServiciosController@list_servicios');
 	Route::get('/search_servicio','PlantillasServiciosController@search_servicio');
+	Route::get('/show_servicio/{id}','PlantillasServiciosController@show_servicio');
 	Route::get('/create_servicio/{id}','PlantillasServiciosController@render_create_servicio');
 	Route::post('/create_servicio/{id}','PlantillasServiciosController@submit_create_servicio');
 });
@@ -562,6 +563,7 @@ Route::group(array('prefix'=>'plantillas_servicios', 'before'=>'auth'),function(
 Route::group(array('prefix'=>'plantillas_mant_preventivo', 'before'=>'auth'),function(){
 	Route::get('/list_mantenimientos','PlantillasMantenimientoPrevController@list_mantenimientos');
 	Route::get('/search_mantenimiento','PlantillasMantenimientoPrevController@search_mantenimiento');
+	Route::get('/show_mantenimiento/{id}','PlantillasMantenimientoPrevController@show_mantenimiento');
 	Route::get('/create_mantenimiento/{id}','PlantillasMantenimientoPrevController@render_create_mantenimiento');
 	Route::post('/create_mantenimiento/{id}','PlantillasMantenimientoPrevController@submit_create_mantenimiento');
 });

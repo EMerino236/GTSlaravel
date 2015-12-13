@@ -48,7 +48,7 @@
 				@foreach($servicios_data as $servicio_data)
 				<tr class="@if($servicio_data->deleted_at) bg-danger @endif">
 					<td>
-						<a href="{{URL::to('/plantillas_servicios/create_servicio/')}}/{{$servicio_data->idfamilia_activo}}">{{$servicio_data->nombre_equipo}}</a>
+						<a href="{{URL::to('/plantillas_servicios/show_servicio/')}}/{{$servicio_data->idfamilia_activo}}">{{$servicio_data->nombre_equipo}}</a>
 					</td>
 					<td>{{$servicio_data->marca->nombre}}</td>
 					<td>{{$servicio_data->tipo->nombre}}</td>

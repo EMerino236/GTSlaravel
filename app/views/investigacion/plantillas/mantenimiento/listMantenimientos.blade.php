@@ -48,7 +48,7 @@
 				@foreach($mantenimientos_data as $mantenimiento_data)
 				<tr class="@if($mantenimiento_data->deleted_at) bg-danger @endif">
 					<td>
-						<a href="{{URL::to('/plantillas_mant_preventivo/create_mantenimiento/')}}/{{$mantenimiento_data->idfamilia_activo}}">{{$mantenimiento_data->nombre_equipo}}</a>
+						<a href="{{URL::to('/plantillas_mant_preventivo/show_mantenimiento/')}}/{{$mantenimiento_data->idfamilia_activo}}">{{$mantenimiento_data->nombre_equipo}}</a>
 					</td>
 					<td>{{$mantenimiento_data->marca->nombre}}</td>
 					<td>{{$mantenimiento_data->tipo->nombre}}</td>
