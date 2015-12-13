@@ -73,6 +73,8 @@ class PlantillasMantenimientoPrevController extends \BaseController {
 			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 ||
 				$data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 10 || $data["user"]->idrol == 12 && $id){
 				$data["familia_activo"] = FamiliaActivo::find($id);
+				//BUSCAR GUIA RELACIONADA A FAMILIA DE ACTIVO
+				$data["guia"] = null;
 				$data["tareas"] = TareaOtPreventivo::where('idfamilia_activo',$data["familia_activo"]->idfamilia_activo)->get();
 				return View::make('investigacion/plantillas/mantenimiento/showMantenimiento',$data);
 			}else{
@@ -113,7 +115,8 @@ class PlantillasMantenimientoPrevController extends \BaseController {
 			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				// Validate the info, create rules for the inputs
 				$rules = array(
-							'familia_id' => 'required',
+							'familia_id' 	=> 'required',
+							'archivo'		=> 'max:15360|mimes:png,jpe,jpeg,jpg,gif,bmp,zip,rar,pdf,doc,docx,xls,xlsx,ppt,pptx',
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules);
@@ -121,14 +124,11 @@ class PlantillasMantenimientoPrevController extends \BaseController {
 				if($validator->fails()){
 					return Redirect::to('plantillas_mant_preventivo/create_mantenimiento/'.$id)->withErrors($validator)->withInput(Input::all());
 				}else{
-					var_dump(Input::all());
 					$data['tareas_borradas'] = Input::get('tareas_borradas');
 					$data['tareas'] = Input::get('tareas');
 					$data['usuarios'] = Input::get('usuarios');
-				    //DO SOMETHING
 				    
 				    if(!$data['tareas_borradas'] == ""){
-				    	var_dump("borrar");
 				    	$tareas_borradas = json_decode($data['tareas_borradas']);
 				    	foreach ($tareas_borradas as $tarea) {
 				    		$tarea_borrar = TareaOtPreventivo::find($tarea);
@@ -137,8 +137,6 @@ class PlantillasMantenimientoPrevController extends \BaseController {
 				    }
 
 				    if($data['tareas']!="" && $data['usuarios']!=""){
-				    	//crear tareas
-				    	var_dump("crear");
 				    	$tareas = $data['tareas'];
 				    	$usuarios = $data['usuarios'];
 				    	foreach ($tareas as $key => $tarea) {
@@ -150,6 +148,11 @@ class PlantillasMantenimientoPrevController extends \BaseController {
 				    	}
 				    }
 				    
+				    //GUARDAR GUIA DE MANTENIMIENTO
+				    if(isset($data['archivo'])){
+
+				    }
+
 					Session::flash('message', 'Se modificaron correctamente las Tareas.');				
 					return Redirect::to('plantillas_mant_preventivo/show_mantenimiento/'.$id);
 				}

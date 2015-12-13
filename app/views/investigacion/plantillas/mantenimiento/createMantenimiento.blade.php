@@ -11,6 +11,7 @@
 		<div class="alert alert-danger" role="alert">
 			<p><strong>{{ $errors->first('usuarios') }}</strong></p>
 			<p><strong>{{ $errors->first('tareas') }}</strong></p>
+			<p><strong>{{ $errors->first('archivo') }}</strong></p>
 		</div>
 	@endif
 
@@ -21,7 +22,7 @@
 		<div class="alert alert-danger">{{ Session::get('error') }}</div>
 	@endif
 
-	{{ Form::open(array('url'=>'plantillas_mant_preventivo/create_mantenimiento/'.$familia_activo->idfamilia_activo, 'role'=>'form')) }}
+	{{ Form::open(array('url'=>'plantillas_mant_preventivo/create_mantenimiento/'.$familia_activo->idfamilia_activo,'files'=>true, 'role'=>'form')) }}
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">Datos del Mantenimiento</h3>
@@ -59,6 +60,17 @@
 					<div class="form-group col-md-2">
 						{{ Form::label('','&zwnj;&zwnj;') }}
 						<div class="btn btn-primary btn-block" id="btnAgregarFila"><span class="glyphicon glyphicon-plus"></span> Agregar</div>
+					</div>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Adjuntar Archivo</h3>
+					</div>
+					<div class="panel-body">
+						<div class="col-md-8">
+							<label class="control-label">Seleccione un Documento</label>(png,jpe,jpeg,jpg,gif,bmp,zip,rar,pdf,doc,docx,xls,xlsx,ppt,pptx)
+							<input name="archivo" id="input-file" type="file" class="file file-loading" data-show-upload="false">
+						</div>
 					</div>
 				</div>
 				<div class="row">
@@ -110,5 +122,11 @@
 			</div>
 		</div>		
 	{{ Form::close() }}
-
+	
+	<script>
+		$("#input-file").fileinput({
+		    language: "es",
+		    allowedFileExtensions: ["png","jpe","jpeg","jpg","gif","bmp","zip","rar","pdf","doc","docx","xls","xlsx","ppt","pptx"]
+		});
+	</script>
 @stop

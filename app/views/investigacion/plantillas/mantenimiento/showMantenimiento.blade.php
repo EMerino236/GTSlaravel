@@ -47,6 +47,18 @@
 				</div>
 			</div>
 			<div class="row">
+				<div class="form-group col-md-4">
+					{{ Form::label('guia','Guía') }}
+					@if($guia == null)
+						{{Form::text('guia', 'Aún no ha subido una guía', ['class'=>'form-control', 'readonly'])}}
+					@else
+						{{ Form::button('<span class="glyphicon glyphicon-file"></span> Descargar', array('id'=>'submit_create', 'type'=>'submit','class' => 'btn btn-primary btn-block')) }}
+					@endif
+				</div>
+				<div class="form-group col-md-4">
+				</div>
+			</div>
+			<div class="row">
 				<div class="col-md-6">
 					<div class="panel panel-default">
 					  	<div class="panel-heading">
