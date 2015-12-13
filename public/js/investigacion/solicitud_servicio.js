@@ -23,18 +23,20 @@ $( document ).ready(function(){
 
 function deleteRow(event,el,idTarea)
 {
+	console.log(idTarea);
 	event.preventDefault();
-	var objTareas = $('input[name=tareas_borradas]').val();
-	if(objTareas == ""){
-		tareas = [];
-	}else{
-		tareas = JSON.parse($('input[name=tareas_borradas]').val());
+	if(idTarea!=null){
+		var objTareas = $('input[name=tareas_borradas]').val();
+		if(objTareas == ""){
+			tareas = [];
+		}else{
+			tareas = JSON.parse($('input[name=tareas_borradas]').val());
+		}
+		tareas.push(idTarea);
+		
+		tareas = JSON.stringify(tareas);
+		$('input[name=tareas_borradas]').val(tareas);
 	}
-	tareas.push(idTarea);
-	
-	tareas = JSON.stringify(tareas);
-	$('input[name=tareas_borradas]').val(tareas);
-
 	var parent = el.parentNode;
 	parent = parent.parentNode;
 	parent.parentNode.removeChild(parent);
