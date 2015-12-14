@@ -1,7 +1,7 @@
 <div class="navbar-header">
     
      <a href="{{ URL::to('/') }}">
-        <img src="{{asset('img')}}/logo_gts.png" width="50" style="display:inline-block;margin-left:30px;"/>
+        <img src="{{asset('img')}}/logo_gts.png" width="50" style="display:inline-block;margin-left:22px;"/>
         <h4 style="display:inline-block;margin-top:5px;font-family:'softwareTest';font-weight:bold;"> GTS SOFTWARE </h4>
     </a>    
     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
