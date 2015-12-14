@@ -1,6 +1,6 @@
 <div class="navbar-header">
     
-     <a href="{{ URL::to('/') }}">
+     <a href="{{ URL::to('/') }}" style="text-decoration:none;">
         <img src="{{asset('img')}}/logo_gts.png" width="50" style="display:inline-block;margin-left:22px;"/>
         <h4 style="display:inline-block;margin-top:5px;font-family:'softwareTest';font-weight:bold;"> GTS SOFTWARE </h4>
     </a>    

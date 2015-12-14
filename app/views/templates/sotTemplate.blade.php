@@ -43,6 +43,7 @@
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
     <script src="{{asset('js/bootstrap-dialog.min.js') }}"></script>   
     <script src="{{ asset('js/sot/sot.js') }}"></script>
+    <script src="{{ asset('js/sot/createSot.js') }}"></script>
     
 </head>
 

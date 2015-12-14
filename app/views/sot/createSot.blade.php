@@ -53,7 +53,7 @@
 				<div class="row">
 					<div class="col-md-6">
 						{{ Form::label('fecha_solicitud','Fecha de solicitud') }}
-						<div class="fecha-hora form-group input-group date @if($errors->first('fecha_solicitud')) has-error has-feedback @endif">
+						<div id="fecha_solicitud" class="fecha-hora form-group input-group date @if($errors->first('fecha_solicitud')) has-error has-feedback @endif">
 							{{ Form::text('fecha_solicitud',Input::old('fecha_solicitud'),array('class'=>'form-control')) }}
 							<span class="input-group-addon">
 		                        <span class="glyphicon glyphicon-calendar"></span>

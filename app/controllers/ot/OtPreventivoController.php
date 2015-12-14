@@ -429,11 +429,11 @@ class OtPreventivoController extends BaseController {
 		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 			$tarea = new TareaOtPreventivo;
 			$tarea->nombre = Input::get('nombre_tarea');
-			$tarea->estado = 1;
 			$activo = Activo::find(Input::get('idactivo'));
 			$modelo_equipo = ModeloActivo::find($activo->idmodelo_equipo);
 			$idfamilia = $modelo_equipo->idfamilia_activo;
 			$tarea->idfamilia_activo = $idfamilia;
+			$tarea->creador = $data["user"]->id;
 			$tarea->save();
 
 			$otPreventivoxtarea = new OrdenesTrabajoPreventivoxTarea;

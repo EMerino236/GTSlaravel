@@ -2,14 +2,22 @@ $( document ).ready(function(){
 	
 	init_ot_create();
 
-	
-
 	$("#submit-tarea").click(function(e){
 		idot_preventivo = $('#idot_preventivo').val();
 		e.preventDefault;
 		if($("input[name=nombre_tarea]").val().length<1){
 			$("input[name=nombre_tarea]").parent().addClass("has-error has-feedback");
-			alert("Ingrese una tarea válida.");
+			dialog = BootstrapDialog.show({
+	            title: 'Advertencia',
+	            message: 'Ingrese una tarea válida',
+	            type : BootstrapDialog.TYPE_DANGER,
+	            buttons: [{
+	                label: 'Aceptar',
+	                action: function(dialog) {
+	                    dialog.close();
+	                }
+	            }]
+	        });
 		}else{
 			$("input[name=nombre_tarea]").parent().removeClass("has-error has-feedback");
 			BootstrapDialog.confirm({
@@ -169,9 +177,17 @@ $( document ).ready(function(){
 			        }
 			    });				
 			}else{
-				$('#modal_text_ot').html('<p>'+error_str+'</p>');
-				$('#modal_header_ot').addClass('bg-danger');
-            	$('#modal_info_ot').modal('show');    
+				dialog = BootstrapDialog.show({
+		            title: 'Advertencia',
+		            message: error_str,
+		            type : BootstrapDialog.TYPE_DANGER,
+		            buttons: [{
+		                label: 'Aceptar',
+		                action: function(dialog) {
+		                    dialog.close();
+		                }
+		            }]
+		        });    
 			}
 		
 	});
@@ -248,9 +264,17 @@ $( document ).ready(function(){
 			    
 				
 			}else{
-				$('#modal_text_ot').html('<p>'+error_str+'</p>');
-				$('#modal_header_ot').addClass('bg-danger');
-            	$('#modal_info_ot').modal('show');   
+				dialog = BootstrapDialog.show({
+		            title: 'Advertencia',
+		            message: error_str,
+		            type : BootstrapDialog.TYPE_DANGER,
+		            buttons: [{
+		                label: 'Aceptar',
+		                action: function(dialog) {
+		                    dialog.close();
+		                }
+		            }]
+		        });
 			}
 		
 	});

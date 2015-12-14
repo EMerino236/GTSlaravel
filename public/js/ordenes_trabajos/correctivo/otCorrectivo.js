@@ -3,7 +3,17 @@ $( document ).ready(function(){
 		e.preventDefault;
 		if($("input[name=nombre_tarea]").val().length <1){
 			$("input[name=nombre_tarea]").parent().addClass("has-error has-feedback");
-			alert("Ingrese una tarea válida.");
+			dialog = BootstrapDialog.show({
+	            title: 'Advertencia',
+	            message: 'Ingrese una tarea válida',
+	            type : BootstrapDialog.TYPE_DANGER,
+	            buttons: [{
+	                label: 'Aceptar',
+	                action: function(dialog) {
+	                    dialog.close();
+	                }
+	            }]
+	        });
 		}else{
 			$("input[name=nombre_tarea]").parent().removeClass("has-error has-feedback");
 			BootstrapDialog.confirm({
@@ -129,7 +139,17 @@ $( document ).ready(function(){
 								}
 							});
 						}else{
-							alert(error_str);
+							dialog = BootstrapDialog.show({
+					            title: 'Advertencia',
+					            message: error_str,
+					            type : BootstrapDialog.TYPE_DANGER,
+					            buttons: [{
+					                label: 'Aceptar',
+					                action: function(dialog) {
+					                    dialog.close();
+					                }
+					            }]
+					        });
 						}		
 			        }
 			    }
@@ -206,7 +226,17 @@ $( document ).ready(function(){
 							}
 						});						       
 					}else{
-						alert(error_str);
+						dialog = BootstrapDialog.show({
+				            title: 'Advertencia',
+				            message: error_str,
+				            type : BootstrapDialog.TYPE_DANGER,
+				            buttons: [{
+				                label: 'Aceptar',
+				                action: function(dialog) {
+				                    dialog.close();
+				                }
+				            }]
+				        });
 					}
 				}					        
 		    }

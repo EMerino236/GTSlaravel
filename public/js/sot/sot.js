@@ -13,6 +13,7 @@ $( document ).ready(function(){
 
     
     
+    
     $('#cod_pat').change(function(){
         search_equipo_ajax();
     });
