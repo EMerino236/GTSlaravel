@@ -377,6 +377,7 @@
 			    </div>
 			</div>
 		</div>
+		
 		@if($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4)
 			<div class="row">
 				<div class="form-group col-md-2">
