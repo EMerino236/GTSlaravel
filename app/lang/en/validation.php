@@ -19,6 +19,7 @@ return array(
 	"alpha"                => "The :attribute may only contain letters.",
 	"alpha_dash"           => "The :attribute may only contain letters, numbers, and dashes.",
 	"alpha_num"            => "The :attribute may only contain letters and numbers.",
+	"validator_marca"	   => "The :attribue may only contain letters, numbers, spaces, dashes and &.",
 	"array"                => "The :attribute must be an array.",
 	"before"               => "The :attribute must be a date before :date.",
 	"between"              => array(

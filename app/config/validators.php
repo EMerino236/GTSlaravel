@@ -12,3 +12,18 @@ Validator::extend('alpha_num_dash', function($attribute, $value)
 {
 	return preg_match('/^[a-zA-Z0-9-_]+$/', $value);
 });
+
+Validator::extend('validator_marca', function($attribute, $value)
+{
+	return preg_match('/^[a-zA-Z0-9-&. ]+$/', $value);
+});
+
+Validator::extend('validator_grupo', function($attribute, $value)
+{
+	return preg_match('/^[a-zA-Z0-9- _]+$/', $value);
+});
+
+Validator::extend('validator_grupo_descripcion', function($attribute, $value)
+{
+	return preg_match('/^[a-zA-Z0-9- :_]+$/', $value);
+});

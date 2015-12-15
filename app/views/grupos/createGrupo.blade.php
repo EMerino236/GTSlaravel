@@ -36,7 +36,7 @@
 					<div class="row">								
 						<div class="form-group col-md-4 @if($errors->first('nombre_grupo')) has-error has-feedback @endif">
 							{{ Form::label('nombre_grupo','Nombre del Grupo') }}<span style="color:red">*</span>
-							{{ Form::text('nombre_grupo',Input::old('nombre_grupo'),['class' => 'form-control'])}}
+							{{ Form::text('nombre_grupo',Input::old('nombre_grupo'),['class' => 'form-control','maxlength'=>'100'])}}
 						</div>
 						<div class="form-group col-md-4 @if($errors->first('usuario_responsable')) has-error has-feedback @endif">
 							{{ Form::label('usuario_responsable','Usuario Responsable') }}<span style="color:red">*</span>

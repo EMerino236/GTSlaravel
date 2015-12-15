@@ -35,9 +35,9 @@
 			<div class="form-group col-xs-4 @if($errors->first('nombre_marca')) has-error has-feedback @endif">
 				{{ Form::label('nombre_marca','Nombre de Marca') }}<span style="color:red">*</span>
 				@if($marca_info->deleted_at)
-					{{ Form::text('nombre_marca',$marca_info->nombre,array('class'=>'form-control','readonly'=>'')) }}
+					{{ Form::text('nombre_marca',$marca_info->nombre,array('class'=>'form-control','readonly'=>'','maxlength'=>'100')) }}
 				@else
-					{{ Form::text('nombre_marca',$marca_info->nombre,array('class'=>'form-control')) }}
+					{{ Form::text('nombre_marca',$marca_info->nombre,array('class'=>'form-control','maxlength'=>'100')) }}
 				@endif
 			</div>
 		</div>

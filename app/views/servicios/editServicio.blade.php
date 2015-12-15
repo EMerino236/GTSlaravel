@@ -31,39 +31,41 @@
 				<div class="panel panel-default">
 				  	<div class="panel-heading">Datos Generales</div>
 				  	<div class="panel-body">	
-						<div class="row form-group">								
+						<div class="row">								
 							<div class="form-group col-md-4 @if($errors->first('nombre')) has-error has-feedback @endif">
 								{{ Form::label('nombre','Nombre del Servicio') }}
 								@if($servicio_info->deleted_at)
-									{{ Form::text('nombre',$servicio_info->nombre,array('class'=>'form-control','readonly'=>'')) }}
+									{{ Form::text('nombre',$servicio_info->nombre,array('class'=>'form-control','readonly'=>'','maxlength'=>'100')) }}
 								@else
-									{{ Form::text('nombre',$servicio_info->nombre,array('class'=>'form-control')) }}
+									{{ Form::text('nombre',$servicio_info->nombre,array('class'=>'form-control','maxlength'=>'100')) }}
 								@endif
-							</div>
-							<div class="form-group col-md-4 @if($errors->first('descripcion')) has-error has-feedback @endif">
-								{{ Form::label('descripcion','Descripción') }}
-								@if($servicio_info->deleted_at)
-									{{ Form::text('descripcion',$servicio_info->descripcion,array('class'=>'form-control','readonly'=>'')) }}
-								@else
-									{{ Form::text('descripcion',$servicio_info->descripcion,array('class'=>'form-control')) }}
-								@endif							
-							</div>						
+							</div>					
 							<div class="form-group col-md-4 @if($errors->first('tipo_servicio')) has-error has-feedback @endif">
 								{{ Form::label('tipo_servicio','Tipo de Servicio') }}
 								@if($servicio_info->deleted_at)
-									{{ Form::select('tipo_servicio',array('0'=> 'Seleccione')+$tipo_servicios,$servicio_info->idtipo_servicios,array('class'=>'form-control','readonly'=>'')) }}
+									{{ Form::select('tipo_servicio',array(''=> 'Seleccione')+$tipo_servicios,$servicio_info->idtipo_servicios,array('class'=>'form-control','readonly'=>'')) }}
 								@else
-									{{ Form::select('tipo_servicio',array('0'=> 'Seleccione')+$tipo_servicios,$servicio_info->idtipo_servicios,array('class'=>'form-control')) }}
+									{{ Form::select('tipo_servicio',array(''=> 'Seleccione')+$tipo_servicios,$servicio_info->idtipo_servicios,array('class'=>'form-control')) }}
 								@endif
 							</div>
 							<div class="form-group col-md-4 @if($errors->first('area')) has-error has-feedback @endif">
 								{{ Form::label('area','Area') }}
-								{{ Form::select('area',array('0'=> 'Seleccione')+$areas, $servicio_info->idarea,array('class'=>'form-control',"onchange" => "fill_usuario_responsable_servicio()",'id'=>'area'))}}
+								{{ Form::select('area',array(''=> 'Seleccione')+$areas, $servicio_info->idarea,array('class'=>'form-control',"onchange" => "fill_usuario_responsable_servicio()",'id'=>'area'))}}
 							</div>
 							<div class="form-group col-md-4 @if($errors->first('personal')) has-error has-feedback @endif">
 								{{ Form::label('personal','Usuario Responsable') }}
-								{{ Form::select('personal',array('0'=> 'Seleccione')+$personal, $servicio_info->id_usuario_responsable,array('class'=>'form-control','id'=>'usuario'))}}
+								{{ Form::select('personal',array(''=> 'Seleccione')+$personal, $servicio_info->id_usuario_responsable,array('class'=>'form-control','id'=>'usuario'))}}
 							</div>
+						</div>
+						<div class="row">							
+							<div class="form-group col-md-12 @if($errors->first('descripcion')) has-error has-feedback @endif">
+								{{ Form::label('descripcion','Descripción (MAX:200 Caracteres)') }}
+								@if($servicio_info->deleted_at)
+									{{ Form::textarea('descripcion',$servicio_info->descripcion,array('class'=>'form-control','readonly'=>'','maxlength'=>'200','rows'=>'4','style'=>'resize:none')) }}
+								@else
+									{{ Form::textarea('descripcion',$servicio_info->descripcion,array('class'=>'form-control','maxlength'=>'200','rows'=>'4','style'=>'resize:none')) }}
+								@endif							
+							</div>	
 						</div>
 					</div>			
 				</div>

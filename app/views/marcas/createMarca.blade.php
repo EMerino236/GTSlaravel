@@ -33,7 +33,7 @@
   		<div class="panel-body">
 			<div class="form-group col-xs-4 @if($errors->first('nombre_marca')) has-error has-feedback @endif">
 				{{ Form::label('nombre_marca','Nombre de Marca') }}<span style="color:red">*</span>
-				{{ Form::text('nombre_marca',Input::old('nombre_marca'),array('class'=>'form-control')) }}
+				{{ Form::text('nombre_marca',Input::old('nombre_marca'),array('class'=>'form-control','maxlength'=>'100')) }}
 			</div>
 		</div>
 	</div>

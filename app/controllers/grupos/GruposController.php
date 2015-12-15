@@ -78,8 +78,8 @@ class GruposController extends BaseController
 					);
 
 				$rules = array(
-						'nombre_grupo' => 'required|max:100|unique:grupos,nombre',
-						'descripcion_grupo' => 'max:200',
+						'nombre_grupo' => 'required|max:100|validator_grupo|unique:grupos,nombre',
+						'descripcion_grupo' => 'max:200|validator_grupo_descripcion',
 						'usuario_responsable'=>'required',				
 					);
 				// Run the validation rules on the inputs from the form
@@ -139,6 +139,7 @@ class GruposController extends BaseController
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
 				// Validate the info, create rules for the inputs
+				$grupo = Grupo::find(Input::get('grupo_id'));
 				$attributes = array(
 						'nombre_grupo' => 'Nombre del Grupo',
 						'usuario_responsable' => 'Usuario Responsable',
@@ -148,8 +149,8 @@ class GruposController extends BaseController
 				$messages = array(
 					);
 				$rules = array(
-							'nombre_grupo' => 'required|max:100|unique:grupos,nombre',
-							'descripcion_grupo' => 'required|max:200',
+							'nombre_grupo' => 'required|max:100|validator_grupo|unique:grupos,nombre,'.$grupo->idgrupo.',idgrupo',
+							'descripcion_grupo' => 'max:200|validator_grupo_descripcion',
 							'usuario_responsable' =>'required',
 						);
 				// Run the validation rules on the inputs from the form

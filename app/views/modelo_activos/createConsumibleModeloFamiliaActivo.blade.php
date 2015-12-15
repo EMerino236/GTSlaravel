@@ -33,15 +33,15 @@
 		  		<div class="row">
 		  			<div class="form-group col-md-4 @if($errors->first('nombre_consumible')) has-error has-feedback @endif">
 						{{ Form::label('nombre_consumible','Nombre') }}
-						{{ Form::text('nombre_consumible',Input::old('nombre_consumible'),array('class'=>'form-control')) }}
+						{{ Form::text('nombre_consumible',Input::old('nombre_consumible'),array('class'=>'form-control','maxlength'=>'45')) }}
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('cantidad_consumible')) has-error has-feedback @endif">
 						{{ Form::label('cantidad_consumible','Cantidad') }}
-						{{ Form::text('cantidad_consumible',Input::old('cantidad_consumible'),array('class'=>'form-control')) }}
+						{{ Form::text('cantidad_consumible',Input::old('cantidad_consumible'),array('class'=>'form-control','maxlength'=>'45')) }}
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('costo_consumible')) has-error has-feedback @endif">
 						{{ Form::label('costo_consumible','Costo') }}
-						{{ Form::text('costo_consumible',Input::old('costo_consumible'),array('class'=>'form-control')) }}
+						{{ Form::text('costo_consumible',Input::old('costo_consumible'),array('class'=>'form-control','maxlength'=>'45')) }}
 					</div>
 		  		</div>
 			</div>

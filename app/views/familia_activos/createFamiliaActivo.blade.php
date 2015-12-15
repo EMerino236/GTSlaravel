@@ -9,8 +9,9 @@
 
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			<p><strong>{{ $errors->first('nombre_equipo') }}</strong></p>
-			<p><strong>{{ $errors->first('modelo') }}</strong></p>
+			<p><strong>{{ $errors->first('idmarca') }}</strong></p>
 			<p><strong>{{ $errors->first('idtipo_activo') }}</strong></p>
 			<p><strong>{{ $errors->first('nombre_siga') }}</strong></p>
 		</div>
@@ -47,12 +48,12 @@
 			  		<div class="row">
 			  			<div class="form-group col-md-6 @if($errors->first('nombre_equipo')) has-error has-feedback @endif">
 							{{ Form::label('nombre_equipo','Nombre de Equipo') }}<span style="color:red">*</span>
-							{{ Form::text('nombre_equipo',Input::old('nombre_equipo'),array('class'=>'form-control')) }}
+							{{ Form::text('nombre_equipo',Input::old('nombre_equipo'),array('class'=>'form-control','maxlength'=>'100')) }}
 						</div>
 
 						<div class="form-group col-md-6 @if($errors->first('nombre_siga')) has-error has-feedback @endif">
 							{{ Form::label('nombre_siga','Nombre SIGA') }}<span style="color:red">*</span>
-							{{ Form::text('nombre_siga',Input::old('nombre_siga'),array('class'=>'form-control')) }}
+							{{ Form::text('nombre_siga',Input::old('nombre_siga'),array('class'=>'form-control','maxlength'=>'100')) }}
 						</div>
 			  		</div>
 				</div>

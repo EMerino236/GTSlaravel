@@ -56,43 +56,20 @@
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                             <li>
-                                <a href="#">Áreas <span class="fa arrow"></span></a>
-                                <ul class="nav nav-second-level">
-                                    <li>{{ HTML::link('/areas/create_area','Nueva Área') }}</li>
-                                    <li>{{ HTML::link('/areas/list_areas','Buscar Área') }}</li>
-                                </ul>
-                                <!-- /.nav-second-level -->
+                                <a href="{{URL::to('/areas/list_areas/')}}">Áreas</a>                                
                             </li>
                             <li>
-                                <a href="#">Familias de Equipos <span class="fa arrow"></span></a>
-                                <ul class="nav nav-second-level">
-                                    <li>{{ HTML::link('/familia_activos/create_familia_activo','Nueva Familia de Equipo') }}</li>
-                                    <li>{{ HTML::link('/familia_activos/list_familia_activos','Buscar Familia de Equipo') }}</li>
-                                </ul>
-                                <!-- /.nav-second-level -->
+                                <a href="{{URL::to('/familia_activos/list_familia_activos')}}">Familias de Equipos</a>
                             </li>
                             <li>
-                                <a href="#">Grupos <span class="fa arrow"></span></a>
-                                <ul class="nav nav-second-level">
-                                    <li>{{ HTML::link('/grupos/create_grupo','Nuevo Grupo') }}</li>
-                                    <li>{{ HTML::link('/grupos/list_grupos','Buscar Grupo') }}</li>
-                                </ul>
-                                <!-- /.nav-second-level -->
+                                <a href="{{URL::to('/grupos/list_grupos')}}">Grupos</a>
+                                
                             </li>
                             <li>
-                                <a href="#">Marcas <span class="fa arrow"></span></a>
-                                <ul class="nav nav-second-level">
-                                    <li>{{ HTML::link('/marcas/create_marca','Nueva Marca') }}</li>
-                                    <li>{{ HTML::link('/marcas/list_marcas','Buscar Marca') }}</li>
-                                </ul>
+                                <a href="{{URL::to('/marcas/list_marcas')}}">Marcas</a>
                             </li>
                             <li>
-                                <a href="#">Servicios <span class="fa arrow"></span></a>
-                                <ul class="nav nav-second-level">
-                                    <li>{{ HTML::link('/servicios/create_servicio','Nuevo Servicio') }}</li>
-                                    <li>{{ HTML::link('/servicios/list_servicios','Buscar Servicio') }}</li>
-                                </ul>
-                                <!-- /.nav-second-level -->
+                                <a href="{{URL::to('/servicios/list_servicios')}}">Servicios</a>
                             </li>
                         </ul>
                     </ul>
