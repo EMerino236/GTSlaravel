@@ -62,7 +62,7 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-md-6">
+					<div class="col-md-12">
 						<div class="panel panel-default">
 						  	<div class="panel-heading">
 						    	<h3 class="panel-title">Tareas</h3>
@@ -80,13 +80,13 @@
 									@foreach($tareas as $tarea)
 										<tr>
 											<td>
-												<input style="border:0" value='{{ $tarea->nombre }}' readonly/>
+												<input style="border:0; width:100%" value='{{ $tarea->nombre }}' readonly/>
 											</td>
 											<td>
 												@if($tarea->usuario)
-												<input style="border:0" value='{{$tarea->usuario->nombre}}' readonly/>
+												<input style="border:0; width:100%" value='{{$tarea->usuario->nombre}}' readonly/>
 												@else
-												<input style="border:0" value='' readonly/>
+												<input style="border:0; width:100%" value='' readonly/>
 												@endif
 											</td>
 											<td>

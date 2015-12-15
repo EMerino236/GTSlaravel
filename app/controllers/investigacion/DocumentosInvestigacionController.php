@@ -62,7 +62,7 @@ class DocumentosInvestigacionController extends \BaseController {
 							'descripcion' => 'required|max:200',
 							'autor' => 'required|max:100',
 							'codigo_archivamiento' => 'required|max:100|unique:documentosinf',
-							'ubicacion' => 'required|max:100',	
+							'ubicacion' => 'required|max:100',
 							'archivo' => 'max:15360|mimes:png,jpe,jpeg,jpg,gif,bmp,zip,rar,pdf,doc,docx,xls,xlsx,ppt,pptx',
 						);
 				// Run the validation rules on the inputs from the form
@@ -123,7 +123,7 @@ class DocumentosInvestigacionController extends \BaseController {
 				$data["search_codigo_archivamiento"] = Input::get('search_codigo_archivamiento');
 				$data["search_ubicacion"] = Input::get('search_ubicacion');
 				$data["search_tipo_documento"] = Input::get('search_tipo_documento');
-				//HACER UNA BUSQUEDA PARA EL NUEVO MODELO
+
 				$data["documentos_data"] = DocumentoInf::searchDocumentos($data["search_nombre"],$data["search_autor"],$data["search_codigo_archivamiento"],
 										$data["search_ubicacion"],$data["search_tipo_documento"])->paginate(10);
 				return View::make('investigacion/documentos/listDocumentos',$data);
@@ -163,6 +163,7 @@ class DocumentosInvestigacionController extends \BaseController {
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
+			$iddocumento = Input::get('documento_id');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				// Validate the info, create rules for the inputs
@@ -170,7 +171,7 @@ class DocumentosInvestigacionController extends \BaseController {
 							'nombre' => 'required|max:100',
 							'descripcion' => 'required|max:200',
 							'autor' => 'required|max:100',
-							'codigo_archivamiento' => 'required|max:100',
+							'codigo_archivamiento' => 'required|max:100|unique:documentosinf,codigo_archivamiento,'.$iddocumento.',iddocumentosinf',
 							'ubicacion' => 'required|max:100',	
 							'archivo' => 'max:15360|mimes:png,jpe,jpeg,jpg,gif,bmp,zip,rar,pdf,doc,docx,xls,xlsx,ppt,pptx',
 						);
@@ -178,14 +179,12 @@ class DocumentosInvestigacionController extends \BaseController {
 				$validator = Validator::make(Input::all(), $rules);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
-					$iddocumento = Input::get('documento_id');
 					$url = "documento_investigacion/edit_documento"."/".$iddocumento;
 					return Redirect::to($url)->withErrors($validator)->withInput(Input::all());
 				}else{
 					$data["tipo_documentos"] = TipoDocumentoInf::searchTipoDocumentosById(Input::get('idtipo_documento'))->get();
 					$data["documento_info"] = DocumentoInf::searchDocumentoById(Input::get('documento_id'))->get();
 
-					$iddocumento = Input::get('documento_id');
 					$url = "documento_investigacion/edit_documento"."/".$iddocumento;
 					$rutaDestino 	='';
 				    $nombreArchivo 	='';	

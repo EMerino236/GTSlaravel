@@ -20,6 +20,8 @@
     <link href="{{ asset('bower_components/morrisjs/morris.css') }}" rel="stylesheet">
     <!-- Custom Fonts -->
     <link href="{{ asset('bower_components/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+    <!-- Bootstrap Alerts -->
+    <link href="{{ asset('css/bootstrap-dialog.min.css') }}" rel="stylesheet">
 
     <link href="{{ asset('css/fileinput.min.css') }}" rel="stylesheet">
     <script type="text/javascript">
@@ -46,6 +48,7 @@
     <script src="{{ asset('js/fileinput_locale_es.min.js') }}"></script>
     <script src="{{ asset('js/language_file_upload_plugin.min.js') }}"></script>
     <script src="{{ asset('js/investigacion/solicitud_servicio.js') }}"></script>
+    <script src="{{ asset('js/bootstrap-dialog.min.js') }}"></script>
     
 </head>
 

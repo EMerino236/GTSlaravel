@@ -116,8 +116,13 @@ class PlantillasMantenimientoPrevController extends \BaseController {
 			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				// Validate the info, create rules for the inputs
 				$rules = array(
-							'familia_id' 	=> 'required',
-							'archivo'		=> 'max:15360|mimes:png,jpe,jpeg,jpg,gif,bmp,zip,rar,pdf,doc,docx,xls,xlsx,ppt,pptx',
+							'familia_id' 			=> 'required',
+							'nombre' 				=> 'max:100',
+							'descripcion' 			=> 'max:200',
+							'autor' 				=> 'max:100',
+							'codigo_archivamiento' 	=> 'max:100|unique:documentosinf',
+							'ubicacion' 			=> 'max:100',
+							'archivo'				=> 'max:15360|mimes:png,jpe,jpeg,jpg,gif,bmp,zip,rar,pdf,doc,docx,xls,xlsx,ppt,pptx',
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules);

@@ -4,7 +4,10 @@ $( document ).ready(function(){
         var usuario = $("#usuario").val();
         var nombre_usuario = $("#usuario option:selected").text();
         if(tarea.length < 1){
-            return alert("Ingrese el nombre de la tarea");
+        	return BootstrapDialog.alert({
+        		title: 	'Alerta',
+        		message: 'Debe ingresar el nombre de una tarea',
+        	});
         }
 
         var str = "<tr><td><input style=\"border:0\" name='tareas[]' value='"+tarea+"' readonly/></td>";

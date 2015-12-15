@@ -10,6 +10,11 @@
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
 			<p><strong>{{ $errors->first('usuarios') }}</strong></p>
+			<p><strong>{{ $errors->first('nombre') }}</strong></p>
+			<p><strong>{{ $errors->first('descripcion') }}</strong></p>
+			<p><strong>{{ $errors->first('autor') }}</strong></p>
+			<p><strong>{{ $errors->first('codigo_archivamiento') }}</strong></p>
+			<p><strong>{{ $errors->first('ubicacion') }}</strong></p>
 			<p><strong>{{ $errors->first('tareas') }}</strong></p>
 			<p><strong>{{ $errors->first('archivo') }}</strong></p>
 		</div>
@@ -83,7 +88,7 @@
 							<div class="form-group col-md-4">
 								{{ Form::label('codigo_archivamiento','Código de Archivamiento') }}
 								@if($guia)
-								{{ Form::text('codigo_archivamiento',$guia->codigo_archivamiento,array('class'=>'form-control')) }}
+								{{ Form::text('codigo_archivamiento', null,array('class'=>'form-control')) }}
 								@else
 								{{ Form::text('codigo_archivamiento',Input::old('codigo_archivamiento'),array('class'=>'form-control')) }}
 								@endif
@@ -112,7 +117,7 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-md-6">
+					<div class="col-md-12">
 						<div class="panel panel-default">
 						  	<div class="panel-heading">
 						    	<h3 class="panel-title">Tareas</h3>
@@ -130,13 +135,13 @@
 									@foreach($tareas as $tarea)
 										<tr>
 											<td>
-												<input style="border:0" value='{{ $tarea->nombre }}' readonly/>
+												<input style="border:0; width:100%" value='{{ $tarea->nombre }}' readonly/>
 											</td>
 											<td>
 												@if($tarea->usuario)
-												<input style="border:0" value='{{$tarea->usuario->nombre}}' readonly/>
+												<input style="border:0; width:100%" value='{{$tarea->usuario->nombre}}' readonly/>
 												@else
-												<input style="border:0" value='' readonly/>
+												<input style="border:0; width:100%" value='' readonly/>
 												@endif
 											</td>
 											<td>
