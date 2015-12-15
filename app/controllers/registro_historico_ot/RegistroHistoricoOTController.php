@@ -21,6 +21,7 @@ class RegistroHistoricoOTController extends BaseController {
 				$data["search_ini"] = null;
 				$data["search_fin"] = null;
 				$data["search_tipo"] = 0;
+				$data["search_codigo_ot"] = null;
 				$data["tipos"] = array(0 => 'Seleccione',
 					1=> 'OTM Correctivo',
 					2=> 'OTM Preventivo',
@@ -61,7 +62,8 @@ class RegistroHistoricoOTController extends BaseController {
 				$data["search_codigo_patrimonial"] =  Input::get('search_codigo_patrimonial');
 				$data["search_ini"] =  Input::get('search_ini');
 				$data["search_fin"] =  Input::get('search_fin');
-				$data["search_tipo"] =  Input::get('search_tipo');;
+				$data["search_tipo"] =  Input::get('search_tipo');				
+				$data["search_codigo_ot"] = Input::get('search_codigo_ot');
 				$data["tipos"] = array(0 => 'Seleccione',
 					1=> 'OTM Correctivo',
 					2=> 'OTM Preventivo',
@@ -71,40 +73,40 @@ class RegistroHistoricoOTController extends BaseController {
 					);
 				$data["marcas"] = Marca::lists('nombre','idmarca');
 				if($data["search_tipo"] == 0){
-					$data["correctivos"] = OtCorrectivo::searchOTHistorico($data["search_nombre_equipo"],$data["search_marca"],$data["search_modelo"],$data["search_grupo"],$data["search_serie"],$data["search_proveedor"],$data["search_codigo_patrimonial"],$data["search_ini"],$data["search_fin"])->paginate(10);
-					$data["preventivos"] = OrdenesTrabajoPreventivo::searchOTHistorico($data["search_nombre_equipo"],$data["search_marca"],$data["search_modelo"],$data["search_grupo"],$data["search_serie"],$data["search_proveedor"],$data["search_codigo_patrimonial"],$data["search_ini"],$data["search_fin"])->paginate(10);
-					$data["verificaciones"] = OrdenesTrabajoVerifMetrologica::searchOTHistorico($data["search_nombre_equipo"],$data["search_marca"],$data["search_modelo"],$data["search_grupo"],$data["search_serie"],$data["search_proveedor"],$data["search_codigo_patrimonial"],$data["search_ini"],$data["search_fin"])->paginate(10);
-					$data["inspecciones"] = OrdenesTrabajoInspeccionEquipo::searchOTHistorico($data["search_nombre_equipo"],$data["search_marca"],$data["search_modelo"],$data["search_grupo"],$data["search_serie"],$data["search_proveedor"],$data["search_codigo_patrimonial"],$data["search_ini"],$data["search_fin"])->paginate(10);
-					$data["retiros"] = OtRetiro::searchOTHistorico($data["search_nombre_equipo"],$data["search_marca"],$data["search_modelo"],$data["search_grupo"],$data["search_serie"],$data["search_proveedor"],$data["search_codigo_patrimonial"],$data["search_ini"],$data["search_fin"])->paginate(10);
+					$data["correctivos"] = OtCorrectivo::searchOTHistorico($data["search_nombre_equipo"],$data["search_marca"],$data["search_modelo"],$data["search_grupo"],$data["search_serie"],$data["search_proveedor"],$data["search_codigo_patrimonial"],$data["search_ini"],$data["search_fin"],$data["search_codigo_ot"])->paginate(10);
+					$data["preventivos"] = OrdenesTrabajoPreventivo::searchOTHistorico($data["search_nombre_equipo"],$data["search_marca"],$data["search_modelo"],$data["search_grupo"],$data["search_serie"],$data["search_proveedor"],$data["search_codigo_patrimonial"],$data["search_ini"],$data["search_fin"],$data["search_codigo_ot"])->paginate(10);
+					$data["verificaciones"] = OrdenesTrabajoVerifMetrologica::searchOTHistorico($data["search_nombre_equipo"],$data["search_marca"],$data["search_modelo"],$data["search_grupo"],$data["search_serie"],$data["search_proveedor"],$data["search_codigo_patrimonial"],$data["search_ini"],$data["search_fin"],$data["search_codigo_ot"])->paginate(10);
+					$data["inspecciones"] = OrdenesTrabajoInspeccionEquipo::searchOTHistorico($data["search_nombre_equipo"],$data["search_marca"],$data["search_modelo"],$data["search_grupo"],$data["search_serie"],$data["search_proveedor"],$data["search_codigo_patrimonial"],$data["search_ini"],$data["search_fin"],$data["search_codigo_ot"])->paginate(10);
+					$data["retiros"] = OtRetiro::searchOTHistorico($data["search_nombre_equipo"],$data["search_marca"],$data["search_modelo"],$data["search_grupo"],$data["search_serie"],$data["search_proveedor"],$data["search_codigo_patrimonial"],$data["search_ini"],$data["search_fin"],$data["search_codigo_ot"])->paginate(10);
 				}else if($data["search_tipo"]==1){ //correctivo
-					$data["correctivos"] = OtCorrectivo::searchOTHistorico($data["search_nombre_equipo"],$data["search_marca"],$data["search_modelo"],$data["search_grupo"],$data["search_serie"],$data["search_proveedor"],$data["search_codigo_patrimonial"],$data["search_ini"],$data["search_fin"])->paginate(10);
+					$data["correctivos"] = OtCorrectivo::searchOTHistorico($data["search_nombre_equipo"],$data["search_marca"],$data["search_modelo"],$data["search_grupo"],$data["search_serie"],$data["search_proveedor"],$data["search_codigo_patrimonial"],$data["search_ini"],$data["search_fin"],$data["search_codigo_ot"])->paginate(10);
 					$data["preventivos"] = [];
 					$data["verificaciones"] = [];
 					$data["inspecciones"] = [];
 					$data["retiros"] = [];
 				}else if($data["search_tipo"]==2){ //preventivo
 					$data["correctivos"] = [];
-					$data["preventivos"] = OrdenesTrabajoPreventivo::searchOTHistorico($data["search_nombre_equipo"],$data["search_marca"],$data["search_modelo"],$data["search_grupo"],$data["search_serie"],$data["search_proveedor"],$data["search_codigo_patrimonial"],$data["search_ini"],$data["search_fin"])->paginate(10);
+					$data["preventivos"] = OrdenesTrabajoPreventivo::searchOTHistorico($data["search_nombre_equipo"],$data["search_marca"],$data["search_modelo"],$data["search_grupo"],$data["search_serie"],$data["search_proveedor"],$data["search_codigo_patrimonial"],$data["search_ini"],$data["search_fin"],$data["search_codigo_ot"])->paginate(10);
 					$data["verificaciones"] = [];
 					$data["inspecciones"] = [];	
 					$data["retiros"] = [];				
 				}else if($data["search_tipo"]==3){
 					$data["correctivos"] = [];
 					$data["preventivos"] = [];
-					$data["verificaciones"] = OrdenesTrabajoVerifMetrologica::searchOTHistorico($data["search_nombre_equipo"],$data["search_marca"],$data["search_modelo"],$data["search_grupo"],$data["search_serie"],$data["search_proveedor"],$data["search_codigo_patrimonial"],$data["search_ini"],$data["search_fin"])->paginate(10);
+					$data["verificaciones"] = OrdenesTrabajoVerifMetrologica::searchOTHistorico($data["search_nombre_equipo"],$data["search_marca"],$data["search_modelo"],$data["search_grupo"],$data["search_serie"],$data["search_proveedor"],$data["search_codigo_patrimonial"],$data["search_ini"],$data["search_fin"],$data["search_codigo_ot"])->paginate(10);
 					$data["inspecciones"] = [];	
 					$data["retiros"] = [];
 				}else if($data["search_tipo"]==4){
 					$data["correctivos"] = [];
 					$data["preventivos"] = [];
 					$data["verificaciones"] = [];
-					$data["inspecciones"] = OrdenesTrabajoInspeccionEquipo::searchOTHistorico($data["search_nombre_equipo"],$data["search_marca"],$data["search_modelo"],$data["search_grupo"],$data["search_serie"],$data["search_proveedor"],$data["search_codigo_patrimonial"],$data["search_ini"],$data["search_fin"])->paginate(10);	
+					$data["inspecciones"] = OrdenesTrabajoInspeccionEquipo::searchOTHistorico($data["search_nombre_equipo"],$data["search_marca"],$data["search_modelo"],$data["search_grupo"],$data["search_serie"],$data["search_proveedor"],$data["search_codigo_patrimonial"],$data["search_ini"],$data["search_fin"],$data["search_codigo_ot"])->paginate(10);	
 				}else if($data["search_tipo"]==5){
 					$data["correctivos"] = [];
 					$data["preventivos"] = [];
 					$data["verificaciones"] = [];
 					$data["inspecciones"] = [];
-					$data["retiros"] = OtRetiro::searchOTHistorico($data["search_nombre_equipo"],$data["search_marca"],$data["search_modelo"],$data["search_grupo"],$data["search_serie"],$data["search_proveedor"],$data["search_codigo_patrimonial"],$data["search_ini"],$data["search_fin"])->paginate(10);
+					$data["retiros"] = OtRetiro::searchOTHistorico($data["search_nombre_equipo"],$data["search_marca"],$data["search_modelo"],$data["search_grupo"],$data["search_serie"],$data["search_proveedor"],$data["search_codigo_patrimonial"],$data["search_ini"],$data["search_fin"],$data["search_codigo_ot"])->paginate(10);
 				}
 				return View::make('ot/registroHistorico/listRegistroHistoricoOt',$data);
 			}else{

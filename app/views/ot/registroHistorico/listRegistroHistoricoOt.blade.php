@@ -68,7 +68,11 @@
 						<div class="form-group col-md-4">
 							{{ Form::label('search_tipo','Tipo de OTM') }}
 							{{ Form::select('search_tipo',$tipos,$search_tipo,array('class'=>'form-control','id'=>'tipo_ot')) }}
-						</div>				
+						</div>
+						<div class="form-group col-md-4">
+							{{ Form::label('search_codigo_ot','Código OTM') }}
+							{{ Form::text('search_codigo_ot',$search_codigo_ot,array('class'=>'form-control','placeholder'=>'Código OTM')) }}
+						</div>					
 					</div>
 					<div class="container-fluid form-group row">
 						<div class="col-md-2 col-md-offset-8">
@@ -312,7 +316,7 @@
 							<td class="text-nowrap text-center">{{date('d-m-Y',strtotime($retiro->fecha_programacion))}}</td>
 							<td class="text-nowrap text-center">
 								@if($user->idrol==1 || $user->idrol==2 || $user->idrol==3 || $user->idrol==4)
-										@if($inspeccion->idestado_ot == 9)
+										@if($retiro->idestado_ot == 9)
 											<a href="{{URL::to('/retiro_servicio/create_ot/')}}/{{$retiro->idot_retiro}}">{{$retiro->ot_tipo_abreviatura}}{{$retiro->ot_correlativo}}{{$retiro->ot_activo_abreviatura}}</a>
 										@else
 											<a href="{{URL::to('/retiro_servicio/view_ot/')}}/{{$retiro->idot_retiro}}">{{$retiro->ot_tipo_abreviatura}}{{$retiro->ot_correlativo}}{{$retiro->ot_activo_abreviatura}}</a>

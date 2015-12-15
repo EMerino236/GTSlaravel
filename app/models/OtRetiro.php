@@ -131,7 +131,7 @@ class OtRetiro extends Eloquent{
 		return $query;
 	}
 
-	public function scopeSearchOTHistorico($query,$search_nombre_equipo,$search_marca,$search_modelo,$search_grupo,$search_serie,$search_proveedor,$search_codigo_patrimonial,$search_ini,$search_fin)
+	public function scopeSearchOTHistorico($query,$search_nombre_equipo,$search_marca,$search_modelo,$search_grupo,$search_serie,$search_proveedor,$search_codigo_patrimonial,$search_ini,$search_fin,$search_codigo_ot)
 	{
 		$query->join('estados','estados.idestado','=','ot_retiros.idestado_ot')
 			  ->join('servicios','servicios.idservicio','=','ot_retiros.idservicio')
@@ -162,9 +162,12 @@ class OtRetiro extends Eloquent{
 			  			  	  ->orWhere('proveedores.nombre_contacto','LIKE',"%$search_proveedor%");
 			  	});
 			  if($search_ini != "")
-				$query->where('ot_retiros.fecha_programacion','>=',date('Y-m-d H:i:s',strtotime($search_ini)));
+				$query->where(DB::raw('STR_TO_DATE(ot_retiros.fecha_programacion,\'%Y-%m-%d\')'),'>=',date('Y-m-d H:i:s',strtotime($search_ini)));
 			  if($search_fin != "")
-				$query->where('ot_retiros.fecha_programacion','<=',date('Y-m-d H:i:s',strtotime($search_fin)));
+				$query->where(DB::raw('STR_TO_DATE(ot_retiros.fecha_programacion,\'%Y-%m-%d\')'),'<=',date('Y-m-d H:i:s',strtotime($search_fin)));
+			  if($search_codigo_ot != "")
+				$query->where(DB::raw("CONCAT(ot_retiros.ot_tipo_abreviatura,ot_retiros.ot_correlativo,ot_retiros.ot_activo_abreviatura)"),'LIKE',"%$search_codigo_ot%");
+			  
 			  $query->select('activos.codigo_patrimonial as codigo_patrimonial','activos.numero_serie as serie','proveedores.razon_social as nombre_proveedor','ubicacion_fisicas.nombre as nombre_ubicacion','marcas.nombre as nombre_marca','familia_activos.nombre_equipo as nombre_equipo','modelo_activos.nombre as nombre_modelo','areas.nombre as nombre_area','servicios.nombre as nombre_servicio','estados.nombre as nombre_estado','grupos.nombre as nombre_grupo','ot_retiros.*');
 	  	return $query;
 	}
