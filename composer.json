@@ -8,6 +8,9 @@
 		"laravel/framework": "4.2.*",
 		"thujohn/pdf": "dev-master"
 	},
+	"require-dev": {
+    	"xethron/migrations-generator": "dev-master"
+	},
 	"autoload": {
 		"classmap": [
 			"app/commands",
