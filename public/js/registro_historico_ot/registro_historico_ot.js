@@ -30,4 +30,5 @@ function limpiar_criterios(){
     $('#search_serie').val('');
     $('#search_grupo').val('');
     $('#tipo_ot').val(0);
+    $('#search_codigo_ot').val('');
 }

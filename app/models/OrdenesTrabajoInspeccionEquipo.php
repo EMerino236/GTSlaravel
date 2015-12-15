@@ -96,7 +96,7 @@ class OrdenesTrabajoInspeccionEquipo extends Eloquent{
 	  	return $query;
 	}
 	
-	public function scopeSearchOTHistorico($query,$search_nombre_equipo,$search_marca,$search_modelo,$search_grupo,$search_serie,$search_proveedor,$search_codigo_patrimonial,$search_ini,$search_fin)
+	public function scopeSearchOTHistorico($query,$search_nombre_equipo,$search_marca,$search_modelo,$search_grupo,$search_serie,$search_proveedor,$search_codigo_patrimonial,$search_ini,$search_fin,$search_codigo_ot)
 		{
 			$query->join('estados','estados.idestado','=','ot_inspec_equipos.idestado')
 				  ->join('servicios','servicios.idservicio','=','ot_inspec_equipos.idservicio')
@@ -128,10 +128,12 @@ class OrdenesTrabajoInspeccionEquipo extends Eloquent{
 				  			  	  ->orWhere('proveedores.nombre_contacto','LIKE',"%$search_proveedor%");
 				  	});
 				  if($search_ini != "")
-					$query->where('ot_inspec_equipos.fecha_inicio','>=',date('Y-m-d H:i:s',strtotime($search_ini)));
+					$query->where(DB::raw('STR_TO_DATE(ot_inspec_equipos.fecha_programacion,\'%Y-%m-%d\')'),'>=',date('Y-m-d H:i:s',strtotime($search_ini)));
 				  if($search_fin != "")
-					$query->where('ot_inspec_equipos.fecha_inicio','<=',date('Y-m-d H:i:s',strtotime($search_fin)));
-				  	  
+					$query->where(DB::raw('STR_TO_DATE(ot_inspec_equipos.fecha_programacion,\'%Y-%m-%d\')'),'<=',date('Y-m-d H:i:s',strtotime($search_fin)));
+				  if($search_codigo_ot != "")
+				  	$query->where(DB::raw("CONCAT(ot_inspec_equipos.ot_tipo_abreviatura,ot_inspec_equipos.ot_correlativo)"),'LIKE',"%$search_codigo_ot%");
+
 				  $query->select('areas.nombre as nombre_area','servicios.nombre as nombre_servicio','estados.nombre as nombre_estado','ot_inspec_equipos.*');
 		  	return $query->distinct('ot_inspec_equipos.idot_inspec_equipo');
 		}

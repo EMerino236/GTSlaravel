@@ -253,13 +253,13 @@ class OtController extends BaseController {
 				
 				$data["ot_info"] = OtCorrectivo::searchOtById($id)->get();
 				if($data["ot_info"]->isEmpty()){
-					return Redirect::to('ot/createOtMantCo');
+					return Redirect::to('ot/otMantCo');
 				}
 				$data["ot_info"] = $data["ot_info"][0];
 				$data["tareas"] = TareasOtCorrectivo::getTareasXOtXActi($data["ot_info"]->idot_correctivo)->get();
 				$data["repuestos"] = RepuestosOtCorrectivo::getRepuestosXOtXActi($data["ot_info"]->idot_correctivo)->get();
 				$data["personal_data"] = PersonalOtCorrectivo::getPersonalXOtXActi($data["ot_info"]->idot_correctivo)->get();
-				return View::make('ot/correctivo/createOtMantCo',$data);
+				return View::make('ot/correctivo/otMantCo',$data);
 			}else{
 				return View::make('error/error',$data);
 			}
@@ -550,7 +550,7 @@ class OtController extends BaseController {
 				
 				$data["ot_info"] = OtCorrectivo::searchOtById($id)->get();
 				if($data["ot_info"]->isEmpty()){
-					return Redirect::to('ot/createOtMantCo');
+					return Redirect::to('ot/otMantCo');
 				}
 				$data["ot_info"] = $data["ot_info"][0];
 				$data["tareas"] = TareasOtCorrectivo::getTareasXOtXActi($data["ot_info"]->idot_correctivo)->get();
