@@ -87,8 +87,8 @@ class AreasController extends BaseController
 					);
 
 				$rules = array(
-							'nombre_area' => 'required|max:100|unique:areas,nombre',
-							'descripcion_area' => 'max:200',
+							'nombre_area' => 'required|max:100|unique:areas,nombre|alpha_spaces',
+							'descripcion_area' => 'max:200|alpha_spaces',
 							'tipo_area' => 'required',						
 						);
 				// Run the validation rules on the inputs from the form
@@ -150,6 +150,8 @@ class AreasController extends BaseController
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
 				// Validate the info, create rules for the inputs
+				$area = Area::find(Input::get('area_id'));
+
 				$attributes = array(
 					'nombre_area' => 'Nombre del Área',
 					'descripcion_area' => 'Descripción del Área',
@@ -160,8 +162,8 @@ class AreasController extends BaseController
 					);
 
 				$rules = array(
-							'nombre_area' => 'required|max:100',
-							'descripcion_area' => 'max:200',
+							'nombre_area' => 'required|max:100|alpha_spaces|unique:areas,nombre,'.$area->idarea.',idarea',
+							'descripcion_area' => 'max:200|alpha_spaces',
 							'tipo_area' => 'required',	
 						);
 				// Run the validation rules on the inputs from the form

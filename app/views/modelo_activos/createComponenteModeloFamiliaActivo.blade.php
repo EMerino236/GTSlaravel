@@ -34,21 +34,21 @@
 		  		<div class="row">
 		  			<div class="form-group col-md-4 @if($errors->first('nombre_componente')) has-error has-feedback @endif">
 						{{ Form::label('nombre_componente','Nombre') }}
-						{{ Form::text('nombre_componente',Input::old('nombre_componente'),array('class'=>'form-control')) }}
+						{{ Form::text('nombre_componente',Input::old('nombre_componente'),array('class'=>'form-control','maxlength'=>'45')) }}
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('modelo_componente')) has-error has-feedback @endif">
 						{{ Form::label('modelo_componente','Modelo') }}
-						{{ Form::text('modelo_componente',Input::old('modelo_componente'),array('class'=>'form-control')) }}
+						{{ Form::text('modelo_componente',Input::old('modelo_componente'),array('class'=>'form-control','maxlength'=>'45')) }}
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('costo_componente')) has-error has-feedback @endif">
 						{{ Form::label('costo_componente','Costo') }}
-						{{ Form::text('costo_componente',Input::old('costo_componente'),array('class'=>'form-control')) }}
+						{{ Form::text('costo_componente',Input::old('costo_componente'),array('class'=>'form-control','maxlength'=>'45')) }}
 					</div>
 		  		</div>
 		  		<div class="row">
 		  			<div class="form-group col-md-4 @if($errors->first('numero_pieza')) has-error has-feedback @endif">
 		  				{{ Form::label('numero_pieza','Numero de Pieza') }}
-						{{ Form::text('numero_pieza',Input::old('numero_pieza'),array('class'=>'form-control')) }}
+						{{ Form::text('numero_pieza',Input::old('numero_pieza'),array('class'=>'form-control','maxlength'=>'45')) }}
 		  			</div>
 		  		</div>
 			</div>

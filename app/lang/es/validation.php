@@ -20,7 +20,11 @@ return array(
 	"alpha_dash"       => "El :attribute puede contener solo letras, números, y guiones.",
 	"alpha_num"        => "El :attribute puede contener solo letras y números.",
 	"alpha_spaces"     => "El :attribute puede contener solo letras y espacios en blanco.",
-	"array"            => "El :attribute debe ser un arreglo.",
+	"alpha_num_dash"   => "El :attribute puede contener solo letras, números y guiones",
+	"validator_marca"  => "El :attribute puede contener solo letras, números y &",
+	"validator_grupo"  => "El :attribute puede contener solo letras, números y espacios en blanco",
+	"validator_grupo_descripcion"  => "El :attribute puede contener solo letras, números, espacios en blanco y dos puntos",
+ 	"array"            => "El :attribute debe ser un arreglo.",
 	"before"           => "El :attribute debe ser una fecha anterior a :date.",
 	"between"          => array(
 		"numeric" => "El :attribute debe estar entre :min y :max.",

@@ -74,15 +74,25 @@ class FamiliaActivosController extends BaseController
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
 				// Validate the info, create rules for the inputs
+				$attributes = array(
+					'nombre_equipo' => 'Nombre del Equipo',
+					'nombre_siga' => 'Nombre SIGA del Equipo',
+					'idtipo_activo' => 'Tipo de Activo',
+					'idmarca' => 'Marca'
+				);
+
+				$messages = array(
+					);
+
 				$rules = array(
-							'nombre_equipo' => 'required|min:1|max:100',
-							'nombre_siga' => 'required|min:1|max:100',
+							'nombre_equipo' => 'required|min:1|max:100|alpha_spaces|unique:familia_activos,nombre_equipo',
+							'nombre_siga' => 'required|min:1|max:100|alpha_spaces|unique:familia_activos,nombre_siga',
 							'idtipo_activo' => 'required',
 							'idmarca' =>'required',
 
 						);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					return Redirect::to('familia_activos/create_familia_activo')->withErrors($validator)->withInput(Input::all());
@@ -138,14 +148,25 @@ class FamiliaActivosController extends BaseController
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
 				// Validate the info, create rules for the inputs
+				$familia = FamiliaActivo::find(Input::get('familia_activo_id'));
+				$attributes = array(
+					'nombre_equipo' => 'Nombre del Equipo',
+					'nombre_siga' => 'Nombre SIGA del Equipo',
+					'idtipo_activo' => 'Tipo de Activo',
+					'idmarca' => 'Marca'
+				);
+
+				$messages = array(
+					);
+
 				$rules = array(
-							'nombre_equipo' => 'required|min:1|max:100',
-							'nombre_siga' => 'required|min:1|max:100',
-							'idtipo_activo' => 'required',
-							'idmarca' =>'required',
-						);
+					'nombre_equipo' => 'required|min:1|max:100|alpha_spaces|unique:familia_activos,nombre_equipo,'.$familia->idfamilia_activo.',idfamilia_activo',
+					'nombre_siga' => 'required|min:1|max:100|alpha_spaces|unique:familia_activos,nombre_siga,'.$familia->idfamilia_activo.',idfamilia_activo',
+					'idtipo_activo' => 'required',
+					'idmarca' =>'required',
+				);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					$familia_activo_id = Input::get('familia_activo_id');

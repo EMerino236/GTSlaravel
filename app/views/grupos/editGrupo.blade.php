@@ -45,9 +45,9 @@
 						<div class="form-group col-md-4 @if($errors->first('nombre_grupo')) has-error has-feedback @endif">
 							{{ Form::label('nombre_grupo','Nombre del Grupo') }}<span style="color:red">*</span>
 							@if($grupo_info->deleted_at)
-								{{ Form::text('nombre_grupo',$grupo_info->nombre,array('class'=>'form-control','readonly'=>'')) }}
+								{{ Form::text('nombre_grupo',$grupo_info->nombre,array('class'=>'form-control','readonly'=>'','maxlength'=>'100')) }}
 							@else
-								{{ Form::text('nombre_grupo',$grupo_info->nombre,array('class'=>'form-control')) }}
+								{{ Form::text('nombre_grupo',$grupo_info->nombre,array('class'=>'form-control','maxlength'=>'100')) }}
 							@endif
 						</div>
 						<div class="form-group col-md-4 @if($errors->first('usuario_responsable')) has-error has-feedback @endif">

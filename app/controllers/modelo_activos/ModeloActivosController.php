@@ -35,16 +35,23 @@ class ModeloActivosController extends BaseController
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
 				// Validate the info, create rules for the inputs
+				$attributes = array(
+					'nombre_modelo' => 'Nombre del Modelo',					
+				);
+
+				$messages = array(
+					);
+
 				$rules = array(
-							'nombre_modelo' => 'required|min:1|max:100',
+							'nombre_modelo' => 'required|max:100|alpha_spaces|unique:modelo_activos,nombre',
 						);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
-					return Redirect::to('familia_activos/create_modelo_familia_activo')->withErrors($validator)->withInput(Input::all());
+					$familia_activos_id = Input::get('familia_activo_id');
+					return Redirect::to('familia_activos/create_modelo_familia_activo/'.$familia_activos_id)->withErrors($validator)->withInput(Input::all());
 				}else{		
-
 					$modelo_activo = new ModeloActivo;
 					$modelo_activo->nombre = Input::get('nombre_modelo');
 					$modelo_activo->idfamilia_activo = Input::get('familia_activo_id');
@@ -95,20 +102,20 @@ class ModeloActivosController extends BaseController
 			if($data["user"]->idrol == 1){
 				// Validate the info, create rules for the inputs
 				$rules = array(
-							'nombre_modelo' => 'required|min:1|max:100',
+							'nombre_modelo' => 'required|max:100|alpha_spaces',
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
-					$idmodelo_equipo = Input::get('idmodelo_equipo');
+					$idmodelo_equipo = Input::get('modelo_id');
 					$url = "familia_activos/edit_modelo_familia_activo"."/".$idmodelo_equipo;
 					return Redirect::to($url)->withErrors($validator)->withInput(Input::all());
 				}else{		
 					$idfamilia_activo = Input::get('familia_activo_id');				
 					$url = "familia_activos/edit_familia_activo"."/".$idfamilia_activo;
 
-					$idmodelo = Input::get('idmodelo_equipo');
+					$idmodelo = Input::get('modelo_id');
 					$modelo_activo = ModeloActivo::find($idmodelo);				
 
 					$modelo_activo->nombre = Input::get('nombre_modelo');
@@ -165,14 +172,24 @@ class ModeloActivosController extends BaseController
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
 				// Validate the info, create rules for the inputs
+				$attributes = array(
+					'nombre_accesorio' => 'Nombre de Accesorio',
+					'modelo_accesorio' => 'Nombre de Modelo de Accesorio',
+					'costo_accesorio' => 'Costo de Accesorio',
+					'numero_pieza' => 'Numero de Pieza'
+					);
+
+				$messages = array(
+					);
+
 				$rules = array(
-							'nombre_accesorio' => 'required|min:1|max:100',
-							'modelo_accesorio' => 'required|min:1|max:100',
+							'nombre_accesorio' => 'required|min:1|max:100|alpha_spaces',
+							'modelo_accesorio' => 'required|min:1|max:100|alpha_spaces',
 							'costo_accesorio' => 'required|numeric',
-							'numero_pieza' => 'required|min:1|max:100',
+							'numero_pieza' => 'required|min:1|max:100|alpha_num_dash',
 						);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					$idmodelo_equipo= Input::get('idmodelo_equipo');
@@ -246,13 +263,22 @@ class ModeloActivosController extends BaseController
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
 				// Validate the info, create rules for the inputs
+				$attributes = array(
+					'nombre_consumible' => 'Nombre del Consumible',
+					'cantidad_consumible' => 'Cantidad del Consumible',
+					'costo_consumible' => 'Costo del Consumible'
+					);
+
+				$messages = array(
+					);
+
 				$rules = array(
-							'nombre_consumible' => 'required|min:1|max:100',
-							'cantidad_consumible' => 'required|min:1|max:100',
-							'costo_consumible' => 'required|numeric',							
+							'nombre_consumible' => 'required|min:1|max:100|alpha_spaces',
+							'cantidad_consumible' => 'required|min:1|max:100|numeric',
+							'costo_consumible' => 'required|numeric',
 						);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					$idmodelo_equipo= Input::get('idmodelo_equipo');
@@ -324,14 +350,24 @@ class ModeloActivosController extends BaseController
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
 				// Validate the info, create rules for the inputs
+				$attributes = array(
+					'nombre_componente' => 'Nombre del Componente',
+					'modelo_componente' => 'Nombre de Modelo del Componente',
+					'costo_componente' => 'Costo del Componente',
+					'numero_pieza' => 'Numero de Pieza'
+					);
+
+				$messages = array(
+					);
+
 				$rules = array(
-							'nombre_componente' => 'required|min:1|max:100',
-							'modelo_componente' => 'required|min:1|max:100',
+							'nombre_componente' => 'required|min:1|max:100|alpha_spaces',
+							'modelo_componente' => 'required|min:1|max:100|alpha_spaces',
 							'costo_componente' => 'required|numeric',
-							'numero_pieza' => 'required|min:1|max:100',
+							'numero_pieza' => 'required|min:1|max:100|alpha_num_dash',
 						);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					$idmodelo_equipo= Input::get('idmodelo_equipo');

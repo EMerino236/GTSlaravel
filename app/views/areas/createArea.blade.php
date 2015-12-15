@@ -7,7 +7,7 @@
         <!-- /.col-lg-12 -->
     </div>
 
-     @if (Session::has('message'))
+    @if (Session::has('message'))
 		<div class="alert alert-success alert-dissmisable">
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			{{ Session::get('message') }}
@@ -22,6 +22,7 @@
 
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			<p><strong>{{ $errors->first('nombre_area') }}</strong></p>
 			<p><strong>{{ $errors->first('descripcion_area') }}</strong></p>
 			<p><strong>{{ $errors->first('tipo_area') }}</strong></p>

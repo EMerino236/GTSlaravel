@@ -29,7 +29,7 @@
 			  		<div class="row">
 			  			<div class="form-group col-md-6 @if($errors->first('nombre_modelo')) has-error has-feedback @endif">
 							{{ Form::label('nombre_modelo','Modelo') }}<span style="color:red">*</span>
-							{{ Form::text('nombre_modelo',$modelo_info->nombre,array('class'=>'form-control')) }}
+							{{ Form::text('nombre_modelo',$modelo_info->nombre,array('class'=>'form-control','maxlength'=>'100')) }}
 						</div>
 			  		</div>
 				</div>

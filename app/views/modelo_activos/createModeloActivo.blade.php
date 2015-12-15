@@ -28,7 +28,7 @@
 			  		<div class="row">
 			  			<div class="form-group col-md-6 @if($errors->first('nombre_modelo')) has-error has-feedback @endif">
 							{{ Form::label('nombre_modelo','Modelo') }}
-							{{ Form::text('nombre_modelo',Input::old('nombre_modelo'),array('class'=>'form-control')) }}
+							{{ Form::text('nombre_modelo',Input::old('nombre_modelo'),array('class'=>'form-control','maxlength'=>'100')) }}
 						</div>
 			  		</div>
 				</div>
