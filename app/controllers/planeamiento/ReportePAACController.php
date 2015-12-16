@@ -8,7 +8,7 @@ class ReportePAACController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				$data["areas"] = Area::lists('nombre','idarea');
 				$data["servicios"] = Servicio::lists('nombre','idservicio');
 				$data["tipo_reporte_paac"] = TipoReportePAAC::lists('nombre','idtipo_reporte_PAAC');
@@ -37,7 +37,7 @@ class ReportePAACController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				// Validate the info, create rules for the inputs	
 				$rules = array(
 							'idprogramacion_reporte_paac' => 'required',
@@ -102,7 +102,7 @@ class ReportePAACController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				$data["areas"] = Area::lists('nombre','idarea');
 				$data["servicios"] = Servicio::lists('nombre','idservicio');
 				$data["tipo_reporte_paac"] = TipoReportePAAC::lists('nombre','idtipo_reporte_PAAC');
@@ -118,13 +118,36 @@ class ReportePAACController extends BaseController
 		}
 	}
 
+	public function render_view_reporte_paac($id=null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+				$data["areas"] = Area::lists('nombre','idarea');
+				$data["servicios"] = Servicio::lists('nombre','idservicio');
+				$data["tipo_reporte_paac"] = TipoReportePAAC::lists('nombre','idtipo_reporte_PAAC');
+				$data["reporte_paac_info"] = ReportePAAC::withTrashed()->find($id);
+				$data["programacion_reporte_paac_info"] = ProgramacionReportePAAC::withTrashed()->find($data["reporte_paac_info"]->idprogramacion_reporte_paac);
+				return View::make('reportes_PAAC/viewReportePAAC',$data);
+			}else{
+				return View::make('error/error',$data);
+			}
+
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
 	public function list_reporte_paac()
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 				$data["search_numero_reporte"] = null;	
 				$data["search_fecha_ini"] = null;			
 				$data["search_fecha_fin"] = null;			
@@ -153,7 +176,8 @@ class ReportePAACController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 				$data["search_numero_reporte"] = Input::get('search_numero_reporte');
 				$data["search_fecha_ini"] = Input::get('search_fecha_ini');			
 				$data["search_fecha_fin"] = Input::get('search_fecha_fin');			
@@ -202,7 +226,8 @@ class ReportePAACController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 				$reporte_paac = ReportePAAC::find($id);
 				$file= $reporte_paac->url.$reporte_paac->nombre_archivo_encriptado;
 				$headers = array(
@@ -223,7 +248,7 @@ class ReportePAACController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				$idreporte_PAAC = Input::get('idreporte_PAAC');
 				$url = "reporte_paac/edit_reporte_paac/".$idreporte_PAAC;
 				$reporte_paac = ReportePAAC::find($idreporte_PAAC);
@@ -245,7 +270,7 @@ class ReportePAACController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				$idreporte_PAAC = Input::get('idreporte_PAAC');
 				$url = "reporte_paac/edit_reporte_paac/".$idreporte_PAAC;
 				$reporte_paac = ReportePAAC::withTrashed()->find($idreporte_PAAC);

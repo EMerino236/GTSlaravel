@@ -67,7 +67,12 @@
 		@foreach($plan_director_data as $documento_plan_director_data)
 		<tr class="@if($documento_plan_director_data->deleted_at) bg-danger @endif">
 			<td>
-				<a href="{{URL::to('/plan_director/edit_documento_plan_director/')}}/{{$documento_plan_director_data->iddocumentosPlanDirector}}">{{$documento_plan_director_data->nombre}}</a>
+				@if($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4)
+					<a href="{{URL::to('/plan_director/edit_documento_plan_director/')}}/{{$documento_plan_director_data->iddocumentosPlanDirector}}">{{$documento_plan_director_data->nombre}}</a>
+				@endif
+				@if($user->idrol == 7 || $user->idrol == 8 || $user->idrol == 9 || $user->idrol == 10 || $user->idrol == 11 || $user->idrol == 12)
+					<a href="{{URL::to('/plan_director/view_documento_plan_director/')}}/{{$documento_plan_director_data->iddocumentosPlanDirector}}">{{$documento_plan_director_data->nombre}}</a>
+				@endif
 			</td>
 			<td>
 				{{$documento_plan_director_data->tipo_documento}}

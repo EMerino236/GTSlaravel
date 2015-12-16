@@ -79,6 +79,7 @@
 		</div>
 	{{ Form::close() }}
 
+<!--
 	{{ Form::open(array('url'=>'programacion_reportes/submit_create_programacion_reporte_etes', 'role'=>'form', 'files'=>true)) }}
 		<div class="panel panel-default">
 			<div class="panel-heading">
@@ -117,6 +118,7 @@
 		</div>
 	{{ Form::close() }}
 
+-->
 	{{ Form::open(array('url'=>'programacion_reportes/submit_create_programacion_reporte_paac', 'role'=>'form', 'files'=>true)) }}
 		<div class="panel panel-default">
 			<div class="panel-heading">

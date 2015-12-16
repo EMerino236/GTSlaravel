@@ -8,7 +8,7 @@ class DocumentoPlanDirectorController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				$data["tipo_documento"] = TipoDocumentoPlanDirector::lists('nombre','idtipo_documentosPlanDirector');
 				$data["documento_plan_director_info"] = null;
 				return View::make('documentos_plan_director/createDocumentoPlanDirector',$data);
@@ -26,7 +26,7 @@ class DocumentoPlanDirectorController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				// Validate the info, create rules for the inputs	
 				$rules = array(
 							'idtipo_documento' => 'required',
@@ -75,7 +75,7 @@ class DocumentoPlanDirectorController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				$data["tipo_documento"] = TipoDocumentoPlanDirector::lists('nombre','idtipo_documentosPlanDirector');
 				$data["documento_plan_director_info"] = DocumentoPlanDirector::withTrashed()->find($id);
 				return View::make('documentos_plan_director/editDocumentoPlanDirector',$data);
@@ -93,7 +93,7 @@ class DocumentoPlanDirectorController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				$iddocumentosPlanDirector = Input::get('iddocumentosPlanDirector');
 				// Validate the info, create rules for the inputs	
 				$rules = array(
@@ -125,13 +125,34 @@ class DocumentoPlanDirectorController extends BaseController
 		}
 	}
 
+	public function render_view_documento_plan_director($id=null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
+				$data["tipo_documento"] = TipoDocumentoPlanDirector::lists('nombre','idtipo_documentosPlanDirector');
+				$data["documento_plan_director_info"] = DocumentoPlanDirector::withTrashed()->find($id);
+				return View::make('documentos_plan_director/viewDocumentoPlanDirector',$data);
+			}else{
+				return View::make('error/error',$data);
+			}
+
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
 	public function list_Documento_plan_director()
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 				$data["search_fecha_ini"] = null;			
 				$data["search_fecha_fin"] = null;	
 				$data["tipo_documento"] = TipoDocumentoPlanDirector::lists('nombre','idtipo_documentosPlanDirector');
@@ -154,7 +175,8 @@ class DocumentoPlanDirectorController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 				$data["search_fecha_ini"] = Input::get('search_fecha_ini');			
 				$data["search_fecha_fin"] = Input::get('search_fecha_fin');	
 				$data["tipo_documento"] = TipoDocumentoPlanDirector::lists('nombre','idtipo_documentosPlanDirector');
@@ -180,7 +202,8 @@ class DocumentoPlanDirectorController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 				$reporte_paac = DocumentoPlanDirector::find($id);
 				$file= $reporte_paac->url.$reporte_paac->nombre_archivo_encriptado;
 				$headers = array(
@@ -201,7 +224,7 @@ class DocumentoPlanDirectorController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				$iddocumentosPlanDirector = Input::get('iddocumentosPlanDirector');
 				$url = "plan_director/edit_documento_plan_director/".$iddocumentosPlanDirector;
 				$reporte_paac = DocumentoPlanDirector::find($iddocumentosPlanDirector);
@@ -223,7 +246,7 @@ class DocumentoPlanDirectorController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				$iddocumentosPlanDirector = Input::get('iddocumentosPlanDirector');
 				$url = "plan_director/edit_documento_plan_director/".$iddocumentosPlanDirector;
 				$reporte_paac = DocumentoPlanDirector::withTrashed()->find($iddocumentosPlanDirector);

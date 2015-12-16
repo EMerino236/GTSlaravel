@@ -93,7 +93,12 @@
 		@foreach($reportes_cn_data as $reporte_cn_data)
 		<tr class="@if($reporte_cn_data->deleted_at) bg-danger @endif">
 			<td>
-				<a href="{{URL::to('/reporte_cn/edit_reporte_cn/')}}/{{$reporte_cn_data->idreporte_CN}}">{{$reporte_cn_data->numero_reporte_abreviatura}}{{$reporte_cn_data->numero_reporte_correlativo}}-{{$reporte_cn_data->numero_reporte_anho}}</a>
+				@if($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4)
+					<a href="{{URL::to('/reporte_cn/edit_reporte_cn/')}}/{{$reporte_cn_data->idreporte_CN}}">{{$reporte_cn_data->numero_reporte_abreviatura}}{{$reporte_cn_data->numero_reporte_correlativo}}-{{$reporte_cn_data->numero_reporte_anho}}</a>
+				@endif
+				@if($user->idrol == 7 || $user->idrol == 8 || $user->idrol == 9 || $user->idrol == 10 || $user->idrol == 11 || $user->idrol == 12)
+					<a href="{{URL::to('/reporte_cn/view_reporte_cn/')}}/{{$reporte_cn_data->idreporte_CN}}">{{$reporte_cn_data->numero_reporte_abreviatura}}{{$reporte_cn_data->numero_reporte_correlativo}}-{{$reporte_cn_data->numero_reporte_anho}}</a>
+				@endif
 			</td>
 			<td>
 				{{date('d-m-Y H:i',strtotime($reporte_cn_data->created_at))}}

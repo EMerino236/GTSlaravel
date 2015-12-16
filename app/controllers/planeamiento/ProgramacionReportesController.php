@@ -8,7 +8,7 @@ class ProgramacionReportesController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2){
 				$data["areas"] = Area::lists('nombre','idarea');
 				$data["servicios"] = Servicio::lists('nombre','idservicio');
 				$data["tipo_reporte_cn"] = TipoReporteCN::lists('nombre','idtipo_reporte_CN');
@@ -30,7 +30,7 @@ class ProgramacionReportesController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2){
 				// Validate the info, create rules for the inputs	
 				$rules = array(	
 							'idtipo_reporte_cn' => 'required',
@@ -71,7 +71,7 @@ class ProgramacionReportesController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2){
 				// Validate the info, create rules for the inputs	
 				$rules = array(	
 							'idtipo_reporte_etes' => 'required',
@@ -109,7 +109,7 @@ class ProgramacionReportesController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2){
 				// Validate the info, create rules for the inputs	
 				$rules = array(						
 							'idtipo_reporte_paac' => 'required',
@@ -174,7 +174,8 @@ class ProgramacionReportesController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 				$data["search_usuario"] = null;		
 				$data["search_fecha"] = null;	
 				$data["anho_actual"] = date('Y');
@@ -200,7 +201,8 @@ class ProgramacionReportesController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 				$data["search_usuario"] = Input::get('search_usuario');	
 				$data["anho_actual"] = date('Y');
 				if(Input::get('search_fecha')=='')
@@ -230,7 +232,7 @@ class ProgramacionReportesController extends BaseController
 		$id = Auth::id();
 		$data["inside_url"] = Config::get('app.inside_url');
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2){
 			// Check if the current user is the "System Admin"
 			$data = Input::get('selected_id');
 			if($data !="vacio"){
@@ -251,7 +253,7 @@ class ProgramacionReportesController extends BaseController
 		$id = Auth::id();
 		$data["inside_url"] = Config::get('app.inside_url');
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2){
 			// Check if the current user is the "System Admin"
 			$data = Input::get('selected_id');
 			if($data !="vacio"){
@@ -272,7 +274,7 @@ class ProgramacionReportesController extends BaseController
 		$id = Auth::id();
 		$data["inside_url"] = Config::get('app.inside_url');
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2){
 			// Check if the current user is the "System Admin"
 			$data = Input::get('selected_id');
 			if($data !="vacio"){
@@ -293,7 +295,7 @@ class ProgramacionReportesController extends BaseController
 		$id = Auth::id();
 		$data["inside_url"] = Config::get('app.inside_url');
 		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1){
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2){
 			// Check if the current user is the "System Admin"
 			$data = Input::get('selected_id');
 			if($data !="vacio"){

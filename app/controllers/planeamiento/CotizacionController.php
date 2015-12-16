@@ -8,7 +8,7 @@ class CotizacionController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				$data["nombres_equipo"] = FamiliaActivo::orderBy('nombre_equipo','asc')->distinct()->lists('nombre_equipo');
 				$data["tipos_referencia"] = TipoReferencia::lists('nombre','idtipo_referencia');
 				return View::make('cotizaciones/createCotizacion',$data);
@@ -27,7 +27,7 @@ class CotizacionController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				// Validate the info, create rules for the inputs
 				$rules = array(
 							'nombre_equipo' => 'required',
@@ -89,7 +89,8 @@ class CotizacionController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if(($data["user"]->idrol == 1) && $id){				
+			if(($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12) && $id){				
 				$data["cotizacion_data"] = Cotizacion::find($id);
 				$data["anho_actual"] = date('Y');	
 				$data["cotizaciones_historico"] = Cotizacion::getCotizacionesHistorico($data["cotizacion_data"]->nombre_equipo,
@@ -119,7 +120,8 @@ class CotizacionController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 
 				$data["search_nombre_equipo"] = null;
 				$data["search_nombre_detallado"] = null;
@@ -146,7 +148,8 @@ class CotizacionController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 				$data["search_nombre_equipo"] = Input::get('search_nombre_equipo');
 				$data["search_nombre_detallado"] = Input::get('search_nombre_detallado');;
 				$data["search_marca"] = Input::get('search_marca');;
@@ -174,7 +177,8 @@ class CotizacionController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 				$data["cotizacion_data"] = Cotizacion::find(Input::get('idcotizacion'));
 				$data["anho_actual"] = date('Y');	
 				$data["cotizaciones_historico"] = Cotizacion::getCotizacionesHistorico($data["cotizacion_data"]->nombre_equipo,
@@ -206,7 +210,8 @@ class CotizacionController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 				$rutaDestino = Input::get('url').Input::get('nombre_archivo_encriptado');
 		        $headers = array(
 		              'Content-Type',mime_content_type($rutaDestino),

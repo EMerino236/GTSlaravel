@@ -8,7 +8,7 @@ class DocumentoPAACController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				$data["tipo_documento"] = TipoDocumentoPAAC::lists('nombre','idtipo_documentosPAAC');
 				$data["documento_paac_info"] = null;
 				return View::make('documentos_PAAC/createDocumentoPAAC',$data);
@@ -26,7 +26,7 @@ class DocumentoPAACController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				// Validate the info, create rules for the inputs	
 				$rules = array(
 							'idtipo_documento' => 'required',
@@ -75,7 +75,7 @@ class DocumentoPAACController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				$data["tipo_documento"] = TipoDocumentoPAAC::lists('nombre','idtipo_documentosPAAC');
 				$data["documento_paac_info"] = DocumentoPAAC::withTrashed()->find($id);
 				return View::make('documentos_PAAC/editDocumentoPAAC',$data);
@@ -93,7 +93,7 @@ class DocumentoPAACController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				$iddocumentosPAAC = Input::get('iddocumentosPAAC');
 				// Validate the info, create rules for the inputs	
 				$rules = array(
@@ -125,13 +125,34 @@ class DocumentoPAACController extends BaseController
 		}
 	}
 
+	public function render_view_documento_paac($id=null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
+				$data["tipo_documento"] = TipoDocumentoPAAC::lists('nombre','idtipo_documentosPAAC');
+				$data["documento_paac_info"] = DocumentoPAAC::withTrashed()->find($id);
+				return View::make('documentos_PAAC/viewDocumentoPAAC',$data);
+			}else{
+				return View::make('error/error',$data);
+			}
+
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
 	public function list_documento_paac()
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 				$data["search_fecha_ini"] = null;			
 				$data["search_fecha_fin"] = null;	
 				$data["tipo_documento"] = TipoDocumentoPAAC::lists('nombre','idtipo_documentosPAAC');
@@ -154,7 +175,8 @@ class DocumentoPAACController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 				$data["search_fecha_ini"] = Input::get('search_fecha_ini');			
 				$data["search_fecha_fin"] = Input::get('search_fecha_fin');	
 				$data["tipo_documento"] = TipoDocumentoPAAC::lists('nombre','idtipo_documentosPAAC');
@@ -180,7 +202,8 @@ class DocumentoPAACController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 				$reporte_paac = DocumentoPAAC::find($id);
 				$file= $reporte_paac->url.$reporte_paac->nombre_archivo_encriptado;
 				$headers = array(
@@ -201,7 +224,7 @@ class DocumentoPAACController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				$iddocumentosPAAC = Input::get('iddocumentosPAAC');
 				$url = "documentos_PAAC/edit_documento_paac/".$iddocumentosPAAC;
 				$reporte_paac = DocumentoPAAC::find($iddocumentosPAAC);
@@ -223,7 +246,7 @@ class DocumentoPAACController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1){
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				$iddocumentosPAAC = Input::get('iddocumentosPAAC');
 				$url = "documentos_PAAC/edit_documento_paac/".$iddocumentosPAAC;
 				$reporte_paac = DocumentoPAAC::withTrashed()->find($iddocumentosPAAC);

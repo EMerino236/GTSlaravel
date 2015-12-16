@@ -408,6 +408,7 @@ Route::group(array('prefix'=>'planeamiento', 'before'=>'auth'),function(){
 Route::group(array('prefix'=>'reporte_cn','before'=>'auth'),function(){
 	Route::get('/list_reporte_cn','ReporteCNController@list_reporte_cn');
 	Route::get('/edit_reporte_cn/{id}','ReporteCNController@render_edit_reporte_cn');
+	Route::get('/view_reporte_cn/{id}','ReporteCNController@render_view_reporte_cn');
 	Route::post('/submit_edit_reporte_cn','ReporteCNController@submit_edit_reporte_cn');
 	Route::get('/create_reporte_cn','ReporteCNController@render_create_reporte_cn');
 	Route::post('/submit_create_reporte_cn','ReporteCNController@submit_create_reporte_cn');
@@ -436,6 +437,7 @@ Route::group(array('prefix'=>'reporte_etes','before'=>'auth'),function(){
 Route::group(array('prefix'=>'reporte_paac','before'=>'auth'),function(){
 	Route::get('/list_reporte_paac','ReportePAACController@list_reporte_paac');
 	Route::get('/edit_reporte_paac/{id}','ReportePAACController@render_edit_reporte_paac');
+	Route::get('/view_reporte_paac/{id}','ReportePAACController@render_view_reporte_paac');
 	Route::post('/submit_edit_reporte_paac','ReportePAACController@submit_edit_reporte_paac');
 	Route::get('/create_reporte_paac','ReportePAACController@render_create_reporte_paac');
 	Route::post('/submit_create_reporte_paac','ReportePAACController@submit_create_reporte_paac');
@@ -461,6 +463,7 @@ Route::group(array('prefix'=>'cotizaciones','before'=>'auth'),function(){
 Route::group(array('prefix'=>'documentos_PAAC','before'=>'auth'),function(){
 	Route::get('/list_documento_paac','DocumentoPAACController@list_documento_paac');
 	Route::get('/edit_documento_paac/{id}','DocumentoPAACController@render_edit_documento_paac');
+	Route::get('/view_documento_paac/{id}','DocumentoPAACController@render_view_documento_paac');
 	Route::post('/submit_edit_documento_paac','DocumentoPAACController@submit_edit_documento_paac');
 	Route::get('/create_documento_paac','DocumentoPAACController@render_create_documento_paac');
 	Route::post('/submit_create_documento_paac','DocumentoPAACController@submit_create_documento_paac');
@@ -474,6 +477,7 @@ Route::group(array('prefix'=>'documentos_PAAC','before'=>'auth'),function(){
 Route::group(array('prefix'=>'plan_director','before'=>'auth'),function(){
 	Route::get('/list_documento_plan_director','DocumentoPlanDirectorController@list_documento_plan_director');
 	Route::get('/edit_documento_plan_director/{id}','DocumentoPlanDirectorController@render_edit_documento_plan_director');
+	Route::get('/view_documento_plan_director/{id}','DocumentoPlanDirectorController@render_view_documento_plan_director');
 	Route::post('/submit_edit_documento_plan_director','DocumentoPlanDirectorController@submit_edit_documento_plan_director');
 	Route::get('/create_documento_plan_director','DocumentoPlanDirectorController@render_create_documento_plan_director');
 	Route::post('/submit_create_documento_plan_director','DocumentoPlanDirectorController@submit_create_documento_plan_director');

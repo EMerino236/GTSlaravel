@@ -67,7 +67,12 @@
 		@foreach($documentos_paac_data as $documento_paac_data)
 		<tr class="@if($documento_paac_data->deleted_at) bg-danger @endif">
 			<td>
-				<a href="{{URL::to('/documentos_PAAC/edit_documento_paac/')}}/{{$documento_paac_data->iddocumentosPAAC}}">{{$documento_paac_data->nombre}}</a>
+				@if($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4)
+					<a href="{{URL::to('/documentos_PAAC/edit_documento_paac/')}}/{{$documento_paac_data->iddocumentosPAAC}}">{{$documento_paac_data->nombre}}</a>
+				@endif
+				@if($user->idrol == 7 || $user->idrol == 8 || $user->idrol == 9 || $user->idrol == 10 || $user->idrol == 11 || $user->idrol == 12)
+					<a href="{{URL::to('/documentos_PAAC/view_documento_paac/')}}/{{$documento_paac_data->iddocumentosPAAC}}">{{$documento_paac_data->nombre}}</a>
+				@endif
 			</td>
 			<td>
 				{{$documento_paac_data->tipo_documento}}

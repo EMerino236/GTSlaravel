@@ -107,6 +107,7 @@
 					</tr>
 				@endif
 			@endforeach
+			<!--
 			<tr bgcolor = 'lightgrey'>
 				<th>Reporte ETES</th>
 				<th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th>
@@ -130,6 +131,7 @@
 					</tr>
 				@endif
 			@endforeach
+		-->
 			<tr bgcolor = 'lightgrey'>
 				<th>Reporte PAAC</th>
 				<th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th>
