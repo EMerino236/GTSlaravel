@@ -11,21 +11,24 @@ class Area extends Eloquent{
 
 	public function scopeGetAreasInfo($query)
 	{
-		$query->join('tipo_areas','tipo_areas.idtipo_area','=','areas.idtipo_area')
+		$query->withTrashed()
+			  ->join('tipo_areas','tipo_areas.idtipo_area','=','areas.idtipo_area')
 			  ->select('tipo_areas.nombre as nombre_tipo_area','areas.*');
 		return $query;
 	}
 
 	public function scopeSearchAreaById($query,$search_criteria)
 	{
-		$query->where('areas.idarea','=',$search_criteria);
+		$query->withTrashed()
+			  ->where('areas.idarea','=',$search_criteria);
 		
 		return $query;
 	}
 
 	public function scopeSearchAreas($query,$search_tipo_area,$search_nombre_area){
 
-		$query->join('tipo_areas','tipo_areas.idtipo_area','=','areas.idtipo_area');
+		$query->withTrashed()
+			  ->join('tipo_areas','tipo_areas.idtipo_area','=','areas.idtipo_area');
 
 		if($search_tipo_area != "")
 		{

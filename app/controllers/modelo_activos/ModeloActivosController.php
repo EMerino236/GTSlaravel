@@ -43,7 +43,7 @@ class ModeloActivosController extends BaseController
 					);
 
 				$rules = array(
-							'nombre_modelo' => 'required|max:100|alpha_spaces|unique:modelo_activos,nombre',
+							'nombre_modelo' => 'required|max:100|alpha_num_spaces_slash_dash|unique:modelo_activos,nombre',
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
@@ -101,11 +101,18 @@ class ModeloActivosController extends BaseController
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
 				// Validate the info, create rules for the inputs
+				$modelo = ModeloActivo::find(Input::get('modelo_id'));
+				$attributes = array(
+					"nombre_modelo" => 'Nombre del Modelo'
+					);
+
+				$messages = array(
+					);
 				$rules = array(
-							'nombre_modelo' => 'required|max:100|alpha_spaces',
+							'nombre_modelo' => 'required|max:100|alpha_num_spaces_slash_dash|unique:modelo_activos,nombre,'.$modelo->idmodelo_equipo.',idmodelo_equipo'
 						);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					$idmodelo_equipo = Input::get('modelo_id');
@@ -183,8 +190,8 @@ class ModeloActivosController extends BaseController
 					);
 
 				$rules = array(
-							'nombre_accesorio' => 'required|min:1|max:100|alpha_spaces',
-							'modelo_accesorio' => 'required|min:1|max:100|alpha_spaces',
+							'nombre_accesorio' => 'required|min:1|max:100|alpha_num_spaces_slash_dash|unique:accesorios,nombre',
+							'modelo_accesorio' => 'required|min:1|max:100|alpha_num_spaces_slash_dash',
 							'costo_accesorio' => 'required|numeric',
 							'numero_pieza' => 'required|min:1|max:100|alpha_num_dash',
 						);
@@ -273,7 +280,7 @@ class ModeloActivosController extends BaseController
 					);
 
 				$rules = array(
-							'nombre_consumible' => 'required|min:1|max:100|alpha_spaces',
+							'nombre_consumible' => 'required|min:1|max:100|alpha_num_spaces_slash_dash|unique:consumibles,nombre',
 							'cantidad_consumible' => 'required|min:1|max:100|numeric',
 							'costo_consumible' => 'required|numeric',
 						);
@@ -361,8 +368,8 @@ class ModeloActivosController extends BaseController
 					);
 
 				$rules = array(
-							'nombre_componente' => 'required|min:1|max:100|alpha_spaces',
-							'modelo_componente' => 'required|min:1|max:100|alpha_spaces',
+							'nombre_componente' => 'required|min:1|max:100|alpha_num_spaces_slash_dash|unique:componentes,nombre',
+							'modelo_componente' => 'required|min:1|max:100|alpha_num_spaces_slash_dash',
 							'costo_componente' => 'required|numeric',
 							'numero_pieza' => 'required|min:1|max:100|alpha_num_dash',
 						);
@@ -416,6 +423,54 @@ class ModeloActivosController extends BaseController
 				$data["componentes_info"] = Componente::getComponenteByModelo($data["modelo_equipo_info"]->idmodelo_equipo)->get();
 
 				return View::make('modelo_activos/viewModeloActivo',$data);
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+	public function submit_delete_modelo_familia_activo(){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if(($data["user"]->idrol == 1)){
+				
+				$data["modelo_equipo_info"] = ModeloActivo::find(Input::get('modelo_id'));	
+
+				$data["accesorios_info"] = Accesorio::getAccesorioByModelo($data["modelo_equipo_info"]->idmodelo_equipo)->get();
+				$data["consumibles_info"] = Consumible::getConsumibleByModelo($data["modelo_equipo_info"]->idmodelo_equipo)->get();				
+				$data["componentes_info"] = Componente::getComponenteByModelo($data["modelo_equipo_info"]->idmodelo_equipo)->get();
+				$data["activos_info"] = Activo::searchActivosByModelo($data["modelo_equipo_info"]->idmodelo_equipo)->get();
+				$count_accesorios = count($data["accesorios_info"]);
+				$count_componentes = count($data["componentes_info"]);
+				$count_consumibles = count($data["consumibles_info"]);
+				$count_activos = count($data["activos_info"]);
+
+				if($count_accesorios > 0){
+					Session::flash('error','Se tienen accesorios activos. Operación no realizada.');
+					$url = "familia_activos/edit_modelo_familia_activo"."/".$data["modelo_equipo_info"]->idmodelo_equipo;
+					return Redirect::to($url);
+				}else if($count_componentes > 0){
+					Session::flash('error','Se tienen componentes activos. Operación no realizada.');
+					$url = "familia_activos/edit_modelo_familia_activo"."/".$data["modelo_equipo_info"]->idmodelo_equipo;
+					return Redirect::to($url);
+				}else if($count_consumibles > 0){
+					Session::flash('error','Se tienen consumibles activos. Operación no realizada.');
+					$url = "familia_activos/edit_modelo_familia_activo"."/".$data["modelo_equipo_info"]->idmodelo_equipo;
+					return Redirect::to($url);
+				}else if($count_activos > 0){
+					Session::flash('error','Se tienen equipos activos. Operación no realizada.');
+					$url = "familia_activos/edit_modelo_familia_activo"."/".$data["modelo_equipo_info"]->idmodelo_equipo;
+					return Redirect::to($url);
+				}else{
+					$data["modelo_equipo_info"]->delete();
+					Session::flash('error','Se eliminó el modelo con éxito.');
+					$url = "familia_activos/edit_familia_activo"."/".Input::get('familia_activo_id');
+					return Redirect::to($url);
+				}
 			}else{
 				return View::make('error/error',$data);
 			}

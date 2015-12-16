@@ -258,4 +258,9 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 		return $query;
 	}
 
+	public function scopeSearchActivosByModelo($query,$idmodelo){
+		$query->where('activos.idmodelo_equipo','=',$idmodelo);
+		return $query;
+	}
+
 }

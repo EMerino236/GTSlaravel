@@ -20,6 +20,8 @@
     <link href="{{ asset('bower_components/morrisjs/morris.css') }}" rel="stylesheet">
     <!-- Custom Fonts -->
     <link href="{{ asset('bower_components/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+    <!--Bootstrap-Dialog CSS-->
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-dialog.min.css') }}">
     <script type="text/javascript">
 		var inside_url = "{{$inside_url}}";
 	</script>
@@ -39,7 +41,8 @@
     <script src="{{ asset('bower_components/morrisjs/morris.min.js') }}"></script>
     <!-- Custom Theme JavaScript -->
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
-    <script src="{{ asset('js/user/user.js') }}"></script>
+    <script src="{{ asset('js/user/user.js') }}"></script>    
+    <script src="{{asset('js/bootstrap-dialog.min.js') }}"></script>
 </head>
 
 <body>

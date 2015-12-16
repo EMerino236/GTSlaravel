@@ -14,7 +14,7 @@
 		</div>
 	@endif
 	@if (Session::has('error'))
-		<div class="alert alert-success alert-dissmisable">
+		<div class="alert alert-danger alert-dissmisable">
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			{{ Session::get('error') }}
 		</div>
@@ -22,17 +22,11 @@
 
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			<p><strong>{{ $errors->first('nombre_grupo') }}</strong></p>
 			<p><strong>{{ $errors->first('descripcion_grupo') }}</strong></p>
 			<p><strong>{{ $errors->first('usuario_responsable') }}</strong></p>
 		</div>
-	@endif
-
-	@if (Session::has('message'))
-		<div class="alert alert-success">{{ Session::get('message') }}</div>
-	@endif
-	@if (Session::has('error'))
-		<div class="alert alert-danger">{{ Session::get('error') }}</div>
 	@endif
 
 	{{ Form::open(array('url'=>'grupos/submit_edit_grupo', 'role'=>'form')) }}
@@ -113,17 +107,17 @@
 			</div>	
 	{{ Form::close() }}
 		@if($grupo_info->deleted_at)
-		{{ Form::open(array('url'=>'grupos/submit_enable_grupo', 'role'=>'form')) }}
+		{{ Form::open(array('url'=>'grupos/submit_enable_grupo', 'role'=>'form','id'=>'enable_grupo')) }}
 			{{ Form::hidden('grupo_id', $grupo_info->idgrupo) }}
 				<div class="form-group col-md-2 col-md-offset-8">
-					{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-up"></span> Habilitar', array('id'=>'submit-delete', 'type' => 'submit', 'class' => 'btn btn-success btn-block')) }}
+					{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-up"></span> Habilitar', array('id'=>'submit-enable-grupo', 'class' => 'btn btn-success btn-block')) }}
 				</div>
 		{{ Form::close() }}
 		@else
-		{{ Form::open(array('url'=>'grupos/submit_disable_grupo', 'role'=>'form')) }}
+		{{ Form::open(array('url'=>'grupos/submit_disable_grupo', 'role'=>'form','id'=>'disable_grupo')) }}
 			{{ Form::hidden('grupo_id', $grupo_info->idgrupo) }}
 				<div class="form-group col-md-2 col-md-offset-6">
-					{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-down"></span> Inhabilitar', array('id'=>'submit-delete', 'type' => 'submit', 'class' => 'btn btn-danger btn-block')) }}
+					{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-down"></span> Inhabilitar', array('id'=>'submit-disable-grupo', 'class' => 'btn btn-danger btn-block')) }}
 				</div>
 		{{ Form::close() }}
 		@endif

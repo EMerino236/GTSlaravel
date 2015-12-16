@@ -39,12 +39,17 @@
 				<div class="form-group col-md-2 col-md-offset-6">				
 					{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit-create', 'type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}
 				</div>
+				{{ Form::close() }}
+				{{ Form::open(array('url'=>'familia_activos/submit_delete_modelo_familia_activo', 'role'=>'form','id'=>'delete_modelo')) }}
+				{{ Form::hidden('familia_activo_id',$familia_activo_info->idfamilia_activo)}}
+				{{ Form::hidden('modelo_id', $modelo_info->idmodelo_equipo) }}
 				<div class="form-group col-md-2 ">
-					<div class="btn btn-danger btn-block" id="btnEliminar"><span class="glyphicon glyphicon-trash"></span> Eliminar</div>
+					<div class="btn btn-danger btn-block" id="btnEliminarModelo"><span class="glyphicon glyphicon-trash"></span> Eliminar</div>
 				</div>
+				{{ Form::close() }}
 				<div class="form-group col-md-2">
 					<a class="btn btn-default btn-block" href="{{URL::to('/familia_activos/edit_familia_activo')}}/{{$familia_activo_info->idfamilia_activo}}">Cancelar</a>				
 				</div>
 			</div>
-	{{ Form::close() }}
+	
 @stop

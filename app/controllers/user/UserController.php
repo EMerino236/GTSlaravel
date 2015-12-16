@@ -30,22 +30,39 @@ class UserController extends BaseController {
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
 				// Validate the info, create rules for the inputs
+				$attributes = array(
+					'username' => 'Nombre de Usuario',
+					'email' => 'E-mail',
+					'genero' => 'Género',
+					'fecha_nacimiento' => 'Fecha Nacimiento',
+					'nombre' => 'Nombre',
+					'apellido_pat' => 'Apellido Paterno',
+					'apellido_mat' => 'Apellido Materno',
+					'tipo_documento' => 'Tipo de Documento',
+					'numero_doc_identidad' => 'Número de Documento de Identidad',
+					'idarea' => 'Área',
+					'idrol' => 'Rol',
+					'telefono' => 'Teléfono'
+					);
+
+				$messages = array();
+
 				$rules = array(
-							'username' => 'required|min:6|max:45|unique:users',
+							'username' => 'required|min:6|max:45|unique:users|alpha_num_dash',
 							'email' => 'required|email|max:45',
 							'genero' => 'required',
 							'fecha_nacimiento' => 'required',
-							'nombre' => 'required|alpha_spaces|min:2|max:45',
-							'apellido_pat' => 'required|alpha_spaces|min:2|max:45',
-							'apellido_mat' => 'required|alpha_spaces|min:2|max:45',
+							'nombre' => 'required|alpha_spaces|min:2|max:45|alpha_spaces',
+							'apellido_pat' => 'required|alpha_spaces|min:2|max:45|alpha_num_dash',
+							'apellido_mat' => 'required|alpha_spaces|min:2|max:45|alpha_num_dash',
 							'tipo_documento' => 'required',
 							'numero_doc_identidad' => 'required|numeric|digits_between:8,16',
 							'idarea' => 'required',
 							'idrol' => 'required',
-							'telefono' => 'min:7|max:20',
+							'telefono' => 'min:7|max:20|alpha_num_dash',
 						);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					return Redirect::to('user/create_user')->withErrors($validator)->withInput(Input::all());
@@ -135,23 +152,52 @@ class UserController extends BaseController {
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
 				// Validate the info, create rules for the inputs
+				$attributes = array(
+					'email' => 'E-mail',
+					'genero' => 'Género',
+					'fecha_nacimiento' => 'Fecha Nacimiento',
+					'nombre' => 'Nombre',
+					'apellido_pat' => 'Apellido Paterno',
+					'apellido_mat' => 'Apellido Materno',
+					'tipo_documento' => 'Tipo de Documento',
+					'numero_doc_identidad' => 'Número de Documento de Identidad',
+					'idarea' => 'Área',
+					'idrol' => 'Rol',
+					'telefono' => 'Teléfono'
+					);
+
+				$messages = array();
+
 				$rules = array(
-							'email' => 'required|email|max:45',
-							'genero' => 'required',
-							'fecha_nacimiento' => 'required',
-							'password' => 'min:6|max:30|confirmed',
-							'password_confirmation' => 'min:6|max:30',
-							'nombre' => 'required|alpha_spaces|min:2|max:45',
-							'apellido_pat' => 'required|alpha_spaces|min:2|max:45',
-							'apellido_mat' => 'required|alpha_spaces|min:2|max:45',
-							'tipo_documento' => 'required',
-							'numero_doc_identidad' => 'required|numeric|digits_between:8,16',
-							'idarea' => 'required',
-							'idrol' => 'required',
-							'telefono' => 'min:7|max:20',
-						);
+					'email' => 'required|email|max:45',
+					'genero' => 'required',
+					'fecha_nacimiento' => 'required',
+					'nombre' => 'required|alpha_spaces|min:2|max:45|alpha_spaces',
+					'apellido_pat' => 'required|alpha_spaces|min:2|max:45|alpha_num_dash',
+					'apellido_mat' => 'required|alpha_spaces|min:2|max:45|alpha_num_dash',
+					'tipo_documento' => 'required',
+					'numero_doc_identidad' => 'required|numeric|digits_between:8,16',
+					'idarea' => 'required',
+					'idrol' => 'required',
+					'telefono' => 'min:7|max:20|alpha_num_dash',
+				);
+				$rules = array(
+					'email' => 'required|email|max:45',
+					'genero' => 'required',
+					'fecha_nacimiento' => 'required',
+					'password' => 'min:6|max:30|confirmed',
+					'password_confirmation' => 'min:6|max:30',
+					'nombre' => 'required|alpha_spaces|min:2|max:45',
+					'apellido_pat' => 'required|alpha_spaces|min:2|max:45',
+					'apellido_mat' => 'required|alpha_spaces|min:2|max:45',
+					'tipo_documento' => 'required',
+					'numero_doc_identidad' => 'required|numeric|digits_between:8,16',
+					'idarea' => 'required',
+					'idrol' => 'required',
+					'telefono' => 'min:7|max:20',
+				);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					$user_id = Input::get('user_id');

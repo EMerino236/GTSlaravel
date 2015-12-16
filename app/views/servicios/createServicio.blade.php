@@ -53,7 +53,7 @@
 							</div>
 							<div class="form-group col-md-4 @if($errors->first('personal')) has-error has-feedback @endif">
 								{{ Form::label('personal','Usuario Responsable') }}
-								{{ Form::select('personal',array(''=> 'Seleccione')+$personal, Input::old('personal'),array('class'=>'form-control','id'=>'usuario'))}}
+								{{ Form::select('personal',$personal, Input::old('personal'),array('class'=>'form-control','id'=>'usuario'))}}
 							</div>							
 						</div>
 						<div class="row">

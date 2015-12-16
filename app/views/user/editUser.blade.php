@@ -9,6 +9,7 @@
 
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			<p><strong>{{ $errors->first('email') }}</strong></p>
 			<p><strong>{{ $errors->first('nombre') }}</strong></p>
 			<p><strong>{{ $errors->first('apellido_pat') }}</strong></p>
@@ -26,10 +27,16 @@
 	@endif
 
 	@if (Session::has('message'))
-		<div class="alert alert-success">{{ Session::get('message') }}</div>
+		<div class="alert alert-success">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('message') }}
+		</div>
 	@endif
 	@if (Session::has('error'))
-		<div class="alert alert-danger">{{ Session::get('error') }}</div>
+		<div class="alert alert-danger">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('error') }}
+		</div>
 	@endif
 
 	{{ Form::open(array('url'=>'user/submit_edit_user', 'role'=>'form')) }}
@@ -136,7 +143,7 @@
 				<div class="col-md-6">
 					{{ Form::label('fecha_nacimiento','Cambiar fecha de nacimiento') }}
 					<div id="datetimepicker1" class="form-group input-group date @if($errors->first('fecha_nacimiento')) has-error has-feedback @endif">
-						{{ Form::text('fecha_nacimiento',$user_info->fecha_nacimiento,array('class'=>'form-control','readonly'=>'')) }}
+						{{ Form::text('fecha_nacimiento',date('d-m-Y H:i',strtotime($user_info->fecha_nacimiento)),array('class'=>'form-control','readonly'=>'')) }}
 						<span class="input-group-addon">
 	                        <span class="glyphicon glyphicon-calendar"></span>
 	                    </span>
@@ -154,24 +161,27 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="form-group col-md-6">
-					@if(!$user_info->deleted_at)
-						{{ Form::submit('Guardar',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}
-					@endif
+				@if(!$user_info->deleted_at)					
+				<div class="form-group col-md-2">
+						{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit-edit', 'type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}	
+				</div>
+				@endif
+				<div class="col-md-2 form-group">
+					<a class="btn btn-default btn-block" href="{{URL::to('/user/list_users')}}">Cancelar</a>
 				</div>
 		{{ Form::close() }}
 		@if($user_info->deleted_at)
-			{{ Form::open(array('url'=>'user/submit_enable_user', 'role'=>'form')) }}
+			{{ Form::open(array('url'=>'user/submit_enable_user', 'role'=>'form','id'=>'enable_user')) }}
 				{{ Form::hidden('user_id', $user_info->id) }}
-				<div class="form-group col-md-6">
-					{{ Form::submit('Habilitar',array('id'=>'submit-delete', 'class'=>'btn btn-success')) }}
+				<div class="form-group col-md-2 col-md-offset-8">
+					{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-up"></span> Habilitar', array('id'=>'submit-enable-user', 'class' => 'btn btn-success btn-block')) }}
 				</div>
 			{{ Form::close() }}
 		@else
-			{{ Form::open(array('url'=>'user/submit_disable_user', 'role'=>'form')) }}
+			{{ Form::open(array('url'=>'user/submit_disable_user', 'role'=>'form','id'=>'disable_user')) }}
 				{{ Form::hidden('user_id', $user_info->id) }}
-				<div class="form-group col-md-6">
-					{{ Form::submit('Inhabilitar',array('id'=>'submit-delete', 'class'=>'btn btn-danger')) }}	
+				<div class="form-group col-md-2 col-md-offset-6">
+					{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-down"></span> Inhabilitar', array('id'=>'submit-disable-user', 'class' => 'btn btn-danger btn-block')) }}
 				</div>
 			{{ Form::close() }}
 		@endif

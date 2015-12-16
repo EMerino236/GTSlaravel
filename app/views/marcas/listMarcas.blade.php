@@ -49,31 +49,38 @@
 		</div>
 	</div>
 
-	<table class="table">
-		<tr class="info">
-			<th>Nº</th>			
-			<th>Nombre</th>
-			<th>Fecha de Creación</th>
-			<th>Editar</th>
-		</tr>
-		@foreach($marcas_data as $index => $marca_data)
-		<tr class="@if($marca_data->deleted_at) bg-danger @endif">			
-			<td>
-				{{$index + 1}}
-			</td>	
-			<td>
-				{{$marca_data->nombre}}
-			</td>
-			<td>
-				{{$marca_data->created_at->format('d-m-Y')}}
-			</td>
-			<td>
-				<a class="btn btn-warning btn-block btn-sm" href="{{URL::to('/marcas/edit_marca/')}}/{{$marca_data->idmarca}}">
-				<span class="glyphicon glyphicon-pencil"></span> Editar</a>
-			</td>
-		</tr>
-		@endforeach			
-	</table>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="table-responsive">
+				<table class="table">
+					<tr class="info">
+						<th class="text-nowrap text-center">Nº</th>			
+						<th class="text-nowrap text-center">Nombre</th>
+						<th class="text-nowrap text-center">Fecha de Creación</th>
+						<th class="text-nowrap text-center">Editar</th>
+					</tr>
+					@foreach($marcas_data as $index => $marca_data)
+					<tr class="@if($marca_data->deleted_at) bg-danger @endif">			
+						<td class="text-nowrap text-center">
+							{{$index + 1}}
+						</td>	
+						<td class="text-nowrap text-center">
+							{{$marca_data->nombre}}
+						</td>
+						<td class="text-nowrap text-center">
+							{{$marca_data->created_at->format('d-m-Y')}}
+						</td>
+						<td class="text-nowrap text-center">
+							<a class="btn btn-warning btn-block btn-sm" href="{{URL::to('/marcas/edit_marca/')}}/{{$marca_data->idmarca}}">
+							<span class="glyphicon glyphicon-pencil"></span></a>
+						</td>
+					</tr>
+					@endforeach			
+				</table>
+			</div>
+		</div>
+	</div>
+	
 	@if($search_nombre_marca)
 	{{ $marcas_data->appends(array('search_nombre_marca' => $search_nombre_marca))->links() }}
 	@else	

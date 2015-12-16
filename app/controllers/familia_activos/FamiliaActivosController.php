@@ -85,8 +85,8 @@ class FamiliaActivosController extends BaseController
 					);
 
 				$rules = array(
-							'nombre_equipo' => 'required|min:1|max:100|alpha_spaces|unique:familia_activos,nombre_equipo',
-							'nombre_siga' => 'required|min:1|max:100|alpha_spaces|unique:familia_activos,nombre_siga',
+							'nombre_equipo' => 'required|min:1|max:100|alpha_num_spaces|unique:familia_activos,nombre_equipo',
+							'nombre_siga' => 'required|min:1|max:100|alpha_num_spaces|unique:familia_activos,nombre_siga',
 							'idtipo_activo' => 'required',
 							'idmarca' =>'required',
 
@@ -160,8 +160,8 @@ class FamiliaActivosController extends BaseController
 					);
 
 				$rules = array(
-					'nombre_equipo' => 'required|min:1|max:100|alpha_spaces|unique:familia_activos,nombre_equipo,'.$familia->idfamilia_activo.',idfamilia_activo',
-					'nombre_siga' => 'required|min:1|max:100|alpha_spaces|unique:familia_activos,nombre_siga,'.$familia->idfamilia_activo.',idfamilia_activo',
+					'nombre_equipo' => 'required|min:1|max:100|alpha_num_spaces|unique:familia_activos,nombre_equipo,'.$familia->idfamilia_activo.',idfamilia_activo',
+					'nombre_siga' => 'required|min:1|max:100|alpha_num_spaces|unique:familia_activos,nombre_siga,'.$familia->idfamilia_activo.',idfamilia_activo',
 					'idtipo_activo' => 'required',
 					'idmarca' =>'required',
 				);

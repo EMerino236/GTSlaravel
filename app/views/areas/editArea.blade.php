@@ -14,7 +14,7 @@
 		</div>
 	@endif
 	@if (Session::has('error'))
-		<div class="alert alert-success alert-dissmisable">
+		<div class="alert alert-danger alert-dissmisable">
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			{{ Session::get('error') }}
 		</div>
@@ -107,17 +107,17 @@
 		</div>
 		{{ Form::close() }}
 		@if($area_info->deleted_at)
-		{{ Form::open(array('url'=>'areas/submit_enable_area', 'role'=>'form')) }}
+		{{ Form::open(array('url'=>'areas/submit_enable_area', 'role'=>'form','id'=>'enable_area')) }}
 			{{ Form::hidden('area_id', $area_info->idarea) }}
 				<div class="form-group col-md-2 col-md-offset-8">
-					{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-up"></span> Habilitar', array('id'=>'submit-delete', 'type' => 'submit', 'class' => 'btn btn-success btn-block')) }}
+					{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-up"></span> Habilitar', array('id'=>'submit-enable', 'class' => 'btn btn-success btn-block')) }}
 				</div>					
 		{{ Form::close() }}
 		@else
-		{{ Form::open(array('url'=>'areas/submit_disable_area', 'role'=>'form')) }}
+		{{ Form::open(array('url'=>'areas/submit_disable_area', 'role'=>'form','id'=>'disable_area')) }}
 			{{ Form::hidden('area_id', $area_info->idarea) }}
 				<div class="form-group col-md-2 col-md-offset-6">
-					{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-down"></span> Inhabilitar', array('id'=>'submit-delete', 'type' => 'submit', 'class' => 'btn btn-danger btn-block')) }}
+					{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-down"></span> Inhabilitar', array('id'=>'submit-disable', 'class' => 'btn btn-danger btn-block')) }}
 				</div>
 		{{ Form::close() }}
 		@endif

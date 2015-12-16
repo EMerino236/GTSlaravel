@@ -11,13 +11,118 @@ $( document ).ready(function(){
 		limpiar_criterios_marcas();
 	});
 
-	list_marca_btnLimpiar
+	$('#submit-enable').click(function(){
+		BootstrapDialog.confirm({
+			title: 'Mensaje de Confirmación',
+			message: '¿Está seguro que desea realizar esta acción?', 
+			type: BootstrapDialog.TYPE_INFO,
+			btnCancelLabel: 'Cancelar', 
+	    	btnOKLabel: 'Aceptar', 
+			callback: function(result){
+		        if(result) {
+					document.getElementById("enable_area").submit();
+				}
+			}
+		});
+	});
+
+	$('#submit-disable').click(function(){
+		BootstrapDialog.confirm({
+			title: 'Mensaje de Confirmación',
+			message: '¿Está seguro que desea realizar esta acción?', 
+			type: BootstrapDialog.TYPE_INFO,
+			btnCancelLabel: 'Cancelar', 
+	    	btnOKLabel: 'Aceptar', 
+			callback: function(result){
+		        if(result) {
+					document.getElementById("disable_area").submit();
+				}
+			}
+		});
+	});
+
+	$('#btnEliminarModelo').click(function(){
+		BootstrapDialog.confirm({
+			title: 'Mensaje de Confirmación',
+			message: '¿Está seguro que desea realizar esta acción?', 
+			type: BootstrapDialog.TYPE_INFO,
+			btnCancelLabel: 'Cancelar', 
+	    	btnOKLabel: 'Aceptar', 
+			callback: function(result){
+		        if(result) {
+					document.getElementById("delete_modelo").submit();
+				}
+			}
+		});
+	});
+
+	$('#submit-enable-grupo').click(function(){
+		BootstrapDialog.confirm({
+			title: 'Mensaje de Confirmación',
+			message: '¿Está seguro que desea realizar esta acción?', 
+			type: BootstrapDialog.TYPE_INFO,
+			btnCancelLabel: 'Cancelar', 
+	    	btnOKLabel: 'Aceptar', 
+			callback: function(result){
+		        if(result) {
+					document.getElementById("enable_grupo").submit();
+				}
+			}
+		});
+	});
+
+	$('#submit-disable-grupo').click(function(){
+		BootstrapDialog.confirm({
+			title: 'Mensaje de Confirmación',
+			message: '¿Está seguro que desea realizar esta acción?', 
+			type: BootstrapDialog.TYPE_INFO,
+			btnCancelLabel: 'Cancelar', 
+	    	btnOKLabel: 'Aceptar', 
+			callback: function(result){
+		        if(result) {
+					document.getElementById("disable_grupo").submit();
+				}
+			}
+		});
+	});
+
+	$('#submit-enable-servicio').click(function(){
+		BootstrapDialog.confirm({
+			title: 'Mensaje de Confirmación',
+			message: '¿Está seguro que desea realizar esta acción?', 
+			type: BootstrapDialog.TYPE_INFO,
+			btnCancelLabel: 'Cancelar', 
+	    	btnOKLabel: 'Aceptar', 
+			callback: function(result){
+		        if(result) {
+					document.getElementById("enable_servicio").submit();
+				}
+			}
+		});
+	});
+
+	$('#submit-disable-servicio').click(function(){
+		BootstrapDialog.confirm({
+			title: 'Mensaje de Confirmación',
+			message: '¿Está seguro que desea realizar esta acción?', 
+			type: BootstrapDialog.TYPE_INFO,
+			btnCancelLabel: 'Cancelar', 
+	    	btnOKLabel: 'Aceptar', 
+			callback: function(result){
+		        if(result) {
+					document.getElementById("disable_servicio").submit();
+				}
+			}
+		});
+	});
+
 });
 
 
 function fill_usuario_responsable_servicio(){		
 		var val = document.getElementById("area").value;
-		$.ajax({
+		if(val != ""){
+			$.ajax({
 			url: inside_url+'servicios/return_usuarios/'+val,
 			type: 'POST',
 			data: { 'selected_id' : val },
@@ -47,7 +152,11 @@ function fill_usuario_responsable_servicio(){
 			error: function(){
 				alert('La petición no se pudo completar, inténtelo de nuevo.');
 			}
-		});
+			});
+		}else{
+			$("#usuario").empty();					
+		}
+		
 
 }
 

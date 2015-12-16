@@ -62,31 +62,31 @@
 	<div class="table-responsive">
 		<table class="table">
 			<tr class="info">
-				<th>Nº</th>
-				<th>Tipo Activo</th>
-				<th>Nombre SIGA</th>
-				<th>Nombre Equipo</th>				
-				<th>Marca</th>				
-				<th>Editar</th>
+				<th class="text-nowrap text-center">Nº</th>
+				<th class="text-nowrap text-center">Tipo Activo</th>
+				<th class="text-nowrap text-center">Nombre SIGA</th>
+				<th class="text-nowrap text-center">Nombre Equipo</th>				
+				<th class="text-nowrap text-center">Marca</th>				
+				<th class="text-nowrap text-center">Editar</th>
 			</tr>
 			@foreach($familiaactivos_data as $index => $familiaactivo_data)
 			<tr class="@if($familiaactivo_data->deleted_at) bg-danger @endif">			
-				<td>
+				<td class="text-nowrap text-center">
 					{{$index + 1}}
 				</td>
-				<td>
+				<td class="text-nowrap text-center">
 					{{$familiaactivo_data->tipoActivo->nombre}}
 				</td>
-				<td>
+				<td class="text-nowrap">
 					{{$familiaactivo_data->nombre_siga}}
 				</td>	
-				<td>
+				<td class="text-nowrap">
 					<a href="{{URL::to('/familia_activos/view_familia_activo')}}/{{$familiaactivo_data->idfamilia_activo}}">{{$familiaactivo_data->nombre_equipo}}</a>					
 				</td>
-				<td>
+				<td  class="text-nowrap text-center">
 					{{$familiaactivo_data->marca->nombre}}
 				</td>
-				<td>
+				<td class="text-nowrap text-center">
 					<a class="btn btn-warning btn-block btn-sm" href="{{URL::to('/familia_activos/edit_familia_activo')}}/{{$familiaactivo_data->idfamilia_activo}}">
 					<span class="glyphicon glyphicon-pencil"></span></a>
 				</td>

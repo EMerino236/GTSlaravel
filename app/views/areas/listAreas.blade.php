@@ -51,35 +51,42 @@
 			<span class="glyphicon glyphicon-plus"></span> Agregar</a>
 		</div>
 	</div> 
-	<table class="table">
-		<tr class="info">
-			<th>N°</th>
-			<th>Nombre del Área</th>
-			<th>Tipo de Área</th>
-			<th>Fecha de Creación</th>
-			<th>Editar</th>
-		</tr>
-		@foreach($areas_data as $index => $area_data)
-		<tr class="@if($area_data->deleted_at) bg-danger @endif">			
-			<td>
-				{{$index+1}}
-			</td>
-			<td>
-				<a href="{{URL::to('/areas/view_area')}}/{{$area_data->idarea}}">{{$area_data->nombre}}</a>																		
-			</td>
-			<td>
-				{{$area_data->nombre_tipo_area}}
-			</td>
-			<td>
-				{{$area_data->created_at->format('d-m-Y')}}
-			</td>
-			<td>
-				<a class="btn btn-warning btn-block btn-sm" href="{{URL::to('/areas/edit_area/')}}/{{$area_data->idarea}}">
-				<span class="glyphicon glyphicon-pencil"></span> Editar</a>
-			</td>
-		</tr>
-		@endforeach		
-	</table>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="table-responsive">
+				<table class="table">
+					<tr class="info">
+						<th class="text-nowrap text-center">N°</th>
+						<th class="text-nowrap text-center">Nombre del Área</th>
+						<th class="text-nowrap text-center">Tipo de Área</th>
+						<th class="text-nowrap text-center">Fecha de Creación</th>
+						<th class="text-nowrap text-center">Editar</th>
+					</tr>
+					@foreach($areas_data as $index => $area_data)
+					<tr class="@if($area_data->deleted_at) bg-danger @endif">			
+						<td class="text-nowrap text-center">
+							{{$index+1}}
+						</td>
+						<td class="text-nowrap">
+							<a href="{{URL::to('/areas/view_area')}}/{{$area_data->idarea}}">{{$area_data->nombre}}</a>																		
+						</td>
+						<td class="text-nowrap text-center">
+							{{$area_data->nombre_tipo_area}}
+						</td>
+						<td class="text-nowrap text-center">
+							{{$area_data->created_at->format('d-m-Y')}}
+						</td>
+						<td class="text-nowrap">
+							<a class="btn btn-warning btn-block btn-sm" href="{{URL::to('/areas/edit_area/')}}/{{$area_data->idarea}}">
+							<span class="glyphicon glyphicon-pencil"></span></a>
+						</td>
+					</tr>
+					@endforeach		
+				</table>
+			</div>
+		</div>
+	</div>
+	
 	@if($search_tipo_area || $search_nombre_area)
 		{{ $areas_data->appends(array('search_nombre_area' => $search_nombre_area,'search_tipo_area' => $search_tipo_area))->links() }}
 	@else	

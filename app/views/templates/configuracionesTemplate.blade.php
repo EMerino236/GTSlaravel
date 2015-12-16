@@ -24,6 +24,8 @@
     <script type="text/javascript">
         var inside_url = "{{$inside_url}}";
     </script>
+    <!--Bootstrap-Dialog CSS-->
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-dialog.min.css') }}">
 
     <!-- jQuery -->
     <script src="{{ asset('bower_components/jquery/dist/jquery.min.js') }}"></script>
@@ -45,7 +47,8 @@
     <script src="{{ asset('js/familia_activos/listFamiliaActivos.js') }}"></script>
     <script src="{{ asset('js/familia_activos/editFamiliaActivos.js') }}"></script>
     <script src="{{ asset('js/modelo_activos/utilModeloActivos.js') }}"></script>    
-    
+    <!--Bootstrap-Dialog Javascritp-->
+    <script src="{{asset('js/bootstrap-dialog.min.js') }}"></script>   
 </head>
 
 <body>

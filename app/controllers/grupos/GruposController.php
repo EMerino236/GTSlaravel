@@ -78,8 +78,8 @@ class GruposController extends BaseController
 					);
 
 				$rules = array(
-						'nombre_grupo' => 'required|max:100|validator_grupo|unique:grupos,nombre',
-						'descripcion_grupo' => 'max:200|validator_grupo_descripcion',
+						'nombre_grupo' => 'required|max:100|alpha_num_spaces|unique:grupos,nombre',
+						'descripcion_grupo' => 'max:200|alpha_num_spaces_colon',
 						'usuario_responsable'=>'required',				
 					);
 				// Run the validation rules on the inputs from the form
@@ -149,8 +149,8 @@ class GruposController extends BaseController
 				$messages = array(
 					);
 				$rules = array(
-							'nombre_grupo' => 'required|max:100|validator_grupo|unique:grupos,nombre,'.$grupo->idgrupo.',idgrupo',
-							'descripcion_grupo' => 'max:200|validator_grupo_descripcion',
+							'nombre_grupo' => 'required|max:100|alpha_num_spaces|unique:grupos,nombre,'.$grupo->idgrupo.',idgrupo',
+							'descripcion_grupo' => 'max:200|alpha_num_spaces_colon',
 							'usuario_responsable' =>'required',
 						);
 				// Run the validation rules on the inputs from the form

@@ -69,7 +69,7 @@ class MarcasController extends BaseController
 				$messages = array(
 					);
 				$rules = array(
-					'nombre_marca' => 'required|min:1|max:100|unique:marcas,nombre|validator_marca'							
+					'nombre_marca' => 'required|min:1|max:100|unique:marcas,nombre|alpha_num_ampersand'							
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
@@ -128,10 +128,10 @@ class MarcasController extends BaseController
 				$messages = array(
 					);
 				$rules = array(
-					'nombre_marca' => 'required|min:1|max:100|validator_marca|unique:marcas,nombre,'.$marca->idmarca.',idmarca'
+					'nombre_marca' => 'required|min:1|max:100|alpha_num_ampersand|unique:marcas,nombre,'.$marca->idmarca.',idmarca'
 					);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules,$attributes,$messages);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					$marca_id = Input::get('marca_id');

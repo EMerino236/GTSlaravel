@@ -53,14 +53,14 @@
  				<table class="table">
 					<tr class="info">
 						<th class="text-nowrap text-center">N°</th>
-						<th>Nombre del Grupo</th>
-						<th>Usuario Responsable</th>
-						<th>Fecha de Creación</th>
-						<th>Editar</th>
+						<th class="text-nowrap text-center">Nombre del Grupo</th>
+						<th class="text-nowrap text-center">Usuario Responsable</th>
+						<th class="text-nowrap text-center">Fecha de Creación</th>
+						<th class="text-nowrap text-center">Editar</th>
 					</tr>
 					@foreach($grupos_data as $index => $grupo_data)
 					<tr class="@if($grupo_data->deleted_at) bg-danger @endif">			
-						<td>
+						<td class="text-nowrap text-center">
 							{{$index+1}}
 						</td>
 						<td>
@@ -69,12 +69,12 @@
 						<td>
 							{{$grupo_data->nombre_responsable}} {{$grupo_data->apellido_pat_responsable}} {{$grupo_data->apellido_mat_responsable}}
 						</td>
-						<td>
+						<td class="text-nowrap text-center">
 							{{$grupo_data->created_at->format('d-m-Y')}}
 						</td>
-						<td>
+						<td class="text-nowrap text-center">
 							<a class="btn btn-warning btn-block btn-sm" href="{{URL::to('/grupos/edit_grupo/')}}/{{$grupo_data->idgrupo}}">
-							<span class="glyphicon glyphicon-pencil"></span> Editar</a>
+							<span class="glyphicon glyphicon-pencil"></span></a>
 						</td>
 					</tr>
 					@endforeach		

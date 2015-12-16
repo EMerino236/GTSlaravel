@@ -50,29 +50,29 @@
 			<div class="table-responsive">
 				<table class="table">
 					<tr class="info">
-						<th>N°</th>
-						<th>Nombre del Servicio</th>
-						<th>Tipo de Servicio</th>
-						<th>Fecha de Creación</th>
-						<th>Editar</th>
+						<th class="text-nowrap text-center">N°</th>
+						<th class="text-nowrap text-center">Nombre del Servicio</th>
+						<th class="text-nowrap text-center">Tipo de Servicio</th>
+						<th class="text-nowrap text-center">Fecha de Creación</th>
+						<th class="text-nowrap text-center">Editar</th>
 					</tr>
 					@foreach($servicios_data as $index => $servicio_data)
 					<tr class="@if($servicio_data->deleted_at) bg-danger @endif">			
-						<td>
+						<td class="text-nowrap text-center">
 							{{$index+1}}
 						</td>
 						<td>
 							{{$servicio_data->nombre}}
 						</td>
-						<td>
+						<td class="text-nowrap text-center">
 							{{$servicio_data->nombre_tipo_servicio}}
 						</td>
-						<td>
+						<td class="text-nowrap text-center">
 							{{$servicio_data->created_at->format('d-m-Y')}}
 						</td>
-						<td>
+						<td class="text-nowrap text-center">
 							<a class="btn btn-warning btn-block btn-sm" href="{{URL::to('/servicios/edit_servicio/')}}/{{$servicio_data->idservicio}}">
-							<span class="glyphicon glyphicon-pencil"></span> Editar</a>
+							<span class="glyphicon glyphicon-pencil"></span></a>
 						</td>
 					</tr>
 					@endforeach	

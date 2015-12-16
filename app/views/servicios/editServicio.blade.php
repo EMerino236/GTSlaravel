@@ -9,6 +9,7 @@
 
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			<p><strong>{{ $errors->first('nombre') }}</strong></p>
 			<p><strong>{{ $errors->first('descripcion') }}</strong></p>
 			<p><strong>{{ $errors->first('tipo_servicio') }}</strong></p>
@@ -18,10 +19,16 @@
 	@endif
 
 	@if (Session::has('message'))
-		<div class="alert alert-success">{{ Session::get('message') }}</div>
+		<div class="alert alert-success">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('message') }}
+		</div>
 	@endif
 	@if (Session::has('error'))
-		<div class="alert alert-danger">{{ Session::get('error') }}</div>
+		<div class="alert alert-danger">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('error') }}
+		</div>
 	@endif
 
 	{{ Form::open(array('url'=>'servicios/submit_edit_servicio', 'role'=>'form')) }}
@@ -54,7 +61,7 @@
 							</div>
 							<div class="form-group col-md-4 @if($errors->first('personal')) has-error has-feedback @endif">
 								{{ Form::label('personal','Usuario Responsable') }}
-								{{ Form::select('personal',array(''=> 'Seleccione')+$personal, $servicio_info->id_usuario_responsable,array('class'=>'form-control','id'=>'usuario'))}}
+								{{ Form::select('personal',$personal, $servicio_info->id_usuario_responsable,array('class'=>'form-control','id'=>'usuario'))}}
 							</div>
 						</div>
 						<div class="row">							
@@ -114,17 +121,17 @@
 			</div>	
 	{{ Form::close() }}
 		@if($servicio_info->deleted_at)
-		{{ Form::open(array('url'=>'servicios/submit_enable_servicio', 'role'=>'form')) }}
+		{{ Form::open(array('url'=>'servicios/submit_enable_servicio', 'role'=>'form','id'=>'enable_servicio')) }}
 			{{ Form::hidden('servicio_id', $servicio_info->idservicio) }}
 				<div class="form-group col-md-2 col-md-offset-8">
-					{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-up"></span> Habilitar', array('id'=>'submit-delete', 'type' => 'submit', 'class' => 'btn btn-success btn-block')) }}
+					{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-up"></span> Habilitar', array('id'=>'submit-enable-servicio', 'class' => 'btn btn-success btn-block')) }}
 				</div>
 		{{ Form::close() }}
 		@else
-		{{ Form::open(array('url'=>'servicios/submit_disable_servicio', 'role'=>'form')) }}
+		{{ Form::open(array('url'=>'servicios/submit_disable_servicio', 'role'=>'form','id'=>'disable_servicio')) }}
 			{{ Form::hidden('servicio_id', $servicio_info->idservicio) }}
 				<div class="form-group col-md-2 col-md-offset-6">
-					{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-down"></span> Inhabilitar', array('id'=>'submit-delete', 'type' => 'submit', 'class' => 'btn btn-danger btn-block')) }}
+					{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-down"></span> Inhabilitar', array('id'=>'submit-disable-servicio', 'class' => 'btn btn-danger btn-block')) }}
 				</div>
 		{{ Form::close() }}
 		@endif

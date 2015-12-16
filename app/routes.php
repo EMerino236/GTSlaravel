@@ -105,6 +105,8 @@ Route::group(array('prefix'=>'familia_activos', 'before'=>'auth'),function(){
 	Route::get('/create_consumible_modelo_familia_activo/{id}','ModeloActivosController@render_create_consumible_modelo_familia_activo');
 	Route::post('/submit_create_consumible_modelo_familia_activo','ModeloActivosController@submit_create_consumible_modelo_familia_activo');
 	Route::get('/view_modelo_familia_activo/{id}','ModeloActivosController@render_view_modelo_familia_activo');
+	Route::post('/submit_delete_modelo_familia_activo/','ModeloActivosController@submit_delete_modelo_familia_activo');
+	
 });
 
 /*Activos*/

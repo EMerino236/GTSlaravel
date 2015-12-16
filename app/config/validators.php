@@ -13,17 +13,23 @@ Validator::extend('alpha_num_dash', function($attribute, $value)
 	return preg_match('/^[a-zA-Z0-9-_]+$/', $value);
 });
 
-Validator::extend('validator_marca', function($attribute, $value)
+Validator::extend('alpha_num_ampersand', function($attribute, $value)
 {
 	return preg_match('/^[a-zA-Z0-9-&. ]+$/', $value);
 });
 
-Validator::extend('validator_grupo', function($attribute, $value)
+Validator::extend('alpha_num_spaces', function($attribute, $value)
 {
 	return preg_match('/^[a-zA-Z0-9- _]+$/', $value);
 });
 
-Validator::extend('validator_grupo_descripcion', function($attribute, $value)
+
+Validator::extend('alpha_num_spaces_colon', function($attribute, $value)
 {
 	return preg_match('/^[a-zA-Z0-9- :_]+$/', $value);
+});
+
+Validator::extend('alpha_num_spaces_slash_dash', function($attribute, $value)
+{
+	return preg_match('/^[a-zA-Z0-9- :\/_]+$/', $value);
 });
