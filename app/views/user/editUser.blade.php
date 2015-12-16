@@ -60,30 +60,12 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="form-group col-md-6 @if($errors->first('idarea')) has-error has-feedback @endif">
-					{{ Form::label('idarea','Área') }}
-					@if($user_info->deleted_at)
-						{{ Form::select('idarea', $areas,$user_info->idarea,['class' => 'form-control','readonly'=>'']) }}
-					@else
-						{{ Form::select('idarea', $areas,$user_info->idarea,['class' => 'form-control']) }}
-					@endif
-				</div>
 				<div class="form-group col-md-6 @if($errors->first('apellido_pat')) has-error has-feedback @endif">
 					{{ Form::label('apellido_pat','Apellido paterno') }}
 					@if($user_info->deleted_at)
 						{{ Form::text('apellido_pat',$user_info->apellido_pat,array('class'=>'form-control','readonly'=>'')) }}
 					@else
 						{{ Form::text('apellido_pat',$user_info->apellido_pat,array('class'=>'form-control')) }}
-					@endif
-				</div>
-			</div>
-			<div class="row">
-				<div class="form-group col-md-6 @if($errors->first('idrol')) has-error has-feedback @endif">
-					{{ Form::label('idrol','Rol') }}
-					@if($user_info->deleted_at)
-						{{ Form::select('idrol', $roles,$user_info->idrol,['class' => 'form-control','readonly'=>'']) }}
-					@else
-						{{ Form::select('idrol', $roles,$user_info->idrol,['class' => 'form-control']) }}
 					@endif
 				</div>
 				<div class="form-group col-md-6 @if($errors->first('apellido_mat')) has-error has-feedback @endif">
@@ -96,30 +78,12 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="form-group col-md-6 @if($errors->first('idrol')) has-error has-feedback @endif">
-					{{ Form::label('genero','Género') }}
-					@if($user_info->deleted_at)
-						{{ Form::select('genero', ['M'=>'Masculino','F'=>'Femenino'],$user_info->genero,['class' => 'form-control','readonly'=>'']) }}
-					@else
-						{{ Form::select('genero', ['M'=>'Masculino','F'=>'Femenino'],$user_info->genero,['class' => 'form-control']) }}
-					@endif
-				</div>
 				<div class="form-group col-md-6 @if($errors->first('tipo_documento')) has-error has-feedback @endif">
 					{{ Form::label('tipo_documento','Tipo de documento') }}
 					@if($user_info->deleted_at)
 						{{ Form::select('tipo_documento', $tipos_documento,$user_info->idtipo_documento,['class' => 'form-control','readonly'=>'']) }}
 					@else
 						{{ Form::select('tipo_documento', $tipos_documento,$user_info->idtipo_documento,['class' => 'form-control']) }}
-					@endif
-				</div>
-			</div>
-			<div class="row">
-				<div class="form-group col-md-6 @if($errors->first('password')) has-error has-feedback @endif">
-					{{ Form::label('password','Cambiar contraseña') }}
-					@if($user_info->deleted_at)
-						{{ Form::password('password',array('class'=>'form-control','readonly'=>'')) }}
-					@else
-						{{ Form::password('password',array('class'=>'form-control')) }}
 					@endif
 				</div>
 				<div class="form-group col-md-6 @if($errors->first('numero_doc_identidad')) has-error has-feedback @endif">
@@ -132,12 +96,12 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="form-group col-md-6 @if($errors->first('password_confirmation')) has-error has-feedback @endif">
-					{{ Form::label('password_confirmation','Confirmar contraseña') }}
+				<div class="form-group col-md-6 @if($errors->first('idrol')) has-error has-feedback @endif">
+					{{ Form::label('genero','Género') }}
 					@if($user_info->deleted_at)
-						{{ Form::password('password_confirmation',array('class'=>'form-control','readonly'=>'')) }}
+						{{ Form::select('genero', ['M'=>'Masculino','F'=>'Femenino'],$user_info->genero,['class' => 'form-control','readonly'=>'']) }}
 					@else
-						{{ Form::password('password_confirmation',array('class'=>'form-control')) }}
+						{{ Form::select('genero', ['M'=>'Masculino','F'=>'Femenino'],$user_info->genero,['class' => 'form-control']) }}
 					@endif
 				</div>
 				<div class="col-md-6">
@@ -149,6 +113,47 @@
 	                    </span>
 					</div>
 				</div>
+				
+			</div>
+			<div class="row">
+				<div class="form-group col-md-6 @if($errors->first('idarea')) has-error has-feedback @endif">
+					{{ Form::label('idarea','Área') }}
+					@if($user_info->deleted_at)
+						{{ Form::select('idarea', $areas,$user_info->idarea,['class' => 'form-control','readonly'=>'']) }}
+					@else
+						{{ Form::select('idarea', $areas,$user_info->idarea,['class' => 'form-control']) }}
+					@endif
+				</div>
+				<div class="form-group col-md-6 @if($errors->first('idrol')) has-error has-feedback @endif">
+					{{ Form::label('idrol','Rol') }}
+					@if($user_info->deleted_at)
+						{{ Form::select('idrol', $roles,$user_info->idrol,['class' => 'form-control','readonly'=>'']) }}
+					@else
+						{{ Form::select('idrol', $roles,$user_info->idrol,['class' => 'form-control']) }}
+					@endif
+				</div>
+				
+			</div>
+			
+			
+			<div class="row">				
+				<div class="form-group col-md-6 @if($errors->first('password')) has-error has-feedback @endif">
+					{{ Form::label('password','Cambiar contraseña') }}
+					@if($user_info->deleted_at)
+						{{ Form::password('password',array('class'=>'form-control','readonly'=>'')) }}
+					@else
+						{{ Form::password('password',array('class'=>'form-control')) }}
+					@endif
+				</div>
+				<div class="form-group col-md-6 @if($errors->first('password_confirmation')) has-error has-feedback @endif">
+					{{ Form::label('password_confirmation','Confirmar contraseña') }}
+					@if($user_info->deleted_at)
+						{{ Form::password('password_confirmation',array('class'=>'form-control','readonly'=>'')) }}
+					@else
+						{{ Form::password('password_confirmation',array('class'=>'form-control')) }}
+					@endif
+				</div>
+				
 			</div>
 			<div class="row">
 				<div class="form-group col-md-6 @if($errors->first('telefono')) has-error has-feedback @endif">

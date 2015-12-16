@@ -15,10 +15,18 @@
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-md-4">
-						{{ Form::text('search',$search,array('class'=>'form-control','placeholder'=>'Ingrese Búsqueda')) }}
+						{{ Form::label('search_username','Nombre de Usuario')}}
+						{{ Form::text('search',$search,array('class'=>'form-control','placeholder'=>'Ingrese Búsqueda','id'=>'search')) }}
+					</div>
+					<div class="col-md-4">
+						{{ Form::label('search_area','Area')}}
+						{{ Form::select('search_area',array('0'=>'Seleccione')+$areas,$search_area,array('class'=>'form-control')) }}
 					</div>
 					<div class="form-group col-md-2">
-						{{ Form::button('<span class="glyphicon glyphicon-search"></span> Buscar', array('id'=>'submit-search-form','type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}	
+						{{ Form::button('<span class="glyphicon glyphicon-search"></span> Buscar', array('id'=>'submit-search-form','type' => 'submit', 'class' => 'btn btn-primary btn-block','style'=>'margin-top:25px;')) }}	
+					</div>
+					<div class="col-md-2">
+						<div class="btn btn-default btn-block" id="btnLimpiar" style='margin-top:25px;'><span class="glyphicon glyphicon-refresh"></span> Limpiar</div>				
 					</div>
 				</div>			
 			</div>
@@ -41,7 +49,7 @@
 					@foreach($users_data as $user_data)
 					<tr class="@if($user_data->deleted_at) bg-danger @endif">
 						<td class="text-nowrap text-center">
-							{{$user_data->username}}
+							<a href="{{URL::to('/user/view_user/')}}/{{$user_data->id}}">{{$user_data->username}}</a>
 						</td>
 						<td class="text-nowrap text-center">
 							{{$user_data->nombre}}
@@ -69,8 +77,8 @@
 		</div>
 	</div>
 	
-	@if($search)
-		{{ $users_data->appends(array('search' => $search))->links() }}
+	@if($search || $search_area)
+		{{ $users_data->appends(array('search' => $search,'search_area'=>$search_area))->links() }}
 	@else
 		{{ $users_data->links() }}
 	@endif

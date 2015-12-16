@@ -109,6 +109,8 @@ class UserController extends BaseController {
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
 				$data["search"] = null;
+				$data["search_area"] = null;
+				$data["areas"] = Area::lists('nombre','idarea');
 				$data["users_data"] = User::getUsersInfo()->paginate(10);
 				return View::make('user/listUsers',$data);
 			}else{
@@ -284,8 +286,39 @@ class UserController extends BaseController {
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
 				$data["search"] = Input::get('search');
-				$data["users_data"] = User::searchUsers($data["search"])->paginate(10);
-				return View::make('user/listUsers',$data);
+				$data["search_area"] = Input::get('search_area');
+				$data["areas"] = Area::lists('nombre','idarea');
+				if($data["search"] == null && $data["search_area"]==0){
+					$data["users_data"] = User::getUsersInfo()->paginate(10);
+					return View::make('user/listUsers',$data);
+				}else{
+					$data["users_data"] = User::searchUsers($data["search"],$data["search_area"])->paginate(10);
+					return View::make('user/listUsers',$data);	
+				}				
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+	public function render_view_user($id=null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if(($data["user"]->idrol == 1) && $id){
+				$data["tipos_documento"] = TipoDocumento::lists('nombre','idtipo_documento');
+				$data["areas"] = Area::lists('nombre','idarea');
+				$data["roles"] = Rol::lists('nombre','idrol');
+				$data["user_info"] = User::searchUserById($id)->get();
+				if($data["user_info"]->isEmpty()){
+					return Redirect::to('user/list_user');
+				}
+				$data["user_info"] = $data["user_info"][0];
+				return View::make('user/viewUser',$data);
 			}else{
 				return View::make('error/error',$data);
 			}

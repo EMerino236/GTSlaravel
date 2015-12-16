@@ -36,6 +36,8 @@ Route::group(array('prefix'=>'user', 'before'=>'auth'),function(){
 	Route::post('/submit_disable_user','UserController@submit_disable_user');
 	Route::post('/submit_enable_user','UserController@submit_enable_user');
 	Route::get('/search_user','UserController@search_user');
+	Route::get('/view_user/{id}','UserController@render_view_user');
+	
 });
 
 /* Proveedores */

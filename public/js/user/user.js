@@ -33,4 +33,9 @@ $( document ).ready(function(){
 			}
 		});
 	});
+
+	$('#btnLimpiar').click(function(){
+		$('#search').val('');
+		$('#search_area').val(0);
+	});
 });

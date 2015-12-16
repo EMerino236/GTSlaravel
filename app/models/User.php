@@ -42,7 +42,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $query;
 	}
 
-	public function scopeSearchUsers($query,$search_criteria)
+	public function scopeSearchUsers($query,$search_criteria,$search_area)
 	{
 		$query->withTrashed()
 			  ->join('roles','roles.idrol','=','users.idrol')
@@ -52,8 +52,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 			  			  ->orWhere('users.nombre','LIKE',"%$search_criteria%")
 			  			  ->orWhere('users.apellido_pat','LIKE',"%$search_criteria%")
 			  			  ->orWhere('users.apellido_mat','LIKE',"%$search_criteria%");
-			  })
-			  ->select('roles.nombre as nombre_rol','areas.nombre as nombre_area','users.*');
+			  });
+
+			  if($search_area!=0)
+			    $query->where('users.idarea','=',$search_area);
+			  $query->select('roles.nombre as nombre_rol','areas.nombre as nombre_area','users.*');
 		return $query;
 	}
 
