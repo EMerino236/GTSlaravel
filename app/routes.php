@@ -414,7 +414,7 @@ Route::group(array('prefix'=>'reporte_cn','before'=>'auth'),function(){
 	Route::get('/edit_reporte_cn/{id}','ReporteCNController@render_edit_reporte_cn');
 	Route::get('/view_reporte_cn/{id}','ReporteCNController@render_view_reporte_cn');
 	Route::post('/submit_edit_reporte_cn','ReporteCNController@submit_edit_reporte_cn');
-	Route::get('/create_reporte_cn','ReporteCNController@render_create_reporte_cn');
+	Route::get('/create_reporte_cn/{id?}','ReporteCNController@render_create_reporte_cn');
 	Route::post('/submit_create_reporte_cn','ReporteCNController@submit_create_reporte_cn');
 	Route::get('/search_reporte_cn','ReporteCNController@search_reporte_cn');
 	Route::post('/return_num_ot_retiro/{postData}','ReporteCNController@return_num_ot_retiro');
