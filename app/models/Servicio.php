@@ -13,7 +13,8 @@ class Servicio extends Eloquent{
 	{
 		$query->withTrashed()
 			  ->join('tipo_servicios','tipo_servicios.idtipo_servicios','=','servicios.idtipo_servicios')
-			  ->select('tipo_servicios.nombre as nombre_tipo_servicio','servicios.*');
+			   ->join('areas','areas.idarea','=','servicios.idarea')
+			  ->select('tipo_servicios.nombre as nombre_tipo_servicio','servicios.*','areas.nombre as nombre_area');
 		return $query;
 	}
 
@@ -24,13 +25,18 @@ class Servicio extends Eloquent{
 		return $query;
 	}
 
-	public function scopeSearchServicios($query,$search_criteria){
+	public function scopeSearchServicios($query,$search_criteria,$search_area){
 		$query->withTrashed()
 			  ->join('tipo_servicios','tipo_servicios.idtipo_servicios','=','servicios.idtipo_servicios')
+			  ->join('areas','areas.idarea','=','servicios.idarea')
 			  ->whereNested(function($query) use($search_criteria){
 			  		$query->where('servicios.nombre','LIKE',"%$search_criteria%");
-			  })
-			  ->select('tipo_servicios.nombre as nombre_tipo_servicio','servicios.*');
+			  });
+
+			  if($search_area != 0)
+			  	$query->where('servicios.idarea','=',$search_area);
+
+			  $query->select('tipo_servicios.nombre as nombre_tipo_servicio','servicios.*','areas.nombre as nombre_area');
 		return $query;
 	}
 

@@ -11,6 +11,10 @@ $( document ).ready(function(){
 		limpiar_criterios_marcas();
 	});
 
+	$('#list_servicios_btnLimpiar').click(function(){
+		limpiar_criterios_servicios();
+	});
+
 	$('#submit-enable').click(function(){
 		BootstrapDialog.confirm({
 			title: 'Mensaje de Confirmación',
@@ -171,4 +175,9 @@ function limpiar_criterios_grupos(){
 
 function limpiar_criterios_marcas(){
 	$('#search_nombre_marca').val('');
+}
+
+function limpiar_criterios_servicios(){
+	$('#search_area').val(0);
+	$('#search').val('');
 }

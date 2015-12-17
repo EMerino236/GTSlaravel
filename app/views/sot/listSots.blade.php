@@ -24,7 +24,7 @@
 			<div class="search_bar">	
 				<div class="row">
 					<div class="form-group col-md-4">
-						{{ Form::label('search_ini','Fecha inicio') }}
+						{{ Form::label('search_ini','Fecha Desde') }}
 						<div id="datetimepicker1" class="input-group date">
 							{{ Form::text('search_ini',$search_ini,array('class'=>'form-control','readonly'=>'')) }}
 							<span class="input-group-addon">
@@ -33,7 +33,7 @@
 						</div>
 					</div>
 					<div class="form-group col-md-4">
-						{{ Form::label('search_fin','Fecha de fin') }}
+						{{ Form::label('search_fin','Fecha Hasta') }}
 						<div id="datetimepicker2" class=" input-group date">
 							{{ Form::text('search_fin',$search_fin,array('class'=>'form-control','readonly'=>'')) }}
 							<span class="input-group-addon">
@@ -42,8 +42,8 @@
 						</div>
 					</div>
 					<div class="form-group col-md-4">
-						{{ Form::label('search','Número de ficha/Usuario solicitante') }}
-						{{ Form::text('search',$search,array('class'=>'form-control','placeholder'=>'Ingrese Número de Ficha/Usuario Solicitante')) }}
+						{{ Form::label('search','Usuario solicitante') }}
+						{{ Form::text('search',$search,array('class'=>'form-control','placeholder'=>'Nombre Usuario Solicitante')) }}
 					</div>
 					<div class="form-group col-md-4">
 						{{ Form::label('search_estado','Estado') }}
@@ -63,30 +63,41 @@
 		</div>
 	{{ Form::close() }}</br>
 
-	<table class="table">
-		<tr class="info">
-			<th>Número de SOT</th>
-			<th>Fecha de solicitud</th>
-			<th>Usuario solicitante</th>
-			<th>Estado</th>
-		</tr>
-		@foreach($sots_data as $sot_data)
-		<tr>
-			<td>
-				<a href="{{URL::to('/sot/edit_sot/')}}/{{$sot_data->idsolicitud_orden_trabajo}}">{{$sot_data->sot_tipo_abreviatura}}{{$sot_data->sot_correlativo}}{{$sot_data->sot_activo_abreviatura}}</a>
-			</td>
-			<td>
-				{{date('d-m-Y',strtotime($sot_data->fecha_solicitud))}}
-			</td>
-			<td>
-				{{$sot_data->apellido_pat}} {{$sot_data->apellido_mat}}, {{$sot_data->nombre}}
-			</td>
-			<td>
-				{{$sot_data->nombre_estado}}
-			</td>
-		</tr>
-		@endforeach
-	</table>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="table-responsive">
+				<table class="table">
+					<tr class="info">
+						<th class="text-nowrap text-center">N°</th>
+						<th class="text-nowrap text-center">Número de SOT</th>
+						<th class="text-nowrap text-center">Fecha de solicitud</th>
+						<th class="text-nowrap text-center">Usuario solicitante</th>
+						<th class="text-nowrap text-center">Estado</th>
+					</tr>
+					@foreach($sots_data as $index => $sot_data)
+					<tr>
+						<td class="text-nowrap text-center">
+							{{$index+1}}
+						</td>
+						<td class="text-nowrap text-center">
+							<a href="{{URL::to('/sot/edit_sot/')}}/{{$sot_data->idsolicitud_orden_trabajo}}">{{$sot_data->sot_tipo_abreviatura}}{{$sot_data->sot_correlativo}}{{$sot_data->sot_activo_abreviatura}}</a>
+						</td>
+						<td class="text-nowrap text-center">
+							{{date('d-m-Y',strtotime($sot_data->fecha_solicitud))}}
+						</td>
+						<td class="text-nowrap text-center">
+							{{$sot_data->apellido_pat}} {{$sot_data->apellido_mat}}, {{$sot_data->nombre}}
+						</td>
+						<td class="text-nowrap text-center">
+							{{$sot_data->nombre_estado}}
+						</td>
+					</tr>
+					@endforeach
+				</table>
+			</div>
+		</div>
+	</div>
+	
 	@if($search || $search_estado || $search_ini || $search_fin)
 		{{ $sots_data->appends(array('search' => $search,'search_estado'=>$search_estado,'search_ini'=>$search_ini,'search_fin'=>$search_fin))->links() }}
 	@else

@@ -10,6 +10,8 @@ class ServiciosController extends BaseController
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
 				$data["search"] = null;
+				$data["search_area"] = null;
+				$data["areas"] = Area::lists('nombre','idarea');
 				$data["servicios_data"] = Servicio::getServiciosInfo()->paginate(10);
 				return View::make('servicios/listServicios',$data);
 			}else{
@@ -27,8 +29,10 @@ class ServiciosController extends BaseController
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
 				$data["search"] = Input::get('search');
-				$data["servicios_data"] = Servicio::searchServicios($data["search"])->paginate(10);
-				if($data["search"]==null){
+				$data["search_area"] = Input::get('search_area');
+				$data["areas"] = Area::lists('nombre','idarea');
+				$data["servicios_data"] = Servicio::searchServicios($data["search"],$data["search_area"])->paginate(10);
+				if($data["search"]==null && $data["search_area"] == 0){
 					return Redirect::to('servicios/list_servicios');
 				}else{
 					return View::make('servicios/listServicios',$data);	

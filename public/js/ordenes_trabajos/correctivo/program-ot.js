@@ -98,11 +98,11 @@ function init_ot_program(){
             defaultDate: false,
             ignoreReadonly: true,
             format: 'DD-MM-YYYY HH:mm',
-            sideBySide: true,
-            minDate: new Date()
+            sideBySide: true
     });
-    if($('#fecha_programacion').length)
-        $('#fecha_programacion').val('');
     
+    $("#datetimepicker_prog_fecha").on("dp.change", function (e) {
+        $('#datetimepicker_prog_fecha').data("DateTimePicker").minDate(e.date);
+    });
     ver_programaciones();
 }

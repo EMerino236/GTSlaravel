@@ -50,7 +50,7 @@ class SotController extends BaseController {
 			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9){
 				// Validate the info, create rules for the inputs
 				$attributes = array(
-							'cod_pat' => 'Código Patrimoniak',
+							'cod_pat' => 'Código Patrimonial',
 							'fecha_solicitud' => 'Fecha de Solicitud',
 							'especificacion_servicio' => 'Especificación de Servicio',
 							'motivo' => 'Motivo',
@@ -60,9 +60,9 @@ class SotController extends BaseController {
 				$rules = array(
 							'cod_pat' => 'required|numeric',
 							'fecha_solicitud' => 'required',
-							'especificacion_servicio' => 'required|max:100',
-							'motivo' => 'required|max:200',
-							'justificacion' => 'required|max:200'
+							'especificacion_servicio' => 'required|max:100|alpha_num_spaces_colon',
+							'motivo' => 'required|max:200|alpha_num_spaces_colon',
+							'justificacion' => 'required|max:200|alpha_num_spaces_colon'
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);

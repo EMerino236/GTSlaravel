@@ -423,7 +423,7 @@ class OtInspeccionEquiposController extends BaseController {
 					    if (Input::hasFile('archivo'.$i)) {
 						    if(strcmp($ot_inspec_equiposxactivo->nombre_archivo, $nombreArchivo) != 0 || $ot_inspec_equiposxactivo->nombreArchivo == ''){ 
 						        $archivo = Input::file('archivo'.$i);
-						        $rutaDestino = 'inspeccion_equipos/' .$ot->ot_tipo_abreviatura.$ot->ot_correlativo.'/';
+						        $rutaDestino = 'uploads/inspeccion_equipos/' .$ot->ot_tipo_abreviatura.$ot->ot_correlativo.'/';
 						        $nombreArchivo = $archivo->getClientOriginalName();
 						        $nombreArchivoEncriptado = Str::random(27).'.'.pathinfo($nombreArchivo, PATHINFO_EXTENSION);
 						        $uploadSuccess = $archivo->move($rutaDestino, $nombreArchivoEncriptado);
