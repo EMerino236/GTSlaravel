@@ -28,12 +28,19 @@
 	 	<div class="panel-body">
 		 	<div class="row">
 				<div class="col-md-4 form-group">
-					{{ Form::label('nombre','Nombre de Servicio:')}}
-					{{ Form::text('search',Input::old('search'),['class' => 'form-control','placeholder'=>'Ingrese búsqueda']) }}
+					{{ Form::label('search','Nombre de Servicio:')}}
+					{{ Form::text('search',$search,['class' => 'form-control','placeholder'=>'Ingrese búsqueda','id'=>'search']) }}
+				</div>
+				<div class="col-md-4 form-group">
+					{{ Form::label('search_area','Área')}}
+					{{ Form::select('search_area',array('0'=>'Seleccione')+$areas,$search_area,['class' => 'form-control','placeholder'=>'Ingrese búsqueda']) }}
 				</div>
 				<div class="col-md-2 form-group" style="margin-top:25px">
 					{{ Form::button('<span class="glyphicon glyphicon-search"></span> Buscar',array('id'=>'submit-search-form','type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}
 				</div>
+				<div class="form-group col-md-2">
+					<div class="btn btn-default btn-block" id="list_servicios_btnLimpiar" style="margin-top:25px;">Limpiar</div>				
+				</div>	
 			</div>
 		</div>
 	</div>
@@ -52,6 +59,7 @@
 					<tr class="info">
 						<th class="text-nowrap text-center">N°</th>
 						<th class="text-nowrap text-center">Nombre del Servicio</th>
+						<th class="text-nowrap text-center">Area</th>
 						<th class="text-nowrap text-center">Tipo de Servicio</th>
 						<th class="text-nowrap text-center">Fecha de Creación</th>
 						<th class="text-nowrap text-center">Editar</th>
@@ -63,6 +71,9 @@
 						</td>
 						<td>
 							{{$servicio_data->nombre}}
+						</td>
+						<td>
+							{{$servicio_data->nombre_area}}
 						</td>
 						<td class="text-nowrap text-center">
 							{{$servicio_data->nombre_tipo_servicio}}
@@ -83,7 +94,7 @@
 
 	
 	@if($search)
-		{{ $servicios_data->appends(array('search' => $search))->links() }}
+		{{ $servicios_data->appends(array('search' => $search,'search_area'=>$search_area))->links() }}
 	@else	
 		{{ $servicios_data->links()}}
 	@endif

@@ -76,10 +76,10 @@ class OtController extends BaseController {
 							'solicitante' => 'required',
 							'idprioridad' => 'required',
 							'idtipo_falla' => 'required',
-							'numero_ficha' => 'required|numeric',
+							'numero_ficha' => 'required|numeric|unique:ot_correctivos,numero_ficha',
 						);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				$sot_id = Input::get('sot_id');
 				if($validator->fails()){
@@ -294,10 +294,10 @@ class OtController extends BaseController {
 				$rules = array(
 							'prioridades' => 'required',
 							'idestado' => 'required',
-							'descripcion_problema' => 'required|max:500',
+							'descripcion_problema' => 'required|max:500|alpha_num_ampersand',
 							'tipo_falla' => 'required',
 							'idestado_inicial' => 'required',
-							'diagnostico_falla' => 'required|max:500',
+							'diagnostico_falla' => 'required|max:500|alpha_num_ampersand',
 							'sin_interrupcion_servicio' => 'required',
 							'idestado_final' => 'required',
 							'fecha_conformidad' => 'required',

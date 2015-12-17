@@ -64,7 +64,7 @@
 					</div>
 					<div class="form-group col-md-4">
 						{{ Form::label('fecha_programacion','Fecha Programada') }}
-						{{ Form::text('fecha_programacion',$ot_info->fecha_programacion,array('class' => 'form-control','readonly'=>'')) }}
+						{{ Form::text('fecha_programacion_ot',date('d-m-Y H:i',strtotime($ot_info->fecha_programacion)),array('class' => 'form-control','readonly'=>'')) }}
 					</div>
 				</div>
 				<div class="row">
@@ -124,7 +124,7 @@
 					@if(!$ot_info->fecha_conformidad)
 					<div class="form-group col-md-4">
 						{{ Form::label('fecha_conformidad','Ingrese Fecha de Conformidad') }}
-						<div class="fecha-hora form-group input-group date @if($errors->first('fecha_conformidad')) has-error has-feedback @endif">
+						<div id="fecha_conformidad" class="fecha-hora form-group input-group date @if($errors->first('fecha_conformidad')) has-error has-feedback @endif">
 							{{ Form::text('fecha_conformidad',null,array('class'=>'form-control','readonly'=>'')) }}
 							<span class="input-group-addon">
 		                        <span class="glyphicon glyphicon-calendar"></span>
@@ -158,8 +158,8 @@
 				</div>
 				<div class="row">
 					<div class="form-group col-md-12 @if($errors->first('descripcion_problema')) has-error has-feedback @endif">
-						{{ Form::label('descripcion_problema','Descripción del Problema') }}
-						{{ Form::textarea('descripcion_problema', $ot_info->descripcion_problema,array('class'=>'form-control','maxlength'=>'500','rows'=>3)) }}
+						{{ Form::label('descripcion_problema','Descripción del Problema (MAX: 500 Caracteres)') }}
+						{{ Form::textarea('descripcion_problema', $ot_info->descripcion_problema,array('class'=>'form-control','maxlength'=>'500','rows'=>3,'style'=>'resize:none;')) }}
 					</div>
 				</div>
 			</div>
@@ -182,8 +182,8 @@
 				</div>
 				<div class="row">
 					<div class="form-group col-md-12 @if($errors->first('diagnostico_falla')) has-error has-feedback @endif">
-						{{ Form::label('diagnostico_falla','Diagnóstico de la Falla') }}
-						{{ Form::textarea('diagnostico_falla', $ot_info->diagnostico_falla,array('class'=>'form-control','maxlength'=>'500','rows'=>3)) }}
+						{{ Form::label('diagnostico_falla','Diagnóstico de la Falla (MAX: 500 Caracteres)') }}
+						{{ Form::textarea('diagnostico_falla', $ot_info->diagnostico_falla,array('class'=>'form-control','maxlength'=>'500','rows'=>3,'style'=>'resize:none;')) }}
 					</div>
 				</div>
 			</div>
@@ -197,10 +197,11 @@
 				@if($ot_info->idestado_ot == 9 && ($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4))
 				<div class="row">
 					<div class="form-group col-md-8">
-						{{ Form::text('nombre_tarea', null,array('class'=>'form-control','placeholder'=>'Ingrese aquí la tarea realizada')) }}
+						{{ Form::label('nombre_tarea','Nombre de Tarea')}}
+						{{ Form::text('nombre_tarea', null,array('class'=>'form-control','placeholder'=>'Ingrese aquí la tarea realizada','maxlength'=>'100')) }}
 					</div>
 					<div class="form-group col-md-2">
-						{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Agregar',array('id'=>'submit-tarea', 'class'=>'btn btn-primary')) }}
+						{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Agregar',array('id'=>'submit-tarea', 'class'=>'btn btn-primary','style'=>'margin-top:25px;')) }}
 					</div>
 				</div>
 				@endif

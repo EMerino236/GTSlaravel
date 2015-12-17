@@ -1,7 +1,11 @@
+
 $( document ).ready(function(){
+	
+	init_ot_correctivo();
+	var alphanumeric_pattern = /[^a-zA-Z0-9- _]+$/;
 	$("#submit-tarea").click(function(e){
 		e.preventDefault;
-		if($("input[name=nombre_tarea]").val().length <1){
+		if($("input[name=nombre_tarea]").val().length <1 || $("input[name=nombre_tarea]").val().length >100  || alphanumeric_pattern.test($("input[name=nombre_tarea]").val())){
 			$("input[name=nombre_tarea]").parent().addClass("has-error has-feedback");
 			dialog = BootstrapDialog.show({
 	            title: 'Advertencia',
@@ -65,7 +69,8 @@ $( document ).ready(function(){
 				callback: function(result){
 			        if(result) {
 			        	var error_str = "Errores:\n";
-						var reg = /[^0-9a-bA-B\s]/gi;
+						var reg_nombre_repuesto =  /[^a-zA-Z0-9- _]+$/;
+						var reg_codigo_repuesto = /[^a-zA-Z0-9]/;
 						var intRegex = /^\d+$/;
 						var floatRegex = /^\d{1,6}(\.\d{0,2}){0,1}$/;
 						var is_correct = true;
@@ -73,7 +78,7 @@ $( document ).ready(function(){
 						$("input[name=codigo_repuesto]").parent().removeClass("has-error has-feedback");
 						$("input[name=cantidad_repuesto]").parent().removeClass("has-error has-feedback");
 						$("input[name=costo_repuesto]").parent().removeClass("has-error has-feedback");
-						if(!reg.test($("input[name=nombre_repuesto]").val())){
+						if(reg_nombre_repuesto.test($("input[name=nombre_repuesto]").val())){
 							error_str += "El nombre debe ser alfanumérico\n";
 							$("input[name=nombre_repuesto]").parent().addClass("has-error has-feedback");
 							is_correct = false;
@@ -83,7 +88,7 @@ $( document ).ready(function(){
 							$("input[name=nombre_repuesto]").parent().addClass("has-error has-feedback");
 							is_correct = false;
 						}
-						if(!reg.test($("input[name=codigo_repuesto]").val())){
+						if(reg_codigo_repuesto.test($("input[name=codigo_repuesto]").val())){
 							error_str += "El código debe ser alfanumérico\n";
 							is_correct = false;
 							$("input[name=codigo_repuesto]").parent().addClass("has-error has-feedback");
@@ -168,14 +173,14 @@ $( document ).ready(function(){
 			callback: function(result){
 		        if(result) {
 		        	var error_str = "Errores:\n";
-					var reg = /[\w'-]+/;
+					var reg = /[^a-zA]+$/;
 					var floatRegex = /^\d{1,6}(\.\d{0,2}){0,1}$/;
 					var is_correct = true;
 					$("input[name=nombre_personal]").parent().removeClass("has-error has-feedback");
 					$("input[name=horas_trabajadas]").parent().removeClass("has-error has-feedback");
 					$("input[name=costo_personal]").parent().removeClass("has-error has-feedback");
-					if(!reg.test($("input[name=nombre_personal]").val())){
-						error_str += "El nombre debe ser alfanumérico\n";
+					if(reg.test($("input[name=nombre_personal]").val())){
+						error_str += "El nombre debe ser alfabético\n";
 						$("input[name=nombre_personal]").parent().addClass("has-error has-feedback");
 						is_correct = false;
 					}
@@ -346,4 +351,18 @@ function eliminar_personal(e,id){
 		        }
 		    }
 	});	
+}
+
+function init_ot_correctivo(){
+	$("#fecha_conformidad").datetimepicker({
+            defaultDate: false,
+            ignoreReadonly: true,
+            format: 'DD-MM-YYYY HH:mm',
+            sideBySide: true
+    });
+
+
+    $("#fecha_conformidad").on("dp.change", function (e) {
+        $('#fecha_conformidad').data("DateTimePicker").minDate(e.date);
+    });
 }

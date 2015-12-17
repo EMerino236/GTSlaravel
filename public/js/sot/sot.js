@@ -11,16 +11,21 @@ $( document ).ready(function(){
         format: 'DD-MM-YYYY'
     });
 
-    
-    
-    
+    $("#datetimepicker1").on("dp.change", function (e) {
+        $('#datetimepicker2').data("DateTimePicker").minDate(e.date);
+    });
+    $("#datetimepicker2").on("dp.change", function (e) {
+        $('#datetimepicker1').data("DateTimePicker").maxDate(e.date);
+    });
+   
     $('#cod_pat').change(function(){
         search_equipo_ajax();
     });
 
     $('#btnLimpiar').click(function(){
         limpiar_criterios();
-    })
+    });
+    
 });
 
 function search_equipo_ajax(){
