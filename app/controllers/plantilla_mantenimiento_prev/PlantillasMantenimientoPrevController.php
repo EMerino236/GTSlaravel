@@ -160,7 +160,7 @@ class PlantillasMantenimientoPrevController extends \BaseController {
 					    $nombreArchivo 	='';	
 					    if (Input::hasFile('archivo')) {
 					        $archivo            		= Input::file('archivo');
-					        $rutaDestino 				= 'documentos/investigacion/guias/Guia de mantenimiento preventivo por tipo de TS' .$id. '/';
+					        $rutaDestino 				= 'uploads/documentos/investigacion/guias/Guia de mantenimiento preventivo por tipo de TS' .$id. '/';
 					        $nombreArchivo        		= $archivo->getClientOriginalName();
 					        $nombreArchivoEncriptado 	= Str::random(27).'.'.pathinfo($nombreArchivo, PATHINFO_EXTENSION);
 					        $uploadSuccess 				= $archivo->move($rutaDestino, $nombreArchivoEncriptado);
