@@ -47,7 +47,7 @@ class ProgramacionReportesController extends BaseController
 						$programacion_reporte_cn = new ProgramacionReporteCN;
 						$programacion_reporte_cn->idtipo_reporte_CN = Input::get('idtipo_reporte_cn');
 						$programacion_reporte_cn->idservicio = Input::get('idservicio_cn');					
-						$programacion_reporte_cn->iduser = $data["user"]->id;
+						$programacion_reporte_cn->iduser = Input::get('idresponsable_cn');
 						$programacion_reporte_cn->idarea = Input::get('idarea_cn');
 						$programacion_reporte_cn->fecha = date("Y-m-d",strtotime(Input::get('fecha_cn')));
 						$programacion_reporte_cn->nombre_reporte = Input::get('nombre_cn');
@@ -126,7 +126,7 @@ class ProgramacionReportesController extends BaseController
 					$programacion_reporte_paac = new ProgramacionReportePAAC;
 					$programacion_reporte_paac->idtipo_reporte_PAAC = Input::get('idtipo_reporte_paac');
 					$programacion_reporte_paac->idservicio = Input::get('idservicio_paac');					
-					$programacion_reporte_paac->iduser = $data["user"]->id;
+					$programacion_reporte_paac->iduser = Input::get('idresponsable_paac');
 					$programacion_reporte_paac->idarea = Input::get('idarea_paac');
 					$programacion_reporte_paac->fecha = date("Y-m-d",strtotime(Input::get('fecha_paac')));
 					$programacion_reporte_paac->nombre_reporte = Input::get('nombre_paac');
@@ -257,7 +257,11 @@ class ProgramacionReportesController extends BaseController
 			// Check if the current user is the "System Admin"
 			$data = Input::get('selected_id');
 			if($data !="vacio"){
-				$programacion_reporte_cn = ProgramacionReporteCN::where('idprogramacion_reporte_cn','=',$data)->get();
+				$programacion_reporte_cn = DB::table('programacion_reporte_cn')
+												->join('users','users.id','=','programacion_reporte_cn.iduser')
+												->where('idprogramacion_reporte_cn','=',$data)
+												->select('programacion_reporte_cn.*','users.nombre','users.apellido_pat','users.apellido_mat')
+												->get();
 			}else{
 				$programacion_reporte_cn = null;
 			}
@@ -299,7 +303,11 @@ class ProgramacionReportesController extends BaseController
 			// Check if the current user is the "System Admin"
 			$data = Input::get('selected_id');
 			if($data !="vacio"){
-				$programacion_reporte_paac = ProgramacionReportePAAC::where('idprogramacion_reporte_paac','=',$data)->get();
+				$programacion_reporte_paac = DB::table('programacion_reporte_paac')
+												->join('users','users.id','=','programacion_reporte_paac.iduser')
+												->where('idprogramacion_reporte_paac','=',$data)
+												->select('programacion_reporte_paac.*','users.nombre','users.apellido_pat','users.apellido_mat')
+												->get();
 			}else{
 				$programacion_reporte_paac = null;
 			}

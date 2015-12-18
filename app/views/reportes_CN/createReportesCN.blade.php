@@ -50,6 +50,14 @@
 						@endif
 						{{ Form::hidden('idtipo_reporte')}}
 					</div>
+					<div class="form-group col-md-4 @if($errors->first('responsable')) has-error has-feedback @endif">
+						{{ Form::label('responsable','Responsable') }}
+						@if($programacion_reporte_cn)
+							{{ Form::text('responsable',$responsable->apellido_pat.' '.$responsable->apellido_mat.' '.$responsable->nombre,['class' => 'form-control','disabled'=>'disabled']) }}
+						@else
+							{{ Form::text('responsable','',['class' => 'form-control','disabled'=>'disabled']) }}
+						@endif
+					</div>
 				</div>
 				<div class="row">
 					<div class="form-group col-md-4 @if($errors->first('idservicio')) has-error has-feedback @endif">

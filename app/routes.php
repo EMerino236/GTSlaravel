@@ -418,6 +418,7 @@ Route::group(array('prefix'=>'reporte_cn','before'=>'auth'),function(){
 	Route::post('/submit_create_reporte_cn','ReporteCNController@submit_create_reporte_cn');
 	Route::get('/search_reporte_cn','ReporteCNController@search_reporte_cn');
 	Route::post('/return_num_ot_retiro/{postData}','ReporteCNController@return_num_ot_retiro');
+	Route::post('/return_num_doc_responsable_cn/{postData}','ReporteCNController@return_num_doc_responsable_cn');
 	Route::post('/return_area/{postData}','ReporteCNController@return_area');
 	Route::get('/download_documento/{id}','ReporteCNController@download_documento');
 	Route::post('/submit_disable_reporte_cn','ReporteCNController@submit_disable_reporte_cn');
@@ -449,6 +450,7 @@ Route::group(array('prefix'=>'reporte_paac','before'=>'auth'),function(){
 	Route::get('/download_documento/{id}','ReportePAACController@download_documento');
 	Route::post('/submit_disable_reporte_paac','ReportePAACController@submit_disable_reporte_paac');
 	Route::post('/submit_enable_reporte_paac','ReportePAACController@submit_enable_reporte_paac');
+	Route::post('/return_num_doc_responsable_paac/{postData}','ReportePAACController@return_num_doc_responsable_paac');
 });
 
 /* Cotizaciones */

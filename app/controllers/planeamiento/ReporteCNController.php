@@ -18,8 +18,10 @@ class ReporteCNController extends BaseController
 																			->lists('nombre_reporte','idprogramacion_reporte_cn');
 				$data["programacion_reporte_cn_id"] = $id;
 				$data["programacion_reporte_cn"] = null;
+				$data["responsable"] = null;
 				if($id){
 					$data["programacion_reporte_cn"] = ProgramacionReporteCN::where('idprogramacion_reporte_cn','=',$id)->get()[0];
+					$data["responsable"] = User::find($data["programacion_reporte_cn"]->iduser);
 				}
 				$data["reporte_cn_info"] = null;
 				return View::make('reportes_CN/createReportesCN',$data);
@@ -233,6 +235,27 @@ class ReporteCNController extends BaseController
 				$reporte = null;
 			}
 			return Response::json(array( 'success' => true, 'reporte' => $reporte ),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
+	public function return_num_doc_responsable_cn(){
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$id = Auth::id();
+		$data["inside_url"] = Config::get('app.inside_url');
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+			// Check if the current user is the "System Admin"
+			$data = Input::get('selected_id');
+			if($data !="vacio"){
+				$responsable = User::searchPersonalByNumeroDoc($data)->get();
+			}else{
+				$reporte = null;
+			}
+			return Response::json(array( 'success' => true, 'reporte' => $responsable ),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
 		}

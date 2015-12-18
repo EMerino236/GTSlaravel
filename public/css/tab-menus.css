@@ -1,0 +1,12 @@
+body {
+  padding : 10px ;
+  
+}
+
+#tab_menu .nav-pills > li > a {
+  border-radius: 4px 4px 0 0 ;
+}
+
+#tab_menu .tab-content {
+  padding : 5px 15px;
+}

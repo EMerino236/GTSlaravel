@@ -240,6 +240,7 @@ $( document ).ready(function(){
                         $('input[name=idtipo_reporte]').val(resp[0].idtipo_reporte_CN);   
                         document.getElementById("idservicio").value = resp[0].idservicio;
                         document.getElementById("idarea_select").value = resp[0].idarea;
+                        $("#responsable").val(resp[0].apellido_pat+' '+resp[0].apellido_mat+' '+resp[0].nombre);
                     }else{
                         alert('La petición no se pudo completar, inténtelo de nuevo1.');
                     }
@@ -275,6 +276,7 @@ $( document ).ready(function(){
                         $('input[name=idtipo_reporte]').val(resp[0].idtipo_reporte_CN);   
                         document.getElementById("idservicio").value = resp[0].idservicio;
                         document.getElementById("idarea_select").value = resp[0].idarea;
+                        $("#responsable").val(resp[0].apellido_pat+' '+resp[0].apellido_mat+' '+resp[0].nombre);
                     }else{
                         alert('La petición no se pudo completar, inténtelo de nuevo1.');
                     }
@@ -292,7 +294,6 @@ $( document ).ready(function(){
     })
 
     $('#idprogramacion_reporte_etes').ready(function(){
-        alert("hola");
         var selectServicio = document.getElementById("idprogramacion_reporte_etes");
         var selectedId = selectServicio.options[selectServicio.selectedIndex].value;// will gives u 2
         if(selectedId != ''){
@@ -377,6 +378,7 @@ $( document ).ready(function(){
                         $('input[name=idtipo_reporte]').val(resp[0].idtipo_reporte_PAAC);   
                         document.getElementById("idservicio").value = resp[0].idservicio;
                         document.getElementById("idarea_select").value = resp[0].idarea;
+                        $("#responsable").val(resp[0].apellido_pat+' '+resp[0].apellido_mat+' '+resp[0].nombre);
                     }else{
                         alert('La petición no se pudo completar, inténtelo de nuevo1.');
                     }
@@ -412,6 +414,7 @@ $( document ).ready(function(){
                         $('input[name=idtipo_reporte]').val(resp[0].idtipo_reporte_PAAC);   
                         document.getElementById("idservicio").value = resp[0].idservicio;
                         document.getElementById("idarea_select").value = resp[0].idarea;
+                        $("#responsable").val(resp[0].apellido_pat+' '+resp[0].apellido_mat+' '+resp[0].nombre);
                     }else{
                         alert('La petición no se pudo completar, inténtelo de nuevo1.');
                     }
@@ -470,6 +473,31 @@ $( document ).ready(function(){
         $("#search_fecha_ini").val('');
         $("#search_fecha_fin").val('');
     });
+/*
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+      var target = $(e.target).attr("href") // activated tab
+      alert(target);
+    });
+*/
+    $("a[href=#tab_reporte_cn]").click(function()
+    {
+      document.getElementById("idtipo_reporte_cn").value = '';  
+      document.getElementById("idservicio_cn").value = '';
+      document.getElementById("idarea_select_cn").value = '';
+      $("#idarea_cn").val('');
+      $("#nombre_cn").val('');
+      $("#fecha_cn").val('');
+    });
+
+    $("a[href=#tab_reporte_paac]").click(function()
+    {
+      document.getElementById("idtipo_reporte_paac").value = '';  
+      document.getElementById("idservicio_paac").value = '';
+      document.getElementById("idarea_select_paac").value = '';
+      $("#idarea_paac").val('');
+      $("#nombre_paac").val('');
+      $("#fecha_paac").val('');
+    });
 });
 
 function llenar_nombre_equipo(){
@@ -517,4 +545,104 @@ function llenar_nombre_equipo(){
 
 function limpiar_nombre_equipo(){
     $("#codigo_ot_retiro").val('');
+    $("#nombre_equipo").val("");
+    $("#nombre_equipo").css('background-color','#eee');
+}
+
+function llenar_nombre_responsable_cn(){
+    var val = $("#num_doc_responsable_cn").val();
+    if(val!=""){
+        $.ajax({
+            url: inside_url+'reporte_cn/return_num_doc_responsable_cn/'+val,
+            type: 'POST',
+            data: { 'selected_id' : val },
+            beforeSend: function(){
+            },
+            complete: function(){
+            },
+            success: function(response){
+                if(response.success){
+                    var resp = response['reporte']; 
+                    if(resp!="vacio"){
+                        if(resp[0] != null){
+                            $("#nombre_responsable_cn").val("");
+                            $("#nombre_responsable_cn").css('background-color','#5cb85c');
+                            $("#nombre_responsable_cn").css('color','white');
+                            $("#nombre_responsable_cn").val(resp[0].apellido_pat+' '+resp[0].apellido_mat+' '+resp[0].nombre);  
+                            $('input[name=idresponsable_cn]').val(resp[0].id);           
+                        }
+                        else{
+                            $("#nombre_responsable_cn").val("Número de reporte incorrecto");
+                            $("#nombre_responsable_cn").css('background-color','#d9534f');
+                            $("#nombre_responsable_cn").css('color','white');
+                        } 
+                    }else{
+                        $("#nombre_responsable_cn").val("Número de reporte incorrecto");
+                        $("#nombre_responsable_cn").css('background-color','#d9534f');
+                        $("#nombre_responsable_cn").css('color','white');
+                    }               
+                }else{
+                    alert('La petición no se pudo completar, inténtelo de nuevo.');
+                }
+            },
+            error: function(){
+                alert('La petición no se pudo completar, inténtelo de nuevo.');
+            }
+        }); 
+    }
+}
+
+function limpiar_nombre_responsable_cn(){
+    $("#num_doc_responsable_cn").val('');
+    $("#nombre_responsable_cn").val('');
+    $("#nombre_responsable_cn").css('background-color','#eee');
+}
+
+function llenar_nombre_responsable_paac(){
+    var val = $("#num_doc_responsable_paac").val();
+    if(val!=""){
+        $.ajax({
+            url: inside_url+'reporte_paac/return_num_doc_responsable_paac/'+val,
+            type: 'POST',
+            data: { 'selected_id' : val },
+            beforeSend: function(){
+            },
+            complete: function(){
+            },
+            success: function(response){
+                if(response.success){
+                    var resp = response['reporte']; 
+                    if(resp!="vacio"){
+                        if(resp[0] != null){
+                            $("#nombre_responsable_paac").val("");
+                            $("#nombre_responsable_paac").css('background-color','#5cb85c');
+                            $("#nombre_responsable_paac").css('color','white');
+                            $("#nombre_responsable_paac").val(resp[0].apellido_pat+' '+resp[0].apellido_mat+' '+resp[0].nombre);  
+                            $('input[name=idresponsable_paac]').val(resp[0].id);           
+                        }
+                        else{
+                            $("#nombre_responsable_paac").val("Número de reporte incorrecto");
+                            $("#nombre_responsable_paac").css('background-color','#d9534f');
+                            $("#nombre_responsable_paac").css('color','white');
+                        } 
+                    }else{
+                        $("#nombre_responsable_paac").val("Número de reporte incorrecto");
+                        $("#nombre_responsable_paac").css('background-color','#d9534f');
+                        $("#nombre_responsable_paac").css('color','white');
+                    }               
+                }else{
+                    alert('La petición no se pudo completar, inténtelo de nuevo.');
+                }
+            },
+            error: function(){
+                alert('La petición no se pudo completar, inténtelo de nuevo.');
+            }
+        }); 
+    }
+}
+
+function limpiar_nombre_responsable_paac(){
+    $("#num_doc_responsable_paac").val('');
+    $("#nombre_responsable_paac").val('');
+    $("#nombre_responsable_paac").css('background-color','#eee');
 }
