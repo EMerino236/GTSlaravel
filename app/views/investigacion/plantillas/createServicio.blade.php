@@ -9,7 +9,6 @@
 
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
-			<p><strong>{{ $errors->first('usuarios') }}</strong></p>
 			<p><strong>{{ $errors->first('tareas') }}</strong></p>
 		</div>
 	@endif
@@ -52,10 +51,7 @@
 						{{ Form::label('nombre_tarea','Nombre de Tarea') }}
 						{{ Form::text('nombre_tarea',Input::old('nombre_tarea'),array('class'=>'form-control')) }}
 					</div>
-					<div class="form-group col-md-4 @if($errors->first('usuario')) has-error has-feedback @endif">
-						{{ Form::label('usuario','Usuario') }}
-						{{ Form::select('usuario',$usuarios,Input::old('usuario'),array('id'=>'usuario','class'=>'form-control')) }}
-					</div>
+						
 					<div class="form-group col-md-2">
 						{{ Form::label('','&zwnj;&zwnj;') }}
 						<div class="btn btn-primary btn-block" id="btnAgregarFila"><span class="glyphicon glyphicon-plus"></span> Agregar</div>
@@ -104,6 +100,7 @@
 		</div>
 		{{ Form::hidden('familia_id',$familia_activo->idfamilia_activo)}}
 		{{ Form::hidden('tareas_borradas', null)}}
+		{{ Form::hidden('usuario',Session::get('user')->nombre,array('id'=>'usuario')) }}
 		<div class="row">
 			<div class="form-group col-md-2">
 				{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit_create', 'type'=>'submit','class' => 'btn btn-primary btn-block')) }}

@@ -73,8 +73,7 @@ class PlantillasMantenimientoPrevController extends \BaseController {
 			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 ||
 				$data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 10 || $data["user"]->idrol == 12 && $id){
 				$data["familia_activo"] = FamiliaActivo::find($id);
-				//BUSCAR GUIA RELACIONADA A FAMILIA DE ACTIVO
-				$data["guia"] = DocumentoInf::where('idfamilia_activo', $id)->first();
+				
 				$data["tareas"] = TareaOtPreventivo::where('idfamilia_activo',$data["familia_activo"]->idfamilia_activo)->get();
 				return View::make('investigacion/plantillas/mantenimiento/showMantenimiento',$data);
 			}else{
@@ -94,9 +93,7 @@ class PlantillasMantenimientoPrevController extends \BaseController {
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 && $id){
 				$data["familia_activo"] = FamiliaActivo::find($id);
-				$data["usuarios"] = User::where('idrol',3)->lists('nombre','id');
 				$data["tareas"] = TareaOtPreventivo::where('idfamilia_activo',$data["familia_activo"]->idfamilia_activo)->get();
-				$data["guia"] = DocumentoInf::where('idfamilia_activo', $id)->first();
 				return View::make('investigacion/plantillas/mantenimiento/createMantenimiento',$data);
 			}else{
 				return View::make('error/error',$data);
@@ -117,12 +114,6 @@ class PlantillasMantenimientoPrevController extends \BaseController {
 				// Validate the info, create rules for the inputs
 				$rules = array(
 							'familia_id' 			=> 'required',
-							'nombre' 				=> 'max:100',
-							'descripcion' 			=> 'max:200',
-							'autor' 				=> 'max:100',
-							'codigo_archivamiento' 	=> 'max:100|unique:documentosinf',
-							'ubicacion' 			=> 'max:100',
-							'archivo'				=> 'max:15360|mimes:png,jpe,jpeg,jpg,gif,bmp,zip,rar,pdf,doc,docx,xls,xlsx,ppt,pptx',
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules);
@@ -132,60 +123,26 @@ class PlantillasMantenimientoPrevController extends \BaseController {
 				}else{
 					$data['tareas_borradas'] = Input::get('tareas_borradas');
 					$data['tareas'] = Input::get('tareas');
-					$data['usuarios'] = Input::get('usuarios');
 				    
 				    if(!$data['tareas_borradas'] == ""){
 				    	$tareas_borradas = json_decode($data['tareas_borradas']);
 				    	foreach ($tareas_borradas as $tarea) {
 				    		$tarea_borrar = TareaOtPreventivo::find($tarea);
+				    		$tarea_borrar->borrado_por = $data["user"]->id;
+				    		$tarea_borrar->save();
 				    		$tarea_borrar->delete();
 				    	}
 				    }
 
-				    if($data['tareas']!="" && $data['usuarios']!=""){
+				    if($data['tareas']!=""){
 				    	$tareas = $data['tareas'];
-				    	$usuarios = $data['usuarios'];
 				    	foreach ($tareas as $key => $tarea) {
 				    		$tarea_crear = new TareaOtPreventivo;
 				    		$tarea_crear->nombre = $tarea;
 				    		$tarea_crear->idfamilia_activo = $id;
-				    		$tarea_crear->creador = $usuarios[$key];
+				    		$tarea_crear->creador = $data["user"]->id;
 				    		$tarea_crear->save();
 				    	}
-				    }
-
-				    //GUARDAR GUIA DE MANTENIMIENTO
-				    if(Input::hasFile('archivo') && Input::get('nombre') && Input::get('autor') && Input::get('codigo_archivamiento') && Input::get('ubicacion')){
-				    	$rutaDestino 	='';
-					    $nombreArchivo 	='';	
-					    if (Input::hasFile('archivo')) {
-					        $archivo            		= Input::file('archivo');
-					        $rutaDestino 				= 'uploads/documentos/investigacion/guias/Guia de mantenimiento preventivo por tipo de TS' .$id. '/';
-					        $nombreArchivo        		= $archivo->getClientOriginalName();
-					        $nombreArchivoEncriptado 	= Str::random(27).'.'.pathinfo($nombreArchivo, PATHINFO_EXTENSION);
-					        $uploadSuccess 				= $archivo->move($rutaDestino, $nombreArchivoEncriptado);
-					    }
-
-					    $doc = DocumentoInf::where('idfamilia_activo', $id)->first();
-					    if($doc){
-					    	$documento = $doc;
-					    }else{
-					    	$documento = new DocumentoInf;
-					    }
-						$documento->nombre = Input::get('nombre');
-						if (Input::hasFile('archivo')) {
-							$documento->nombre_archivo = $nombreArchivo;
-							$documento->nombre_archivo_encriptado = $nombreArchivoEncriptado;
-						}
-						$documento->descripcion = null;
-						$documento->autor = Input::get('autor');
-						$documento->codigo_archivamiento = Input::get('codigo_archivamiento');
-						$documento->ubicacion = Input::get('ubicacion');
-						$documento->url = $rutaDestino;
-						$documento->idtipo_documentosinf = 4;
-						$documento->idestado = 1;
-						$documento->idfamilia_activo = $id;
-						$documento->save();
 				    }
 
 					Session::flash('message', 'Se modificaron correctamente las Tareas.');				
@@ -200,24 +157,4 @@ class PlantillasMantenimientoPrevController extends \BaseController {
 		}
 	}
 
-	public function download_documento()
-	{
-		if(Auth::check()){
-			$data["inside_url"] = Config::get('app.inside_url');
-			$data["user"] = Session::get('user');
-			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 ||
-				$data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 10 || $data["user"]->idrol == 12){
-				$rutaDestino = Input::get('url').Input::get('nombre_archivo_encriptado');
-		        $headers = array(
-		              'Content-Type',mime_content_type($rutaDestino),
-		            );
-		        return Response::download($rutaDestino,basename(Input::get('nombre_archivo')),$headers);
-			}else{
-				return View::make('error/error',$data);
-			}
-		}else{
-			return View::make('error/error',$data);
-		}
-	}
 }

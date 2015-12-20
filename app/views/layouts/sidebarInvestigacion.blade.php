@@ -9,9 +9,14 @@
                 <a href="#">Diseño de procesos y procedimientos de GTS<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">   
                     <li>{{ HTML::link('#','Mapa de procesos y procedimientos GTS (con definición e indicadores GTS) ') }}</li>
-                    <li>{{ HTML::link('plantillas_servicios/list_servicios','Plantillas de inspecciones de servicios') }}</li>
-                    <li>{{ HTML::link('#','Plantillas de inspecciones de infraestructura ') }}</li>
-                    <li>{{ HTML::link('#','Plantillas de inspecciones hospitalario ') }}</li>
+                    <li>
+                        <a href="#">Plantillas de inspecciones<span class="fa arrow"></span></a>
+                        <ul class="nav nav-third-level">
+                            <li>{{ HTML::link('plantillas_servicios/list_servicios','Plantillas de inspecciones de servicios') }}</li>
+                            <!--<li>{{ HTML::link('#','Plantillas de inspecciones de infraestructura ') }}</li>-->
+                            <!--<li>{{ HTML::link('#','Plantillas de inspecciones hospitalario ') }}</li>-->
+                        </ul>
+                    </li>
                     <li>{{ HTML::link('#','Indicadores de diseño de procesos y procedimientos') }}</li>
                 </ul>                
             </li>
@@ -22,10 +27,14 @@
                 </ul>
             </li>
             <li>
+                {{ HTML::link('guias_tecno_salud/list_guias','Elaboración de Guía de Práctica de Tecnologías de Salud') }}
+            </li>
+            <li>
                 <a href="#">Elaboración de Guía de Práctica Clínica GPC  y ETES de procedimientos clínicos<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">                           
                     <li>{{ HTML::link('#','Indicadores de elaboración de guía de práctica clínica  ') }}</li>
-                    <li>{{ HTML::link('/reporte_etes/list_reporte_etes','Alternativas') }}</li>
+                    <li>{{ HTML::link('guias_clinica_gpc/list_guias','Guía de Práctica Clínica') }}</li>
+                    <li>{{ HTML::link('/reporte_etes/list_reporte_etes','ETES de procedimientos clínicos') }}</li>
                 </ul>
             </li>
         </ul>

@@ -560,7 +560,7 @@ Route::group(array('prefix'=>'documento_investigacion', 'before'=>'auth'),functi
 	Route::post('/submit_enable_documento','DocumentosInvestigacionController@submit_enable_documento');	
 });
 
-/*Plantillas de inspecciones de servicios*/
+/* Plantillas de inspecciones de servicios*/
 Route::group(array('prefix'=>'plantillas_servicios', 'before'=>'auth'),function(){
 	Route::get('/list_servicios','PlantillasServiciosController@list_servicios');
 	Route::get('/search_servicio','PlantillasServiciosController@search_servicio');
@@ -569,11 +569,37 @@ Route::group(array('prefix'=>'plantillas_servicios', 'before'=>'auth'),function(
 	Route::post('/create_servicio/{id}','PlantillasServiciosController@submit_create_servicio');
 });
 
-/*Plantillas de mantenimiento preventivo por TS*/
+/* Plantillas de mantenimiento preventivo por TS*/
 Route::group(array('prefix'=>'plantillas_mant_preventivo', 'before'=>'auth'),function(){
 	Route::get('/list_mantenimientos','PlantillasMantenimientoPrevController@list_mantenimientos');
 	Route::get('/search_mantenimiento','PlantillasMantenimientoPrevController@search_mantenimiento');
 	Route::get('/show_mantenimiento/{id}','PlantillasMantenimientoPrevController@show_mantenimiento');
 	Route::get('/create_mantenimiento/{id}','PlantillasMantenimientoPrevController@render_create_mantenimiento');
 	Route::post('/create_mantenimiento/{id}','PlantillasMantenimientoPrevController@submit_create_mantenimiento');
+});
+
+/* Guias de practica de tecnologias de salud */
+Route::group(array('prefix'=>'guias_tecno_salud', 'before'=>'auth'),function(){
+	Route::get('/list_guias','GuiasTecnoSaludController@list_guias');
+	Route::get('/search_guia','GuiasTecnoSaludController@search_guia');
+	Route::get('/create_guia','GuiasTecnoSaludController@render_create_guia');
+	Route::post('/create_guia','GuiasTecnoSaludController@submit_create_guia');
+	Route::get('/edit_guia/{id}','GuiasTecnoSaludController@render_edit_guia');
+	Route::post('/edit_guia/{id}','GuiasTecnoSaludController@submit_edit_guia');
+	Route::post('/download_guia','GuiasTecnoSaludController@download_guia');
+	Route::post('/submit_disable_guia','GuiasTecnoSaludController@submit_disable_guia');
+	Route::post('/submit_enable_guia','GuiasTecnoSaludController@submit_enable_guia');	
+});
+
+/* Guias de practicas clinicas GPC */
+Route::group(array('prefix'=>'guias_clinica_gpc', 'before'=>'auth'),function(){
+	Route::get('/list_guias','GuiasClinicaGpcController@list_guias');
+	Route::get('/search_guia','GuiasClinicaGpcController@search_guia');
+	Route::get('/create_guia','GuiasClinicaGpcController@render_create_guia');
+	Route::post('/create_guia','GuiasClinicaGpcController@submit_create_guia');
+	Route::get('/edit_guia/{id}','GuiasClinicaGpcController@render_edit_guia');
+	Route::post('/edit_guia/{id}','GuiasClinicaGpcController@submit_edit_guia');
+	Route::post('/download_guia','GuiasClinicaGpcController@download_guia');
+	Route::post('/submit_disable_guia','GuiasClinicaGpcController@submit_disable_guia');
+	Route::post('/submit_enable_guia','GuiasClinicaGpcController@submit_enable_guia');	
 });

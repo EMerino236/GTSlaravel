@@ -46,7 +46,7 @@ class DocumentoInf extends Eloquent{
 			  {
 			  	$query->where('documentosinf.idtipo_documentosinf','=',$search_tipo_documento);
 			  }
-
+			  
 			  $query->select('tipo_documentosinf.nombre as nombre_tipo_documento','documentosinf.*');
 		return $query;
 	}
@@ -58,4 +58,11 @@ class DocumentoInf extends Eloquent{
 		return $query;
 	}	
 
+	public function tipo()
+	{
+		return $this->belongsTo('TipoDocumentoInf', 'idtipo_documentosinf');
+	}
+	public function subtipo(){
+		return $this->belongsTo('SubtipoDocumentoInf','id_subtipo');
+	}
 }

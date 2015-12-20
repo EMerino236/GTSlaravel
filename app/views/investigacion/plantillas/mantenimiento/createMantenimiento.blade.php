@@ -9,7 +9,6 @@
 
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
-			<p><strong>{{ $errors->first('usuarios') }}</strong></p>
 			<p><strong>{{ $errors->first('nombre') }}</strong></p>
 			<p><strong>{{ $errors->first('descripcion') }}</strong></p>
 			<p><strong>{{ $errors->first('autor') }}</strong></p>
@@ -53,63 +52,11 @@
 						{{ Form::text('estado', $familia_activo->estado->nombre,array('id'=>'estado','class'=>'form-control','readonly')) }}
 					</div>
 				</div>
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h3 class="panel-title">Adjuntar Archivo</h3>
-					</div>
-					<div class="panel-body">
-						<div class="row">
-							<div class="form-group col-md-4">
-								{{ Form::label('autor','Autor') }}
-								@if($guia)
-								{{ Form::text('autor',$guia->autor,array('class'=>'form-control')) }}
-								@else
-								{{ Form::text('autor',Input::old('autor'),array('class'=>'form-control')) }}
-								@endif
-							</div>
-							<div class="form-group col-md-4">
-								{{ Form::label('ubicacion','Ubicación') }}
-								@if($guia)
-								{{ Form::text('ubicacion',$guia->ubicacion,array('class'=>'form-control')) }}
-								@else
-								{{ Form::text('ubicacion',Input::old('ubicacion'),array('class'=>'form-control')) }}
-								@endif
-							</div>
-						</div>
-						<div class="row">
-							<div class="form-group col-md-4">
-								{{ Form::label('nombre','Nombre de Documento') }}
-								@if($guia)
-								{{ Form::text('nombre',$guia->nombre,array('class'=>'form-control')) }}
-								@else
-								{{ Form::text('nombre',Input::old('nombre'),array('class'=>'form-control')) }}
-								@endif
-							</div>
-							<div class="form-group col-md-4">
-								{{ Form::label('codigo_archivamiento','Código de Archivamiento') }}
-								@if($guia)
-								{{ Form::text('codigo_archivamiento', null,array('class'=>'form-control')) }}
-								@else
-								{{ Form::text('codigo_archivamiento',Input::old('codigo_archivamiento'),array('class'=>'form-control')) }}
-								@endif
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-8">
-								<label class="control-label">Seleccione un Documento</label>(png,jpe,jpeg,jpg,gif,bmp,zip,rar,pdf,doc,docx,xls,xlsx,ppt,pptx)
-								<input name="archivo" id="input-file" type="file" class="file file-loading" data-show-upload="false">
-							</div>
-						</div>
-					</div>
-				</div>
+
 				<div class="row">
 					<div class="form-group col-md-4 @if($errors->first('tareas')) has-error has-feedback @endif">
 						{{ Form::label('nombre_tarea','Nombre de Tarea') }}
 						{{ Form::text('nombre_tarea',Input::old('nombre_tarea'),array('class'=>'form-control')) }}
-					</div>
-					<div class="form-group col-md-4 @if($errors->first('usuario')) has-error has-feedback @endif">
-						{{ Form::label('usuario','Usuario') }}
-						{{ Form::select('usuario',$usuarios,Input::old('usuario'),array('id'=>'usuario','class'=>'form-control')) }}
 					</div>
 					<div class="form-group col-md-2">
 						{{ Form::label('','&zwnj;&zwnj;') }}
@@ -159,6 +106,7 @@
 		</div>
 		{{ Form::hidden('familia_id',$familia_activo->idfamilia_activo)}}
 		{{ Form::hidden('tareas_borradas', null)}}
+		{{ Form::hidden('usuario',Session::get('user')->nombre,array('id'=>'usuario')) }}
 		<div class="row">
 			<div class="form-group col-md-2">
 				{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit_create', 'type'=>'submit','class' => 'btn btn-primary btn-block')) }}

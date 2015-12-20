@@ -92,7 +92,6 @@ class PlantillasServiciosController extends \BaseController {
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 && $id){
 				$data["familia_activo"] = FamiliaActivo::find($id);
-				$data["usuarios"] = User::where('idrol',3)->lists('nombre','id');
 				$data["tareas"] = TareasOtInspeccionEquipo::where('idfamilia_activo',$data["familia_activo"]->idfamilia_activo)->get();
 				return View::make('investigacion/plantillas/createServicio',$data);
 			}else{
@@ -121,31 +120,27 @@ class PlantillasServiciosController extends \BaseController {
 				if($validator->fails()){
 					return Redirect::to('plantillas_servicios/create_servicio/'.$id)->withErrors($validator)->withInput(Input::all());
 				}else{
-					var_dump(Input::all());
 					$data['tareas_borradas'] = Input::get('tareas_borradas');
 					$data['tareas'] = Input::get('tareas');
-					$data['usuarios'] = Input::get('usuarios');
-				    //DO SOMETHING
 				    
 				    if(!$data['tareas_borradas'] == ""){
-				    	var_dump("borrar");
 				    	$tareas_borradas = json_decode($data['tareas_borradas']);
 				    	foreach ($tareas_borradas as $tarea) {
 				    		$tarea_borrar = TareasOtInspeccionEquipo::find($tarea);
+				    		$tarea_borrar->borrado_por = $data["user"]->id;
+				    		$tarea_borrar->save();
 				    		$tarea_borrar->delete();
 				    	}
 				    }
 
-				    if($data['tareas']!="" && $data['usuarios']!=""){
+				    if($data['tareas']!=""){
 				    	//crear tareas
-				    	var_dump("crear");
 				    	$tareas = $data['tareas'];
-				    	$usuarios = $data['usuarios'];
 				    	foreach ($tareas as $key => $tarea) {
 				    		$tarea_crear = new TareasOtInspeccionEquipo;
 				    		$tarea_crear->nombre = $tarea;
 				    		$tarea_crear->idfamilia_activo = $id;
-				    		$tarea_crear->creador = $usuarios[$key];
+				    		$tarea_crear->creador = $data["user"]->id;
 				    		$tarea_crear->save();
 				    	}
 				    }

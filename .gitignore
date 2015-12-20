@@ -7,6 +7,4 @@ composer.lock
 .DS_Store
 Thumbs.db
 app/routes.php
-public/documentos/*
-public/inspeccion_equipos/*
-
+public/uploads/*
