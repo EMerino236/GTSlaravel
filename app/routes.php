@@ -603,3 +603,16 @@ Route::group(array('prefix'=>'guias_clinica_gpc', 'before'=>'auth'),function(){
 	Route::post('/submit_disable_guia','GuiasClinicaGpcController@submit_disable_guia');
 	Route::post('/submit_enable_guia','GuiasClinicaGpcController@submit_enable_guia');	
 });
+
+/* Mapa de procesos y procedimientos GTS */
+Route::group(array('prefix'=>'mapa_procesos', 'before'=>'auth'),function(){
+	Route::get('/list_procesos','MapaProcesosController@list_procesos');
+	Route::get('/search_proceso','MapaProcesosController@search_proceso');
+	Route::get('/create_proceso','MapaProcesosController@render_create_proceso');
+	Route::post('/create_proceso','MapaProcesosController@submit_create_proceso');
+	Route::get('/edit_proceso/{id}','MapaProcesosController@render_edit_proceso');
+	Route::post('/edit_proceso/{id}','MapaProcesosController@submit_edit_proceso');
+	Route::post('/download_proceso','MapaProcesosController@download_proceso');
+	Route::post('/submit_disable_proceso','MapaProcesosController@submit_disable_proceso');
+	Route::post('/submit_enable_proceso','MapaProcesosController@submit_enable_proceso');	
+});

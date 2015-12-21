@@ -2,10 +2,10 @@
 
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
-class TipoDocumentoInf extends Eloquent{
+class TipoDocumentoInfPadre extends Eloquent{
 	use SoftDeletingTrait;	
 	protected $softDelete = true;
-	protected $table = 'tipo_documentosinf';
+	protected $table = 'tipo_documentosinf_padre';
 
 	public function scopeSearchTipoDocumentosById($query,$search_criteria)
 	{
@@ -13,9 +13,4 @@ class TipoDocumentoInf extends Eloquent{
 			  ->where('idtipo_documentosinf','=',$search_criteria);
 		return $query;
 	}
-
-	public function padre()
-	{
-		return $this->belongsTo('TipoDocumentoInfPadre','id_tipo_padre');
-	}	
 }

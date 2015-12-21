@@ -99,13 +99,13 @@ class GuiasClinicaGpcController extends \BaseController {
 				if($validator->fails()){
 					return Redirect::to('guias_clinica_gpc/create_guia')->withErrors($validator)->withInput(Input::all());
 				}else{
-				    $data["tipo_documentos"] = TipoDocumentoInf::searchTipoDocumentosById(7)->get();
+				    $data["tipo_documentos"] = TipoDocumentoInf::searchTipoDocumentosById(7)->first();
 				    $subtipo = SubtipoDocumentoInf::find(Input::get('idtipo_documento'));
 				    $rutaDestino 	='';
 				    $nombreArchivo 	='';	
 				    if (Input::hasFile('archivo')) {
 				        $archivo            		= Input::file('archivo');
-				        $rutaDestino 				= 'uploads/documentos/investigacion/guias/' . $data["tipo_documentos"][0]->nombre . '/' . $subtipo->nombre .'/';
+				        $rutaDestino 				= 'uploads/documentos/investigacion/guias/' . $data["tipo_documentos"]->nombre . '/' . $subtipo->nombre .'/';
 				        $nombreArchivo        		= $archivo->getClientOriginalName();
 				        $nombreArchivoEncriptado 	= Str::random(27).'.'.pathinfo($nombreArchivo, PATHINFO_EXTENSION);
 				        $uploadSuccess 				= $archivo->move($rutaDestino, $nombreArchivoEncriptado);
@@ -122,6 +122,7 @@ class GuiasClinicaGpcController extends \BaseController {
 					$documento->url = $rutaDestino;
 					$documento->idtipo_documentosinf = 7;
 					$documento->id_subtipo = Input::get('idtipo_documento');
+					$documento->id_tipo_padre = $data["tipo_documentos"]->padre->id;
 					$documento->idestado = 1;
 					$documento->save();
 					Session::flash('message', 'Se registró correctamente el Documento.');				
@@ -181,8 +182,8 @@ class GuiasClinicaGpcController extends \BaseController {
 					$url = "guias_clinica_gpc/edit_guia"."/".$iddocumento;
 					return Redirect::to($url)->withErrors($validator)->withInput(Input::all());
 				}else{
-					$data["tipo_documentos"] = TipoDocumentoInf::searchTipoDocumentosById(7)->get();
-					$subtipo = SubtipoDocumentoInf::find(Input::get('idtipo_documento'));
+					$data["tipo_documentos"] = TipoDocumentoInf::searchTipoDocumentosById(7)->first();
+					$subtipo = SubtipoDocumentoInf::find(Input::get('id_subtipo'));
 					$data["documento_info"] = DocumentoInf::searchDocumentoById(Input::get('documento_id'))->get();
 
 					$url = "guias_clinica_gpc/edit_guia"."/".$iddocumento;
@@ -190,7 +191,7 @@ class GuiasClinicaGpcController extends \BaseController {
 				    $nombreArchivo 	='';	
 				    if (Input::hasFile('archivo')) {
 				        $archivo            		= Input::file('archivo');
-				        $rutaDestino 				= 'uploads/documentos/investigacion/guias/' . $data["tipo_documentos"][0]->nombre . '/' . $subtipo->nombre .'/';
+				        $rutaDestino 				= 'uploads/documentos/investigacion/guias/' . $data["tipo_documentos"]->nombre . '/' . $subtipo->nombre .'/';
 				        $nombreArchivo        		= $archivo->getClientOriginalName();
 				        $nombreArchivoEncriptado 	= Str::random(27).'.'.pathinfo($nombreArchivo, PATHINFO_EXTENSION);
 				        $uploadSuccess 				= $archivo->move($rutaDestino, $nombreArchivoEncriptado);
@@ -207,7 +208,8 @@ class GuiasClinicaGpcController extends \BaseController {
 					$documento->codigo_archivamiento = Input::get('codigo_archivamiento');
 					$documento->ubicacion = Input::get('ubicacion');
 					$documento->idtipo_documentosinf = 7;
-					$documento->id_subtipo = Input::get('idtipo_documento');
+					$documento->id_subtipo = Input::get('id_subtipo');
+					$documento->id_tipo_padre = $data["tipo_documentos"]->padre->id;
 					$documento->idestado = 1;
 					$documento->save();
 					Session::flash('message', 'Se editó correctamente el Documento.');

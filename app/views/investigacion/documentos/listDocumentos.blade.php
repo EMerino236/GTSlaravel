@@ -68,6 +68,7 @@
 	<table class="table">
 		<tr class="info">
 			<th>Tipo de Documento</th>
+			<th>Subtipo de Documento</th>
 			<th>Nombre</th>
 			<th>Autor</th>
 			<th>Cod. de Archivamiento</th>
@@ -78,10 +79,21 @@
 		@foreach($documentos_data as $documento_data)
 		<tr class="@if($documento_data->deleted_at) bg-danger @endif">
 			<td>
-				{{$documento_data->nombre_tipo_documento}}
+				{{$documento_data->padre->nombre}}
 			</td>
 			<td>
+				{{$documento_data->tipo->nombre}}
+			</td>
+			<td>
+				@if($documento_data->idtipo_documentosinf == 4)
+				<a href="{{URL::to('/guias_tecno_salud/edit_guia/')}}/{{$documento_data->iddocumentosinf}}">{{$documento_data->nombre}}</a>
+				@elseif($documento_data->idtipo_documentosinf == 7)
+				<a href="{{URL::to('/guias_clinica_gpc/edit_guia/')}}/{{$documento_data->iddocumentosinf}}">{{$documento_data->nombre}}</a>
+				@elseif($documento_data->idtipo_documentosinf == 10)
+				<a href="{{URL::to('/mapa_procesos/edit_proceso/')}}/{{$documento_data->iddocumentosinf}}">{{$documento_data->nombre}}</a>
+				@else
 				<a href="{{URL::to('/documento_investigacion/edit_documento/')}}/{{$documento_data->iddocumentosinf}}">{{$documento_data->nombre}}</a>
+				@endif
 			</td>
 			<td>
 				{{$documento_data->autor}}

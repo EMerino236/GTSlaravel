@@ -8,7 +8,7 @@
             <li>
                 <a href="#">Diseño de procesos y procedimientos de GTS<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">   
-                    <li>{{ HTML::link('#','Mapa de procesos y procedimientos GTS (con definición e indicadores GTS) ') }}</li>
+                    <li>{{ HTML::link('mapa_procesos/list_procesos','Mapa de procesos y procedimientos GTS (con definición e indicadores GTS) ') }}</li>
                     <li>
                         <a href="#">Plantillas de inspecciones<span class="fa arrow"></span></a>
                         <ul class="nav nav-third-level">
