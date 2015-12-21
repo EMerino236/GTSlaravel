@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AlterIdservicioToUsersProgramacionReporteCn extends Migration {
+class AlterIdservicioToProgramacionReporteCnTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -14,7 +14,7 @@ class AlterIdservicioToUsersProgramacionReporteCn extends Migration {
 	{
 		Schema::table('programacion_reporte_cn', function(Blueprint $table)
 		{
-			$table->integer('idservicio')->nullable()->change();
+			DB::statement('ALTER TABLE programacion_reporte_cn MODIFY idservicio INTEGER NULL;');
 		});
 	}
 
