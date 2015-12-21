@@ -430,7 +430,7 @@ Route::group(array('prefix'=>'reporte_etes','before'=>'auth'),function(){
 	Route::get('/list_reporte_etes','ReporteETESController@list_reporte_etes');
 	Route::get('/edit_reporte_etes/{id}','ReporteETESController@render_edit_reporte_etes');
 	Route::post('/submit_edit_reporte_etes','ReporteETESController@submit_edit_reporte_etes');
-	Route::get('/create_reporte_etes','ReporteETESController@render_create_reporte_etes');
+	Route::get('/create_reporte_etes/{id?}','ReporteETESController@render_create_reporte_etes');
 	Route::post('/submit_create_reporte_etes','ReporteETESController@submit_create_reporte_etes');
 	Route::get('/search_reporte_etes','ReporteETESController@search_reporte_etes');
 	Route::get('/download_documento/{id}','ReporteETESController@download_documento');
@@ -444,7 +444,7 @@ Route::group(array('prefix'=>'reporte_paac','before'=>'auth'),function(){
 	Route::get('/edit_reporte_paac/{id}','ReportePAACController@render_edit_reporte_paac');
 	Route::get('/view_reporte_paac/{id}','ReportePAACController@render_view_reporte_paac');
 	Route::post('/submit_edit_reporte_paac','ReportePAACController@submit_edit_reporte_paac');
-	Route::get('/create_reporte_paac','ReportePAACController@render_create_reporte_paac');
+	Route::get('/create_reporte_paac/{id?}','ReportePAACController@render_create_reporte_paac');
 	Route::post('/submit_create_reporte_paac','ReportePAACController@submit_create_reporte_paac');
 	Route::get('/search_reporte_paac','ReportePAACController@search_reporte_paac');
 	Route::get('/download_documento/{id}','ReportePAACController@download_documento');
