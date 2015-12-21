@@ -47,8 +47,9 @@
     <script src="{{asset('js/bootstrap-dialog.min.js') }}"></script> 
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>   
     <script src="{{ asset('js/ordenes_trabajos/correctivo/listOtCorrectivo.js') }}"></script>
-    <script src="{{ asset('js/ordenes_trabajos/correctivo/program-ot.js') }}"></script>
     <script src="{{ asset('js/ordenes_trabajos/correctivo/otCorrectivo.js') }}"></script>
+    <script src="{{ asset('js/ordenes_trabajos/correctivo/program-ot.js') }}"></script>
+    
     
 </head>
 

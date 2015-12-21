@@ -28,7 +28,7 @@
 		</div>
 	@endif
 
-	{{ Form::open(array('url'=>'mant_correctivo/submit_programacion', 'role'=>'form')) }}
+	{{ Form::open(array('url'=>'mant_correctivo/submit_programacion', 'role'=>'form','id'=>'submit_program_ot_correctivo')) }}
 		{{ Form::hidden('idactivo', $sot_info->idactivo) }}
 		{{ Form::hidden('sot_id', $sot_info->idsolicitud_orden_trabajo) }}
 		{{Form::hidden('mes_ini',$mes_ini,array('id'=>'mes_ini'))}}
@@ -98,7 +98,7 @@
 					</div>
 					<div class="row">
 						<div class="form-group col-md-4">
-							{{ Form::button('<span class="glyphicon glyphicon-time"></span>  Programar', array('id'=>'submit-edit','type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}
+							{{ Form::button('<span class="glyphicon glyphicon-time"></span>  Programar', array('id'=>'submit_program_ot', 'class' => 'btn btn-primary btn-block')) }}
 						</div>
 					</div>
 				</div>

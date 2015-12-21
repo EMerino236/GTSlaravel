@@ -123,18 +123,20 @@
 
 	<div class="form-group row">
 		<div class="col-md-12">
-			<table class="table" id="table_programacion">
-				<tr class="info">
-					<th>Código Patrimonial</th>
-					<th>Nombre de Equipo</th>
-					<th>Programaciones del mes </th>
-					<th>Programaciones del trimestre</th>
-					<th>Fecha Programación</th>
-					<th>Hora Programacion</th>
-					<th>Usuario Responsable</th>
-					<th>Operacion</th>
-				</tr>
-			</table>
+			<div class="table-responsive">
+				<table class="table" id="table_programacion">
+					<tr class="info">
+						<th class="text-nowrap text-center">Código Patrimonial</th>
+						<th class="text-nowrap text-center">Nombre de Equipo</th>
+						<th class="text-nowrap text-center">Programaciones del mes </th>
+						<th class="text-nowrap text-center">Programaciones del trimestre</th>
+						<th class="text-nowrap text-center">Fecha Programación</th>
+						<th class="text-nowrap text-center">Hora Programacion</th>
+						<th class="text-nowrap text-center">Usuario Responsable</th>
+						<th class="text-nowrap text-center">Operacion</th>
+					</tr>
+				</table>
+			</div>
 		</div>
 	</div>
 
@@ -149,7 +151,7 @@
 
 
 
-	<div class="container" >
+<div class="container" >
   <!-- Modal -->
   <div class="modal fade" id="modal_ot"  role="dialog">
     <div class="modal-dialog modal-md">    

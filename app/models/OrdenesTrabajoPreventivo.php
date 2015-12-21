@@ -58,9 +58,9 @@ class OrdenesTrabajoPreventivo extends Eloquent{
 			  			  	  ->orWhere('proveedores.nombre_contacto','LIKE',"%$search_proveedor%");
 			  	});
 			  if($search_ini != "")
-				$query->where('ot_preventivos.fecha_programacion','>=',date('Y-m-d',strtotime($search_ini)));
+				$query->where(DB::raw('STR_TO_DATE(ot_preventivos.fecha_programacion,\'%Y-%m-%d\')'),'>=',date('Y-m-d',strtotime($search_ini)));
 			  if($search_fin != "")
-				$query->where('ot_preventivos.fecha_programacion','<=',date('Y-m-d',strtotime($search_fin)));
+				$query->where(DB::raw('STR_TO_DATE(ot_preventivos.fecha_programacion,\'%Y-%m-%d\')'),'<=',date('Y-m-d',strtotime($search_fin)));
 			  if($search_servicio!=0)
 			  	$query->where('ot_preventivos.idservicio','=',$search_servicio);
 			  $query->select('ubicacion_fisicas.nombre as nombre_ubicacion','areas.nombre as nombre_area','users.nombre as nombre_user','users.apellido_pat','users.apellido_mat','solicitante.nombre as nombre_user_sol','solicitante.apellido_pat as apellido_pat_sol','solicitante.apellido_mat as apellido_mat_sol','servicios.nombre as nombre_servicio','estados.nombre as nombre_estado','ot_preventivos.*');

@@ -100,9 +100,9 @@
 					<div class="form-group col-md-4">
 						{{ Form::label('fecha_conformidad','Fecha de Conformidad') }}
 						@if(!$ot_info->fecha_conformidad)
-							{{ Form::text('fecha_conformidad',null,array('class'=>'form-control','readonly'=>'')) }}							
+							{{ Form::text('fecha_conformidad',null,array('class'=>'form-control','readonly'=>'','disabled'=>'disabled')) }}							
 						@else
-							{{ Form::text('fecha_conformidad',date('d-m-Y H:i:s',strtotime($ot_info->fecha_conformidad)),array('class'=>'form-control','readonly'=>'')) }}
+							{{ Form::text('fecha_conformidad',date('d-m-Y H:i:s',strtotime($ot_info->fecha_conformidad)),array('class'=>'form-control','readonly'=>'','disabled'=>'disabled')) }}
 						@endif
 					</div>
 				</div>
@@ -162,24 +162,30 @@
 				<h3 class="panel-title">Datos Generales de la Orden de Trabajo de Mantenimiento</h3>
 			</div>
 			<div class="panel-body">			
-				<table id="tareas-table" class="table">
-					<tr class="info">
-						<th>Descripción</th>
-						<th>Estado</th>
-					</tr>
-					@foreach($tareas as $tarea)
-					<tr id="tarea-row-{{ $tarea->idtareas_ot_correctivo }}">
-						<td>{{$tarea->nombre}}</td>
-						<td>
-							@if($tarea->idestado_realizado != 23)
-								Realizado
-							@else
-								No Realizado
-							@endif
-						</td>
-					</tr>
-					@endforeach
-				</table>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="table-responsive">
+							<table id="tareas-table" class="table">
+								<tr class="info">
+									<th>Descripción</th>
+									<th>Estado</th>
+								</tr>
+								@foreach($tareas as $tarea)
+								<tr id="tarea-row-{{ $tarea->idtareas_ot_correctivo }}">
+									<td>{{$tarea->nombre}}</td>
+									<td>
+										@if($tarea->idestado_realizado != 23)
+											Realizado
+										@else
+											No Realizado
+										@endif
+									</td>
+								</tr>
+								@endforeach
+							</table>
+						</div>
+					</div>
+				</div>
 				<div class="row">
 					
 					<div class="col-md-4">

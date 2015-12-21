@@ -92,7 +92,7 @@ class SotController extends BaseController {
 						$sot->id = $data["user"]->id;
 						$sot->save();
 						Session::flash('message', 'Se generó correctamente la solicitud.');
-						return Redirect::to('sot/create_sot');
+						return Redirect::to('sot/list_sots');
 					}else{
 						Session::flash('error', 'No se encontró un activo con el código patrimonial ingresado.');
 						return Redirect::to('sot/create_sot');

@@ -257,14 +257,14 @@ function addFilaMantenimiento(){
     }else{
         $('#modal_create_text').empty();
         $('#table_programacion').append("<tr>"
-                +"<td>"+codigo_patrimonial+"</td>"
-                +"<td>"+nombre_equipo+"</td>"
-                +"<td>"+count_otMes+"</td>"
-                +"<td>"+count_otTrimestre+"</td>"
-                +"<td>"+fecha+"</td>"
-                +"<td>"+hora+"</td>"
-                +"<td id=\""+usuario_id+"\">"+usuario_nombre+"</td>"
-                +"<td><a href='' class='btn btn-danger delete-detail' onclick='deleteRow(event,this)'><span class=\"glyphicon glyphicon-remove\"></span>Eliminar</a></td></tr>");
+                +"<td class=\"text-nowrap text-center\">"+codigo_patrimonial+"</td>"
+                +"<td class=\"text-nowrap text-center\">"+nombre_equipo+"</td>"
+                +"<td class=\"text-nowrap text-center\">"+count_otMes+"</td>"
+                +"<td class=\"text-nowrap text-center\">"+count_otTrimestre+"</td>"
+                +"<td class=\"text-nowrap text-center\">"+fecha+"</td>"
+                +"<td class=\"text-nowrap text-center\">"+hora+"</td>"
+                +"<td class=\"text-nowrap text-center\" id=\""+usuario_id+"\">"+usuario_nombre+"</td>"
+                +"<td class=\"text-nowrap text-center\"><a href='' class='btn btn-danger delete-detail' onclick='deleteRow(event,this)'><span class=\"glyphicon glyphicon-remove\"></span></a></td></tr>");
         limpiar();
     }
 }
@@ -336,6 +336,7 @@ function sendDataToController_create(){
                                     dialog = BootstrapDialog.show({
                                         title: 'Advertencia',
                                         message: message,
+                                        closable: false,
                                         type : BootstrapDialog.TYPE_SUCCESS,
                                         buttons: [{
                                             label: 'Aceptar',

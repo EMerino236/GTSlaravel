@@ -328,7 +328,7 @@ class OtController extends BaseController {
 					$activo->idestado = Input::get('idestado_final');
 					$activo->save();
 					Session::flash('message', 'Se guardó correctamente la información.');
-					return Redirect::to('mant_correctivo/create_ot/'.$idot_correctivo);
+					return Redirect::to('mant_correctivo/list_mant_correctivo')->with('message', 'Se guardó correctamente la OTM: '.$ot->ot_tipo_abreviatura.$ot->ot_correlativo.$ot->ot_activo_abreviatura);
 				}
 			}else{
 				return View::make('error/error',$data);

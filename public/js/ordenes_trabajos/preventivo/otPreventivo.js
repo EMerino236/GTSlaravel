@@ -1,11 +1,28 @@
 $( document ).ready(function(){
 	
 	init_ot_create();
+	
+	$('#submit_ot').click(function(){
+		BootstrapDialog.confirm({
+			title: 'Mensaje de Confirmación',
+			message: '¿Está seguro que desea realizar esta acción?\n (Si el campo "Equipo no Intervenido" no se encuentra en estado pendiente, la presente ficha no podrá volver a ser editada)', 
+			type: BootstrapDialog.TYPE_INFO,
+			btnCancelLabel: 'Cancelar', 
+	    	btnOKLabel: 'Aceptar', 
+				callback: function(result){
+			        if(result) {
+			        	document.getElementById('submit_ot_preventivo').submit();
+			        }
+			    }
+		});
+	});
+
+	var alphanumeric_pattern = /[^a-zA-Z0-9- _]/;
 
 	$("#submit-tarea").click(function(e){
 		idot_preventivo = $('#idot_preventivo').val();
 		e.preventDefault;
-		if($("input[name=nombre_tarea]").val().length<1){
+		if($("input[name=nombre_tarea]").val().length<1 || $("input[name=nombre_tarea]").val().length >100  || alphanumeric_pattern.test($("input[name=nombre_tarea]").val())){
 			$("input[name=nombre_tarea]").parent().addClass("has-error has-feedback");
 			dialog = BootstrapDialog.show({
 	            title: 'Advertencia',
@@ -95,8 +112,9 @@ $( document ).ready(function(){
 
 	$("#submit-repuesto").click(function(e){
 		e.preventDefault;
+
 			var error_str = "";
-			var reg = /[^0-9a-bA-B\s]/gi;
+			var reg = /[^a-zA-Z0-9- _]/;
 			var intRegex = /^\d+$/;
 			var floatRegex = /^\d{1,6}(\.\d{0,2}){0,1}$/;
 			var is_correct = true;
@@ -104,7 +122,7 @@ $( document ).ready(function(){
 			$("input[name=codigo_repuesto]").parent().removeClass("has-error has-feedback");
 			$("input[name=cantidad_repuesto]").parent().removeClass("has-error has-feedback");
 			$("input[name=costo_repuesto]").parent().removeClass("has-error has-feedback");
-			if(!reg.test($("input[name=nombre_repuesto]").val())){
+			if(reg.test($("input[name=nombre_repuesto]").val())){
 				error_str += "El nombre debe ser alfanumérico.\n";
 				$("input[name=nombre_repuesto]").parent().addClass("has-error has-feedback");
 				is_correct = false;
@@ -114,7 +132,7 @@ $( document ).ready(function(){
 				$("input[name=nombre_repuesto]").parent().addClass("has-error has-feedback");
 				is_correct = false;
 			}
-			if(!reg.test($("input[name=codigo_repuesto]").val())){
+			if(reg.test($("input[name=codigo_repuesto]").val())){
 				error_str += "El código debe ser alfanumérico.\n";
 				is_correct = false;
 				$("input[name=codigo_repuesto]").parent().addClass("has-error has-feedback");
@@ -162,20 +180,25 @@ $( document ).ready(function(){
 								},
 								success: function(response){
 									var str = "";
-									str += '<tr id="repuesto-row-'+response.repuesto.idrepuestos_ot+'"><td>'+response.repuesto.nombre+'</td>';
-									str += "<td>"+response.repuesto.codigo+"</td>";
-									str += "<td>"+response.repuesto.cantidad+"</td>";
-									str += "<td>"+response.repuesto.costo+"</td>";
-									str += '<td><button class="btn btn-danger boton-eliminar-repuesto" onclick="eliminar_repuesto(event,'+response.repuesto.idrepuestos_ot_preventivo+')" type="button">Eliminar</button></td></tr>';
+									str += '<tr id="repuesto-row-'+response.repuesto.idrepuestos_ot+'"><td class=\"text-nowrap\">'+response.repuesto.nombre+'</td>';
+									str += "<td class=\"text-nowrap text-center\">"+response.repuesto.codigo+"</td>";
+									str += "<td class=\"text-nowrap text-center\">"+response.repuesto.cantidad+"</td>";
+									str += "<td class=\"text-nowrap text-center\">S/. "+response.repuesto.costo+"</td>";
+									str += '<td class=\"text-nowrap text-center\"><button class="btn btn-danger boton-eliminar-repuesto" onclick="eliminar_repuesto(event,'+response.repuesto.idrepuestos_ot_preventivo+')" type="button"><span class="glyphicon glyphicon-trash"></span></button></td></tr>';
 									$("#repuestos-table").append(str);
 									$("input[name=costo_total_repuestos]").val(response.costo_total_repuestos);
+									$('#nombre_repuesto').val('');
+									$('#codigo_repuesto').val('');
+									$('#costo_repuesto').val('');
+									$('#cantidad_repuesto').val('');
 								},
 								error: function(){
 								}
 							});
 			        	}
 			        }
-			    });				
+			    });
+				
 			}else{
 				dialog = BootstrapDialog.show({
 		            title: 'Advertencia',
@@ -196,14 +219,14 @@ $( document ).ready(function(){
 	$("#submit-personal").click(function(e){
 		e.preventDefault;
 			var error_str = "";
-			var reg = /[\w'-]+/;
+			var reg = /[^a-zA]+$/;
 			var floatRegex = /^\d{1,6}(\.\d{0,2}){0,1}$/;
 			var is_correct = true;
 			$("input[name=nombre_personal]").parent().removeClass("has-error has-feedback");
 			$("input[name=horas_trabajadas]").parent().removeClass("has-error has-feedback");
 			$("input[name=costo_personal]").parent().removeClass("has-error has-feedback");
-			if(!reg.test($("input[name=nombre_personal]").val())){
-				error_str += "El nombre debe ser alfanumérico.\n";
+			if(reg.test($("input[name=nombre_personal]").val())){
+				error_str += "El nombre debe ser alfabético.\n";
 				$("input[name=nombre_personal]").parent().addClass("has-error has-feedback");
 				is_correct = false;
 			}
@@ -248,12 +271,15 @@ $( document ).ready(function(){
 								},
 								success: function(response){
 									var str = "";
-									str += '<tr id="personal-row-'+response.personal.idpersonal_ot_preventivo+'"><td>'+response.personal.nombre+'</td>';
-									str += "<td>"+response.personal.horas_hombre+"</td>";
-									str += "<td>"+response.personal.costo+"</td>";
-									str += '<td><button class="btn btn-danger boton-eliminar-personal" onclick="eliminar_personal(event,'+response.personal.idpersonal_ot_preventivo+')" type="button">Eliminar</button></td></tr>';
+									str += '<tr id="personal-row-'+response.personal.idpersonal_ot_preventivo+'"><td class=\"text-nowrap\">'+response.personal.nombre+'</td>';
+									str += "<td class=\"text-nowrap text-center\">"+response.personal.horas_hombre+"</td>";
+									str += "<td class=\"text-nowrap text-center\">S/. "+response.personal.costo+"</td>";
+									str += '<td class=\"text-nowrap text-center\"><button class="btn btn-danger boton-eliminar-personal" onclick="eliminar_personal(event,'+response.personal.idpersonal_ot_preventivo+')" type="button"><span class="glyphicon glyphicon-trash"></span></button></td></tr>';
 									$("#personal-table").append(str);
 									$("input[name=costo_total_personal]").val(response.costo_total_personal);
+									$('#nombre_personal').val('');
+									$('#horas_trabajadas').val('');
+									$('#costo_personal').val('');
 								},
 								error: function(){
 								}
@@ -261,8 +287,7 @@ $( document ).ready(function(){
 			        	}
 			        }
 			    });
-			    
-				
+
 			}else{
 				dialog = BootstrapDialog.show({
 		            title: 'Advertencia',

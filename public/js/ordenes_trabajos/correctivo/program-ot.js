@@ -1,5 +1,20 @@
 $( document ).ready(function(){
      init_ot_program();
+
+     $('#submit_program_ot').click(function(){
+        BootstrapDialog.confirm({
+            title: 'Mensaje de Confirmación',
+            message: '¿Está seguro que desea realizar esta acción?', 
+            type: BootstrapDialog.TYPE_INFO,
+            btnCancelLabel: 'Cancelar', 
+            btnOKLabel: 'Aceptar', 
+                callback: function(result){
+                    if(result) {
+                        document.getElementById('submit_program_ot_correctivo').submit();
+                    }
+                }
+        });
+     });
 });
 
 function ver_programaciones(){
@@ -94,15 +109,18 @@ function removeModalBox() { $(".responsive-calendar-modal").remove(); }
 
 function init_ot_program(){
 
-    $("#datetimepicker_prog_fecha").datetimepicker({
-            defaultDate: false,
-            ignoreReadonly: true,
-            format: 'DD-MM-YYYY HH:mm',
-            sideBySide: true
-    });
+    if($("#datetimepicker_prog_fecha").length){
+            $("#datetimepicker_prog_fecha").datetimepicker({
+                defaultDate: false,
+                ignoreReadonly: true,
+                format: 'DD-MM-YYYY HH:mm',
+                sideBySide: true
+        });
     
-    $("#datetimepicker_prog_fecha").on("dp.change", function (e) {
-        $('#datetimepicker_prog_fecha').data("DateTimePicker").minDate(e.date);
-    });
-    ver_programaciones();
+        $("#datetimepicker_prog_fecha").on("dp.change", function (e) {
+            $('#datetimepicker_prog_fecha').data("DateTimePicker").minDate(e.date);
+        });
+        ver_programaciones();
+    }
+    
 }
