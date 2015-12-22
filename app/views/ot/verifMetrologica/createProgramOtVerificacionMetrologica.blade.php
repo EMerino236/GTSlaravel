@@ -8,16 +8,23 @@
 
     @if ($errors->has())
 	<div class="alert alert-danger" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 		<p><strong>{{ $errors->first('fecha_programacion') }}</strong></p>
 		<p><strong>{{ $errors->first('solicitante') }}</strong></p>
 	</div>
 	@endif
 
 	@if (Session::has('message'))
-		<div class="alert alert-success">{{ Session::get('message') }}</div>
+		<div class="alert alert-success">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('message') }}
+		</div>
 	@endif
 	@if (Session::has('error'))
-		<div class="alert alert-danger">{{ Session::get('error') }}</div>
+		<div class="alert alert-danger">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('error') }}
+		</div>
 	@endif
 	
 	{{Form::hidden('mes_ini',$mes_ini,array('id'=>'mes_ini'))}}
@@ -124,18 +131,20 @@
 
 	<div class="form-group row">
 		<div class="col-md-12">
-			<table class="table" id="table_programacion">
-				<tr class="info">
-					<th>Código Patrimonial</th>
-					<th>Nombre de Equipo</th>
-					<th>Programaciones del mes </th>
-					<th>Programaciones del trimestre</th>
-					<th>Fecha Programación</th>
-					<th>Hora Programacion</th>
-					<th>Usuario Responsable</th>
-					<th>Operacion</th>
-				</tr>
-			</table>
+			<div class="table-responsive">
+				<table class="table" id="table_programacion">
+					<tr class="info">
+						<th>Código Patrimonial</th>
+						<th>Nombre de Equipo</th>
+						<th>Programaciones del mes </th>
+						<th>Programaciones del trimestre</th>
+						<th>Fecha Programación</th>
+						<th>Hora Programacion</th>
+						<th>Usuario Responsable</th>
+						<th>Operacion</th>
+					</tr>
+				</table>
+			</div>
 		</div>
 	</div>
 

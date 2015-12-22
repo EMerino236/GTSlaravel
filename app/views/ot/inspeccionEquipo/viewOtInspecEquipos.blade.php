@@ -91,22 +91,13 @@
 				</div>				
 			</div>			
 		</div>
-		<div class="panel panel-default"  style="height:750px;">
+		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">Equipos Asociados</h3>
 			</div>
 			<div class="panel-body" id="body_equipos">
-				<div class="row">
-					<div class="col-md-2" style="margin-top:5px;">
-						{{Form::label('numero_fila','Número de Fila:')}}						
-						
-					</div>
-					<div class="col-md-4" style="margin-left:-50px;">
-						{{ Form::select('filas', array('0' => 'Seleccione') + $filas ,null ,array('class'=>'form-control','id'=>'fila')) }}
-					</div>
-				</div>
 			@foreach($activosxot_info as $i => $otxactivo)
-				<div id="{{$i+1}}" style="position:absolute;visibility:hidden;" >	
+				<div id="{{$i+1}}" >	
 					<div class="row">
 						<div class="col-md-12">
 							<h4>{{$i+1}}. {{$otxactivo->nombre_equipo}} - {{$otxactivo->nombre_modelo}} - Código Patrimonial: {{$otxactivo->codigo_patrimonial}}</h4>
@@ -114,7 +105,7 @@
 					</div>
 					{{Form::hidden('idactivo'.$i,$otxactivo->idactivo)}}
 					<div class="row">
-						<div class="col-md-8 form-group">
+						<div class="col-md-6 form-group">
 							<div class="table-responsive">
 								<table class="table">
 									<tr class="info">
@@ -123,10 +114,10 @@
 									</tr>
 									@foreach($tareas_activos[$i] as $j => $tarea)
 										<tr>
-											<td class="text-nowrap text-center">{{$tarea->nombre_tarea}}</td>
+											<td>{{$tarea->nombre_tarea}}</td>
 											<td class="text-nowrap text-center">
 											@if($tarea->idestado_realizado == 23)
-												{{ Form::button('Marcar realizada',array('class'=>'btn btn-default boton-tarea','data-id'=>$tarea->idot_inspec_equiposxactivosxtareas_inspec_equipo)) }}
+												No Realizada
 											@else
 												Realizada
 											@endif
@@ -146,7 +137,7 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-10 form-group">
+						<div class="col-md-6 form-group">
 							{{ Form::label('observaciones_equipo','Observaciones del Equipo') }}
 							{{ Form::textarea('observaciones_equipo'.$i,$otxactivo->observaciones,array('class' => 'form-control','style'=>'resize:none;','readonly'=>'')) }}
 						</div>
@@ -159,7 +150,7 @@
 			<div class="form-group col-md-2">
 				<a class="btn btn-default btn-block" href="{{URL::to('/inspec_equipos/list_inspec_equipos')}}"><span class="glyphicon glyphicon-menu-left"></span> Regresar</a>			
 			</div>
-	{{Form::close()}}
+			{{Form::close()}}
 			{{Form::open(array('url'=>'inspec_equipos/export_pdf', 'role'=>'form'))}}		
 			{{Form::hidden('idot_inspec_equipo', $ot_info->idot_inspec_equipo) }}
 			<div class="form-group col-md-2 col-md-offset-8">

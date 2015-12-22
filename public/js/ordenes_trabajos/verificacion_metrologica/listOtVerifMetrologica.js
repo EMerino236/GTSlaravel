@@ -38,6 +38,7 @@ function limpiar_criterios(){
 	$('#search_ini').val('');
 	$('#search_fin').val('');
 	$('#search_cod_pat').val('');
+    $('#search_servicio').val(0);
 }
 
 function initialize_calendar(programaciones){

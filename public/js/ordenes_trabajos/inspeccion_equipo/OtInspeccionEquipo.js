@@ -36,35 +36,20 @@ $( document ).ready(function(){
        });
 	});
 
-	$('#fila').change(function(){
-		value_activo = $('#value_activo').val();
-		id = $('#fila').val();
-	 	div = document.getElementById(id);
-	 	if(div!=null || id==0){
-	 		if(value_activo == 0){ //primera vez
-				$('#value_activo').val(id);			
-				div.style.visibility = "visible";
-			}else{
-				div_anterior = document.getElementById(value_activo);
-				div_anterior.style.visibility = "hidden";			
-				div.style.visibility = "visible";
-				$('#value_activo').val(id);
-			}	
-	 	}else{
-	 		dialog = BootstrapDialog.show({
-	            title: 'Advertencia',
-	            message: 'Fila no existe',
-	            type : BootstrapDialog.TYPE_DANGER,
-	            buttons: [{
-	                label: 'Aceptar',
-	                action: function(dialog) {
-	                    dialog.close();
-	                }
-	            }]
-       		});
-	 	}
-	});	
-
+	$('#submit_ot').click(function(){
+		BootstrapDialog.confirm({
+			title: 'Mensaje de Confirmación',
+			message: '¿Está seguro que desea realizar esta acción?\n (Si el campo "Estado OT" no se encuentra en estado pendiente, la presente ficha no podrá volver a ser editada)', 
+			type: BootstrapDialog.TYPE_INFO,
+			btnCancelLabel: 'Cancelar', 
+	    	btnOKLabel: 'Aceptar', 
+			callback: function(result){
+		        if(result) {
+		        	document.getElementById('submit_ot_inspeccion').submit();
+		        }
+		    }
+		});
+	});
 	
 });
 
@@ -74,7 +59,7 @@ function set_idioma_fileinput(){
 	for(i=0;i<count_activos;i++){		
 		$("#input-file"+i).fileinput({
 			language:"es",
-			allowedFileExtensions: ["png","jpe","jpeg","jpg","gif","bmp"]
+			allowedFileExtensions: ["png","jpe","jpeg","jpg"]
 		});
 	}
 }

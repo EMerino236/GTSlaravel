@@ -221,21 +221,22 @@
 			</div>
 			<div class="panel-body">
 				<div class="col-md-12">
-					<table id="personal-table" class="table">
-						<tr class="info">
-							<th>Nombres y Apellidos</th>
-							<th>Horas Trabajadas</th>
-							<th>Subtotal</th>
-							<th>Operaciones</th>
-						</tr>
-						@foreach($personal_data as $personal)
-						<tr>
-							<td>{{$personal->nombre}}</td>
-							<td>{{$personal->horas_hombre}}</td>
-							<td>{{$personal->costo}}</td>
-						</tr>
-						@endforeach
-					</table>
+					<div class="table-responsive">
+						<table id="personal-table" class="table">
+							<tr class="info">
+								<th class="text-nowrap text-center">Nombres y Apellidos</th>
+								<th class="text-nowrap text-center">Horas Trabajadas</th>
+								<th class="text-nowrap text-center">Costo por Hora</th>
+							</tr>
+							@foreach($personal_data as $personal)
+							<tr>
+								<td class="text-nowrap">{{$personal->nombre}}</td>
+								<td class="text-nowrap text-center">{{$personal->horas_hombre}}</td>
+								<td class="text-nowrap text-center">S/. {{$personal->costo}}</td>
+							</tr>
+							@endforeach
+						</table>
+					</div>
 					<div class="col-md-7">
 				      {{ Form::label('costo_total_personal','Gasto Total Mano de Obra (S/.)',array('class'=>'col-sm-5')) }}
 				      <div class="col-md-3">

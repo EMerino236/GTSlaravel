@@ -17,7 +17,7 @@ $( document ).ready(function(){
 		});
 	});
 
-	var alphanumeric_pattern = /[^a-zA-Z0-9- _]/;
+	var alphanumeric_pattern = /[^á-úÁ-Úa-zA-ZñÑüÜ0-9- _.]/;
 
 	$("#submit-tarea").click(function(e){
 		idot_preventivo = $('#idot_preventivo').val();
@@ -114,7 +114,7 @@ $( document ).ready(function(){
 		e.preventDefault;
 
 			var error_str = "";
-			var reg = /[^a-zA-Z0-9- _]/;
+			var reg = /[^á-úÁ-Úa-zA-ZñÑüÜ0-9- _]/;
 			var intRegex = /^\d+$/;
 			var floatRegex = /^\d{1,6}(\.\d{0,2}){0,1}$/;
 			var is_correct = true;
@@ -219,7 +219,7 @@ $( document ).ready(function(){
 	$("#submit-personal").click(function(e){
 		e.preventDefault;
 			var error_str = "";
-			var reg = /[^a-zA]+$/;
+			var reg = /[^á-úÁ-Úa-zA]+$/;
 			var floatRegex = /^\d{1,6}(\.\d{0,2}){0,1}$/;
 			var is_correct = true;
 			$("input[name=nombre_personal]").parent().removeClass("has-error has-feedback");

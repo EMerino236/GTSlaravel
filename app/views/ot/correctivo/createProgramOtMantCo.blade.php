@@ -81,7 +81,7 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="form-group col-md-6">
+						<div class="form-group col-md-6 @if($errors->first('fecha_programacion')) has-error has-feedback @endif">
 							{{ Form::label('numero_ficha','Número de ficha') }}
 							{{ Form::text('numero_ficha',Input::old('numero_ficha'),array('class' => 'form-control','placeholder'=>'Ingrese un Número de Ficha')) }}
 						</div>

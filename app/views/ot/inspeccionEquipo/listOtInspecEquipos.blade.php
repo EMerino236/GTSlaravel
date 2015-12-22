@@ -6,9 +6,19 @@
         </div>
         <!-- /.col-lg-12 -->
     </div>
-    @if (Session::has('message'))
-		<div class="alert alert-success">{{ Session::get('message') }}</div>
+   @if (Session::has('message'))
+		<div class="alert alert-success">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('message') }}
+		</div>
 	@endif
+	@if (Session::has('error'))
+		<div class="alert alert-danger">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('error') }}
+		</div>
+	@endif
+	
 		<div class="container-fluid form-group row">
 			<div class="col-md-4 col-md-offset-8">
 				<a class="btn btn-primary btn-block" href="{{URL::to('/inspec_equipos/programacion')}}">

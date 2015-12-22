@@ -217,44 +217,30 @@ function addFilaMantenimiento(){
     var currentMonth = currentDate.getMonth()+1;
     var count_otMes = $('#mes').val();
     var count_otTrimestre = $('#trimestre').val();
+    var messages = "";
+    var is_correct = true;
    
     if(nombre_equipo=='Equipo no registrado' || nombre_equipo==''){
-        dialog = BootstrapDialog.show({
-            title: 'Advertencia',
-            message: 'Ingresar equipo correcto',
-            type : BootstrapDialog.TYPE_DANGER,
-            buttons: [{
-                label: 'Aceptar',
-                action: function(dialog) {
-                    dialog.close();
-                }
-            }]
-        });
-    }else if(fecha==''){
-        dialog = BootstrapDialog.show({
-            title: 'Advertencia',
-            message: 'Ingresar fecha',
-            type : BootstrapDialog.TYPE_DANGER,
-            buttons: [{
-                label: 'Aceptar',
-                action: function(dialog) {
-                    dialog.close();
-                }
-            }]
-        });
-    }else if(hora==''){
-        dialog = BootstrapDialog.show({
-            title: 'Advertencia',
-            message: 'Ingresar hora',
-            type : BootstrapDialog.TYPE_DANGER,
-            buttons: [{
-                label: 'Aceptar',
-                action: function(dialog) {
-                    dialog.close();
-                }
-            }]
-        });
-    }else{
+        messages+= "Ingresar equipo correcto\n";
+        is_correct = false;
+    }
+
+    if(usuario_id == null){
+        messages+= "Seleccionar usuario solicitante\n";
+        is_correct = false;
+    }
+
+    if(fecha==''){
+        messages+= "Ingresar fecha\n";
+        is_correct = false;
+    }
+
+    if(hora==''){
+        messages+= "Ingresar hora\n";
+        is_correct = false;
+    }
+
+    if(is_correct){
         $('#modal_create_text').empty();
         $('#table_programacion').append("<tr>"
                 +"<td class=\"text-nowrap text-center\">"+codigo_patrimonial+"</td>"
@@ -266,6 +252,18 @@ function addFilaMantenimiento(){
                 +"<td class=\"text-nowrap text-center\" id=\""+usuario_id+"\">"+usuario_nombre+"</td>"
                 +"<td class=\"text-nowrap text-center\"><a href='' class='btn btn-danger delete-detail' onclick='deleteRow(event,this)'><span class=\"glyphicon glyphicon-remove\"></span></a></td></tr>");
         limpiar();
+    }else{        
+        dialog = BootstrapDialog.show({
+            title: 'Advertencia',
+            message: messages,
+            type : BootstrapDialog.TYPE_DANGER,
+            buttons: [{
+                label: 'Aceptar',
+                action: function(dialog) {
+                    dialog.close();
+                }
+            }]
+        });
     }
 }
 
@@ -295,6 +293,7 @@ function limpiar(){
     $('#mes').val('');
     $('#trimestre').val('');
     $('#fecha').val('');
+    $('#solicitantes').val(0);
     $('#hora').val('');
 }
 

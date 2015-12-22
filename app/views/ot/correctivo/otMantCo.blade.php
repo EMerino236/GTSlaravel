@@ -122,7 +122,7 @@
 				<div class="row">
 					<div class="form-group col-md-4">
 						{{ Form::label('fecha_solicitud','Fecha de Solicitud') }}
-						{{ Form::text('fecha_solicitud',date('d-m-Y H:i:s',strtotime($ot_info->fecha_solicitud)),array('class' => 'form-control','readonly'=>'')) }}
+						{{ Form::text('fecha_solicitud',date('d-m-Y',strtotime($ot_info->fecha_solicitud)),array('class' => 'form-control','readonly'=>'')) }}
 					</div>
 					@if(!$ot_info->fecha_conformidad)
 					<div class="form-group col-md-4">

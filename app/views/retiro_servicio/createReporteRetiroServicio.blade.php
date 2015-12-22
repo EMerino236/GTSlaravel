@@ -9,7 +9,8 @@
 
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
-			<p><strong>{{ $errors->first('idactivo') }}</strong></p>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<p><strong>{{ $errors->first('cod_pat') }}</strong></p>
 			<p><strong>{{ $errors->first('idmotivo_retiro') }}</strong></p>
 			<p><strong>{{ $errors->first('descripcion') }}</strong></p>
 			<p><strong>{{ $errors->first('costo') }}</strong></p>
@@ -18,10 +19,16 @@
 	@endif
 
 	@if (Session::has('message'))
-		<div class="alert alert-success">{{ Session::get('message') }}</div>
+		<div class="alert alert-success">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('message') }}
+		</div>
 	@endif
 	@if (Session::has('error'))
-		<div class="alert alert-danger">{{ Session::get('error') }}</div>
+		<div class="alert alert-danger">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('error') }}
+		</div>
 	@endif
 
 	{{ Form::open(array('url'=>'retiro_servicio/submit_create_reporte_retiro_servicio', 'role'=>'form')) }}
@@ -94,19 +101,21 @@
 				<div class="form-group col-md-12">
 					<div class="form-group @if($errors->first('descripcion')) has-error has-feedback @endif">
 					{{ Form::label('descripcion','Descripción') }}
-					{{ Form::textarea('descripcion',Input::old('descripcion'),array('class'=>'form-control','maxlength'=>'200','rows'=>'3')) }}
+					{{ Form::textarea('descripcion',Input::old('descripcion'),array('class'=>'form-control','maxlength'=>'200','rows'=>'3','style'=>'resize:none;')) }}
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="row">
-		<div class="form-group col-md-6">
-			<div class="form-group">
-			{{ Form::submit('Crear',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}
-			{{ HTML::link('/retiro_servicio/list_reporte_retiro_servicio','Cancelar',array('class'=>'')) }}
-			</div>
+		@if($user->idrol ==1 || $user->idrol==2 || $user->idrol==3)
+		<div class="form-group col-md-2">			
+			{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Crear', array('id'=>'submit-edit','type'=>'submit', 'class' => 'btn btn-primary btn-block')) }}
 		</div>
+		@endif
+		<div class="form-group col-md-2">
+			<a class="btn btn-default btn-block" href="{{URL::to('/retiro_servicio/list_reporte_retiro_servicio')}}">Cancelar</a>				
+		</div>	
 	</div>
 	{{ Form::close() }}
 

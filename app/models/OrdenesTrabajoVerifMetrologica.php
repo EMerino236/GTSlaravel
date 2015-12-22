@@ -60,9 +60,9 @@ class OrdenesTrabajoVerifMetrologica extends Eloquent{
 			  			  	  ->orWhere('proveedores.nombre_contacto','LIKE',"%$search_proveedor%");
 			  	});
 			  if($search_ini != "")
-				$query->where('ot_vmetrologicas.fecha_programacion','>=',date('Y-m-d H:i:s',strtotime($search_ini)));
+				$query->where(DB::raw('STR_TO_DATE(ot_vmetrologicas.fecha_programacion,\'%Y-%m-%d\')'),'>=',date('Y-m-d H:i:s',strtotime($search_ini)));
 			  if($search_fin != "")
-				$query->where('ot_vmetrologicas.fecha_programacion','<=',date('Y-m-d H:i:s',strtotime($search_fin)));
+				$query->where(DB::raw('STR_TO_DATE(ot_vmetrologicas.fecha_programacion,\'%Y-%m-%d\')'),'<=',date('Y-m-d H:i:s',strtotime($search_fin)));
 			  if($search_servicio!=0)
 			  	$query->where('ot_vmetrologicas.idservicio','=',$search_servicio);
 			  $query->select('ubicacion_fisicas.nombre as nombre_ubicacion','areas.nombre as nombre_area','users.nombre as nombre_user','users.apellido_pat','users.apellido_mat','servicios.nombre as nombre_servicio','estados.nombre as nombre_estado','ot_vmetrologicas.*');
@@ -152,9 +152,9 @@ class OrdenesTrabajoVerifMetrologica extends Eloquent{
 			  			  	  ->orWhere('proveedores.nombre_contacto','LIKE',"%$search_proveedor%");
 			  	});
 			  if($search_ini != "")
-				$query->where('ot_vmetrologicas.fecha_programacion','>=',date('Y-m-d H:i:s',strtotime($search_ini)));
+				$query->where(DB::raw('STR_TO_DATE(ot_vmetrologicas.fecha_programacion,\'%Y-%m-%d\')'),'>=',date('Y-m-d H:i:s',strtotime($search_ini)));
 			  if($search_fin != "")
-				$query->where('ot_vmetrologicas.fecha_programacion','<=',date('Y-m-d H:i:s',strtotime($search_fin)));
+				$query->where(DB::raw('STR_TO_DATE(ot_vmetrologicas.fecha_programacion,\'%Y-%m-%d\')'),'<=',date('Y-m-d H:i:s',strtotime($search_fin)));
 			  if($search_codigo_ot != "")
 				$query->where(DB::raw("CONCAT(ot_vmetrologicas.ot_tipo_abreviatura,ot_vmetrologicas.ot_correlativo,ot_vmetrologicas.ot_activo_abreviatura)"),'LIKE',"%$search_codigo_ot%");
 			  

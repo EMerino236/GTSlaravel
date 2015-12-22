@@ -1,5 +1,6 @@
 <html>
 	<head>
+		<meta charset="UTF-8">
 		<style type="text/css">
 			body{
 				font-size: 10px;	
@@ -137,17 +138,18 @@
 						@endforeach
 					</table>
 				</div>
-				<div style="padding-top:20px;">
+				@if($otxactivo->observaciones !=null)
 					<div style="width:300px;height:300px">
 						<label><strong>Observaciones del Equipo:</strong></label>
 						{{ Form::textarea('observaciones_equipo'.$i,$otxactivo->observaciones) }}
 					</div>	
-					<div style="border:solid;width:300px;height:200px;margin-left:400px;position:absolute;">
-						@if($otxactivo->imagen_url!= null && $otxactivo->nombre_archivo!=null)
-							<img style="max-width:100%;max-height:100%;width:100%;height:100%;" src={{$otxactivo->imagen_url.$otxactivo->nombre_archivo_encriptado}}>
-						@endif
-					</div>
-				</div>					
+				@endif
+				@if($otxactivo->imagen_url!= null && $otxactivo->nombre_archivo!=null)
+				<div style="border:solid;width:300px;height:200px;margin-left:400px;position:absolute;">						
+					<img style="max-width:100%;max-height:100%;width:100%;height:100%;" src={{$otxactivo->imagen_url.$otxactivo->nombre_archivo_encriptado}}>
+				</div>
+				@endif
+								
 			@endforeach	
 		</div>
 		<div style="border-top:solid;width:200px;margin-top:100px;position:absolute;">

@@ -225,23 +225,23 @@
 							<table class="table" id="tareas-table" >
 								<tr class="info">
 									<th class="text-nowrap text-center">Actividad</th>
-									<th class="text-nowrap text-center">Realizada</th>
+									<th class="text-nowrap text-center">Estado</th>
 									<th class="text-nowrap text-center">Eliminar</th>
 								</tr>
 								@foreach($tareas as $tarea)
 								<tr>
-									<td class="text-nowrap">{{$tarea->nombre_tarea}}</td>
-									<td class="text-nowrap text-center">
-										@if($tarea->idestado_realizado == 23)
+									<td class="text-nowrap">{{$tarea->nombre_tarea}}</td>									
+									@if($tarea->idestado_realizado == 23)
+										<td class="text-nowrap text-center">
 											<button class="btn btn-success boton-tarea" data-id="{{$tarea->idtareas_ot_preventivosxot_preventivo}}" type="button"><span class="glyphicon glyphicon-ok"></span> Marcar Realizada</button>
-											
-										@else
-											Realizada
-										@endif
-									</td>
-									<td class="text-nowrap text-center">
-										<button class="btn btn-danger boton-eliminar-tarea" onclick="eliminar_tarea_preventivo(event,{{$tarea->idtareas_ot_preventivosxot_preventivo}})" type="button"><span class="glyphicon glyphicon-trash"></span></button>
-									</td>
+										</td>
+										<td class="text-nowrap text-center">
+											<button class="btn btn-danger boton-eliminar-tarea" onclick="eliminar_tarea_preventivo(event,{{$tarea->idtareas_ot_preventivosxot_preventivo}})" type="button"><span class="glyphicon glyphicon-trash"></span></button>
+										</td>
+									@else
+										<td class="text-nowrap text-center">Realizada</td>
+										<td class="text-nowrap text-center">-</td>
+									@endif								
 								</tr>
 								@endforeach
 							</table>
@@ -423,16 +423,18 @@
 			<div class="form-group col-md-2">
 				{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit_ot','class' => 'btn btn-primary btn-block')) }}
 			</div>
-			<div class="form-group col-md-2">
-				<a class="btn btn-default btn-block" href="{{URL::to('/mant_preventivo/list_mant_preventivo')}}">Cancelar</a>				
-			</div>	
-	{{ Form::close() }}
+		{{ Form::close() }}
 			{{Form::open(array('url'=>'mant_preventivo/export_pdf', 'role'=>'form'))}}		
 			{{Form::hidden('idot_preventivo', $ot_info->idot_preventivo) }}
-			<div class="form-group col-md-2 col-md-offset-6">
+			<div class="form-group col-md-2">
 				{{ Form::button('<span class="glyphicon glyphicon-export"></span> Exportar', array('id'=>'exportar', 'type'=>'submit' ,'class' => 'btn btn-success btn-block')) }}
 			</div>
 			{{ Form::close() }}
+			<div class="form-group col-md-2 col-md-offset-6">
+				<a class="btn btn-default btn-block" href="{{URL::to('/mant_preventivo/list_mant_preventivo')}}">Cancelar</a>				
+			</div>	
+	
+			
 		</div>	
 
 	<div class="container">

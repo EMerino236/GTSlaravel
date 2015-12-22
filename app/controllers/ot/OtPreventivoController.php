@@ -271,7 +271,8 @@ class OtPreventivoController extends BaseController {
 					$ot->save();
 
 					//añadir las tareas
-					$tareas = TareaOtPreventivo::getTareasByFamiliaActivo($activo->idfamilia_activo)->get();
+					$modelo_equipo = ModeloActivo::find($activo->idmodelo_equipo);
+					$tareas = TareaOtPreventivo::getTareasByFamiliaActivo($modelo_equipo->idfamilia_activo)->get();				
 					foreach($tareas as $tarea){
 						$otPreventivoxtarea = new OrdenesTrabajoPreventivoxTarea;
 						$otPreventivoxtarea->idot_preventivo = $ot->idot_preventivo;
@@ -286,7 +287,7 @@ class OtPreventivoController extends BaseController {
 				return Response::json(array( 'success' => true, 'ot'=>$ot,'url' => $data["inside_url"], 'message' => $message, 'type_message'=>$type_message ),200);
 			}
 			
-			return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'message' => $message, 'type_message'=>$type_message ),200);
+			return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'message' => $message, 'type_message'=>$type_message),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
 		}

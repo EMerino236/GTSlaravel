@@ -34,7 +34,7 @@
 					</div>
 					<div class="form-group col-md-4">
 						{{ Form::label('search_cod_pat','Código patrimonial') }}
-						{{ Form::text('search_cod_pat',$search_cod_pat,array('class'=>'form-control')) }}
+						{{ Form::text('search_cod_pat',$search_cod_pat,array('class'=>'form-control','placeholder'=>'Código Patrimonial')) }}
 					</div>
 					<div class="form-group col-md-4">
 						{{ Form::label('search_ubicacion','Ubicación') }}
@@ -68,7 +68,7 @@
 				<div class="row">
 					<div class="form-group col-md-4">
 						{{ Form::label('search_equipo','Equipo relacionado') }}
-						{{ Form::text('search_equipo',$search_equipo,array('class'=>'form-control')) }}
+						{{ Form::text('search_equipo',$search_equipo,array('class'=>'form-control','placeholder'=>'Nombre de Equipo')) }}
 					</div>
 					<div class="form-group col-md-4">
 						{{ Form::label('search_proveedor','Proveedor') }}

@@ -2,7 +2,7 @@
 $( document ).ready(function(){
 	
 	init_ot_correctivo();
-	var alphanumeric_pattern = /[^a-zA-Z0-9- _]/;
+	var alphanumeric_pattern = /[^á-úÁ-Úa-zA-ZñÑüÜ0-9- ._]/;
 	
 	$("#submit-tarea").click(function(e){
 		e.preventDefault;
@@ -45,8 +45,8 @@ $( document ).ready(function(){
 								},
 								success: function(response){
 									var str = "";
-									str += '<tr id="tarea-row-'+response.tarea.idtareas_ot_correctivo+'"><td>'+response.tarea.nombre+'</td>';
-									str += '<td><button class="btn btn-danger boton-eliminar-tarea" onclick="eliminar_tarea(event,'+response.tarea.idtareas_ot_correctivo+')" type="button"><span class="glyphicon glyphicon-trash"></span></button></td></tr>';
+									str += '<tr id="tarea-row-'+response.tarea.idtareas_ot_correctivo+'"><td class=\"text-nowrap\">'+response.tarea.nombre+'</td>';
+									str += '<td class=\"text-nowrap text-center\"><button class="btn btn-danger boton-eliminar-tarea" onclick="eliminar_tarea(event,'+response.tarea.idtareas_ot_correctivo+')" type="button"><span class="glyphicon glyphicon-trash"></span></button></td></tr>';
 									$("#tareas-table").append(str);
 								},
 								error: function(){
@@ -70,8 +70,8 @@ $( document ).ready(function(){
 				callback: function(result){
 			        if(result) {
 			        	var error_str = "Errores:\n";
-						var reg_nombre_repuesto =  /[^a-zA-Z0-9- _]/;
-						var reg_codigo_repuesto = /[^a-zA-Z0-9]/;
+						var reg_nombre_repuesto =  /[^á-úÁ-Úa-zA-ZñÑüÜ0-9- _]/;
+						var reg_codigo_repuesto = /[^á-úÁ-Úa-zA-ZñÑüÜ0-9- _]/;
 						var intRegex = /^\d+$/;
 						var floatRegex = /^\d{1,6}(\.\d{0,2}){0,1}$/;
 						var is_correct = true;
@@ -133,11 +133,11 @@ $( document ).ready(function(){
 								},
 								success: function(response){
 									var str = "";
-									str += '<tr id="repuesto-row-'+response.repuesto.idrepuestos_ot_correctivo+'"><td>'+response.repuesto.nombre+'</td>';
-									str += "<td>"+response.repuesto.codigo+"</td>";
-									str += "<td>"+response.repuesto.cantidad+"</td>";
-									str += "<td>S/. "+response.repuesto.costo+"</td>";
-									str += '<td><button class="btn btn-danger boton-eliminar-repuesto" onclick="eliminar_repuesto(event,'+response.repuesto.idrepuestos_ot_correctivo+')" type="button"><span class="glyphicon glyphicon-trash"></span></button></td></tr>';
+									str += '<tr id="repuesto-row-'+response.repuesto.idrepuestos_ot_correctivo+'"><td  class=\"text-nowrap\">'+response.repuesto.nombre+'</td>';
+									str += "<td class=\"text-nowrap text-center\">"+response.repuesto.codigo+"</td>";
+									str += "<td class=\"text-nowrap text-center\">"+response.repuesto.cantidad+"</td>";
+									str += "<td class=\"text-nowrap text-center\">S/. "+response.repuesto.costo+"</td>";
+									str += '<td class=\"text-nowrap text-center\"><button class="btn btn-danger boton-eliminar-repuesto" onclick="eliminar_repuesto(event,'+response.repuesto.idrepuestos_ot_correctivo+')" type="button"><span class="glyphicon glyphicon-trash"></span></button></td></tr>';
 									$("#repuestos-table").append(str);
 									$("input[name=costo_total_repuestos]").val(response.costo_total_repuestos);
 								},
@@ -174,7 +174,7 @@ $( document ).ready(function(){
 			callback: function(result){
 		        if(result) {
 		        	var error_str = "Errores:\n";
-					var reg = /[^a-zA]+$/;
+					var reg = /[^á-úÁ-Úa-zA]+$/;
 					var floatRegex = /^\d{1,6}(\.\d{0,2}){0,1}$/;
 					var is_correct = true;
 					$("input[name=nombre_personal]").parent().removeClass("has-error has-feedback");
@@ -221,10 +221,10 @@ $( document ).ready(function(){
 							},
 							success: function(response){
 								var str = "";
-								str += '<tr id="personal-row-'+response.personal.idpersonal_ot_correctivo+'"><td>'+response.personal.nombre+'</td>';
-								str += "<td>"+response.personal.horas_hombre+"</td>";
-								str += "<td>"+response.personal.costo+"</td>";
-								str += '<td><button class="btn btn-danger boton-eliminar-personal" onclick="eliminar_personal(event,'+response.personal.idpersonal_ot_correctivo+')" type="button"><span class="glyphicon glyphicon-trash"></span></button></td></tr>';
+								str += '<tr id="personal-row-'+response.personal.idpersonal_ot_correctivo+'"><td class=\"text-nowrap\">'+response.personal.nombre+'</td>';
+								str += "<td class=\"text-nowrap text-center\">"+response.personal.horas_hombre+"</td>";
+								str += "<td class=\"text-nowrap text-center\">"+response.personal.costo+"</td>";
+								str += '<td class=\"text-nowrap text-center\"><button class="btn btn-danger boton-eliminar-personal" onclick="eliminar_personal(event,'+response.personal.idpersonal_ot_correctivo+')" type="button"><span class="glyphicon glyphicon-trash"></span></button></td></tr>';
 								$("#personal-table").append(str);
 								$("input[name=costo_total_personal]").val(response.costo_total_personal);
 							},

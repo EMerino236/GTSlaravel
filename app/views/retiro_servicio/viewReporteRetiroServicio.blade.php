@@ -7,32 +7,7 @@
         <!-- /.col-lg-12 -->
     </div>
 
-	@if ($errors->has())
-		<div class="alert alert-danger" role="alert">
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			<p><strong>{{ $errors->first('idactivo') }}</strong></p>
-			<p><strong>{{ $errors->first('idmotivo_retiro') }}</strong></p>
-			<p><strong>{{ $errors->first('descripcion') }}</strong></p>
-			<p><strong>{{ $errors->first('costo') }}</strong></p>
-			<p><strong>{{ $errors->first('fecha_baja') }}</strong></p>
-		</div>
-	@endif
-
-	@if (Session::has('message'))
-		<div class="alert alert-success">
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			{{ Session::get('message') }}
-		</div>
-	@endif
-	@if (Session::has('error'))
-		<div class="alert alert-danger">
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			{{ Session::get('error') }}
-		</div>
-	@endif
-
-	{{ Form::open(array('url'=>'retiro_servicio/submit_disable_reporte_retiro_servicio', 'role'=>'form')) }}
-	{{ Form::hidden('idreporte_retiro', $reporte_info->idreporte_retiro) }}
+	
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<h3 class="panel-title">Información de Activo</h3>
@@ -97,12 +72,9 @@
 			</div>
 		</div>
 	</div>
-	<div class="row">
-		<div class="form-group col-md-2">			
-			{{ Form::button('<span class="glyphicon glyphicon-remove"></span> Eliminar', array('id'=>'submit-edit', 'type'=>'submit', 'class' => 'btn btn-danger btn-block')) }}
-		</div>
+	<div class="row">		
 		<div class="form-group col-md-2">
-			<a class="btn btn-default btn-block" href="{{URL::to('/retiro_servicio/list_reporte_retiro_servicio')}}">Cancelar</a>				
+			<a class="btn btn-default btn-block" href="{{URL::to('/retiro_servicio/list_reporte_retiro_servicio')}}"><span class="glyphicon glyphicon-menu-left"></span> Regresar</a>				
 		</div>	
 	</div>
 	{{ Form::close() }}

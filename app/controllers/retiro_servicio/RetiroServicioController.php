@@ -119,7 +119,7 @@ class RetiroServicioController extends BaseController {
 				$rules = array(
 							'cod_pat' => 'required',
 							'idmotivo_retiro' => 'required',
-							'descripcion' => 'required|max:200',
+							'descripcion' => 'required|max:200|alpha_num_spaces_colon',
 							'costo' => array('required','regex:/^\d*(\.\d{2})?$/'),
 							'fecha_baja' => 'required',
 						);
@@ -145,7 +145,7 @@ class RetiroServicioController extends BaseController {
 						$reporte_retiro->costo = Input::get('costo');
 						$reporte_retiro->save();
 						Session::flash('message', 'Se creó correctamente el informe.');
-						return Redirect::to('retiro_servicio/create_reporte_retiro_servicio');
+						return Redirect::to('/retiro_servicio/list_reporte_retiro_servicio');
 					}else{
 						Session::flash('error', 'No se encontró un activo con el código patrimonial ingresado.');
 						return Redirect::to('retiro_servicio/create_reporte_retiro_servicio');
@@ -228,6 +228,26 @@ class RetiroServicioController extends BaseController {
 				$data["reporte_info"] = ReporteRetiro::searchReportesRetiroById($id)->get();
 				$data["reporte_info"] = $data["reporte_info"][0];
 				return View::make('retiro_servicio/editReporteRetiroServicio',$data);
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+	public function render_view_reporte_retiro_servicio($id=null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12) && $id){
+				//$data["activos"] = Activo::lists('codigo_patrimonial','idactivo');
+				$data["motivos"] = MotivoRetiro::lists('nombre','idmotivo_retiro');
+				$data["reporte_info"] = ReporteRetiro::searchReportesRetiroById($id)->get();
+				$data["reporte_info"] = $data["reporte_info"][0];
+				return View::make('retiro_servicio/viewReporteRetiroServicio',$data);
 			}else{
 				return View::make('error/error',$data);
 			}
@@ -375,7 +395,7 @@ class RetiroServicioController extends BaseController {
 							'solicitante' => 'required',
 						);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				$reporte_info_id = Input::get('reporte_info_id');
 				if($validator->fails()){
@@ -527,7 +547,7 @@ class RetiroServicioController extends BaseController {
 					$activo->idestado = Input::get('idestado_final');
 					$activo->save();
 					Session::flash('message', 'Se guardó correctamente la información.');
-					return Redirect::to('retiro_servicio/create_ot/'.$idot_retiro);
+					return Redirect::to('retiro_servicio/list_retiro_servicio');
 				}
 			}else{
 				return View::make('error/error',$data);
