@@ -5,6 +5,10 @@ $( document ).ready(function(){
         format: 'DD-MM-YYYY'
     });
 
+    $("#fecha_solicitud").on("dp.change", function (e) {
+        $('#fecha_solicitud').data("DateTimePicker").minDate(e.date);
+    });
+
     $('#submit-delete').click(function(){
     	BootstrapDialog.confirm({
 			title: 'Mensaje de Confirmación',

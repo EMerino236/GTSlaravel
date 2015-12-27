@@ -59,7 +59,7 @@
 		  	<div class="panel-body">
 				<div class="row">
 					<div class="col-md-6">
-						{{ Form::label('fecha_solicitud','Fecha de solicitud') }}
+						{{ Form::label('fecha_solicitud','Fecha de solicitud ') }}<span style="color:red"> *</span>
 						<div id="fecha_solicitud" class="fecha-hora form-group input-group date @if($errors->first('fecha_solicitud')) has-error has-feedback @endif">
 							{{ Form::text('fecha_solicitud',Input::old('fecha_solicitud'),array('class'=>'form-control')) }}
 							<span class="input-group-addon">
@@ -74,17 +74,17 @@
 				</div>
 				<div class="row">
 					<div class="form-group col-md-6 @if($errors->first('especificacion_servicio')) has-error has-feedback @endif">
-						{{ Form::label('especificacion_servicio','Especificación de servicio (MAX: 100 Caracteres)') }}
+						{{ Form::label('especificacion_servicio','Especificación de servicio (MAX: 100 Caracteres)') }}<span style="color:red"> *</span>
 						{{ Form::textarea('especificacion_servicio',Input::old('especificacion_servicio'),array('class'=>'form-control','maxlength'=>'100','rows'=>3,'style'=>'resize:none;')) }}
 					</div>
 					<div class="form-group col-md-6 @if($errors->first('motivo')) has-error has-feedback @endif">
-						{{ Form::label('motivo','Motivo (MAX: 200 Caracteres)') }}
+						{{ Form::label('motivo','Motivo (MAX: 200 Caracteres)') }}<span style="color:red"> *</span>
 						{{ Form::textarea('motivo',Input::old('motivo'),array('class'=>'form-control','maxlength'=>'200','rows'=>3,'style'=>'resize:none;')) }}
 					</div>
 				</div>
 				<div class="row">
 					<div class="form-group col-md-6 @if($errors->first('justificacion')) has-error has-feedback @endif">
-						{{ Form::label('justificacion','Justificación (MAX: 200 Caracteres)') }}
+						{{ Form::label('justificacion','Justificación (MAX: 200 Caracteres)') }}<span style="color:red"> *</span>
 						{{ Form::textarea('justificacion',Input::old('justificacion'),array('class'=>'form-control','maxlength'=>'200','rows'=>'3','style'=>'resize:none;')) }}
 					</div>
 				</div>

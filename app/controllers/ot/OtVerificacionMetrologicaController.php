@@ -327,15 +327,27 @@ class OtVerificacionMetrologicaController extends BaseController {
 			// Verifico si el usuario es un Webmaster
 			if(($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4)){
 				$idot_vmetrologica = Input::get('idot_vmetrologica');
+				$ot = OrdenesTrabajoVerifMetrologica::find($idot_vmetrologica);
+
+				$attributes = array(
+						'numero_ficha'=>'Número de Ficha',
+						'idestado_ot' => 'Estado de OT',
+						'idestado_inicial' => 'Estado Inicial',
+						'idestado_final' => 'Estado Final',
+						'nombre_ejecutor' => 'Nombre Ejecutor'
+					);
+
+				$messages = array();
 				// Validate the info, create rules for the inputs
 				$rules = array(
-							'numero_ficha' => 'required',
+							'numero_ficha' => 'required|numeric|unique:ot_vmetrologicas,numero_ficha,'.$ot->idot_vmetrologica.',idot_vmetrologica',
 							'idestado_ot' => 'required',
 							'idestado_inicial' => 'required',
 							'idestado_final' => 'required',
+							'nombre_ejecutor' => 'alpha_num_spaces|max:200'
 						);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					return Redirect::to('verif_metrologica/create_ot_verif_metrologica/'.$idot_vmetrologica)->withErrors($validator)->withInput(Input::all());
@@ -353,15 +365,31 @@ class OtVerificacionMetrologicaController extends BaseController {
 					$activo->idestado = Input::get('idestado_final');
 					$activo->save();
 
-					$codigo_archivamiento_documento = Input::get('num_doc_relacionado1');
-					if($codigo_archivamiento_documento != ''){
-						$documento = Documento::searchDocumentoByCodigoArchivamiento($codigo_archivamiento_documento)->get();
-						$documento = $documento[0];
-						$documento->idot_vmetrologica = $idot_vmetrologica;
-						$documento->save();
+					$documento_actual = Documento::searchDocumentoByIdOtVerifMetrologica($idot_vmetrologica)->get();
+					if(count($documento_actual)>0){
+						$documento_actual = $documento_actual[0];//entonces hay un documento ya asignado a esta ot.
+						//ahora sacamos el otro documento.
+						$codigo_archivamiento_documento = Input::get('num_doc_relacionado1');
+						if($codigo_archivamiento_documento != ''){
+							$documento_nuevo = Documento::searchDocumentoByCodigoArchivamiento($codigo_archivamiento_documento)->get();
+							if(count($documento_nuevo)>0){
+								$documento_nuevo = $documento_nuevo[0];
+								//comparamos si no son el mismo documento, si son igual no se hace nada.
+								if($documento_actual->iddocumento<>$documento_nuevo->iddocumento){
+									$documento_actual->idot_vmetrologica = null;
+									$documento_nuevo->idot_vmetrologica = $idot_vmetrologica;
+									$documento_nuevo->save();
+									$documento_actual->save();
+								}								
+							}else{
+								//en caso que ese documento que se desea cambiar no existe, entonces no se hace nada
+								Session::flash('error', 'El Documento adjunto no existe.');
+								return Redirect::to('verif_metrologica/create_ot_verif_metrologica/'.$idot_vmetrologica);
+							}						
+						}
 					}
 					Session::flash('message', 'Se guardó correctamente la información.');
-					return Redirect::to('verif_metrologica/create_ot_verif_metrologica/'.$idot_vmetrologica);
+					return Redirect::to('verif_metrologica/list_verif_metrologica');
 				}
 			}else{
 				return View::make('error/error',$data);
@@ -511,7 +539,7 @@ class OtVerificacionMetrologicaController extends BaseController {
 				$data["estado_final"] = Estado::find($data["ot_vm"]->idestado_final);
 				$data["estado_ot"] = Estado::find($data["ot_vm"]->idestado_ot);
 				$data["documento"] = Documento::searchDocumentoByIdOtVerifMetrologica($idot_vmetrologica)->get();
-				
+
 				if(count($data["documento"])!=0){
 					$data["documento"] = $data["documento"][0];
 				}

@@ -99,7 +99,8 @@
 				<li><label><strong>Estado final del activo: </strong></label> {{($estado_final_activo != null? $estado_final_activo->nombre : 'N/A')}}</li>
 				<li><label><strong>Sin interrupción al servicio: </strong></label> {{($ot_correctivo->sin_interrupcion_servicio == 1 ? 'SI' : 'NO')}}</li>
 			</ul>
-			<table style="width:100%">
+			<h3>Actividades Realizadas</h3>
+			<table style="width:50%">
 				<tr><th>Tarea Realizada</th></tr>
 				@foreach($tareas as $tarea)
 					<tr><td>{{$tarea->nombre}}</td></tr>

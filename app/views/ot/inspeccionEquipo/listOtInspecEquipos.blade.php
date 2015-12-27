@@ -6,9 +6,19 @@
         </div>
         <!-- /.col-lg-12 -->
     </div>
-    @if (Session::has('message'))
-		<div class="alert alert-success">{{ Session::get('message') }}</div>
+   @if (Session::has('message'))
+		<div class="alert alert-success">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('message') }}
+		</div>
 	@endif
+	@if (Session::has('error'))
+		<div class="alert alert-danger">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('error') }}
+		</div>
+	@endif
+	
 		<div class="container-fluid form-group row">
 			<div class="col-md-4 col-md-offset-8">
 				<a class="btn btn-primary btn-block" href="{{URL::to('/inspec_equipos/programacion')}}">
@@ -84,7 +94,6 @@
 						<th class="text-nowrap text-center">Ingeniero</th>
 						<th class="text-nowrap text-center">Orden Trabajo Mantenimiento</th>
 						<th class="text-nowrap text-center">Estado</th>
-						<th class="text-nowrap text-center">Eliminar</th>
 					</tr>
 					@foreach($inspecciones_equipos_data as $index => $inspeccion_equipo_data)
 					{{form::hidden('fila',$inspeccion_equipo_data->idot_inspec_equipo,array('id'=>'fila'.$index))}}
@@ -103,32 +112,17 @@
 						</td>
 						<td class="text-nowrap text-center">
 						@if($user->idrol==1 || $user->idrol==2 || $user->idrol==3 || $user->idrol==4)
-							@if($inspeccion_equipo_data->idestado!=25)
+							@if($inspeccion_equipo_data->idestado==9)
 								<a href="{{URL::to('/inspec_equipos/create_ot_inspeccion_equipos/')}}/{{$inspeccion_equipo_data->idot_inspec_equipo}}">{{$inspeccion_equipo_data->ot_tipo_abreviatura}}{{$inspeccion_equipo_data->ot_correlativo}}{{$inspeccion_equipo_data->ot_activo_abreviatura}}</a>
 							@else
 								<a href="{{URL::to('/inspec_equipos/view_ot_inspeccion_equipos/')}}/{{$inspeccion_equipo_data->idot_inspec_equipo}}">{{$inspeccion_equipo_data->ot_tipo_abreviatura}}{{$inspeccion_equipo_data->ot_correlativo}}{{$inspeccion_equipo_data->ot_activo_abreviatura}}</a>
 							@endif
 						@else
-							@if($inspeccion_equipo_data->idestado!=25)
-								<a href="{{URL::to('/inspec_equipos/view_ot_inspeccion_equipos/')}}/{{$inspeccion_equipo_data->idot_inspec_equipo}}">{{$inspeccion_equipo_data->ot_tipo_abreviatura}}{{$inspeccion_equipo_data->ot_correlativo}}{{$inspeccion_equipo_data->ot_activo_abreviatura}}</a>
-							@else
-								<a href="{{URL::to('/inspec_equipos/view_ot_inspeccion_equipos/')}}/{{$inspeccion_equipo_data->idot_inspec_equipo}}">{{$inspeccion_equipo_data->ot_tipo_abreviatura}}{{$inspeccion_equipo_data->ot_correlativo}}{{$inspeccion_equipo_data->ot_activo_abreviatura}}</a>
-							@endif
+							<a href="{{URL::to('/inspec_equipos/view_ot_inspeccion_equipos/')}}/{{$inspeccion_equipo_data->idot_inspec_equipo}}">{{$inspeccion_equipo_data->ot_tipo_abreviatura}}{{$inspeccion_equipo_data->ot_correlativo}}{{$inspeccion_equipo_data->ot_activo_abreviatura}}</a>
 						@endif
 						</td>					
 						<td class="text-nowrap text-center">
 							{{$inspeccion_equipo_data->nombre_estado}}
-						</td>
-						<td class="text-nowrap text-center">
-						@if($user->idrol==1 || $user->idrol==2 || $user->idrol==3 || $user->idrol==4)
-							@if($inspeccion_equipo_data->idestado!=25)
-								<div class="btn btn-danger btn-block" onclick='eliminar_ot(event,this)'><span class="glyphicon glyphicon-trash"></span></div>
-							@else
-								-
-							@endif
-						@else
-							-
-						@endif
 						</td>
 					</tr>
 					@endforeach

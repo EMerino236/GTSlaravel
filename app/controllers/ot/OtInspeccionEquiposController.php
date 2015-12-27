@@ -390,18 +390,36 @@ class OtInspeccionEquiposController extends BaseController {
 			// Verifico si el usuario es un Webmaster
 			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4)){
 				$idot_inspec_equipo = Input::get('idot_inspec_equipo');
+				$ot = OrdenesTrabajoInspeccionEquipo::find($idot_inspec_equipo);
 				// Validate the info, create rules for the inputs
+				$attributes = array(
+					'numero_ficha' => 'Número de Ficha'
+				);
+
+				$messages = array(
+					
+				);
+
 				$rules = array(
-							'numero_ficha' => 'required'
+					'numero_ficha' => 'required|numeric|unique:ot_inspec_equipos,numero_ficha,'.$ot->idot_inspec_equipo.',idot_inspec_equipo',
 				);
 
 				$count_activos = Input::get('count_activos');
 				for($i=0;$i<$count_activos;$i++){
-					$element = array('archivo'.$i =>'mimes:jpeg,png');
-					$rules += $element;
-				}				
+					$element_rule_img = array('archivo'.$i =>'mimes:jpeg,png');
+					$element_rule_obs = array('observaciones_equipo'.$i =>'alpha_num_spaces_colon');
+					$element_attribute_img = array('archivo'.$i => 'Archivo del Equipo #'.($i+1));
+					$element_attribute_obs = array('observaciones_equipo'.$i=> 'campo Observaciones del Equipo #'.($i+1));
+					$rules += $element_rule_img;
+					$rules += $element_rule_obs;
+					$attributes += $element_attribute_img;
+					$attributes += $element_attribute_obs;
+				}
+
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
+
+				
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					return Redirect::to('inspec_equipos/create_ot_inspeccion_equipos/'.$idot_inspec_equipo)->withErrors($validator)->withInput(Input::all());
@@ -438,7 +456,7 @@ class OtInspeccionEquiposController extends BaseController {
 						$ot_inspec_equiposxactivo->save();
 					}
 					Session::flash('message', 'Se guardó correctamente la información.');
-					return Redirect::to('inspec_equipos/create_ot_inspeccion_equipos/'.$idot_inspec_equipo);
+					return Redirect::to('inspec_equipos/list_inspec_equipos');
 				}
 			}else{
 				return View::make('error/error',$data);

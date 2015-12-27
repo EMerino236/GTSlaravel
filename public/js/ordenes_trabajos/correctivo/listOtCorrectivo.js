@@ -1,25 +1,30 @@
 $( document ).ready(function(){
 	init_list();
-	$('#btnLimpiar').click(function(){
+	
+    $('#btnLimpiar').click(function(){
         limpiar_criterios();
     })
+
 });
 
 function init_list(){
-	$('#search_datetimepicker1').datetimepicker({
- 		ignoreReadonly: true,
- 		format:'DD-MM-YYYY'
- 	});
-    $('#search_datetimepicker2').datetimepicker({
-        ignoreReadonly: true,
-        format:'DD-MM-YYYY'
-    });
-    $("#search_datetimepicker1").on("dp.change", function (e) {
-        $('#search_datetimepicker2').data("DateTimePicker").minDate(e.date);
-    });
-    $("#search_datetimepicker2").on("dp.change", function (e) {
-        $('#search_datetimepicker1').data("DateTimePicker").maxDate(e.date);
-    });
+	
+    if($('#search_datetimepicker1').length && $('#search_datetimepicker2').length){
+        $('#search_datetimepicker1').datetimepicker({
+     		ignoreReadonly: true,
+     		format:'DD-MM-YYYY'
+     	});
+        $('#search_datetimepicker2').datetimepicker({
+            ignoreReadonly: true,
+            format:'DD-MM-YYYY'
+        });
+        $("#search_datetimepicker1").on("dp.change", function (e) {
+            $('#search_datetimepicker2').data("DateTimePicker").minDate(e.date);
+        });
+        $("#search_datetimepicker2").on("dp.change", function (e) {
+            $('#search_datetimepicker1').data("DateTimePicker").maxDate(e.date);
+        });
+    }    
 }
 
 function limpiar_criterios(){

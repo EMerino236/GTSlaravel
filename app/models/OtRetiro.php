@@ -69,9 +69,9 @@ class OtRetiro extends Eloquent{
 			  			  	  ->orWhere('proveedores.nombre_contacto','LIKE',"%$search_proveedor%");
 			  	});
 			  if($search_ini != "")
-				$query->where('ot_retiros.fecha_programacion','>=',date('Y-m-d H:i:s',strtotime($search_ini)));
+				$query->where(DB::raw('STR_TO_DATE(ot_retiros.fecha_programacion,\'%Y-%m-%d\')'),'>=',date('Y-m-d H:i:s',strtotime($search_ini)));
 			  if($search_fin != "")
-				$query->where('ot_retiros.fecha_programacion','<=',date('Y-m-d H:i:s',strtotime($search_fin)));
+				$query->where(DB::raw('STR_TO_DATE(ot_retiros.fecha_programacion,\'%Y-%m-%d\')'),'<=',date('Y-m-d H:i:s',strtotime($search_fin)));
 			  $query->select('estados.nombre as nombre_estado','ubicacion_fisicas.nombre as nombre_ubicacion','areas.nombre as nombre_area','users.nombre as nombre_user','users.apellido_pat','users.apellido_mat','servicios.nombre as nombre_servicio','reporte_retiros.reporte_tipo_abreviatura','reporte_retiros.reporte_correlativo','reporte_retiros.reporte_activo_abreviatura','ot_retiros.*');
 	  	return $query;
 	}

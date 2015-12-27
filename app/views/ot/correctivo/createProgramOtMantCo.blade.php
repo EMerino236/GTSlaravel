@@ -28,7 +28,7 @@
 		</div>
 	@endif
 
-	{{ Form::open(array('url'=>'mant_correctivo/submit_programacion', 'role'=>'form')) }}
+	{{ Form::open(array('url'=>'mant_correctivo/submit_programacion', 'role'=>'form','id'=>'submit_program_ot_correctivo')) }}
 		{{ Form::hidden('idactivo', $sot_info->idactivo) }}
 		{{ Form::hidden('sot_id', $sot_info->idsolicitud_orden_trabajo) }}
 		{{Form::hidden('mes_ini',$mes_ini,array('id'=>'mes_ini'))}}
@@ -81,7 +81,7 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="form-group col-md-6">
+						<div class="form-group col-md-6 @if($errors->first('fecha_programacion')) has-error has-feedback @endif">
 							{{ Form::label('numero_ficha','Número de ficha') }}
 							{{ Form::text('numero_ficha',Input::old('numero_ficha'),array('class' => 'form-control','placeholder'=>'Ingrese un Número de Ficha')) }}
 						</div>
@@ -98,7 +98,7 @@
 					</div>
 					<div class="row">
 						<div class="form-group col-md-4">
-							{{ Form::button('<span class="glyphicon glyphicon-time"></span>  Programar', array('id'=>'submit-edit','type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}
+							{{ Form::button('<span class="glyphicon glyphicon-time"></span>  Programar', array('id'=>'submit_program_ot', 'class' => 'btn btn-primary btn-block')) }}
 						</div>
 					</div>
 				</div>

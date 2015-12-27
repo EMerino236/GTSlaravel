@@ -271,7 +271,8 @@ class OtPreventivoController extends BaseController {
 					$ot->save();
 
 					//añadir las tareas
-					$tareas = TareaOtPreventivo::getTareasByFamiliaActivo($activo->idfamilia_activo)->get();
+					$modelo_equipo = ModeloActivo::find($activo->idmodelo_equipo);
+					$tareas = TareaOtPreventivo::getTareasByFamiliaActivo($modelo_equipo->idfamilia_activo)->get();				
 					foreach($tareas as $tarea){
 						$otPreventivoxtarea = new OrdenesTrabajoPreventivoxTarea;
 						$otPreventivoxtarea->idot_preventivo = $ot->idot_preventivo;
@@ -286,7 +287,7 @@ class OtPreventivoController extends BaseController {
 				return Response::json(array( 'success' => true, 'ot'=>$ot,'url' => $data["inside_url"], 'message' => $message, 'type_message'=>$type_message ),200);
 			}
 			
-			return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'message' => $message, 'type_message'=>$type_message ),200);
+			return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'message' => $message, 'type_message'=>$type_message),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
 		}
@@ -331,10 +332,11 @@ class OtPreventivoController extends BaseController {
 			// Verifico si el usuario es un Webmaster
 			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6)){
 				$idot_preventivo = Input::get('idot_preventivo');
+				$ot = OrdenesTrabajoPreventivo::find($idot_preventivo);
 				// Validate the info, create rules for the inputs
 				$rules = array(
-							'numero_ficha' => 'required',
-							'nombre_ejecutor' => 'max:200',
+							'numero_ficha' => 'required|numeric|unique:ot_preventivos,numero_ficha,'.$ot->idot_preventivo.',idot_preventivo',
+							'nombre_ejecutor' => 'max:200|alpha_spaces',
 							'idestado' => 'required',
 							'idestado_inicial' => 'required',
 							'sin_interrupcion_servicio' => 'required',
@@ -364,7 +366,7 @@ class OtPreventivoController extends BaseController {
 					$activo->idestado = Input::get('idestado_final');
 					$activo->save();
 					Session::flash('message', 'Se guardó correctamente la información.');
-					return Redirect::to('mant_preventivo/create_ot_preventivo/'.$idot_preventivo);
+					return Redirect::to('mant_preventivo/list_mant_preventivo');
 				}
 			}else{
 				return View::make('error/error',$data);

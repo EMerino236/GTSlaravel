@@ -222,6 +222,7 @@ function addFilaMantenimiento(){
     var servicio = $('#idservicio option:selected').text();
     var idservicio = $('#idservicio').val();
     var cantidad_filas = $("#table_programacion tr").length-1;
+    var idsolicitantes = $('#solicitantes').val();
     var fecha = $('#fecha').val();
     var hora_inicio = $('#hora_inicio').val();
     var hora_fin = $('#hora_fin').val();
@@ -235,84 +236,43 @@ function addFilaMantenimiento(){
     var array_fecha_fin = hora_fin.split(':');
     var time_inicio = parseInt(array_fecha_inicio[0])*60 + parseInt(array_fecha_inicio[1]);
     var time_fin= parseInt(array_fecha_fin[0])*60 + parseInt(array_fecha_fin[1]);
-   
+    var is_correct = true;
+    var messages = "";
     if(idservicio==0){
-        dialog = BootstrapDialog.show({
-            title: 'Advertencia',
-            message: 'Seleccionar servicio',
-            type : BootstrapDialog.TYPE_DANGER,
-            buttons: [{
-                label: 'Aceptar',
-                action: function(dialog) {
-                    dialog.close();
-                }
-            }]
-        });
-    }else if(cantidad_activos==0){
-        dialog = BootstrapDialog.show({
-            title: 'Advertencia',
-            message: 'El servicio no cuenta con activos',
-            type : BootstrapDialog.TYPE_DANGER,
-            buttons: [{
-                label: 'Aceptar',
-                action: function(dialog) {
-                    dialog.close();
-                }
-            }]
-        });
+        messages += "Seleccionar servicio\n";
+        is_correct = false;
+    }else{
+        if(cantidad_activos==0){
+            messages += "El servicio no cuenta con activos\n";
+            is_correct = false;        
+        }
     }
-    else if(fecha==''){
-        dialog = BootstrapDialog.show({
-            title: 'Advertencia',
-            message: 'Ingresar fecha',
-            type : BootstrapDialog.TYPE_DANGER,
-            buttons: [{
-                label: 'Aceptar',
-                action: function(dialog) {
-                    dialog.close();
-                }
-            }]
-        });
-    }else if(hora_inicio==''){
-        dialog = BootstrapDialog.show({
-            title: 'Advertencia',
-            message: 'Ingresar hora inicio',
-            type : BootstrapDialog.TYPE_DANGER,
-            buttons: [{
-                label: 'Aceptar',
-                action: function(dialog) {
-                    dialog.close();
-                }
-            }]
-        });
-    }else if(hora_fin==''){
-        dialog = BootstrapDialog.show({
-            title: 'Advertencia',
-            message: 'Ingresar hora fin',
-            type : BootstrapDialog.TYPE_DANGER,
-            buttons: [{
-                label: 'Aceptar',
-                action: function(dialog) {
-                    dialog.close();
-                }
-            }]
-        });
-    }else if(time_inicio > time_fin){
-        dialog = BootstrapDialog.show({
-            title: 'Advertencia',
-            message: 'Hora fin debe ser posterior a la fecha de inicio',
-            type : BootstrapDialog.TYPE_DANGER,
-            buttons: [{
-                label: 'Aceptar',
-                action: function(dialog) {
-                    dialog.close();
-                }
-            }]
-        });
-        
+    
+    if(idsolicitantes==null){
+        messages += "Seleccionar un usuario solicitante\n";
+        is_correct = false;
     }
-    else{
-        
+
+    if(fecha==''){
+        messages += "Ingresar fecha\n";
+        is_correct = false;       
+    }
+
+    if(hora_inicio==''){
+        messages += "Ingresar hora inicio\n";
+        is_correct = false;        
+    }
+    if(hora_fin==''){
+        messages += "Ingresar hora fin\n";
+        is_correct = false;       
+    }
+    if(time_inicio > time_fin){
+        messages += "Hora fin debe ser posterior a la fecha de inicio\n";
+        is_correct = false;
+    }
+
+
+    if(is_correct){
         $('#table_programacion').append("<tr>"
                 +"<td class='text-nowrap text-center' id=\""+idservicio+"\">"+servicio+"</td>"
                 +"<td class='text-nowrap text-center'>"+count_otMes+"</td>"
@@ -323,6 +283,18 @@ function addFilaMantenimiento(){
                 +"<td class='text-nowrap text-center' id=\""+usuario_id+"\">"+usuario_nombre+"</td>"
                 +"<td class='text-nowrap text-center'><a href='' class='btn btn-danger delete-detail' onclick='deleteRow(event,this)'><span class=\"glyphicon glyphicon-remove\"></span></a></td></tr>");
         limpiar();
+    }else{
+        dialog = BootstrapDialog.show({
+            title: 'Advertencia',
+            message: messages,
+            type : BootstrapDialog.TYPE_DANGER,
+            buttons: [{
+                label: 'Aceptar',
+                action: function(dialog) {
+                    dialog.close();
+                }
+            }]
+        });
     }
 }
 

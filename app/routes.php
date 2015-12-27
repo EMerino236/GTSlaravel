@@ -236,6 +236,7 @@ Route::group(array('prefix'=>'retiro_servicio','before'=>'auth'),function(){
 	Route::get('/list_reporte_retiro_servicio','RetiroServicioController@list_reporte_retiro_servicio');
 	Route::get('/search_reporte_retiro_servicio','RetiroServicioController@search_reporte_retiro_servicio');
 	Route::get('/edit_reporte_retiro_servicio/{id}','RetiroServicioController@render_edit_reporte_retiro_servicio');
+	Route::get('/view_reporte_retiro_servicio/{id}','RetiroServicioController@render_view_reporte_retiro_servicio');
 	Route::post('/submit_disable_reporte_retiro_servicio','RetiroServicioController@submit_disable_reporte_retiro_servicio');
 	Route::post('/search_equipo_ajax','RetiroServicioController@search_equipo_ajax');
 	/*

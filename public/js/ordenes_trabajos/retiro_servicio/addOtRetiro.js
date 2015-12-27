@@ -30,13 +30,15 @@ $( document ).ready(function(){
 	    disabledDates: [ayer]
 	});
 
+	var alphanumeric_pattern = /[^á-úÁ-Úa-zA-ZñÑüÜ0-9- _.]/;
+
 	$("#submit-tarea").click(function(e){
 		e.preventDefault;
-		if($("input[name=nombre_tarea]").val().length <1){
+		if($("input[name=nombre_tarea]").val().length <1 || $("input[name=nombre_tarea]").val().length >100  || alphanumeric_pattern.test($("input[name=nombre_tarea]").val())){
 			$("input[name=nombre_tarea]").parent().addClass("has-error has-feedback");
 			dialog = BootstrapDialog.show({
 	            title: 'Advertencia',
-	            message: 'Ingrese un nombre válido',
+	            message: 'Ingrese una tarea válida',
 	            type : BootstrapDialog.TYPE_DANGER,
 	            buttons: [{
 	                label: 'Aceptar',
@@ -71,8 +73,8 @@ $( document ).ready(function(){
 							},
 							success: function(response){
 								var str = "";
-								str += '<tr id="tarea-row-'+response.tarea.idtareas_ot_correctivo+'"><td>'+response.tarea.nombre+'</td>';
-								str += '<td><button class="btn btn-danger boton-eliminar-tarea" onclick="eliminar_tarea(event,'+response.tarea.idtareas_ot_correctivo+')" type="button">Eliminar</button></td></tr>';
+								str += '<tr id="tarea-row-'+response.tarea.idtareas_ot_correctivo+'"><td class=\"text-nowrap\">'+response.tarea.nombre+'</td>';
+								str += '<td class=\"text-nowrap text-center\"><button class="btn btn-danger boton-eliminar-tarea" onclick="eliminar_tarea(event,'+response.tarea.idtareas_ot_correctivo+')" type="button"><span class="glyphicon glyphicon-trash"></span></button></td></tr>';
 								$("#tareas-table").append(str);
 							},
 							error: function(){
@@ -95,13 +97,13 @@ $( document ).ready(function(){
 				callback: function(result){
 			        if(result) {
 			        	var error_str = "Errores:\n";
-						var reg = /[\w'-]+/;
+						var reg = /[^á-úÁ-Úa-zA]+$/;
 						var floatRegex = /^\d{1,6}(\.\d{0,2}){0,1}$/;
 						var is_correct = true;
 						$("input[name=nombre_personal]").parent().removeClass("has-error has-feedback");
 						$("input[name=horas_trabajadas]").parent().removeClass("has-error has-feedback");
 						$("input[name=costo_personal]").parent().removeClass("has-error has-feedback");
-						if(!reg.test($("input[name=nombre_personal]").val())){
+						if(reg.test($("input[name=nombre_personal]").val())){
 							error_str += "El nombre debe ser alfanumérico\n";
 							$("input[name=nombre_personal]").parent().addClass("has-error has-feedback");
 							is_correct = false;
@@ -142,10 +144,10 @@ $( document ).ready(function(){
 								},
 								success: function(response){
 									var str = "";
-									str += '<tr id="personal-row-'+response.personal.idpersonal_ot_correctivo+'"><td>'+response.personal.nombre+'</td>';
-									str += "<td>"+response.personal.horas_hombre+"</td>";
-									str += "<td>"+response.personal.costo+"</td>";
-									str += '<td><button class="btn btn-danger boton-eliminar-personal" onclick="eliminar_personal(event,'+response.personal.idpersonal_ot_correctivo+')" type="button">Eliminar</button></td></tr>';
+									str += '<tr id="personal-row-'+response.personal.idpersonal_ot_correctivo+'"><td class=\"text-nowrap\">'+response.personal.nombre+'</td>';
+									str += "<td class=\"text-nowrap text-center\">"+response.personal.horas_hombre+"</td>";
+									str += "<td class=\"text-nowrap text-center\">"+response.personal.costo+"</td>";
+									str += '<td class=\"text-nowrap text-center\"><button class="btn btn-danger boton-eliminar-personal" onclick="eliminar_personal(event,'+response.personal.idpersonal_ot_correctivo+')" type="button"><span class="glyphicon glyphicon-trash"></span></button></td></tr>';
 									$("#personal-table").append(str);
 									$("input[name=costo_total_personal]").val(response.costo_total_personal);
 								},
@@ -168,6 +170,21 @@ $( document ).ready(function(){
 			        }
 			    }
 			});
+	});
+
+	$('#submit_ot').click(function(){
+		BootstrapDialog.confirm({
+			title: 'Mensaje de Confirmación',
+			message: '¿Está seguro que desea realizar esta acción?\n (Si el campo "Equipo no Intervenido" no se encuentra en estado pendiente, la presente ficha no podrá volver a ser editada)', 
+			type: BootstrapDialog.TYPE_INFO,
+			btnCancelLabel: 'Cancelar', 
+	    	btnOKLabel: 'Aceptar', 
+			callback: function(result){
+		        if(result) {
+		        	document.getElementById('submit_ot_retiro').submit();
+		        }
+		    }
+	    });
 	});
 });
 

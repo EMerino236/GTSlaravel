@@ -328,7 +328,7 @@ class OtController extends BaseController {
 					$activo->idestado = Input::get('idestado_final');
 					$activo->save();
 					Session::flash('message', 'Se guardó correctamente la información.');
-					return Redirect::to('mant_correctivo/create_ot/'.$idot_correctivo);
+					return Redirect::to('mant_correctivo/list_mant_correctivo')->with('message', 'Se guardó correctamente la OTM: '.$ot->ot_tipo_abreviatura.$ot->ot_correlativo.$ot->ot_activo_abreviatura);
 				}
 			}else{
 				return View::make('error/error',$data);
@@ -525,7 +525,8 @@ class OtController extends BaseController {
 				$data["estado_inicial_activo"] = Estado::find($data["ot_correctivo"]->idestado_inicial);
 				$data["estado_final_activo"] = Estado::find($data["ot_correctivo"]->idestado_final);
 				$html = View::make('ot/correctivo/otCorrectivoExport',$data);
-				return PDF::load($html,"A4","portrait")->show();
+				return PDF::load($html,"A4","portrait")->download('OTM Correctivo - '.$data["ot_correctivo"]->ot_tipo_abreviatura.$data["ot_correctivo"]->ot_correlativo.$data["ot_correctivo"]->ot_activo_abreviatura);
+				
 			}else{
 				return View::make('error/error',$data);
 			}

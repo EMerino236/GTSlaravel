@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="robots" content="noindex, follow">
-	<title>Actas de Conformidad</title>
+	<title>Reporte de Retiro de Servicio</title>
     <link rel="shortcut icon" href="{{ asset('img')}}/logo_gts.png">
 	<!-- Bootstrap Core CSS -->
     <link href="{{ asset('bower_components/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">

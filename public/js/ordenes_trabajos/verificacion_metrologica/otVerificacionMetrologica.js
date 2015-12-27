@@ -2,6 +2,21 @@ $( document ).ready(function(){
 	
 	init_ot_create();
 
+	$('#submit_ot').click(function(){
+		BootstrapDialog.confirm({
+			title: 'Mensaje de Confirmación',
+			message: '¿Está seguro que desea realizar esta acción?\n (Si el campo "Equipo no Intervenido" no se encuentra en estado pendiente, la presente ficha no podrá volver a ser editada)', 
+			type: BootstrapDialog.TYPE_INFO,
+			btnCancelLabel: 'Cancelar', 
+	    	btnOKLabel: 'Aceptar', 
+				callback: function(result){
+			        if(result) {
+			        	document.getElementById('submit_ot_metrologica').submit();
+			        }
+			    }
+		});
+	})
+
 	$("#submit-personal").click(function(e){
 		e.preventDefault;
 		BootstrapDialog.confirm({
@@ -57,11 +72,12 @@ $( document ).ready(function(){
 								},
 								success: function(response){
 									var str = "";
-									str += '<tr id="personal-row-'+response.personal.idpersonal_ot_vmetrologica+'"><td>'+response.personal.nombre+'</td>';
-									str += "<td>"+response.personal.horas_hombre+"</td>";
-									str += "<td>"+response.personal.costo+"</td>";
-									str += '<td><button class="btn btn-danger boton-eliminar-personal" onclick="eliminar_personal(event,'+response.personal.idpersonal_ot_vmetrologica+')" type="button">Eliminar</button></td></tr>';
+									str += '<tr id="personal-row-'+response.personal.idpersonal_ot_vmetrologica+'"><td class="text-nowrap">'+response.personal.nombre+'</td>';
+									str += "<td class=\"text-nowrap text-center\">"+response.personal.horas_hombre+"</td>";
+									str += "<td class=\"text-nowrap text-center\">S/. "+response.personal.costo+"</td>";
+									str += '<td class=\"text-nowrap text-center\"><button class="btn btn-danger boton-eliminar-personal" onclick="eliminar_personal(event,'+response.personal.idpersonal_ot_vmetrologica+')" type="button"><span class="glyphicon glyphicon-trash"></span></button></td></tr>';
 									$("#personal-table").append(str);
+									$("input[name=costo_total_personal]").val(response.costo_total);
 									$("input[name=nombre_personal]").val('');
 									$("input[name=horas_trabajadas]").val('');
 									$("input[name=costo_personal]").val('');
@@ -70,6 +86,17 @@ $( document ).ready(function(){
 								}
 							});
 						}else{
+							dialog = BootstrapDialog.show({
+					            title: 'Advertencia',
+					            message: error_str,
+					            type : BootstrapDialog.TYPE_DANGER,
+					            buttons: [{
+					                label: 'Aceptar',
+					                action: function(dialog) {
+					                    dialog.close();
+					                }
+					            }]
+					        });
 						}
 			        }
 			    }
@@ -169,22 +196,27 @@ function llenar_nombre_doc_relacionado(id){
             success: function(response){
                 if(response.success){
                     var resp = response['contrato'];
+
                     if(resp!="vacio"){
                         if(resp[0] != null){
                             $("#nombre_doc_relacionado"+id).val("");
                             $("#nombre_doc_relacionado"+id).css('background-color','#5cb85c');
                             $("#nombre_doc_relacionado"+id).css('color','white');
-                            $("#nombre_doc_relacionado"+id).val(resp[0].nombre);                            
+                            $("#nombre_doc_relacionado"+id).val(resp[0].nombre); 
+                            $("#documento_url").attr("href", inside_url+"verif_metrologica/download_documento/"+resp[0].iddocumento);                          
+                        	$("#documento_url").css('visibility','visible');
                         }
                         else{
                             $("#nombre_doc_relacionado"+id).val("Documento no registrado");
                             $("#nombre_doc_relacionado"+id).css('background-color','#d9534f');
                             $("#nombre_doc_relacionado"+id).css('color','white');
+                            $("#documento_url").css('visibility','hidden');
                         } 
                     }else{
                         $("#nombre_doc_relacionado"+id).val("Documento no registrado");
                         $("#nombre_doc_relacionado"+id).css('background-color','#d9534f');
                         $("#nombre_doc_relacionado"+id).css('color','white');
+                        $("#documento_url").css('visibility','hidden');
                     }               
                 }else{
                     alert('La petición no se pudo completar, inténtelo de nuevo.');
@@ -200,4 +232,5 @@ function limpiar_nombre_doc_relacionado(id){
     $("#nombre_doc_relacionado"+id).val("");
     $("#num_doc_relacionado"+id).val("");
     $("#nombre_doc_relacionado"+id).css('background-color','white');
+    $("#documento_url").css('visibility','hidden');
 }

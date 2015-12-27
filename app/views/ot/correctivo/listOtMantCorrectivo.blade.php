@@ -7,8 +7,19 @@
         <!-- /.col-lg-12 -->
     </div>
     @if (Session::has('message'))
-		<div class="alert alert-success">{{ Session::get('message') }}</div>
+		<div class="alert alert-success alert-dissmisable">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('message') }}
+		</div>
 	@endif
+	@if (Session::has('error'))
+		<div class="alert alert-success alert-dissmisable">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('error') }}
+		</div>
+	@endif
+
+
     {{ Form::open(array('url'=>'/mant_correctivo/search_ot_mant_correctivo','method'=>'get' ,'role'=>'form', 'id'=>'search-form','class' => 'form-group')) }}
 		<div class="panel panel-default">
 			<div class="panel-heading">
@@ -23,7 +34,7 @@
 					</div>
 					<div class="form-group col-md-4">
 						{{ Form::label('search_cod_pat','Código patrimonial') }}
-						{{ Form::text('search_cod_pat',$search_cod_pat,array('class'=>'form-control')) }}
+						{{ Form::text('search_cod_pat',$search_cod_pat,array('class'=>'form-control','placeholder'=>'Código Patrimonial')) }}
 					</div>
 					<div class="form-group col-md-4">
 						{{ Form::label('search_ubicacion','Ubicación') }}
@@ -57,7 +68,7 @@
 				<div class="row">
 					<div class="form-group col-md-4">
 						{{ Form::label('search_equipo','Equipo relacionado') }}
-						{{ Form::text('search_equipo',$search_equipo,array('class'=>'form-control')) }}
+						{{ Form::text('search_equipo',$search_equipo,array('class'=>'form-control','placeholder'=>'Nombre de Equipo')) }}
 					</div>
 					<div class="form-group col-md-4">
 						{{ Form::label('search_proveedor','Proveedor') }}
@@ -75,56 +86,62 @@
 			</div>	
 		</div>
 	</div>	
-	{{ Form::close() }}</br>
+	{{ Form::close() }}
 
-	<table class="table">
-		<tr class="info">
-			<th>OT</th>
-			<th>SOT</th>
-			<th>Fecha y hora</th>
-			<th>Departamento</th>
-			<th>Servicio</th>
-			<th>Ingeniero</th>
-			<th>Ubicación</th>
-			<th>Estado</th>
-		</tr>
-		@foreach($mant_correctivos_data as $mant_correctivo_data)
-		<tr>
-			<td>
-				@if($user->idrol == 1 || $user->idrol==2 || $user->idrol==3 || $user->idrol==4)
-					@if($mant_correctivo_data->idestado_ot == 9)
-						<a href="{{URL::to('/mant_correctivo/create_ot/')}}/{{$mant_correctivo_data->idot_correctivo}}">{{$mant_correctivo_data->ot_tipo_abreviatura}}{{$mant_correctivo_data->ot_correlativo}}{{$mant_correctivo_data->ot_activo_abreviatura}}</a>
-					@else
-						<a href="{{URL::to('/mant_correctivo/view_ot/')}}/{{$mant_correctivo_data->idot_correctivo}}">{{$mant_correctivo_data->ot_tipo_abreviatura}}{{$mant_correctivo_data->ot_correlativo}}{{$mant_correctivo_data->ot_activo_abreviatura}}</a>
-					@endif
-				@else
-					<a href="{{URL::to('/mant_correctivo/view_ot/')}}/{{$mant_correctivo_data->idot_correctivo}}">{{$mant_correctivo_data->ot_tipo_abreviatura}}{{$mant_correctivo_data->ot_correlativo}}{{$mant_correctivo_data->ot_activo_abreviatura}}</a>
-				@endif
-			</td>
-			<td>
-				{{$mant_correctivo_data->sot_tipo_abreviatura}}{{$mant_correctivo_data->sot_correlativo}}{{$mant_correctivo_data->sot_activo_abreviatura}}
-			</td>
-			<td>
-				{{date('d-m-Y H:i',strtotime($mant_correctivo_data->fecha_programacion))}}
-			</td>
-			<td>
-				{{$mant_correctivo_data->nombre_area}}
-			</td>
-			<td>
-				{{$mant_correctivo_data->nombre_servicio}}
-			</td>
-			<td>
-				{{$mant_correctivo_data->apellido_pat}} {{$mant_correctivo_data->apellido_mat}}, {{$mant_correctivo_data->nombre_user}}
-			</td>
-			<td>
-				{{$mant_correctivo_data->nombre_ubicacion}}
-			</td>
-			<td>
-				{{$mant_correctivo_data->nombre_estado}}
-			</td>
-		</tr>
-		@endforeach
-	</table>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="table-responsive">
+				<table class="table">
+					<tr class="info">
+						<th class="text-nowrap text-center">OT</th>
+						<th class="text-nowrap text-center">SOT</th>
+						<th class="text-nowrap text-center">Fecha y hora</th>
+						<th class="text-nowrap text-center">Departamento</th>
+						<th class="text-nowrap text-center">Servicio</th>
+						<th class="text-nowrap text-center">Ingeniero</th>
+						<th class="text-nowrap text-center">Ubicación</th>
+						<th class="text-nowrap text-center">Estado</th>
+					</tr>
+					@foreach($mant_correctivos_data as $mant_correctivo_data)
+					<tr>
+						<td class="text-nowrap text-center">
+							@if($user->idrol == 1 || $user->idrol==2 || $user->idrol==3 || $user->idrol==4)
+								@if($mant_correctivo_data->idestado_ot == 9)
+									<a href="{{URL::to('/mant_correctivo/create_ot/')}}/{{$mant_correctivo_data->idot_correctivo}}">{{$mant_correctivo_data->ot_tipo_abreviatura}}{{$mant_correctivo_data->ot_correlativo}}{{$mant_correctivo_data->ot_activo_abreviatura}}</a>
+								@else
+									<a href="{{URL::to('/mant_correctivo/view_ot/')}}/{{$mant_correctivo_data->idot_correctivo}}">{{$mant_correctivo_data->ot_tipo_abreviatura}}{{$mant_correctivo_data->ot_correlativo}}{{$mant_correctivo_data->ot_activo_abreviatura}}</a>
+								@endif
+							@else
+								<a href="{{URL::to('/mant_correctivo/view_ot/')}}/{{$mant_correctivo_data->idot_correctivo}}">{{$mant_correctivo_data->ot_tipo_abreviatura}}{{$mant_correctivo_data->ot_correlativo}}{{$mant_correctivo_data->ot_activo_abreviatura}}</a>
+							@endif
+						</td>
+						<td class="text-nowrap text-center">
+							{{$mant_correctivo_data->sot_tipo_abreviatura}}{{$mant_correctivo_data->sot_correlativo}}{{$mant_correctivo_data->sot_activo_abreviatura}}
+						</td>
+						<td class="text-nowrap text-center">
+							{{date('d-m-Y H:i',strtotime($mant_correctivo_data->fecha_programacion))}}
+						</td>
+						<td class="text-nowrap text-center">
+							{{$mant_correctivo_data->nombre_area}}
+						</td>
+						<td class="text-nowrap text-center">
+							{{$mant_correctivo_data->nombre_servicio}}
+						</td>
+						<td class="text-nowrap text-center">
+							{{$mant_correctivo_data->apellido_pat}} {{$mant_correctivo_data->apellido_mat}}, {{$mant_correctivo_data->nombre_user}}
+						</td>
+						<td class="text-nowrap text-center">
+							{{$mant_correctivo_data->nombre_ubicacion}}
+						</td>
+						<td class="text-nowrap text-center">
+							{{$mant_correctivo_data->nombre_estado}}
+						</td>
+					</tr>
+					@endforeach
+				</table>
+			</div>
+		</div>
+	</div>
 	<div class="row">
 		<div class="form-group col-md-12">
 		@if($search_ing || $search_cod_pat || $search_ubicacion || $search_ot || $search_equipo || $search_proveedor || $search_ini || $search_fin)

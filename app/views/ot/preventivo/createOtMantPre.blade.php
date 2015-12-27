@@ -9,22 +9,30 @@
 
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
-			<p><strong>{{ $errors->first('numero_ficha',"Ingrese el número de ficha de la OTM ") }}</strong></p>
-			<p><strong>{{ $errors->first('idestado',"Seleccione estado ") }}</strong></p>
-			<p><strong>{{ $errors->first('idestado_inicial',"Seleccione un estado inicial del activo") }}</strong></p>
-			<p><strong>{{ $errors->first('sin_interrupcion_servicio',"Seleccione si hubo interrupción en el servicio") }}</strong></p>
-			<p><strong>{{ $errors->first('idestado_final',"Seleccione un estado final del activo") }}</strong></p>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<p><strong>{{ $errors->first('nombre_ejecutor') }}</strong></p>
+			<p><strong>{{ $errors->first('numero_ficha') }}</strong></p>
+			<p><strong>{{ $errors->first('idestado') }}</strong></p>
+			<p><strong>{{ $errors->first('idestado_inicial') }}</strong></p>
+			<p><strong>{{ $errors->first('sin_interrupcion_servicio') }}</strong></p>
+			<p><strong>{{ $errors->first('idestado_final') }}</strong></p>
 		</div>
 	@endif
 
 	@if (Session::has('message'))
-		<div class="alert alert-success">{{ Session::get('message') }}</div>
+		<div class="alert alert-success">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('message') }}
+		</div>
 	@endif
 	@if (Session::has('error'))
-		<div class="alert alert-danger">{{ Session::get('error') }}</div>
+		<div class="alert alert-danger">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('error') }}
+		</div>
 	@endif
 
-	{{ Form::open(array('url'=>'mant_preventivo/submit_create_ot', 'role'=>'form')) }}
+	{{ Form::open(array('url'=>'mant_preventivo/submit_create_ot', 'role'=>'form','id'=>'submit_ot_preventivo')) }}
 		{{ Form::hidden('idot_preventivo', $ot_info->idot_preventivo,array('id'=>'idot_preventivo'))}}
 		{{ Form::hidden('idactivo', $ot_info->idactivo) }}
 		<div class="panel panel-default">
@@ -62,13 +70,17 @@
 					<div class="row">
 						<div class="form-group col-md-8">
 							{{ Form::label('nombre_ejecutor','Ejecutor del Mantenimiento') }}
-							{{ Form::text('nombre_ejecutor',$ot_info->nombre_ejecutor,array('class' => 'form-control')) }}
+							{{ Form::text('nombre_ejecutor',$ot_info->nombre_ejecutor,array('class' => 'form-control','placeholder'=>'Nombre del Ejecutor')) }}
 						</div>
 					</div>
 					<div class="row">
 						<div class="form-group col-md-8">
 							{{ Form::label('numero_ficha','Número de Ficha') }}
-							{{ Form::text('numero_ficha',$ot_info->numero_ficha,array('class' => 'form-control','placeholder'=>'Ingrese número de ficha')) }}
+							@if($ot_info->numero_ficha == null)
+								{{ Form::text('numero_ficha',$ot_info->numero_ficha,array('class' => 'form-control','placeholder'=>'Ingrese número de ficha')) }}
+							@else
+								{{ Form::text('numero_ficha',$ot_info->numero_ficha,array('class' => 'form-control','placeholder'=>'Ingrese número de ficha','readonly'=>'')) }}
+							@endif
 						</div>
 					</div>
 				</div>
@@ -209,28 +221,31 @@
 				</div>
 				<div class="row">		
 					<div class="col-md-10">
-						<table class="table" id="tareas-table" >
-							<tr class="info">
-								<th>Actividad</th>
-								<th>Realizada</th>
-								<th>Operaciones</th>
-							</tr>
-							@foreach($tareas as $tarea)
-							<tr>
-								<td>{{$tarea->nombre_tarea}}</td>
-								<td>
+						<div class="table-responsive">
+							<table class="table" id="tareas-table" >
+								<tr class="info">
+									<th class="text-nowrap text-center">Actividad</th>
+									<th class="text-nowrap text-center">Estado</th>
+									<th class="text-nowrap text-center">Eliminar</th>
+								</tr>
+								@foreach($tareas as $tarea)
+								<tr>
+									<td class="text-nowrap">{{$tarea->nombre_tarea}}</td>									
 									@if($tarea->idestado_realizado == 23)
-										{{ Form::button('Marcar realizada',array('class'=>'btn btn-default boton-tarea','data-id'=>$tarea->idtareas_ot_preventivosxot_preventivo)) }}
+										<td class="text-nowrap text-center">
+											<button class="btn btn-success boton-tarea" data-id="{{$tarea->idtareas_ot_preventivosxot_preventivo}}" type="button"><span class="glyphicon glyphicon-ok"></span> Marcar Realizada</button>
+										</td>
+										<td class="text-nowrap text-center">
+											<button class="btn btn-danger boton-eliminar-tarea" onclick="eliminar_tarea_preventivo(event,{{$tarea->idtareas_ot_preventivosxot_preventivo}})" type="button"><span class="glyphicon glyphicon-trash"></span></button>
+										</td>
 									@else
-										Realizada
-									@endif
-								</td>
-								<td>
-									<button class="btn btn-danger boton-eliminar-tarea" onclick="eliminar_tarea_preventivo(event,{{$tarea->idtareas_ot_preventivosxot_preventivo}})" type="button">Eliminar</button>
-								</td>
-							</tr>
-							@endforeach
-						</table>
+										<td class="text-nowrap text-center">Realizada</td>
+										<td class="text-nowrap text-center">-</td>
+									@endif								
+								</tr>
+								@endforeach
+							</table>
+						</div>
 					</div>
 				</div>
 				<div class="row">						
@@ -301,49 +316,53 @@
 				<div class="col-md-12">
 					<div class="row">
 						<div class="form-group col-md-4">
-							{{ Form::text('nombre_repuesto', null,array('class'=>'form-control','placeholder'=>'Nombre y características técnicas')) }}
+							{{ Form::text('nombre_repuesto', null,array('class'=>'form-control','placeholder'=>'Nombre y características técnicas','id'=>'nombre_repuesto')) }}
 						</div>
 						<div class="form-group col-md-2">
-							{{ Form::text('codigo_repuesto', null,array('class'=>'form-control','placeholder'=>'Código')) }}
+							{{ Form::text('codigo_repuesto', null,array('class'=>'form-control','placeholder'=>'Código','id'=>'codigo_repuesto')) }}
 						</div>
 						<div class="form-group col-md-2">
-							{{ Form::text('cantidad_repuesto', null,array('class'=>'form-control','placeholder'=>'Cantidad')) }}
+							{{ Form::text('cantidad_repuesto', null,array('class'=>'form-control','placeholder'=>'Cantidad','id'=>'cantidad_repuesto')) }}
 						</div>
 						<div class="form-group col-md-2">
-							{{ Form::text('costo_repuesto', null,array('class'=>'form-control','placeholder'=>'Costo (S/.)')) }}
+							{{ Form::text('costo_repuesto', null,array('class'=>'form-control','placeholder'=>'Costo (S/.)','id'=>'costo_repuesto')) }}
 						</div>
 						<div class="form-group col-md-2">
 							{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Agregar',array('id'=>'submit-repuesto', 'class'=>'btn btn-primary')) }}
 						</div>
 					</div>
 				</div>
-				<div class="col-md-12">
-					<table id="repuestos-table" class="table">
-						<tr class="info">
-							<th>Nombre</th>
-							<th>Código</th>
-							<th>Cantidad</th>
-							<th>Costo</th>
-							<th>Operaciones</th>
-						</tr>
-						@foreach($repuestos as $repuesto)
-						<tr id="repuesto-row-{{ $repuesto->idrepuestos_ot_preventivo }}">
-							<td>{{$repuesto->nombre}}</td>
-							<td>{{$repuesto->codigo}}</td>
-							<td>{{$repuesto->cantidad}}</td>
-							<td>S/. {{number_format($repuesto->costo,2)}}</td>
-							<td>
-								<button class="btn btn-danger boton-eliminar-repuesto" onclick="eliminar_repuesto(event,{{$repuesto->idrepuestos_ot_preventivo}})" type="button">Eliminar</button>
-							</td>
-						</tr>
-						@endforeach
-					</table>
-					<div class="col-md-7">
-				      {{ Form::label('costo_total_repuestos','Gasto Total Repuestos (S/.)',array('class'=>'col-sm-5')) }}
-				      <div class="col-md-3">
-				        {{ Form::text('costo_total_repuestos', number_format($ot_info->costo_total_repuestos,2),array('class'=>'form-control','placeholder'=>'Costo','readonly'=>'')) }}
-				      </div>
-				    </div>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="table-responsive">
+							<table id="repuestos-table" class="table">
+								<tr class="info">
+									<th class="text-nowrap text-center">Nombre</th>
+									<th class="text-nowrap text-center">Código</th>
+									<th class="text-nowrap text-center">Cantidad</th>
+									<th class="text-nowrap text-center">Costo</th>
+									<th class="text-nowrap text-center">Eliminar</th>
+								</tr>
+								@foreach($repuestos as $repuesto)
+								<tr id="repuesto-row-{{ $repuesto->idrepuestos_ot_preventivo }}">
+									<td class="text-nowrap">{{$repuesto->nombre}}</td>
+									<td class="text-nowrap text-center">{{$repuesto->codigo}}</td>
+									<td class="text-nowrap text-center">{{$repuesto->cantidad}}</td>
+									<td class="text-nowrap text-center">S/. {{number_format($repuesto->costo,2)}}</td>
+									<td class="text-nowrap text-center">
+										<button class="btn btn-danger boton-eliminar-repuesto" onclick="eliminar_repuesto(event,{{$repuesto->idrepuestos_ot_preventivo}})" type="button"><span class="glyphicon glyphicon-trash"></span></button>
+									</td>
+								</tr>
+								@endforeach
+							</table>
+						</div>
+						<div class="col-md-7">
+					      {{ Form::label('costo_total_repuestos','Gasto Total Repuestos (S/.)',array('class'=>'col-sm-5')) }}
+					      <div class="col-md-3">
+					        {{ Form::text('costo_total_repuestos', number_format($ot_info->costo_total_repuestos,2),array('class'=>'form-control','placeholder'=>'Costo','readonly'=>'')) }}
+					      </div>
+					    </div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -355,61 +374,67 @@
 				<div class="col-md-12">
 					<div class="row">
 						<div class="form-group col-md-5">
-							{{ Form::text('nombre_personal', null,array('class'=>'form-control','placeholder'=>'Nombres Apellidos')) }}
+							{{ Form::text('nombre_personal', null,array('class'=>'form-control','placeholder'=>'Nombres Apellidos','id'=>'nombre_personal')) }}
 						</div>
 						<div class="form-group col-md-3">
-							{{ Form::text('horas_trabajadas', null,array('class'=>'form-control','placeholder'=>'Hrs. Trab. ejem: 0.5')) }}
+							{{ Form::text('horas_trabajadas', null,array('class'=>'form-control','placeholder'=>'Hrs. Trab. ejem: 0.5','id'=>'horas_trabajadas')) }}
 						</div>
 						<div class="form-group col-md-2">
-							{{ Form::text('costo_personal', null,array('class'=>'form-control','placeholder'=>'Costo (S/.)')) }}
+							{{ Form::text('costo_personal', null,array('class'=>'form-control','placeholder'=>'Costo (S/.)','id'=>'costo_personal')) }}
 						</div>
 						<div class="form-group col-md-2">
 							{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Agregar',array('id'=>'submit-personal', 'class'=>'btn btn-primary')) }}
 						</div>
 					</div>
 				</div>
-				<div class="col-md-12">
-					<table id="personal-table" class="table">
-						<tr class="info">
-							<th>Nombres y Apellidos</th>
-							<th>Horas Trabajadas</th>
-							<th>Subtotal</th>
-							<th>Operaciones</th>
-						</tr>
-						@foreach($personal_data as $personal)
-						<tr id="personal-row-{{ $personal->idpersonal_ot_preventivo }}">
-							<td>{{$personal->nombre}}</td>
-							<td>{{$personal->horas_hombre}}</td>
-							<td>{{$personal->costo}}</td>
-							<td>
-								<button class="btn btn-danger boton-eliminar-mano-obra" onclick="eliminar_personal(event,{{$personal->idpersonal_ot_preventivo}})" type="button">Eliminar</button>
-							</td>
-						</tr>
-						@endforeach
-					</table>
-					<div class="col-md-8">
-				      {{ Form::label('costo_total_personal','Gasto Total Mano de Obra (S/.)',array('class'=>'col-sm-5')) }}
-				      <div class="col-md-3">
-				        {{ Form::text('costo_total_personal', number_format($ot_info->costo_total_personal,2),array('class'=>'form-control','placeholder'=>'Costo','readonly'=>'')) }}
-				      </div>
-				    </div>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="table-responsive">
+							<table id="personal-table" class="table">
+								<tr class="info">
+									<th class="text-nowrap text-center">Nombres y Apellidos</th>
+									<th class="text-nowrap text-center">Horas Trabajadas</th>
+									<th class="text-nowrap text-center">Costo por Hora</th>
+									<th class="text-nowrap text-center">Eliminar</th>
+								</tr>
+								@foreach($personal_data as $personal)
+								<tr id="personal-row-{{ $personal->idpersonal_ot_preventivo }}">
+									<td class="text-nowrap">{{$personal->nombre}}</td>
+									<td class="text-nowrap text-center">{{$personal->horas_hombre}}</td>
+									<td class="text-nowrap text-center">S/. {{$personal->costo}}</td>
+									<td class="text-nowrap text-center">
+										<button class="btn btn-danger boton-eliminar-mano-obra" onclick="eliminar_personal(event,{{$personal->idpersonal_ot_preventivo}})" type="button"><span class="glyphicon glyphicon-trash"></span></button>
+									</td>
+								</tr>
+								@endforeach
+							</table>
+						</div>
+						<div class="col-md-8">
+					      {{ Form::label('costo_total_personal','Gasto Total Mano de Obra (S/.)',array('class'=>'col-sm-5')) }}
+					      <div class="col-md-3">
+					        {{ Form::text('costo_total_personal', number_format($ot_info->costo_total_personal,2),array('class'=>'form-control','placeholder'=>'Costo','readonly'=>'')) }}
+					      </div>
+					    </div>
+					</div>
 				</div>
 			</div>
 		</div>
 		<div class="row">
 			<div class="form-group col-md-2">
-				{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit_create_ots', 'type'=>'submit','class' => 'btn btn-primary btn-block')) }}
+				{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit_ot','class' => 'btn btn-primary btn-block')) }}
 			</div>
-			<div class="form-group col-md-2">
-				<a class="btn btn-default btn-block" href="{{URL::to('/mant_preventivo/list_mant_preventivo')}}">Cancelar</a>				
-			</div>	
-	{{ Form::close() }}
+		{{ Form::close() }}
 			{{Form::open(array('url'=>'mant_preventivo/export_pdf', 'role'=>'form'))}}		
 			{{Form::hidden('idot_preventivo', $ot_info->idot_preventivo) }}
-			<div class="form-group col-md-2 col-md-offset-6">
+			<div class="form-group col-md-2">
 				{{ Form::button('<span class="glyphicon glyphicon-export"></span> Exportar', array('id'=>'exportar', 'type'=>'submit' ,'class' => 'btn btn-success btn-block')) }}
 			</div>
 			{{ Form::close() }}
+			<div class="form-group col-md-2 col-md-offset-6">
+				<a class="btn btn-default btn-block" href="{{URL::to('/mant_preventivo/list_mant_preventivo')}}">Cancelar</a>				
+			</div>	
+	
+			
 		</div>	
 
 	<div class="container">

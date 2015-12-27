@@ -9,6 +9,7 @@
 
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			<p><strong>{{ $errors->first('prioridades') }}</strong></p>
 			<p><strong>{{ $errors->first('idestado') }}</strong></p>
 			<p><strong>{{ $errors->first('descripcion_problema') }}</strong></p>
@@ -24,13 +25,15 @@
 	@endif
 
 	@if (Session::has('message'))
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>	
 		<div class="alert alert-success">{{ Session::get('message') }}</div>
 	@endif
 	@if (Session::has('error'))
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 		<div class="alert alert-danger">{{ Session::get('error') }}</div>
 	@endif
 	@if($ot_info->idestado_ot == 9)
-	{{ Form::open(array('url'=>'mant_correctivo/submit_create_ot', 'role'=>'form')) }}
+	{{ Form::open(array('url'=>'mant_correctivo/submit_create_ot', 'role'=>'form','id'=>'submit_ot_correctivo')) }}
 	@endif
 		{{ Form::hidden('idot_correctivo', $ot_info->idot_correctivo) }}
 		{{ Form::hidden('idactivo', $ot_info->idactivo) }}
@@ -119,7 +122,7 @@
 				<div class="row">
 					<div class="form-group col-md-4">
 						{{ Form::label('fecha_solicitud','Fecha de Solicitud') }}
-						{{ Form::text('fecha_solicitud',date('d-m-Y H:i:s',strtotime($ot_info->fecha_solicitud)),array('class' => 'form-control','readonly'=>'')) }}
+						{{ Form::text('fecha_solicitud',date('d-m-Y',strtotime($ot_info->fecha_solicitud)),array('class' => 'form-control','readonly'=>'')) }}
 					</div>
 					@if(!$ot_info->fecha_conformidad)
 					<div class="form-group col-md-4">
@@ -205,22 +208,28 @@
 					</div>
 				</div>
 				@endif
-				<table id="tareas-table" class="table">
-					<tr class="info">
-						<th>Descripción</th>
-						<th>Operaciones</th>
-					</tr>
-					@foreach($tareas as $tarea)
-					<tr id="tarea-row-{{ $tarea->idtareas_ot_correctivo }}">
-						<td>{{$tarea->nombre}}</td>
-						<td>
-							@if($ot_info->idestado_ot == 9 && ($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4))
-							<button class="btn btn-danger boton-eliminar-tarea" onclick="eliminar_tarea(event,{{$tarea->idtareas_ot_correctivo}})" type="button">Eliminar</button>
-							@endif
-						</td>
-					</tr>
-					@endforeach
-				</table>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="table-responsive">
+							<table id="tareas-table" class="table">
+								<tr class="info">
+									<th class="text-nowrap text-center">Descripción</th>
+									<th class="text-nowrap text-center">Eliminar</th>
+								</tr>
+								@foreach($tareas as $tarea)
+								<tr id="tarea-row-{{ $tarea->idtareas_ot_correctivo }}">
+									<td class="text-nowrap">{{$tarea->nombre}}</td>
+									<td class="text-nowrap text-center">
+										@if($ot_info->idestado_ot == 9 && ($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4))
+										<button class="btn btn-danger boton-eliminar-tarea" onclick="eliminar_tarea(event,{{$tarea->idtareas_ot_correctivo}})" type="button"><span class="glyphicon glyphicon-trash"></span></button>
+										@endif
+									</td>
+								</tr>
+								@endforeach
+							</table>
+						</div>
+					</div>
+				</div>
 				<div class="row">
 					@if(!$ot_info->fecha_inicio_ejecucion)
 					<div class="col-md-4">
@@ -295,28 +304,30 @@
 					</div>
 				</div>
 				@endif
-				<table id="repuestos-table" class="table">
-					<tr class="info">
-						<th>Nombre</th>
-						<th>Código</th>
-						<th>Cantidad</th>
-						<th>Costo</th>
-						<th>Operaciones</th>
-					</tr>
-					@foreach($repuestos as $repuesto)
-					<tr id="repuesto-row-{{ $repuesto->idrepuestos_ot_correctivo }}">
-						<td>{{$repuesto->nombre}}</td>
-						<td>{{$repuesto->codigo}}</td>
-						<td>{{$repuesto->cantidad}}</td>
-						<td>S/. {{number_format($repuesto->costo,2)}}</td>
-						<td>
-							@if($ot_info->idestado_ot == 9 && ($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4))
-							<button class="btn btn-danger boton-eliminar-repuesto" onclick="eliminar_repuesto(event,{{$repuesto->idrepuestos_ot_correctivo}})" type="button">Eliminar</button>
-							@endif
-						</td>
-					</tr>
-					@endforeach
-				</table>
+				<div class="table-responsive">
+					<table id="repuestos-table" class="table">
+						<tr class="info">
+							<th class="text-nowrap text-center">Nombre</th>
+							<th class="text-nowrap text-center">Código</th>
+							<th class="text-nowrap text-center">Cantidad</th>
+							<th class="text-nowrap text-center">Costo</th>
+							<th class="text-nowrap text-center">Eliminar</th>
+						</tr>
+						@foreach($repuestos as $repuesto)
+						<tr id="repuesto-row-{{ $repuesto->idrepuestos_ot_correctivo }}">
+							<td>{{$repuesto->nombre}}</td>
+							<td class="text-nowrap text-center">{{$repuesto->codigo}}</td>
+							<td class="text-nowrap text-center">{{$repuesto->cantidad}}</td>
+							<td class="text-nowrap text-center">S/. {{number_format($repuesto->costo,2)}}</td>
+							<td class="text-nowrap text-center">
+								@if($ot_info->idestado_ot == 9 && ($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4))
+								<button class="btn btn-danger boton-eliminar-repuesto" onclick="eliminar_repuesto(event,{{$repuesto->idrepuestos_ot_correctivo}})" type="button"><span class="glyphicon glyphicon-trash"></span></button>
+								@endif
+							</td>
+						</tr>
+						@endforeach
+					</table>
+				</div>
 				<div class="row">
 					<div class="col-md-2">
 			    		{{ Form::label('costo_total_repuestos','Gasto Total Repuestos (S/.)') }}
@@ -348,26 +359,28 @@
 					</div>
 				</div>
 				@endif
-				<table id="personal-table" class="table">
-					<tr class="info">
-						<th>Nombres y Apellidos</th>
-						<th>Horas Trabajadas</th>
-						<th>Subtotal</th>
-						<th>Operaciones</th>
-					</tr>
-					@foreach($personal_data as $personal)
-					<tr id="personal-row-{{ $personal->idpersonal_ot_correctivo }}">
-						<td>{{$personal->nombre}}</td>
-						<td>{{$personal->horas_hombre}}</td>
-						<td>{{$personal->costo}}</td>
-						<td>
-							@if($ot_info->idestado_ot == 9 && ($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4))
-							<button class="btn btn-danger boton-eliminar-mano-obra" onclick="eliminar_personal(event,{{$personal->idpersonal_ot_correctivo}})" type="button">Eliminar</button>
-							@endif
-						</td>
-					</tr>
-					@endforeach
-				</table>
+				<div class="table-responsive">
+					<table id="personal-table" class="table">
+						<tr class="info">
+							<th class="text-nowrap text-center">Nombres y Apellidos</th>
+							<th class="text-nowrap text-center">Horas Trabajadas</th>
+							<th class="text-nowrap text-center">Costo x Hora</th>
+							<th class="text-nowrap text-center">Eliminar</th>
+						</tr>
+						@foreach($personal_data as $personal)
+						<tr id="personal-row-{{ $personal->idpersonal_ot_correctivo }}">
+							<td>{{$personal->nombre}}</td>
+							<td class="text-nowrap text-center">{{$personal->horas_hombre}}</td>
+							<td class="text-nowrap text-center">{{$personal->costo}}</td>
+							<td class="text-nowrap text-center">
+								@if($ot_info->idestado_ot == 9 && ($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4))
+								<button class="btn btn-danger boton-eliminar-mano-obra" onclick="eliminar_personal(event,{{$personal->idpersonal_ot_correctivo}})" type="button"><span class="glyphicon glyphicon-trash"></span></button>
+								@endif
+							</td>
+						</tr>
+						@endforeach
+					</table>
+				</div>
 				<div class="row">
 					<div class="col-md-2">
 			    		{{ Form::label('costo_total_personal','Gasto Total Mano de Obra (S/.)') }}
@@ -382,7 +395,7 @@
 		@if($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4)
 			<div class="row">
 				<div class="form-group col-md-2">
-					{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit-edit', 'type'=>'submit','class' => 'btn btn-primary btn-block')) }}
+					{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit-edit','class' => 'btn btn-primary btn-block')) }}
 					{{ Form::close() }}
 				</div>
 				<div class="form-group col-md-2">

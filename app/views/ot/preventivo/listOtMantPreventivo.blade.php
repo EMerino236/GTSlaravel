@@ -7,14 +7,25 @@
         <!-- /.col-lg-12 -->
     </div>
     @if (Session::has('message'))
-		<div class="alert alert-success">{{ Session::get('message') }}</div>
-	@endif
-		<div class="container-fluid form-group row">
-			<div class="col-md-4 col-md-offset-8">
-				<a class="btn btn-primary btn-block" href="{{URL::to('/mant_preventivo/programacion')}}">
-				<span class="glyphicon glyphicon-plus"></span> Agregar Mantenimiento Preventivo</a>
-			</div>
+		<div class="alert alert-success alert-dissmisable">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('message') }}
 		</div>
+	@endif
+	@if (Session::has('error'))
+		<div class="alert alert-success alert-dissmisable">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('error') }}
+		</div>
+	@endif
+
+	<div class="container-fluid form-group row">
+		<div class="col-md-4 col-md-offset-8">
+			<a class="btn btn-primary btn-block" href="{{URL::to('/mant_preventivo/programacion')}}">
+			<span class="glyphicon glyphicon-plus"></span> Agregar Mantenimiento Preventivo</a>
+		</div>
+	</div>
+
     {{ Form::open(array('url'=>'/mant_preventivo/search_ot_mant_preventivo','method'=>'get' ,'role'=>'form', 'id'=>'search-form','class' => 'form-group')) }}
 	<div class="container-fluid form-group row">
 		<div class="col-md-12">
@@ -88,60 +99,51 @@
 		<div class="col-md-12">
 			<div class="table-responsive">
 				<table class="table" id="table_ot">
-				<tr class="info">
-					<th class="text-nowrap">Fecha y hora</th>
-					<th class="text-nowrap">Departamento</th>
-					<th class="text-nowrap">Servicio</th>
-					<th class="text-nowrap">Ingeniero a cargo del activo</th>
-					<th class="text-nowrap">Usuario Solicitante</th>
-					<th class="text-nowrap">Ubicación</th>
-					<th class="text-nowrap">Orden Trabajo Mantenimiento</th>
-					<th class="text-nowrap">Estado</th>
-					<th class="text-nowrap">Eliminar</th>
+				<tr class="info">					
+					<th class="text-nowrap text-center">Orden Trabajo Mantenimiento</th>
+					<th class="text-nowrap text-center">Fecha y hora</th>
+					<th class="text-nowrap text-center">Departamento</th>
+					<th class="text-nowrap text-center">Servicio</th>
+					<th class="text-nowrap text-center">Ingeniero a cargo del activo</th>
+					<th class="text-nowrap text-center">Usuario Solicitante</th>
+					<th class="text-nowrap text-center">Ubicación</th>
+					<th class="text-nowrap text-center">Estado</th>
 				</tr>
 				@foreach($mant_preventivos_data as $index => $mant_preventivo_data)
 				{{form::hidden('fila',$mant_preventivo_data->idot_preventivo,array('id'=>'fila'.$index))}}
-				<tr>
-					<td class="text-nowrap">
-						{{date('d-m-Y H:i:s',strtotime($mant_preventivo_data->fecha_programacion))}}
-					</td>
-					<td class="text-nowrap">
-						{{$mant_preventivo_data->nombre_area}}
-					</td>
-					<td class="text-nowrap">
-						{{$mant_preventivo_data->nombre_servicio}}
-					</td>
-					<td class="text-nowrap">
-						{{$mant_preventivo_data->apellido_pat}} {{$mant_preventivo_data->apellido_mat}}, {{$mant_preventivo_data->nombre_user}}
-					</td>
-					<td class="text-nowrap">
-						{{$mant_preventivo_data->apellido_pat_sol}} {{$mant_preventivo_data->apellido_mat_sol}}, {{$mant_preventivo_data->nombre_user_sol}}
-					</td>
-					<td class="text-nowrap">
-						{{$mant_preventivo_data->nombre_ubicacion}}
-					</td>
+				<tr>					
 					<td class="text-nowrap text-center">
 					@if($user->idrol==1 || $user->idrol==2 || $user->idrol==3 || $user->idrol==4)
-						@if($mant_preventivo_data->idestado_ot==25)
-							<a href="{{URL::to('/mant_preventivo/view_ot_preventivo/')}}/{{$mant_preventivo_data->idot_preventivo}}">{{$mant_preventivo_data->ot_tipo_abreviatura}}{{$mant_preventivo_data->ot_correlativo}}{{$mant_preventivo_data->ot_activo_abreviatura}}</a>
-						@else
+						@if($mant_preventivo_data->idestado_ot==9)
 							<a href="{{URL::to('/mant_preventivo/create_ot_preventivo/')}}/{{$mant_preventivo_data->idot_preventivo}}">{{$mant_preventivo_data->ot_tipo_abreviatura}}{{$mant_preventivo_data->ot_correlativo}}{{$mant_preventivo_data->ot_activo_abreviatura}}</a>
+						@else
+							<a href="{{URL::to('/mant_preventivo/view_ot_preventivo/')}}/{{$mant_preventivo_data->idot_preventivo}}">{{$mant_preventivo_data->ot_tipo_abreviatura}}{{$mant_preventivo_data->ot_correlativo}}{{$mant_preventivo_data->ot_activo_abreviatura}}</a>
 						@endif
 					@else						
 						<a href="{{URL::to('/mant_preventivo/view_ot_preventivo/')}}/{{$mant_preventivo_data->idot_preventivo}}">{{$mant_preventivo_data->ot_tipo_abreviatura}}{{$mant_preventivo_data->ot_correlativo}}{{$mant_preventivo_data->ot_activo_abreviatura}}</a>
 					@endif
-					</td>					
-					<td>
-						{{$mant_preventivo_data->nombre_estado}}
+					</td>	
+					<td class="text-nowrap text-center">
+						{{date('d-m-Y H:i:s',strtotime($mant_preventivo_data->fecha_programacion))}}
 					</td>
 					<td class="text-nowrap text-center">
-					@if($user->idrol==1 || $user->idrol==2 || $user->idrol==3 || $user->idrol==4)
-						@if($mant_preventivo_data->idestado_ot!=25)
-							<div class="btn btn-danger btn-block" onclick='eliminar_ot(event,this)'><span class="glyphicon glyphicon-trash"></span></div>
-						@endif
-					@endif
+						{{$mant_preventivo_data->nombre_area}}
 					</td>
-
+					<td class="text-nowrap text-center">
+						{{$mant_preventivo_data->nombre_servicio}}
+					</td>
+					<td class="text-nowrap text-center">
+						{{$mant_preventivo_data->apellido_pat}} {{$mant_preventivo_data->apellido_mat}}, {{$mant_preventivo_data->nombre_user}}
+					</td>
+					<td class="text-nowrap text-center">
+						{{$mant_preventivo_data->apellido_pat_sol}} {{$mant_preventivo_data->apellido_mat_sol}}, {{$mant_preventivo_data->nombre_user_sol}}
+					</td>
+					<td class="text-nowrap text-center">
+						{{$mant_preventivo_data->nombre_ubicacion}}
+					</td>									
+					<td class="text-nowrap text-center">
+						{{$mant_preventivo_data->nombre_estado}}
+					</td>
 				</tr>
 				@endforeach
 				</table>

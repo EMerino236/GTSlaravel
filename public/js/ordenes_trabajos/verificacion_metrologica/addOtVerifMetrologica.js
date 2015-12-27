@@ -22,6 +22,8 @@ $( document ).ready(function(){
     $('#submit_create_ots').click(function(){
         sendDataToController_create();
     });
+
+
     
 
 });
@@ -220,54 +222,53 @@ function addFilaMantenimiento(){
     var currentMonth = currentDate.getMonth()+1;
     var count_otMes = $('#mes').val();
     var count_otTrimestre = $('#trimestre').val();
-   
+    var messages = "";
+    var is_correct = true;
+
     if(nombre_equipo=='Equipo no registrado' || nombre_equipo==''){
-        dialog = BootstrapDialog.show({
-            title: 'Advertencia',
-            message: 'Ingresar equipo correcto',
-            type : BootstrapDialog.TYPE_DANGER,
-            buttons: [{
-                label: 'Aceptar',
-                action: function(dialog) {
-                    dialog.close();
-                }
-            }]
-        });
-    }else if(fecha==''){
-        dialog = BootstrapDialog.show({
-            title: 'Advertencia',
-            message: 'Ingresar fecha',
-            type : BootstrapDialog.TYPE_DANGER,
-            buttons: [{
-                label: 'Aceptar',
-                action: function(dialog) {
-                    dialog.close();
-                }
-            }]
-        });
-    }else if(hora==''){
-        dialog = BootstrapDialog.show({
-            title: 'Advertencia',
-            message: 'Ingresar hora',
-            type : BootstrapDialog.TYPE_DANGER,
-            buttons: [{
-                label: 'Aceptar',
-                action: function(dialog) {
-                    dialog.close();
-                }
-            }]
-        });
-    }else{
+        messages += "Ingresar equipo correcto\n";
+        is_correct = false;
+    }
+
+    if(usuario_id == null){
+        messages += "Seleccionar usuario solicitante\n";
+        is_correct = false;   
+    }
+
+    if(fecha==''){
+        messages += "Ingresar fecha\n";
+        is_correct = false;        
+    } 
+
+    if(hora==''){
+        messages += "Ingresar hora\n";
+        is_correct = false; 
+    }
+
+    if(is_correct){
         $('#table_programacion').append("<tr>"
-                +"<td>"+codigo_patrimonial+"</td>"
-                +"<td>"+nombre_equipo+"</td>"
-                +"<td>"+count_otMes+"</td>"
-                +"<td>"+count_otTrimestre+"</td>"
-                +"<td>"+fecha+"</td>"
-                +"<td>"+hora+"</td>"
-                +"<td id=\""+usuario_id+"\">"+usuario_nombre+"</td>"
-                +"<td><a href='' class='btn btn-danger delete-detail' onclick='deleteRow(event,this)'><span class=\"glyphicon glyphicon-remove\"></span>Eliminar</a></td></tr>");
+                +"<td class=\"text-nowrap text-center\">"+codigo_patrimonial+"</td>"
+                +"<td class=\"text-nowrap text-center\">"+nombre_equipo+"</td>"
+                +"<td class=\"text-nowrap text-center\">"+count_otMes+"</td>"
+                +"<td class=\"text-nowrap text-center\">"+count_otTrimestre+"</td>"
+                +"<td class=\"text-nowrap text-center\">"+fecha+"</td>"
+                +"<td class=\"text-nowrap text-center\">"+hora+"</td>"
+                +"<td class=\"text-nowrap text-center\" id=\""+usuario_id+"\">"+usuario_nombre+"</td>"
+                +"<td class=\"text-nowrap text-center\"><a href='' class='btn btn-danger delete-detail' onclick='deleteRow(event,this)'><span class=\"glyphicon glyphicon-remove\"></span></a></td></tr>");
         limpiar();
+    }else{
+        dialog = BootstrapDialog.show({
+            title: 'Advertencia',
+            message: messages,
+            type : BootstrapDialog.TYPE_DANGER,
+            buttons: [{
+                label: 'Aceptar',
+                action: function(dialog) {
+                    dialog.close();
+                }
+            }]
+        });
+
     }
 }
 
@@ -298,66 +299,78 @@ function limpiar(){
     $('#trimestre').val('');
     $('#fecha').val('');
     $('#hora').val('');
+    $('#solicitantes').val('');
 }
 
 function sendDataToController_create(){
-        var matrix = readTableData();
-        $.ajax({
-            url: inside_url+'verif_metrologica/submit_programacion',
-            type: 'POST',
-            data: {                
-                    'matrix_detalle' : matrix,
-                 },
-            beforeSend: function(){
-                $("#delete-selected-profiles").addClass("disabled");
-                $("#delete-selected-profiles").hide();
-                $(".loader_container").show();
-            },
-            complete: function(){
-                $(".loader_container").hide();
-                $("#delete-selected-profiles").removeClass("disabled");
-                $("#delete-selected-profiles").show();
-                delete_selected_profiles = true;
-            },
-            success: function(response){
-                if(response.success){                    
-                    var array_detalle = response["url"];
-                    var message = response["message"];
-                    var type_message = response["type_message"];
-                    var inside_url = array_detalle;
-                    if(type_message=="bg-success"){
-                        dialog = BootstrapDialog.show({
-                            title: 'Advertencia',
-                            message: message,
-                            type : BootstrapDialog.TYPE_SUCCESS,
-                            buttons: [{
-                                label: 'Aceptar',
-                                action: function(dialog) {
-                                    var url = inside_url + "verif_metrologica/list_verif_metrologica";
-                                    window.location = url;
-                                }
-                            }]
-                        });
-                    }else{
-                        dialog = BootstrapDialog.show({
-                            title: 'Advertencia',
-                            message: message,
-                            type : BootstrapDialog.TYPE_DANGER,
-                            buttons: [{
-                                label: 'Aceptar',
-                                action: function(dialog) {
-                                    dialog.close();
-                                }
-                            }]
-                        });
+    var matrix = readTableData();
+    BootstrapDialog.confirm({
+        title: 'Mensaje de Confirmación',
+        message: '¿Está seguro que desea realizar esta acción?', 
+        type: BootstrapDialog.TYPE_INFO,
+        btnCancelLabel: 'Cancelar', 
+        btnOKLabel: 'Aceptar', 
+        callback: function(result){
+            if(result) {
+                 $.ajax({
+                    url: inside_url+'verif_metrologica/submit_programacion',
+                    type: 'POST',
+                    data: {                
+                            'matrix_detalle' : matrix,
+                         },
+                    beforeSend: function(){
+                        $("#delete-selected-profiles").addClass("disabled");
+                        $("#delete-selected-profiles").hide();
+                        $(".loader_container").show();
+                    },
+                    complete: function(){
+                        $(".loader_container").hide();
+                        $("#delete-selected-profiles").removeClass("disabled");
+                        $("#delete-selected-profiles").show();
+                        delete_selected_profiles = true;
+                    },
+                    success: function(response){
+                        if(response.success){                    
+                            var array_detalle = response["url"];
+                            var message = response["message"];
+                            var type_message = response["type_message"];
+                            var inside_url = array_detalle;
+                            if(type_message=="bg-success"){
+                                dialog = BootstrapDialog.show({
+                                    title: 'Advertencia',
+                                    message: message,
+                                    type : BootstrapDialog.TYPE_SUCCESS,
+                                    buttons: [{
+                                        label: 'Aceptar',
+                                        action: function(dialog) {
+                                            var url = inside_url + "verif_metrologica/list_verif_metrologica";
+                                            window.location = url;
+                                        }
+                                    }]
+                                });
+                            }else{
+                                dialog = BootstrapDialog.show({
+                                    title: 'Advertencia',
+                                    message: message,
+                                    type : BootstrapDialog.TYPE_DANGER,
+                                    buttons: [{
+                                        label: 'Aceptar',
+                                        action: function(dialog) {
+                                            dialog.close();
+                                        }
+                                    }]
+                                });
+                            }
+                            
+                        }else{
+                            alert('La petición no se pudo completar, inténtelo de nuevo.');
+                        }
+                    },
+                    error: function(){
+                        alert('La petición no se pudo completar, inténtelo de nuevo.');
                     }
-                    
-                }else{
-                    alert('La petición no se pudo completar, inténtelo de nuevo.');
-                }
-            },
-            error: function(){
-                alert('La petición no se pudo completar, inténtelo de nuevo.');
+                });
             }
-        });
-    }
+        }
+    });       
+}

@@ -72,7 +72,7 @@ class OtCorrectivo extends Eloquent{
 				$query->where(DB::raw('STR_TO_DATE(ot_correctivos.fecha_programacion,\'%Y-%m-%d\')'),'>=',date('Y-m-d',strtotime($search_ini)));
 			  if($search_fin != "")
 				$query->where(DB::raw('STR_TO_DATE(ot_correctivos.fecha_programacion,\'%Y-%m-%d\')'),'<=',date('Y-m-d',strtotime($search_fin)));
-			  $query->select('ubicacion_fisicas.nombre as nombre_ubicacion','areas.nombre as nombre_area','users.nombre as nombre_user','users.apellido_pat','users.apellido_mat','servicios.nombre as nombre_servicio','estados.nombre as nombre_estado','ot_correctivos.*');
+			  $query->select('ubicacion_fisicas.nombre as nombre_ubicacion','areas.nombre as nombre_area','users.nombre as nombre_user','users.apellido_pat','users.apellido_mat','servicios.nombre as nombre_servicio','estados.nombre as nombre_estado','ot_correctivos.*','solicitud_orden_trabajos.sot_tipo_abreviatura','solicitud_orden_trabajos.sot_correlativo','solicitud_orden_trabajos.sot_activo_abreviatura');
 	  	return $query;
 	}
 
