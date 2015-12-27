@@ -616,3 +616,18 @@ Route::group(array('prefix'=>'mapa_procesos', 'before'=>'auth'),function(){
 	Route::post('/submit_disable_proceso','MapaProcesosController@submit_disable_proceso');
 	Route::post('/submit_enable_proceso','MapaProcesosController@submit_enable_proceso');	
 });
+
+/* Programacion de guias y ETES */
+Route::group(array('prefix'=>'programacion_guias','before'=>'auth'),function(){
+	Route::get('/list_programacion_guias','ProgramacionGuiasController@list_programacion_guias');
+	Route::get('/search_programacion_guias','ProgramacionGuiasController@search_programacion_guias');
+	Route::get('/create_programacion_guias','ProgramacionGuiasController@render_create_programacion_guias');
+	//FALTA
+	Route::post('/submit_create_programacion_guia_ts','ProgramacionGuiasController@submit_create_programacion_reporte_cn');
+	Route::post('/submit_create_programacion_guia_gpc','ProgramacionGuiasController@submit_create_programacion_reporte_etes');
+	Route::post('/submit_create_programacion_reporte_etes','ProgramacionReportesController@submit_create_programacion_reporte_etes');
+	Route::post('/return_area/{postData}','ProgramacionGuiasController@return_area');
+	Route::post('/return_programacion_ts/{postData}','ProgramacionGuiasController@return_programacion_ts');
+	Route::post('/return_programacion_etes/{postData}','ProgramacionGuiasController@return_programacion_etes');
+	Route::post('/return_programacion_gpc/{postData}','ProgramacionGuiasController@return_programacion_gpc');
+});

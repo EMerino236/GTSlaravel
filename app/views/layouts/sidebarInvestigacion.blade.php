@@ -37,6 +37,10 @@
                     <li>{{ HTML::link('/reporte_etes/list_reporte_etes','ETES de procedimientos clínicos') }}</li>
                 </ul>
             </li>
+            <li>
+                {{ HTML::link('programacion_guias/list_programacion_guias','Programación de elaboración de Guías y Reporte ETES') }}
+                
+            </li>
         </ul>
     </div>
     <!-- /.sidebar-collapse -->
