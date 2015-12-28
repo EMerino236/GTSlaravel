@@ -1,4 +1,22 @@
 $( document ).ready(function(){
+    $('#search_datetimepicker1').datetimepicker({
+        ignoreReadonly: true,
+        format:'DD-MM-YYYY'
+    });
+
+    $('#search_datetimepicker2').datetimepicker({
+        ignoreReadonly: true,
+        format:'DD-MM-YYYY'
+    });
+
+    $("#search_datetimepicker1").on("dp.change", function (e) {
+        $('#search_datetimepicker2').data("DateTimePicker").minDate(e.date);
+    });
+    
+    $("#search_datetimepicker2").on("dp.change", function (e) {
+        $('#search_datetimepicker1').data("DateTimePicker").maxDate(e.date);
+    });
+
     $('#datetimepicker_search_anho3').datetimepicker({
         useCurrent: false,
         defaultDate: false,
