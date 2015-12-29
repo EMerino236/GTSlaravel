@@ -1,5 +1,6 @@
 <html>
 	<head>
+		<meta charset="UTF-8">
 		<style type="text/css">
 			body{
 				font-size: 10px;

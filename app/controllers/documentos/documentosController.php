@@ -28,16 +28,27 @@ class DocumentoController extends BaseController {
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 ){
 				// Validate the info, create rules for the inputs
+				$attributes = array(
+					'nombre' => 'Nombre del Documento',
+					'descripcion' => 'Descripción',
+					'autor' => 'Autor',
+					'codigo_archivamiento' => 'Código de Archivamiento',
+					'ubicacion' => 'Ubicación',	
+					'archivo' => 'Archivo',			
+				);
+
+				$messages = array();
+
 				$rules = array(
-							'nombre' => 'required|max:100|unique:documentos',
-							'descripcion' => 'required|max:200',
-							'autor' => 'required|max:100',
-							'codigo_archivamiento' => 'required|max:100|unique:documentos',
-							'ubicacion' => 'required|max:100',	
-							'archivo' => 'max:15360',			
-						);
+					'nombre' => 'required|max:100|unique:documentos|alpha_num_spaces',
+					'descripcion' => 'required|max:200|alpha_num_spaces',
+					'autor' => 'required|max:100|alpha_num_spaces',
+					'codigo_archivamiento' => 'required|max:100|unique:documentos|alpha_num',
+					'ubicacion' => 'required|max:100|alpha_num_spaces',	
+					'archivo' => 'max:15360',			
+				);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					return Redirect::to('documento/create_documento')->withErrors($validator)->withInput(Input::all());
@@ -51,21 +62,31 @@ class DocumentoController extends BaseController {
 				        $nombreArchivo        = $archivo->getClientOriginalName();
 				        $nombreArchivoEncriptado = Str::random(27).'.'.pathinfo($nombreArchivo, PATHINFO_EXTENSION);
 				        $uploadSuccess = $archivo->move($rutaDestino, $nombreArchivoEncriptado);
+				    	$documento = new Documento;
+						$documento->nombre = Input::get('nombre');
+						$documento->nombre_archivo = $nombreArchivo;
+						$documento->nombre_archivo_encriptado = $nombreArchivoEncriptado;
+						$documento->descripcion = Input::get('descripcion');
+						$documento->autor = Input::get('autor');
+						$documento->codigo_archivamiento = Input::get('codigo_archivamiento');
+						$documento->ubicacion = Input::get('ubicacion');
+						$documento->url = $rutaDestino;
+						$documento->idtipo_documento = Input::get('idtipo_documento');
+						$documento->idestado = 1;
+						$documento->save();
+				    }else{
+				    	$documento = new Documento;
+						$documento->nombre = Input::get('nombre');
+						$documento->descripcion = Input::get('descripcion');
+						$documento->autor = Input::get('autor');
+						$documento->codigo_archivamiento = Input::get('codigo_archivamiento');
+						$documento->ubicacion = Input::get('ubicacion');
+						$documento->idtipo_documento = Input::get('idtipo_documento');
+						$documento->idestado = 1;
+						$documento->save();
 				    }
 
-
-					$documento = new Documento;
-					$documento->nombre = Input::get('nombre');
-					$documento->nombre_archivo = $nombreArchivo;
-					$documento->nombre_archivo_encriptado = $nombreArchivoEncriptado;
-					$documento->descripcion = Input::get('descripcion');
-					$documento->autor = Input::get('autor');
-					$documento->codigo_archivamiento = Input::get('codigo_archivamiento');
-					$documento->ubicacion = Input::get('ubicacion');
-					$documento->url = $rutaDestino;
-					$documento->idtipo_documento = Input::get('idtipo_documento');
-					$documento->idestado = 1;
-					$documento->save();
+					
 					Session::flash('message', 'Se registró correctamente el Documento.');				
 					return Redirect::to('documento/create_documento');
 				}
@@ -109,12 +130,24 @@ class DocumentoController extends BaseController {
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 ){
 				// Validate the info, create rules for the inputs
+				$iddocumento = Input::get('documento_id');
+				$attributes = array(
+					'nombre' => 'Nombre del Documento',
+					'descripcion' => 'Descripción',
+					'autor' => 'Autor',
+					'codigo_archivamiento' => 'Código de Archivamiento',
+					'ubicacion' => 'Ubicación'	
+				);
+
+				$messages = array();
+
 				$rules = array(
-							'descripcion' => 'required|max:200',
-							'autor' => 'required|max:100',
-							'codigo_archivamiento' => 'required|max:100',
-							'ubicacion' => 'required|max:100',				
-						);
+					'nombre' => 'required|max:100|alpha_num_spaces|unique:documentos,nombre,'.$iddocumento.',iddocumento',
+					'descripcion' => 'required|max:200|alpha_num_spaces',
+					'autor' => 'required|max:100|alpha_num_spaces',
+					'codigo_archivamiento' => 'required|max:100|alpha_num|unique:documentos,codigo_archivamiento,'.$iddocumento.',iddocumento',
+					'ubicacion' => 'required|max:100|alpha_num_spaces'
+				);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules);
 				// If the validator fails, redirect back to the form

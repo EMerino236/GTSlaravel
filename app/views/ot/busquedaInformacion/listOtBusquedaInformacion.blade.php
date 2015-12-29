@@ -7,8 +7,18 @@
         <!-- /.col-lg-12 -->
     </div>
     @if (Session::has('message'))
-		<div class="alert alert-success">{{ Session::get('message') }}</div>
+		<div class="alert alert-success">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('message') }}
+		</div>
 	@endif
+	@if (Session::has('error'))
+		<div class="alert alert-danger">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('error') }}
+		</div>
+	@endif
+
 		<div class="container-fluid form-group row">
 			<div class="col-md-4 col-md-offset-8">
 				<a class="btn btn-primary btn-block" href="{{URL::to('/solicitud_busqueda_informacion/create_sot')}}">
@@ -87,7 +97,6 @@
 					<th class="text-nowrap text-center">Estado SOT</th>
 					<th class="text-nowrap text-center">Número de OT</th>
 					<th class="text-nowrap text-center">Estado OT</th>
-					<th class="text-nowrap text-center">Eliminar OT</th>
 				</tr>
 				@foreach($busquedas as $index => $busqueda)
 					{{Form::hidden('idsot',$busqueda->idsolicitud_busqueda_info,array('id'=>'idsot'.$index))}}
@@ -115,12 +124,10 @@
 										<span class="glyphicon glyphicon-plus"></span> Crear OTM</a>
 									</td>
 									<td class="text-nowrap text-center"> - </td>
-									<td class="text-nowrap text-center"> - </td>
 								@else
 									<td class="text-nowrap text-center">
 										-
 									</td>
-									<td class="text-nowrap text-center"> - </td>
 									<td class="text-nowrap text-center"> - </td>
 								@endif
 							@elseif($busqueda->idestado == 26)								
@@ -130,19 +137,14 @@
 								<td class="text-nowrap text-center">
 									{{$busqueda->nombre_estado_ot}}
 								</td>
-								<td class="text-nowrap text-center"> - </td>
 							@else
-								@if($busqueda->idestado_ot !=25)
+								@if($busqueda->idestado_ot == 9)
 									{{Form::hidden('idot_busqueda_info',$busqueda->idot,array('id'=>'idot_busqueda_info'.$index))}}
-									
 									<td class="text-nowrap text-center">
 										<a href="{{URL::to('/busqueda_informacion/create_ot_busqueda_informacion/')}}/{{$busqueda->idot}}">{{$busqueda->ot_tipo_abreviatura}}{{$busqueda->ot_correlativo}}</a>
 									</td>
 									<td class="text-nowrap text-center">
 										{{$busqueda->nombre_estado_ot}}
-									</td>
-									<td class="text-nowrap text-center">
-										<div class="btn btn-danger btn-block" onclick='eliminar_ot(event,this)'><span class="glyphicon glyphicon-trash"></span></div>
 									</td>
 								@else
 									{{Form::hidden('idot_busqueda_info',$busqueda->idot,array('id'=>'idot_busqueda_info'.$index))}}
@@ -151,9 +153,6 @@
 									</td>
 									<td class="text-nowrap text-center">
 										{{$busqueda->nombre_estado_ot}}
-									</td>									
-									<td class="text-nowrap text-center">
-										-
 									</td>
 								@endif
 							@endif

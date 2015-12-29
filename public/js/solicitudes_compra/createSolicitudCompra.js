@@ -449,6 +449,9 @@ function readTableData(){
             btnOKLabel: 'Aceptar', 
             callback: function(result){
                 if(result) {
+                    var alphanumeric_pattern = /[^á-úÁ-Úa-zA-ZñÑüÜ0-9- _.]/;
+
+                    if(sustento.length < 1  || sustento.length >100  || alphanumeric_pattern.test(sustento))
                     $.ajax({
                         url: inside_url+'solicitudes_compra/submit_create_solicitud_compra',
                         type: 'POST',

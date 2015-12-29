@@ -22,7 +22,7 @@
 		<div class="alert alert-danger">{{ Session::get('error') }}</div>
 	@endif
 
-	{{ Form::open(array('url'=>'busqueda_informacion/submit_create_ot', 'role'=>'form')) }}
+	{{ Form::open(array('url'=>'busqueda_informacion/submit_create_ot', 'role'=>'form','id'=>'submit_ot_busqueda')) }}
 		{{ Form::hidden('idot_busqueda_info', $ot_info->idot_busqueda_info,array('id'=>'idot_busqueda_info'))}}
 		<div class="panel panel-default">
 			<div class="panel-heading">
@@ -167,43 +167,39 @@
 				<h3 class="panel-title">Actividades de la OTM</h3>
 			</div>
 			<div class="panel-body">
-				<div class="col-md-12">
-					<div class="row">
-						<div class="col-md-8 form-group">
-							{{ Form::label('nombre_tarea','Actividad:') }}
-							{{ Form::text('nombre_tarea',null,array('class' => 'form-control','placeholder'=>'Ingrese nombre de la tarea' ,'id'=>'nombre_tarea')) }}
-						</div>
-						<div class="col-md-4 form-group">
-							{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Agregar',array('id'=>'submit-tarea', 'class'=>'btn btn-primary','style'=>'margin-top:25px')) }}
-						</div>
+				<div class="row">
+					<div class="col-md-8 form-group">
+						{{ Form::label('nombre_tarea','Actividad:') }}
+						{{ Form::text('nombre_tarea',null,array('class' => 'form-control','placeholder'=>'Ingrese nombre de la tarea' ,'id'=>'nombre_tarea')) }}
+					</div>
+					<div class="col-md-4 form-group">
+						{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Agregar',array('id'=>'submit-tarea', 'class'=>'btn btn-primary','style'=>'margin-top:25px')) }}
 					</div>
 				</div>
-				<div class="col-md-12">
-					<div class="row">		
-						<div class="col-md-10">
-							<table class="table" id="tareas-table" >
-								<tr class="info">
-									<th>Actividad</th>
-									<th>Realizada</th>
-									<th>Operaciones</th>
-								</tr>
-								@foreach($tareas as $tarea)
-								<tr id="tarea-row-{{$tarea->idtareas_ot_busqueda_info}}">
-									<td>{{$tarea->nombre}}</td>
-									<td>
-										@if($tarea->idestado_realizado == 23)
-											{{ Form::button('Marcar realizada',array('class'=>'btn btn-default boton-tarea','data-id'=>$tarea->idtareas_ot_busqueda_info)) }}
-										@else
-											Realizada
-										@endif
-									</td>
-									<td>
-										<button class="btn btn-danger boton-eliminar-tarea" onclick="eliminar_tarea(event,{{$tarea->idtareas_ot_busqueda_info}})" type="button">Eliminar</button>
-									</td>
-								</tr>
-								@endforeach
-							</table>
-						</div>
+				<div class="row">		
+					<div class="col-md-10">
+						<table class="table" id="tareas-table" >
+							<tr class="info">
+								<th class="text-nowrap text-center">Actividad</th>
+								<th class="text-nowrap text-center">Realizada</th>
+								<th class="text-nowrap text-center">Eliminar</th>
+							</tr>
+							@foreach($tareas as $tarea)
+							<tr id="tarea-row-{{$tarea->idtareas_ot_busqueda_info}}">
+								<td class="text-nowrap">{{$tarea->nombre}}</td>
+								<td class="text-nowrap text-center">
+									@if($tarea->idestado_realizado == 23)
+										<button class="btn btn-success boton-tarea" data-id="{{$tarea->idtareas_ot_busqueda_info}}" type="button"><span class="glyphicon glyphicon-ok"></span> Marcar Realizada</button>
+									@else
+										Realizada
+									@endif
+								</td>
+								<td class="text-nowrap text-center">
+									<button class="btn btn-danger boton-eliminar-tarea" onclick="eliminar_tarea(event,{{$tarea->idtareas_ot_busqueda_info}})" type="button"><span class="glyphicon glyphicon-trash"></span></button>
+								</td>
+							</tr>
+							@endforeach
+						</table>
 					</div>
 				</div>
 			</div>
@@ -214,41 +210,43 @@
 				<h3 class="panel-title">Datos de mano de obra</h3>
 			</div>
 			<div class="panel-body">
-				<div class="col-md-12">
-					<div class="row">
-						<div class="form-group col-md-5">
-							{{ Form::text('nombre_personal', null,array('class'=>'form-control','placeholder'=>'Nombres Apellidos')) }}
-						</div>
-						<div class="form-group col-md-3">
-							{{ Form::text('horas_trabajadas', null,array('class'=>'form-control','placeholder'=>'Hrs. Trab. ejem: 0.5')) }}
-						</div>
-						<div class="form-group col-md-2">
-							{{ Form::text('costo_personal', null,array('class'=>'form-control','placeholder'=>'Costo (S/.)')) }}
-						</div>
-						<div class="form-group col-md-2">
-							{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Agregar',array('id'=>'submit-personal', 'class'=>'btn btn-primary')) }}
-						</div>
+				<div class="row">
+					<div class="form-group col-md-5">
+						{{ Form::text('nombre_personal', null,array('class'=>'form-control','placeholder'=>'Nombres Apellidos')) }}
+					</div>
+					<div class="form-group col-md-3">
+						{{ Form::text('horas_trabajadas', null,array('class'=>'form-control','placeholder'=>'Hrs. Trab. ejem: 0.5')) }}
+					</div>
+					<div class="form-group col-md-2">
+						{{ Form::text('costo_personal', null,array('class'=>'form-control','placeholder'=>'Costo (S/.)')) }}
+					</div>
+					<div class="form-group col-md-2">
+						{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Agregar',array('id'=>'submit-personal', 'class'=>'btn btn-primary')) }}
 					</div>
 				</div>
-				<div class="col-md-12">
-					<table id="personal-table" class="table">
-						<tr class="info">
-							<th>Nombres y Apellidos</th>
-							<th>Horas Trabajadas</th>
-							<th>Subtotal</th>
-							<th>Operaciones</th>
-						</tr>
-						@foreach($personal_data as $personal)
-						<tr id="personal-row-{{ $personal->idpersonal_ot_busqueda_info }}">
-							<td>{{$personal->nombre}}</td>
-							<td>{{$personal->horas_hombre}}</td>
-							<td>{{$personal->costo}}</td>
-							<td>
-								<button class="btn btn-danger boton-eliminar-mano-obra" onclick="eliminar_personal(event,{{$personal->idpersonal_ot_busqueda_info}})" type="button">Eliminar</button>
-							</td>
-						</tr>
-						@endforeach
-					</table>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="table-responsive">
+							<table id="personal-table" class="table">
+								<tr class="info">
+									<th class="text-nowrap text-center">Nombres y Apellidos</th>
+									<th class="text-nowrap text-center">Horas Trabajadas</th>
+									<th class="text-nowrap text-center">Costo por Hora</th>
+									<th class="text-nowrap text-center">Eliminar</th>
+								</tr>
+								@foreach($personal_data as $personal)
+								<tr id="personal-row-{{ $personal->idpersonal_ot_busqueda_info }}">
+									<td class="text-nowrap">{{$personal->nombre}}</td>
+									<td class="text-nowrap text-center">{{$personal->horas_hombre}}</td>
+									<td class="text-nowrap text-center">{{$personal->costo}}</td>
+									<td class="text-nowrap text-center">
+										<button class="btn btn-danger boton-eliminar-mano-obra" onclick="eliminar_personal(event,{{$personal->idpersonal_ot_busqueda_info}})" type="button"><span class="glyphicon glyphicon-trash"></span></button>
+									</td>
+								</tr>
+								@endforeach
+							</table>
+						</div>
+					</div>
 				</div>
 				<div class="col-md-12">
 					<div class="row">						
@@ -264,7 +262,7 @@
 		</div>
 		<div class="row">
 			<div class="form-group col-md-2">
-				{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit_create_ots', 'type'=>'submit','class' => 'btn btn-primary btn-block')) }}
+				{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit_ot','class' => 'btn btn-primary btn-block')) }}
 			</div>
 			<div class="form-group col-md-2">
 				<a class="btn btn-default btn-block" href="{{URL::to('/solicitud_busqueda_informacion/list_busqueda_informacion')}}">Cancelar</a>				

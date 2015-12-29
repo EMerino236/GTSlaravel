@@ -128,9 +128,9 @@ class OrdenesTrabajoInspeccionEquipo extends Eloquent{
 				  			  	  ->orWhere('proveedores.nombre_contacto','LIKE',"%$search_proveedor%");
 				  	});
 				  if($search_ini != "")
-					$query->where(DB::raw('STR_TO_DATE(ot_inspec_equipos.fecha_programacion,\'%Y-%m-%d\')'),'>=',date('Y-m-d H:i:s',strtotime($search_ini)));
+					$query->where(DB::raw('STR_TO_DATE(ot_inspec_equipos.fecha_inicio,\'%Y-%m-%d\')'),'>=',date('Y-m-d H:i:s',strtotime($search_ini)));
 				  if($search_fin != "")
-					$query->where(DB::raw('STR_TO_DATE(ot_inspec_equipos.fecha_programacion,\'%Y-%m-%d\')'),'<=',date('Y-m-d H:i:s',strtotime($search_fin)));
+					$query->where(DB::raw('STR_TO_DATE(ot_inspec_equipos.fecha_inicio,\'%Y-%m-%d\')'),'<=',date('Y-m-d H:i:s',strtotime($search_fin)));
 				  if($search_codigo_ot != "")
 				  	$query->where(DB::raw("CONCAT(ot_inspec_equipos.ot_tipo_abreviatura,ot_inspec_equipos.ot_correlativo)"),'LIKE',"%$search_codigo_ot%");
 

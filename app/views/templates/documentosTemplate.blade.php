@@ -23,6 +23,8 @@
     <script type="text/javascript">
 		var inside_url = "{{$inside_url}}";
 	</script>
+    <!--Bootstrap-Dialog CSS-->
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-dialog.min.css') }}">
 
     <!-- jQuery -->
     <script src="{{ asset('bower_components/jquery/dist/jquery.min.js') }}"></script>
@@ -41,6 +43,8 @@
     <script src="{{ asset('js/fileinput.min.js') }}"></script>
     <script src="{{ asset('js/fileinput_locale_es.min.js') }}"></script>
     <script src="{{ asset('js/language_file_upload_plugin.min.js') }}"></script>
+    <!--Bootstrap-Dialog Javascritp-->
+    <script src="{{asset('js/bootstrap-dialog.min.js') }}"></script>  
 </head>
 
 <body>
