@@ -13,6 +13,18 @@ $( document ).ready(function(){
 		submit_delete_soporte_tecnico_proveedor_ajax(idsoporte_tecnico);
 	});
 
+	$('#tipo_documento_identidad').change(function(){
+		val = $('#tipo_documento_identidad').val();
+		if(val == 0){
+			$('#numero_documento_soporte_tecnico').attr('maxlength','12');
+		}else if(val == 1){
+			$('#numero_documento_soporte_tecnico').attr('maxlength','8');
+		}else{
+			$('#numero_documento_soporte_tecnico').attr('maxlength','12');
+		}
+		
+	});
+
 });
 
 function submit_delete_soporte_tecnico_proveedor_ajax(idsoporte_tecnico)

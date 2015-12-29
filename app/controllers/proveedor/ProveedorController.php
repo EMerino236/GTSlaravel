@@ -83,8 +83,8 @@ class ProveedorController extends BaseController {
 
 				$rules = array(
 							'proveedor_ruc' => 'required|numeric|digits:11',
-							'proveedor_razon_social' => 'required|max:100|unique:proveedores,razon_social',
-							'proveedor_nombre_contacto' => 'required|max:200',
+							'proveedor_razon_social' => 'required|max:100|unique:proveedores,razon_social|alpha_num_spaces',
+							'proveedor_nombre_contacto' => 'required|max:200|alpha_spaces',
 							'email' => 'required|email|max:45',
 							'telefono' => 'required|digits:7|max:45',							
 						);
@@ -145,6 +145,7 @@ class ProveedorController extends BaseController {
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				// Validate the info, create rules for the inputs
+				$proveedor_id = Input::get('proveedor_id');
 				$attributes = array(
 					'proveedor_ruc' => 'Número de RUC',
 					'proveedor_razon_social' => 'Razón Social',
@@ -157,9 +158,9 @@ class ProveedorController extends BaseController {
 				$messages = array(
 					);
 				$rules = array(
-					'proveedor_ruc' => 'required|numeric|digits:11',
-					'proveedor_razon_social' => 'required',
-					'proveedor_nombre_contacto' => 'required|max:200',
+					'proveedor_ruc' => 'required|numeric|digits:11|unique:proveedores,ruc,'.$proveedor_id.',idproveedor',
+					'proveedor_razon_social' => 'required|alpha_num_spaces|unique:proveedores,razon_social,'.$proveedor_id.',idproveedor',
+					'proveedor_nombre_contacto' => 'required|max:200|alpha_spaces',
 					'email' => 'required|email|max:45',
 					'telefono' => 'required|digits:7|max:45',					
 					'estado' => 'required',
@@ -168,14 +169,13 @@ class ProveedorController extends BaseController {
 				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
-					$proveedor_id = Input::get('proveedor_id');
 					$url = "proveedores/edit_proveedor/".$proveedor_id;
 					return Redirect::to($url)->withErrors($validator)->withInput(Input::all());
 				}else{
-					$proveedor_id = Input::get('proveedor_id');
 					$url = "proveedores/edit_proveedor/".$proveedor_id;
 					
-					$proveedor = Proveedor::find($proveedor_id);					
+					$proveedor = Proveedor::find($proveedor_id);
+					$proveedor->ruc = Input::get('proveedor_ruc');					
 					$proveedor->razon_social = Input::get('proveedor_razon_social');
 					$proveedor->nombre_contacto = Input::get('proveedor_nombre_contacto');
 					$proveedor->email = Input::get('email');
@@ -230,6 +230,7 @@ class ProveedorController extends BaseController {
 
 			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 
+				$tipo_doc = Input::get('tipo_documento_identidad');
 				$attributes = array(					
 					'tipo_documento_identidad' => 'Tipo de Documento',
 					'numero_documento_soporte_tecnico' => 'Número de Documento',
@@ -247,14 +248,21 @@ class ProveedorController extends BaseController {
 
 				$rules = array(					
 					'tipo_documento_identidad' => 'required',
-					'numero_documento_soporte_tecnico' => 'required | unique:soporte_tecnicos,numero_doc_identidad',
-					'nombre_soporte_tecnico' => 'required',
-					'apPaterno_soporte_tecnico' => 'required',
-					'apMaterno_soporte_tecnico' => 'required',
-					'especialidad_soporte_tecnico' => 'required',
-					'telefono_soporte_tecnico' => 'required',
-					'email_soporte_tecnico' => 'required'
+					'nombre_soporte_tecnico' => 'required|alpha_spaces',
+					'apPaterno_soporte_tecnico' => 'required|alpha_spaces',
+					'apMaterno_soporte_tecnico' => 'required|alpha_spaces',
+					'especialidad_soporte_tecnico' => 'required|alpha_spaces',
+					'telefono_soporte_tecnico' => 'required|numeric|digits:7',
+					'email_soporte_tecnico' => 'required|email|max:45'
 					);
+
+				if($tipo_doc == 1){
+					$element = array('numero_documento_soporte_tecnico'=>'required|numeric|digits:8| unique:soporte_tecnicos,numero_doc_identidad');
+					$rules += $element;
+				}else{
+					$element = array('numero_documento_soporte_tecnico'=>'required|numeric|digits:12| unique:soporte_tecnicos,numero_doc_identidad');
+					$rules += $element;
+				}
 
 				$validator = Validator::make(Input::all(), $rules, $messages, $attributes);
 
@@ -392,7 +400,8 @@ class ProveedorController extends BaseController {
 
 				if($data["proveedor_info"]->isEmpty())
 				{
-					return Redirect::to('user/list_proveedores');
+					Session::flash('error', 'No se encontró el proveedor.');
+					return Redirect::to('proveedores/list_proveedores');
 				}
 
 				$data["proveedor_info"] = $data["proveedor_info"][0];

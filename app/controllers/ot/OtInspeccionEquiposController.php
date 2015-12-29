@@ -337,7 +337,8 @@ class OtInspeccionEquiposController extends BaseController {
 				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
 				$data["ot_info"] = OrdenesTrabajoInspeccionEquipo::searchOtInspeccionEquipoById($id)->get();
 				if($data["ot_info"]->isEmpty()){
-					return Redirect::to('inspec_equipo/list_inspec_equipos');
+					Session::flash('error', 'No se encontró la OT.');
+					return Redirect::to('inspec_equipos/list_inspec_equipos');
 				}
 				$data["ot_info"] = $data["ot_info"][0];		
 				$idservicio = $data["ot_info"]->idservicio;
@@ -508,7 +509,8 @@ class OtInspeccionEquiposController extends BaseController {
 				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
 				$data["ot_info"] = OrdenesTrabajoInspeccionEquipo::searchOtInspeccionEquipoById($id)->get();
 				if($data["ot_info"]->isEmpty()){
-					return Redirect::to('inspec_equipo/list_inspec_equipos');
+					Session::flash('error', 'No se encontró la OT.');
+					return Redirect::to('inspec_equipos/list_inspec_equipos');
 				}
 				$data["ot_info"] = $data["ot_info"][0];		
 				$idservicio = $data["ot_info"]->idservicio;

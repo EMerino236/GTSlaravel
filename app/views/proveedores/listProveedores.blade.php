@@ -29,7 +29,7 @@
 				<div class="form-group row">
 					<div class="col-md-4">
 						{{ Form::label('search_proveedor_ruc','RUC') }}				
-						{{ Form::text('search_proveedor_ruc',$search_proveedor_ruc,array('class'=>'form-control','placeholder'=>'Número de RUC')) }}
+						{{ Form::text('search_proveedor_ruc',$search_proveedor_ruc,array('class'=>'form-control','placeholder'=>'Número de RUC','maxlength'=>'11')) }}
 					</div>
 					<div class="col-md-4">
 						{{ Form::label('search_proveedor_razon_social','Razón Social') }}				
@@ -39,7 +39,7 @@
 						{{ Form::button('<span class="glyphicon glyphicon-search"></span> Buscar', array('id'=>'submit-search-form','type' => 'submit', 'class' => 'btn btn-primary btn-block', 'style' => 'margin-top:25px')) }}				
 					</div>
 					<div class="col-md-2">
-						<div class="btn btn-default btn-block" id="btnLimpiar_list_activos" style="margin-top:25px">Limpiar</div>				
+						<div class="btn btn-default btn-block" id="btnLimpiar_list_proveedores" style="margin-top:25px"><span class="glyphicon glyphicon-refresh"></span> Limpiar</div>				
 					</div>
 
 				</div>	

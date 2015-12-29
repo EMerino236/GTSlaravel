@@ -299,6 +299,7 @@ class OtVerificacionMetrologicaController extends BaseController {
 
 				$data["ot_info"] = OrdenesTrabajoVerifMetrologica::searchOtVerifMetrologicaById($id)->get();
 				if($data["ot_info"]->isEmpty()){
+					Session::flash('error', 'No se encontró la OT.');
 					return Redirect::to('verif_metrologica/list_verif_metrologica');
 				}
 				$data["ot_info"] = $data["ot_info"][0];
@@ -571,6 +572,7 @@ class OtVerificacionMetrologicaController extends BaseController {
 
 				$data["ot_info"] = OrdenesTrabajoVerifMetrologica::searchOtVerifMetrologicaById($id)->get();
 				if($data["ot_info"]->isEmpty()){
+					Session::flash('error', 'No se encontró la OT.');
 					return Redirect::to('verif_metrologica/list_verif_metrologica');
 				}
 				$data["ot_info"] = $data["ot_info"][0];

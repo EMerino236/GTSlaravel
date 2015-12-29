@@ -26,4 +26,11 @@ $( document ).ready(function(){
 	    minDate: ayer,
 	    disabledDates: [ayer]
 	});
+
+	$('#btnLimpiar_list_proveedores').click(function(){
+		$('#search_proveedor_ruc').val(null);
+		$('#search_proveedor_razon_social').val(null);
+	});
+
+	
 });

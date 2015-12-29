@@ -27,12 +27,12 @@ function init_ot_list(){
 }
 
 function limpiar_criterios(){
-    $('#search_ing').val('');
-    $('#search_ot').val('');
-    $('#search_ubicacion').val('');
-    $('#search_equipo').val('');
-    $('#search_proveedor').val('');
-    $('#search_ini').val('');
-    $('#search_fin').val('');
-    $('#search_cod_pat').val('');
+    $('#search_ing').val(null);
+    $('#search_ot').val(null);
+    $('#search_ubicacion').val(null);
+    $('#search_equipo').val(null);
+    $('#search_proveedor').val(null);
+    $('#search_ini').val(null);
+    $('#search_fin').val(null);
+    $('#search_cod_pat').val(null);
 }

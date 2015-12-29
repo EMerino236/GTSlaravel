@@ -142,7 +142,7 @@ class SotController extends BaseController {
 				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
 				$data["sot_info"] = SolicitudOrdenTrabajo::searchSotById($id)->get();
 				if($data["sot_info"]->isEmpty()){
-					return Redirect::to('user/list_proveedores');
+					return Redirect::to('sot/list_sots');
 				}
 				$data["sot_info"] = $data["sot_info"][0];
 				return View::make('sot/editSot',$data);

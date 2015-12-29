@@ -6,6 +6,9 @@ $( document ).ready(function(){
  		format:'DD-MM-YYYY'
  	});
 
+    $("#datetimepicker1").on("dp.change", function (e) {
+        $('#datetimepicker1').data("DateTimePicker").minDate(new Date());
+    });
 
     fill_responsable_servicio();
     fill_contacto_proveedor();
@@ -33,61 +36,6 @@ $( document ).ready(function(){
         }); 
     });
 
-    $('#numero_ot').change(function(){
-        numero_ot = $('#numero_ot').val();
-        $.ajax({
-            url: inside_url+'reportes_incumplimiento/validate_ot',
-            type: 'POST',
-            data: { 'numero_ot' : numero_ot,
-                },
-            beforeSend: function(){
-                $(".loader_container").show();
-            },
-            complete: function(){
-                $(".loader_container").hide();
-            },
-            success: function(response){
-                if(response.success){
-                    validate = response["existe"];
-                    if(validate == true){
-                        dialog = BootstrapDialog.show({
-                            title: 'Mensaje',
-                            type: BootstrapDialog.TYPE_SUCCESS,
-                            message: 'Orden de Mantenimiento Válida',
-                            buttons: [{
-                                label: 'Aceptar',
-                                cssClass: 'btn-default',
-                                action: function() {
-                                    dialog.close();
-                                }
-                            }]
-                        });
-                        $('#flag_ot').val(2);
-                    }else{
-                        dialog = BootstrapDialog.show({
-                            title: 'Mensaje',                            
-                            type: BootstrapDialog.TYPE_DANGER,
-                            message: 'Orden de Mantenimiento No Válida',
-                            buttons: [{
-                                label: 'Aceptar',
-                                cssClass: 'btn-default',
-                                action: function() {
-                                    dialog.close();
-                                }
-                            }]
-                        }); 
-                         $('#flag_ot').val(1);
-                    }
-
-                }else{
-                    alert('La petición no se pudo completar, inténtelo de nuevo.');
-                }
-            },
-            error: function(){
-                alert('La petición no se pudo completar, inténtelo de nuevo.');
-            }
-        });
-    });
 
     $('#btnValidate').click(function(){
         numero_ot = $('#numero_ot').val();
@@ -114,6 +62,7 @@ $( document ).ready(function(){
                                 label: 'Aceptar',
                                 cssClass: 'btn-default',
                                 action: function() {
+                                    $('#numero_ot').prop('readonly',true);
                                     dialog.close();
                                 }
                             }]
@@ -144,13 +93,88 @@ $( document ).ready(function(){
             }
         });
     });
+
+    $('#btnAddDoc').click(function(){
+        var val = $("#numero_contrato").val();
+        if(val=="")
+            val = "vacio";    
+        $.ajax({
+            url: inside_url+'reportes_incumplimiento/return_name_contrato/'+val,
+            type: 'POST',
+            data: { 'selected_id' : val },
+            beforeSend: function(){
+                $("#delete-selected-profiles").addClass("disabled");
+                $("#delete-selected-profiles").hide();
+                $(".loader_container").show();
+            },
+            complete: function(){
+                $(".loader_container").hide();
+                $("#delete-selected-profiles").removeClass("disabled");
+                $("#delete-selected-profiles").show();
+                delete_selected_profiles = true;
+            },
+            success: function(response){
+                if(response.success){
+                    var resp = response['contrato'];
+                    var reporte = response['reporte'];
+                    if(reporte == null || reporte.length ==0){
+                        if(resp!=null){
+                            if(resp[0] != null){
+                                $("#nombre_contrato").val("");
+                                $("#nombre_contrato").css('background-color','#5cb85c');
+                                $("#nombre_contrato").css('color','white');
+                                $("#nombre_contrato").val(resp[0].nombre);
+                                $("#btn_descarga").show();
+                                $("input[name=numero_contrato_hidden]").val(val);
+                                $('#flag_doc').val(2);
+                            }
+                            else{
+                                $("#nombre_contrato").val("Documento no registrado");
+                                $("#nombre_contrato").css('background-color','#d9534f');
+                                $("#nombre_contrato").css('color','white');
+                                $("#btn_descarga").hide();
+                                $("input[name=numero_contrato_hidden]").val(null);                                
+                                $('#flag_doc').val(1);
+                            } 
+                        }else{
+                            $("#nombre_contrato").val("Documento no registrado");
+                            $("#nombre_contrato").css('background-color','#d9534f');
+                            $("#nombre_contrato").css('color','white');
+                            $("#btn_descarga").hide();
+                            $("input[name=numero_contrato_hidden]").val(null);
+                            $('#flag_doc').val(1);
+                        }
+                    }else{
+                        dialog = BootstrapDialog.show({
+                            title: 'Mensaje',
+                            type: BootstrapDialog.TYPE_DANGER,
+                            message: 'Documento ya fue tomado',
+                            buttons: [{
+                                label: 'Aceptar',
+                                cssClass: 'btn-default',
+                                action: function() {
+                                   dialog.close();
+                                }
+                            }]
+                        });
+                        $('#flag_doc').val(1);
+                    }         
+                }else{
+                    alert('La petición no se pudo completar, inténtelo de nuevo.');
+                }
+            },
+            error: function(){
+                alert('La petición no se pudo completar, inténtelo de nuevo.');
+            }
+        });
+    });
     
 });
 
 
 function fill_responsable_servicio(){   
         var val = $("#servicio").val();
-        if(val == null){
+        if(val == ''){
             return;
         }
         $.ajax({
@@ -192,7 +216,7 @@ function fill_responsable_servicio(){
 
 function fill_contacto_proveedor(){       
         var val = $("#proveedor").val();
-        if(val == null){
+        if(val == ''){
             return;
         }
         $.ajax({
@@ -253,7 +277,7 @@ function fill_name_responsable(id){
             success: function(response){
                 if(response.success){
                     var resp = response['responsable'];
-                    if(resp!="vacio"){
+                    if(resp!=null){
                         if(resp[0] != null){
                             $("#nombre_responsable"+id).val("");
                             $("#nombre_responsable"+id).css('background-color','#5cb85c');
@@ -303,31 +327,32 @@ function fill_name_contrato(){
             },
             success: function(response){
                 if(response.success){
-                    var resp = response['contrato'];
-                    if(resp!="vacio"){
-                        if(resp[0] != null){
-                            $("#nombre_contrato").val("");
-                            $("#nombre_contrato").css('background-color','#5cb85c');
-                            $("#nombre_contrato").css('color','white');
-                            $("#nombre_contrato").val(resp[0].nombre);
-                            $("#btn_descarga").show();
-                            $("input[name=numero_contrato_hidden]").val(val);
-                        }
-                        else{
+                    var resp = response['contrato'];                    
+                        if(resp!=null){
+                            if(resp[0] != null){
+                                $("#nombre_contrato").val("");
+                                $("#nombre_contrato").css('background-color','#5cb85c');
+                                $("#nombre_contrato").css('color','white');
+                                $("#nombre_contrato").val(resp[0].nombre);
+                                $("#btn_descarga").show();
+                                $("input[name=numero_contrato_hidden]").val(val);
+                            }
+                            else{
+                                $("#nombre_contrato").val("Documento no registrado");
+                                $("#nombre_contrato").css('background-color','#d9534f');
+                                $("#nombre_contrato").css('color','white');
+                                $("#btn_descarga").hide();
+                                $("input[name=numero_contrato_hidden]").val(null);
+
+                            } 
+                        }else{
                             $("#nombre_contrato").val("Documento no registrado");
                             $("#nombre_contrato").css('background-color','#d9534f');
                             $("#nombre_contrato").css('color','white');
                             $("#btn_descarga").hide();
                             $("input[name=numero_contrato_hidden]").val(null);
-
-                        } 
-                    }else{
-                        $("#nombre_contrato").val("Documento no registrado");
-                        $("#nombre_contrato").css('background-color','#d9534f');
-                        $("#nombre_contrato").css('color','white');
-                        $("#btn_descarga").hide();
-                        $("input[name=numero_contrato_hidden]").val(null);
-                    }               
+                        }
+                         
                 }else{
                     alert('La petición no se pudo completar, inténtelo de nuevo.');
                 }
@@ -350,6 +375,7 @@ function clean_name_contrato(){
     $("#numero_contrato").val("");
     $("#nombre_contrato").css('background-color','white');
     $("#btn_descarga").hide();
+    $('#flag_doc').val(1);
 }
 
 function export_pdf(){
@@ -383,3 +409,8 @@ function export_pdf(){
         });
 }
 
+function clean_ot(){
+    $('#numero_ot').prop('readonly',false);
+    $('#numero_ot').val('');
+    $('#flag_ot').val(1);
+}

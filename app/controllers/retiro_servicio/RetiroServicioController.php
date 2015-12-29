@@ -226,6 +226,9 @@ class RetiroServicioController extends BaseController {
 				//$data["activos"] = Activo::lists('codigo_patrimonial','idactivo');
 				$data["motivos"] = MotivoRetiro::lists('nombre','idmotivo_retiro');
 				$data["reporte_info"] = ReporteRetiro::searchReportesRetiroById($id)->get();
+				if($data["reporte_info"]->isEmpty()){
+					return Redirect::to('retiro_servicio/list_reporte_retiro_servicio');
+				}
 				$data["reporte_info"] = $data["reporte_info"][0];
 				return View::make('retiro_servicio/editReporteRetiroServicio',$data);
 			}else{
@@ -246,6 +249,9 @@ class RetiroServicioController extends BaseController {
 				//$data["activos"] = Activo::lists('codigo_patrimonial','idactivo');
 				$data["motivos"] = MotivoRetiro::lists('nombre','idmotivo_retiro');
 				$data["reporte_info"] = ReporteRetiro::searchReportesRetiroById($id)->get();
+				if($data["reporte_info"]->isEmpty()){
+					return Redirect::to('retiro_servicio/list_reporte_retiro_servicio');
+				}
 				$data["reporte_info"] = $data["reporte_info"][0];
 				return View::make('retiro_servicio/viewReporteRetiroServicio',$data);
 			}else{

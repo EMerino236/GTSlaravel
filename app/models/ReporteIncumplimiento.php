@@ -37,11 +37,11 @@ class ReporteIncumplimiento extends Eloquent{
 			 
 			  if($fecha_desde != "")
 			  {
-			  	$query->where('reporte_incumplimientos.fecha','>',date('Y-m-d H:i:s',strtotime($fecha_desde)));
+			  	$query->where(DB::raw('STR_TO_DATE(reporte_incumplimientos.fecha,\'%Y-%m-%d\')'),'>=',date('Y-m-d H:i:s',strtotime($fecha_desde)));
 			  }
 			  if($fecha_hasta != "")
 			  {
-			  	$query->where('reporte_incumplimientos.fecha','=<',date('Y-m-d H:i:s',strtotime($fecha_hasta)));
+			  	$query->where(DB::raw('STR_TO_DATE(reporte_incumplimientos.fecha,\'%Y-%m-%d\')'),'<=',date('Y-m-d H:i:s',strtotime($fecha_hasta)));
 			  }
 			  if($proveedor != '0')
 			  {
@@ -52,6 +52,14 @@ class ReporteIncumplimiento extends Eloquent{
 			  	$query->where('reporte_incumplimientos.tipo_reporte','=',$tipo);
 			  }
 			  $query->select('servicios.nombre as nomb_servicio','proveedores.razon_social as nomb_proveedor','reporte_incumplimientos.*');
+		return $query;
+	}
+
+	public function scopeGetReporteIncumplimientoByIdDocumentoContrato($query,$iddocumento)
+	{
+		$query->join('documentos','documentos.idreporte_incumplimiento','=','reporte_incumplimientos.idreporte_incumplimiento')
+			  ->where('documentos.iddocumento','=',$iddocumento)			  			  
+			  ->select('reporte_incumplimientos.*');
 		return $query;
 	}
 }

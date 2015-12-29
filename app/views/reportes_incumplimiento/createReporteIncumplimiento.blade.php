@@ -9,6 +9,7 @@
 
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			<p><strong>{{ $errors->first('numero_ot') }}</strong></p>
 			<p><strong>{{ $errors->first('tipo_reporte') }}</strong></p>
 			<p><strong>{{ $errors->first('numero_doc1') }}</strong></p>
@@ -24,20 +25,28 @@
 			<p><strong>{{ $errors->first('acciones') }}</strong></p>
 			<p><strong>{{ $errors->first('numero_doc2') }}</strong></p>
 			<p><strong>{{ $errors->first('numero_doc3') }}</strong></p>
+			<p><strong>{{ $errors->first('numero_contrato') }}</strong></p>
 		</div>
 	@endif
 
 	@if (Session::has('message'))
-		<div class="alert alert-success">{{ Session::get('message') }}</div>
+		<div class="alert alert-success">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('message') }}
+		</div>
 	@endif
 	@if (Session::has('error'))
-		<div class="alert alert-danger"><strong>{{ Session::get('error') }}</strong></div>
+		<div class="alert alert-danger"><strong>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('error') }}</strong>
+		</div>
 	@endif
 
 	{{ Form::open(array('url'=>'reportes_incumplimiento/submit_reporte', 'role'=>'form')) }}
 		{{ Form::hidden('tipo_ot',null,array('id'=>'tipo_ot'))}}
 		<div>						
 			{{ Form::hidden('flag_ot',1,array('id'=>'flag_ot'))}}
+			{{ Form::hidden('flag_doc',1,array('id'=>'flag_doc'))}}
 		</div>
 		<div class="container-fluid row">
 			<div class="form-group col-md-2 col-md-offset-8">				
@@ -59,15 +68,18 @@
 						<div class="col-md-2" style="margin-top:25px">
 							<div class="btn btn-success btn-block" id="btnValidate"><span class="glyphicon glyphicon-ok"></span> Validar</div>
 						</div>
+						<div class="form-group col-md-2" style="margin-top:25px">
+							<div class="btn btn-default btn-block" onclick="clean_ot()"><span class="glyphicon glyphicon-refresh"></span> Limpiar</div>				
+						</div>
 					</div>
 					<div class="row">		
 						<div class="form-group col-md-4 @if($errors->first('tipo_reporte')) has-error has-feedback @endif">
 							{{ Form::label('tipo_reporte','Tipo de Reporte') }}<span style="color:red"> *</span>
-							{{ Form::select('tipo_reporte',['0'=>'Seleccione','1'=>'Por Servicio','2'=>'Por Equipo'],Input::old('idtipo_reporte'),['class' => 'form-control'])}}
+							{{ Form::select('tipo_reporte',[''=>'Seleccione','1'=>'Por Servicio','2'=>'Por Equipo'],Input::old('tipo_reporte'),['class' => 'form-control'])}}
 						</div>
 						<div class="col-md-4">
 							{{ Form::label('fecha','Fecha')}}<span style="color:red"> *</span>
-							<div id="datetimepicker1" class="form-group input-group date @if($errors->first('fecha')) has-error has-feedback @endif">					
+							<div id="datetimepicker1" class="form-group input-group date @if($errors->first('fecha_reporte')) has-error has-feedback @endif">					
 								{{ Form::text('fecha_reporte',Input::old('fecha_reporte'),array('class'=>'form-control','readonly'=>'')) }}
 								<span class="input-group-addon">
 				                    <span class="glyphicon glyphicon-calendar"></span>
@@ -78,7 +90,7 @@
 					<div class="row">
 						<div class="form-group col-md-2 @if($errors->first('numero_doc1')) has-error has-feedback @endif">
 							{{ Form::label('numero_doc1','Número Documento') }}<span style="color:red"> *</span>
-							{{ Form::text('numero_doc1',Input::old('numero_doc1'),['class' => 'form-control','id'=>'numero_doc1','placeholder'=>'Número de Doc.'])}}
+							{{ Form::text('numero_doc1',Input::old('numero_doc1'),['class' => 'form-control','id'=>'numero_doc1','placeholder'=>'N° de Doc.'])}}
 						</div>
 						<div class="form-group col-md-2" style="margin-top:25px">
 							<a class="btn btn-primary btn-block" onclick="fill_name_responsable(1)">
@@ -107,7 +119,7 @@
 		        	<div class="row">
 		        		<div class="form-group col-md-4 @if($errors->first('servicio')) has-error has-feedback @endif">
 							{{ Form::label('servicio','Servicio Clínico') }}<span style="color:red"> *</span>
-							{{ Form::select('servicio',array('0'=> 'Seleccione')+$servicios,$servicios,['class' => 'form-control',"onchange" => "fill_responsable_servicio()",'id'=>'servicio'])}}
+							{{ Form::select('servicio',array(''=> 'Seleccione')+$servicios,$servicios,['class' => 'form-control',"onchange" => "fill_responsable_servicio()",'id'=>'servicio'])}}
 						</div>
 						<div class="form-group col-md-4  @if($errors->first('responsable_servicio')) has-error has-feedback @endif">
 							{{ Form::label('responsable_servicio','Responsable del Servicio') }}
@@ -117,7 +129,7 @@
 		        	<div class="row">
 		        		<div class="form-group col-md-4 @if($errors->first('proveedor')) has-error has-feedback @endif">
 							{{ Form::label('proveedor','Proveedor') }}<span style="color:red"> *</span>
-							{{ Form::select('proveedor',array('0'=> 'Seleccione')+$proveedor,Input::old('idproveedor'),['class' => 'form-control',"onchange" => "fill_contacto_proveedor()",'id'=>'proveedor'])}}
+							{{ Form::select('proveedor',array(''=> 'Seleccione')+$proveedor,Input::old('idproveedor'),['class' => 'form-control',"onchange" => "fill_contacto_proveedor()",'id'=>'proveedor'])}}
 						</div>
 						<div class="form-group col-md-4  @if($errors->first('contacto_proveedor')) has-error has-feedback @endif">
 							{{ Form::label('contacto_proveedor','Contacto de Proveedor') }}
@@ -157,7 +169,7 @@
 		        	<div class="row">
 						<div class="form-group col-md-3 @if($errors->first('numero_doc2')) has-error has-feedback @endif">
 							{{ Form::label('numero_doc2','Documento de Identidad') }}<span style="color:red"> *</span>
-							{{ Form::text('numero_doc2',Input::old('numero_doc2'),['class' => 'form-control','id'=>'numero_doc2','placeholder'=>'Número de Doc.'])}}
+							{{ Form::text('numero_doc2',Input::old('numero_doc2'),['class' => 'form-control','id'=>'numero_doc2','placeholder'=>'N° de Doc.'])}}
 						</div>
 						<div class="form-group col-md-2" style="margin-top:25px">
 							<a class="btn btn-primary btn-block" onclick="fill_name_responsable(2)">
@@ -166,6 +178,7 @@
 						<div class="form-group col-md-2" style="margin-top:25px">
 							<div class="btn btn-default btn-block" onclick="clean_name_responsable(2)"><span class="glyphicon glyphicon-refresh"></span> Limpiar</div>				
 						</div>
+
 						<div class="form-group col-md-4">
 							{{ Form::label('autorizado','Autorizado por') }}
 							{{ Form::text('autorizado',Input::old('autorizado'),['class' => 'form-control','id'=>'nombre_responsable2','disabled'=>'disabled','placeholder'=>'Nombre de Usuario'])}}
@@ -174,7 +187,7 @@
 					<div class="row">
 						<div class="form-group col-md-3 @if($errors->first('numero_doc3')) has-error has-feedback @endif">
 							{{ Form::label('numero_doc3','Documento de Identidad') }}<span style="color:red"> *</span>
-							{{ Form::text('numero_doc3',Input::old('numero_doc3'),['class' => 'form-control','id'=>'numero_doc3','placeholder'=>'Número de Doc.'])}}
+							{{ Form::text('numero_doc3',Input::old('numero_doc3'),['class' => 'form-control','id'=>'numero_doc3','placeholder'=>'N° de Doc.'])}}
 						</div>
 						<div class="form-group col-md-2" style="margin-top:25px">
 							<a class="btn btn-primary btn-block" onclick="fill_name_responsable(3)">
@@ -200,7 +213,7 @@
 											{{ Form::text('numero_contrato',Input::old('numero_contrato'),['class' => 'form-control','id'=>'numero_contrato','placeholder'=>'Código'])}}
 										</div>
 										<div class="col-md-2" style="margin-top:25px">
-											<a class="btn btn-primary btn-block" onclick="fill_name_contrato()">
+											<a class="btn btn-primary btn-block" id="btnAddDoc">
 											<span class="glyphicon glyphicon-plus"></span> Agregar</a>
 										</div>
 										<div class="col-md-2" style="margin-top:25px">

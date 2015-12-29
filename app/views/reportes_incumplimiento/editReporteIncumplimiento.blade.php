@@ -9,6 +9,7 @@
 
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			<p><strong>{{ $errors->first('numero_ot') }}</strong></p>
 			<p><strong>{{ $errors->first('tipo_reporte') }}</strong></p>
 			<p><strong>{{ $errors->first('numero_doc1') }}</strong></p>
@@ -29,10 +30,16 @@
 	@endif
 
 	@if (Session::has('message'))
-		<div class="alert alert-success">{{ Session::get('message') }}</div>
+		<div class="alert alert-success">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('message') }}
+		</div>
 	@endif
 	@if (Session::has('error'))
-		<div class="alert alert-danger"><strong>{{ Session::get('error') }}</strong></div>
+		<div class="alert alert-danger"><strong>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('error') }}</strong>
+		</div>
 	@endif
 
 	{{ Form::open(array('url'=>'reportes_incumplimiento/submit_edit_reporte', 'role'=>'form')) }}
@@ -64,12 +71,19 @@
 							@if($reporte_data->deleted_at)
 								{{ Form::text('numero_ot',$reporte_data->codigo_ot,array('class'=>'form-control','readonly'=>'','placeholder'=>'Número de OTM')) }}
 							@else
-								{{ Form::text('numero_ot',$reporte_data->codigo_ot,array('class'=>'form-control','placeholder'=>'Número de OTM')) }}
+								@if($reporte_data->codigo_ot != null)
+									{{ Form::text('numero_ot',$reporte_data->codigo_ot,array('class'=>'form-control','placeholder'=>'Número de OTM','readonly'=>'')) }}
+								@else
+									{{ Form::text('numero_ot',Input::old(numero_ot),array('class'=>'form-control','placeholder'=>'Número de OTM','readonly'=>'')) }}
+								@endif
 							@endif							
 						</div>						
 						<div class="col-md-2" style="margin-top:25px">
 							<div class="btn btn-success btn-block" id="btnValidate"><span class="glyphicon glyphicon-ok"></span> Validar</div>
-						</div>				
+						</div>			
+						<div class="form-group col-md-2" style="margin-top:25px">
+							<div class="btn btn-default btn-block" onclick="clean_ot()"><span class="glyphicon glyphicon-refresh"></span> Limpiar</div>				
+						</div>	
 					</div>
 					<div class="row">						
 						<div class="form-group col-md-4 @if($errors->first('tipo_reporte')) has-error has-feedback @endif">
@@ -285,19 +299,12 @@
 											@if($reporte_data->deleted_at)
 												{{ Form::text('numero_contrato',$documento_info->codigo_archivamiento,array('class'=>'form-control','readonly'=>'','id'=>'numero_contrato','placeholder'=>'Código')) }}
 											@else
-												{{ Form::text('numero_contrato',$documento_info->codigo_archivamiento,array('class'=>'form-control','id'=>'numero_contrato','placeholder'=>'Código')) }}
-											@endif											
-										</div>
-										<div class="col-md-2" style="margin-top:25px">
-											<a class="btn btn-primary btn-block" onclick="fill_name_contrato()">
-											<span class="glyphicon glyphicon-plus"></span> Agregar</a>
-										</div>
-										<div class="col-md-2" style="margin-top:25px">
-											<div class="btn btn-default btn-block" onclick="clean_name_contrato()"><span class="glyphicon glyphicon-refresh"></span> Limpiar</div>
+												{{ Form::text('numero_contrato',$documento_info->codigo_archivamiento,array('class'=>'form-control','id'=>'numero_contrato','placeholder'=>'Código','readonly'=>'')) }}
+											@endif								
 										</div>
 										<div class="form-group col-md-4">
 											{{ Form::label('nombre_contrato','Contrato del Proveedor') }}
-											{{ Form::text('nombre_contrato',Input::old('nombre_contrato'),['class' => 'form-control','id'=>'nombre_contrato','disabled'=>'disabled','placeholder'=>'Nombre del Doc.'])}}
+											{{ Form::text('nombre_contrato',$documento_info->nombre,['class' => 'form-control','id'=>'nombre_contrato','disabled'=>'disabled','placeholder'=>'Nombre del Doc.'])}}
 										</div>	
 										{{ Form::close()}}									
 										<div class="form-group col-md-2">

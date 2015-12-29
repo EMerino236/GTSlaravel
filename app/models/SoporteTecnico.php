@@ -28,7 +28,7 @@ class SoporteTecnico extends Eloquent {
 		$query->join('tipo_doc_identidades','tipo_doc_identidades.idtipo_documento','=','soporte_tecnicos.idtipo_documento')
 			  ->join('proveedores','proveedores.idproveedor','=','soporte_tecnicos.idproveedor');
 
-	  	if($search_proveedor != '')
+		if($search_proveedor != '')
 	  	{
 	  		$query->where('soporte_tecnicos.idproveedor','=',$search_proveedor);
 	  	}
@@ -41,17 +41,17 @@ class SoporteTecnico extends Eloquent {
 
 		if($search_nombre != "")
 		{
-			$query->where('soporte_tecnicos.idtipo_documento','LIKE','%$search_nombre%');
+			$query->where('soporte_tecnicos.nombres','LIKE',"%$search_nombre%");
 		}
-
+		
 		if($search_apPaterno != "")
 		{
-			$query->where('soporte_tecnicos.idtipo_documento','LIKE','%$search_apPaterno%');
+			$query->where('soporte_tecnicos.apellido_pat','LIKE',"%$search_apPaterno%");
 		}
 
 		if($search_apMaterno != "")
 		{
-			$query->where('soporte_tecnicos.idtipo_documento','LIKE','%$search_apMaterno%');
+			$query->where('soporte_tecnicos.apellido_mat','LIKE',"%$search_apMaterno%");
 		}
 
 		$query->select('tipo_doc_identidades.nombre as tipo_documento','soporte_tecnicos.*');
