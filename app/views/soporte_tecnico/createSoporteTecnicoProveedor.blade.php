@@ -9,6 +9,7 @@
 
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">			
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			<p><strong>{{ $errors->first('tipo_documento_identidad') }}</strong></p>
 			<p><strong>{{ $errors->first('numero_documento_soporte_tecnico') }}</strong></p>
 			<p><strong>{{ $errors->first('nombre_soporte_tecnico') }}</strong></p>
@@ -69,7 +70,7 @@
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('telefono_soporte_tecnico')) has-error has-feedback @endif">
 						{{ Form::label('telefono_soporte_tecnico','Telefono') }}<span style="color:red">*</span>
-						{{ Form::text('telefono_soporte_tecnico',Input::old('telefono_soporte_tecnico'),array('class'=>'form-control')) }}
+						{{ Form::text('telefono_soporte_tecnico',Input::old('telefono_soporte_tecnico'),array('class'=>'form-control','maxlength'=>'7')) }}
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('email_soporte_tecnico')) has-error has-feedback @endif">
 						{{ Form::label('email_soporte_tecnico','E-mail') }}<span style="color:red">*</span>

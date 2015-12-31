@@ -31,11 +31,11 @@ $( document ).ready(function(){
 });
 
 function limpiar_criterios(){
-    $('#search_ing').val('');
-    $('#search_ot').val('');
-    $('#search_ini').val('');
-    $('#search_fin').val('');
-    $('#search_equipo').val('');
+    $('#search_ing').val(null);
+    $('#search_ot').val(null);
+    $('#search_ini').val(null);
+    $('#search_fin').val(null);
+    $('#search_equipo').val(null);
     $('#search_servicio').val(0);
 }
 

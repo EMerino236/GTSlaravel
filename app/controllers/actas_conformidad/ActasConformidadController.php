@@ -41,7 +41,7 @@ class ActasConformidadController extends BaseController
 				$data["tipos_acta"] = TipoActa::lists('nombre','idtipo_acta');				
 				$data["proveedores"] = Proveedor::lists('razon_social','idproveedor');
 				
-				$data["actas_data"] = Documento::searchActasConformidad($data["search_tipo_acta"],$data["search_proveedor"],$data["fecha_desde"],$data["fecha_hasta"])->get();
+				$data["actas_data"] = Documento::searchActasConformidad($data["search_tipo_acta"],$data["search_proveedor"],$data["fecha_desde"],$data["fecha_hasta"])->paginate(10);
 				
 				return View::make('actas_conformidad/listActaConformidad',$data);
 
@@ -131,14 +131,23 @@ class ActasConformidadController extends BaseController
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1|| $data["user"]->idrol == 2 || $data["user"]->idrol == 3  || $data["user"]->idrol == 4){
 				// Validate the info, create rules for the inputs
+				$attributes = array(
+					'tipo' => 'Tipo de Acta de Conformidad',
+					'proveedor' => 'Proveedor',
+					'fecha' => 'Fecha',
+					'numero_acta' => 'Cod. Archivamiento',						
+				);
+
+				$messages = array();
+
 				$rules = array(
-							'tipo' => 'required',
-							'proveedor' => 'required',
-							'fecha' => 'required',
-							'numero_acta' => 'required',						
-						);
+					'tipo' => 'required',
+					'proveedor' => 'required',
+					'fecha' => 'required',
+					'numero_acta' => 'required',						
+				);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					return Redirect::to('actas_conformidad/create_acta')->withErrors($validator)->withInput(Input::all());
@@ -174,13 +183,22 @@ class ActasConformidadController extends BaseController
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1|| $data["user"]->idrol == 2 || $data["user"]->idrol == 3  || $data["user"]->idrol == 4){
 				// Validate the info, create rules for the inputs
+				$attributes = array(
+					'tipo' => 'Tipo de Acta de Conformidad',
+					'proveedor' => 'Proveedor',
+					'fecha' => 'Fecha',
+					'numero_acta' => 'Cod. Archivamiento',						
+				);
+
+				$messages = array();
+
 				$rules = array(
 							'tipo' => 'required',
 							'proveedor' => 'required',
 							'fecha' => 'required',						
 						);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					$acta_id = Input::get('acta_id');

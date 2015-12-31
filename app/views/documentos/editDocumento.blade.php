@@ -9,6 +9,7 @@
 
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			<p><strong>{{ $errors->first('nombre') }}</strong></p>
 			<p><strong>{{ $errors->first('descripcion') }}</strong></p>
 			<p><strong>{{ $errors->first('autor') }}</strong></p>
@@ -21,10 +22,16 @@
 	@endif
 
 	@if (Session::has('message'))
-		<div class="alert alert-success">{{ Session::get('message') }}</div>
+		<div class="alert alert-success">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<strong>{{ Session::get('message') }}</strong>
+		</div>
 	@endif
 	@if (Session::has('error'))
-		<div class="alert alert-danger">{{ Session::get('error') }}</div>
+		<div class="alert alert-danger">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<strong>{{ Session::get('error') }}</strong>
+		</div>
 	@endif
 
 	{{ Form::open(array('url'=>'documento/submit_edit_documento', 'role'=>'form', 'files'=>true)) }}
@@ -121,17 +128,17 @@
 				</div>	
 		{{ Form::close() }}
 			@if($documento_info->deleted_at)
-			{{ Form::open(array('url'=>'documento/submit_enable_documento', 'role'=>'form')) }}
+			{{ Form::open(array('url'=>'documento/submit_enable_documento', 'role'=>'form','id'=>'submit_enable')) }}
 				{{ Form::hidden('documento_id', $documento_info->iddocumento) }}
 					<div class="form-group col-md-2 col-md-offset-8">
-						{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-up"></span> Habilitar', array('id'=>'submit-delete', 'type' => 'submit', 'class' => 'btn btn-success btn-block')) }}
+						{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-up"></span> Habilitar', array('id'=>'btnEnable', 'class' => 'btn btn-success btn-block')) }}
 					</div>
 			{{ Form::close() }}
 			@else
-			{{ Form::open(array('url'=>'documento/submit_disable_documento', 'role'=>'form')) }}
+			{{ Form::open(array('url'=>'documento/submit_disable_documento', 'role'=>'form','id'=>'submit_disable')) }}
 				{{ Form::hidden('documento_id', $documento_info->iddocumento) }}
 					<div class="form-group col-md-2 col-md-offset-6">
-						{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-down"></span> Inhabilitar', array('id'=>'submit-delete', 'type' => 'submit', 'class' => 'btn btn-danger btn-block')) }}
+						{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-down"></span> Inhabilitar', array('id'=>'btnDisable', 'class' => 'btn btn-danger btn-block')) }}
 					</div>
 			{{ Form::close() }}
 			@endif

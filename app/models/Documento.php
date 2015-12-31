@@ -144,11 +144,11 @@ class Documento extends Eloquent implements UserInterface, RemindableInterface {
 
 			  if($fecha_desde != "")
 			  {
-			  	$query->where('documentos.fecha_acta','>',date('Y-m-d H:i:s',strtotime($fecha_desde)));
+			  	$query->where(DB::raw('STR_TO_DATE(documentos.fecha_acta,\'%Y-%m-%d\')'),'>=',date('Y-m-d H:i:s',strtotime($fecha_desde)));
 			  }
 			  if($fecha_hasta != "")
 			  {
-			  	$query->where('documentos.fecha_acta','<',date('Y-m-d H:i:s',strtotime($fecha_hasta)));
+			  	$query->where(DB::raw('STR_TO_DATE(documentos.fecha_acta,\'%Y-%m-%d\')'),'<=',date('Y-m-d H:i:s',strtotime($fecha_hasta)));
 			  }
 
 			  $query->select('tipo_actas.nombre as nombre_tipo_acta','proveedores.razon_social as nombre_proveedor','documentos.*');

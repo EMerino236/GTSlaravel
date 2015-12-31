@@ -101,9 +101,9 @@ class SotBusquedaInformacionController extends BaseController {
 							'area' => 'required',
 							'tipo' => 'required',
 							'fecha_solicitud' => 'required',
-							'detalle' => 'max:500',
-							'motivo' => 'max:500',
-							'descripcion' => 'max:500',
+							'detalle' => 'max:500|alpha_num_spaces_slash_dash_enter',
+							'motivo' => 'max:500|alpha_num_spaces_slash_dash_enter',
+							'descripcion' => 'max:500|alpha_num_spaces_slash_dash_enter',
 							'encargado' => 'required'
 						);
 
@@ -169,13 +169,13 @@ class SotBusquedaInformacionController extends BaseController {
 							'area' => 'required',
 							'tipo' => 'required',
 							'fecha_solicitud' => 'required',
-							'detalle' => 'max:500',
-							'motivo' => 'max:500',
-							'descripcion' => 'max:500',
+							'detalle' => 'max:500|alpha_num_spaces_slash_dash_enter',
+							'motivo' => 'max:500|alpha_num_spaces_slash_dash_enter',
+							'descripcion' => 'max:500|alpha_num_spaces_slash_dash_enter',
 							'encargado' => 'required'
 						);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					$idsot = Input::get('idsot');

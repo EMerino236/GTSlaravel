@@ -93,7 +93,11 @@ class ReportesIncumplimientoController extends BaseController
 				}
 				$data["reporte_data"] = $data["reporte_data"][0];
 				$data["documento_info"] = Documento::searchDocumentoByIdReporteIncumplimiento($data["reporte_data"]->idreporte_incumplimiento)->get();
-				$data["documento_info"] = $data["documento_info"][0];
+				if($data["documento_info"]->isEmpty())
+					$data["documento_info"] = null;
+				else
+					$data["documento_info"] = $data["documento_info"][0];
+
 				$data["usuario_revision"] = User::searchUserById($data["reporte_data"]->id_responsable)->get();
 				$data["usuario_autorizado"] = User::searchUserById($data["reporte_data"]->id_autorizado)->get();
 				$data["usuario_elaborado"] = User::searchUserById($data["reporte_data"]->id_elaborado)->get();
@@ -158,11 +162,21 @@ class ReportesIncumplimientoController extends BaseController
 			$data = Input::get('selected_id');
 			if($data !="vacio"){
 				$documento = Documento::searchDocumentoByCodigoArchivamiento($data)->get();
+				if($documento->isEmpty()){
+					$documento = null;
+					$reporte = null;
+				}else{
+					$doc = $documento[0];
+					$reporte = ReporteIncumplimiento::getReporteIncumplimientoByIdDocumentoContrato($doc->iddocumento)->get();
+				}
+				//se debe verificar que el documento no está asignado a otro reporte de incumplimiento
+				
 			}else{
 				$documento = null;
+				$reporte = null;
 			}
 
-			return Response::json(array( 'success' => true, 'contrato' => $documento ),200);
+			return Response::json(array( 'success' => true, 'contrato' => $documento,'reporte'=>$reporte ),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
 		}
@@ -229,7 +243,7 @@ class ReportesIncumplimientoController extends BaseController
 			if($data!="vacio")
 				$responsable = User::searchPersonalByNumeroDoc($data)->get();
 			else{
-				$responsable = "vacio";
+				$responsable = null;
 			}
 								
 			return Response::json(array( 'success' => true, 'responsable' => $responsable),200);
@@ -245,26 +259,49 @@ class ReportesIncumplimientoController extends BaseController
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				// Validate the info, create rules for the inputs
+				$attributes = array(
+					'numero_ot' => 'Número de OT',
+					'tipo_reporte' => 'Tipo de Reporte',
+					'numero_doc1' => 'N° de Documento del Responsable',
+					'fecha_reporte' => 'Fecha de Reporte',
+					'descripcion_corta' => 'Descripción Corta',
+					'descripcion' => 'Descripción',
+					'servicio' => 'Servicio',						
+					'proveedor' => 'Proveedor',
+					'costo' => 'Costo',
+					'accion_generada' => 'Acción Generada',
+					'reincidente' => 'Reincidente',
+					'acciones' => 'Acciones',
+					'resultados' => 'Resultados',				
+					'numero_doc2' => 'N° de Documento del Autorizador',
+					'numero_doc3' => 'N° de Documento del Elaborador',
+					'numero_contrato' => 'Número de Contrato'
+				);
+
+				$messages = array(
+					);
+
 				$rules = array(
-							'numero_ot' => 'required',
-							'tipo_reporte' => 'required',
-							'numero_doc1' => 'required',
-							'fecha_reporte' => 'required',
-							'descripcion_corta' => 'required',
-							'descripcion' => 'required',
-							'servicio' => 'required',						
-							'proveedor' => 'required',
-							'costo' => 'required',
-							'accion_generada' => 'required',
-							'reincidente' => 'required',
-							'acciones' => 'required',
-							'resultados' => 'required',				
-							'numero_doc2' => 'required',
-							'numero_doc3' => 'required',
-						);
+					'numero_ot' => 'required',
+					'tipo_reporte' => 'required',
+					'numero_doc1' => 'required',
+					'fecha_reporte' => 'required',
+					'descripcion_corta' => 'required|alpha_num_spaces_colon',
+					'descripcion' => 'required|alpha_num_spaces_slash_dash_enter',
+					'servicio' => 'required',						
+					'proveedor' => 'required',
+					'costo' => 'required|numeric',
+					'accion_generada' => 'required|alpha_num_spaces_colon',
+					'reincidente' => 'required',
+					'acciones' => 'required|alpha_num_spaces_slash_dash_enter',
+					'resultados' => 'required|alpha_num_spaces_slash_dash_enter',				
+					'numero_doc2' => 'required',
+					'numero_doc3' => 'required',
+					'numero_contrato' => 'required'
+				);
 				
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					$reporte_id = Input::get('reporte_id');
@@ -321,22 +358,7 @@ class ReportesIncumplimientoController extends BaseController
 						$reporte->id_elaborado = $usuario_elaborador[0]->id;
 					}
 					$reporte->idestado = 1;
-					$documento_actual = Documento::searchDocumentoByIdReporteIncumplimiento($reporte->idreporte_incumplimiento)->get();
-					$documento_actual = $documento_actual[0];
-					$codigo_archivamiento = Input::get('numero_contrato');
-					$documento = Documento::searchDocumentoByCodigoArchivamiento($codigo_archivamiento)->get();
-					if($documento->isEmpty()){
-						Session::flash('error', 'No se pudo registrar los cambios, el documento no existe');
-						return Redirect::to($url);
-					}
-					$documento = $documento[0];
-					//se realizará la modificación siempre y cuando se cambie el documento por otro.
-					if($documento_actual->iddocumento<>$documento->iddocumento){
-						$documento_actual->idreporte_incumplimiento = null;
-						$documento->idreporte_incumplimiento = $reporte->idreporte_incumplimiento;
-						$documento_actual->save();
-						$documento->save();
-					}		
+					
 					$reporte->save();													
 					
 					Session::flash('message', 'Se modificó correctamente el reporte.');
@@ -358,32 +380,58 @@ class ReportesIncumplimientoController extends BaseController
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				// Validate the info, create rules for the inputs
+				$attributes = array(
+						'numero_ot' => 'Número de OT',
+						'tipo_reporte' => 'Tipo de Reporte',
+						'numero_doc1' => 'N° de Documento del Responsable',
+						'fecha_reporte' => 'Fecha de Reporte',
+						'descripcion_corta' => 'Descripción Corta',
+						'descripcion' => 'Descripción',
+						'servicio' => 'Servicio',						
+						'proveedor' => 'Proveedor',
+						'costo' => 'Costo',
+						'accion_generada' => 'Acción Generada',
+						'reincidente' => 'Reincidente',
+						'acciones' => 'Acciones',
+						'resultados' => 'Resultados',				
+						'numero_doc2' => 'N° de Documento del Autorizador',
+						'numero_doc3' => 'N° de Documento del Elaborador',
+						'numero_contrato' => 'Número de Contrato'
+					);
+
+				$messages = array(
+					);
+
 				$rules = array(
 							'numero_ot' => 'required',
 							'tipo_reporte' => 'required',
 							'numero_doc1' => 'required',
 							'fecha_reporte' => 'required',
-							'descripcion_corta' => 'required',
-							'descripcion' => 'required',
+							'descripcion_corta' => 'required|alpha_num_spaces_colon',
+							'descripcion' => 'required|alpha_num_spaces_colon',
 							'servicio' => 'required',						
 							'proveedor' => 'required',
-							'costo' => 'required',
-							'accion_generada' => 'required',
+							'costo' => 'required|numeric',
+							'accion_generada' => 'required|alpha_num_spaces_colon',
 							'reincidente' => 'required',
-							'acciones' => 'required',
-							'resultados' => 'required',				
+							'acciones' => 'required|alpha_num_spaces_colon',
+							'resultados' => 'required|alpha_num_spaces_colon',				
 							'numero_doc2' => 'required',
 							'numero_doc3' => 'required',
 							'numero_contrato' => 'required'
 						);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					return Redirect::to('reportes_incumplimiento/create_reporte')->withErrors($validator)->withInput(Input::all());
 				}else{
 					if(Input::get('flag_ot')==1){
-						Session::flash('error', 'Orden de Trabajo de Mantenimiento no existe.');
+						Session::flash('error', 'Orden de Trabajo de Mantenimiento no existe o no ha sido validado.');
+						return Redirect::to('reportes_incumplimiento/create_reporte');
+					}
+					if(Input::get('flag_doc')==1){
+						Session::flash('error', 'Documento no agregado.');
 						return Redirect::to('reportes_incumplimiento/create_reporte');
 					}
 
@@ -453,7 +501,7 @@ class ReportesIncumplimientoController extends BaseController
 					$documento->idreporte_incumplimiento = $idReporte;
 					$documento->save();
 					Session::flash('message', 'Se registró correctamente el reporte de incumplimiento.');
-					return Redirect::to('reportes_incumplimiento/create_reporte');
+					return Redirect::to('reportes_incumplimiento/list_reportes');
 				}
 			}else{
 				return View::make('error/error',$data);
@@ -549,7 +597,7 @@ class ReportesIncumplimientoController extends BaseController
 	}
 
 	public function getCorrelativeReportNumber($name_controller){
-		$reporte_ultimo = $name_controller::orderBy('created_at','desc')->first();
+		$reporte_ultimo = $name_controller::orderBy('idreporte_incumplimiento','desc')->first();
 		$string = "";
 		if($reporte_ultimo!=null){	
 			$numero = $reporte_ultimo->numero_reporte_correlativo;

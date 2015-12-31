@@ -7,6 +7,19 @@
         <!-- /.col-lg-12 -->
     </div>
 
+    @if (Session::has('message'))
+		<div class="alert alert-success alert-dissmisable">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('message') }}
+		</div>
+	@endif
+	@if (Session::has('error'))
+		<div class="alert alert-success alert-dissmisable">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('error') }}
+		</div>
+	@endif
+
     {{ Form::open(array('url'=>'/reportes_incumplimiento/search_reporte','method'=>'get' ,'role'=>'form', 'id'=>'search-form','class' => 'form-group')) }}
 	<div class="panel panel-default">
 		<div class="panel-heading">
@@ -87,7 +100,7 @@
 						<td class="text-nowrap text-center">
 							<a  href="{{URL::to('/reportes_incumplimiento/view_reporte/')}}/{{$reporte_data->idreporte_incumplimiento}}">{{$reporte_data->numero_reporte_abreviatura}}{{$reporte_data->numero_reporte_correlativo}}-{{$reporte_data->numero_reporte_anho}}</a>
 						</td>					
-						<td class="text-nowrap text-center">{{$reporte_data->created_at->format('d-m-y')}}</td>
+						<td class="text-nowrap text-center">{{date('d-m-Y',strtotime($reporte_data->fecha))}}</td>
 						<td class="text-nowrap text-center">{{$reporte_data->nomb_servicio}}</td>
 						<td class="text-nowrap text-center">{{$reporte_data->nomb_proveedor}}</td>
 						<td class="text-nowrap text-center">

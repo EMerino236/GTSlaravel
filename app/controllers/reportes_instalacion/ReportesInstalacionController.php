@@ -34,16 +34,76 @@ class ReportesInstalacionController extends BaseController {
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3){
 				// Validate the info, create rules for the inputs	
-				$rules = array(
-							'idtipo_reporte_instalacion' => 'required',
-							'idproveedor' => 'required',
-							'fecha' => 'required',
-							'codigo_compra' => 'required',
-							'idarea' => 'required',
-							'numero_documento1' => 'required',													
-						);
+				$idtipo = Input::get('idtipo_reporte_instalacion');
+				if($idtipo== 1){
+					$attributes = array(
+						'idtipo_reporte_instalacion' => 'Tipo de Reporte de Instalación',
+						'idproveedor' => 'Proveedor',
+						'fecha' => 'Fecha',
+						'codigo_compra' => 'Código de Compra',
+						'idarea' => 'Área',
+						'numero_documento1' => 'N° Documento de Identidad',	
+						'descripcion' => 'Descripción'												
+					);
+
+					$messages = array();
+
+					$rules = array(
+						'idtipo_reporte_instalacion' => 'required',
+						'idproveedor' => 'required',
+						'fecha' => 'required',
+						'codigo_compra' => 'required|alpha_num',
+						'idarea' => 'required',
+						'numero_documento1' => 'required',	
+						'descripcion'=>'max:200|alpha_num_spaces_slash_dash_enter'												
+					);
+				}else if($idtipo == 2){
+					$attributes = array(
+						'idtipo_reporte_instalacion' => 'Tipo de Reporte de Instalación',
+						'idproveedor' => 'Proveedor',
+						'fecha' => 'Fecha',
+						'codigo_compra' => 'Código de Compra',
+						'idarea' => 'Área',
+						'numero_documento1' => 'N° Documento de Identidad',	
+						'descripcion' => 'Descripción',
+						'num_doc_relacionado1' => 'Certificado de Funcionalidad',												
+						'num_doc_relacionado2' => 'Contrato',
+						'num_doc_relacionado3' => 'Manual',
+						'num_doc_relacionado4' => 'Término de Referencia',
+						'numero_reporte_entorno_concluido' => 'Número de Reporte Entorno Concluido'
+																	
+					);
+
+					$messages = array();
+
+					$rules = array(
+						'idtipo_reporte_instalacion' => 'required',
+						'idproveedor' => 'required',
+						'fecha' => 'required',
+						'codigo_compra' => 'required',
+						'idarea' => 'required',
+						'numero_documento1' => 'required',	
+						'descripcion'=>'max:200|alpha_num_spaces_slash_dash_enter',
+						'num_doc_relacionado1' => 'required',												
+						'num_doc_relacionado2' => 'required',
+						'num_doc_relacionado3' => 'required',
+						'num_doc_relacionado4' => 'required',
+						'numero_reporte_entorno_concluido' => 'required'
+					);
+				}else{
+					$attributes = array(
+						'idtipo_reporte_instalacion' => 'Tipo de Reporte de Instalación',																
+					);
+
+					$messages = array();
+
+					$rules = array(
+						'idtipo_reporte_instalacion' => 'required',																	
+					);
+				}
+				
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					return Redirect::to('rep_instalacion/create_rep_instalacion')->withErrors($validator)->withInput(Input::all());					
@@ -122,7 +182,15 @@ class ReportesInstalacionController extends BaseController {
 							$codigo_archivamiento_cert_funcionalidad = Input::get('num_doc_relacionado1');
 							if($codigo_archivamiento_cert_funcionalidad != ''){
 								$documento = Documento::searchDocumentoByCodigoArchivamiento($codigo_archivamiento_cert_funcionalidad)->get();
+								if($documento->isEmpty()){
+									Session::flash('error', 'Certificado no existe.');
+									return Redirect::to('rep_instalacion/create_rep_instalacion')->withInput(Input::all());		
+								}
 								$documento = $documento[0];
+								if($documento->idtipo_documento !=6){
+									Session::flash('error', 'El documento no es un Certificado.');
+									return Redirect::to('rep_instalacion/create_rep_instalacion')->withInput(Input::all());		
+								}	
 								$documento->idreporte_instalacion = $idReporte;
 								$documento->save();
 							}
@@ -130,7 +198,15 @@ class ReportesInstalacionController extends BaseController {
 							$codigo_archivamiento_contrato = Input::get('num_doc_relacionado2');
 							if($codigo_archivamiento_contrato != ''){
 								$documento = Documento::searchDocumentoByCodigoArchivamiento($codigo_archivamiento_contrato)->get();
+								if($documento->isEmpty()){
+									Session::flash('error', 'Contrato no existe.');
+									return Redirect::to('rep_instalacion/create_rep_instalacion')->withInput(Input::all());		
+								}
 								$documento = $documento[0];
+								if($documento->idtipo_documento !=1){
+									Session::flash('error', 'El documento no es un Contrato.');
+									return Redirect::to('rep_instalacion/create_rep_instalacion')->withInput(Input::all());		
+								}	
 								$documento->idreporte_instalacion = $idReporte;
 								$documento->save();
 							}
@@ -138,7 +214,15 @@ class ReportesInstalacionController extends BaseController {
 							$codigo_archivamiento_manual = Input::get('num_doc_relacionado3');
 							if($codigo_archivamiento_manual != ''){							
 								$documento = Documento::searchDocumentoByCodigoArchivamiento($codigo_archivamiento_manual)->get();
+								if($documento->isEmpty()){
+									Session::flash('error', 'Manual no existe.');
+									return Redirect::to('rep_instalacion/create_rep_instalacion')->withInput(Input::all());		
+								}
 								$documento = $documento[0];
+								if($documento->idtipo_documento !=2){
+									Session::flash('error', 'El documento no es un Manual.');
+									return Redirect::to('rep_instalacion/create_rep_instalacion')->withInput(Input::all());		
+								}								
 								$documento->idreporte_instalacion = $idReporte;
 								$documento->save();
 							}
@@ -146,13 +230,21 @@ class ReportesInstalacionController extends BaseController {
 							$codigo_archivamiento_tdr = Input::get('num_doc_relacionado4');
 							if($codigo_archivamiento_tdr != ''){
 								$documento = Documento::searchDocumentoByCodigoArchivamiento($codigo_archivamiento_tdr)->get();
+								if($documento->isEmpty()){
+									Session::flash('error', 'Término de Referencia no existe.');
+									return Redirect::to('rep_instalacion/create_rep_instalacion')->withInput(Input::all());		
+								}
 								$documento = $documento[0];
+								if($documento->idtipo_documento !=7){
+									Session::flash('error', 'El documento no es un Término de Referencia.');
+									return Redirect::to('rep_instalacion/create_rep_instalacion')->withInput(Input::all());		
+								}	
 								$documento->idreporte_instalacion = $idReporte;
 								$documento->save();
 							}						
 
 							Session::flash('message', 'Se registró correctamente el Reporte de Instalación.');
-							return Redirect::to('rep_instalacion/create_rep_instalacion');
+							return Redirect::to('rep_instalacion/list_rep_instalacion');
 						}else{
 							Session::flash('error', 'Ingrese por lo menos una tarea.');
 							return Redirect::to('rep_instalacion/create_rep_instalacion')->withInput(Input::all());		

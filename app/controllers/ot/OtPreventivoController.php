@@ -307,6 +307,7 @@ class OtPreventivoController extends BaseController {
 
 				$data["ot_info"] = OrdenesTrabajoPreventivo::searchOtPreventivoById($id)->get();
 				if($data["ot_info"]->isEmpty()){
+					Session::flash('error', 'No se encontró la OT.');
 					return Redirect::to('mant_preventivo/list_mant_preventivo');
 				}
 
@@ -590,6 +591,7 @@ class OtPreventivoController extends BaseController {
 
 				$data["ot_info"] = OrdenesTrabajoPreventivo::searchOtPreventivoById($id)->get();
 				if($data["ot_info"]->isEmpty()){
+					Session::flash('error', 'No se encontró la OT.');
 					return Redirect::to('mant_preventivo/list_mant_preventivo');
 				}
 

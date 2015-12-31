@@ -253,7 +253,8 @@ class OtController extends BaseController {
 				
 				$data["ot_info"] = OtCorrectivo::searchOtById($id)->get();
 				if($data["ot_info"]->isEmpty()){
-					return Redirect::to('ot/otMantCo');
+					Session::flash('error', 'No se encontró la OT.');
+					return Redirect::to('mant_correctivo/list_mant_correctivo');
 				}
 				$data["ot_info"] = $data["ot_info"][0];
 				$data["tareas"] = TareasOtCorrectivo::getTareasXOtXActi($data["ot_info"]->idot_correctivo)->get();
@@ -551,7 +552,8 @@ class OtController extends BaseController {
 				
 				$data["ot_info"] = OtCorrectivo::searchOtById($id)->get();
 				if($data["ot_info"]->isEmpty()){
-					return Redirect::to('ot/otMantCo');
+					Session::flash('error', 'No se encontró la OT.');
+					return Redirect::to('mant_correctivo/list_mant_correctivo');
 				}
 				$data["ot_info"] = $data["ot_info"][0];
 				$data["tareas"] = TareasOtCorrectivo::getTareasXOtXActi($data["ot_info"]->idot_correctivo)->get();

@@ -9,24 +9,37 @@
 
     @if ($errors->has())
 		<div class="alert alert-danger" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			<p><strong>{{ $errors->first('idtipo_reporte_instalacion') }}</strong></p>
 			<p><strong>{{ $errors->first('codigo_compra') }}</strong></p>
+			<p><strong>{{ $errors->first('descripcion') }}</strong></p>
 			<p><strong>{{ $errors->first('idproveedor') }}</strong></p>
 			<p><strong>{{ $errors->first('idarea') }}</strong></p>
 			<p><strong>{{ $errors->first('fecha') }}</strong></p>
 			<p><strong>{{ $errors->first('numero_documento1') }}</strong></p>
-
+			<p><strong>{{ $errors->first('num_doc_relacionado1') }}</strong></p>
+			<p><strong>{{ $errors->first('num_doc_relacionado2') }}</strong></p>
+			<p><strong>{{ $errors->first('num_doc_relacionado3') }}</strong></p>
+			<p><strong>{{ $errors->first('num_doc_relacionado4') }}</strong></p>
+			<p><strong>{{ $errors->first('numero_reporte_entorno_concluido') }}</strong></p>
 		</div>
 	@endif
 
 	@if (Session::has('message'))
-		<div class="alert alert-success">{{ Session::get('message') }}</div>
+		<div class="alert alert-success">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('message') }}
+		</div>
 	@endif
 	@if (Session::has('error'))
-		<div class="alert alert-danger">{{ Session::get('error') }}</div>
+		<div class="alert alert-danger">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<strong>{{ Session::get('error') }}</strong>
+		</div>
 	@endif  
 
     {{ Form::open(array('url'=>'/rep_instalacion/submit_create_rep_instalacion','role'=>'form')) }}
+		{{Form::hidden('type_report',0,array('class'=>'form-control','id'=>'type_report'))}}
 		<div class="panel panel-default">
 		  	<div class="panel-heading">
 		    	<h3 class="panel-title">Datos Generales</h3>
@@ -95,62 +108,53 @@
 		    	<h3 class="panel-title">Detalle de Tarea</h3>
 		  	</div>
   			<div class="panel-body">
-  				<div class="col-md-6">
-					<div class="form-group row">
-						<div class="form-group col-md-10 @if($errors->first('nombre_tarea')) has-error has-feedback @endif">
-							{{ Form::label('nombre_tarea','Nombre de Tarea') }}
-							{{ Form::text('nombre_tarea',Input::old('nombre_tarea'),array('class'=>'form-control')) }}
-						</div>
+  				<div class="row">
+	  				<div class="col-md-6 form-group">
+						{{ Form::label('nombre_tarea','Nombre de Tarea') }}
+						{{ Form::text('nombre_tarea',Input::old('nombre_tarea'),array('class'=>'form-control','maxlength'=>'100','placeholder'=>'Nombre de Tarea')) }}
 					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="form-group row">
-						<div class="form-group col-md-6 @if($errors->first('tarea_realizada')) has-error has-feedback @endif">
-							{{ Form::label('tarea_realizada','Estado de Tarea') }}
-							{{ Form::select('tarea_realizada',array('1' => 'Realizado','0' => 'No Realizado'),Input::old('tarea_realizada'),['class' => 'form-control']) }}
-						</div>
+					<div class="col-md-2 form-group">
+						{{ Form::label('tarea_realizada','Estado de Tarea') }}
+						{{ Form::select('tarea_realizada',array('1' => 'Realizado','0' => 'No Realizado'),Input::old('tarea_realizada'),['class' => 'form-control']) }}		
 					</div>
-				</div>
-				<div class="container-fluid row form-group">
-					<div class="col-md-2 col-md-offset-8">
+					<div class="col-md-2 form-group" style="margin-top:25px;">
 							<div class="btn btn-primary btn-block" id="btnAgregarFila"><span class="glyphicon glyphicon-plus"></span>Agregar</div>				
 					</div>
-					<div class="col-md-2">
-							<div class="btn btn-default btn-block" id="btnLimpiar"><span class="glyphicon glyphicon-refresh"></span>Limpiar</div>				
+					<div class="col-md-2 form-group" style="margin-top:25px;">
+							<div class="btn btn-default btn-block" id="btnLimpiarFila"><span class="glyphicon glyphicon-refresh"></span>Limpiar</div>				
 					</div>
 				</div>
-  			</div>
-  		</div>
-  		<div class="panel panel-default">
-		  	<div class="panel-heading">
-		    	<h3 class="panel-title">Detalle de Reporte</h3>
-		  	</div>
-  			<div class="panel-body">
-		  		<table class="table">
-					<tr class="info">
-						<th>Tarea</th>
-						<th>Estado de Tarea</th>
-						<th>Eliminar</th>
-					</tr>		
-					<?php 
-						$details_tarea = Input::old('details_tarea');
-						$details_estado = Input::old('details_estado');
-						$count = count($details_tarea);	
-					?>	
-					<?php for($i=0;$i<$count;$i++){ ?>
-					<tr>
-						<td>
-							<input style="border:0" name='details_tarea[]' value='{{ $details_tarea[$i] }}' readonly/>
-						</td>
-						<td>
-							<input style="border:0" name='details_estado[]' value='{{ $details_estado[$i] }}' readonly/>
-						</td>
-						<td>
-							<a href='' class='btn btn-default delete-detail' onclick='deleteRow(event,this)'>Eliminar</a>
-						</td>						
-					</tr>
-					<?php } ?>
-				</table>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="table-responsive">
+			  				<table class="table">
+								<tr class="info">
+									<th class="text-nowrap text-center">Tarea</th>
+									<th class="text-nowrap text-center">Estado de Tarea</th>
+									<th class="text-nowrap text-center">Eliminar</th>
+								</tr>		
+								<?php 
+									$details_tarea = Input::old('details_tarea');
+									$details_estado = Input::old('details_estado');
+									$count = count($details_tarea);	
+								?>	
+								<?php for($i=0;$i<$count;$i++){ ?>
+								<tr>
+									<td>
+										<input style="border:0" name='details_tarea[]' value='{{ $details_tarea[$i] }}' readonly/>
+									</td>
+									<td>
+										<input style="border:0" name='details_estado[]' value='{{ $details_estado[$i] }}' readonly/>
+									</td>
+									<td>
+										<a href='' class='btn btn-default delete-detail' onclick='deleteRow(event,this)'>Eliminar</a>
+									</td>						
+								</tr>
+								<?php } ?>
+							</table>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 

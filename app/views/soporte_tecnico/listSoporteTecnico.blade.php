@@ -46,15 +46,15 @@
   		<div class="row">
   			<div class="form-group col-md-4">
 				{{ Form::label('nombre_soporte_tecnico','Nombre') }}
-				{{ Form::text('nombre_soporte_tecnico',$search_nombre,array('class'=>'form-control')) }}
+				{{ Form::text('nombre_soporte_tecnico',$search_nombre,array('class'=>'form-control','placeholder'=>'Nombres')) }}
 			</div>
 			<div class="form-group col-md-4">
 				{{ Form::label('apPaterno_soporte_tecnico','Apellido Paterno') }}
-				{{ Form::text('apPaterno_soporte_tecnico',$search_apPaterno,array('class'=>'form-control')) }}
+				{{ Form::text('apPaterno_soporte_tecnico',$search_apPaterno,array('class'=>'form-control','placeholder'=>'Apellido Paterno')) }}
 			</div>
 			<div class="form-group col-md-4">
 				{{ Form::label('apMaterno_soporte_tecnico','Apellido Materno') }}
-				{{ Form::text('apMaterno_soporte_tecnico',$search_apMaterno,array('class'=>'form-control')) }}
+				{{ Form::text('apMaterno_soporte_tecnico',$search_apMaterno,array('class'=>'form-control','placeholder'=>'Apellido Materno')) }}
 			</div>
   		</div>
 
@@ -77,26 +77,26 @@
 				<div class="table-responsive">
 				<table class="table">
 					<tr class="info">
-						<th class="text-nowrap">Nº</th>
-						<th class="text-nowrap">Tipo de Documento</th>
-						<th class="text-nowrap">Número de Documento</th>
-						<th class="text-nowrap">Nombre</th>
-						<th class="text-nowrap">Apellido Paterno</th>
-						<th class="text-nowrap">Apellido Materno</th>
-						<th class="text-nowrap">Proveedor</th>
-						<th class="text-nowrap">Especialidad</th>
-						<th class="text-nowrap">Teléfono</th>				
-						<th class="text-nowrap">E-mail</th>						
+						<th class="text-nowrap text-center">Nº</th>
+						<th class="text-nowrap text-center">Tipo de Documento</th>
+						<th class="text-nowrap text-center">Número de Documento</th>
+						<th class="text-nowrap text-center">Nombre</th>
+						<th class="text-nowrap text-center">Apellido Paterno</th>
+						<th class="text-nowrap text-center">Apellido Materno</th>
+						<th class="text-nowrap text-center">Proveedor</th>
+						<th class="text-nowrap text-center">Especialidad</th>
+						<th class="text-nowrap text-center">Teléfono</th>				
+						<th class="text-nowrap text-center">E-mail</th>						
 					</tr>
 					@foreach($soportes_tecnico_data as $index => $soporte_tecnico)
 					<tr class="@if($soporte_tecnico->deleted_at) bg-danger @endif">			
-						<td class="text-nowrap">
+						<td class="text-nowrap text-center">
 							{{$index + 1}}
 						</td>
-						<td class="text-nowrap">
+						<td class="text-nowrap text-center">
 							{{$soporte_tecnico->tipo_documento}}
 						</td>
-						<td class="text-nowrap">							
+						<td class="text-nowrap text-center">							
 							<a href="{{URL::to('/soportes_tecnico/view_soporte_tecnico')}}/{{$soporte_tecnico->idsoporte_tecnico}}">{{$soporte_tecnico->numero_doc_identidad}}</a>							
 						</td>	
 						<td class="text-nowrap">
@@ -108,16 +108,16 @@
 						<td class="text-nowrap">
 							{{$soporte_tecnico->apellido_mat}}
 						</td>
-						<td class="text-nowrap">
+						<td class="text-nowrap text-center">
 							{{$soporte_tecnico->proveedor}}
 						</td>					
-						<td class="text-nowrap">
+						<td class="text-nowrap text-center">
 							{{$soporte_tecnico->especialidad}}
 						</td>
-						<td class="text-nowrap">
+						<td class="text-nowrap text-center">
 							{{$soporte_tecnico->telefono}}
 						</td>
-						<td class="text-nowrap">
+						<td class="text-nowrap text-center">
 							{{$soporte_tecnico->email}}
 						</td>										
 					</tr>

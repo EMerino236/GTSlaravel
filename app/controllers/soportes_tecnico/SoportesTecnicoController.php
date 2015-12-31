@@ -46,10 +46,11 @@ class SoportesTecnicoController extends BaseController
 				$data["search_numero_documento"] = Input::get('numero_documento_soporte_tecnico');
 				$data["search_nombre"] = Input::get('nombre_soporte_tecnico');
 				$data["search_apPaterno"] = Input::get('apPaterno_soporte_tecnico');
-				$data["search_apMaterno"] = Input::get('apMaterno_soporte_tecnico');				
+				$data["search_apMaterno"] = Input::get('apMaterno_soporte_tecnico');	
 
+				
 				$data["soportes_tecnico_data"] = SoporteTecnico::searchSoporteTecnico($data["search_proveedor"],$data["search_tipo_documento"], $data["search_numero_documento"],
-					$data["search_nombre"], $data["search_apPaterno"], $data["search_apMaterno"])->paginate(10);
+					$data["search_nombre"], $data["search_apPaterno"], $data["search_apMaterno"])->get();
 				return View::make('soporte_tecnico/listSoporteTecnico',$data);
 			}else{
 				return View::make('error/error',$data);

@@ -39,11 +39,11 @@
 				<div class="form-group row">
 					<div class="form-group col-md-4 @if($errors->first('proveedor_ruc')) has-error has-feedback @endif">
 						{{ Form::label('proveedor_ruc','RUC') }}
-						{{ Form::text('proveedor_ruc',$proveedor_info->ruc,array('class'=>'form-control','readonly'=>'')) }}
+						{{ Form::text('proveedor_ruc',$proveedor_info->ruc,array('class'=>'form-control','maxlength'=>'11')) }}
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('proveedor_razon_social')) has-error has-feedback @endif">					
 						{{ Form::label('proveedor_razon_social','Razón Social') }}
-						{{ Form::text('proveedor_razon_social',$proveedor_info->razon_social,array('class'=>'form-control','readonly'=>'')) }}
+						{{ Form::text('proveedor_razon_social',$proveedor_info->razon_social,array('class'=>'form-control')) }}
 					</div>
 				</div>
 				<div class="form-group row">

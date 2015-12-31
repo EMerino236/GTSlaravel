@@ -6,23 +6,32 @@
         </div>
     </div>
 
+    @if (Session::has('message'))
+		<div class="alert alert-success">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('message') }}
+		</div>
+	@endif
+	@if (Session::has('error'))
+		<div class="alert alert-danger">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('error') }}
+		</div>
+	@endif
+
     @if ($errors->has())
 	<div class="alert alert-danger" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 		<p><strong>{{ $errors->first('tipo') }}</strong></p>
 		<p><strong>{{ $errors->first('descripcion') }}</strong></p>
 		<p><strong>{{ $errors->first('motivo') }}</strong></p>
+		<p><strong>{{ $errors->first('detalle') }}</strong></p>
 		<p><strong>{{ $errors->first('area') }}</strong></p>		
 		<p><strong>{{ $errors->first('usuario_encargado') }}</strong></p>
 		<p><strong>{{ $errors->first('fecha_solicitud') }}</strong></p>
 	</div>
 	@endif
-
-	@if (Session::has('message'))
-		<div class="alert alert-success">{{ Session::get('message') }}</div>
-	@endif
-	@if (Session::has('error'))
-		<div class="alert alert-danger">{{ Session::get('error') }}</div>
-	@endif
+	
 	{{ Form::open(array('url'=>'solicitud_busqueda_informacion/submit_edit_sot', 'role'=>'form')) }}
 	{{ Form::hidden('idsot', $sot_info->idsolicitud_busqueda_info) }}	
 	<div class="row">
@@ -77,7 +86,7 @@
 						</div>
 			        </div>						        
 					<div class="row">
-						<div class="form-group col-md-6">
+						<div class="form-group col-md-6 @if($errors->first('descripcion')) has-error has-feedback @endif">
 							{{ Form::label('descripcion','Descripcion') }}<span style="color:red"> *</span>
 							@if($sot_info->deleted_at)
 								{{ Form::textarea('descripcion',$sot_info->descripcion,array('class' => 'form-control','readonly'=>'','placeholder'=>'Descripción de la solicitud','rows'=>'3','maxlength'=>'500','style'=>'resize:none;')) }}
@@ -85,7 +94,7 @@
 								{{ Form::textarea('descripcion',$sot_info->descripcion,array('class' => 'form-control','placeholder'=>'Descripción de la solicitud','rows'=>'3','maxlength'=>'500','style'=>'resize:none;')) }}
 							@endif
 						</div>
-						<div class="form-group col-md-6">
+						<div class="form-group col-md-6 @if($errors->first('motivo')) has-error has-feedback @endif">
 							{{ Form::label('motivo','Motivo') }}<span style="color:red"> *</span>
 							@if($sot_info->deleted_at)
 								{{ Form::textarea('motivo',$sot_info->motivo,array('class' => 'form-control','placeholder'=>'Motivo de la solicitud','rows'=>'3','maxlength'=>'500','style'=>'resize:none;','readonly'=>'')) }}
@@ -95,7 +104,7 @@
 						</div>
 					</div>					
 			        <div class="row">
-						<div class="form-group col-md-6">
+						<div class="form-group col-md-6 @if($errors->first('detalle')) has-error has-feedback @endif">
 							{{ Form::label('detalle','Detalle')}}<span style="color:red"> *</span>
 							@if($sot_info->deleted_at)
 								{{ Form::textarea('detalle',$sot_info->detalle,array('class' => 'form-control','placeholder'=>'Detalle de la solicitud','rows'=>'3','maxlength'=>'500','style'=>'resize:none;','readonly'=>'')) }}

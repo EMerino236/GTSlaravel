@@ -4,6 +4,7 @@ $( document ).ready(function(){
         ignoreReadonly: true,
         format:'DD-MM-YYYY'
     });
+
     $('#datetimepicker2').datetimepicker({
         ignoreReadonly: true,
         format:'DD-MM-YYYY'
@@ -14,6 +15,10 @@ $( document ).ready(function(){
     $("#datetimepicker2").on("dp.change", function (e) {
         $('#datetimepicker1').data("DateTimePicker").maxDate(e.date);
     });
+
+    $('#type_report').val($('#idtipo_reporte_instalacion').val());
+    
+    var alphanumeric_pattern = /[^á-úÁ-Úa-zA-ZñÑüÜ0-9- _.]/;
 
     var select = document.getElementById('idtipo_reporte_instalacion');
         select.addEventListener('change', function(){
@@ -60,23 +65,60 @@ $( document ).ready(function(){
     });
 
     $('#btnAgregarFila').click(function(){
-        var tarea = $("input[name=nombre_tarea]").val();
-        var selects = document.getElementById("tarea_realizada");
-        var selectedId = selects.options[selects.selectedIndex].value;// will gives u 2
-        var estado = selects.options[selects.selectedIndex].text;// gives u value2
-
-        if(tarea.length < 1){
-            return alert("Ingrese el nombre de la tarea.");
-        }
-
-        var str = "<tr><td><input style=\"border:0\" name='details_tarea[]' value='"+tarea+"' readonly/></td>";
-        str += "<td><input style=\"border:0\" name='details_estado[]' value='"+estado+"' readonly/></td>";
-        str += "<td><a href='' class='btn btn-default delete-detail' onclick='deleteRow(event,this)'>Eliminar</a></td></tr>";
-        $("table").append(str);
         
-        $("input[name=nombre_tarea]").val('');
+        BootstrapDialog.confirm({
+            title: 'Mensaje de Confirmación',
+            message: '¿Está seguro que desea realizar esta acción?', 
+            type: BootstrapDialog.TYPE_INFO,
+            btnCancelLabel: 'Cancelar', 
+            btnOKLabel: 'Aceptar', 
+            callback: function(result){
+                if(result) {
+                    var tarea = $("input[name=nombre_tarea]").val();
+                    var selects = document.getElementById("tarea_realizada");
+                    var selectedId = selects.options[selects.selectedIndex].value;// will gives u 2
+                    var estado = selects.options[selects.selectedIndex].text;// gives u value2
+
+                    if(tarea.length < 1  || tarea.length >100  || alphanumeric_pattern.test(tarea)){
+                        //return alert("Ingrese el nombre de la tarea.");
+                        $("input[name=nombre_tarea]").parent().addClass("has-error has-feedback");
+                        dialog = BootstrapDialog.show({
+                            title: 'Advertencia',
+                            message: 'Ingrese una tarea válida',
+                            closable: false,
+                            type : BootstrapDialog.TYPE_DANGER,
+                            buttons: [{
+                                label: 'Aceptar',
+                                action: function(dialog) {
+                                    dialog.close();                        
+                                }
+                            }]
+                        });
+                        return;
+                    }
+
+                    var str = "<tr><td class=\"text-nowrap\"><input style=\"border:0\" name='details_tarea[]' value='"+tarea+"' readonly/></td>";
+                    str += "<td class=\"text-nowrap text-center\"><input style=\"border:0;text-align:center\" name='details_estado[]' value='"+estado+"' readonly/></td>";
+                    str += "<td class=\"text-nowrap text-center\"><a href='' class='btn btn-danger delete-detail' onclick='deleteRow(event,this)'><span class=\"glyphicon glyphicon-trash\"></span></a></td></tr>";
+                    $("table").append(str);
+                    
+                    $("input[name=nombre_tarea]").val('');
+                    document.getElementById("tarea_realizada").value = 1;
+                }
+            }
+        });
+
+        
+    });
+
+    $('#btnLimpiarFila').click(function(){
+        $("input[name=nombre_tarea]").val(null);
         document.getElementById("tarea_realizada").value = 1;
     });
+
+    $('#idtipo_reporte_instalacion').change(function(){
+        $('#type_report').val($('#idtipo_reporte_instalacion').val());
+    })
 });
 
 function llenar_nombre_responsable(id){

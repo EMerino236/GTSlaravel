@@ -9,6 +9,7 @@
 
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			<p><strong>{{ $errors->first('proveedor_ruc') }}</strong></p>
 			<p><strong>{{ $errors->first('proveedor_razon_social') }}</strong></p>
 			<p><strong>{{ $errors->first('proveedor_nombre_contacto') }}</strong></p>			
@@ -37,7 +38,7 @@
 				<div class="form-group row">
 					<div class="form-group col-md-4 @if($errors->first('proveedor_ruc')) has-error has-feedback @endif">
 					{{ Form::label('proveedor_ruc','RUC') }}
-					{{ Form::text('proveedor_ruc',Input::old('proveedor_ruc'),array('class'=>'form-control')) }}
+					{{ Form::text('proveedor_ruc',Input::old('proveedor_ruc'),array('class'=>'form-control','maxlength'=>'11')) }}
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('proveedor_razon_social')) has-error has-feedback @endif">					
 					{{ Form::label('proveedor_razon_social','Razón Social') }}

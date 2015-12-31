@@ -9,15 +9,19 @@
 
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			<p><strong>{{ $errors->first('tipo') }}</strong></p>
 			<p><strong>{{ $errors->first('fecha') }}</strong></p>
 			<p><strong>{{ $errors->first('proveedor') }}</strong></p>
-			<p><strong>{{ $errors->first('documento') }}</strong></p>
+			<p><strong>{{ $errors->first('numero_acta') }}</strong></p>
 		</div>
 	@endif
 
 	@if (Session::has('message'))
-		<div class="alert alert-success">{{ Session::get('message') }}</div>
+		<div class="alert alert-success">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('message') }}
+		</div>
 	@endif
 	@if (Session::has('error'))
 		<div class="alert alert-danger">{{ Session::get('error') }}</div>
@@ -40,11 +44,11 @@
 						<div class="row">								
 							<div class="form-group col-md-4 @if($errors->first('tipo')) has-error has-feedback @endif">
 								{{ Form::label('tipo','Tipo de Acta de Conformidad') }}
-								{{ Form::select('tipo',array('0'=> 'Seleccione') + $tipo_actas,Input::old('tipo'),['class' => 'form-control'])}}
+								{{ Form::select('tipo',array(''=> 'Seleccione') + $tipo_actas,Input::old('tipo'),['class' => 'form-control'])}}
 							</div>
 							<div class="form-group col-md-4 @if($errors->first('proveedor')) has-error has-feedback @endif">
 								{{ Form::label('proveedor','Proveedor') }}
-								{{ Form::select('proveedor',array('0'=> 'Seleccione') + $proveedores,Input::old('proveedor'),['class' => 'form-control'])}}
+								{{ Form::select('proveedor',array(''=> 'Seleccione') + $proveedores,Input::old('proveedor'),['class' => 'form-control'])}}
 							</div>
 							<div class="col-md-4">
 							{{ Form::label('fecha','Fecha')}}<span style="color:red"> *</span>

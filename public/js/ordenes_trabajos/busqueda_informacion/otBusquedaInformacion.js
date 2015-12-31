@@ -1,14 +1,39 @@
 $( document ).ready(function(){
 	
 	init_ot_create();
-
+	var alphanumeric_pattern = /[^á-úÁ-Úa-zA-ZñÑüÜ0-9- _.]/;
 	
+	$('#submit_ot').click(function(){
+		BootstrapDialog.confirm({
+			title: 'Mensaje de Confirmación',
+			message: '¿Está seguro que desea realizar esta acción?\n (Si el campo "Estado OT" no se encuentra en estado pendiente, la presente ficha no podrá volver a ser editada)', 
+			type: BootstrapDialog.TYPE_INFO,
+			btnCancelLabel: 'Cancelar', 
+	    	btnOKLabel: 'Aceptar', 
+				callback: function(result){
+			        if(result) {
+			        	document.getElementById('submit_ot_busqueda').submit();
+			        }
+			    }
+		});
+	});
+
 	$("#submit-tarea").click(function(e){
 		idot_busqueda_info = $('#idot_busqueda_info').val();
 		e.preventDefault;
-		if($("input[name=nombre_tarea]").val().length<1){
+		if($("input[name=nombre_tarea]").val().length<1 || $("input[name=nombre_tarea]").val().length >100  || alphanumeric_pattern.test($("input[name=nombre_tarea]").val()) ){
 			$("input[name=nombre_tarea]").parent().addClass("has-error has-feedback");
-			alert("Ingrese una tarea válida.");
+			dialog = BootstrapDialog.show({
+	            title: 'Advertencia',
+	            message: 'Ingrese una tarea válida',
+	            type : BootstrapDialog.TYPE_DANGER,
+	            buttons: [{
+	                label: 'Aceptar',
+	                action: function(dialog) {
+	                    dialog.close();
+	                }
+	            }]
+	        });
 		}else{
 			$("input[name=nombre_tarea]").parent().removeClass("has-error has-feedback");
 			BootstrapDialog.confirm({
@@ -87,13 +112,13 @@ $( document ).ready(function(){
 	$("#submit-personal").click(function(e){
 		e.preventDefault;
 			var error_str = "";
-			var reg = /[\w'-]+/;
+			var reg = /[^á-úÁ-Úa-zA]+$/;
 			var floatRegex = /^\d{1,6}(\.\d{0,2}){0,1}$/;
 			var is_correct = true;
 			$("input[name=nombre_personal]").parent().removeClass("has-error has-feedback");
 			$("input[name=horas_trabajadas]").parent().removeClass("has-error has-feedback");
 			$("input[name=costo_personal]").parent().removeClass("has-error has-feedback");
-			if(!reg.test($("input[name=nombre_personal]").val())){
+			if(reg.test($("input[name=nombre_personal]").val())){
 				error_str += "El nombre debe ser alfanumérico.\n";
 				$("input[name=nombre_personal]").parent().addClass("has-error has-feedback");
 				is_correct = false;
@@ -142,7 +167,7 @@ $( document ).ready(function(){
 									str += '<tr id="personal-row-'+response.personal.idpersonal_ot_busqueda_info+'"><td>'+response.personal.nombre+'</td>';
 									str += "<td>"+response.personal.horas_hombre+"</td>";
 									str += "<td>"+response.personal.costo+"</td>";
-									str += '<td><button class="btn btn-danger boton-eliminar-personal" onclick="eliminar_personal(event,'+response.personal.idpersonal_ot_busqueda_info+')" type="button">Eliminar</button></td></tr>';
+									str += '<td><button class="btn btn-danger boton-eliminar-personal" onclick="eliminar_personal(event,'+response.personal.idpersonal_ot_busqueda_info+')" type="button"><span class="glyphicon glyphicon-trash"></span></button></td></tr>';
 									$("#personal-table").append(str);
 									$("input[name=costo_total_personal]").val(response.costo_total_personal);
 								},
@@ -153,9 +178,17 @@ $( document ).ready(function(){
 					}
 				});
 			}else{
-				$('#modal_text_ot').html('<p>'+error_str+'</p>');
-				$('#modal_header_ot').addClass('bg-danger');
-            	$('#modal_info_ot').modal('show');   
+				dialog = BootstrapDialog.show({
+		            title: 'Advertencia',
+		            message: error_str,
+		            type : BootstrapDialog.TYPE_DANGER,
+		            buttons: [{
+		                label: 'Aceptar',
+		                action: function(dialog) {
+		                    dialog.close();
+		                }
+		            }]
+		        });
 			}
 		
 	});
