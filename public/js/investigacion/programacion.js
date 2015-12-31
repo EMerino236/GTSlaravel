@@ -50,4 +50,9 @@ $( document ).ready(function(){
         minDate: ayer,
         disabledDates: [ayer]
     });
+
+    $('#btnLlimpiar_criterios_list_reporte_cn').click(function(){
+        $("#search_usuario").val('');
+        $("#search_fecha").val('');
+    });
 });

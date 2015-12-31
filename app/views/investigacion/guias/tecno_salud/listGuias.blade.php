@@ -40,14 +40,15 @@
 
 	  </div>
 	</div>
-	{{ Form::close() }}</br>	
+	{{ Form::close() }}</br>
+	<!--	
 	<div class="container-fluid form-group row">
 		<div class="col-md-2 col-md-offset-10">
 			<a class="btn btn-primary btn-block" href="{{URL::to('guias_tecno_salud/create_guia')}}">
 			<span class="glyphicon glyphicon-plus"></span> Agregar</a>
 		</div>
 	</div>
-
+	-->
 	<table class="table">
 		<tr class="info">
 			<th>Tipo de Guía</th>

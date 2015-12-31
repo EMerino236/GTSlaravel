@@ -25,7 +25,7 @@
 		<div class="alert alert-danger">{{ Session::get('error') }}</div>
 	@endif
 
-	{{ Form::open(array('url'=>'guias_clinica_gpc/create_guia', 'role'=>'form', 'files'=>true)) }}
+	{{ Form::open(array('url'=>'guias_clinica_gpc/create_guia_submit', 'role'=>'form', 'files'=>true, 'method'=>'POST')) }}
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">Datos de la guía</h3>
@@ -34,15 +34,16 @@
 				<div class="row">
 					<div class="form-group col-md-4 @if($errors->first('idtipo_documento')) has-error has-feedback @endif">
 						{{ Form::label('idtipo_documento','Tipo de Documento') }}
-						{{ Form::select('idtipo_documento',$tipo_documentos,Input::old('idtipo_documento'),['class' => 'form-control']) }}
+						{{ Form::text('tipo_documento',$programacion->tipo->nombre,['class' => 'form-control','readonly']) }}
+						{{Form::hidden('idtipo_documento',$programacion->id_tipo)}}
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('autor')) has-error has-feedback @endif">
 						{{ Form::label('autor','Autor') }}
-						{{ Form::text('autor',Input::old('autor'),array('class'=>'form-control')) }}
+						{{ Form::text('autor',$programacion->usuario->nombre." ".$programacion->usuario->apellido_pat." ".$programacion->usuario->apellido_mat,array('class'=>'form-control','readonly')) }}
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('nombre')) has-error has-feedback @endif">
 						{{ Form::label('nombre','Nombre de Documento') }}
-						{{ Form::text('nombre',Input::old('nombre'),array('class'=>'form-control')) }}
+						{{ Form::text('nombre',$programacion->nombre_reporte,array('class'=>'form-control','readonly')) }}
 					</div>
 				</div>
 				<div class="row">
@@ -68,7 +69,8 @@
 			<div class="form-group col-md-2">
 				{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit_create', 'type'=>'submit','class' => 'btn btn-primary btn-block')) }}
 			</div>
-		</div>		
+		</div>
+		{{Form::hidden('id_programacion',$programacion->id)}}	
 	{{ Form::close() }}
 	
 	<script>

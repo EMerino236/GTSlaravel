@@ -17,6 +17,7 @@ class GuiasTecnoSaludController extends \BaseController {
 				$data["search_autor"] = null;
 				$data["search_tipo_documento"] = null;
 				$data["documentos_data"] = DocumentoInf::withTrashed()->where('idtipo_documentosinf', 4)->paginate(10);
+				
 				return View::make('investigacion/guias/tecno_salud/listGuias',$data);
 			}else{
 				return View::make('error/error',$data);

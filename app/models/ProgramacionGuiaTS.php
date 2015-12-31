@@ -17,12 +17,12 @@ class ProgramacionGuiaTS extends Eloquent{
 		$usuarios_etes = DB::table('programacion_reporte_etes')->distinct()->join('users','users.id','=','programacion_reporte_etes.iduser')
 						->whereYear('programacion_reporte_etes.fecha','=',$anho)
 						->select('programacion_reporte_etes.iduser','users.apellido_pat','users.apellido_mat','users.nombre');
-		$usuarios_paac = DB::table('programacion_reporte_paac')->distinct()->join('users','users.id','=','programacion_reporte_paac.iduser')
-						->whereYear('programacion_reporte_paac.fecha','=',$anho)
-						->select('programacion_reporte_paac.iduser','users.apellido_pat','users.apellido_mat','users.nombre');
+		$usuarios_gpc = DB::table('programacion_guia_gpc')->distinct()->join('users','users.id','=','programacion_guia_gpc.iduser')
+						->whereYear('programacion_guia_gpc.fecha','=',$anho)
+						->select('programacion_guia_gpc.iduser','users.apellido_pat','users.apellido_mat','users.nombre');
 		$query = $usuarios_cn
 				->union($usuarios_etes)
-				->union($usuarios_paac)
+				->union($usuarios_gpc)
 				->distinct('iduser');
 		return $query;
 	}
@@ -46,17 +46,17 @@ class ProgramacionGuiaTS extends Eloquent{
 						  })
 						->whereYear('programacion_reporte_etes.fecha','=',$anho)
 						->select('programacion_reporte_etes.iduser','users.apellido_pat','users.apellido_mat','users.nombre');
-		$usuarios_paac = DB::table('programacion_reporte_paac')->distinct()->join('users','users.id','=','programacion_reporte_paac.iduser')
+		$usuarios_gpc = DB::table('programacion_guia_gpc')->distinct()->join('users','users.id','=','programacion_guia_gpc.iduser')
 						->whereNested(function($query) use($search_usuario){
 						  		$query->where('users.nombre','LIKE',"%$search_usuario%")
 						  			  ->orWhere('users.apellido_pat','LIKE',"%$search_usuario%")
 						  			  ->orWhere('users.apellido_mat','LIKE',"%$search_usuario%");
 						  })
-						->whereYear('programacion_reporte_paac.fecha','=',$anho)
-						->select('programacion_reporte_paac.iduser','users.apellido_pat','users.apellido_mat','users.nombre');
+						->whereYear('programacion_guia_gpc.fecha','=',$anho)
+						->select('programacion_guia_gpc.iduser','users.apellido_pat','users.apellido_mat','users.nombre');
 		$query = $usuarios_cn
 				->union($usuarios_etes)
-				->union($usuarios_paac)
+				->union($usuarios_gpc)
 				->distinct('iduser');
 		return $query;
 	}

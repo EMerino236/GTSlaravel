@@ -596,8 +596,8 @@ Route::group(array('prefix'=>'guias_tecno_salud', 'before'=>'auth'),function(){
 Route::group(array('prefix'=>'guias_clinica_gpc', 'before'=>'auth'),function(){
 	Route::get('/list_guias','GuiasClinicaGpcController@list_guias');
 	Route::get('/search_guia','GuiasClinicaGpcController@search_guia');
-	Route::get('/create_guia','GuiasClinicaGpcController@render_create_guia');
-	Route::post('/create_guia','GuiasClinicaGpcController@submit_create_guia');
+	Route::get('/create_guia/{id}','GuiasClinicaGpcController@render_create_guia');
+	Route::post('/create_guia_submit','GuiasClinicaGpcController@submit_create_guia');
 	Route::get('/edit_guia/{id}','GuiasClinicaGpcController@render_edit_guia');
 	Route::post('/edit_guia/{id}','GuiasClinicaGpcController@submit_edit_guia');
 	Route::post('/download_guia','GuiasClinicaGpcController@download_guia');
@@ -626,5 +626,5 @@ Route::group(array('prefix'=>'programacion_guias','before'=>'auth'),function(){
 	Route::post('/submit_create_programacion_guia_ts','ProgramacionGuiasController@submit_create_programacion_reporte_ts');
 	Route::post('/submit_create_programacion_reporte_etes','ProgramacionReportesController@submit_create_programacion_reporte_etes');
 	//FALTA
-	Route::post('/submit_create_programacion_guia_gpc','ProgramacionGuiasController@submit_create_programacion_reporte_etes');
+	Route::post('/submit_create_programacion_guia_gpc','ProgramacionGuiasController@submit_create_programacion_reporte_gpc');
 });

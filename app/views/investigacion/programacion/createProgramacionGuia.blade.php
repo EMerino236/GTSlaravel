@@ -11,10 +11,10 @@
 		<div class="alert alert-danger" role="alert">
 			<p><strong>{{ $errors->first('idtipo_reporte_ts') }}</strong></p>
 			<p><strong>{{ $errors->first('idtipo_reporte_etes') }}</strong></p>
-			<p><strong>{{ $errors->first('idtipo_reporte_paac') }}</strong></p>
+			<p><strong>{{ $errors->first('idtipo_reporte_gpc') }}</strong></p>
 			<p><strong>{{ $errors->first('nombre_ts') }}</strong></p>
 			<p><strong>{{ $errors->first('nombre_etes') }}</strong></p>
-			<p><strong>{{ $errors->first('nombre_paac') }}</strong></p>
+			<p><strong>{{ $errors->first('nombre_gpc') }}</strong></p>
 			<p><strong>{{ $errors->first('fecha_ts') }}</strong></p>
 			<p><strong>{{ $errors->first('fecha_etes') }}</strong></p>
 			<p><strong>{{ $errors->first('fecha_gpc') }}</strong></p>
@@ -86,55 +86,24 @@
 			{{ Form::close() }}
 	    </div>
 	    <div class="tab-pane" id="tab_reporte_gpc">
-	      	{{ Form::open(array('url'=>'programacion_reportes/submit_create_programacion_reporte_paac', 'role'=>'form', 'files'=>true)) }}
+	      	{{ Form::open(array('url'=>'programacion_guias/submit_create_programacion_guia_gpc', 'role'=>'form', 'files'=>true)) }}
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<h3 class="panel-title">Datos Generales</h3>
 					</div>
 					<div class="panel-body">
 						<div class="row">
-							<div class="form-group col-md-4 @if($errors->first('idtipo_reporte_paac')) has-error has-feedback @endif">
-								{{ Form::label('idtipo_reporte_paac','Tipo de Reporte') }}<span style='color:red'>*</span>
-								{{ Form::select('idtipo_reporte_paac',array(''=>'Seleccione') + $tipo_reporte_paac,Input::old('idtipo_reporte_paac'),['class' => 'form-control']) }}
+							<div class="form-group col-md-4 @if($errors->first('idtipo_reporte_gpc')) has-error has-feedback @endif">
+								{{ Form::label('idtipo_reporte_gpc','Tipo de Guía') }}<span style='color:red'>*</span>
+								{{ Form::select('idtipo_reporte_gpc',array(''=>'Seleccione') + $tipo_reporte_gpc,Input::old('idtipo_reporte_gpc'),['class' => 'form-control']) }}
 							</div>
 						</div>
-						<!--
 						<div class="row">
-							<div class="form-group col-md-4 @if($errors->first('idservicio_paac')) has-error has-feedback @endif">
-								{{ Form::label('idservicio_paac','Servicio') }}
-								{{ Form::select('idservicio_paac',array(''=>'Seleccione') + $servicios,Input::old('idservicio_paac'),['class' => 'form-control']) }}
-							</div><div class="form-group col-md-4 @if($errors->first('idarea_select_paac')) has-error has-feedback @endif">
-								{{ Form::label('idarea_select_paac','Departamento') }}<span style='color:red'>*</span>
-								{{ Form::select('idarea_select_paac',array(''=>'Seleccione') + $areas,Input::old('idarea_select_paac'),['class' => 'form-control']) }}
-								{{ Form::hidden('idarea_paac')}}
+							<div class="form-group col-md-8 @if($errors->first('nombre_gpc')) has-error has-feedback @endif">
+								{{ Form::label('nombre_gpc','Nombre de Guía') }}<span style='color:red'>*</span>
+								{{ Form::text('nombre_gpc',Input::old('nombre_gpc'),['class' => 'form-control']) }}
 							</div>
 						</div>
-						-->
-						<div class="row">
-							<div class="form-group col-md-8 @if($errors->first('nombre_paac')) has-error has-feedback @endif">
-								{{ Form::label('nombre_paac','Nombre de Reporte') }}<span style='color:red'>*</span>
-								{{ Form::text('nombre_paac',Input::old('nombre_paac'),['class' => 'form-control']) }}
-							</div>
-						</div>
-						<!--
-						<div class="row">
-							<div class="form-group col-md-4 @if($errors->first('num_doc_responsable_paac')) has-error has-feedback @endif">
-								{{ Form::label('num_doc_responsable_paac','N° Documento Responsable',array('id'=>'num_doc_responsable_paac_label')) }}<span style='color:red'>*</span>
-								{{ Form::text('num_doc_responsable_paac',Input::old('num_doc_responsable_paac'),array('placeholder'=>'N° Documento de Identidad','class'=>'form-control','maxlength'=>8)) }}
-								{{ Form::hidden('idresponsable_paac')}}
-							</div>
-							<div class="form-group col-md-2" style="margin-top:25px">
-								<a id="btn_agregar" class="btn btn-primary btn-block" onclick="llenar_nombre_responsable_paac()"><span class="glyphicon glyphicon-plus"></span> Agregar</a>
-							</div>
-							<div class="form-group col-md-2" style="margin-top:25px; margin-left:15px">
-								<a id="btn_limpiar" class="btn btn-default btn-block" onclick="limpiar_nombre_responsable_paac()"><span class="glyphicon glyphicon-refresh"></span> Limpiar</a>
-							</div>
-							<div class="form-group col-md-4 @if($errors->first('nombre_responsable_paac')) has-error has-feedback @endif">
-								{{ Form::label('nombre_responsable_paac','Nombre de Responsable',array('id'=>'nombre_responsable_paac_label')) }}
-								{{ Form::text('nombre_responsable_paac',Input::old('nombre_responsable_paac'),array('class'=>'form-control','readonly'=>'')) }}
-							</div>
-						</div>
-						-->
 						<div class="row">
 							<div class="col-md-4">
 								{{ Form::label('fecha_gpc','Fecha de Presentación') }}<span style='color:red'>*</span>
