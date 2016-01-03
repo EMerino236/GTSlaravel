@@ -158,7 +158,26 @@ class ReportesInstalacionController extends BaseController {
 									return Redirect::to('rep_instalacion/create_rep_instalacion')->withInput(Input::all());
 								}else{
 									$reporte->idreporte_instalacion_entorno_concluido = $rep_ent_concluido[0]->idreporte_instalacion;
-								}						
+								}	
+
+								if(Input::get('flag_doc1')==0 ){
+									Session::flash('error', 'Certficado de Funcionalidad no adjuntado correctamente.');
+									return Redirect::to('rep_instalacion/create_rep_instalacion/'.$rep_ent_concluido[0]->idreporte_instalacion)->withInput(Input::all());
+								}
+								if(Input::get('flag_doc2')==0 ){
+									Session::flash('error', 'Certficado de Funcionalidad no adjuntado correctamente.');
+									return Redirect::to('rep_instalacion/create_rep_instalacion/'.$rep_ent_concluido[0]->idreporte_instalacion)->withInput(Input::all());
+								}
+								if(Input::get('flag_doc3')==0 ){
+									Session::flash('error', 'Certficado de Funcionalidad no adjuntado correctamente.');
+									return Redirect::to('rep_instalacion/create_rep_instalacion/'.$rep_ent_concluido[0]->idreporte_instalacion)->withInput(Input::all());
+								}
+								if(Input::get('flag_doc4')==0 ){
+									Session::flash('error', 'Certficado de Funcionalidad no adjuntado correctamente.');
+									return Redirect::to('rep_instalacion/create_rep_instalacion/'.$rep_ent_concluido[0]->idreporte_instalacion)->withInput(Input::all());
+								}
+
+													
 							}
 							
 							$reporte->save();
@@ -365,7 +384,26 @@ class ReportesInstalacionController extends BaseController {
 							}else{
 								$reporte->id_responsable = $usuario_responsable[0]->id;
 								
-							}						
+							}		
+
+
+							if(Input::get('flag_doc1')==0 ){
+								Session::flash('error', 'Certficado de Funcionalidad no adjuntado correctamente.');
+								return Redirect::to('rep_instalacion/create_rep_instalacion/'.$rep_ent_concluido[0]->idreporte_instalacion)->withInput(Input::all());
+							}
+							if(Input::get('flag_doc2')==0 ){
+								Session::flash('error', 'Certficado de Funcionalidad no adjuntado correctamente.');
+								return Redirect::to('rep_instalacion/create_rep_instalacion/'.$rep_ent_concluido[0]->idreporte_instalacion)->withInput(Input::all());
+							}
+							if(Input::get('flag_doc3')==0 ){
+								Session::flash('error', 'Certficado de Funcionalidad no adjuntado correctamente.');
+								return Redirect::to('rep_instalacion/create_rep_instalacion/'.$rep_ent_concluido[0]->idreporte_instalacion)->withInput(Input::all());
+							}
+							if(Input::get('flag_doc4')==0 ){
+								Session::flash('error', 'Certficado de Funcionalidad no adjuntado correctamente.');
+								return Redirect::to('rep_instalacion/create_rep_instalacion/'.$rep_ent_concluido[0]->idreporte_instalacion)->withInput(Input::all());
+							}
+				
 							
 							$reporte->save();
 
@@ -388,37 +426,54 @@ class ReportesInstalacionController extends BaseController {
 							}
 
 							$codigo_archivamiento_cert_funcionalidad = Input::get('num_doc_relacionado1');
-							if($codigo_archivamiento_cert_funcionalidad != ''){
-								$documento = Documento::searchDocumentoByCodigoArchivamiento($codigo_archivamiento_cert_funcionalidad)->get();
-								$documento = $documento[0];
-								$documento->idreporte_instalacion = $idReporte;
-								$documento->save();
+							$documento_nuevo = Documento::searchDocumentoByCodigoArchivamiento($codigo_archivamiento_cert_funcionalidad)->get();
+							$documento_nuevo = $documento_nuevo[0];	
+							$documento_actual = Documento::searchDocumentoCertificadoFuncionalidadByIdReporteInstalacion($reporte->idreporte_instalacion)->get()[0];							
+							if($documento_actual->iddocumento != $documento_nuevo->iddocumento){
+								//quiere decir que es nuevo documento
+								$documento_nuevo->idreporte_instalacion = $reporte->idreporte_instalacion;
+								$documento_nuevo->save();
+								$documento_actual->idreporte_instalacion = null;
+								$documento_actual->save();
 							}
 
 							$codigo_archivamiento_contrato = Input::get('num_doc_relacionado2');
-							if($codigo_archivamiento_contrato != ''){
-								$documento = Documento::searchDocumentoByCodigoArchivamiento($codigo_archivamiento_contrato)->get();
-								$documento = $documento[0];
-								$documento->idreporte_instalacion = $idReporte;
-								$documento->save();
+							$documento_nuevo = Documento::searchDocumentoByCodigoArchivamiento($codigo_archivamiento_contrato)->get();
+							$documento_nuevo = $documento_nuevo[0];	
+							$documento_actual = Documento::searchDocumentoContratoByIdReporteInstalacion($reporte->idreporte_instalacion)->get()[0];							
+							if($documento_actual->iddocumento != $documento_nuevo->iddocumento){
+								//quiere decir que es nuevo documento
+								$documento_nuevo->idreporte_instalacion = $reporte->idreporte_instalacion;
+								$documento_nuevo->save();
+								$documento_actual->idreporte_instalacion = null;
+								$documento_actual->save();
 							}
 
 							$codigo_archivamiento_manual = Input::get('num_doc_relacionado3');
-							if($codigo_archivamiento_manual != ''){							
-								$documento = Documento::searchDocumentoByCodigoArchivamiento($codigo_archivamiento_manual)->get();
-								$documento = $documento[0];
-								$documento->idreporte_instalacion = $idReporte;
-								$documento->save();
+							$documento_nuevo = Documento::searchDocumentoByCodigoArchivamiento($codigo_archivamiento_manual)->get();
+							$documento_nuevo = $documento_nuevo[0];	
+							$documento_actual = Documento::searchDocumentoManualByIdReporteInstalacion($reporte->idreporte_instalacion)->get()[0];							
+							if($documento_actual->iddocumento != $documento_nuevo->iddocumento){
+								//quiere decir que es nuevo documento
+								$documento_nuevo->idreporte_instalacion = $reporte->idreporte_instalacion;
+								$documento_nuevo->save();
+								$documento_actual->idreporte_instalacion = null;
+								$documento_actual->save();
 							}
-
+							
 							$codigo_archivamiento_tdr = Input::get('num_doc_relacionado4');
-							if($codigo_archivamiento_tdr != ''){
-								$documento = Documento::searchDocumentoByCodigoArchivamiento($codigo_archivamiento_tdr)->get();
-								$documento = $documento[0];
-								$documento->idreporte_instalacion = $idReporte;
-								$documento->save();
-							}						
-
+							$documento_nuevo = Documento::searchDocumentoByCodigoArchivamiento($codigo_archivamiento_tdr)->get();
+							$documento_nuevo = $documento_nuevo[0];	
+							$documento_actual = Documento::searchDocumentoTdRByIdReporteInstalacion($reporte->idreporte_instalacion)->get()[0];							
+							if($documento_actual->iddocumento != $documento_nuevo->iddocumento){
+								//quiere decir que es nuevo documento
+								$documento_nuevo->idreporte_instalacion = $reporte->idreporte_instalacion;
+								$documento_nuevo->save();
+								$documento_actual->idreporte_instalacion = null;
+								$documento_actual->save();
+							}
+						
+							
 							Session::flash('message', 'Se registró correctamente el Reporte de Instalación.');
 							return Redirect::to($url);
 						}else{
@@ -503,11 +558,11 @@ class ReportesInstalacionController extends BaseController {
 				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 			// Check if the current user is the "System Admin"
 			$data = Input::get('selected_id');
-			if($data!="vacio")
-				$responsable = User::searchPersonalByNumeroDoc($data)->get();
-			else{
-				$responsable = "vacio";
-			}
+			$responsable = User::searchPersonalByNumeroDoc($data)->get();
+			if($responsable->isEmpty()){
+				$responsable = null;
+			}else
+				$responsable = $responsable[0];
 								
 			return Response::json(array( 'success' => true, 'responsable' => $responsable),200);
 		}else{
@@ -526,13 +581,28 @@ class ReportesInstalacionController extends BaseController {
 				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 			// Check if the current user is the "System Admin"
 			$data = Input::get('selected_id');
-			if($data !="vacio"){
-				$documento = Documento::searchDocumentoByCodigoArchivamiento($data)->get();
-			}else{
+			$documento = Documento::searchDocumentoByCodigoArchivamiento($data)->get();
+			if($documento->isEmpty()){
 				$documento = null;
+				$reporte = null;
+			}else{
+				$documento = $documento[0];
+				$tipo_doc = Input::get('tipo_doc');
+				if($documento->idtipo_documento != $tipo_doc){
+					$documento = null;
+					$reporte = null;
+				}else{
+					//verificar si ya fue utilizado en otro documento
+					$reporte = ReporteInstalacion::searchReporteByIdDocumento($documento->iddocumento)->get();
+					if($reporte->isEmpty())
+						$reporte = null;
+					else
+						$reporte = $reporte[0];
+				}
 			}
+			
 
-			return Response::json(array( 'success' => true, 'contrato' => $documento ),200);
+			return Response::json(array( 'success' => true, 'contrato' => $documento,'reporte_instalacion' => $reporte ),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
 		}
@@ -549,14 +619,10 @@ class ReportesInstalacionController extends BaseController {
 				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 			// Check if the current user is the "System Admin"
 			$data = Input::get('selected_id');
-			if($data !="vacio"){
-				$abreviatura = mb_substr($data,0,2);
-				$correlativo = mb_substr($data,2,4);
-				$anho = mb_substr($data,7,2);
-				$reporte = ReporteInstalacion::searchReporteEntornoConcluidoByNumeroReporte($abreviatura,$correlativo,$anho)->get();
-			}else{
-				$reporte = null;
-			}
+			$abreviatura = mb_substr($data,0,2);
+			$correlativo = mb_substr($data,2,4);
+			$anho = mb_substr($data,7,2);
+			$reporte = ReporteInstalacion::searchReporteEntornoConcluidoByNumeroReporte($abreviatura,$correlativo,$anho)->get();
 			return Response::json(array( 'success' => true, 'reporte' => $reporte ),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);

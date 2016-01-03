@@ -29,12 +29,12 @@ class SolicitudCompra extends Eloquent{
 			  
 			  if($fecha_desde != "")
 			  {
-			  	$query->where('solicitud_compras.fecha','>',date('Y-m-d H:i:s',strtotime($fecha_desde)));
+			  	$query->where(DB::raw('STR_TO_DATE(solicitud_compras.fecha,\'%Y-%m-%d\')'),'>=',date('Y-m-d H:i:s',strtotime($fecha_desde)));
 			  }
 
 			  if($fecha_hasta != "")
 			  {
-			  	$query->where('solicitud_compras.fecha','<',date('Y-m-d H:i:s',strtotime($fecha_hasta)));
+			  	$query->where(DB::raw('STR_TO_DATE(solicitud_compras.fecha,\'%Y-%m-%d\')'),'<=',date('Y-m-d H:i:s',strtotime($fecha_hasta)));
 			  }
 			  if($search_tipo != '0')
 			  {
@@ -67,6 +67,14 @@ class SolicitudCompra extends Eloquent{
 			  ->where('solicitud_compras.idsolicitud_compra','=',$idsolicitud_compra)
 			  ->select('marcas.idmarca as idmarca','solicitud_compras.*');
 			return $query;
+	}
+
+	public function scopeGetSolicitudCompraByIdDocumento($query,$iddocumento)
+	{
+		$query->join('documentos','documentos.idsolicitud_compra','=','solicitud_compras.idsolicitud_compra')
+			  ->where('documentos.iddocumento','=',$iddocumento)			  			  
+			  ->select('solicitud_compras.*');
+		return $query;
 	}
 
 }

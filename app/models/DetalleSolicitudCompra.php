@@ -21,5 +21,12 @@ class DetalleSolicitudCompra extends Eloquent{
 			  ->where('iddetalle_solicitud_compra','=',$search_criteria);
 		return $query;
 	}	
+
+	public function scopeDeleteDetalleByIdSolicitudCompra($query,$search_criteria)
+	{
+		$query->where('idsolicitud_compra','=',$search_criteria);
+		return $query;
+	}
 	
+
 }

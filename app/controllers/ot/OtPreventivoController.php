@@ -335,6 +335,17 @@ class OtPreventivoController extends BaseController {
 				$idot_preventivo = Input::get('idot_preventivo');
 				$ot = OrdenesTrabajoPreventivo::find($idot_preventivo);
 				// Validate the info, create rules for the inputs
+				$attributes = array(
+					'numero_ficha' => 'Número de Ficha',
+					'nombre_ejecutor' => 'Nombre del Ejecutor',
+					'idestado' => 'Estado de la OT',
+					'idestado_inicial' => 'Estado Inicial de la OTM',
+					'sin_interrupcion_servicio' => 'Sin Interrupción al Servicio',
+					'idestado_final' => 'Estado Final de la OTM',
+				);
+
+				$messages = array();
+
 				$rules = array(
 							'numero_ficha' => 'required|numeric|unique:ot_preventivos,numero_ficha,'.$ot->idot_preventivo.',idot_preventivo',
 							'nombre_ejecutor' => 'max:200|alpha_spaces',
@@ -344,7 +355,7 @@ class OtPreventivoController extends BaseController {
 							'idestado_final' => 'required',
 						);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					return Redirect::to('mant_preventivo/create_ot_preventivo/'.$idot_preventivo)->withErrors($validator)->withInput(Input::all());
