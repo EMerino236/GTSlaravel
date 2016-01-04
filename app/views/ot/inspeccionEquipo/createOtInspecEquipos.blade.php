@@ -74,7 +74,12 @@
 					<div class="row">
 						<div class="form-group col-md-8">
 							{{ Form::label('numero_ficha','Número de Ficha') }}
-							{{ Form::text('numero_ficha',$ot_info->numero_ficha,array('class' => 'form-control','placeholder'=>'Ingrese número de ficha')) }}
+							@if($ot_info->numero_ficha == null)
+								{{ Form::text('numero_ficha',$ot_info->numero_ficha,array('class' => 'form-control','placeholder'=>'Ingrese número de ficha')) }}
+							@else
+								{{ Form::text('numero_ficha',$ot_info->numero_ficha,array('class' => 'form-control','placeholder'=>'Ingrese número de ficha','readonly'=>'')) }}
+							@endif
+							
 						</div>
 					</div>
 					<div class="row">

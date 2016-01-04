@@ -166,5 +166,14 @@ class OrdenesTrabajoVerifMetrologica extends Eloquent{
 		$query->where(DB::raw("CONCAT(ot_vmetrologicas.ot_tipo_abreviatura,ot_vmetrologicas.ot_correlativo,ot_vmetrologicas.ot_activo_abreviatura)"),'=',$codigo_ot);
 		return $query;
 	}
+
+	public function scopeSearchOtVerifMetrologicaByIdDocumento($query,$search_criteria)
+	{
+		$query->join('documentos','documentos.idot_vmetrologica','=','ot_vmetrologicas.idot_vmetrologica')
+			  ->where('documentos.iddocumento','=',$search_criteria)
+			  ->select('ot_vmetrologicas.*');
+	  	return $query;
+	}
+
 	
 }

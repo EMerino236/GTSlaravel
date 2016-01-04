@@ -38,7 +38,7 @@ class FamiliaActivosController extends BaseController
 				$data["search_marca"] = Input::get('search_marca');
 				$data["search_nombre_siga"] = Input::get('search_nombre_siga');
 
-				$data["familiaactivos_data"] = FamiliaActivo::searchFamiliaActivo($data["search_nombre_equipo"],$data["search_marca"])->paginate(10);
+				$data["familiaactivos_data"] = FamiliaActivo::searchFamiliaActivo($data["search_nombre_equipo"],$data["search_marca"],$data["search_nombre_siga"])->paginate(10);
 				return View::make('familia_activos/listFamiliaActivos',$data);
 			}else{
 				return View::make('error/error',$data);

@@ -26,14 +26,18 @@ class FamiliaActivo extends Eloquent{
 	    return $query;
 	}
 
-	public function scopeSearchFamiliaActivo($query,$search_nombre_equipo,$search_marca)
+	public function scopeSearchFamiliaActivo($query,$search_nombre_equipo,$search_marca,$search_nombre_siga)
 	{
 		$query->where('familia_activos.nombre_equipo','LIKE',"%$search_nombre_equipo%");
-			  
 
 		if($search_marca != "")
 		{
 			$query->where('familia_activos.idmarca','=',$search_marca);
+		}
+
+		if($search_nombre_siga != "")
+		{
+			$query->where('familia_activos.nombre_siga','LIKE',"%$search_nombre_siga%");
 		}
 
 	 	$query->select('familia_activos.*');

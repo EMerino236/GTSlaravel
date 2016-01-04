@@ -179,7 +179,7 @@ function llenar_nombre_doc_relacionado(id){
         if(val=="")
             return;    
         $.ajax({
-            url: inside_url+'rep_instalacion/return_name_doc_relacionado/'+val,
+            url: inside_url+'verif_metrologica/return_name_doc_relacionado/'+val,
             type: 'POST',
             data: { 'selected_id' : val },
             beforeSend: function(){
@@ -196,28 +196,31 @@ function llenar_nombre_doc_relacionado(id){
             success: function(response){
                 if(response.success){
                     var resp = response['contrato'];
-
-                    if(resp!="vacio"){
-                        if(resp[0] != null){
-                            $("#nombre_doc_relacionado"+id).val("");
-                            $("#nombre_doc_relacionado"+id).css('background-color','#5cb85c');
-                            $("#nombre_doc_relacionado"+id).css('color','white');
-                            $("#nombre_doc_relacionado"+id).val(resp[0].nombre); 
-                            $("#documento_url").attr("href", inside_url+"verif_metrologica/download_documento/"+resp[0].iddocumento);                          
-                        	$("#documento_url").css('visibility','visible');
-                        }
-                        else{
-                            $("#nombre_doc_relacionado"+id).val("Documento no registrado");
-                            $("#nombre_doc_relacionado"+id).css('background-color','#d9534f');
-                            $("#nombre_doc_relacionado"+id).css('color','white');
-                            $("#documento_url").css('visibility','hidden');
-                        } 
+                    if(resp != null){
+                    	var otm = response['ot'];
+                    	if(otm == null){
+                    		$("#nombre_doc_relacionado"+id).val("");
+	                        $("#nombre_doc_relacionado"+id).css('background-color','#5cb85c');
+	                        $("#nombre_doc_relacionado"+id).css('color','white');
+	                        $("#nombre_doc_relacionado"+id).val(resp.nombre); 
+	                        $("#documento_url").attr("href", inside_url+"verif_metrologica/download_documento/"+resp.iddocumento);                          
+	                    	$("#documento_url").css('visibility','visible');
+                    	 	$("#num_doc_relacionado"+id).prop('readonly',true);
+                    	}else{
+                    		$("#nombre_doc_relacionado"+id).val("Documento ya fue tomado");
+	                        $("#nombre_doc_relacionado"+id).css('background-color','#d9534f');
+	                        $("#nombre_doc_relacionado"+id).css('color','white');
+	                        $("#documento_url").css('visibility','hidden');
+	                        $("#num_doc_relacionado"+id).prop('readonly',false);
+                    	}                        
                     }else{
                         $("#nombre_doc_relacionado"+id).val("Documento no registrado");
                         $("#nombre_doc_relacionado"+id).css('background-color','#d9534f');
                         $("#nombre_doc_relacionado"+id).css('color','white');
                         $("#documento_url").css('visibility','hidden');
-                    }               
+                    	$("#num_doc_relacionado"+id).prop('readonly',false);
+                    } 
+                                
                 }else{
                     alert('La petición no se pudo completar, inténtelo de nuevo.');
                 }
@@ -233,4 +236,5 @@ function limpiar_nombre_doc_relacionado(id){
     $("#num_doc_relacionado"+id).val("");
     $("#nombre_doc_relacionado"+id).css('background-color','white');
     $("#documento_url").css('visibility','hidden');
+    $("#num_doc_relacionado"+id).prop('readonly',false);
 }

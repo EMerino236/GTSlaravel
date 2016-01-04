@@ -196,7 +196,7 @@ class ServiciosController extends BaseController
 					$servicio->id_usuario_responsable = Input::get('personal');
 					$servicio->save();
 					Session::flash('message', 'Se editó correctamente el servicio.');
-					return Redirect::to($url);
+					return Redirect::to('servicios/list_servicios');
 				}
 			}else{
 				return View::make('error/error',$data);

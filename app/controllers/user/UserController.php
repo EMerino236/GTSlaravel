@@ -90,7 +90,7 @@ class UserController extends BaseController {
 					});
 					Session::flash('message', 'Se registró correctamente al usuario.');
 					
-					return Redirect::to('user/create_user');
+					return Redirect::to('user/list_users');
 				}
 			}else{
 				return View::make('error/error',$data);
@@ -225,7 +225,7 @@ class UserController extends BaseController {
 						$user->password = Hash::make($password);
 					$user->save();
 					Session::flash('message', 'Se editó correctamente al usuario.');
-					return Redirect::to($url);
+					return Redirect::to('user/list_users');
 				}
 			}else{
 				return View::make('error/error',$data);

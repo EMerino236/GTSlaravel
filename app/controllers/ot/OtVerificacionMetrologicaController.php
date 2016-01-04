@@ -388,6 +388,25 @@ class OtVerificacionMetrologicaController extends BaseController {
 								return Redirect::to('verif_metrologica/create_ot_verif_metrologica/'.$idot_vmetrologica);
 							}						
 						}
+					}else{
+						//quiere decir que el doc actual es nuevo y no habia uno anterior
+						$codigo_archivamiento_documento = Input::get('num_doc_relacionado1');
+						if($codigo_archivamiento_documento != ''){
+							$documento_nuevo = Documento::searchDocumentoByCodigoArchivamiento($codigo_archivamiento_documento)->get();
+							if(count($documento_nuevo)>0){
+								$documento_nuevo = $documento_nuevo[0];
+								$documento_nuevo->idot_vmetrologica = $idot_vmetrologica;
+								$documento_nuevo->save();
+							}else{
+								Session::flash('error', 'El Documento adjunto no existe.');
+								return Redirect::to('verif_metrologica/create_ot_verif_metrologica/'.$idot_vmetrologica);
+							}
+							
+						}else{
+							Session::flash('error', 'El Documento es requerido.');
+								return Redirect::to('verif_metrologica/create_ot_verif_metrologica/'.$idot_vmetrologica);
+						}
+						
 					}
 					Session::flash('message', 'Se guardó correctamente la información.');
 					return Redirect::to('verif_metrologica/list_verif_metrologica');
@@ -454,14 +473,26 @@ class OtVerificacionMetrologicaController extends BaseController {
 		if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
 			|| $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 			// Check if the current user is the "System Admin"
-			$data = Input::get('selected_id');
-			if($data !="vacio"){
-				$documento = Documento::searchDocumentoByCodigoArchivamiento($data)->get();
-			}else{
+			$data = Input::get('selected_id');	
+			$documento = Documento::searchDocumentoByCodigoArchivamiento($data)->get();
+			if($documento->isEmpty()){
 				$documento = null;
+				$ot = null;
+			}else{
+				$documento = $documento[0];
+				if($documento->idtipo_documento != 17){
+					$documento = null;
+					$ot = null;
+				}else{
+					$ot = OrdenesTrabajoVerifMetrologica::searchOtVerifMetrologicaByIdDocumento($documento->iddocumento)->get();
+					if($ot->isEmpty()){
+						$ot = null;
+					}else{
+						$ot = $ot[0];
+					}
+				}
 			}
-
-			return Response::json(array( 'success' => true, 'contrato' => $documento ),200);
+			return Response::json(array( 'success' => true, 'contrato' => $documento,'ot'=>$ot ),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
 		}

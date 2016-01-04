@@ -167,7 +167,7 @@ class AreasController extends BaseController
 							'tipo_area' => 'required',	
 						);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					$area_id = Input::get('area_id');

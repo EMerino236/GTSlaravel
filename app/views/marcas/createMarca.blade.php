@@ -22,7 +22,10 @@
 
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
-			<p><strong>{{ $errors->first('nombre_marca') }}</strong></p>
+			<p><strong>
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				{{ $errors->first('nombre_marca') }}</strong>
+			</p>
 		</div>
 	@endif	
 

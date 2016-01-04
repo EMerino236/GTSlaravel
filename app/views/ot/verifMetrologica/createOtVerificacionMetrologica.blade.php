@@ -76,7 +76,11 @@
 					<div class="row">
 						<div class="form-group col-md-8">
 							{{ Form::label('numero_ficha','Número de Ficha') }}
-							{{ Form::text('numero_ficha',$ot_info->numero_ficha,array('class' => 'form-control','placeholder'=>'Ingrese número de ficha')) }}
+							 @if($ot_info->numero_ficha == null)
+								{{ Form::text('numero_ficha',$ot_info->numero_ficha,array('class' => 'form-control','placeholder'=>'Ingrese número de ficha')) }}
+							@else
+								{{ Form::text('numero_ficha',$ot_info->numero_ficha,array('class' => 'form-control','placeholder'=>'Ingrese número de ficha','readonly'=>'')) }}
+							@endif
 						</div>
 					</div>
 				</div>
@@ -228,7 +232,7 @@
 								<div class="form-group col-md-2 @if($errors->first('num_doc_relacionado1')) has-error has-feedback @endif">
 									{{ Form::label('num_doc_relacionado1','Cód. Archivamiento') }}
 									@if($documento_info != null)
-										{{ Form::text('num_doc_relacionado1',$documento_info->codigo_archivamiento,['class' => 'form-control','id'=>'num_doc_relacionado1'])}}
+										{{ Form::text('num_doc_relacionado1',$documento_info->codigo_archivamiento,['class' => 'form-control','readonly'=>'','id'=>'num_doc_relacionado1'])}}
 									@else
 										{{ Form::text('num_doc_relacionado1','',['class' => 'form-control','id'=>'num_doc_relacionado1'])}}
 									@endif
@@ -249,7 +253,9 @@
 								</div>	
 								<div class="form-group col-md-2" style="margin-top:25px">
 									@if($documento_info != null)
-										<a id="documento_url" class="btn btn-primary btn-block" href="{{URL::to('/verif_metrologica/download_documento/')}}/{{$documento_info->iddocumento}}"><span class="glyphicon glyphicon-download"></span> Descargar</a>
+										<a id="documento_url" class="btn btn-success btn-block" href="{{URL::to('/verif_metrologica/download_documento/')}}/{{$documento_info->iddocumento}}"><span class="glyphicon glyphicon-download"></span> Descargar</a>
+									@else
+										<a id="documento_url" class="btn btn-success btn-block" style="visibility:hidden;"><span class="glyphicon glyphicon-download"></span> Descargar</a>
 									@endif
 								</div>						
 							</div>

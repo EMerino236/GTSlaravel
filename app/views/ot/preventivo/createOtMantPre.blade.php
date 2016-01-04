@@ -68,13 +68,13 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="form-group col-md-8">
+						<div class="form-group col-md-8 @if($errors->first('nombre_ejecutor')) has-error has-feedback @endif">
 							{{ Form::label('nombre_ejecutor','Ejecutor del Mantenimiento') }}
 							{{ Form::text('nombre_ejecutor',$ot_info->nombre_ejecutor,array('class' => 'form-control','placeholder'=>'Nombre del Ejecutor')) }}
 						</div>
 					</div>
 					<div class="row">
-						<div class="form-group col-md-8">
+						<div class="form-group col-md-8 @if($errors->first('numero_ficha')) has-error has-feedback @endif">
 							{{ Form::label('numero_ficha','Número de Ficha') }}
 							@if($ot_info->numero_ficha == null)
 								{{ Form::text('numero_ficha',$ot_info->numero_ficha,array('class' => 'form-control','placeholder'=>'Ingrese número de ficha')) }}

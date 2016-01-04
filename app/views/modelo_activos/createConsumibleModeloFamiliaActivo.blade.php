@@ -9,6 +9,7 @@
 
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			<p><strong>{{ $errors->first('nombre_consumible') }}</strong></p>
 			<p><strong>{{ $errors->first('cantidad_consumible') }}</strong></p>
 			<p><strong>{{ $errors->first('costo_consumible') }}</strong></p>			
@@ -22,7 +23,10 @@
 		</div>
 	@endif
 	@if (Session::has('error'))
-		<div class="alert alert-danger">{{ Session::get('error') }}</div>
+		<div class="alert alert-danger">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('error') }}
+		</div>
 	@endif
 
 	{{ Form::open(array('url'=>'familia_activos/submit_create_consumible_modelo_familia_activo', 'role'=>'form')) }}
