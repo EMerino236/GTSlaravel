@@ -153,11 +153,12 @@ class ActasConformidadController extends BaseController
 					return Redirect::to('actas_conformidad/create_acta')->withErrors($validator)->withInput(Input::all());
 				}else{
 					$numero_acta = Input::get('numero_acta');
-					$documento = Documento::searchDocumentoByCodigoArchivamiento($numero_acta)->get();
-					if($documento->isEmpty()==true){
-						Session::flash('error', 'Se registró correctamente el area.');				
-						return Redirect::to('actas_conformidad/list_actas');
+					if(Input::get('flag_doc')==0){
+						Session::flash('error', 'No se adjuntó el documento correctamente.');				
+						return Redirect::to('actas_conformidad/create_acta')->withInput(Input::all());
 					}
+					$documento = Documento::searchDocumentoByCodigoArchivamiento($numero_acta)->get();
+					
 					$documento = $documento[0];
 					$documento->idproveedor = Input::get('proveedor');
 					$documento->fecha_acta = date('Y-m-d H:i:s',strtotime(Input::get('fecha')));
@@ -265,17 +266,13 @@ class ActasConformidadController extends BaseController
 			|| $data["user"]->idrol == 7 || $data["user"]->idrol == 8  || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 			// Check if the current user is the "System Admin"
 			$data = Input::get('selected_id');
-			if($data !="vacio"){
-				$documento = Documento::searchDocumentoByCodigoArchivamiento($data)->get();
-				if($documento->isEmpty()==false){
-					$documento = $documento[0];
-					if($documento->idtipo_documento != 9)
-						$documento = 1;
-				}else
-					$documento = 2;
-			}else{
+			$documento = Documento::searchDocumentoByCodigoArchivamiento($data)->get();
+			if($documento->isEmpty()==false){
+				$documento = $documento[0];
+				if($documento->idtipo_documento != 9)
+					$documento = 1;
+			}else
 				$documento = 2;
-			}
 
 			return Response::json(array( 'success' => true, 'reporte' => $documento ),200);
 		}else{

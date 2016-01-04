@@ -149,7 +149,7 @@ class DocumentoController extends BaseController {
 					'ubicacion' => 'required|max:100|alpha_num_spaces'
 				);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					$iddocumento = Input::get('documento_id');

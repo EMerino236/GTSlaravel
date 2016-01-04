@@ -22,6 +22,7 @@
 
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			<p><strong>{{ $errors->first('proveedor_ruc') }}</strong></p>
 			<p><strong>{{ $errors->first('proveedor_razon_social') }}</strong></p>
 			<p><strong>{{ $errors->first('proveedor_nombre_contacto') }}</strong></p>			

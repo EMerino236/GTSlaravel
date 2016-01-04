@@ -346,13 +346,13 @@ class ProveedorController extends BaseController {
 			    	//'numero_documento_soporte_tecnico.unique' => 'El :attribute ya existe.',
 				);
 
-				$rules = array(
-					'nombre_soporte_tecnico' => 'required',
-					'apPaterno_soporte_tecnico' => 'required',
-					'apMaterno_soporte_tecnico' => 'required',
-					'especialidad_soporte_tecnico' => 'required',
-					'telefono_soporte_tecnico' => 'required',
-					'email_soporte_tecnico' => 'required'
+				$rules = array(					
+					'nombre_soporte_tecnico' => 'required|alpha_spaces',
+					'apPaterno_soporte_tecnico' => 'required|alpha_spaces',
+					'apMaterno_soporte_tecnico' => 'required|alpha_spaces',
+					'especialidad_soporte_tecnico' => 'required|alpha_spaces',
+					'telefono_soporte_tecnico' => 'required|numeric|digits:7',
+					'email_soporte_tecnico' => 'required|email|max:45'
 					);
 
 				$validator = Validator::make(Input::all(), $rules, $messages, $attributes);
@@ -458,7 +458,7 @@ class ProveedorController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1)
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4)
 			{				
 				$idsoporte_tecnico = Input::get('idsoporte_tecnico');				
 				$soporte_tecnico = SoporteTecnico::find($idsoporte_tecnico);

@@ -24,10 +24,15 @@
 		</div>
 	@endif
 	@if (Session::has('error'))
-		<div class="alert alert-danger">{{ Session::get('error') }}</div>
+		<div class="alert alert-danger">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('error') }}</div>
 	@endif
 
 	{{ Form::open(array('url'=>'actas_conformidad/submit_create_acta', 'role'=>'form','id'=>'submitForm')) }}	
+		<div>
+			{{ Form::hidden('flag_doc',0,array('id'=>'flag_doc'))}}
+		</div>
 		<div class="container-fluid row">
 			<div class="form-group col-md-2 col-md-offset-8">				
 				{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Crear', array('id'=>'submit-create', 'class' => 'btn btn-primary btn-block')) }}

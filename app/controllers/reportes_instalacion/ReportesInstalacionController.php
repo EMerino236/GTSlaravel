@@ -389,19 +389,19 @@ class ReportesInstalacionController extends BaseController {
 
 							if(Input::get('flag_doc1')==0 ){
 								Session::flash('error', 'Certficado de Funcionalidad no adjuntado correctamente.');
-								return Redirect::to('rep_instalacion/create_rep_instalacion/'.$rep_ent_concluido[0]->idreporte_instalacion)->withInput(Input::all());
+								return Redirect::to($url)->withInput(Input::all());
 							}
 							if(Input::get('flag_doc2')==0 ){
-								Session::flash('error', 'Certficado de Funcionalidad no adjuntado correctamente.');
-								return Redirect::to('rep_instalacion/create_rep_instalacion/'.$rep_ent_concluido[0]->idreporte_instalacion)->withInput(Input::all());
+								Session::flash('error', 'Contrato de Proveedor no adjuntado correctamente.');
+								return Redirect::to($url)->withInput(Input::all());
 							}
 							if(Input::get('flag_doc3')==0 ){
-								Session::flash('error', 'Certficado de Funcionalidad no adjuntado correctamente.');
-								return Redirect::to('rep_instalacion/create_rep_instalacion/'.$rep_ent_concluido[0]->idreporte_instalacion)->withInput(Input::all());
+								Session::flash('error', 'Manual de Funcionalidad no adjuntado correctamente.');
+								return Redirect::to($url)->withInput(Input::all());
 							}
 							if(Input::get('flag_doc4')==0 ){
-								Session::flash('error', 'Certficado de Funcionalidad no adjuntado correctamente.');
-								return Redirect::to('rep_instalacion/create_rep_instalacion/'.$rep_ent_concluido[0]->idreporte_instalacion)->withInput(Input::all());
+								Session::flash('error', 'Término de referencia no adjuntado correctamente.');
+								return Redirect::to($url)->withInput(Input::all());
 							}
 				
 							

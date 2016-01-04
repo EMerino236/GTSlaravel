@@ -78,7 +78,9 @@
 						<th class="text-nowrap text-center">Teléfono</th>				
 						<th class="text-nowrap text-center">E-mail</th>
 						<th class="text-nowrap text-center">Editar</th>
-						<th class="text-nowrap text-center">Eliminar</th>											
+						@if($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4)
+							<th class="text-nowrap text-center">Eliminar</th>	
+						@endif										
 					</tr>
 					@foreach($soportes_tecnico_data as $index => $soporte_tecnico)
 					<tr class="@if($soporte_tecnico->deleted_at) bg-danger @endif">			
@@ -113,10 +115,12 @@
 							<a class="btn btn-warning btn-block btn-sm" href="{{URL::to('/proveedores/edit_soporte_tecnico_proveedor/')}}/{{$soporte_tecnico->idsoporte_tecnico}}">
 							<span class="glyphicon glyphicon-pencil"></span> Editar</a>
 						</td>											
+						@if($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4)
 						<td>
 							<button class="btnEliminarSoporteTecnicoProveedor btn btn-danger btn-block btn-sm" data-value="{{$soporte_tecnico->idsoporte_tecnico}}">
 							<span class="glyphicon glyphicon-trash"></span> Eliminar</button>
 						</td>
+						@endif
 					</tr>
 					@endforeach							
 				</table>

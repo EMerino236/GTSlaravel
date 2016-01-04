@@ -36,15 +36,15 @@ $( document ).ready(function(){
         $("#nombre_acta").val('');
         $("#btn_descarga").hide();
         $("input[name=numero_acta_hidden]").val(null);
-
+        $("#numero_acta").prop('readonly',false);
+        $("#flag_ot").val(0);
     });
 	
 });
 
 function fill_name_acta(){
     var val = $("#numero_acta").val();
-    if(val=="")
-        val = "vacio";    
+    if(val=="")return;   
     $.ajax({
         url: inside_url+'actas_conformidad/return_name_acta',
         type: 'POST',
@@ -63,35 +63,33 @@ function fill_name_acta(){
         success: function(response){
             if(response.success){
                 var resp = response['reporte'];
-                if(val!="vacio"){
-                    if(resp != 2 && resp != 1){
-                        $("#nombre_acta").val("");
-                        $("#nombre_acta").css('background-color','#5cb85c');
-                        $("#nombre_acta").css('color','white');
-                        $("#nombre_acta").val(resp.nombre);
-                        $("#btn_descarga").show();
-                        $("input[name=numero_acta_hidden]").val(val);                            
-                    }else if(resp==1){
-                        $("#nombre_acta").val("Documento no es un Acta");
-                        $("#nombre_acta").css('background-color','#d9534f');
-                        $("#nombre_acta").css('color','white');
-                        $("#btn_descarga").hide();
-                        $("input[name=numero_acta_hidden]").val(null);
-                    }
-                    else if(resp==2){
-                        $("#nombre_acta").val("Documento no registrado");
-                        $("#nombre_acta").css('background-color','#d9534f');
-                        $("#nombre_acta").css('color','white');
-                        $("#btn_descarga").hide();
-                        $("input[name=numero_acta_hidden]").val(null);
-                    } 
-                }else{
+                if(resp != 2 && resp != 1){
+                    $("#nombre_acta").val("");
+                    $("#nombre_acta").css('background-color','#5cb85c');
+                    $("#nombre_acta").css('color','white');
+                    $("#nombre_acta").val(resp.nombre);
+                    $("#btn_descarga").show();
+                    $("input[name=numero_acta_hidden]").val(val); 
+                    $("#numero_acta").prop('readonly',true);
+                    $("#flag_doc").val(1);                          
+                }else if(resp==1){
+                    $("#nombre_acta").val("Documento no es un Acta");
+                    $("#nombre_acta").css('background-color','#d9534f');
+                    $("#nombre_acta").css('color','white');
+                    $("#btn_descarga").hide();
+                    $("input[name=numero_acta_hidden]").val(null);
+                    $("#numero_acta").prop('readonly',false);
+                    $("#flag_doc").val(0);
+                }
+                else if(resp==2){
                     $("#nombre_acta").val("Documento no registrado");
                     $("#nombre_acta").css('background-color','#d9534f');
                     $("#nombre_acta").css('color','white');
                     $("#btn_descarga").hide();
                     $("input[name=numero_acta_hidden]").val(null);
-                }               
+                    $("#numero_acta").prop('readonly',false);
+                    $("#flag_doc").val(0);
+                }         
             }else{
                 alert('La petición no se pudo completar, inténtelo de nuevo.');
             }

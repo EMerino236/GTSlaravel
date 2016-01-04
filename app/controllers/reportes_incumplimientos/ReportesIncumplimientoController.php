@@ -447,7 +447,7 @@ class ReportesIncumplimientoController extends BaseController
 						Session::flash('error', 'Orden de Trabajo de Mantenimiento no existe o no ha sido validado.');
 						return Redirect::to('reportes_incumplimiento/create_reporte');
 					}
-					if(Input::get('flag_doc')==1){
+					if(Input::get('flag_doc')==0){
 						Session::flash('error', 'Documento no adjuntado correctamente.');
 						return Redirect::to('reportes_incumplimiento/create_reporte');
 					}
@@ -471,14 +471,14 @@ class ReportesIncumplimientoController extends BaseController
 					$fecha_actual = date('Y-m-d');
 					if($fecha_actual>$fecha_reporte){
 						Session::flash('error', 'No se puede guardar una fecha pasada a la actual.');
-						return Redirect::to('reportes_incumplimiento/create_reporte');
+						return Redirect::to('reportes_incumplimiento/create_reporte')->withInput(Input::all());;;
 					}
 					$reporte->fecha = $fecha_reporte;
 					$id_usuario_revision = Input::get('numero_doc1');
 					$usuario_revision = User::searchPersonalByNumeroDoc($id_usuario_revision)->get();
 					if($usuario_revision->isEmpty()){
 						Session::flash('error', 'Usuario revisión no existe.');
-						return Redirect::to('reportes_incumplimiento/create_reporte');
+						return Redirect::to('reportes_incumplimiento/create_reporte')->withInput(Input::all());;;
 					}else{
 						$reporte->id_responsable = $usuario_revision[0]->id;
 						
@@ -497,7 +497,7 @@ class ReportesIncumplimientoController extends BaseController
 					$usuario_autorizado = User::searchPersonalByNumeroDoc($id_usuario_autorizado)->get();
 					if($usuario_autorizado->isEmpty()){
 						Session::flash('error', 'Usuario autorizado no existe.');
-						return Redirect::to('reportes_incumplimiento/create_reporte');
+						return Redirect::to('reportes_incumplimiento/create_reporte')->withInput(Input::all());;;
 					}else{
 						$reporte->id_autorizado = $usuario_autorizado[0]->id;
 					}
@@ -505,7 +505,7 @@ class ReportesIncumplimientoController extends BaseController
 					$usuario_elaborador = User::searchPersonalByNumeroDoc($id_usuario_elaborador)->get();
 					if($usuario_elaborador->isEmpty()){
 						Session::flash('error', 'Usuario elaborador no existe.');
-						return Redirect::to('reportes_incumplimiento/create_reporte');
+						return Redirect::to('reportes_incumplimiento/create_reporte')->withInput(Input::all());;;
 					}else{
 						$reporte->id_elaborado = $usuario_elaborador[0]->id;
 					}

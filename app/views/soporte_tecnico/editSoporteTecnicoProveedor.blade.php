@@ -2,7 +2,7 @@
 @section('content')
 	<div class="row">
         <div class="col-md-12">
-            <h3 class="page-header">Editar Soporte Técnico: <strong>{{$soporte_tecnico_info->apellido_pat}} {{$soporte_tecnico_info->apellido_mat}} ,{{$soporte_tecnico_info->nombres}}</strong> </h3>
+            <h3 class="page-header">Editar Soporte Técnico: <strong>{{$soporte_tecnico_info->apellido_pat}} {{$soporte_tecnico_info->apellido_mat}}, {{$soporte_tecnico_info->nombres}}</strong> </h3>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -69,7 +69,7 @@
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('telefono_soporte_tecnico')) has-error has-feedback @endif">
 						{{ Form::label('telefono_soporte_tecnico','Telefono') }}<span style="color:red">*</span>
-						{{ Form::text('telefono_soporte_tecnico',$soporte_tecnico_info->telefono,array('class'=>'form-control')) }}
+						{{ Form::text('telefono_soporte_tecnico',$soporte_tecnico_info->telefono,array('class'=>'form-control','maxlength'=>'7')) }}
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('email_soporte_tecnico')) has-error has-feedback @endif">
 						{{ Form::label('email_soporte_tecnico','E-mail') }}<span style="color:red">*</span>

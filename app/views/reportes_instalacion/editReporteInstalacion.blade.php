@@ -172,7 +172,7 @@
 							<div class="form-group col-md-2 @if($errors->first('numero_reporte_entorno_concluido')) has-error has-feedback @endif">
 								{{ Form::label('numero_reporte_entorno_concluido','Entorno Concluido') }}
 								@if($reporte_instalacion_info)
-									{{ Form::text('numero_reporte_entorno_concluido',$reporte_instalacion_info->numero_reporte_abreviatura.$reporte_instalacion_info->numero_reporte_correlativo."-".$reporte_instalacion_info->numero_reporte_anho,['readonly'=>'','class' => 'form-control','id'=>'numero_reporte_entorno_concluido'])}}
+									{{ Form::text('numero_reporte_entorno_concluido',$reporte_instalacion_entorno_concluido->numero_reporte_abreviatura.$reporte_instalacion_entorno_concluido->numero_reporte_correlativo."-".$reporte_instalacion_entorno_concluido->numero_reporte_anho,['readonly'=>'','class' => 'form-control','id'=>'numero_reporte_entorno_concluido'])}}
 								@else
 									{{ Form::text('numero_reporte_entorno_concluido',Input::old('numero_reporte_entorno_concluido'),['class' => 'form-control','id'=>'numero_reporte_entorno_concluido'])}}
 								@endif

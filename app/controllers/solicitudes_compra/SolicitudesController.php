@@ -77,7 +77,7 @@ class SolicitudesController extends BaseController
 			// Check if the current user is the "System Admin"
 			$data = Input::get('selected_id');
 			if($data !=0){
-				$equipos = FamiliaActivo::searchFamiliaActivo("",$data)->get();
+				$equipos = FamiliaActivo::searchFamiliaActivo("",$data,"")->get();
 			}else{
 				$equipos = null;
 			}
@@ -458,7 +458,7 @@ class SolicitudesController extends BaseController
 					if($count_details == 0 ){
 						//no se podrá crear nada porque no se ha creado ningún detalle
 						Session::flash('error', 'No se cuenta con detalles.');
-						return Redirect::to('solicitudes_compra/create_solicitud');
+						return Redirect::to('solicitudes_compra/create_solicitud')->withInput(Input::all());;;
 					}else{
 						$flag_ot = Input::get('flag_ot');
 						$flag_doc = Input::get('flag_doc');

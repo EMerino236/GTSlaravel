@@ -143,7 +143,7 @@
 							</div>	
 							<div class="form-group col-md-2" style="margin-top:25px">
 								@if($documento_certificado_funcionalidad != null)
-									<a class="btn btn-primary btn-block" href="{{URL::to('/rep_instalacion/download_documento/')}}/{{$documento_certificado_funcionalidad->iddocumento}}"><span class="glyphicon glyphicon-download"></span> Descargar</a>
+									<a class="btn btn-success btn-block" href="{{URL::to('/rep_instalacion/download_documento/')}}/{{$documento_certificado_funcionalidad->iddocumento}}"><span class="glyphicon glyphicon-download"></span> Descargar</a>
 								@endif
 							</div>	
 						</div>
@@ -166,7 +166,7 @@
 							</div>
 							<div class="form-group col-md-2" style="margin-top:25px">
 								@if($documento_contrato != null)
-									<a class="btn btn-primary btn-block" href="{{URL::to('/rep_instalacion/download_documento/')}}/{{$documento_contrato->iddocumento}}"><span class="glyphicon glyphicon-download"></span> Descargar</a>
+									<a class="btn btn-success btn-block" href="{{URL::to('/rep_instalacion/download_documento/')}}/{{$documento_contrato->iddocumento}}"><span class="glyphicon glyphicon-download"></span> Descargar</a>
 								@endif
 							</div>				
 						</div>
@@ -189,7 +189,7 @@
 							</div>	
 							<div class="form-group col-md-2" style="margin-top:25px">
 								@if($documento_manual != null)
-									<a class="btn btn-primary btn-block" href="{{URL::to('/rep_instalacion/download_documento/')}}/{{$documento_manual->iddocumento}}"><span class="glyphicon glyphicon-download"></span> Descargar</a>
+									<a class="btn btn-success btn-block" href="{{URL::to('/rep_instalacion/download_documento/')}}/{{$documento_manual->iddocumento}}"><span class="glyphicon glyphicon-download"></span> Descargar</a>
 								@endif
 							</div>	
 						</div>
@@ -212,7 +212,7 @@
 							</div>	
 							<div class="form-group col-md-2" style="margin-top:25px">
 								@if($documento_tdr != null)	
-									<a class="btn btn-primary btn-block" href="{{URL::to('/rep_instalacion/download_documento/')}}/{{$documento_tdr->iddocumento}}"><span class="glyphicon glyphicon-download"></span> Descargar</a>
+									<a class="btn btn-success btn-block" href="{{URL::to('/rep_instalacion/download_documento/')}}/{{$documento_tdr->iddocumento}}"><span class="glyphicon glyphicon-download"></span> Descargar</a>
 								@endif
 							</div>	
 						</div>
