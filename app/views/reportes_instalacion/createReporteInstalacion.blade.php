@@ -39,6 +39,13 @@
 	@endif  
 
     {{ Form::open(array('url'=>'/rep_instalacion/submit_create_rep_instalacion','role'=>'form')) }}
+		<div>
+			{{ Form::hidden('flag_doc1',0,array('id'=>'flag_doc1'))}}
+			{{ Form::hidden('flag_doc2',0,array('id'=>'flag_doc2'))}}
+			{{ Form::hidden('flag_doc3',0,array('id'=>'flag_doc3'))}}
+			{{ Form::hidden('flag_doc4',0,array('id'=>'flag_doc4'))}}
+			{{ Form::hidden('type_submit',0,array('id'=>'type_submit'))}}
+		</div>
 		{{Form::hidden('type_report',0,array('class'=>'form-control','id'=>'type_report'))}}
 		<div class="panel panel-default">
 		  	<div class="panel-heading">

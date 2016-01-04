@@ -88,7 +88,7 @@ class DocumentoController extends BaseController {
 
 					
 					Session::flash('message', 'Se registró correctamente el Documento.');				
-					return Redirect::to('documento/create_documento');
+					return Redirect::to('documento/list_documentos');
 				}
 			}else{
 				return View::make('error/error',$data);

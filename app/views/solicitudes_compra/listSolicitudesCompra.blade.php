@@ -6,6 +6,21 @@
         </div>
         <!-- /.col-lg-12 -->
     </div>
+
+    @if (Session::has('message'))
+		<div class="alert alert-success">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('message') }}
+		</div>
+	@endif
+	@if (Session::has('error'))
+		<div class="alert alert-danger"><strong>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('error') }}</strong>
+		</div>
+	@endif
+
+	
 	{{ Form::open(array('url'=>'/solicitudes_compra/search_solicitudes','method'=>'get' ,'role'=>'form', 'id'=>'search-form','class' => 'form-group')) }}
 	<div class="panel panel-default">
 	  <div class="panel-heading">
@@ -75,7 +90,8 @@
 				<th class="text-nowrap">Tipo</th>
 				<th class="text-nowrap">Nombre de Equipo</th>
 				<th class="text-nowrap">Servicio Clínico</th>
-				<th class="text-nowrap">Número OT</th>
+				<th class="text-nowrap">Número OT</th>				
+				<th class="text-nowrap">Fecha</th>
 				<th class="text-nowrap">Estado</th>
 				<th class="text-nowrap">Editar</th>	
 			</tr>
@@ -89,6 +105,9 @@
 					<td class="text-nowrap text-center">{{$solicitud_data->nombre_equipo}}</td>
 					<td class="text-nowrap text-center">{{$solicitud_data->nombre_servicio}}</td>
 					<td class="text-nowrap text-center">{{$solicitud_data->codigo_ot}}</td>
+					<td class="text-nowrap text-center">
+						{{date('d-m-Y',strtotime($solicitud_data->fecha))}}
+					</td>
 					<td class="text-nowrap text-center">{{$solicitud_data->nombre_estado}}</td>
 					<td class="text-nowrap text-center">
 						<a class="btn btn-warning btn-block btn-sm" href="{{URL::to('/solicitudes_compra/edit_solicitud_compra/')}}/{{$solicitud_data->idsolicitud_compra}}">

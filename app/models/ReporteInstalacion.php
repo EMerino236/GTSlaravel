@@ -105,5 +105,13 @@ class ReporteInstalacion extends Eloquent{
 					 where a.idtipo_reporte_instalacion=1';
 		$query = DB::select(DB::raw($sql));
 		return $query;
+	}
+
+	public function scopeSearchReporteByIdDocumento($query,$iddocumento)
+	{
+		$query->join('documentos','documentos.idreporte_instalacion','=','reporte_instalaciones.idreporte_instalacion')
+			  ->where('documentos.iddocumento','=',$iddocumento)
+			  ->select('reporte_instalaciones.*');
+		return $query;
 	}		
 }

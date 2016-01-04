@@ -160,21 +160,25 @@ class ReportesIncumplimientoController extends BaseController
 				 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 			// Check if the current user is the "System Admin"
 			$data = Input::get('selected_id');
-			if($data !="vacio"){
-				$documento = Documento::searchDocumentoByCodigoArchivamiento($data)->get();
-				if($documento->isEmpty()){
+			$documento = Documento::searchDocumentoByCodigoArchivamiento($data)->get();			
+			if(!$documento->isEmpty()){ //existe el doc
+				$documento = $documento[0];
+				if($documento->idtipo_documento == 1){//si es reporte de necesidad, se valida ahora si el documento ya fue tomado
+					$reporte = ReporteIncumplimiento::getReporteIncumplimientoByIdDocumentoContrato($documento->iddocumento)->get();
+					if($reporte->isEmpty())
+						$reporte = null;
+					else
+						$reporte = $reporte[0];
+				}else{
 					$documento = null;
 					$reporte = null;
-				}else{
-					$doc = $documento[0];
-					$reporte = ReporteIncumplimiento::getReporteIncumplimientoByIdDocumentoContrato($doc->iddocumento)->get();
-				}
+				}				
+			}else{
+				$reporte = null;
+				$documento = null;
+			} 
 				//se debe verificar que el documento no está asignado a otro reporte de incumplimiento
 				
-			}else{
-				$documento = null;
-				$reporte = null;
-			}
 
 			return Response::json(array( 'success' => true, 'contrato' => $documento,'reporte'=>$reporte ),200);
 		}else{
@@ -240,11 +244,8 @@ class ReportesIncumplimientoController extends BaseController
 				 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 			// Check if the current user is the "System Admin"
 			$data = Input::get('selected_id');
-			if($data!="vacio")
-				$responsable = User::searchPersonalByNumeroDoc($data)->get();
-			else{
-				$responsable = null;
-			}
+			$responsable = User::searchPersonalByNumeroDoc($data)->get();
+			
 								
 			return Response::json(array( 'success' => true, 'responsable' => $responsable),200);
 		}else{
@@ -316,6 +317,11 @@ class ReportesIncumplimientoController extends BaseController
 						Session::flash('error', 'Orden de Trabajo de Mantenimiento no existe.');
 						return Redirect::to($url);
 					}
+					if(Input::get('flag_doc')==0){
+						Session::flash('error', 'Documento no adjuntado correctamente.');
+						return Redirect::to($url);
+					}
+
 					$reporte->tipo_reporte = Input::get('tipo_reporte');
 					//validar si la fecha es mayor o igual que la actual
 					$fecha_reporte = date('Y-m-d',strtotime(Input::get('fecha_reporte')));
@@ -359,10 +365,21 @@ class ReportesIncumplimientoController extends BaseController
 					}
 					$reporte->idestado = 1;
 					
-					$reporte->save();													
+					$reporte->save();	
+					$codigo_archivamiento = Input::get('numero_contrato');
+					$documento_nuevo = Documento::searchDocumentoByCodigoArchivamiento($codigo_archivamiento)->get();
+					$documento_nuevo = $documento_nuevo[0];	
+					$documento_actual = Documento::searchDocumentoByIdReporteIncumplimiento($reporte->idreporte_incumplimiento)->get()[0];							
+					if($documento_actual->iddocumento != $documento_nuevo->iddocumento){
+						//quiere decir que es nuevo documento
+						$documento_nuevo->idreporte_incumplimiento = $reporte->idreporte_incumplimiento;
+						$documento_nuevo->save();
+						$documento_actual->idreporte_incumplimiento = null;
+						$documento_actual->save();
+					}												
 					
 					Session::flash('message', 'Se modificó correctamente el reporte.');
-					return Redirect::to($url);
+					return Redirect::to('/reportes_incumplimiento/list_reportes');
 				}
 			}else{
 				return View::make('error/error',$data);
@@ -431,7 +448,7 @@ class ReportesIncumplimientoController extends BaseController
 						return Redirect::to('reportes_incumplimiento/create_reporte');
 					}
 					if(Input::get('flag_doc')==1){
-						Session::flash('error', 'Documento no agregado.');
+						Session::flash('error', 'Documento no adjuntado correctamente.');
 						return Redirect::to('reportes_incumplimiento/create_reporte');
 					}
 

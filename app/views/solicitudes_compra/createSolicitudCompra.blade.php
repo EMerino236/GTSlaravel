@@ -9,6 +9,7 @@
 
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			<p><strong>{{ $errors->first('numero_ot') }}</strong></p>
 			<p><strong>{{ $errors->first('servicio') }}</strong></p>
 			<p><strong>{{ $errors->first('marca1') }}</strong></p>
@@ -17,24 +18,34 @@
 			<p><strong>{{ $errors->first('usuario_responsable') }}</strong></p>
 			<p><strong>{{ $errors->first('tipo') }}</strong></p>
 			<p><strong>{{ $errors->first('fecha') }}</strong></p>
+			<p><strong>{{ $errors->first('estado') }}</strong></p>
 			<p><strong>{{ $errors->first('numero_reporte') }}</strong></p>
 		</div>
 	@endif
 
 	@if (Session::has('message'))
-		<div class="alert alert-success">{{ Session::get('message') }}</div>
+		<div class="alert alert-success">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('message') }}
+		</div>
 	@endif
 	@if (Session::has('error'))
-		<div class="alert alert-danger"><strong>{{ Session::get('error') }}</strong></div>
+		<div class="alert alert-danger"><strong>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{ Session::get('error') }}</strong>
+		</div>
 	@endif
-
+	{{ Form::open(array('url'=>'/solicitudes_compra/submit_create_solicitud_compra','role'=>'form','id'=>'submit_create_solicitud')) }}
 		<div>						
 			{{ Form::hidden('flag_ot',1,array('id'=>'flag_ot'))}}
+			{{ Form::hidden('count_details',0,array('id'=>'count_details'))}}
+			{{ Form::hidden('flag_doc',0,array('id'=>'flag_doc'))}}
+			{{ Form::hidden('type_solicitud',0,array('id'=>'type_solicitud'))}}
 		</div>	
 
 		<div class="row">
 			<div class="form-group col-md-2 col-md-offset-8">
-				{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Crear', array('id'=>'submit_create_solicitud', 'class' => 'btn btn-primary btn-block')) }}
+				{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Crear', array('id'=>'btn_submit', 'class' => 'btn btn-primary btn-block')) }}
 			</div>
 			<div class="form-group col-md-2">
 				<a class="btn btn-default btn-block" href="{{URL::to('/solicitudes_compra/list_solicitudes')}}">Cancelar</a>				
@@ -45,22 +56,30 @@
 				<div class="panel panel-default">
 			  	<div class="panel-heading">Datos Generales</div>
 			  	<div class="panel-body">			  	
-					<div class="form-group row">								
+					<div class="row">								
 						<div class="form-group col-md-4 @if($errors->first('numero_ot')) has-error has-feedback @endif">
 							{{ Form::label('numero_ot','Número de OT:') }}<span style="color:red"> *</span>
 							{{ Form::text('numero_ot',Input::old('numero_ot'),['class' => 'form-control','id'=>'numero_ot','placeholder'=>'Número de OT'])}}
 						</div>
+						<div class="col-md-2" style="margin-top:25px">
+							<div class="btn btn-success btn-block" id="btnValidate"><span class="glyphicon glyphicon-ok"></span> Validar</div>
+						</div>
+						<div class="form-group col-md-2" style="margin-top:25px">
+							<div class="btn btn-default btn-block" onclick="clean_ot()"><span class="glyphicon glyphicon-refresh"></span> Limpiar</div>				
+						</div>
+					</div>
+					<div class="row">
 						<div class="form-group col-md-4 @if($errors->first('servicio')) has-error has-feedback @endif">
 							{{ Form::label('servicio','Servicio:') }}<span style="color:red"> *</span>
-							{{ Form::select('servicio',array('0'=> 'Seleccione')+ $servicios,Input::old('servicio'),array('class'=>'form-control','id'=>'servicio'))}}
+							{{ Form::select('servicio',array(''=> 'Seleccione')+ $servicios,Input::old('servicio'),array('class'=>'form-control','id'=>'servicio'))}}
 						</div>
 						<div class="form-group col-md-4 @if($errors->first('marca1')) has-error has-feedback @endif">
 							{{ Form::label('marca1','Marca:') }}
-							{{ Form::select('marca1',array('0'=>'Seleccione')+ $marcas1,Input::old('marca1'),array('class'=>'form-control','id'=>'marca1'))}}
+							{{ Form::select('marca1',array(''=>'Seleccione')+ $marcas1,Input::old('marca1'),array('class'=>'form-control','id'=>'marca1'))}}
 						</div>
 						<div class="form-group col-md-4 @if($errors->first('nombre_equipo1')) has-error has-feedback @endif">
 							{{ Form::label('nombre_equipo1','Equipo:') }}<span style="color:red"> *</span>
-							{{ Form::select('nombre_equipo1',$nombre_equipos1, Input::old('nombre_equipo1'), array('class'=>'form-control','id'=>'equipo1')) }}
+							{{ Form::select('nombre_equipo1',array(''=>'Seleccione'), Input::old('nombre_equipos1'), array('class'=>'form-control','id'=>'equipo1')) }}
 						</div>
 						<div class="form-group col-md-4 @if($errors->first('nombre_equipo')) has-error has-feedback @endif">
 							{{ Form::label('usuario_responsable','Usuario Responsable:') }}<span style="color:red"> *</span>
@@ -72,18 +91,18 @@
 						</div>
 						<div class="form-group col-md-4 @if($errors->first('tipo')) has-error has-feedback @endif">
 							{{ Form::label('tipo','Tipo de Requerimiento:') }}<span style="color:red"> *</span>
-							{{ Form::select('tipo', array('0'=> 'Seleccione')+ $tipos, Input::old('tipo'), array('class'=>'form-control','id'=>'tipo')) }}
+							{{ Form::select('tipo', array(''=> 'Seleccione')+ $tipos, Input::old('tipo'), array('class'=>'form-control','id'=>'tipo')) }}
 						</div>
 						<div class="col-md-4">
 							{{ Form::label('fecha','Fecha:')}}<span style="color:red"> *</span>
-							<div id="datetimepicker1" class="form-group input-group date">					
+							<div id="datetimepicker1" class="form-group input-group date @if($errors->first('fecha')) has-error has-feedback @endif">					
 								{{ Form::text('fecha',null,array('class'=>'form-control','readonly'=>'')) }}
 								<span class="input-group-addon">
 				                    <span class="glyphicon glyphicon-calendar"></span>
 				                </span>
 				            </div>
         				</div>
-        				<div class="col-md-4 form-group">
+        				<div class="col-md-4 form-group @if($errors->first('estado')) has-error has-feedback @endif">
         					{{ Form::label('estado','Estado:') }}<span style="color:red"> *</span>
 							{{ Form::select('estado',$estados, Input::old('estado'), array('class'=>'form-control','readonly'=>'')) }}
         				</div> 
@@ -158,7 +177,37 @@
 							<th>Modelo</th>
 							<th>Serie/Número de Parte</th>
 							<th>Cantidad</th>
-						</tr>					
+						</tr>
+						<?php 
+							$details_descripcion = Input::old('details_descripcion');
+							$details_marca = Input::old('details_marca');
+							$details_modelo = Input::old('details_modelo');
+							$details_serie = Input::old('details_serie');
+							$details_cantidad = Input::old('details_cantidad');
+							$count = count($details_descripcion);	
+						?>	
+						<?php for($i=0;$i<$count;$i++){ ?>
+						<tr>
+							<td>
+								<input style="border:0" name='details_descripcion[]' value='{{ $details_descripcion[$i] }}' readonly/>
+							</td>
+							<td>
+								<input style="border:0" name='details_marca[]' value='{{ $details_marca[$i] }}' readonly/>
+							</td>
+							<td>
+								<input style="border:0" name='details_modelo[]' value='{{ $details_modelo[$i] }}' readonly/>
+							</td>
+							<td>
+								<input style="border:0" name='details_serie[]' value='{{ $details_serie[$i] }}' readonly/>
+							</td>
+							<td>
+								<input style="border:0" name='details_cantidad[]' value='{{ $details_cantidad[$i] }}' readonly/>
+							</td>
+							<td>
+								<a href='' class='btn btn-default delete-detail' onclick='deleteRow(event,this)'><span class="glyphicon glyphicon-trash"></span></a>
+							</td>						
+						</tr>
+						<?php } ?>					
 					</table>
 				</div>
 			</div>
@@ -173,6 +222,7 @@
 								{{ Form::label('numero_reporte','N° Reporte:') }}<span style="color:red"> *</span>
 								{{ Form::text('numero_reporte',Input::old('numero_reporte'),['class' => 'form-control','id'=>'numero_reporte','placeholder'=>'código'])}}
 							</div>
+							{{Form::close()}}
 							<div class="form-group col-md-2" style="margin-top:25px">
 								<a class="btn btn-primary btn-block" id="btnAgregarReporte">
 								<span class="glyphicon glyphicon-plus"></span> Agregar</a>

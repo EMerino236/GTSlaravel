@@ -2,7 +2,7 @@
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Orden de trabajo de mantenimiento correctivo</h3>
+            <h3 class="page-header">Orden de trabajo de mantenimiento correctivo: {{$ot_info->ot_tipo_abreviatura}}{{$ot_info->ot_correlativo}}{{$ot_info->ot_activo_abreviatura}}</h3>
         </div>
         <!-- /.col-lg-12 -->
     </div>

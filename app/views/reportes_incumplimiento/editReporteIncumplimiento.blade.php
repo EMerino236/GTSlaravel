@@ -46,6 +46,8 @@
 		{{Form::hidden('reporte_id',$reporte_data->idreporte_incumplimiento) }}
 		<div>						
 			{{ Form::hidden('flag_ot',2,array('id'=>'flag_ot'))}}
+			{{ Form::hidden('flag_doc',1,array('id'=>'flag_doc'))}}
+			{{ Form::hidden('type_solicitud',1,array('id'=>'type_solicitud'))}}
 		</div>
 		<div class="container-fluid row">
 			<div class="form-group col-md-2 col-md-offset-8">
@@ -301,6 +303,13 @@
 											@else
 												{{ Form::text('numero_contrato',$documento_info->codigo_archivamiento,array('class'=>'form-control','id'=>'numero_contrato','placeholder'=>'Código','readonly'=>'')) }}
 											@endif								
+										</div>
+										<div class="col-md-2" style="margin-top:25px">
+											<a class="btn btn-primary btn-block" id="btnAddDoc">
+											<span class="glyphicon glyphicon-plus"></span> Agregar</a>
+										</div>
+										<div class="col-md-2" style="margin-top:25px">
+											<div class="btn btn-default btn-block" onclick="clean_name_contrato()"><span class="glyphicon glyphicon-refresh"></span> Limpiar</div>
 										</div>
 										<div class="form-group col-md-4">
 											{{ Form::label('nombre_contrato','Contrato del Proveedor') }}

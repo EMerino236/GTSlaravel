@@ -10,6 +10,8 @@
 		{{Form::hidden('reporte_id',$reporte_data->idreporte_incumplimiento) }}
 		<div>						
 			{{ Form::hidden('flag_ot',2,array('id'=>'flag_ot'))}}
+			{{ Form::hidden('flag_doc',1,array('id'=>'flag_doc'))}}
+			{{ Form::hidden('type_solicitud',1,array('id'=>'type_solicitud'))}}
 		</div>
 		<div class="row">
 			<div class="panel panel-default">

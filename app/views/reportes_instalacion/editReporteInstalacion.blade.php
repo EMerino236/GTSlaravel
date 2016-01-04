@@ -33,6 +33,11 @@
 
     {{ Form::open(array('url'=>'/rep_instalacion/submit_edit_rep_instalacion','role'=>'form')) }}
     	{{ Form::hidden('reporte_instalacion_id', $reporte_instalacion_info->idreporte_instalacion) }}
+		{{ Form::hidden('flag_doc1',1,array('id'=>'flag_doc1'))}}
+		{{ Form::hidden('flag_doc2',1,array('id'=>'flag_doc2'))}}
+		{{ Form::hidden('flag_doc3',1,array('id'=>'flag_doc3'))}}
+		{{ Form::hidden('flag_doc4',1,array('id'=>'flag_doc4'))}}
+		{{ Form::hidden('type_submit',1,array('id'=>'type_submit'))}}
 		<div class="panel panel-default">
 		  	<div class="panel-heading">
 		    	<h3 class="panel-title">Datos Generales</h3>
@@ -216,7 +221,7 @@
 							</div>	
 							<div class="form-group col-md-2" style="margin-top:25px">
 								@if($documento_certificado_funcionalidad != null)
-									<a class="btn btn-primary btn-block" href="{{URL::to('/rep_instalacion/download_documento/')}}/{{$documento_certificado_funcionalidad->iddocumento}}"><span class="glyphicon glyphicon-download"></span> Descargar</a>
+									<a class="btn btn-success btn-block" id="doc1" href="{{URL::to('/rep_instalacion/download_documento/')}}/{{$documento_certificado_funcionalidad->iddocumento}}"><span class="glyphicon glyphicon-download"></span> Descargar</a>
 								@endif
 							</div>	
 						</div>
@@ -245,7 +250,7 @@
 							</div>
 							<div class="form-group col-md-2" style="margin-top:25px">
 								@if($documento_contrato != null)
-									<a class="btn btn-primary btn-block" href="{{URL::to('/rep_instalacion/download_documento/')}}/{{$documento_contrato->iddocumento}}"><span class="glyphicon glyphicon-download"></span> Descargar</a>
+									<a class="btn btn-success btn-block" id="doc2" href="{{URL::to('/rep_instalacion/download_documento/')}}/{{$documento_contrato->iddocumento}}"><span class="glyphicon glyphicon-download"></span> Descargar</a>
 								@endif
 							</div>				
 						</div>
@@ -274,7 +279,7 @@
 							</div>	
 							<div class="form-group col-md-2" style="margin-top:25px">
 								@if($documento_manual != null)
-									<a class="btn btn-primary btn-block" href="{{URL::to('/rep_instalacion/download_documento/')}}/{{$documento_manual->iddocumento}}"><span class="glyphicon glyphicon-download"></span> Descargar</a>
+									<a class="btn btn-success btn-block" id="doc3" href="{{URL::to('/rep_instalacion/download_documento/')}}/{{$documento_manual->iddocumento}}"><span class="glyphicon glyphicon-download"></span> Descargar</a>
 								@endif
 							</div>	
 						</div>
@@ -301,9 +306,9 @@
 									{{ Form::text('nombre_doc_relacionado4','',['class' => 'form-control','id'=>'nombre_doc_relacionado4','disabled'=>'disabled'])}}
 								@endif
 							</div>	
-							<div class="form-group col-md-2" style="margin-top:25px">
+							<div class="form-group col-md-2" id="doc4" style="margin-top:25px">
 								@if($documento_tdr != null)	
-									<a class="btn btn-primary btn-block" href="{{URL::to('/rep_instalacion/download_documento/')}}/{{$documento_tdr->iddocumento}}"><span class="glyphicon glyphicon-download"></span> Descargar</a>
+									<a class="btn btn-success btn-block"  href="{{URL::to('/rep_instalacion/download_documento/')}}/{{$documento_tdr->iddocumento}}"><span class="glyphicon glyphicon-download"></span> Descargar</a>
 								@endif
 							</div>	
 						</div>

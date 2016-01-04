@@ -210,14 +210,25 @@ class SolicitudesController extends BaseController
 			 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 			// Check if the current user is the "System Admin"
 			$data = Input::get('selected_id');
-			if($data !="vacio"){
-				$documento = Documento::searchDocumentoByCodigoArchivamiento($data)->get();
-				
+			$documento = Documento::searchDocumentoByCodigoArchivamiento($data)->get();
+			if(!$documento->isEmpty()){ //existe el doc
+				$documento = $documento[0];
+				if($documento->idtipo_documento == 8){//si es reporte de necesidad, se valida ahora si el documento ya fue tomado
+					$solicitud = SolicitudCompra::getSolicitudCompraByIdDocumento($documento->iddocumento)->get();
+					if($solicitud->isEmpty())
+						$solicitud = null;
+					else
+						$solicitud = $solicitud[0];
+				}else{
+					$documento = null;
+					$solicitud = null;
+				}				
 			}else{
+				$solicitud = null;
 				$documento = null;
-			}
+			} 
 
-			return Response::json(array( 'success' => true, 'reporte' => $documento ),200);
+			return Response::json(array( 'success' => true, 'reporte' => $documento ,'solicitud' => $solicitud),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
 		}
@@ -269,206 +280,7 @@ class SolicitudesController extends BaseController
 		}
 	}
 
-	public function submit_create_solicitud(){
-		if(!Request::ajax() || !Auth::check()){
-			return Response::json(array( 'success' => false ),200);
-		}
-		$id = Auth::id();
-		$data["inside_url"] = Config::get('app.inside_url');
-		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1|| $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 ){
-			// Check if the current user is the "System Admin"
-			
-			$idtipo_solicitud_compra = Input::get('tipo_solicitud');
-			if(Input::get('flag_ot')==1){
-				$message = "No se guardaron los cambios del Requerimiento. Orden de Trabajo de Mantenimiento no existe.";
-				$type_message = "bg-danger";
-				return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'message' => $message, 'type_message'=>$type_message ),200);
-			}
-			$fecha_actual = date('Y-m-d');
-			$fecha = date('Y-m-d H:i:s',strtotime(Input::get('fecha')));
-			$numero_ot = Input::get('numero_ot');
-			$equipo = Input::get('equipo');
-			$sustento = Input::get('sustento');
-			$usuario_responsable = Input::get('usuario_responsable');
-			$servicio = Input::get('servicio');
-			$estado = Input::get('estado');			
-			$codigo_archivamiento = Input::get('numero_reporte');
-			$array_detalles = Input::get('matrix_detalle');
-			$row_size = count($array_detalles);
-
-			if($idtipo_solicitud_compra==0 || $fecha=="" || $numero_ot=="" || $equipo==0 || $usuario_responsable==0 || $servicio==0 || $estado==0 || $codigo_archivamiento == "" || $row_size==0){				
-				$message = "No se guardaron los cambios del Requerimiento. Completar campos obligatorios.";
-				$type_message = "bg-danger";
-				return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'message' => $message, 'type_message'=>$type_message ),200);
-			}			
-			$solicitud = new SolicitudCompra;
-			$solicitud->idtipo_solicitud_compra = $idtipo_solicitud_compra;
-			//validar fecha 
-			if($fecha_actual>$fecha){
-				$message = "No se guardaron los cambios del Requerimiento. No se puede registrar fecha pasada.";
-				$type_message = "bg-danger";
-				return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'message' => $message, 'type_message'=>$type_message ),200);
-			}
-			$solicitud->fecha = $fecha;
-			$solicitud->codigo_ot = $numero_ot;
-			$solicitud->idfamilia_activo = $equipo;
-			$solicitud->sustento = $sustento;
-			$solicitud->id_responsable = $usuario_responsable;	
-			$solicitud->idservicio = $servicio;
-			$solicitud->idestado = $estado;
-			//Agregar Detalle
-			
-			if($row_size > 0){				
-				$message = "Se guardaron los cambios del Requerimiento de Compra";
-				$type_message = "bg-success";
-				$solicitud->save();	
-				for( $i = 0; $i<$row_size; $i++ ){
-					$array_detalle = $array_detalles[$i];					
-					$detalle_solicitud = new DetalleSolicitudCompra;
-					$detalle_solicitud->descripcion = $array_detalle[1];
-					$detalle_solicitud->modelo = $array_detalle[2];
-					$detalle_solicitud->marca = $array_detalle[3];
-					$detalle_solicitud->serie_parte = $array_detalle[4];
-					$detalle_solicitud->cantidad = $array_detalle[5];
-					$detalle_solicitud->idsolicitud_compra = $solicitud->idsolicitud_compra;
-					$detalle_solicitud->save();			
-				}							
-			}else{
-				$message = "No se guardaron los cambios del Requerimiento. No hay detalles del Requerimiento.";
-				$type_message = "bg-danger";
-				return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'message' => $message, 'type_message'=>$type_message ),200);
-			}
-			//Agregar documentos
-			
-			$documento = Documento::searchDocumentoByCodigoArchivamiento($codigo_archivamiento)->get();
-			if($documento->isEmpty()){
-				$type_message = "bg-danger";
-				$message = "No se pudo registrar los cambios, el documento no existe";
-				return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'type_message' => $type_message, 'message' => $message ),200);
-			}
-			$documento = $documento[0];
-			$documento->idsolicitud_compra = $solicitud->idsolicitud_compra;
-			$documento->save();		
-			return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'message' => $message, 'type_message'=>$type_message ),200);
-		}else{
-			return Response::json(array( 'success' => false ),200);
-		}
-	}
-
-	public function submit_edit_solicitud(){
-		if(!Request::ajax() || !Auth::check()){
-			return Response::json(array( 'success' => false ),200);
-		}
-		$id = Auth::id();
-		$data["inside_url"] = Config::get('app.inside_url');
-		$data["user"] = Session::get('user');
-		if($data["user"]->idrol == 1|| $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 ){
-			// Check if the current user is the "System Admin"
-			$idsolicitud_compra = Input::get('idsolicitud');
-			if(Input::get('flag_ot')==1){
-				$message = "No se guardaron los cambios del Requerimiento. Orden de Trabajo de Mantenimiento no existe.";
-				$type_message = "bg-danger";
-				return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'message' => $message, 'type_message'=>$type_message ),200);
-			}
-			$idtipo_solicitud_compra = Input::get('tipo_solicitud');
-			$fecha = date('Y-m-d H:i:s',strtotime(Input::get('fecha')));
-			$fecha_actual = date('Y-m-d');
-			$numero_ot = Input::get('numero_ot');
-			$equipo = Input::get('equipo');
-			$sustento = Input::get('sustento');
-			$usuario_responsable = Input::get('usuario_responsable');
-			$servicio = Input::get('servicio');
-			$estado = Input::get('estado');			
-			$codigo_archivamiento = Input::get('numero_reporte');
-			$array_detalles = Input::get('matrix_detalle');
-			$row_size = count($array_detalles);
-
-			if($idtipo_solicitud_compra==0 || $fecha=="" || $numero_ot=="" || $equipo==0 || $usuario_responsable==0 || $servicio==0 || $estado==0 || $codigo_archivamiento == "" || $row_size==0){				
-				$message = "No se guardaron los cambios del Requerimiento. Completar campos obligatorios ";
-				$type_message = "bg-danger";
-				return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'message' => $message, 'type_message'=>$type_message ),200);
-			}
-			
-			$solicitud = SolicitudCompra::find($idsolicitud_compra);
-			$solicitud->idtipo_solicitud_compra = Input::get('tipo_solicitud');
-			$solicitud->fecha = $fecha;
-			$solicitud->codigo_ot = Input::get('numero_ot');
-			$solicitud->idfamilia_activo = Input::get('equipo');
-			$solicitud->sustento = Input::get('sustento');
-			$solicitud->id_responsable = Input::get('usuario_responsable');	
-			$solicitud->idservicio = Input::get('servicio');
-			$solicitud->idestado = Input::get('estado');
-			//Editar documentos
-			$documento_actual = Documento::searchDocumentoByIdSolicitudCompra($solicitud->idsolicitud_compra)->get();
-			$documento_actual = $documento_actual[0];
-			
-			$documento = Documento::searchDocumentoByCodigoArchivamiento($codigo_archivamiento)->get();
-			if($documento->isEmpty()){
-				$type_message = "bg-danger";
-				$message = "No se pudo registrar los cambios, el documento no existe";
-				return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'type_message' => $type_message, 'message' => $message ),200);
-			}
-			$documento = $documento[0];
-			//se realizará la modificación siempre y cuando se cambie el documento por otro.
-			if($documento_actual->iddocumento<>$documento->iddocumento){
-				$documento_actual->idsolicitud_compra = null;
-				$documento->idsolicitud_compra = $solicitud->idsolicitud_compra;
-				$documento_actual->save();
-				$documento->save();
-			}
-			//Editar Detalle			
-			if($row_size > 0){				
-				$message = "Se guardaron los cambios del Requerimiento de Compra";
-				$type_message = "bg-success";
-				for( $i = 0; $i<$row_size; $i++ ){
-					$array_detalle = $array_detalles[$i];
-					$detalle_solicitud = DetalleSolicitudCompra::getDetalleSolicitudCompraById($array_detalle[0])->get();
-					if($detalle_solicitud->isEmpty()==false){ 
-						//quiere decir que el detalle existe, entonces leemos los datos y hacemos el save
-						$detalle_solicitud = $detalle_solicitud[0];
-						$detalle_solicitud->descripcion = $array_detalle[1];
-						$detalle_solicitud->modelo = $array_detalle[2];
-						$detalle_solicitud->marca = $array_detalle[3];
-						$detalle_solicitud->serie_parte = $array_detalle[4];
-						$detalle_solicitud->cantidad = $array_detalle[5];
-						$detalle_solicitud->save();
-					}else{
-						$detalle_solicitud = new DetalleSolicitudCompra;
-						$detalle_solicitud->descripcion = $array_detalle[1];
-						$detalle_solicitud->modelo = $array_detalle[2];
-						$detalle_solicitud->marca = $array_detalle[3];
-						$detalle_solicitud->serie_parte = $array_detalle[4];
-						$detalle_solicitud->cantidad = $array_detalle[5];
-						$detalle_solicitud->idsolicitud_compra = $idsolicitud_compra;
-						$detalle_solicitud->save();
-					}					
-				}
-				//Para los detalles que se van a borrar
-				$array_detalle_toDelete = Input::get('matrix_detalle_delete');
-				$size_delete = Input::get('size_delete');
-				if($size_delete>0){
-					for( $j=0 ;$j<$size_delete;$j++){
-						$array_detalle = $array_detalle_toDelete[$j];
-						$detalle_solicitud_toDelete = DetalleSolicitudCompra::getDetalleSolicitudCompraById($array_detalle[0])->get();
-						if($detalle_solicitud_toDelete->isEmpty()==false){
-							$detalle_solicitud_toDelete = $detalle_solicitud_toDelete[0];
-							$detalle_solicitud_toDelete->forceDelete();
-						}
-					}
-				}
-				$solicitud->save();
-			}else{
-				$message = "No se guardaron los cambio del Requerimiento. No hay detalles del Requerimiento.";
-				$type_message = "bg-danger";
-				return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'message' => $message, 'type_message'=>$type_message ),200);
-			}
-			return Response::json(array( 'success' => true, 'url' => $data["inside_url"], 'message' => $message, 'type_message'=>$type_message ),200);
-		}else{
-			return Response::json(array( 'success' => false ),200);
-		}
-	}
-
+	
 	public function submit_enable_solicitud(){
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
@@ -592,6 +404,240 @@ class SolicitudesController extends BaseController
 						.'</html>';
 				
 				return PDF::load($html,"A4","portrait")->show();
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+	public function submit_create_solicitud()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1|| $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 ){
+				// Validate the info, create rules for the inputs
+				$attributes = array(
+					'numero_ot' => 'Número de OT',
+					'servicio' => 'Servicio',
+					'nombre_equipo1' => 'Equipo',
+					'marca1' => 'Marca',
+					'usuario_responsable' => 'Usuario Responsable',
+					'tipo' => 'Tipo de Requerimiento',
+					'fecha' => 'Fecha',
+					'estado' => 'Estado',
+					'sustento' => 'Sustento',
+					'numero_reporte' => 'Reporte de Necesidad'
+				);
+
+				$messages = array();
+
+				$rules = array(
+					'numero_ot' => 'required',
+					'servicio' => 'required',
+					'nombre_equipo1' => 'required',
+					'marca1' => 'required',
+					'usuario_responsable' => 'required',
+					'tipo' => 'required',
+					'fecha' => 'required',
+					'estado' => 'required',
+					'sustento' => 'max:500|alpha_num_spaces_slash_dash_enter',
+					'numero_reporte' => 'required',
+					'flag_doc' => 'min:1'
+				);
+				// Run the validation rules on the inputs from the form
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
+				// If the validator fails, redirect back to the form
+				if($validator->fails()){
+					return Redirect::to('solicitudes_compra/create_solicitud')->withErrors($validator)->withInput(Input::all());
+				}else{
+					$count_details = Input::get('count_details');
+					if($count_details == 0 ){
+						//no se podrá crear nada porque no se ha creado ningún detalle
+						Session::flash('error', 'No se cuenta con detalles.');
+						return Redirect::to('solicitudes_compra/create_solicitud');
+					}else{
+						$flag_ot = Input::get('flag_ot');
+						$flag_doc = Input::get('flag_doc');
+						if($flag_ot == 1){
+							Session::flash('error', 'Orden de Mantenimiento no Válido.');
+							return Redirect::to('solicitudes_compra/create_solicitud')->withInput(Input::all());;
+						}else if($flag_doc == 0){
+							Session::flash('error', 'Documento no adjuntado correctamente.');
+							return Redirect::to('solicitudes_compra/create_solicitud')->withInput(Input::all());;
+						}else{
+							//Registramos los datos generales
+							//Previamente para no crear la solicitud de compra sin documento,
+							//se verifica si el documento existe o es de tipo Reporte de Necesidad
+													
+							$codigo_archivamiento = Input::get('numero_reporte');
+							$documento = Documento::searchDocumentoByCodigoArchivamiento($codigo_archivamiento)->get();
+							$documento = $documento[0];
+							
+
+							$solicitud = new SolicitudCompra;
+							$solicitud->codigo_ot = Input::get('numero_ot');
+							$solicitud->idtipo_solicitud_compra = Input::get('tipo');
+							$solicitud->idfamilia_activo = Input::get('nombre_equipo1');
+							$solicitud->id_responsable = Input::get('usuario_responsable');
+							$solicitud->fecha = date("Y-m-d",strtotime(Input::get('fecha')));
+							$solicitud->idservicio = Input::get('servicio');
+							$solicitud->sustento = Input::get('sustento');
+							$solicitud->idestado = Input::get('estado');
+							$solicitud->save();
+
+							//Registramos el documento:							
+							$documento->idsolicitud_compra = $solicitud->idsolicitud_compra;
+							$documento->save();		
+
+							//Registramos el detalle de la solicitud:
+							$idsolicitud = $solicitud->idsolicitud_compra;
+							$details_descripcion = Input::get('details_descripcion');
+							$details_modelo = Input::get('details_modelo');
+							$details_marca = Input::get('details_marca');
+							$details_serie_parte = Input::get('details_serie');
+							$details_cantidad = Input::get('details_cantidad');
+
+							for($i=0;$i<$count_details;$i++){
+								$detalle = new DetalleSolicitudCompra;
+								$detalle->descripcion = $details_descripcion[$i];								
+								$detalle->modelo = $details_modelo[$i];				
+								$detalle->marca = $details_marca[$i];
+								$detalle->serie_parte = $details_serie_parte[$i];
+								$detalle->cantidad = $details_cantidad[$i];
+								$detalle->idsolicitud_compra = $idsolicitud;	
+								$detalle->save();
+							}
+						}
+					}
+					Session::flash('message', 'Se guardó correctamente la información.');
+					return Redirect::to('solicitudes_compra/list_solicitudes');
+				}
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+	public function submit_edit_solicitud()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1|| $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 ){
+				// Validate the info, create rules for the inputs
+				$attributes = array(
+					'numero_ot' => 'Número de OT',
+					'servicio' => 'Servicio',
+					'nombre_equipo1' => 'Equipo',
+					'marca1' => 'Marca',
+					'usuario_responsable' => 'Usuario Responsable',
+					'tipo' => 'Tipo de Requerimiento',
+					'fecha' => 'Fecha',
+					'estado' => 'Estado',
+					'sustento' => 'Sustento',
+					'numero_reporte' => 'Reporte de Necesidad'
+				);
+
+				$messages = array();
+
+				$rules = array(
+					'numero_ot' => 'required',
+					'servicio' => 'required',
+					'nombre_equipo1' => 'required',
+					'marca1' => 'required',
+					'usuario_responsable' => 'required',
+					'tipo' => 'required',
+					'fecha' => 'required',
+					'estado' => 'required',
+					'sustento' => 'max:500|alpha_num_spaces_slash_dash_enter',
+					'numero_reporte' => 'required',
+					'flag_doc' => 'min:1'
+				);
+				// Run the validation rules on the inputs from the form
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
+				// If the validator fails, redirect back to the form
+				if($validator->fails()){
+					$idsolicitud = Input::get('reporte_id');
+					return Redirect::to('solicitudes_compra/edit_solicitud_compra/'.$idsolicitud)->withErrors($validator)->withInput(Input::all());
+				}else{
+					$count_details = Input::get('count_details');
+					$idsolicitud = Input::get('reporte_id');
+					if($count_details == 0 ){
+						//no se podrá crear nada porque no se ha creado ningún detalle
+						Session::flash('error', 'No se cuenta con detalles.');
+						return Redirect::to('solicitudes_compra/edit_solicitud_compra/'.$idsolicitud);
+					}else{
+						$flag_ot = Input::get('flag_ot');
+						$flag_doc = Input::get('flag_doc');
+						if($flag_ot == 1){
+							Session::flash('error', 'Orden de Mantenimiento no Válido.');
+							return Redirect::to('solicitudes_compra/edit_solicitud_compra/'.$idsolicitud);
+						}else if($flag_doc == 0){
+							Session::flash('error', 'Documento no adjuntado correctamente.');
+							return Redirect::to('solicitudes_compra/edit_solicitud_compra/'.$idsolicitud);
+						}else{
+							//Registramos los datos generales
+							//Previamente para no crear la solicitud de compra sin documento,
+							//se verifica si el documento existe o es de tipo Reporte de Necesidad					
+							$codigo_archivamiento = Input::get('numero_reporte');
+							$documento_nuevo = Documento::searchDocumentoByCodigoArchivamiento($codigo_archivamiento)->get();
+							$documento_nuevo = $documento_nuevo[0];					
+
+							$solicitud = SolicitudCompra::find($idsolicitud);
+							$solicitud->codigo_ot = Input::get('numero_ot');
+							$solicitud->idtipo_solicitud_compra = Input::get('tipo');
+							$solicitud->idfamilia_activo = Input::get('nombre_equipo1');
+							$solicitud->id_responsable = Input::get('usuario_responsable');
+							$solicitud->fecha = date("Y-m-d",strtotime(Input::get('fecha')));
+							$solicitud->idservicio = Input::get('servicio');
+							$solicitud->sustento = Input::get('sustento');
+							$solicitud->idestado = Input::get('estado');
+							$solicitud->save();
+
+							//Registramos el documento:
+							$documento_actual = Documento::searchDocumentoByIdSolicitudCompra($solicitud->idsolicitud_compra)->get()[0];							
+							if($documento_actual->iddocumento != $documento_nuevo->iddocumento){
+								//quiere decir que es nuevo documento
+								$documento_nuevo->idsolicitud_compra = $solicitud->idsolicitud_compra;
+								$documento_nuevo->save();
+								$documento_actual->idsolicitud_compra = null;
+								$documento_actual->save();
+							}
+							
+
+							//Registramos el detalle de la solicitud:
+							$idsolicitud = $solicitud->idsolicitud_compra;
+							
+							DetalleSolicitudCompra::deleteDetalleByIdSolicitudCompra($idsolicitud)->forcedelete();
+
+							$details_descripcion = Input::get('details_descripcion');
+							$details_modelo = Input::get('details_modelo');
+							$details_marca = Input::get('details_marca');
+							$details_serie_parte = Input::get('details_serie');
+							$details_cantidad = Input::get('details_cantidad');
+
+							for($i=0;$i<$count_details;$i++){
+								$detalle = new DetalleSolicitudCompra;
+								$detalle->descripcion = $details_descripcion[$i];								
+								$detalle->modelo = $details_modelo[$i];				
+								$detalle->marca = $details_marca[$i];
+								$detalle->serie_parte = $details_serie_parte[$i];
+								$detalle->cantidad = $details_cantidad[$i];
+								$detalle->idsolicitud_compra = $idsolicitud;	
+								$detalle->save();
+							}
+						}
+					}
+					Session::flash('message', 'Se guardó correctamente la información.');
+					return Redirect::to('solicitudes_compra/list_solicitudes');
+				}
 			}else{
 				return View::make('error/error',$data);
 			}

@@ -46,7 +46,8 @@
 		{{ Form::hidden('tipo_ot',null,array('id'=>'tipo_ot'))}}
 		<div>						
 			{{ Form::hidden('flag_ot',1,array('id'=>'flag_ot'))}}
-			{{ Form::hidden('flag_doc',1,array('id'=>'flag_doc'))}}
+			{{ Form::hidden('flag_doc',0,array('id'=>'flag_doc'))}}
+			{{ Form::hidden('type_solicitud',0,array('id'=>'type_solicitud'))}}
 		</div>
 		<div class="container-fluid row">
 			<div class="form-group col-md-2 col-md-offset-8">				
@@ -88,8 +89,8 @@
 				        </div>					
 					</div>
 					<div class="row">
-						<div class="form-group col-md-2 @if($errors->first('numero_doc1')) has-error has-feedback @endif">
-							{{ Form::label('numero_doc1','Número Documento') }}<span style="color:red"> *</span>
+						<div class="form-group col-md-3 @if($errors->first('numero_doc1')) has-error has-feedback @endif">
+							{{ Form::label('numero_doc1','Documento de Identidad') }}<span style="color:red"> *</span>
 							{{ Form::text('numero_doc1',Input::old('numero_doc1'),['class' => 'form-control','id'=>'numero_doc1','placeholder'=>'N° de Doc.'])}}
 						</div>
 						<div class="form-group col-md-2" style="margin-top:25px">

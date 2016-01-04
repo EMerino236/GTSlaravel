@@ -17,6 +17,12 @@ $( document ).ready(function(){
     });
 
     $('#type_report').val($('#idtipo_reporte_instalacion').val());
+    if($('#type_submit').val()==1){
+        $('#num_doc_relacionado1').prop('readonly',true);
+        $('#num_doc_relacionado2').prop('readonly',true);
+        $('#num_doc_relacionado3').prop('readonly',true);
+        $('#num_doc_relacionado4').prop('readonly',true);
+    }
     
     var alphanumeric_pattern = /[^á-úÁ-Úa-zA-ZñÑüÜ0-9- _.]/;
 
@@ -123,8 +129,7 @@ $( document ).ready(function(){
 
 function llenar_nombre_responsable(id){
         var val = $("#numero_documento"+id).val();
-        if(val=="")
-            val = "vacio";
+        if(val=="") return;
         
         $.ajax({
             url: inside_url+'rep_instalacion/return_name_responsable/'+val,
@@ -144,24 +149,19 @@ function llenar_nombre_responsable(id){
             success: function(response){
                 if(response.success){
                     var resp = response['responsable'];
-                    if(resp!="vacio"){
-                        if(resp[0] != null){
-                            $("#nombre_responsable"+id).val("");
-                            $("#nombre_responsable"+id).css('background-color','#5cb85c');
-                            $("#nombre_responsable"+id).css('color','white');
-                            $("#nombre_responsable"+id).val(resp[0].nombre+" "+resp[0].apellido_pat+" "+resp[0].apellido_mat);
-
-                        }
-                        else{
-                            $("#nombre_responsable"+id).val("Usuario no registrado");
-                            $("#nombre_responsable"+id).css('background-color','#d9534f');
-                            $("#nombre_responsable"+id).css('color','white');
-                        } 
-                    }else{
+                    if(resp != null){
+                        $("#nombre_responsable"+id).val("");
+                        $("#nombre_responsable"+id).css('background-color','#5cb85c');
+                        $("#nombre_responsable"+id).css('color','white');
+                        $("#nombre_responsable"+id).val(resp.nombre+" "+resp.apellido_pat+" "+resp.apellido_mat);
+                        $("#numero_documento"+id).prop('readonly',true);
+                    }
+                    else{
                         $("#nombre_responsable"+id).val("Usuario no registrado");
                         $("#nombre_responsable"+id).css('background-color','#d9534f');
                         $("#nombre_responsable"+id).css('color','white');
-                    }               
+                        $("#numero_documento"+id).prop('readonly',false);
+                    }         
                 }else{
                     alert('La petición no se pudo completar, inténtelo de nuevo.');
                 }
@@ -175,12 +175,34 @@ function llenar_nombre_responsable(id){
 
 function llenar_nombre_doc_relacionado(id){
         var val = $("#num_doc_relacionado"+id).val();
+        var tipo_doc;
+        var nombre_doc;
         if(val=="")
-            val = "vacio";    
+            return;
+        switch(id){
+            case 1:
+                tipo_doc = 6;
+                nombre_doc = "Certificado de Funcionalidad";
+                break;
+            case 2:
+                tipo_doc = 1;
+                nombre_doc = "Contrato de Proveedor";
+                break;
+            case 3:
+                tipo_doc = 2;
+                nombre_doc = "Manual";
+                break;
+            case 4:
+                tipo_doc = 7;
+                nombre_doc = "Término de Referencia";
+                break;
+        }
+
         $.ajax({
             url: inside_url+'rep_instalacion/return_name_doc_relacionado/'+val,
             type: 'POST',
-            data: { 'selected_id' : val },
+            data: { 'selected_id' : val,
+                    'tipo_doc' : tipo_doc },
             beforeSend: function(){
                 $("#delete-selected-profiles").addClass("disabled");
                 $("#delete-selected-profiles").hide();
@@ -195,23 +217,30 @@ function llenar_nombre_doc_relacionado(id){
             success: function(response){
                 if(response.success){
                     var resp = response['contrato'];
-                    if(resp!="vacio"){
-                        if(resp[0] != null){
+                    if(resp != null){
+                        var reporte_instalacion = response['reporte_instalacion'];
+                        if(reporte_instalacion == null){
                             $("#nombre_doc_relacionado"+id).val("");
                             $("#nombre_doc_relacionado"+id).css('background-color','#5cb85c');
                             $("#nombre_doc_relacionado"+id).css('color','white');
-                            $("#nombre_doc_relacionado"+id).val(resp[0].nombre);                            
-                        }
-                        else{
-                            $("#nombre_doc_relacionado"+id).val("Documento no registrado");
+                            $("#nombre_doc_relacionado"+id).val(resp.nombre);
+                            $("#num_doc_relacionado"+id).prop('readonly',true);
+                            $("#flag_doc"+id).val(1);   
+                        }else{
+                            $("#nombre_doc_relacionado"+id).val("Documento ya fue tomado");
                             $("#nombre_doc_relacionado"+id).css('background-color','#d9534f');
-                            $("#nombre_doc_relacionado"+id).css('color','white');
-                        } 
-                    }else{
-                        $("#nombre_doc_relacionado"+id).val("Documento no registrado");
+                            $("#nombre_doc_relacionado"+id).css('color','white');                        
+                            $("#num_doc_relacionado"+id).prop('readonly',false);  
+                            $("#flag_doc"+id).val(0);
+                        }                                                  
+                    }
+                    else{
+                        $("#nombre_doc_relacionado"+id).val("Documento no es un "+nombre_doc);
                         $("#nombre_doc_relacionado"+id).css('background-color','#d9534f');
-                        $("#nombre_doc_relacionado"+id).css('color','white');
-                    }               
+                        $("#nombre_doc_relacionado"+id).css('color','white');                        
+                        $("#num_doc_relacionado"+id).prop('readonly',false);  
+                        $("#flag_doc"+id).val(0);                      
+                    }         
                 }else{
                     alert('La petición no se pudo completar, inténtelo de nuevo.');
                 }
@@ -225,7 +254,7 @@ function llenar_nombre_doc_relacionado(id){
 function validar_num_rep_entorno_concluido(){
         var val = $("#numero_reporte_entorno_concluido").val();
         if(val=="")
-            val = "vacio";    
+            return;  
         $.ajax({
             url: inside_url+'rep_instalacion/return_num_rep_entorno_concluido/'+val,
             type: 'POST',
@@ -243,24 +272,18 @@ function validar_num_rep_entorno_concluido(){
             },
             success: function(response){
                 if(response.success){
-                    var resp = response['reporte']; 
-                    if(resp!="vacio"){
-                        if(resp[0] != null){
-                            $("#mensaje_validacion").val("");
-                            $("#mensaje_validacion").css('background-color','#5cb85c');
-                            $("#mensaje_validacion").css('color','white');
-                            $("#mensaje_validacion").val("Número de reporte correcto");                            
-                        }
-                        else{
-                            $("#mensaje_validacion").val("Número de reporte incorrecto");
-                            $("#mensaje_validacion").css('background-color','#d9534f');
-                            $("#mensaje_validacion").css('color','white');
-                        } 
-                    }else{
+                var resp = response['reporte']; 
+                    if(resp != null){
+                        $("#mensaje_validacion").val("");
+                        $("#mensaje_validacion").css('background-color','#5cb85c');
+                        $("#mensaje_validacion").css('color','white');
+                        $("#mensaje_validacion").val("Número de reporte correcto");                            
+                    }
+                    else{
                         $("#mensaje_validacion").val("Número de reporte incorrecto");
                         $("#mensaje_validacion").css('background-color','#d9534f');
                         $("#mensaje_validacion").css('color','white');
-                    }               
+                    }        
                 }else{
                     alert('La petición no se pudo completar, inténtelo de nuevo.');
                 }
@@ -275,12 +298,18 @@ function limpiar_nombre_responsable(id){
     $("#nombre_responsable"+id).val("");
     $("#numero_documento"+id).val("");
     $("#nombre_responsable"+id).css('background-color','white');
+    $("#numero_documento"+id).prop('readonly',false);
 }
 
 function limpiar_nombre_doc_relacionado(id){
     $("#nombre_doc_relacionado"+id).val("");
     $("#num_doc_relacionado"+id).val("");
     $("#nombre_doc_relacionado"+id).css('background-color','white');
+    $("#num_doc_relacionado"+id).prop('readonly',false);
+    $("#flag_doc"+id).val(0);
+    if($('#type_submit').val()==1){
+        $('#doc'+id).hide();      
+    }
 }
 
 function limpiar_num_rep_entorno_concluido(){
