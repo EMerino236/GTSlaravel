@@ -274,7 +274,7 @@ function init_ot_program(){
             ignoreReadonly: true,
             format: 'DD-MM-YYYY',
             sideBySide: true,
-            minDate: new Date()
+            //minDate: new Date()
     });
 
     $("#datetimepicker_prog_hora").datetimepicker({

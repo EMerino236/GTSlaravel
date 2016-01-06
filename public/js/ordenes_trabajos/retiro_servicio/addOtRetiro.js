@@ -26,8 +26,8 @@ $( document ).ready(function(){
 	    defaultDate: false,
 	    format: 'DD-MM-YYYY HH:ss',
 	    ignoreReadonly: true,
-	    minDate: ayer,
-	    disabledDates: [ayer]
+	    //minDate: ayer,
+	    //disabledDates: [ayer]
 	});
 
 	var alphanumeric_pattern = /[^á-úÁ-Úa-zA-ZñÑüÜ0-9- _.]/;

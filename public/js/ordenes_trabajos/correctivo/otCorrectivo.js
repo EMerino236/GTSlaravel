@@ -380,9 +380,9 @@ function init_ot_correctivo(){
 	            sideBySide: true
 	    });
 
-	    $("#fecha_conformidad").on("dp.change", function (e) {
+	    /*$("#fecha_conformidad").on("dp.change", function (e) {
 	        $('#fecha_conformidad').data("DateTimePicker").minDate(e.date);
-	    });
+	    });*/
 	}
 
 	if($('.fecha-hora').length){

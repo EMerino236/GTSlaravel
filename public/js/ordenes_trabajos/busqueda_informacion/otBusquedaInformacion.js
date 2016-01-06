@@ -203,7 +203,7 @@ function init_ot_create(){
 		ignoreReadonly: true,
 		format: 'DD-MM-YYYY',
 		sideBySide: true,
-		minDate: fecha_str
+		//minDate: fecha_str
 	});
 	
 	$("#datetimepicker_conformidad_hora").datetimepicker({

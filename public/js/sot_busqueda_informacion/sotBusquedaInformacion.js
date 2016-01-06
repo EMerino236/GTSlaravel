@@ -23,7 +23,7 @@ function init_ot_program(){
             ignoreReadonly: true,
             format: 'DD-MM-YYYY HH:ss',
             sideBySide: true,
-            minDate: new Date()
+            //minDate: new Date()
     });
 
     $("#fecha").val('');

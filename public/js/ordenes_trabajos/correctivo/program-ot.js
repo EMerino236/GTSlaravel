@@ -117,9 +117,9 @@ function init_ot_program(){
                 sideBySide: true
         });
     
-        $("#datetimepicker_prog_fecha").on("dp.change", function (e) {
+        /*$("#datetimepicker_prog_fecha").on("dp.change", function (e) {
             $('#datetimepicker_prog_fecha').data("DateTimePicker").minDate(e.date);
-        });
+        });*/
         ver_programaciones();
     }
     
