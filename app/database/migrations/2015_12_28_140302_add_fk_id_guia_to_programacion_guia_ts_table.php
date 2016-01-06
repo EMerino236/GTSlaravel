@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddFkToProgramacionGuiaTsTable extends Migration {
+class AddFkIdGuiaToProgramacionGuiaTsTable extends Migration {
 
 	/**
 	 * Run the migrations.
