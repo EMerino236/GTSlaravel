@@ -36,7 +36,7 @@
 				<div class="row">
 					<div class="form-group col-md-8">
 						@if(!$programaciones_reporte_cn)
-							<span style='color:red'>No existen reportes CN programados. </span><a href="{{URL::to('/programacion_reportes/create_programacion_reportes')}}"><span style='color:red'><u>Agregar Programación aquí.</u></span></a>						
+							<span style='color:red'>No existen Reportes CN programados. </span><a href="{{URL::to('/programacion_reportes/create_programacion_reportes')}}"><span style='color:red'><u>Agregar Programación aquí.</u></span></a>						
 						@endif
 					</div>
 				</div>

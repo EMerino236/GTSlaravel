@@ -15,20 +15,30 @@
 			<p><strong>{{ $errors->first('nombre_cn') }}</strong></p>
 			<p><strong>{{ $errors->first('nombre_etes') }}</strong></p>
 			<p><strong>{{ $errors->first('nombre_paac') }}</strong></p>
+			<p><strong>{{ $errors->first('idarea_cn') }}</strong></p>
+			<p><strong>{{ $errors->first('idarea_etes') }}</strong></p>
+			<p><strong>{{ $errors->first('idarea_paac') }}</strong></p>
+			<p><strong>{{ $errors->first('num_doc_responsable_cn') }}</strong></p>
+			<p><strong>{{ $errors->first('num_doc_responsable_etes') }}</strong></p>
+			<p><strong>{{ $errors->first('num_doc_responsable_paac') }}</strong></p>
 			<p><strong>{{ $errors->first('fecha_cn') }}</strong></p>
 			<p><strong>{{ $errors->first('fecha_etes') }}</strong></p>
 			<p><strong>{{ $errors->first('fecha_paac') }}</strong></p>
-			<p><strong>{{ $errors->first('idarea_cn') }}</strong></p>
-			<p><strong>{{ $errors->first('idarea_etes') }}</strong></p>
 			<p><strong>{{ $errors->first('archivo') }}</strong></p>
 		</div>
 	@endif
 
 	@if (Session::has('message'))
-		<div class="alert alert-success">{{ Session::get('message') }}</div>
+		<div class="alert alert-success">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<strong>{{ Session::get('message') }}</strong>
+		</div>
 	@endif
 	@if (Session::has('error'))
-		<div class="alert alert-danger">{{ Session::get('error') }}</div>
+		<div class="alert alert-danger">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<strong>{{ Session::get('error') }}</strong>
+		</div>
 	@endif
 
 	<div id="tab_menu">

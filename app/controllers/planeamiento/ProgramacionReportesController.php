@@ -32,14 +32,25 @@ class ProgramacionReportesController extends BaseController
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2){
 				// Validate the info, create rules for the inputs	
+				$attributes = array(
+					'idtipo_reporte_cn' => 'Tipo de Reporte',
+					'idarea_cn' => 'Departamento',
+					'fecha_cn' => 'Fecha de Presentación',
+					'nombre_cn' => 'Nombre de Reporte',	
+					'num_doc_responsable_cn' => 'N° Documento Responsable',
+				);
+
+				$messages = array();
+
 				$rules = array(	
 							'idtipo_reporte_cn' => 'required',
 							'idarea_cn' => 'required',
 							'fecha_cn' => 'required',
 							'nombre_cn' => 'required',
+							'num_doc_responsable_cn' => 'required',
 						);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					return Redirect::to('programacion_reportes/create_programacion_reportes')->withErrors($validator)->withInput(Input::all());					
@@ -72,17 +83,28 @@ class ProgramacionReportesController extends BaseController
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2){
-				// Validate the info, create rules for the inputs	
+				// Validate the info, create rules for the inputs
+
+				$attributes = array(
+					'idtipo_reporte_etes' => 'Tipo de Reporte',
+					'fecha_etes' => 'Fecha de Presentación',
+					'nombre_etes' => 'Nombre de Reporte',	
+					'num_doc_responsable_etes' => 'N° Documento Responsable',
+				);
+
+				$messages = array();
+
 				$rules = array(	
 							'idtipo_reporte_etes' => 'required',
 							'fecha_etes' => 'required',
-							'nombre_etes' => 'required',									
+							'nombre_etes' => 'required',
+							'num_doc_responsable_etes' => 'required',									
 						);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
-					return Redirect::to('programacion_reportes/create_programacion_reportes')->withErrors($validator)->withInput(Input::all());					
+					return Redirect::to('programacion_guias/create_programacion_guias')->withErrors($validator)->withInput(Input::all());					
 				}else{					
 					$programacion_reporte_etes = new ProgramacionReporteETES;
 					$programacion_reporte_etes->idtipo_reporte_ETES = Input::get('idtipo_reporte_etes');					
@@ -93,7 +115,7 @@ class ProgramacionReportesController extends BaseController
 					$programacion_reporte_etes->save();
 					
 					Session::flash('message', 'Se registró correctamente la programación de Reporte ETES.');
-					return Redirect::to('programacion_reportes/create_programacion_reportes');
+					return Redirect::to('programacion_guias/create_programacion_guias');
 				}
 			}else{
 				return View::make('error/error',$data);
@@ -111,14 +133,25 @@ class ProgramacionReportesController extends BaseController
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2){
 				// Validate the info, create rules for the inputs	
+				$attributes = array(
+					'idtipo_reporte_paac' => 'Tipo de Reporte',
+					'idarea_paac' => 'Departamento',
+					'fecha_paac' => 'Fecha de Presentación',
+					'nombre_paac' => 'Nombre de Reporte',	
+					'num_doc_responsable_paac' => 'N° Documento Responsable',
+				);
+
+				$messages = array();
+
 				$rules = array(						
 							'idtipo_reporte_paac' => 'required',
 							'idarea_paac' => 'required',
 							'fecha_paac' => 'required',
-							'nombre_paac' => 'required',				
+							'nombre_paac' => 'required',
+							'num_doc_responsable_paac' => 'required',				
 						);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					return Redirect::to('programacion_reportes/create_programacion_reportes')->withErrors($validator)->withInput(Input::all());					
