@@ -10,6 +10,7 @@
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
 			<p><strong>{{ $errors->first('idprogramacion_reporte_cn') }}</strong></p>
+			<p><strong>{{ $errors->first('codigo_ot_retiro') }}</strong></p>
 			<p><strong>{{ $errors->first('archivo') }}</strong></p>
 		</div>
 	@endif

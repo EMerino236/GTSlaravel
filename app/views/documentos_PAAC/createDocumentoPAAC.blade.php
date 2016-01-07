@@ -1,4 +1,4 @@
-@extends('templates/planeamientoTemplate')
+	@extends('templates/planeamientoTemplate')
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
@@ -10,6 +10,7 @@
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
 			<p><strong>{{ $errors->first('idtipo_documento') }}</strong></p>
+			<p><strong>{{ $errors->first('nombre') }}</strong></p>
 			<p><strong>{{ $errors->first('anho') }}</strong></p>
 			<p><strong>{{ $errors->first('archivo') }}</strong></p>
 		</div>

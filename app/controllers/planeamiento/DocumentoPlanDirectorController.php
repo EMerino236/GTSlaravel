@@ -28,13 +28,24 @@ class DocumentoPlanDirectorController extends BaseController
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				// Validate the info, create rules for the inputs	
+
+				$attributes = array(
+							'idtipo_documento' => 'Tipo de Documento',
+							'nombre' => 'Nombre',
+							'anho' => 'Año',
+							'archivo' => 'Documento adjunto',	
+				);
+
+				$messages = array();
+	
 				$rules = array(
 							'idtipo_documento' => 'required',
 							'nombre' => 'required|unique:documentosplandirector',
-							'archivo' => 'max:15360',											
+							'anho' => 'required',
+							'archivo' => 'required|max:15360',											
 						);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					return Redirect::to('plan_director/create_documento_plan_director')->withErrors($validator)->withInput(Input::all());					

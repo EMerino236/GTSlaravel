@@ -41,12 +41,19 @@ class ReportePAACController extends BaseController
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				// Validate the info, create rules for the inputs	
+				$attributes = array(
+					'idprogramacion_reporte_paac' => 'Programaciones No Concluidas',
+					'archivo' => 'Documento adjunto',
+				);
+
+				$messages = array();
+
 				$rules = array(
 							'idprogramacion_reporte_paac' => 'required',
-							'archivo' => 'max:15360',											
+							'archivo' => 'required|max:15360',											
 						);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					return Redirect::to('reporte_paac/create_reporte_paac')->withErrors($validator)->withInput(Input::all());					
