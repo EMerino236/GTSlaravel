@@ -112,7 +112,7 @@ $( document ).ready(function(){
 	$("#submit-personal").click(function(e){
 		e.preventDefault;
 			var error_str = "";
-			var reg = /[^á-úÁ-Úa-zA]+$/;
+			var reg = /[^á-úÁ-Úa-zA-ZA]+$/;
 			var floatRegex = /^\d{1,6}(\.\d{0,2}){0,1}$/;
 			var is_correct = true;
 			$("input[name=nombre_personal]").parent().removeClass("has-error has-feedback");
