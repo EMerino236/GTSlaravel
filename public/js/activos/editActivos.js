@@ -1,11 +1,11 @@
 $( document ).ready(function(){
 
-	init_edit_activo();
+	init_editActivo();
 
 });
 
 
-function init_edit_activo()
+function init_editActivo()
 {
 	var numero_reporte = $('#reporte_instalacion_edit_activo').val();
 
