@@ -70,7 +70,6 @@ class ProgramacionGuiasController extends \BaseController {
 				$data["servicios"] = Servicio::lists('nombre','idservicio');
 				$data["tipo_reporte_ts"] = SubtipoDocumentoInf::where('id_tipo','4')->lists('nombre','id'); //TS
 				$data["tipo_reporte_etes"] = TipoReporteETES::lists('nombre','idtipo_reporte_ETES');
-				$data["tipo_reporte_gpc"] = SubtipoDocumentoInf::where('id_tipo','7')->lists('nombre','id'); //GPC
 				$data["reporte_cn_info"] = null;
 				return View::make('investigacion/programacion/createProgramacionGuia',$data);
 			}else{
@@ -128,7 +127,7 @@ class ProgramacionGuiasController extends \BaseController {
 			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2){
 				// Validate the info, create rules for the inputs	
 				$rules = array(						
-							'idtipo_reporte_gpc' => 'required',
+							'fecha_publicacion' => 'required',
 							'fecha_gpc' => 'required',
 							'nombre_gpc' => 'required|unique:documentosinf,nombre',				
 						);
@@ -139,7 +138,7 @@ class ProgramacionGuiasController extends \BaseController {
 					return Redirect::to('programacion_guias/create_programacion_guias')->withErrors($validator)->withInput(Input::all());					
 				}else{					
 					$programacion_guia_gpc = new ProgramacionGuiaGPC;
-					$programacion_guia_gpc->id_tipo = Input::get('idtipo_reporte_gpc');
+					$programacion_guia_gpc->fecha_publicacion = Input::get('fecha_publicacion');
 					$programacion_guia_gpc->iduser = $data["user"]->id;
 					$programacion_guia_gpc->fecha = date("Y-m-d",strtotime(Input::get('fecha_gpc')));
 					$programacion_guia_gpc->nombre_reporte = Input::get('nombre_gpc');

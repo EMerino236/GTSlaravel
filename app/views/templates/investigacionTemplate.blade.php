@@ -22,7 +22,8 @@
     <link href="{{ asset('bower_components/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
     <!-- Bootstrap Alerts -->
     <link href="{{ asset('css/bootstrap-dialog.min.css') }}" rel="stylesheet">
-
+    <!--CSS para Diagrama de Gantt-->
+    <link href="{{ asset('css/jsgantt.css') }}" rel="stylesheet">
     <link href="{{ asset('css/fileinput.min.css') }}" rel="stylesheet">
     <script type="text/javascript">
         var inside_url = "{{$inside_url}}";
@@ -50,7 +51,8 @@
     <script src="{{ asset('js/investigacion/solicitud_servicio.js') }}"></script>
     <script src="{{ asset('js/investigacion/programacion.js') }}"></script>
     <script src="{{ asset('js/bootstrap-dialog.min.js') }}"></script>
-    
+    <!--Javascript para Diagrama de Gantt-->
+    <script src="{{ asset('js/jsgantt.js') }}"></script>
 </head>
 
 <body>

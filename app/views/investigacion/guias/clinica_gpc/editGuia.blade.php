@@ -13,7 +13,7 @@
 			<p><strong>{{ $errors->first('descripcion') }}</strong></p>
 			<p><strong>{{ $errors->first('autor') }}</strong></p>
 			<p><strong>{{ $errors->first('url') }}</strong></p>
-			<p><strong>{{ $errors->first('idtipo_documento') }}</strong></p>
+			<p><strong>{{ $errors->first('fecha_publicacion') }}</strong></p>
 			<p><strong>{{ $errors->first('archivo') }}</strong></p>
 		</div>
 	@endif
@@ -27,7 +27,7 @@
 
 	{{ Form::open(array('url'=>'guias_clinica_gpc/edit_guia/'.$documento_info->iddocumentosinf, 'role'=>'form', 'files'=>true)) }}
 		{{ Form::hidden('documento_id', $documento_info->iddocumentosinf) }}
-		{{ Form::hidden('idtipo_documento', $documento_info->idtipo_documentosinf) }}
+		{{ Form::hidden('fecha_publicacion', $documento_info->anho_publicacion) }}
 		{{ Form::hidden('id_subtipo', $documento_info->id_subtipo) }}
 
 		<div class="col-md-6">
@@ -41,6 +41,21 @@
 								{{ Form::text('nombre',$documento_info->nombre,array('class'=>'form-control','readonly'=>'')) }}
 							@else
 								{{ Form::text('nombre',$documento_info->nombre,array('class'=>'form-control')) }}
+							@endif
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-8 @if($errors->first('fecha_publicacion')) has-error has-feedback @endif">
+							{{ Form::label('fecha_publicacion','Fecha de Publicación') }}
+							@if($documento_info->deleted_at)
+								{{ Form::text('fecha_publicacion',$documento_info->anho_publicacion,array('class'=>'form-control','readonly'=>'')) }}
+							@else
+								<div id="datetimepicker_fecha" class="form-group input-group date @if($errors->first('fecha_publicacion')) has-error has-feedback @endif">
+									{{ Form::text('fecha_publicacion',$documento_info->anho_publicacion,array('class'=>'form-control', 'readonly'=>'')) }}
+									<span class="input-group-addon">
+				                        <span class="glyphicon glyphicon-calendar"></span>
+				                    </span>
+								</div>
 							@endif
 						</div>
 					</div>

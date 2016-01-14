@@ -11,8 +11,7 @@ class GuiasClinicaGpcController extends \BaseController {
 			if(	$data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 ||
 				$data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 12){
 				
-				$data["tipo_documentos"] = SubtipoDocumentoInf::where('id_tipo', 7)->orderBy('nombre','asc')->lists('nombre','id');
-
+				$data["tipo_documentos"] = DocumentoInf::where('idtipo_documentosinf', 7)->orderBy('nombre','asc')->lists('anho_publicacion','anho_publicacion');
 				$data["search_nombre"] = null;
 				$data["search_autor"] = null;
 				$data["search_tipo_documento"] = null;
@@ -37,16 +36,15 @@ class GuiasClinicaGpcController extends \BaseController {
 			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 ||
 				$data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 12){
 
-				$data["tipo_documentos"] = SubtipoDocumentoInf::where('id_tipo', 7)->orderBy('nombre','asc')->lists('nombre','id');
+				$data["tipo_documentos"] = DocumentoInf::where('idtipo_documentosinf', 7)->orderBy('nombre','asc')->lists('anho_publicacion','anho_publicacion');
 
 				$data["search_nombre"] = Input::get('search_nombre');
 				$data["search_autor"] = Input::get('search_autor');
 				$data["search_tipo_documento"] = Input::get('search_tipo_documento');
-
 				$data["documentos_data"] = DocumentoInf::searchDocumentos($data["search_nombre"],$data["search_autor"], null, null, 7);
 
 				if(Input::get('search_tipo_documento') != 0){
-					$data["documentos_data"] = $data["documentos_data"]->where('id_subtipo',Input::get('search_tipo_documento'));
+					$data["documentos_data"] = $data["documentos_data"]->where('anho_publicacion',Input::get('search_tipo_documento'));
 				}
 
 				$data["documentos_data"] = $data["documentos_data"]->paginate(10);
@@ -91,6 +89,7 @@ class GuiasClinicaGpcController extends \BaseController {
 							'nombre' => 'required|max:100|unique:documentosinf',
 							'descripcion' => 'required|max:200',
 							'autor' => 'required|max:100',
+							'fecha_publicacion' => 'required',
 							'archivo' => 'max:15360|mimes:png,jpe,jpeg,jpg,gif,bmp,zip,rar,pdf,doc,docx,xls,xlsx,ppt,pptx',
 						);
 				// Run the validation rules on the inputs from the form
@@ -100,12 +99,12 @@ class GuiasClinicaGpcController extends \BaseController {
 					return Redirect::to('guias_clinica_gpc/create_guia/'.Input::get('id_programacion'))->withErrors($validator)->withInput(Input::all());
 				}else{
 				    $data["tipo_documentos"] = TipoDocumentoInf::searchTipoDocumentosById(7)->first();
-				    $subtipo = SubtipoDocumentoInf::find(Input::get('idtipo_documento'));
+				    $fecha_publicacion = Input::get('fecha_publicacion');
 				    $rutaDestino 	='';
 				    $nombreArchivo 	='';	
 				    if (Input::hasFile('archivo')) {
 				        $archivo            		= Input::file('archivo');
-				        $rutaDestino 				= 'uploads/documentos/investigacion/guias/' . $data["tipo_documentos"]->nombre . '/' . $subtipo->nombre .'/';
+				        $rutaDestino 				= 'uploads/documentos/investigacion/guias/' . $data["tipo_documentos"]->nombre . '/' . $fecha_publicacion .'/';
 				        $nombreArchivo        		= $archivo->getClientOriginalName();
 				        $nombreArchivoEncriptado 	= Str::random(27).'.'.pathinfo($nombreArchivo, PATHINFO_EXTENSION);
 				        $uploadSuccess 				= $archivo->move($rutaDestino, $nombreArchivoEncriptado);
@@ -121,7 +120,7 @@ class GuiasClinicaGpcController extends \BaseController {
 					$documento->autor = Input::get('autor');
 					$documento->url = $rutaDestino;
 					$documento->idtipo_documentosinf = 7;
-					$documento->id_subtipo = Input::get('idtipo_documento');
+					$documento->anho_publicacion = $fecha_publicacion;
 					$documento->id_tipo_padre = $data["tipo_documentos"]->padre->id;
 					$documento->idestado = 1;
 					$documento->id_programacion = Input::get('id_programacion');
@@ -182,6 +181,7 @@ class GuiasClinicaGpcController extends \BaseController {
 							'nombre' => 'required|max:100',
 							'descripcion' => 'required|max:200',
 							'autor' => 'required|max:100',
+							'fecha_publicacion' => 'required',
 							'archivo' => 'max:15360|mimes:png,jpe,jpeg,jpg,gif,bmp,zip,rar,pdf,doc,docx,xls,xlsx,ppt,pptx',
 						);
 				// Run the validation rules on the inputs from the form
@@ -192,7 +192,7 @@ class GuiasClinicaGpcController extends \BaseController {
 					return Redirect::to($url)->withErrors($validator)->withInput(Input::all());
 				}else{
 					$data["tipo_documentos"] = TipoDocumentoInf::searchTipoDocumentosById(7)->first();
-					$subtipo = SubtipoDocumentoInf::find(Input::get('id_subtipo'));
+					$fecha_publicacion = Input::get('fecha_publicacion');
 					$data["documento_info"] = DocumentoInf::searchDocumentoById(Input::get('documento_id'))->get();
 
 					$url = "guias_clinica_gpc/edit_guia"."/".$iddocumento;
@@ -200,7 +200,7 @@ class GuiasClinicaGpcController extends \BaseController {
 				    $nombreArchivo 	='';	
 				    if (Input::hasFile('archivo')) {
 				        $archivo            		= Input::file('archivo');
-				        $rutaDestino 				= 'uploads/documentos/investigacion/guias/' . $data["tipo_documentos"]->nombre . '/' . $subtipo->nombre .'/';
+				        $rutaDestino 				= 'uploads/documentos/investigacion/guias/' . $data["tipo_documentos"]->nombre . '/' . $fecha_publicacion .'/';
 				        $nombreArchivo        		= $archivo->getClientOriginalName();
 				        $nombreArchivoEncriptado 	= Str::random(27).'.'.pathinfo($nombreArchivo, PATHINFO_EXTENSION);
 				        $uploadSuccess 				= $archivo->move($rutaDestino, $nombreArchivoEncriptado);
@@ -217,7 +217,7 @@ class GuiasClinicaGpcController extends \BaseController {
 					$documento->codigo_archivamiento = Input::get('codigo_archivamiento');
 					$documento->ubicacion = Input::get('ubicacion');
 					$documento->idtipo_documentosinf = 7;
-					$documento->id_subtipo = Input::get('id_subtipo');
+					$documento->anho_publicacion = $fecha_publicacion;
 					$documento->id_tipo_padre = $data["tipo_documentos"]->padre->id;
 					$documento->idestado = 1;
 					$documento->save();

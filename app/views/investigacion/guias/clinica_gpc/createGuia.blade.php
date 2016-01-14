@@ -13,7 +13,7 @@
 			<p><strong>{{ $errors->first('descripcion') }}</strong></p>
 			<p><strong>{{ $errors->first('autor') }}</strong></p>
 			<p><strong>{{ $errors->first('url') }}</strong></p>
-			<p><strong>{{ $errors->first('idtipo_documento') }}</strong></p>
+			<p><strong>{{ $errors->first('fecha_publicacion') }}</strong></p>
 			<p><strong>{{ $errors->first('archivo') }}</strong></p>
 		</div>
 	@endif
@@ -32,10 +32,9 @@
 			</div>
 			<div class="panel-body">
 				<div class="row">
-					<div class="form-group col-md-4 @if($errors->first('idtipo_documento')) has-error has-feedback @endif">
-						{{ Form::label('idtipo_documento','Tipo de Documento') }}
-						{{ Form::text('tipo_documento',$programacion->tipo->nombre,['class' => 'form-control','readonly']) }}
-						{{Form::hidden('idtipo_documento',$programacion->id_tipo)}}
+					<div class="form-group col-md-4 @if($errors->first('fecha_publicacion')) has-error has-feedback @endif">
+						{{ Form::label('fecha_publicacion','Año de publicación') }}
+						{{ Form::text('fecha_publicacion',$programacion->fecha_publicacion,['class' => 'form-control','readonly']) }}
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('autor')) has-error has-feedback @endif">
 						{{ Form::label('autor','Autor') }}

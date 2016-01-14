@@ -625,6 +625,6 @@ Route::group(array('prefix'=>'programacion_guias','before'=>'auth'),function(){
 	Route::get('/create_programacion_guias','ProgramacionGuiasController@render_create_programacion_guias');
 	Route::post('/submit_create_programacion_guia_ts','ProgramacionGuiasController@submit_create_programacion_reporte_ts');
 	Route::post('/submit_create_programacion_reporte_etes','ProgramacionReportesController@submit_create_programacion_reporte_etes');
-	//FALTA
 	Route::post('/submit_create_programacion_guia_gpc','ProgramacionGuiasController@submit_create_programacion_reporte_gpc');
+	Route::get('/test','TestController@index');
 });

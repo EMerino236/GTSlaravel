@@ -16,7 +16,7 @@
 	  <div class="panel-body">
 	    <div class="form-group row">
 			<div class="col-xs-4">
-				{{ Form::label('search_tipo_documento','Tipo de Guía') }}				
+				{{ Form::label('search_tipo_documento','Fecha de Publicación') }}				
 				{{ Form::select('search_tipo_documento', array('0' => 'Seleccione') + $tipo_documentos,$search_tipo_documento,['class' => 'form-control']) }}
 			</div>
 			<div class="col-xs-4">
@@ -51,7 +51,7 @@
 	-->
 	<table class="table">
 		<tr class="info">
-			<th>Tipo de Guía</th>
+			<th>Fecha de Publicación</th>
 			<th>Nombre</th>
 			<th>Autor</th>
 			<th>Fecha de Creación</th>
@@ -60,7 +60,7 @@
 		@foreach($documentos_data as $documento_data)
 		<tr class="@if($documento_data->deleted_at) bg-danger @endif">
 			<td>
-				{{$documento_data->subtipo->nombre}}
+				{{$documento_data->anho_publicacion}}
 			</td>
 			<td>
 				<a href="{{URL::to('/guias_clinica_gpc/edit_guia/')}}/{{$documento_data->iddocumentosinf}}">{{$documento_data->nombre}}</a>

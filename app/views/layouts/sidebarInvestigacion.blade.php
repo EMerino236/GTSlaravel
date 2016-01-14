@@ -10,9 +10,10 @@
                 <ul class="nav nav-second-level">   
                     <li>{{ HTML::link('mapa_procesos/list_procesos','Mapa de procesos y procedimientos GTS (con definición e indicadores GTS) ') }}</li>
                     <li>
-                        <a href="#">Plantillas de inspecciones<span class="fa arrow"></span></a>
+                        <a href="#">Plantillas de Mantenimiento<span class="fa arrow"></span></a>
                         <ul class="nav nav-third-level">
                             <li>{{ HTML::link('plantillas_servicios/list_servicios','Plantillas de inspecciones de servicios') }}</li>
+                            <li>{{ HTML::link('plantillas_mant_preventivo/list_mantenimientos','Plantillas de mantenimiento por TS') }}</li>
                             <!--<li>{{ HTML::link('#','Plantillas de inspecciones de infraestructura ') }}</li>-->
                             <!--<li>{{ HTML::link('#','Plantillas de inspecciones hospitalario ') }}</li>-->
                         </ul>
@@ -20,12 +21,14 @@
                     <li>{{ HTML::link('#','Indicadores de diseño de procesos y procedimientos') }}</li>
                 </ul>                
             </li>
+            <!--
             <li>
                 <a href="#">Diseño integral y funcional de servicios clínicos<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
-                    <li>{{ HTML::link('plantillas_mant_preventivo/list_mantenimientos','Plantillas de mantenimiento por TS') }}</li>
+                    
                 </ul>
             </li>
+            -->
             <li>
                 {{ HTML::link('guias_tecno_salud/list_guias','Elaboración de Guía de Práctica de Tecnologías de Salud') }}
             </li>

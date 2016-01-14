@@ -11,7 +11,7 @@
 		<div class="alert alert-danger" role="alert">
 			<p><strong>{{ $errors->first('idtipo_reporte_ts') }}</strong></p>
 			<p><strong>{{ $errors->first('idtipo_reporte_etes') }}</strong></p>
-			<p><strong>{{ $errors->first('idtipo_reporte_gpc') }}</strong></p>
+			<p><strong>{{ $errors->first('fecha_publicacion') }}</strong></p>
 			<p><strong>{{ $errors->first('nombre_ts') }}</strong></p>
 			<p><strong>{{ $errors->first('nombre_etes') }}</strong></p>
 			<p><strong>{{ $errors->first('nombre_gpc') }}</strong></p>
@@ -93,9 +93,14 @@
 					</div>
 					<div class="panel-body">
 						<div class="row">
-							<div class="form-group col-md-4 @if($errors->first('idtipo_reporte_gpc')) has-error has-feedback @endif">
-								{{ Form::label('idtipo_reporte_gpc','Tipo de Guía') }}<span style='color:red'>*</span>
-								{{ Form::select('idtipo_reporte_gpc',array(''=>'Seleccione') + $tipo_reporte_gpc,Input::old('idtipo_reporte_gpc'),['class' => 'form-control']) }}
+							<div class="form-group col-md-4 @if($errors->first('fecha_publicacion')) has-error has-feedback @endif">
+								{{ Form::label('fecha_publicacion','Fecha de Publicación') }}<span style='color:red'>*</span>
+								<div id="datetimepicker_fecha" class="form-group input-group date @if($errors->first('fecha_publicacion')) has-error has-feedback @endif">
+									{{ Form::text('fecha_publicacion',Input::old('fecha_publicacion'),array('class'=>'form-control', 'readonly'=>'')) }}
+									<span class="input-group-addon">
+				                        <span class="glyphicon glyphicon-calendar"></span>
+				                    </span>
+								</div>
 							</div>
 						</div>
 						<div class="row">
