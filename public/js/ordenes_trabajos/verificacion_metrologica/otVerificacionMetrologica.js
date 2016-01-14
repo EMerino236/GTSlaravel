@@ -28,14 +28,14 @@ $( document ).ready(function(){
 				callback: function(result){
 			        if(result) {
 			        	var error_str = "";
-						var reg = /[\w'-]+/;
+						var reg = /[^á-úÁ-Úa-zA-ZA]+$/;
 						var floatRegex = /^\d{1,6}(\.\d{0,2}){0,1}$/;
 						var is_correct = true;
 						$("input[name=nombre_personal]").parent().removeClass("has-error has-feedback");
 						$("input[name=horas_trabajadas]").parent().removeClass("has-error has-feedback");
 						$("input[name=costo_personal]").parent().removeClass("has-error has-feedback");
-						if(!reg.test($("input[name=nombre_personal]").val())){
-							error_str += "El nombre debe ser alfanumérico.\n";
+						if(reg.test($("input[name=nombre_personal]").val())){
+							error_str += "El nombre debe ser alfabético.\n";
 							$("input[name=nombre_personal]").parent().addClass("has-error has-feedback");
 							is_correct = false;
 						}

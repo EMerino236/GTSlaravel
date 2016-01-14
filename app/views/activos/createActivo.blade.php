@@ -85,7 +85,7 @@
 							</div>
 							<div class="col-md-4 @if($errors->first('codigo_patrimonial')) has-error has-feedback @endif">
 								{{ Form::label('codigo_patrimonial','Código Patrimonial') }}<span style="color:red">*</span>
-								{{ Form::text('codigo_patrimonial',Input::old('codigo_patrimonial'),array('class'=>'form-control','placeholder'=>'Código Patrimonial'))}}
+								{{ Form::text('codigo_patrimonial',Input::old('codigo_patrimonial'),array('class'=>'form-control','placeholder'=>'Código Patrimonial','maxlength'=>'12'))}}
 							</div>
 						</div>
 						<div class="form-group row">

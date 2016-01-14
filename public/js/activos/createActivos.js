@@ -1,6 +1,6 @@
 $( document ).ready(function(){
 
-	init();
+	init_createActivo();
 	
 	$('#mensaje_validacion').prop('readonly',true);
 
@@ -14,7 +14,7 @@ $( document ).ready(function(){
 
 });
 
-function init()
+function init_createActivo()
 {
 	$("#mensaje_validacion").css('background-color','#eee');
     $("#mensaje_validacion").css('color','#555');

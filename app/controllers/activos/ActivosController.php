@@ -232,12 +232,12 @@ class ActivosController extends BaseController
 					'marca' => 'required',
 					'nombre_equipo' => 'required',
 					'modelo' => 'required',
-					'numero_serie' => 'required',
+					'numero_serie' => 'required|alpha_dash',
 					'proveedor' => 'required',
-					'codigo_compra' => 'required',
-					'codigo_patrimonial' => 'required|unique:activos,codigo_patrimonial',
+					'codigo_compra' => 'required|digits',
+					'codigo_patrimonial' => 'required|digits:12|unique:activos,codigo_patrimonial',
 					'fecha_adquisicion' => 'required',
-					'garantia' => 'required',
+					'garantia' => 'required|numeric',
 					'idreporte_instalacion' => 'required',
 					'costo' => 'required|numeric'
 					);

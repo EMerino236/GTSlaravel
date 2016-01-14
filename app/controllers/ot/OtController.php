@@ -295,10 +295,10 @@ class OtController extends BaseController {
 				$rules = array(
 							'prioridades' => 'required',
 							'idestado' => 'required',
-							'descripcion_problema' => 'required|max:500|alpha_num_ampersand',
+							'descripcion_problema' => 'required|max:500|alpha_num',
 							'tipo_falla' => 'required',
 							'idestado_inicial' => 'required',
-							'diagnostico_falla' => 'required|max:500|alpha_num_ampersand',
+							'diagnostico_falla' => 'required|max:500|alpha_num',
 							'sin_interrupcion_servicio' => 'required',
 							'idestado_final' => 'required',
 							'fecha_conformidad' => 'required',

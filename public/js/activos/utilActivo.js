@@ -5,7 +5,7 @@ $( document ).ready(function(){
 		format: 'DD-MM-YYYY'
 	});
 
-	init();
+	init_utilActivo();
 
  	$('#marca').change(function(){
  		search_nombre_equipo_ajax();
@@ -17,22 +17,16 @@ $( document ).ready(function(){
 
 });
 
-function init(){
-
-	var val_servicio = $('#servicio_clinico').val();
+function init_utilActivo(){
+	
 	var val_marca = $('#marca').val();
-	var val_modelo = $('#modelo').val();
-
-	if(val_servicio == ''){
-		$('#ubicacion_fisica').prop('disabled',true);
-	}else{
-		$('#ubicacion_fisica').prop('disabled',false);
-	}
+	var val_modelo = $('#modelo').val();	
 
 	if(val_marca == ''){
 		$('#nombre_equipo').prop('disabled',true);
 	}else{
 		$('#nombre_equipo').prop('disabled',false);
+		search_nombre_equipo_ajax();
 	}
 
 	if(val_modelo == ''){
