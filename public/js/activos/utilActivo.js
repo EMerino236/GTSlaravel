@@ -42,7 +42,7 @@ function search_nombre_equipo_ajax()
 	var val = $('#marca').val();
 
 	$.ajax({
-	    url: inside_url + '/equipos/search_nombre_equipo_ajax',
+	    url: inside_url + 'equipos/search_nombre_equipo_ajax',
 	    type: 'POST',
 	    data: { 'selected_id' : val },
 	    beforeSend: function(){
@@ -96,7 +96,7 @@ function search_modelo_equipo_ajax()
 	var val = $('#nombre_equipo').val();
 
 	$.ajax({
-	    url: inside_url + '/equipos/search_modelo_equipo_ajax',
+	    url: inside_url + 'equipos/search_modelo_equipo_ajax',
 	    type: 'POST',
 	    data: { 'selected_id' : val },
 	    beforeSend: function(){
