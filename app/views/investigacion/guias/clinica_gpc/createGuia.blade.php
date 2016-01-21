@@ -34,15 +34,32 @@
 				<div class="row">
 					<div class="form-group col-md-4 @if($errors->first('fecha_publicacion')) has-error has-feedback @endif">
 						{{ Form::label('fecha_publicacion','Año de publicación') }}
+						@if($programacion)
 						{{ Form::text('fecha_publicacion',$programacion->fecha_publicacion,['class' => 'form-control','readonly']) }}
+						@else
+						<div id="datetimepicker_create_gpc" class="form-group input-group date @if($errors->first('fecha_publicacion')) has-error has-feedback @endif">
+							{{ Form::text('fecha_publicacion',Input::old('fecha_publicacion'),array('class'=>'form-control', 'readonly'=>'')) }}
+							<span class="input-group-addon">
+		                        <span class="glyphicon glyphicon-calendar"></span>
+		                    </span>
+						</div>
+						@endif
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('autor')) has-error has-feedback @endif">
 						{{ Form::label('autor','Autor') }}
+						@if($programacion)
 						{{ Form::text('autor',$programacion->usuario->nombre." ".$programacion->usuario->apellido_pat." ".$programacion->usuario->apellido_mat,array('class'=>'form-control','readonly')) }}
+						@else
+						{{ Form::text('autor',$user->nombre." ".$user->apellido_pat." ".$user->apellido_mat,array('class'=>'form-control','readonly')) }}
+						@endif
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('nombre')) has-error has-feedback @endif">
 						{{ Form::label('nombre','Nombre de Documento') }}
+						@if($programacion)
 						{{ Form::text('nombre',$programacion->nombre_reporte,array('class'=>'form-control','readonly')) }}
+						@else
+						{{ Form::text('nombre', null,array('class'=>'form-control')) }}
+						@endif
 					</div>
 				</div>
 				<div class="row">
@@ -69,7 +86,10 @@
 				{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit_create', 'type'=>'submit','class' => 'btn btn-primary btn-block')) }}
 			</div>
 		</div>
+		@if($programacion)
 		{{Form::hidden('id_programacion',$programacion->id)}}	
+		@endif
+
 	{{ Form::close() }}
 	
 	<script>

@@ -60,6 +60,15 @@ $( document ).ready(function(){
         //disabledDates: [ayer]
     });
 
+    $("#datetimepicker_create_gpc").datetimepicker({
+        useCurrent: false,
+        defaultDate: false,
+        ignoreReadonly: true,
+        format: 'YYYY',
+        //minDate: ayer,
+        //disabledDates: [ayer]
+    });
+
     $('#btnLlimpiar_criterios_list_reporte_cn').click(function(){
         $("#search_usuario").val('');
         $("#search_fecha").val('');

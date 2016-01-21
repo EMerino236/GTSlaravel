@@ -64,8 +64,12 @@ class GuiasClinicaGpcController extends \BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+			if($id && $data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				$data["programacion"] = ProgramacionGuiaGPC::find($id);
+				$data["tipo_documentos"] = SubtipoDocumentoInf::where('id_tipo', 7)->orderBy('nombre','asc')->lists('nombre','id');
+				return View::make('investigacion/guias/clinica_gpc/createGuia',$data);
+			}else if(!$id && $data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+				$data["programacion"] = null;
 				$data["tipo_documentos"] = SubtipoDocumentoInf::where('id_tipo', 7)->orderBy('nombre','asc')->lists('nombre','id');
 				return View::make('investigacion/guias/clinica_gpc/createGuia',$data);
 			}else{
@@ -78,7 +82,7 @@ class GuiasClinicaGpcController extends \BaseController {
 	}
 
 	public function submit_create_guia()
-	{
+	{	
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
@@ -96,7 +100,10 @@ class GuiasClinicaGpcController extends \BaseController {
 				$validator = Validator::make(Input::all(), $rules);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
-					return Redirect::to('guias_clinica_gpc/create_guia/'.Input::get('id_programacion'))->withErrors($validator)->withInput(Input::all());
+					if(Input::get('id_programacion'))
+						return Redirect::to('guias_clinica_gpc/create_guia/'.Input::get('id_programacion'))->withErrors($validator)->withInput(Input::all());
+					else
+						return Redirect::to('guias_clinica_gpc/create_guia/0')->withErrors($validator)->withInput(Input::all());
 				}else{
 				    $data["tipo_documentos"] = TipoDocumentoInf::searchTipoDocumentosById(7)->first();
 				    $fecha_publicacion = Input::get('fecha_publicacion');
@@ -126,15 +133,17 @@ class GuiasClinicaGpcController extends \BaseController {
 					$documento->id_programacion = Input::get('id_programacion');
 					$documento->save();
 
-					$programacion = ProgramacionGuiaGPC::find(Input::get('id_programacion'));
-					$programacion->id_guia = $documento->iddocumentosinf;
-					if (Input::hasFile('archivo')) {
-						$programacion->id_estado = 2;
+					if(Input::get('id_programacion')){
+						$programacion = ProgramacionGuiaGPC::find(Input::get('id_programacion'));
+						$programacion->id_guia = $documento->iddocumentosinf;
+						if (Input::hasFile('archivo')) {
+							$programacion->id_estado = 2;
+						}
+						$programacion->save();
 					}
-					$programacion->save();
 
-					Session::flash('message', 'Se registró correctamente el Documento.');				
-					return Redirect::to('guias_clinica_gpc/create_guia/'.Input::get('id_programacion'));
+					Session::flash('message', 'Se registró correctamente el Documento.');
+					return Redirect::to('guias_clinica_gpc/create_guia/0');
 				}
 			}else{
 				return View::make('error/error',$data);
