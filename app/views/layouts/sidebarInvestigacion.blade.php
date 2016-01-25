@@ -44,6 +44,16 @@
                 {{ HTML::link('programacion_guias/list_programacion_guias','Programación de elaboración de Guías y Reporte ETES') }}
                 
             </li>
+            <li>
+                <a href="#">Identificación de problemáticas, desarrollo de líneas de investigación e identificación de oportunidades de financiamiento <span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">                           
+                    <li>{{ HTML::linkRoute('reporte_financiamiento.create','Reporte que certifica la problemática e identificación de financiamiento') }}</li>
+                </ul>
+            </li>
+            <li>
+                
+                
+            </li>
         </ul>
     </div>
     <!-- /.sidebar-collapse -->
