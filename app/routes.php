@@ -19,6 +19,8 @@ Route::post('/login', 'LoginController@login');
 Route::group(array('before'=>'auth'),function(){
 	Route::get('/logout','LoginController@logout');
 	Route::get('/dashboard','DashboardController@home');
+	Route::get('/mision_vision','DashboardController@mision_vision');
+	Route::get('/acerca_desarrollo','DashboardController@acerca_desarrollo');
 });
 
 /* Bienes */
@@ -638,4 +640,19 @@ Route::group(array('prefix'=>'reporte_financiamiento','before'=>'auth'),function
 	//Route::post('/submit_create_programacion_guia_ts','ProgramacionGuiasController@submit_create_programacion_reporte_ts');
 	//Route::post('/submit_create_programacion_reporte_etes','ProgramacionReportesController@submit_create_programacion_reporte_etes');
 	//Route::post('/submit_create_programacion_guia_gpc','ProgramacionGuiasController@submit_create_programacion_reporte_gpc');
+});
+
+/* Adquisicion */
+Route::group(array('prefix'=>'adquisicion', 'before'=>'auth'),function(){
+	Route::get('/','AdquisicionController@home');
+});
+
+/* Riesgos */
+Route::group(array('prefix'=>'riesgos', 'before'=>'auth'),function(){
+	Route::get('/','RiesgosController@home');
+});
+
+/* RRHH */
+Route::group(array('prefix'=>'rrhh', 'before'=>'auth'),function(){
+	Route::get('/','RRHHController@home');
 });
