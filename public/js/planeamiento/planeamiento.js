@@ -621,12 +621,12 @@ function llenar_nombre_responsable_paac(){
                             $('input[name=idresponsable_paac]').val(resp[0].id);           
                         }
                         else{
-                            $("#nombre_responsable_paac").val("Número de reporte incorrecto");
+                            $("#nombre_responsable_paac").val("Número de documento incorrecto");
                             $("#nombre_responsable_paac").css('background-color','#d9534f');
                             $("#nombre_responsable_paac").css('color','white');
                         } 
                     }else{
-                        $("#nombre_responsable_paac").val("Número de reporte incorrecto");
+                        $("#nombre_responsable_paac").val("Número de documento incorrecto");
                         $("#nombre_responsable_paac").css('background-color','#d9534f');
                         $("#nombre_responsable_paac").css('color','white');
                     }               
