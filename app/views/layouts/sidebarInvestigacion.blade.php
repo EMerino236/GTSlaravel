@@ -10,7 +10,7 @@
                 <ul class="nav nav-second-level">   
                     <li>{{ HTML::link('mapa_procesos/list_procesos','Mapa de procesos y procedimientos GTS (con definición e indicadores GTS) ') }}</li>
                     <li>
-                        <a href="#">Plantillas de Mantenimiento<span class="fa arrow"></span></a>
+                        <a href="#">Plantillas<span class="fa arrow"></span></a>
                         <ul class="nav nav-third-level">
                             <li>{{ HTML::link('plantillas_servicios/list_servicios','Plantillas de inspecciones de servicios') }}</li>
                             <li>{{ HTML::link('plantillas_mant_preventivo/list_mantenimientos','Plantillas de mantenimiento por TS') }}</li>

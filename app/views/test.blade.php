@@ -2,6 +2,7 @@
 @extends('templates/investigacionTemplate')
 
 @section('content')
+	<!--
 	<div class="row">
 	    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 	    <script type="text/javascript">
@@ -27,6 +28,7 @@
 	 
 	    <div id="timeline" style="height: 180px;"></div>
 	</div>
+	-->
 	<div class="row">
 		<div class="col-md-12">
 			<div style="position:relative" class="gantt" id="GanttChartDIV"></div>
