@@ -89,9 +89,13 @@
 				        </div>					
 					</div>
 					<div class="row">
+						<div class="form-group col-md-2 @if($errors->first('tipo_documento_identidad1')) has-error has-feedback @endif">
+							{{ Form::label('tipo_documento_identidad1','Tipo de Documento') }}<span style="color:red">*</span>
+							{{ Form::select('tipo_documento_identidad1', array('' => 'Seleccione') + $tipo_documento_identidad,Input::old('tipo_documento_identidad1'),['class' => 'form-control']) }}						
+						</div>
 						<div class="form-group col-md-3 @if($errors->first('numero_doc1')) has-error has-feedback @endif">
 							{{ Form::label('numero_doc1','Documento de Identidad') }}<span style="color:red"> *</span>
-							{{ Form::text('numero_doc1',Input::old('numero_doc1'),['class' => 'form-control','id'=>'numero_doc1','placeholder'=>'N° de Doc.'])}}
+							{{ Form::text('numero_doc1',Input::old('numero_doc1'),['class' => 'form-control','id'=>'numero_doc1','placeholder'=>'N° de Doc.','readonly'=>''])}}
 						</div>
 						<div class="form-group col-md-2" style="margin-top:25px">
 							<a class="btn btn-primary btn-block" onclick="fill_name_responsable(1)">
@@ -100,7 +104,7 @@
 						<div class="form-group col-md-2" style="margin-top:25px">
 							<div class="btn btn-default btn-block" onclick="clean_name_responsable(1)"><span class="glyphicon glyphicon-refresh"></span> Limpiar</div>				
 						</div>
-						<div class="form-group col-md-4">
+						<div class="form-group col-md-3">
 							{{ Form::label('responsable','Responsable de la Revisión') }}
 							{{ Form::text('responsable',Input::old('responsable'),['class' => 'form-control','id'=>'nombre_responsable1','disabled'=>'disabled','placeholder'=>'Nombre de Usuario'])}}
 						</div>
@@ -168,9 +172,13 @@
 		        	</div>
 		        	<br>
 		        	<div class="row">
+						<div class="form-group col-md-2 @if($errors->first('tipo_documento_identidad2')) has-error has-feedback @endif">
+							{{ Form::label('tipo_documento_identidad2','Tipo de Documento') }}<span style="color:red">*</span>
+							{{ Form::select('tipo_documento_identidad2', array('' => 'Seleccione') + $tipo_documento_identidad,Input::old('tipo_documento_identidad2'),['class' => 'form-control']) }}						
+						</div>
 						<div class="form-group col-md-3 @if($errors->first('numero_doc2')) has-error has-feedback @endif">
 							{{ Form::label('numero_doc2','Documento de Identidad') }}<span style="color:red"> *</span>
-							{{ Form::text('numero_doc2',Input::old('numero_doc2'),['class' => 'form-control','id'=>'numero_doc2','placeholder'=>'N° de Doc.'])}}
+							{{ Form::text('numero_doc2',Input::old('numero_doc2'),['class' => 'form-control','id'=>'numero_doc2','placeholder'=>'N° de Doc.','readonly'=>''])}}
 						</div>
 						<div class="form-group col-md-2" style="margin-top:25px">
 							<a class="btn btn-primary btn-block" onclick="fill_name_responsable(2)">
@@ -180,15 +188,19 @@
 							<div class="btn btn-default btn-block" onclick="clean_name_responsable(2)"><span class="glyphicon glyphicon-refresh"></span> Limpiar</div>				
 						</div>
 
-						<div class="form-group col-md-4">
+						<div class="form-group col-md-3">
 							{{ Form::label('autorizado','Autorizado por') }}
 							{{ Form::text('autorizado',Input::old('autorizado'),['class' => 'form-control','id'=>'nombre_responsable2','disabled'=>'disabled','placeholder'=>'Nombre de Usuario'])}}
 						</div>
 					</div>
 					<div class="row">
+						<div class="form-group col-md-2 @if($errors->first('tipo_documento_identidad3')) has-error has-feedback @endif">
+							{{ Form::label('tipo_documento_identidad3','Tipo de Documento') }}<span style="color:red">*</span>
+							{{ Form::select('tipo_documento_identidad3', array('' => 'Seleccione') + $tipo_documento_identidad,Input::old('tipo_documento_identidad3'),['class' => 'form-control']) }}						
+						</div>
 						<div class="form-group col-md-3 @if($errors->first('numero_doc3')) has-error has-feedback @endif">
 							{{ Form::label('numero_doc3','Documento de Identidad') }}<span style="color:red"> *</span>
-							{{ Form::text('numero_doc3',Input::old('numero_doc3'),['class' => 'form-control','id'=>'numero_doc3','placeholder'=>'N° de Doc.'])}}
+							{{ Form::text('numero_doc3',Input::old('numero_doc3'),['class' => 'form-control','id'=>'numero_doc3','placeholder'=>'N° de Doc.','readonly'=>''])}}
 						</div>
 						<div class="form-group col-md-2" style="margin-top:25px">
 							<a class="btn btn-primary btn-block" onclick="fill_name_responsable(3)">
@@ -197,7 +209,7 @@
 						<div class="form-group col-md-2" style="margin-top:25px">
 							<div class="btn btn-default btn-block" onclick="clean_name_responsable(3)"><span class="glyphicon glyphicon-refresh"></span> Limpiar</div>				
 						</div>
-						<div class="form-group col-md-4">
+						<div class="form-group col-md-3">
 							{{ Form::label('elaborado','Elaborado por') }}
 							{{ Form::text('elaborado',Input::old('elaborado'),['class' => 'form-control','id'=>'nombre_responsable3','disabled'=>'disabled','placeholder'=>'Nombre de Usuario'])}}
 						</div>

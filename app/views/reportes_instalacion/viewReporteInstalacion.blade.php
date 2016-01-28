@@ -94,6 +94,10 @@
 		  	</div>
   			<div class="panel-body">
   				<div class="row">
+  					<div class="form-group col-md-2 @if($errors->first('tipo_documento_identidad1')) has-error has-feedback @endif">
+						{{ Form::label('tipo_documento_identidad1','Tipo de Documento') }}
+						{{ Form::select('tipo_documento_identidad1', array('' => 'Seleccione') + $tipo_documento_identidad,$usuario_responsable->idtipo_documento,['class' => 'form-control','disabled'=>'disabled']) }}						
+					</div>
 					<div class="form-group col-md-3 @if($errors->first('numero_documento1')) has-error has-feedback @endif">
 						{{ Form::label('numero_documento1','Número Documento') }}
 						{{ Form::text('numero_documento1',$usuario_responsable->numero_doc_identidad,['class' => 'form-control','id'=>'numero_documento1','readonly'=>''])}}
@@ -105,6 +109,7 @@
 				</div>
   			</div>
   		</div>
+  		@if($reporte_instalacion_info->idtipo_reporte_instalacion == 1)
   		<div class="row">
 			<div class="col-md-12">
 				<div class="panel panel-default" id="panel-documentos-relacionados" hidden>
@@ -220,6 +225,7 @@
 				</div>
 			</div>
 		</div>
+		@endif
 		<div class="container-fluid row">
 			<div class="form-group col-md-2">
 				<a class="btn btn-default btn-block" href="{{URL::previous()}}"><span class="glyphicon glyphicon-menu-left"></span> Regresar</a>				

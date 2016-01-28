@@ -61,7 +61,7 @@ class ReportesIncumplimientoController extends BaseController
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){	
-				$data["tipo_documento"] = TipoDocumento::lists('nombre','idtipo_documento');
+				$data["tipo_documento_identidad"] = TipoDocumento::lists('nombre','idtipo_documento');
 				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
 				$data["servicios"] = Servicio::searchServiciosClinicos(1)->lists('nombre','idservicio');
 				$data["search"] = null;
@@ -84,6 +84,7 @@ class ReportesIncumplimientoController extends BaseController
 			// Verifico si el usuario es un Webmaster
 			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4) && $idreporte)
 			{	
+				$data["tipo_documento_identidad"] = TipoDocumento::lists('nombre','idtipo_documento');
 				$data["reporte_data"] = ReporteIncumplimiento::getReporteIncumplimientoById($idreporte)->get();
 				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
 				$data["servicios"] = Servicio::searchServiciosClinicos(1)->lists('nombre','idservicio');
@@ -123,6 +124,7 @@ class ReportesIncumplimientoController extends BaseController
 			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 5 || $data["user"]->idrol == 6
 				 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12) && $idreporte)
 			{	
+				$data["tipo_documento_identidad"] = TipoDocumento::lists('nombre','idtipo_documento');
 				$data["reporte_data"] = ReporteIncumplimiento::getReporteIncumplimientoById($idreporte)->get();
 				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
 				$data["servicios"] = Servicio::searchServiciosClinicos(1)->lists('nombre','idservicio');
@@ -243,10 +245,9 @@ class ReportesIncumplimientoController extends BaseController
 		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 5 || $data["user"]->idrol == 6
 				 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 			// Check if the current user is the "System Admin"
-			$data = Input::get('selected_id');
-			$responsable = User::searchPersonalByNumeroDoc($data)->get();
-			
-								
+			$numero_doc = Input::get('numero_doc');
+			$tipo_doc = Input::get('tipo_doc');
+			$responsable = User::getUserByTipoDocNumeroDoc($tipo_doc,$numero_doc)->get();								
 			return Response::json(array( 'success' => true, 'responsable' => $responsable),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);

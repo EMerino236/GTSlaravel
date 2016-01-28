@@ -304,6 +304,7 @@ Route::group(array('prefix'=>'solicitudes_compra', 'before'=>'auth'),function(){
 	Route::post('/return_activos','SolicitudesController@search_activos_ajax');
 	Route::post('/download_reporte','SolicitudesController@download_reporte');
 	Route::post('/validate_ot','SolicitudesController@validate_ot');
+	Route::post('/return_tiempo_maximo','SolicitudesController@get_tiempo_maximo');
 	Route::post('/return_name_reporte','SolicitudesController@return_name_reporte');
 	Route::get('/edit_solicitud_compra/{id}','SolicitudesController@render_edit_solicitud');
 	Route::post('/submit_edit_solicitud_compra','SolicitudesController@submit_edit_solicitud');		

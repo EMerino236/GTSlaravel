@@ -15,6 +15,7 @@
 			<p><strong>{{ $errors->first('idarea') }}</strong></p>
 			<p><strong>{{ $errors->first('fecha') }}</strong></p>
 			<p><strong>{{ $errors->first('numero_documento1') }}</strong></p>
+			<p><strong>{{ $errors->first('descripcion') }}</strong></p>
 		</div>
 	@endif
 
@@ -53,22 +54,34 @@
 					<div class="form-group row">
 						<div class="form-group col-md-4 @if($errors->first('codigo_compra')) has-error has-feedback @endif">
 							{{ Form::label('codigo_compra','Código de Compra') }}
-							{{ Form::text('codigo_compra',$reporte_instalacion_info->codigo_compra,array('class'=>'form-control','readonly'=>'')) }}
+							@if($reporte_instalacion_info->idtipo_reporte_instalacion == 1)
+								{{ Form::text('codigo_compra',$reporte_instalacion_info->codigo_compra,array('class'=>'form-control')) }}
+							@else
+								{{ Form::text('codigo_compra',$reporte_instalacion_info->codigo_compra,array('class'=>'form-control','readonly'=>'')) }}
+							@endif
 						</div>
 						<div class="form-group col-md-4 @if($errors->first('idarea')) has-error has-feedback @endif">
 							{{ Form::label('idarea','Departamento') }}
-							{{ Form::select('idarea',array('' => 'Seleccione') + $areas,$reporte_instalacion_info->idarea,['class' => 'form-control','readonly'=>'']) }}
+							@if($reporte_instalacion_info->idtipo_reporte_instalacion == 1)
+								{{ Form::select('idarea',array('' => 'Seleccione') + $areas,$reporte_instalacion_info->idarea,['class' => 'form-control']) }}
+							@else
+								{{ Form::select('idarea',array('' => 'Seleccione') + $areas,$reporte_instalacion_info->idarea,['class' => 'form-control','readonly'=>'']) }}
+							@endif
 						</div>
 					</div>						
 					<div class="form-group row">
 						<div class="form-group col-md-4 @if($errors->first('idproveedor')) has-error has-feedback @endif">
 							{{ Form::label('idproveedor','Proveedor') }}
-							{{ Form::select('idproveedor',array('' => 'Seleccione') + $proveedores,$reporte_instalacion_info->idproveedor,['class' => 'form-control','readonly'=>'']) }}
+							@if($reporte_instalacion_info->idtipo_reporte_instalacion == 1)				
+								*{{ Form::select('idproveedor',array('' => 'Seleccione') + $proveedores,$reporte_instalacion_info->idproveedor,['class' => 'form-control']) }}
+							@else
+								{{ Form::select('idproveedor',array('' => 'Seleccione') + $proveedores,$reporte_instalacion_info->idproveedor,['class' => 'form-control','readonly'=>'']) }}
+							@endif
 						</div>
 						<div class="col-md-4">
 							{{ Form::label('fecha','Fecha') }}
 							<div id="datetimepicker1" class="form-group input-group date @if($errors->first('fecha')) has-error has-feedback @endif">
-								{{ Form::text('fecha',date('d-m-Y',strtotime($reporte_instalacion_info->fecha)),array('class'=>'form-control', 'readonly'=>'')) }}
+								{{ Form::text('fecha',date('d-m-Y',strtotime($reporte_instalacion_info->fecha)),array('class'=>'form-control')) }}
 								@if(!$reporte_instalacion_info->deleted_at)
 									<span class="input-group-addon">
 				                        <span class="glyphicon glyphicon-calendar"></span>
@@ -80,7 +93,7 @@
 					<div class="form-group row">
 						<div class="form-group col-md-8 @if($errors->first('descripcion')) has-error has-feedback @endif">
 							{{ Form::label('descripcion','Descripción') }}
-							{{ Form::textarea('descripcion',$reporte_instalacion_info->descripcion,['class' => 'form-control','style'=>'resize:none;','readonly'=>''])}}
+							{{ Form::textarea('descripcion',$reporte_instalacion_info->descripcion,['class' => 'form-control','style'=>'resize:none;'])}}
 						</div>
 					</div>
 				</div>	
@@ -146,23 +159,28 @@
 		  	</div>
   			<div class="panel-body">
   				<div class="row">
-					<div class="form-group col-md-3 @if($errors->first('numero_documento1')) has-error has-feedback @endif">
+					<div class="form-group col-md-2 @if($errors->first('tipo_documento_identidad1')) has-error has-feedback @endif">
+						{{ Form::label('tipo_documento_identidad1','Tipo de Documento') }}<span style="color:red">*</span>
+						{{ Form::select('tipo_documento_identidad1', array('' => 'Seleccione') + $tipo_documento_identidad,$usuario_responsable->idtipo_documento,['class' => 'form-control','readonly'=>'']) }}						
+					</div>	
+					<div class="form-group col-md-2 @if($errors->first('numero_documento1')) has-error has-feedback @endif">
 						{{ Form::label('numero_documento1','Número Documento') }}
 						{{ Form::text('numero_documento1',$usuario_responsable->numero_doc_identidad,['class' => 'form-control','id'=>'numero_documento1','readonly'=>''])}}
 					</div>
 							<div class="form-group col-md-2" style="margin-top:25px">
-								<a class="btn btn-primary btn-block" onclick="llenar_nombre_responsable(1)" disabled><span class="glyphicon glyphicon-plus"></span> Agregar</a>
+								<a class="btn btn-primary btn-block" onclick="llenar_nombre_responsable(1)" ><span class="glyphicon glyphicon-plus"></span> Agregar</a>
 							</div>
-							<div class="form-group col-md-2" style="margin-top:25px; margin-left:15px">
-								<a class="btn btn-default btn-block" onclick="limpiar_nombre_responsable(1)" disabled><span class="glyphicon glyphicon-refresh"></span> Limpiar</a>
+							<div class="form-group col-md-2" style="margin-top:25px">
+								<a class="btn btn-default btn-block" onclick="limpiar_nombre_responsable(1)" ><span class="glyphicon glyphicon-refresh"></span> Limpiar</a>
 							</div>
-							<div class="form-group col-md-4"  style="margin-left:15px">
+							<div class="form-group col-md-4" >
 						{{ Form::label('responsable','Responsable de la Revisión') }}
 						{{ Form::text('responsable',$usuario_responsable->nombre.' '.$usuario_responsable->apellido_pat.' '.$usuario_responsable->apellido_mat,['class' => 'form-control','id'=>'nombre_responsable1','disabled'=>'disabled'])}}
 					</div>
 				</div>
   			</div>
   		</div>
+  		@if($reporte_instalacion_info->idtipo_reporte_instalacion == 2)
   		<div class="row">
 			<div class="col-md-12">
 				<div class="panel panel-default" id="panel-documentos-relacionados" hidden>
@@ -316,6 +334,7 @@
 				</div>
 			</div>
 		</div>
+		@endif
 		<div class="container-fluid row">
 			<div class="form-group col-md-2">
 				{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar',array('id'=>'submit-edit','type' => 'submit', 'class'=>'btn btn-primary btn-block')) }}	

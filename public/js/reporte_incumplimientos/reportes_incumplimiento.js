@@ -10,6 +10,52 @@ $( document ).ready(function(){
         $('#datetimepicker1').data("DateTimePicker").minDate(new Date());
     });
 
+    $('#tipo_documento_identidad1').change(function(){
+        $('#numero_doc1').prop('readonly',false);
+        tipo_documento = $('#tipo_documento_identidad1').val();
+        if(tipo_documento == 1){
+            $('#numero_doc1').val(null);
+            $('#numero_doc1').prop('maxlength',8);
+        }else if(tipo_documento == 2 || tipo_documento == 3){            
+            $('#numero_doc1').val(null);
+            $('#numero_doc1').prop('maxlength',12);
+        }else{            
+            $('#numero_doc1').val(null);
+            $('#numero_doc1').prop('readonly',true);
+        }        
+    });
+
+    $('#tipo_documento_identidad2').change(function(){
+        $('#numero_doc2').prop('readonly',false);
+        tipo_documento = $('#tipo_documento_identidad2').val();
+        if(tipo_documento == 1){
+            $('#numero_doc2').val(null);
+            $('#numero_doc2').prop('maxlength',8);
+        }else if(tipo_documento == 2 || tipo_documento == 3){            
+            $('#numero_doc2').val(null);
+            $('#numero_doc2').prop('maxlength',12);
+        }else{            
+            $('#numero_doc2').val(null);
+            $('#numero_doc2').prop('readonly',true);
+        }
+        
+    });
+
+    $('#tipo_documento_identidad3').change(function(){
+        $('#numero_doc3').prop('readonly',false);
+        tipo_documento = $('#tipo_documento_identidad3').val();
+        if(tipo_documento == 1){
+            $('#numero_doc3').val(null);
+            $('#numero_doc3').prop('maxlength',8);
+        }else if(tipo_documento == 2 || tipo_documento == 3){            
+            $('#numero_doc3').val(null);
+            $('#numero_doc3').prop('maxlength',12);
+        }else{            
+            $('#numero_doc3').val(null);
+            $('#numero_doc3').prop('readonly',true);
+        }
+        
+    });
     
     
 
@@ -255,13 +301,15 @@ function fill_contacto_proveedor(){
 
 function fill_name_responsable(id){
         var val = $("#numero_doc"+id).val();
-        if(val=="")
+        var val_tipo_doc = $("#tipo_documento_identidad"+id).val();
+        if(val=="" || val_tipo_doc == 0)
             return;
         
         $.ajax({
             url: inside_url+'reportes_incumplimiento/return_name_responsable/'+val,
             type: 'POST',
-            data: { 'selected_id' : val },
+            data: { 'numero_doc' : val,
+                    'tipo_doc' : val_tipo_doc },
             beforeSend: function(){
                 $("#delete-selected-profiles").addClass("disabled");
                 $("#delete-selected-profiles").hide();
@@ -314,7 +362,9 @@ function clean_name_responsable(id){
     $("#numero_doc"+id).val("");
     $("#numero_doc"+id).prop('readonly',false);
     $("#nombre_responsable"+id).css('background-color','white');
-}
+    $("#nombre_responsable"+id).prop('readonly',true);
+    $("#tipo_documento_identidad"+id).prop('readonly',false);
+}   
 
 function clean_name_contrato(){
     $("#nombre_contrato").val("");

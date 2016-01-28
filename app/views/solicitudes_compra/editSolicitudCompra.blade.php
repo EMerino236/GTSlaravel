@@ -118,6 +118,10 @@
 								{{ Form::select('tipo',array(''=> 'Seleccione')+ $tipos,$reporte_data->idtipo_solicitud_compra,array('class'=>'form-control','id'=>'tipo')) }}
 							@endif
 						</div>
+						<div class="form-group col-md-4">
+							{{ Form::label('tiempo_maximo','Tiempo Máximo (Días):') }}
+							{{ Form::text('tiempo_maximo','',['class' => 'form-control','id'=>'tiempo_maximo','placeholder'=>'Tiempo Máximo','readonly'=>''])}}
+						</div>
 						<div class="col-md-4">
 							{{ Form::label('fecha','Fecha:')}}<span style="color:red"> *</span>
 							<div id="datetimepicker1" class="form-group input-group date @if($errors->first('fecha')) has-error has-feedback @endif">					

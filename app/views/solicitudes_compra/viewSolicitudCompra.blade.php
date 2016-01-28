@@ -32,7 +32,7 @@
 			{{ Form::hidden('flag_ot',2,array('id'=>'flag_ot'))}}
 		</div>
 		{{Form::hidden('reporte_id',$reporte_data->idsolicitud_compra,array('id'=>'reporte_id')) }}
-					
+		{{ Form::hidden('type_solicitud',1,array('id'=>'type_solicitud'))}}
 		<div class="row">
 			<div class="col-md-12">
 				<div class="panel panel-default">
@@ -90,6 +90,10 @@
 							@else
 								{{ Form::select('tipo',array('0'=> 'Seleccione')+ $tipos,$reporte_data->idtipo_solicitud_compra,array('class'=>'form-control','id'=>'tipo','readonly'=>'')) }}
 							@endif
+						</div>
+						<div class="form-group col-md-4">
+							{{ Form::label('tiempo_maximo','Tiempo Máximo (Días):') }}
+							{{ Form::text('tiempo_maximo','',['class' => 'form-control','id'=>'tiempo_maximo','placeholder'=>'Tiempo Máximo','readonly'=>''])}}
 						</div>
 						<div class="col-md-4">
 							{{ Form::label('fecha','Fecha:')}}<span style="color:red"> *</span>
