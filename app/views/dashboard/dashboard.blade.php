@@ -2,7 +2,7 @@
 
 @extends('templates/dashboardTemplate')
 @section('content')
-    <div class="row">
+    
         <div class="col-md-12">
 <!--            <h3 class="page-header">Bienvenido al sistema GTS</h3>-->
 
@@ -20,5 +20,5 @@
                 <font size=3><a href="#" id="font-acercaDesarrollo">Acerca del Desarrollo</a></font>
             </div>
         </div>
-    </div>
+    
 @stop        
