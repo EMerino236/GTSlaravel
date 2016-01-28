@@ -1,0 +1,99 @@
+#divCircle { 
+    position: absolute;
+    top: -10000%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: 0px;
+    width: 500px;
+    height: 500px;
+}
+ 
+#divCircle img{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 50%;
+    left: -50%;
+}
+
+#gts-logo {
+  height: 70%;       
+  width: 70%;   
+  margin: auto;
+  position: absolute;
+}
+
+#link-planeamiento {
+  top: 45%;    
+  left: -70%;   
+  margin: auto;
+  position: relative;
+}
+
+#link-adquisicion {
+  top: 65%;    
+  left: -110%;   
+  margin: auto;
+  position: relative;
+}
+
+#link-bienes {
+  top: 85%;    
+  left: -128%;   
+  margin: auto;
+  position: relative;
+}
+
+#link-riesgos {
+  top: 78%;    
+  left: 36%;   
+  margin: auto;
+  position: relative;
+}
+
+#link-investigacion {
+  top: 60%;    
+  left: 16%;   
+  margin: auto;
+  position: relative;
+}
+
+#link-rrhh {
+  top: 39%;    
+  left: -26%;   
+  margin: auto;
+  position: relative;
+}
+
+#logo-mision-vision img{
+  top: 100%;    
+  left: -50%;  
+  width: 40%;   
+  height: 20%; 
+  margin: auto;
+  position: relative;
+}
+
+#font-misionVision { 
+  top: 115%;    
+  left: -82%;
+  margin: auto;
+  position: relative;
+}
+
+#logo-acerca-desarrollo img{
+  top: 80%;    
+  left: 10%;  
+  width: 40%;   
+  height: 20%; 
+  margin: auto;
+  position: relative;
+}
+
+#font-acercaDesarrollo { 
+  top: 95%;    
+  left: -26%;
+  margin: auto;
+  position: relative;
+}
+

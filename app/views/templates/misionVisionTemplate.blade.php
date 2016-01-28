@@ -28,7 +28,7 @@
 <body>
 	<div id="wrapper">
 		<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-			@include('layouts.headerDashboard', array('user'=>$user))
+			@include('layouts.header', array('user'=>$user))
 		</nav>
 		<div id="page-wrapper">
         	@yield('content')
