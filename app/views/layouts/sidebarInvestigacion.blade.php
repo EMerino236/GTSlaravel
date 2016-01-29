@@ -5,6 +5,7 @@
                 {{ HTML::link('documento_investigacion/list_documentos','Repositorio de documentos de módulo de investigación') }}
                 
             </li>
+
             <li>
                 <a href="#">Diseño de procesos y procedimientos de GTS<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">   
@@ -13,47 +14,76 @@
                         <a href="#">Plantillas<span class="fa arrow"></span></a>
                         <ul class="nav nav-third-level">
                             <li>{{ HTML::link('plantillas_servicios/list_servicios','Plantillas de inspecciones de servicios') }}</li>
-                            <li>{{ HTML::link('plantillas_mant_preventivo/list_mantenimientos','Plantillas de mantenimiento por TS') }}</li>
+                            <li>{{ HTML::link('plantillas_mant_preventivo/list_mantenimientos','Plantillas de mantenimiento') }}</li>
                             <!--<li>{{ HTML::link('#','Plantillas de inspecciones de infraestructura ') }}</li>-->
                             <!--<li>{{ HTML::link('#','Plantillas de inspecciones hospitalario ') }}</li>-->
                         </ul>
                     </li>
+                    <!--
                     <li>{{ HTML::link('#','Indicadores de diseño de procesos y procedimientos') }}</li>
+                    -->
                 </ul>                
             </li>
+            
+            <li>
+                <a href="#">Elaboración de Guía <span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>{{ HTML::link('guias_clinica_gpc/list_guias','Guía de Práctica Clínica') }}</li>
+                    <li>{{ HTML::link('guias_tecno_salud/list_guias','Elaboración de Guía de Práctica de Tecnologías de Salud') }}</li>
+                    <li>{{ HTML::link('/reporte_etes/list_reporte_etes','ETES de procedimientos clínicos') }}</li>
+                    <!--
+                    <li>{{ HTML::link('#','Indicadores de elaboración de guía de práctica clínica') }}</li>
+                    -->
+                </ul>
+            </li>
+
             <!--
             <li>
-                <a href="#">Diseño integral y funcional de servicios clínicos<span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                    
-                </ul>
+                {{ HTML::link('#','Diseño de servicio clinico') }}
             </li>
             -->
-            <li>
-                {{ HTML::link('guias_tecno_salud/list_guias','Elaboración de Guía de Práctica de Tecnologías de Salud') }}
-            </li>
-            <li>
-                <a href="#">Elaboración de Guía de Práctica Clínica GPC  y ETES de procedimientos clínicos<span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">                           
-                    <li>{{ HTML::link('#','Indicadores de elaboración de guía de práctica clínica  ') }}</li>
-                    <li>{{ HTML::link('guias_clinica_gpc/list_guias','Guía de Práctica Clínica') }}</li>
-                    <li>{{ HTML::link('/reporte_etes/list_reporte_etes','ETES de procedimientos clínicos') }}</li>
-                </ul>
-            </li>
-            <li>
-                {{ HTML::link('programacion_guias/list_programacion_guias','Programación de elaboración de Guías y Reporte ETES') }}
-                
-            </li>
+
             <li>
                 <a href="#">Identificación de problemáticas, desarrollo de líneas de investigación e identificación de oportunidades de financiamiento <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">                           
                     <li>{{ HTML::linkRoute('reporte_financiamiento.create','Reporte que certifica la problemática e identificación de financiamiento') }}</li>
+                    <li>{{ HTML::link('#','Reporte de desarrollo de línea de investigación') }}</li>
+                    <!--
+                    <li>{{ HTML::link('#','Requerimientos clínicos') }}</li>
+                    <li>{{ HTML::link('#','Requerimientos hospitalarios') }}</li>
+                    <li>{{ HTML::link('#','Indicadores de investigación') }}</li>
+                    -->
                 </ul>
             </li>
+
+            <!--
             <li>
-                
-                
+                {{ HTML::link('#','Formulación y planificación de proyectos de investigación') }}
             </li>
+            
+            <li>
+                <a href="#">Ejecución, control, cierre  y modificaciones de proyectos de investigación de TS y propiedad intelectual<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>{{ HTML::link('#','Documento general del proyecto (paquete tecnológico)') }}</li>
+                    <li>{{ HTML::link('#','Informe económico del proyecto') }}</li>
+                    <li>{{ HTML::link('#','Plan de aprendizaje proyectos de investigación de TS') }}</li>
+                    <li>{{ HTML::link('#','Indicadores de proyecto') }}</li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#">Gestión de transferencia de tecnología en salud desarrollada<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>{{ HTML::link('#','Indicadores de TTS') }}</li>
+                    <li>{{ HTML::link('#','Reporte de seguimiento y control de TTS') }}</li>
+                    <li>{{ HTML::link('#','Cronograma de trabajo de TTS') }}</li>
+                </ul>
+            </li>
+            -->
+            <li>
+                {{ HTML::link('programacion_guias/list_programacion_guias','Programación de elaboración de Guías y Reporte ETES') }}
+            </li>
+
         </ul>
     </div>
     <!-- /.sidebar-collapse -->

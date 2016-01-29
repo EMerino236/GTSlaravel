@@ -83,29 +83,54 @@
 
 				<div class="row">
 					<div class="col-md-12">
-						{{ Form::label('cronograma','Cronograma del Proyecto') }}
-						<div class="table-responsive">
-							<table class="table">
-								<tr class="info">
-									<th class="text-nowrap text-center">Descripción</th>
-									<th class="text-nowrap text-center">Fecha Inicio</th>
-									<th class="text-nowrap text-center">Fecha Fin</th>
-								</tr>
-								<tr>
-									<td class="text-nowrap text-center">
-										{{ Form::text('cronograma_desc[]', null, ['class'=>'form-control']) }}
-									</td>
-									<td class="text-nowrap text-center">
-										{{ Form::text('cronograma_ini[]', null, ['class'=>'form-control']) }}
-									</td>
-									<td class="text-nowrap text-center">
-										{{ Form::text('cronograma_fin[]', null, ['class'=>'form-control']) }}
-									</td>
-								</tr>
-							</table>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+							    	<h3 class="panel-title">Cronograma</h3>
+						  	</div>
+
+						  	<div class="panel-body">
+								<div class="form-group col-md-3">
+									{{ Form::label('descripcion','Descripción') }}
+									{{ Form::text('descripcion', null, ['class'=>'form-control']) }}
+								</div>
+
+								<div class="form-group col-md-3">
+									{{ Form::label('fecha_ini','Fecha Inicio') }}
+									<div id="datetimepicker_cronograma_ini" class="form-group input-group date">
+										{{ Form::text('fecha_ini',Input::old('cronograma_ini'),array('class'=>'form-control', 'readonly'=>'')) }}
+										<span class="input-group-addon">
+					                        <span class="glyphicon glyphicon-calendar"></span>
+					                    </span>
+									</div>
+								</div>
+
+								<div class="form-group col-md-3">
+									{{ Form::label('fecha_fin','Fecha Fin') }}
+									<div id="datetimepicker_cronograma_fin" class="form-group input-group date">
+										{{ Form::text('fecha_fin',Input::old('cronograma_fin'),array('class'=>'form-control', 'readonly'=>'')) }}
+										<span class="input-group-addon">
+					                        <span class="glyphicon glyphicon-calendar"></span>
+					                    </span>
+									</div>
+								</div>
+
+								<div class="form-group col-md-3">
+									{{ Form::label('','&zwnj;&zwnj;') }}
+									<div class="btn btn-primary btn-block" id="btnAgregarCrono"><span class="glyphicon glyphicon-plus"></span> Agregar</div>
+								</div>
+
+								<div class="col-md-12">
+									<table class="table">
+										<tbody class="crono_table"></tbody>
+									</table>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
+				{{Form::hidden('crono_desc')}}
+				{{Form::hidden('crono_fecha_ini')}}
+				{{Form::hidden('crono_fecha_fin')}}
 
 				<div class="row">
 					<div class="form-group col-md-12 @if($errors->first('impacto')) has-error has-feedback @endif">
@@ -142,38 +167,6 @@
 						{{ Form::textarea('costo_beneficio', null, ['class'=>'form-control','rows'=>5]) }}
 					</div>
 				</div>
-
-				<!--
-				<div class="row">
-					<div class="form-group col-md-4 @if($errors->first('fecha_publicacion')) has-error has-feedback @endif">
-						{{ Form::label('fecha_publicacion','Año de publicación') }}
-						<div id="datetimepicker_create_gpc" class="form-group input-group date @if($errors->first('fecha_publicacion')) has-error has-feedback @endif">
-							{{ Form::text('fecha_publicacion',Input::old('fecha_publicacion'),array('class'=>'form-control', 'readonly'=>'')) }}
-							<span class="input-group-addon">
-		                        <span class="glyphicon glyphicon-calendar"></span>
-		                    </span>
-						</div>
-					</div>
-
-					<div class="form-group col-md-4 @if($errors->first('autor')) has-error has-feedback @endif">
-						{{ Form::label('autor','Autor') }}
-						
-						{{ Form::text('autor',$user->nombre." ".$user->apellido_pat." ".$user->apellido_mat,array('class'=>'form-control','readonly')) }}
-					</div>
-
-					<div class="form-group col-md-4 @if($errors->first('nombre')) has-error has-feedback @endif">
-						{{ Form::label('nombre','Nombre de Documento') }}
-						
-						{{ Form::text('nombre', null,array('class'=>'form-control')) }}
-					</div>
-				</div>
-				<div class="row">
-					<div class="form-group col-md-8 @if($errors->first('descripcion')) has-error has-feedback @endif">
-						{{ Form::label('descripcion','Descripción') }}
-						{{ Form::text('descripcion',Input::old('descripcion'),array('class'=>'form-control')) }}
-					</div>
-				</div>
-				-->
 			</div>
 		</div>
 
