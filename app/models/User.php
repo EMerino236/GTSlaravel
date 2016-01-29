@@ -91,5 +91,12 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $query;
 	}
 
+	public function scopeGetUserByTipoDocNumeroDoc($query,$tipo_documento,$numero_doc){
+		$query->withTrashed()
+			  ->where('users.idtipo_documento','=',$tipo_documento)
+			  ->where('users.numero_doc_identidad','=',$numero_doc);			  	   
+		return $query;
+	}
+
 	
 }

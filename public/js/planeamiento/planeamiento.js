@@ -523,12 +523,12 @@ function llenar_nombre_equipo(){
                             $('input[name=idot_retiro]').val(resp[0].idot_retiro);                          
                         }
                         else{
-                            $("#nombre_equipo").val("Número de reporte incorrecto");
+                            $("#nombre_equipo").val("Número de OT de Baja de Equipo incorrecto");
                             $("#nombre_equipo").css('background-color','#d9534f');
                             $("#nombre_equipo").css('color','white');
                         } 
                     }else{
-                        $("#nombre_equipo").val("Número de reporte incorrecto");
+                        $("#nombre_equipo").val("Número de OT de Baja de Equipo incorrecto");
                         $("#nombre_equipo").css('background-color','#d9534f');
                         $("#nombre_equipo").css('color','white');
                     }               
@@ -572,12 +572,12 @@ function llenar_nombre_responsable_cn(){
                             $('input[name=idresponsable_cn]').val(resp[0].id);           
                         }
                         else{
-                            $("#nombre_responsable_cn").val("Número de reporte incorrecto");
+                            $("#nombre_responsable_cn").val("Número de documento incorrecto");
                             $("#nombre_responsable_cn").css('background-color','#d9534f');
                             $("#nombre_responsable_cn").css('color','white');
                         } 
                     }else{
-                        $("#nombre_responsable_cn").val("Número de reporte incorrecto");
+                        $("#nombre_responsable_cn").val("Número de documento incorrecto");
                         $("#nombre_responsable_cn").css('background-color','#d9534f');
                         $("#nombre_responsable_cn").css('color','white');
                     }               
@@ -621,12 +621,12 @@ function llenar_nombre_responsable_paac(){
                             $('input[name=idresponsable_paac]').val(resp[0].id);           
                         }
                         else{
-                            $("#nombre_responsable_paac").val("Número de reporte incorrecto");
+                            $("#nombre_responsable_paac").val("Número de documento incorrecto");
                             $("#nombre_responsable_paac").css('background-color','#d9534f');
                             $("#nombre_responsable_paac").css('color','white');
                         } 
                     }else{
-                        $("#nombre_responsable_paac").val("Número de reporte incorrecto");
+                        $("#nombre_responsable_paac").val("Número de documento incorrecto");
                         $("#nombre_responsable_paac").css('background-color','#d9534f');
                         $("#nombre_responsable_paac").css('color','white');
                     }               

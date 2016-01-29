@@ -44,6 +44,10 @@ $( document ).ready(function(){
         clean_criterios();
     });
 
+    $('#tipo').change(function(){
+        fill_tiempo_maximo_por_tipo();
+    });
+
     $('#btn_submit').click(function(){
          BootstrapDialog.confirm({
             title: 'Mensaje de Confirmación',
@@ -84,8 +88,11 @@ $( document ).ready(function(){
         $('#numero_reporte').prop('readonly',true);
         $('#numero_ot').prop('readonly',true);
         fill_name_reporte_edit();
+        fill_tiempo_maximo_por_tipo();
     }else if($('#type_solicitud').val()==0){
         search_equipos_ajax(1);
+    }else{
+        fill_tiempo_maximo_por_tipo();
     }
 
     $('#submit-delete').click(function(){
@@ -487,5 +494,44 @@ function fill_name_reporte_edit(){
                 alert('La petición no se pudo completar, inténtelo de nuevo.');
             }
         });
+}
 
+function fill_tiempo_maximo_por_tipo(){
+        var val = $("#tipo").val();
+        if(val=="" || val==0 || val == null){
+           $('#tiempo_maximo').val(null);
+           return;
+        }   
+                  
+        $.ajax({
+            url: inside_url+'solicitudes_compra/return_tiempo_maximo',
+            type: 'POST',
+            data: { 'selected_id' : val },
+            beforeSend: function(){
+                $("#delete-selected-profiles").addClass("disabled");
+                $("#delete-selected-profiles").hide();
+                $(".loader_container").show();
+            },
+            complete: function(){
+                $(".loader_container").hide();
+                $("#delete-selected-profiles").removeClass("disabled");
+                $("#delete-selected-profiles").show();
+                delete_selected_profiles = true;
+            },
+            success: function(response){
+                if(response.success){
+                    var tiempo_maximo = response["tiempo_maximo"];
+                    if(tiempo_maximo == null)
+                        $('#tiempo_maximo').val('');
+                    else
+                        $('#tiempo_maximo').val(tiempo_maximo);
+
+                }else{
+                    alert('La petición no se pudo completar, inténtelo de nuevo.');
+                }
+            },
+            error: function(){
+                alert('La petición no se pudo completar, inténtelo de nuevo.');
+            }
+        });
 }

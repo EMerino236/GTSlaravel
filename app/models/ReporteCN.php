@@ -70,4 +70,22 @@ class ReporteCN extends Eloquent{
 	  	return $query;
 	}
 
+	public function scopeGetLast10CreatedReportesCNInfo($query)
+	{
+		$query->withTrashed()
+			  ->join('programacion_reporte_cn','programacion_reporte_cn.idprogramacion_reporte_cn','=','reporte_cn.idprogramacion_reporte_cn')
+			  ->join('ot_retiros','ot_retiros.idot_retiro','=','reporte_cn.idot_retiro')
+			  ->join('activos','activos.idactivo','=','ot_retiros.idactivo')
+			  ->join('modelo_activos','modelo_activos.idmodelo_equipo','=','activos.idmodelo_equipo')
+			  ->join('familia_activos','familia_activos.idfamilia_activo','=','modelo_activos.idfamilia_activo')
+			  ->leftjoin('servicios','servicios.idservicio','=','programacion_reporte_cn.idservicio')
+			  ->join('areas','areas.idarea','=','programacion_reporte_cn.idarea')
+			  ->join('users','users.id','=','programacion_reporte_cn.iduser')
+			  ->select('familia_activos.nombre_equipo','servicios.nombre as nombre_servicio','areas.nombre as nombre_area',
+			  			'users.apellido_pat','users.apellido_mat','users.nombre','ot_retiros.idot_retiro',
+			  			'ot_retiros.ot_tipo_abreviatura','ot_retiros.ot_correlativo','ot_retiros.ot_activo_abreviatura','reporte_cn.*')
+			  ->orderBy('reporte_cn.created_at','desc')->take(10);
+	  	return $query;
+	}
+
 }

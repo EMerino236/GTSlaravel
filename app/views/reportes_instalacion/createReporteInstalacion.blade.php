@@ -171,17 +171,21 @@
 		  	</div>
   			<div class="panel-body">
   				<div class="row">
-					<div class="form-group col-md-3 @if($errors->first('numero_documento1')) has-error has-feedback @endif">
+  					<div class="form-group col-md-2 @if($errors->first('tipo_documento_identidad1')) has-error has-feedback @endif">
+						{{ Form::label('tipo_documento_identidad1','Tipo de Documento') }}<span style="color:red">*</span>
+						{{ Form::select('tipo_documento_identidad1', array('' => 'Seleccione') + $tipo_documento_identidad,Input::old('tipo_documento_identidad1'),['class' => 'form-control']) }}						
+					</div>
+					<div class="form-group col-md-2 @if($errors->first('numero_documento1')) has-error has-feedback @endif">
 						{{ Form::label('numero_documento1','Número Documento') }}
 						{{ Form::text('numero_documento1',Input::old('numero_documento1'),['class' => 'form-control','id'=>'numero_documento1'])}}
 					</div>
-							<div class="form-group col-md-2" style="margin-top:25px">
-								<a class="btn btn-primary btn-block" onclick="llenar_nombre_responsable(1)"><span class="glyphicon glyphicon-plus"></span> Agregar</a>
-							</div>
-							<div class="form-group col-md-2" style="margin-top:25px; margin-left:15px">
-								<a class="btn btn-default btn-block" onclick="limpiar_nombre_responsable(1)"><span class="glyphicon glyphicon-refresh"></span> Limpiar</a>
-							</div>
-							<div class="form-group col-md-4"  style="margin-left:15px">
+					<div class="form-group col-md-2" style="margin-top:25px">
+						<a class="btn btn-primary btn-block" onclick="llenar_nombre_responsable(1)"><span class="glyphicon glyphicon-plus"></span> Agregar</a>
+					</div>
+					<div class="form-group col-md-2" style="margin-top:25px">
+						<a class="btn btn-default btn-block" onclick="limpiar_nombre_responsable(1)"><span class="glyphicon glyphicon-refresh"></span> Limpiar</a>
+					</div>
+					<div class="form-group col-md-4" >
 						{{ Form::label('responsable','Responsable de la Revisión') }}
 						{{ Form::text('responsable',Input::old('responsable'),['class' => 'form-control','id'=>'nombre_responsable1','disabled'=>'disabled'])}}
 					</div>

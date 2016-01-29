@@ -492,7 +492,11 @@ class RetiroServicioController extends BaseController {
 			// Verifico si el usuario es un Webmaster
 			if((($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12)) && $id){
 				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
-				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
+				$data["estados"] = DB::table('estados')
+										->where('idtabla','=',$tabla[0]->idtabla)
+										->where('idestado','<>',12)
+										->lists('nombre','idestado');
+				
 				$tabla_estado_activo = Tabla::getTablaByNombre(self::$estado_activo)->get();
 				$data["estado_activo"] = Estado::where('idtabla','=',$tabla_estado_activo[0]->idtabla)->lists('nombre','idestado');
 				
@@ -682,7 +686,10 @@ class RetiroServicioController extends BaseController {
 			// Verifico si el usuario es un Webmaster
 			if((($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12)) && $id){
 				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
-				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
+				$data["estados"] = DB::table('estados')
+										->where('idtabla','=',$tabla[0]->idtabla)
+										->where('idestado','<>',12)
+										->lists('nombre','idestado');
 				$tabla_estado_activo = Tabla::getTablaByNombre(self::$estado_activo)->get();
 				$data["estado_activo"] = Estado::where('idtabla','=',$tabla_estado_activo[0]->idtabla)->lists('nombre','idestado');
 				

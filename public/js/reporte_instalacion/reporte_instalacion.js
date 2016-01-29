@@ -23,6 +23,21 @@ $( document ).ready(function(){
         $('#num_doc_relacionado3').prop('readonly',true);
         $('#num_doc_relacionado4').prop('readonly',true);
     }
+
+    $('#tipo_documento_identidad1').change(function(){
+        $('#numero_documento1').prop('readonly',false);
+        tipo_documento = $('#tipo_documento_identidad1').val();
+        if(tipo_documento == 1){
+            $('#numero_documento1').val(null);
+            $('#numero_documento1').prop('maxlength',8);
+        }else if(tipo_documento == 2 || tipo_documento == 3){            
+            $('#numero_documento1').val(null);
+            $('#numero_documento1').prop('maxlength',12);
+        }else{            
+            $('#numero_documento1').val(null);
+            $('#numero_documento1').prop('readonly',true);
+        }        
+    });
     
     var alphanumeric_pattern = /[^á-úÁ-Úa-zA-ZñÑüÜ0-9- _.]/;
 
@@ -129,12 +144,14 @@ $( document ).ready(function(){
 
 function llenar_nombre_responsable(id){
         var val = $("#numero_documento"+id).val();
+        var val_tipo_doc = $("#tipo_documento_identidad"+id).val();
         if(val=="") return;
         
         $.ajax({
             url: inside_url+'rep_instalacion/return_name_responsable/'+val,
             type: 'POST',
-            data: { 'selected_id' : val },
+            data: { 'selected_id' : val,
+                    'tipo_doc' : val_tipo_doc },
             beforeSend: function(){
                 $("#delete-selected-profiles").addClass("disabled");
                 $("#delete-selected-profiles").hide();
@@ -299,6 +316,7 @@ function limpiar_nombre_responsable(id){
     $("#numero_documento"+id).val("");
     $("#nombre_responsable"+id).css('background-color','white');
     $("#numero_documento"+id).prop('readonly',false);
+    $("#tipo_documento_identidad"+id).prop('readonly',false);
 }
 
 function limpiar_nombre_doc_relacionado(id){

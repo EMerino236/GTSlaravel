@@ -101,13 +101,17 @@
 						</td>
 						<td class="text-nowrap text-center">
 							@if($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 3 )
-								<a href="{{URL::to('/rep_instalacion/edit_rep_instalacion/')}}/{{$reporte_instalacion_data->idrep_ent_conc}}">{{$reporte_instalacion_data->rep_entorno_concluido}}</a>
+								@if($reporte_instalacion_data->idrep_eq_func == '')
+									<a href="{{URL::to('/rep_instalacion/edit_rep_instalacion/')}}/{{$reporte_instalacion_data->idrep_ent_conc}}">{{$reporte_instalacion_data->rep_entorno_concluido}}</a>
+								@else
+									<a href="{{URL::to('/rep_instalacion/view_rep_instalacion/')}}/{{$reporte_instalacion_data->idrep_ent_conc}}">{{$reporte_instalacion_data->rep_entorno_concluido}}</a>
+								@endif
 							@else
 								<a href="{{URL::to('/rep_instalacion/view_rep_instalacion/')}}/{{$reporte_instalacion_data->idrep_ent_conc}}">{{$reporte_instalacion_data->rep_entorno_concluido}}</a>
 							@endif
 						</td>
 						@if($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 3 )
-							@if($reporte_instalacion_data->rep_equipo_funcional != '')
+							@if($reporte_instalacion_data->idrep_eq_func != '')
 							<td class="text-nowrap text-center">
 								<a href="{{URL::to('/rep_instalacion/edit_rep_instalacion/')}}/{{$reporte_instalacion_data->idrep_eq_func}}">{{$reporte_instalacion_data->rep_equipo_funcional}}</a>
 							</td>	

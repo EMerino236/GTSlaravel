@@ -15,6 +15,7 @@ class DetalleReporteInstalacion extends Eloquent{
 				from detalle_reporte_instalaciones
 				where idreporte_instalacion = '.$idReporte;
 		$query = DB::select(DB::raw($sql));	
+
 		return $query;
 	}
 

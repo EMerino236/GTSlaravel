@@ -9,6 +9,7 @@ class ReportesInstalacionController extends BaseController {
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3){
+				$data["tipo_documento_identidad"] = TipoDocumento::lists('nombre','idtipo_documento');
 				$data["areas"] = Area::lists('nombre','idarea');
 				$data["proveedores"] = Proveedor::lists('razon_social','idproveedor');
 				$data["tipos_reporte_instalacion"] = TipoReporteInstalacion::lists('nombre','idtipo_reporte_instalacion');
@@ -289,25 +290,32 @@ class ReportesInstalacionController extends BaseController {
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3){
+				$data["tipo_documento_identidad"] = TipoDocumento::lists('nombre','idtipo_documento');
 				$data["areas"] = Area::lists('nombre','idarea');
 				$data["proveedores"] = Proveedor::lists('razon_social','idproveedor');
 				$data["tipos_reporte_instalacion"] = TipoReporteInstalacion::lists('nombre','idtipo_reporte_instalacion');
 				$data["reporte_instalacion_info"] = ReporteInstalacion::searchReporteInstalacionById($id)->get();
 				$data["reporte_instalacion_info"] = $data["reporte_instalacion_info"][0];
 				$data["reporte_instalacion_entorno_concluido"] = null;
-				if($data["reporte_instalacion_info"]->idtipo_reporte_instalacion == 2){
+
+
+				if($data["reporte_instalacion_info"]->idtipo_reporte_instalacion == 2){					
 					$data["reporte_instalacion_entorno_concluido"] = ReporteInstalacion::searchReporteInstalacionById($data["reporte_instalacion_info"]->idreporte_instalacion_entorno_concluido)->get();
 					$data["reporte_instalacion_entorno_concluido"] = $data["reporte_instalacion_entorno_concluido"][0];
 				}
+
 				$data["tareas_info"] = DetalleReporteInstalacion::searchDetalleReporteByIdReporteInstalacion($id);
 				$data["usuario_responsable"] = User::searchUserById($data["reporte_instalacion_info"]->id_responsable)->get()[0];
+				
 				$data["documento_certificado_funcionalidad"] = Documento::searchDocumentoCertificadoFuncionalidadByIdReporteInstalacion($id)->get();			
-				if(!$data["documento_certificado_funcionalidad"]->isEmpty()){					
+				
+				if(!$data["documento_certificado_funcionalidad"]->isEmpty()){
 					$data["documento_certificado_funcionalidad"] = $data["documento_certificado_funcionalidad"][0];
 				}
 				else {
 					$data["documento_certificado_funcionalidad"] = null;
-				}
+				}									
+				
 				$data["documento_contrato"] = Documento::searchDocumentoContratoByIdReporteInstalacion($id)->get();
 				if(!$data["documento_contrato"]->isEmpty()){
 					$data["documento_contrato"] = $data["documento_contrato"][0];
@@ -315,6 +323,7 @@ class ReportesInstalacionController extends BaseController {
 				else{
 					$data["documento_contrato"] = null;
 				}
+
 				$data["documento_manual"] = Documento::searchDocumentoManualByIdReporteInstalacion($id)->get();
 				if(!$data["documento_manual"]->isEmpty()){
 					$data["documento_manual"] = $data["documento_manual"][0];
@@ -346,14 +355,26 @@ class ReportesInstalacionController extends BaseController {
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3){
 				// Validate the info, create rules for the inputs
+				$attributes = array(
+						'idproveedor' => 'Proveedor',
+						'fecha' => 'Fecha',
+						'codigo_compra' => 'Código de Compra',
+						'idarea' => 'Área',
+						'numero_documento1' => 'N° Documento de Identidad',	
+						'descripcion' => 'Descripción'												
+					);
+
+				$messages = array();
 				$rules = array(
 							'idproveedor' => 'required',
 							'fecha' => 'required',
 							'idarea' => 'required',
-							'numero_documento1' => 'required',													
+							'numero_documento1' => 'required',
+							'codigo_compra' => 'required',
+							'descripcion'=>'max:200|alpha_num_spaces_slash_dash_enter',													
 						);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				$reporte_instalacion_id = Input::get('reporte_instalacion_id');
 				$url = "rep_instalacion/edit_rep_instalacion"."/".$reporte_instalacion_id;
@@ -363,7 +384,7 @@ class ReportesInstalacionController extends BaseController {
 					$existeReporteEntornoConcluido = ReporteInstalacion::searchReporteEntornoConcluidoByCodigoCompra(Input::get('codigo_compra'))->get();							
 					$reporte_instalacion_id = Input::get('reporte_instalacion_id');
 					$reporte = ReporteInstalacion::find($reporte_instalacion_id);
-					if($reporte->idtipo_reporte_instalacion==1 || ($reporte->idtipo_reporte_instalacion==2 && !$existeReporteEntornoConcluido->isEmpty())){
+					if(($reporte->idtipo_reporte_instalacion==2 && !$existeReporteEntornoConcluido->isEmpty())){
 						$details_tarea =Input::get('details_tarea');
 						$details_estado =Input::get('details_estado');
 						$cant = count($details_tarea);
@@ -480,6 +501,50 @@ class ReportesInstalacionController extends BaseController {
 							Session::flash('error', 'Ingrese por lo menos una tarea.');
 							return Redirect::to($url)->withInput(Input::all());		
 						}
+					}else if($reporte->idtipo_reporte_instalacion == 1){
+						$codigo_compra = Input::get('codigo_compra');
+						$area = Input::get('idarea');
+						$proveedor = Input::get('idproveedor');
+						$fecha =  date('Y-m-d H:i:s',strtotime(Input::get('fecha')));
+						$descripcion = Input::get('descripcion');
+						$numero_documento = Input::get('numero_documento1');
+						$usuario_responsable = User::searchPersonalByNumeroDoc($numero_documento)->get();
+						if($usuario_responsable->isEmpty()){
+							Session::flash('error', 'Usuario revisión no existe.');
+							return Redirect::to($url)->withInput(Input::all());
+						}else{
+							$reporte->id_responsable = $usuario_responsable[0]->id;							
+						}
+						$reporte->idarea = $area;
+						$reporte->idproveedor = $proveedor;
+						$reporte->fecha = $fecha;
+						$reporte->codigo_compra = $codigo_compra;
+						$reporte->descripcion = $descripcion;		
+						$details_tarea =Input::get('details_tarea');
+						$details_estado =Input::get('details_estado');
+						$cant = count($details_tarea);
+						if($cant>0){
+							DetalleReporteInstalacion::deleteDetalleByIdReporteInstalacion($reporte_instalacion_id)->forcedelete();
+
+							$idReporte = $reporte->idreporte_instalacion;
+							for($i=0;$i<$cant;$i++){
+								$detalle_reporte_instalacion = new DetalleReporteInstalacion;
+								$detalle_reporte_instalacion->nombre_tarea = $details_tarea[$i];
+								if($details_estado[$i] == "Realizado"){
+									$estado_tarea = 1;
+								}
+								else{
+									$estado_tarea = 0;								
+								}
+								$detalle_reporte_instalacion->tarea_realizada = $estado_tarea;					
+								$detalle_reporte_instalacion->idreporte_instalacion = $idReporte;	
+								$detalle_reporte_instalacion->save();
+
+							}
+						}
+						$reporte->save();
+						$url = "rep_instalacion/edit_rep_instalacion"."/".$reporte_instalacion_id;
+						return Redirect::to($url);
 					}else{
 							Session::flash('error', 'Solo se puede crear Reporte de Equipo Funcional si ha sido creado el Reporte de Entorno Concluido');
 							return Redirect::to($url)->withInput(Input::all());	
@@ -558,7 +623,8 @@ class ReportesInstalacionController extends BaseController {
 				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 			// Check if the current user is the "System Admin"
 			$data = Input::get('selected_id');
-			$responsable = User::searchPersonalByNumeroDoc($data)->get();
+			$tipo_doc = Input::get('tipo_doc');
+			$responsable = User::getUserByTipoDocNumeroDoc($tipo_doc,$data)->get();	
 			if($responsable->isEmpty()){
 				$responsable = null;
 			}else
@@ -676,6 +742,7 @@ class ReportesInstalacionController extends BaseController {
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
 				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
+				$data["tipo_documento_identidad"] = TipoDocumento::lists('nombre','idtipo_documento');
 				$data["areas"] = Area::lists('nombre','idarea');
 				$data["proveedores"] = Proveedor::lists('razon_social','idproveedor');
 				$data["tipos_reporte_instalacion"] = TipoReporteInstalacion::lists('nombre','idtipo_reporte_instalacion');

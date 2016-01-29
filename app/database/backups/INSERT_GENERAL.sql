@@ -77,15 +77,15 @@ INSERT INTO tipo_reporte_instalaciones (nombre,descripcion) VALUES ('Entorno Con
 INSERT INTO tipo_reporte_instalaciones (nombre,descripcion) VALUES ('Equipo Funcional','Equipo Funcional');
 
 
-INSERT INTO tipo_solicitud_compras (idtipo_solicitud_compra,nombre,descripcion) VALUES ('1','Almacén/Repuestos','Solicita de almacén repuestos de equipos asociados a un número de código patrimonial');
-INSERT INTO tipo_solicitud_compras (idtipo_solicitud_compra,nombre,descripcion) VALUES ('2','Almacén/Insumos','Solicita de almacén insumos de equipos asociados a un número de código patrimonial');
-INSERT INTO tipo_solicitud_compras (idtipo_solicitud_compra,nombre,descripcion) VALUES ('3','Almacén/Accesorios','Solicita de almacén accesorios de equipos asociados a un tipo de equipo');
-INSERT INTO tipo_solicitud_compras (idtipo_solicitud_compra,nombre,descripcion) VALUES ('4','Almacén/Equipos_P','Solicita de almacén equipos contemplados en el PAAC');
-INSERT INTO tipo_solicitud_compras (idtipo_solicitud_compra,nombre,descripcion) VALUES ('5','Compra/Repuestos','Solicita por compra repuestos de equipos asociados a un número de código patrimonial');
-INSERT INTO tipo_solicitud_compras (idtipo_solicitud_compra,nombre,descripcion) VALUES ('6','Compra/Insumos','Solicita por compra insumos de equipos asociados a un número de código patrimonial');
-INSERT INTO tipo_solicitud_compras (idtipo_solicitud_compra,nombre,descripcion) VALUES ('7','Compra/Accesorios','Solicita por compra accesorios de equipos asociados a un tipo de equipo');
-INSERT INTO tipo_solicitud_compras (idtipo_solicitud_compra,nombre,descripcion) VALUES ('8','Compra/Equipos_P','Solicita por compra equipos contemplados en el PAAC');
-INSERT INTO tipo_solicitud_compras (idtipo_solicitud_compra,nombre,descripcion) VALUES ('9','Compra/Equipos_NP','Solicita por compra equipos no comtemplados en el PAAC');
+INSERT INTO tipo_solicitud_compras (idtipo_solicitud_compra,nombre,descripcion,tiempo_maximo) VALUES ('1','Almacén/Repuestos','Solicita de almacén repuestos de equipos asociados a un número de código patrimonial','60');
+INSERT INTO tipo_solicitud_compras (idtipo_solicitud_compra,nombre,descripcion,tiempo_maximo) VALUES ('2','Almacén/Insumos','Solicita de almacén insumos de equipos asociados a un número de código patrimonial','60');
+INSERT INTO tipo_solicitud_compras (idtipo_solicitud_compra,nombre,descripcion,tiempo_maximo) VALUES ('3','Almacén/Accesorios','Solicita de almacén accesorios de equipos asociados a un tipo de equipo','60');
+INSERT INTO tipo_solicitud_compras (idtipo_solicitud_compra,nombre,descripcion,tiempo_maximo) VALUES ('4','Almacén/Equipos_P','Solicita de almacén equipos contemplados en el PAAC','60');
+INSERT INTO tipo_solicitud_compras (idtipo_solicitud_compra,nombre,descripcion,tiempo_maximo) VALUES ('5','Compra/Repuestos','Solicita por compra repuestos de equipos asociados a un número de código patrimonial','60');
+INSERT INTO tipo_solicitud_compras (idtipo_solicitud_compra,nombre,descripcion,tiempo_maximo) VALUES ('6','Compra/Insumos','Solicita por compra insumos de equipos asociados a un número de código patrimonial','60');
+INSERT INTO tipo_solicitud_compras (idtipo_solicitud_compra,nombre,descripcion,tiempo_maximo) VALUES ('7','Compra/Accesorios','Solicita por compra accesorios de equipos asociados a un tipo de equipo','60');
+INSERT INTO tipo_solicitud_compras (idtipo_solicitud_compra,nombre,descripcion,tiempo_maximo) VALUES ('8','Compra/Equipos_P','Solicita por compra equipos contemplados en el PAAC','60');
+INSERT INTO tipo_solicitud_compras (idtipo_solicitud_compra,nombre,descripcion,tiempo_maximo) VALUES ('9','Compra/Equipos_NP','Solicita por compra equipos no comtemplados en el PAAC','60');
 
 
 

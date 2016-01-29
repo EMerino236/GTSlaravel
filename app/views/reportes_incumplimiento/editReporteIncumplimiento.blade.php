@@ -106,8 +106,12 @@
 				            </div>
 				        </div>
 		        	</div>
-					<div class="row">						
-						<div class="form-group col-md-2 @if($errors->first('numero_doc1')) has-error has-feedback @endif">
+					<div class="row">
+						<div class="form-group col-md-2 @if($errors->first('tipo_documento_identidad1')) has-error has-feedback @endif">
+							{{ Form::label('tipo_documento_identidad1','Tipo de Documento') }}<span style="color:red">*</span>
+							{{ Form::select('tipo_documento_identidad1', array('' => 'Seleccione') + $tipo_documento_identidad,$usuario_revision->idtipo_documento,['class' => 'form-control','readonly'=>'']) }}						
+						</div>						
+						<div class="form-group col-md-3 @if($errors->first('numero_doc1')) has-error has-feedback @endif">
 							{{ Form::label('numero_doc1','Número Documento') }}<span style="color:red"> *</span>
 							@if($reporte_data->deleted_at)
 								{{ Form::text('numero_doc1',$usuario_revision->numero_doc_identidad,array('class'=>'form-control','readonly'=>'','id'=>'numero_doc1','placeholder'=>'Número de Doc.')) }}
@@ -122,7 +126,7 @@
 						<div class="form-group col-md-2" style="margin-top:25px">
 							<div class="btn btn-default btn-block" onclick="clean_name_responsable(1)"><span class="glyphicon glyphicon-refresh"></span> Limpiar</div>				
 						</div>
-						<div class="form-group col-md-4">
+						<div class="form-group col-md-3">
 							{{ Form::label('responsable','Responsable de la Revisión') }}
 							@if($reporte_data->deleted_at)
 								{{ Form::text('responsable',$usuario_revision->nombre,array('class'=>'form-control','readonly'=>'','id'=>'nombre_responsable1','disabled'=>'disabled','placeholder'=>'Nombre de Usuario')) }}
@@ -240,6 +244,10 @@
 		        		</div>
 		        	</div>
 		        	<div class="row">
+		        		<div class="form-group col-md-2 @if($errors->first('tipo_documento_identidad2')) has-error has-feedback @endif">
+							{{ Form::label('tipo_documento_identidad2','Tipo de Documento') }}<span style="color:red">*</span>
+							{{ Form::select('tipo_documento_identidad2', array('' => 'Seleccione') + $tipo_documento_identidad,$usuario_autorizado->idtipo_documento,['class' => 'form-control','readonly'=>'']) }}						
+						</div>	
 						<div class="form-group col-md-3 @if($errors->first('numero_doc2')) has-error has-feedback @endif">
 							{{ Form::label('numero_doc2','Documento de Identidad') }}<span style="color:red"> *</span>
 							@if($reporte_data->deleted_at)
@@ -255,7 +263,7 @@
 						<div class="form-group col-md-2" style="margin-top:25px">
 							<div class="btn btn-default btn-block" onclick="clean_name_responsable(2)"><span class="glyphicon glyphicon-refresh"></span> Limpiar</div>				
 						</div>
-						<div class="form-group col-md-4">
+						<div class="form-group col-md-3">
 							{{ Form::label('autorizado','Autorizado por') }}
 							@if($reporte_data->deleted_at)
 								{{ Form::text('autorizado',$usuario_autorizado->nombre,array('class'=>'form-control','readonly'=>'','id'=>'nombre_responsable2','disabled'=>'disabled','placeholder'=>'Nombre de Usuario')) }}
@@ -265,6 +273,10 @@
 						</div>
 					</div>
 					<div class="row">
+						<div class="form-group col-md-2 @if($errors->first('tipo_documento_identidad3')) has-error has-feedback @endif">
+							{{ Form::label('tipo_documento_identidad3','Tipo de Documento') }}<span style="color:red">*</span>
+							{{ Form::select('tipo_documento_identidad3', array('' => 'Seleccione') + $tipo_documento_identidad,$usuario_elaborado->idtipo_documento,['class' => 'form-control','readonly'=>'']) }}						
+						</div>
 						<div class="form-group col-md-3 @if($errors->first('numero_doc3')) has-error has-feedback @endif">
 							{{ Form::label('numero_doc3','Documento de Identidad') }}<span style="color:red"> *</span>
 							@if($reporte_data->deleted_at)
@@ -281,7 +293,7 @@
 						<div class="form-group col-md-2" style="margin-top:25px">
 							<div class="btn btn-default btn-block" onclick="clean_name_responsable(3)"><span class="glyphicon glyphicon-refresh"></span> Limpiar</div>				
 						</div>
-						<div class="form-group col-md-4">
+						<div class="form-group col-md-3">
 							{{ Form::label('elaborado','Elaborado por') }}
 							@if($reporte_data->deleted_at)
 								{{ Form::text('elaborado',$usuario_elaborado->nombre,array('class'=>'form-control','readonly'=>'','id'=>'nombre_responsable3','disabled'=>'disabled','placeholder'=>'Nombre de Usuario')) }}
