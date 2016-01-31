@@ -81,7 +81,7 @@ class DocumentoInf extends Eloquent{
 			  	$query->where('documentosinf.idtipo_documentosinf','=',$search_tipo_documento);
 			  }
 			  
-			  $query->select('tipo_documentosinf.nombre as nombre_tipo_documento','documentosinf.*');
+			  
 		return $query;
 	}
 

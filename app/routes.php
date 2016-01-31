@@ -634,13 +634,11 @@ Route::group(array('prefix'=>'programacion_guias','before'=>'auth'),function(){
 
 /* Reporte financiamiento */
 Route::group(array('prefix'=>'reporte_financiamiento','before'=>'auth'),function(){
-	//Route::get('/list_programacion_guias','ProgramacionGuiasController@list_programacion_guias');
-	//Route::get('/search_programacion_guias','ProgramacionGuiasController@search_programacion_guias');
+	Route::get('/index',['uses'=>'ReporteFinanciamientoController@index','as'=>'reporte_financiamiento.index']);
+	Route::get('/search',['uses'=>'ReporteFinanciamientoController@search','as'=>'reporte_financiamiento.search']);
 	Route::get('/create',['uses'=>'ReporteFinanciamientoController@create','as'=>'reporte_financiamiento.create']);
 	Route::post('/create',['uses'=>'ReporteFinanciamientoController@store','as'=>'reporte_financiamiento.store']);
-	//Route::post('/submit_create_programacion_guia_ts','ProgramacionGuiasController@submit_create_programacion_reporte_ts');
-	//Route::post('/submit_create_programacion_reporte_etes','ProgramacionReportesController@submit_create_programacion_reporte_etes');
-	//Route::post('/submit_create_programacion_guia_gpc','ProgramacionGuiasController@submit_create_programacion_reporte_gpc');
+	Route::post('/getServiciosAjax',['uses'=>'ReporteFinanciamientoController@getServiciosAjax','as'=>'reporte_financiamiento.getServicios.ajax']);
 });
 
 /* Adquisicion */

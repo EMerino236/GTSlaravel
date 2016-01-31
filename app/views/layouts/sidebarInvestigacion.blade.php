@@ -29,7 +29,7 @@
                 <a href="#">Elaboración de Guía <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>{{ HTML::link('guias_clinica_gpc/list_guias','Guía de Práctica Clínica') }}</li>
-                    <li>{{ HTML::link('guias_tecno_salud/list_guias','Elaboración de Guía de Práctica de Tecnologías de Salud') }}</li>
+                    <li>{{ HTML::link('guias_tecno_salud/list_guias','Guía de Práctica de Tecnologías de Salud') }}</li>
                     <li>{{ HTML::link('/reporte_etes/list_reporte_etes','ETES de procedimientos clínicos') }}</li>
                     <!--
                     <li>{{ HTML::link('#','Indicadores de elaboración de guía de práctica clínica') }}</li>
@@ -46,7 +46,7 @@
             <li>
                 <a href="#">Identificación de problemáticas, desarrollo de líneas de investigación e identificación de oportunidades de financiamiento <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">                           
-                    <li>{{ HTML::linkRoute('reporte_financiamiento.create','Reporte que certifica la problemática e identificación de financiamiento') }}</li>
+                    <li>{{ HTML::linkRoute('reporte_financiamiento.index','Reporte que certifica la problemática e identificación de financiamiento') }}</li>
                     <li>{{ HTML::link('#','Reporte de desarrollo de línea de investigación') }}</li>
                     <!--
                     <li>{{ HTML::link('#','Requerimientos clínicos') }}</li>

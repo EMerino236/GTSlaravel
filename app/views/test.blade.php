@@ -40,10 +40,10 @@
 
 				var g = new JSGantt.GanttChart('g',document.getElementById('GanttChartDIV'), 'day');
 
-				g.setShowRes(1); 								// Show/Hide Responsible (0/1)
+				g.setShowRes(0); 								// Show/Hide Responsible (0/1)
 				g.setShowDur(1); 								// Show/Hide Duration (0/1)
-				g.setShowComp(1); 								// Show/Hide % Complete(0/1)
-				g.setCaptionType('Resource');  					// Set to Show Caption (None,Caption,Resource,Duration,Complete)
+				g.setShowComp(0); 								// Show/Hide % Complete(0/1)
+				g.setCaptionType('None');  						// Set to Show Caption (None,Caption,Resource,Duration,Complete)
 				g.setShowStartDate(1); 							// Show/Hide Start Date(0/1)
 				g.setShowEndDate(1); 							// Show/Hide End Date(0/1)
 				g.setDateInputFormat('dd/mm/yy')  				// Set format of input dates ('mm/dd/yyyy', 'dd/mm/yyyy', 'yyyy-mm-dd')
