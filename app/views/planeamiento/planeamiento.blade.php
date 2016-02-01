@@ -14,6 +14,7 @@
 					<h3 class="panel-title">Últimos Certificados de Necesidad Elaborados</h3>
 				</div>
 				<div class="panel-body">
+					<!--
 				    <table class="table">
 						<tr class="info">
 							<th>N° Reporte</th>
@@ -55,6 +56,7 @@
 						</tr>
 						@endforeach
 					</table>
+				-->
 				</div>
 			</div>
 		</div>
