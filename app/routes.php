@@ -636,8 +636,15 @@ Route::group(array('prefix'=>'programacion_guias','before'=>'auth'),function(){
 Route::group(array('prefix'=>'reporte_financiamiento','before'=>'auth'),function(){
 	Route::get('/index',['uses'=>'ReporteFinanciamientoController@index','as'=>'reporte_financiamiento.index']);
 	Route::get('/search',['uses'=>'ReporteFinanciamientoController@search','as'=>'reporte_financiamiento.search']);
+	Route::get('/show/{id}',['uses'=>'ReporteFinanciamientoController@show','as'=>'reporte_financiamiento.show']);
 	Route::get('/create',['uses'=>'ReporteFinanciamientoController@create','as'=>'reporte_financiamiento.create']);
 	Route::post('/create',['uses'=>'ReporteFinanciamientoController@store','as'=>'reporte_financiamiento.store']);
+	Route::get('/edit/{id}',['uses'=>'ReporteFinanciamientoController@edit','as'=>'reporte_financiamiento.edit']);
+	Route::post('/edit/{id}',['uses'=>'ReporteFinanciamientoController@update','as'=>'reporte_financiamiento.update']);
+	Route::get('/tarea/edit/{id}',['uses'=>'ReporteFinanciamientoController@editTarea','as'=>'reporte_financiamiento.tarea.edit']);
+	Route::post('/tarea/edit/{id}',['uses'=>'ReporteFinanciamientoController@updateTarea','as'=>'reporte_financiamiento.tarea.update']);
+	Route::get('/inversion/edit/{id}',['uses'=>'ReporteFinanciamientoController@editInversion','as'=>'reporte_financiamiento.inversion.edit']);
+	Route::post('/inversion/edit/{id}',['uses'=>'ReporteFinanciamientoController@updateInversion','as'=>'reporte_financiamiento.inversion.update']);
 	Route::post('/getServiciosAjax',['uses'=>'ReporteFinanciamientoController@getServiciosAjax','as'=>'reporte_financiamiento.getServicios.ajax']);
 });
 

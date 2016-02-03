@@ -98,5 +98,9 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $query;
 	}
 
+	public function getUserFullNameAttribute()
+	{
+	    return $this->attributes['nombre'] .' '. $this->attributes['apellido_pat'] . ' ' . $this->attributes['apellido_mat'];
+	}
 	
 }

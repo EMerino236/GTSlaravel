@@ -34,51 +34,47 @@
 	@if (Session::has('error'))
 		<div class="alert alert-danger">{{ Session::get('error') }}</div>
 	@endif
-
-	{{ Form::open(array('route'=>'reporte_financiamiento.store', 'role'=>'form')) }}
+	{{ Form::open(['route'=>['reporte_financiamiento.update',$reporte->id], 'role'=>'form']) }}
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">Información del proyecto</h3>
 			</div>
 			<div class="panel-body">
 				<div class="row">
-					<div class="form-group col-md-4 @if($errors->first('nombre')) has-error has-feedback @endif">
+					<div class="form-group col-md-4  @if($errors->first('nombre')) has-error has-feedback @endif">
 						{{ Form::label('nombre','Nombre') }}
-						{{ Form::text('nombre', null, ['class'=>'form-control']) }}
+						{{ Form::text('nombre', $reporte->nombre, ['class'=>'form-control']) }}
 					</div>
 
 					<div class="form-group col-md-4 @if($errors->first('categoria')) has-error has-feedback @endif">
 						{{ Form::label('categoria','Categoría') }}
-						{{ Form::text('categoria', null, ['class'=>'form-control']) }}
+						{{ Form::text('categoria', $reporte->id_categoria, ['class'=>'form-control']) }}
 					</div>
 
 					<div class="form-group col-md-4 @if($errors->first('departamento')) has-error has-feedback @endif">
 						{{ Form::label('departamento','Departamento') }}
-						{{ Form::select('departamento', $departamentos, null, ['id'=>'departamento','class'=>'form-control','onChange'=>'getServicios(this)']) }}
+						{{ Form::select('departamento', $departamentos, $reporte->departamento->idarea,['id'=>'departamento','class'=>'form-control','onChange'=>'getServicios(this)']) }}
 					</div>
-
+	
 					<div class="form-group col-md-4 @if($errors->first('servicio_clinico')) has-error has-feedback @endif">
 						{{ Form::label('servicio_clinico','Servicio Clínico') }}
-						{{ Form::select('servicio_clinico', [], null, ['id'=>'servicio_clinico','class'=>'form-control']) }}
+						{{ Form::select('servicio_clinico', $servicios, $reporte->servicio->idservicio, ['class'=>'form-control']) }}
 					</div>
 
 					<div class="form-group col-md-4 @if($errors->first('responsable')) has-error has-feedback @endif">
 						{{ Form::label('responsable','Responsable') }}
-						{{ Form::select('responsable',$usuarios,null,['class'=>'form-control'])}}
+						{{ Form::select('responsable', $usuarios,$reporte->responsable->id,['class'=>'form-control'])}}
 					</div>
 				</div>
 
 				<div class="row">
-					<div class="form-group col-md-12 @if($errors->first('descripcion')) has-error has-feedback @endif">
+					<div class="form-group col-md-6 @if($errors->first('descripcion')) has-error has-feedback @endif">
 						{{ Form::label('descripcion','Descripción') }}
-						{{ Form::textarea('descripcion', null, ['class'=>'form-control','rows'=>5]) }}
+						{{ Form::textarea('descripcion', $reporte->descripcion, ['class'=>'form-control','rows'=>5]) }}
 					</div>
-				</div>
-
-				<div class="row">
-					<div class="form-group col-md-12 @if($errors->first('objetivos')) has-error has-feedback @endif">
+					<div class="form-group col-md-6 @if($errors->first('objetivos')) has-error has-feedback @endif">
 						{{ Form::label('objetivos','Objetivos') }}
-						{{ Form::textarea('objetivos', null, ['class'=>'form-control','rows'=>5]) }}
+						{{ Form::textarea('objetivos', $reporte->objetivos, ['class'=>'form-control','rows'=>5]) }}
 					</div>
 				</div>
 				
@@ -86,10 +82,11 @@
 					<div class="col-md-12">
 						<div class="panel panel-default">
 							<div class="panel-heading">
-							    	<h3 class="panel-title">Cronograma</h3>
+							    <h3 class="panel-title">Cronograma</h3>
 						  	</div>
 
 						  	<div class="panel-body">
+
 								<div class="form-group col-md-3">
 									{{ Form::label('crono_descripcion','Descripción') }}
 									{{ Form::text('crono_descripcion', null, ['class'=>'form-control']) }}
@@ -127,6 +124,13 @@
 
 								<div class="col-md-12">
 									<table class="table">
+										<tr class="info">
+											<th>Descripción</th>
+											<th>Fecha Inicio</th>
+											<th>Fecha Fin</th>
+											<th>Duración</th>
+											<th></th>
+										</tr>
 										<tbody class="crono_table">
 											@if(Input::old('crono_descripciones'))
 												@foreach(Input::old('crono_descripciones') as $key => $desc)
@@ -139,6 +143,17 @@
 													</tr>
 												@endforeach
 											@endif
+											@foreach($reporte->cronogramas as $cronograma)
+												<tr>
+													<td>{{$cronograma->descripcion}}</td>
+													<td>{{$cronograma->fecha_ini}}</td>
+													<td>{{$cronograma->fecha_fin}}</td>
+													<td>{{$cronograma->duracion}}</td>
+													<td>
+														<a class="btn btn-default delete-detail" href="{{URL::to('/reporte_financiamiento/tarea/edit')}}/{{$cronograma->id}}">Editar</a>
+													</td>
+												</tr>
+											@endforeach
 										</tbody>
 									</table>
 								</div>
@@ -148,9 +163,13 @@
 				</div>
 
 				<div class="row">
-					<div class="form-group col-md-12 @if($errors->first('impacto')) has-error has-feedback @endif">
+					<div class="form-group col-md-6 @if($errors->first('impacto')) has-error has-feedback @endif">
 						{{ Form::label('impacto','Impacto') }}
-						{{ Form::textarea('impacto', null, ['class'=>'form-control','rows'=>5]) }}
+						{{ Form::textarea('impacto', $reporte->impacto, ['class'=>'form-control','rows'=>5]) }}
+					</div>
+					<div class="form-group col-md-6 @if($errors->first('costo_beneficio')) has-error has-feedback @endif">
+						{{ Form::label('costo_beneficio','Costo Beneficio') }}
+						{{ Form::textarea('costo_beneficio', $reporte->costo_beneficio, ['class'=>'form-control','rows'=>5]) }}
 					</div>
 				</div>
 
@@ -158,10 +177,11 @@
 					<div class="col-md-12">
 						<div class="panel panel-default">
 							<div class="panel-heading">
-							    	<h3 class="panel-title">Inversión</h3>
+						    	<h3 class="panel-title">Inversión</h3>
 						  	</div>
 
 						  	<div class="panel-body">
+
 								<div class="form-group col-md-4">
 									{{ Form::label('inv_descripcion','Descripción') }}
 									{{ Form::text('inv_descripcion', null, ['class'=>'form-control']) }}
@@ -179,6 +199,11 @@
 
 								<div class="col-md-12">
 									<table class="table">
+										<tr class="info">
+											<th>Descripción</th>
+											<th>Costo</th>
+											<th></th>
+										</tr>
 										<tbody class="inv_table">
 											@if(Input::old('inv_descripciones'))
 												@foreach(Input::old('inv_descripciones') as $key => $desc)
@@ -189,18 +214,20 @@
 													</tr>
 												@endforeach
 											@endif
+											@foreach($reporte->inversiones as $inversion)
+												<tr>
+													<td>{{$inversion->descripcion}}</td>
+													<td>{{round($inversion->costo,2)}}</td>
+													<td>
+														<a class="btn btn-default delete-detail" href="{{URL::to('/reporte_financiamiento/inversion/edit')}}/{{$inversion->id}}">Editar</a>
+													</td>
+												</tr>
+											@endforeach
 										</tbody>
 									</table>
 								</div>
 							</div>
 						</div>
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="form-group col-md-12 @if($errors->first('costo_beneficio')) has-error has-feedback @endif">
-						{{ Form::label('costo_beneficio','Costo Beneficio') }}
-						{{ Form::textarea('costo_beneficio', null, ['class'=>'form-control','rows'=>5]) }}
 					</div>
 				</div>
 			</div>
@@ -210,14 +237,8 @@
 			<div class="form-group col-md-2">
 				{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit_create', 'type'=>'submit','class' => 'btn btn-primary btn-block')) }}
 			</div>
-		</div>
+		</div>	
 
 	{{ Form::close() }}
-
-	<script type="text/javascript">
-		window.onload = function() {
-	        getServicios(document.getElementById("departamento"));
-	    };
-	</script>
 
 @stop

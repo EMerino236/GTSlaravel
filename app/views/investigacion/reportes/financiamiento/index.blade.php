@@ -35,7 +35,7 @@
 			</div>
 			<div class="col-xs-4">
 				{{ Form::label('search_responsable','Responsable') }}
-				{{ Form::text('search_responsable',$search_responsable,array('class'=>'form-control','placeholder'=>'Responsable')) }}
+				{{ Form::select('search_responsable',[0=>"Seleccione"]+$usuarios,$search_responsable,array('class'=>'form-control','placeholder'=>'Responsable')) }}
 			</div>
 		</div>
 		<div class="row">
@@ -43,7 +43,7 @@
 				{{ Form::button('<span class="glyphicon glyphicon-search"></span> Filtrar', array('id'=>'submit-search-form','type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}				
 			</div>
 			<div class="form-group col-md-2">
-				<div class="btn btn-default btn-block" id="btnLimpiar" onclick="limpiar_criterios_ins_serv()">Limpiar</div>				
+				<div class="btn btn-default btn-block" id="btnLimpiar" onclick="limpiar_criterios_reporte_fin()">Limpiar</div>				
 			</div>
 		</div>
 	  </div>
@@ -72,12 +72,12 @@
 				<tr class="@if($reporte_data->deleted_at) bg-danger @endif">
 					<td>{{$reporte_data->id}}</td>
 					<td>
-						<a href="{{URL::to('/plantillas_servicios/show_servicio/')}}/{{$reporte_data->idfamilia_activo}}">{{$reporte_data->nombre}}</a>
+						<a href="{{URL::to('/reporte_financiamiento/show/')}}/{{$reporte_data->id}}">{{$reporte_data->nombre}}</a>
 					</td>
 					<td>{{$reporte_data->id_categoria}}</td>
 					<td>{{$reporte_data->servicio->nombre}}</td>
 					<td>{{$reporte_data->departamento->nombre}}</td>
-					<td>{{$reporte_data->responsable->nombre}} {{$reporte_data->responsable->apellido_pat}}</td>			
+					<td>{{$reporte_data->responsable->nombre}} {{$reporte_data->responsable->apellido_pat}} {{$reporte_data->responsable->apellido_mat}}</td>			
 				</tr>
 				@endforeach
 			</table>

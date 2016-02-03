@@ -23,6 +23,7 @@ class ReporteFinanciamientoController extends \BaseController {
 
 				$data["servicios"] = Servicio::all()->lists('nombre','idservicio');
 				$data["departamentos"] = Area::all()->lists('nombre','idarea');
+				$data["usuarios"] = User::all()->lists('UserFullName','id');
 				
 				$data["reportes_data"] = ReporteFinanciamiento::paginate(10);
 				
@@ -56,6 +57,7 @@ class ReporteFinanciamientoController extends \BaseController {
 
 				$data["servicios"] = Servicio::all()->lists('nombre','idservicio');
 				$data["departamentos"] = Area::all()->lists('nombre','idarea');
+				$data["usuarios"] = User::all()->lists('UserFullName','id');
 				
 				$data["reportes_data"] = ReporteFinanciamiento::searchReporte($data['search_nombre'],$data['search_categoria'],$data['search_servicio_clinico'],$data['search_departamento'],$data['search_responsable']);
 				$data["reportes_data"] = $data["reportes_data"]->paginate(10);
@@ -82,9 +84,11 @@ class ReporteFinanciamientoController extends \BaseController {
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+
 				$data["servicios"] = Servicio::all()->lists('nombre','idservicio');
 				$data["departamentos"] = Area::all()->lists('nombre','idarea');
-				
+				$data["usuarios"] = User::all()->lists('UserFullName','id');
+
 				return View::make('investigacion.reportes.financiamiento.create',$data);
 			}else{
 				return View::make('error/error',$data);
@@ -191,6 +195,9 @@ class ReporteFinanciamientoController extends \BaseController {
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+
+				$data["reporte"] = ReporteFinanciamiento::find($id);
+
 				return View::make('investigacion.reportes.financiamiento.show',$data);
 			}else{
 				return View::make('error/error',$data);
@@ -214,6 +221,13 @@ class ReporteFinanciamientoController extends \BaseController {
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+
+				$data["servicios"] = Servicio::all()->lists('nombre','idservicio');
+				$data["departamentos"] = Area::all()->lists('nombre','idarea');
+				$data["usuarios"] = User::all()->lists('UserFullName','id');
+
+				$data["reporte"] = ReporteFinanciamiento::find($id);
+				
 				return View::make('investigacion.reportes.financiamiento.edit',$data);
 			}else{
 				return View::make('error/error',$data);
@@ -230,7 +244,7 @@ class ReporteFinanciamientoController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update($id = null)
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
@@ -246,11 +260,6 @@ class ReporteFinanciamientoController extends \BaseController {
 							'responsable' => 'required',
 							'descripcion' => 'required',
 							'objetivos' => 'required',
-							'crono_descripciones' => 'required',
-							'fechas_ini' => 'required',
-							'fechas_fin' => 'required',
-							'inv_descripciones' => 'required',
-							'costos' => 'required',
 							'impacto' => 'required',
 							'costo_beneficio' => 'required',
 						);
@@ -258,19 +267,193 @@ class ReporteFinanciamientoController extends \BaseController {
 				$validator = Validator::make(Input::all(), $rules);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
-					return Redirect::to('reporte_financiamiento/edit')->withErrors($validator)->withInput(Input::all());					
+					return Redirect::to('reporte_financiamiento/edit/'.$id)->withErrors($validator)->withInput(Input::all());					
 				}else{
-						dd(Input::all());
-						$programacion_guia_ts = new ProgramacionGuiaTS;
-						$programacion_guia_ts->id_tipo = Input::get('idtipo_reporte_ts');
-						$programacion_guia_ts->iduser = $data["user"]->id;
-						$programacion_guia_ts->fecha = date("Y-m-d",strtotime(Input::get('fecha_ts')));
-						$programacion_guia_ts->nombre_reporte = Input::get('nombre_ts');
-						$programacion_guia_ts->id_estado = 1;
-						$programacion_guia_ts->save();
+						//dd(Input::all());
+
+						$reporte_financiamiento = ReporteFinanciamiento::find($id);
+						$reporte_financiamiento->nombre = Input::get('nombre');
+						$reporte_financiamiento->id_categoria = Input::get('categoria');
+						$reporte_financiamiento->id_servicio_clinico = Input::get('servicio_clinico');
+						$reporte_financiamiento->id_departamento = Input::get('departamento');
+						$reporte_financiamiento->id_responsable = Input::get('responsable');
+						$reporte_financiamiento->descripcion = Input::get('descripcion');
+						$reporte_financiamiento->objetivos = Input::get('objetivos');
+						$reporte_financiamiento->impacto = Input::get('impacto');
+						$reporte_financiamiento->costo_beneficio = Input::get('costo_beneficio');
+
+						$reporte_financiamiento->save();
+
+						if(Input::get('crono_descripciones')){
+							foreach (Input::get('crono_descripciones') as $key => $crono_descripcion) {
+								$cronograma = new ReporteFinanciamientoCronograma;
+								$cronograma->descripcion = $crono_descripcion;
+								$cronograma->fecha_ini = date("Y-m-d",strtotime(Input::get("fechas_ini")[$key]));
+								$cronograma->fecha_fin = date("Y-m-d",strtotime(Input::get("fechas_fin")[$key]));
+								$cronograma->duracion  = Input::get("duraciones")[$key];
+								$cronograma->id_reporte = $reporte_financiamiento->id;
+
+								$cronograma->save();
+							}
+						}
+
+						if(Input::get('inv_descripciones')){
+							foreach (Input::get('inv_descripciones') as $key => $inv_descripcion) {
+								$inversion = new ReporteFinanciamientoInversion;
+								$inversion->descripcion = $inv_descripcion;
+								$inversion->costo = Input::get("costos")[$key];
+								$inversion->id_reporte = $reporte_financiamiento->id;
+
+								$inversion->save();
+							}
+						}
 					
 					Session::flash('message', 'Se registró correctamente el reporte.');
-					return Redirect::to('reporte_financiamiento/edit');
+					return Redirect::to('reporte_financiamiento/edit/'.$id);
+				}
+			}else{
+				return View::make('error/error',$data);
+			}
+
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+
+	/**
+	 * Show the form for editing the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function editInversion($id)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+
+				$data["inversion"] = ReporteFinanciamientoInversion::find($id);
+				
+				return View::make('investigacion.reportes.financiamiento.editInversion',$data);
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function updateInversion($id = null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+				// Validate the info, create rules for the inputs	
+				$rules = array(	
+							'descripcion' => 'required',
+							'costo' => 'required',
+						);
+				// Run the validation rules on the inputs from the form
+				$validator = Validator::make(Input::all(), $rules);
+				// If the validator fails, redirect back to the form
+				if($validator->fails()){
+					return Redirect::to('reporte_financiamiento/inversion/edit/'.$id)->withErrors($validator)->withInput(Input::all());					
+				}else{
+
+					$inversion = ReporteFinanciamientoInversion::find($id);
+					$inversion->descripcion = Input::get('descripcion');
+					$inversion->costo = Input::get('costo');
+					
+					$inversion->save();
+					
+					Session::flash('message', 'Se registró correctamente la inversion.');
+					return Redirect::to('reporte_financiamiento/inversion/edit/'.$id);
+				}
+			}else{
+				return View::make('error/error',$data);
+			}
+
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+
+	/**
+	 * Show the form for editing the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function editTarea($id)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+
+				$data["tarea"] = ReporteFinanciamientoCronograma::find($id);
+				
+				return View::make('investigacion.reportes.financiamiento.editTarea',$data);
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function updateTarea($id = null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+				// Validate the info, create rules for the inputs	
+				$rules = array(	
+							'descripcion' => 'required',
+							'fecha_ini' => 'required',
+							'fecha_fin' => 'required',
+							'duracion' => 'required',
+						);
+				// Run the validation rules on the inputs from the form
+				$validator = Validator::make(Input::all(), $rules);
+				// If the validator fails, redirect back to the form
+				if($validator->fails()){
+					return Redirect::to('reporte_financiamiento/tarea/edit/'.$id)->withErrors($validator)->withInput(Input::all());					
+				}else{
+
+					$tarea = ReporteFinanciamientoCronograma::find($id);
+					$tarea->descripcion = Input::get('descripcion');
+					$tarea->fecha_ini = date("Y-m-d",strtotime(Input::get("fecha_ini")));
+					$tarea->fecha_fin = date("Y-m-d",strtotime(Input::get("fecha_fin")));
+					$tarea->duracion = Input::get('duracion');
+
+					$tarea->save();
+					
+					Session::flash('message', 'Se registró correctamente el cronograma.');
+					return Redirect::to('reporte_financiamiento/tarea/edit/'.$id);
 				}
 			}else{
 				return View::make('error/error',$data);

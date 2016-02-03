@@ -1,7 +1,5 @@
 $( document ).ready(function(){
 
-    
-
 	$('#btnAgregarCrono').click(function(){
         var descripcion = $("input[name=crono_descripcion]").val();
         var fecha_ini = $("input[name=fecha_ini]").val();
@@ -27,41 +25,41 @@ $( document ).ready(function(){
         $("input[name=crono_duracion]").val('');
     });
 
-$('#btnAgregarInv').click(function(){
-    var descripcion = $("input[name=inv_descripcion]").val();
-    var costo = $("input[name=costo]").val();
-    if(descripcion.length < 1 || costo.length<1){
-       return BootstrapDialog.alert({
-          title: 	'Alerta',
-          message: 'Debe llenar todos los campos',
-      });
-   }
+    $('#btnAgregarInv').click(function(){
+      var descripcion = $("input[name=inv_descripcion]").val();
+      var costo = $("input[name=costo]").val();
+      if(descripcion.length < 1 || costo.length<1){
+         return BootstrapDialog.alert({
+            title: 	'Alerta',
+            message: 'Debe llenar todos los campos',
+        });
+     }
 
-   var str = "<tr><td><input style=\"border:0\" name='inv_descripciones[]' value='"+descripcion+"' readonly/></td>";
-   str += "<td><input style=\"border:0\" name='costos[]' value='"+costo+"' readonly/></td>";
-   str += "<td><a href='' class='btn btn-default delete-detail' onclick='deleteRow(event,this)'>Eliminar</a></td></tr>";
-   $(str).prependTo(".inv_table");
+     var str = "<tr><td><input style=\"border:0\" name='inv_descripciones[]' value='"+descripcion+"' readonly/></td>";
+     str += "<td><input style=\"border:0\" name='costos[]' value='"+costo+"' readonly/></td>";
+     str += "<td><a href='' class='btn btn-default delete-detail' onclick='deleteRow(event,this)'>Eliminar</a></td></tr>";
+     $(str).prependTo(".inv_table");
 
-   $("input[name=inv_descripcion]").val('');
-   $("input[name=costo]").val('');
-});
+     $("input[name=inv_descripcion]").val('');
+     $("input[name=costo]").val('');
+    });
 
-$("#datetimepicker_cronograma_ini").datetimepicker({
-   useCurrent: false,
-   defaultDate: false,
-   ignoreReadonly: true,
-   format: 'DD-MM-YYYY',
-	    //minDate: ayer,
-	    //disabledDates: [ayer]
-	});
+    $("#datetimepicker_cronograma_ini").datetimepicker({
+       useCurrent: false,
+       defaultDate: false,
+       ignoreReadonly: true,
+       format: 'DD-MM-YYYY',
+    	    //minDate: ayer,
+    	    //disabledDates: [ayer]
+    });
 
-$("#datetimepicker_cronograma_fin").datetimepicker({
-   useCurrent: false,
-   defaultDate: false,
-   ignoreReadonly: true,
-   format: 'DD-MM-YYYY',
-	    //minDate: ayer,
-	    //disabledDates: [ayer]
+    $("#datetimepicker_cronograma_fin").datetimepicker({
+       useCurrent: false,
+       defaultDate: false,
+       ignoreReadonly: true,
+       format: 'DD-MM-YYYY',
+    	    //minDate: ayer,
+    	    //disabledDates: [ayer]
 	});
 });
 
@@ -114,3 +112,12 @@ function getServicios(el)
     });
 }
 
+function limpiar_criterios_reporte_fin()
+{
+  $('#search_nombre').val('');
+  $('#search_categoria').val('');
+  $('#search_servicio_clinico').val('');
+  $('#search_responsable').val('');
+  $('#search_departamento').val('');
+  
+}

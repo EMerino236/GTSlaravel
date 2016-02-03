@@ -20,6 +20,7 @@
     <link href="{{ asset('bower_components/morrisjs/morris.css') }}" rel="stylesheet">
     <!-- Custom Fonts -->
     <link href="{{ asset('bower_components/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
     <!-- Bootstrap Alerts -->
     <link href="{{ asset('css/bootstrap-dialog.min.css') }}" rel="stylesheet">
     <!--CSS para Diagrama de Gantt-->
@@ -53,7 +54,7 @@
     <script src="{{ asset('js/investigacion/programacion.js') }}"></script>
     <script src="{{ asset('js/bootstrap-dialog.min.js') }}"></script>
     <!--Javascript para Diagrama de Gantt-->
-    <script src="{{ asset('js/jsgantt.js') }}"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 
 <body>

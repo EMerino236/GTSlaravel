@@ -24,6 +24,16 @@ class ReporteFinanciamiento extends Eloquent{
 		return $this->belongsTo('User', 'id_responsable');
 	}
 
+	public function cronogramas()
+	{
+		return $this->hasMany('ReporteFinanciamientoCronograma','id_reporte');
+	}
+
+	public function inversiones()
+	{
+		return $this->hasMany('ReporteFinanciamientoInversion','id_reporte');
+	}
+
 	public function scopeSearchReporte($query,$search_nombre,$search_categoria,$search_servicio_clinico,$search_departamento,$search_responsable)
 	{
 		$query->withTrashed();
@@ -33,7 +43,7 @@ class ReporteFinanciamiento extends Eloquent{
 			$query->where('reporte_financiamiento.nombre','LIKE',"%$search_nombre%");
 		}
 
-		if($search_categoria != "")
+		if($search_categoria != 0)
 		{
 			$query->where('reporte_financiamiento.id_categoria','=',$search_categoria);
 		}
@@ -48,9 +58,9 @@ class ReporteFinanciamiento extends Eloquent{
 			$query->where('reporte_financiamiento.id_departamento','=', $search_departamento);
 		}
 
-		if($search_responsable != "")
+		if($search_responsable != 0)
 		{
-			$query->where('reporte_financiamiento.responsable','LIKE',"%$search_responsable%");
+			$query->where('reporte_financiamiento.id_responsable', '=' ,$search_responsable);
 		}
 		
 		return $query;
