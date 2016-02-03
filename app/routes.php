@@ -629,7 +629,6 @@ Route::group(array('prefix'=>'programacion_guias','before'=>'auth'),function(){
 	Route::post('/submit_create_programacion_guia_ts','ProgramacionGuiasController@submit_create_programacion_reporte_ts');
 	Route::post('/submit_create_programacion_reporte_etes','ProgramacionReportesController@submit_create_programacion_reporte_etes');
 	Route::post('/submit_create_programacion_guia_gpc','ProgramacionGuiasController@submit_create_programacion_reporte_gpc');
-	Route::get('/test','TestController@index');
 });
 
 /* Reporte financiamiento */
@@ -644,7 +643,7 @@ Route::group(array('prefix'=>'reporte_financiamiento','before'=>'auth'),function
 	Route::get('/tarea/edit/{id}',['uses'=>'ReporteFinanciamientoController@editTarea','as'=>'reporte_financiamiento.tarea.edit']);
 	Route::post('/tarea/edit/{id}',['uses'=>'ReporteFinanciamientoController@updateTarea','as'=>'reporte_financiamiento.tarea.update']);
 	Route::get('/inversion/edit/{id}',['uses'=>'ReporteFinanciamientoController@editInversion','as'=>'reporte_financiamiento.inversion.edit']);
-	Route::post('/inversion/edit/{id}',['uses'=>'ReporteFinanciamientoController@updateInversion','as'=>'reporte_financiamiento.inversion.update']);
+	Route::post('/inversion/edit/	{id}',['uses'=>'ReporteFinanciamientoController@updateInversion','as'=>'reporte_financiamiento.inversion.update']);
 	Route::post('/getServiciosAjax',['uses'=>'ReporteFinanciamientoController@getServiciosAjax','as'=>'reporte_financiamiento.getServicios.ajax']);
 });
 
