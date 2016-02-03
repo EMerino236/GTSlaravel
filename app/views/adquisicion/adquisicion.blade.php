@@ -13,6 +13,7 @@
 					<h3 class="panel-title">Últimos equipos ingresados</h3>
 				</div>
 				<div class="panel-body">
+					<!--
 				    <table class="table">
 						<tr class="info">
 							<th>N° Reporte</th>
@@ -24,6 +25,7 @@
 							<th>OT de Baja de Equipo</th>
 						</tr>
 					</table>
+				-->
 				</div>
 			</div>
 		</div>

@@ -14,6 +14,7 @@
 					<h3 class="panel-title">Lista de SOTs que no se han programado como OTM Correctivo</h3>
 				</div>
 				<div class="panel-body">
+					<!--
 				    <table class="table">
 						<tr class="info">
 							<th>N° Reporte</th>
@@ -25,6 +26,7 @@
 							<th>OT de Baja de Equipo</th>
 						</tr>
 					</table>
+				-->
 				</div>
 			</div>
 		</div>
@@ -42,6 +44,7 @@
 					<h3 class="panel-title">Lista de OTM pendientes</h3>
 				</div>
 				<div class="panel-body">
+					<!--
 				    <table class="table">
 						<tr class="info">
 							<th>N° Reporte</th>
@@ -53,6 +56,7 @@
 							<th>OT de Baja de Equipo</th>
 						</tr>
 					</table>
+				-->
 				</div>
 			</div>
 		</div>
