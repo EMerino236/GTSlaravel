@@ -14,6 +14,11 @@ class ReporteFinanciamiento extends Eloquent{
 		return $this->belongsTo('Servicio', 'id_servicio_clinico');
 	}
 
+	public function categoria()
+	{
+		return $this->belongsTo('ProyectoCategoria', 'id_categoria');
+	}
+
 	public function departamento()
 	{
 		return $this->belongsTo('Area', 'id_departamento');

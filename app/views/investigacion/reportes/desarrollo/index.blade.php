@@ -2,12 +2,12 @@
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Busqueda de Reporte que certifica la problemática e identificación de financiamiento</h3>
+            <h3 class="page-header">Estudio de linea base</h3>
         </div>
         <!-- /.col-lg-12 -->
     </div>
 
-{{ Form::open(array('route'=>'reporte_financiamiento.search','method'=>'get' ,'role'=>'form', 'id'=>'search-form','class' => 'form-group')) }}
+{{ Form::open(array('route'=>'reporte_desarrollo.search','method'=>'get' ,'role'=>'form', 'id'=>'search-form','class' => 'form-group')) }}
 	
 	<div class="panel panel-default">
 	  <div class="panel-heading">
@@ -21,14 +21,14 @@
 			</div>
 			<div class="col-xs-4">
 				{{ Form::label('search_categoria','Categoría') }}
-				{{ Form::select('search_categoria',[0=>"Seleccione"]+$categorias,$search_categoria,array('class'=>'form-control','placeholder'=>'Categoría')) }}
+				{{ Form::text('search_categoria',$search_categoria,array('class'=>'form-control','placeholder'=>'Categoría')) }}
 			</div>
 			<div class="col-xs-4">
 				{{ Form::label('search_servicio_clinico','Servicio Clínico') }}
 				{{ Form::select('search_servicio_clinico',[0=>"Seleccione"]+$servicios,$search_servicio_clinico,array('class'=>'form-control','placeholder'=>'Servicio Clínico')) }}
 			</div>
 		</div>
-		<div class="row">
+		<div class="form-group row">
 			<div class="col-xs-4">
 				{{ Form::label('search_departamento','Departamento') }}
 				{{ Form::select('search_departamento',[0=>"Seleccione"]+$departamentos,$search_departamento,array('class'=>'form-control','placeholder'=>'Departamento')) }}
@@ -36,6 +36,26 @@
 			<div class="col-xs-4">
 				{{ Form::label('search_responsable','Responsable') }}
 				{{ Form::select('search_responsable',[0=>"Seleccione"]+$usuarios,$search_responsable,array('class'=>'form-control','placeholder'=>'Responsable')) }}
+			</div>
+		</div>
+		<div class="form-group row">
+			<div class="col-md-4">
+				{{ Form::label('search_fecha_ini','Desde') }}
+				<div id="datetimepicker_desarrollo_ini" class="form-group input-group date">
+					{{ Form::text('search_fecha_ini',$search_fecha_ini,array('class'=>'form-control', 'readonly'=>'')) }}
+					<span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+				</div>
+			</div>
+			<div class="col-md-4">
+				{{ Form::label('search_fecha_fin','Hasta') }}
+				<div id="datetimepicker_desarrollo_fin" class="form-group input-group date">
+					{{ Form::text('search_fecha_fin',$search_fecha_fin,array('class'=>'form-control', 'readonly'=>'')) }}
+					<span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+				</div>
 			</div>
 		</div>
 		<div class="row">
@@ -52,7 +72,7 @@
 
 	<div class="container-fluid form-group row">
 		<div class="col-md-2 col-md-offset-10">
-			<a class="btn btn-primary btn-block" href="{{route('reporte_financiamiento.create')}}">
+			<a class="btn btn-primary btn-block" href="{{route('reporte_desarrollo.create')}}">
 			<span class="glyphicon glyphicon-plus"></span> Agregar</a>
 		</div>
 	</div>
@@ -61,23 +81,25 @@
 		<div class="col-md-12">
 			<table class="table">
 				<tr class="info">
-					<th>N° de reporte</th>
+					<th>N° de reporte de ELB</th>
 					<th>Nombre</th>
 					<th>Categoría</th>
 					<th>Servicio Clínico</th>
 					<th>Departamento</th>
-					<th>Responsable</th>					
+					<th>Responsable</th>
+					<th>Fecha de inicio de proyecto</th>					
 				</tr>
 				@foreach($reportes_data as $reporte_data)
 				<tr class="@if($reporte_data->deleted_at) bg-danger @endif">
 					<td>{{$reporte_data->id}}</td>
 					<td>
-						<a href="{{URL::to('/reporte_financiamiento/show/')}}/{{$reporte_data->id}}">{{$reporte_data->nombre}}</a>
+						<a href="{{URL::to('/reporte_desarrollo/show/')}}/{{$reporte_data->id}}">{{$reporte_data->nombre}}</a>
 					</td>
-					<td>{{$reporte_data->categoria->nombre}}</td>
+					<td>{{$reporte_data->id_categoria}}</td>
 					<td>{{$reporte_data->servicio->nombre}}</td>
 					<td>{{$reporte_data->departamento->nombre}}</td>
-					<td>{{$reporte_data->responsable->nombre}} {{$reporte_data->responsable->apellido_pat}} {{$reporte_data->responsable->apellido_mat}}</td>			
+					<td>{{$reporte_data->responsable->nombre}} {{$reporte_data->responsable->apellido_pat}} {{$reporte_data->responsable->apellido_mat}}</td>
+					<td>WIP</td>
 				</tr>
 				@endforeach
 			</table>

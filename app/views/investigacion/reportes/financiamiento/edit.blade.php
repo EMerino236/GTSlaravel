@@ -18,6 +18,7 @@
 			<p><strong>{{ $errors->first('descripcion') }}</strong></p>
 			<p><strong>{{ $errors->first('objetivos') }}</strong></p>
 			<p><strong>{{ $errors->first('impacto') }}</strong></p>
+			<p><strong>{{ $errors->first('duracion') }}</strong></p>
 			<p><strong>{{ $errors->first('costo_beneficio') }}</strong></p>
 			<p><strong>{{ $errors->first('crono_descripciones') }}</strong></p>
 			<p><strong>{{ $errors->first('fechas_ini') }}</strong></p>
@@ -48,7 +49,7 @@
 
 					<div class="form-group col-md-4 @if($errors->first('categoria')) has-error has-feedback @endif">
 						{{ Form::label('categoria','Categoría') }}
-						{{ Form::text('categoria', $reporte->id_categoria, ['class'=>'form-control']) }}
+						{{ Form::select('categoria', $categorias, $reporte->categoria->id, ['class'=>'form-control']) }}
 					</div>
 
 					<div class="form-group col-md-4 @if($errors->first('departamento')) has-error has-feedback @endif">
@@ -64,6 +65,11 @@
 					<div class="form-group col-md-4 @if($errors->first('responsable')) has-error has-feedback @endif">
 						{{ Form::label('responsable','Responsable') }}
 						{{ Form::select('responsable', $usuarios,$reporte->responsable->id,['class'=>'form-control'])}}
+					</div>
+
+					<div class="form-group col-md-4 @if($errors->first('duracion')) has-error has-feedback @endif">
+						{{ Form::label('duracion','Duración') }}
+						{{ Form::number('duracion',$reporte->duracion,['class'=>'form-control','readonly'])}}
 					</div>
 				</div>
 
@@ -113,11 +119,6 @@
 								</div>
 
 								<div class="form-group col-md-3">
-									{{ Form::label('crono_duracion','Duración') }}
-									{{ Form::text('crono_duracion', null, ['class'=>'form-control']) }}
-								</div>
-
-								<div class="form-group col-md-3">
 									{{ Form::label('','&zwnj;&zwnj;') }}
 									<div class="btn btn-primary btn-block" id="btnAgregarCrono"><span class="glyphicon glyphicon-plus"></span> Agregar</div>
 								</div>
@@ -139,7 +140,7 @@
 														<td><input style="border:0" name='fechas_ini[]' value='{{Input::old('fechas_ini')[$key]}}' readonly/></td>
 														<td><input style="border:0" name='fechas_fin[]' value='{{Input::old('fechas_fin')[$key]}}' readonly/></td>
 														<td><input style="border:0" name='duraciones[]' value='{{Input::old('duraciones')[$key]}}' readonly/></td>
-														<td><a href='' class='btn btn-default delete-detail' onclick='deleteRow(event,this)'>Eliminar</a></td></tr>
+														<td><a href='' class='btn btn-default delete-detail' onclick='deleteRowCrono(event,this)'>Eliminar</a></td></tr>
 													</tr>
 												@endforeach
 											@endif

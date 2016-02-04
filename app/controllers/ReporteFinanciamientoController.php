@@ -21,11 +21,12 @@ class ReporteFinanciamientoController extends \BaseController {
 				$data["search_departamento"] = null;
 				$data["search_responsable"] = null;
 
+				$data["categorias"] = ProyectoCategoria::all()->lists('nombre','id');
 				$data["servicios"] = Servicio::all()->lists('nombre','idservicio');
 				$data["departamentos"] = Area::all()->lists('nombre','idarea');
 				$data["usuarios"] = User::all()->lists('UserFullName','id');
 				
-				$data["reportes_data"] = ReporteFinanciamiento::paginate(10);
+				$data["reportes_data"] = ReporteFinanciamiento::withTrashed()->paginate(10);
 				
 				return View::make('investigacion.reportes.financiamiento.index',$data);
 			}else{
@@ -55,6 +56,7 @@ class ReporteFinanciamientoController extends \BaseController {
 				$data["search_departamento"] = Input::get('search_departamento');
 				$data["search_responsable"] = Input::get('search_responsable');
 
+				$data["categorias"] = ProyectoCategoria::all()->lists('nombre','id');
 				$data["servicios"] = Servicio::all()->lists('nombre','idservicio');
 				$data["departamentos"] = Area::all()->lists('nombre','idarea');
 				$data["usuarios"] = User::all()->lists('UserFullName','id');
@@ -85,6 +87,7 @@ class ReporteFinanciamientoController extends \BaseController {
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 
+				$data["categorias"] = ProyectoCategoria::all()->lists('nombre','id');
 				$data["servicios"] = Servicio::all()->lists('nombre','idservicio');
 				$data["departamentos"] = Area::all()->lists('nombre','idarea');
 				$data["usuarios"] = User::all()->lists('UserFullName','id');
@@ -120,6 +123,7 @@ class ReporteFinanciamientoController extends \BaseController {
 							'responsable' => 'required',
 							'descripcion' => 'required',
 							'objetivos' => 'required',
+							'duracion'	=> 'required',
 							'crono_descripciones' => 'required',
 							'fechas_ini' => 'required',
 							'fechas_fin' => 'required',
@@ -145,6 +149,7 @@ class ReporteFinanciamientoController extends \BaseController {
 						$reporte_financiamiento->descripcion = Input::get('descripcion');
 						$reporte_financiamiento->objetivos = Input::get('objetivos');
 						$reporte_financiamiento->impacto = Input::get('impacto');
+						$reporte_financiamiento->duracion = Input::get('duracion');
 						$reporte_financiamiento->costo_beneficio = Input::get('costo_beneficio');
 
 						$reporte_financiamiento->save();
@@ -196,7 +201,7 @@ class ReporteFinanciamientoController extends \BaseController {
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 
-				$data["reporte"] = ReporteFinanciamiento::find($id);
+				$data["reporte"] = ReporteFinanciamiento::withTrashed()->find($id);
 
 				return View::make('investigacion.reportes.financiamiento.show',$data);
 			}else{
@@ -222,6 +227,7 @@ class ReporteFinanciamientoController extends \BaseController {
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 
+				$data["categorias"] = ProyectoCategoria::all()->lists('nombre','id');
 				$data["servicios"] = Servicio::all()->lists('nombre','idservicio');
 				$data["departamentos"] = Area::all()->lists('nombre','idarea');
 				$data["usuarios"] = User::all()->lists('UserFullName','id');
@@ -260,6 +266,7 @@ class ReporteFinanciamientoController extends \BaseController {
 							'responsable' => 'required',
 							'descripcion' => 'required',
 							'objetivos' => 'required',
+							'duracion'	=> 'required',
 							'impacto' => 'required',
 							'costo_beneficio' => 'required',
 						);
@@ -279,6 +286,7 @@ class ReporteFinanciamientoController extends \BaseController {
 						$reporte_financiamiento->id_responsable = Input::get('responsable');
 						$reporte_financiamiento->descripcion = Input::get('descripcion');
 						$reporte_financiamiento->objetivos = Input::get('objetivos');
+						$reporte_financiamiento->duracion = Input::get('duracion');
 						$reporte_financiamiento->impacto = Input::get('impacto');
 						$reporte_financiamiento->costo_beneficio = Input::get('costo_beneficio');
 
@@ -471,10 +479,107 @@ class ReporteFinanciamientoController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
+	public function destroyTarea($id)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+				$tarea = ReporteFinanciamientoCronograma::find($id);
+				$url = "reporte_financiamiento/show/".$tarea->id_reporte;
+				$tarea->delete();
+				Session::flash('message','Se borro correctamente la tarea.');					
+				return Redirect::to($url);
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function destroyInversion($id)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+				$inversion = ReporteFinanciamientoInversion::find($id);
+				$url = "reporte_financiamiento/show/".$inversion->id_reporte;
+				$inversion->delete();
+				Session::flash('message','Se borro correctamente la inversion.');					
+				return Redirect::to($url);
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
 	public function destroy($id)
 	{
-		//
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+				$url = "reporte_financiamiento/show/".$id;
+				$reporte = ReporteFinanciamiento::find($id);
+				$reporte->delete();
+				Session::flash('message','Se inhabilitó correctamente el reporte.' );					
+				return Redirect::to($url);
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
 	}
+
+
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function restore($id)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+				$url = "reporte_financiamiento/show/".$id;
+				$reporte = ReporteFinanciamiento::withTrashed()->find($id);
+				$reporte->restore();
+				Session::flash('message', 'Se habilitó correctamente el reporte.');
+				return Redirect::to($url);
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
 
 	public function getServiciosAjax()
 	{

@@ -3,7 +3,7 @@
 
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Reporte que certifica la problemática e identificación de financiamiento</h3>
+            <h3 class="page-header">Estudio de linea base</h3>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -18,7 +18,6 @@
 			<p><strong>{{ $errors->first('descripcion') }}</strong></p>
 			<p><strong>{{ $errors->first('objetivos') }}</strong></p>
 			<p><strong>{{ $errors->first('impacto') }}</strong></p>
-			<p><strong>{{ $errors->first('duracion') }}</strong></p>
 			<p><strong>{{ $errors->first('costo_beneficio') }}</strong></p>
 			<p><strong>{{ $errors->first('crono_descripciones') }}</strong></p>
 			<p><strong>{{ $errors->first('fechas_ini') }}</strong></p>
@@ -50,7 +49,7 @@
 
 					<div class="form-group col-md-4 @if($errors->first('categoria')) has-error has-feedback @endif">
 						{{ Form::label('categoria','Categoría') }}
-						{{ Form::select('categoria', $categorias, null, ['class'=>'form-control']) }}
+						{{ Form::text('categoria', null, ['class'=>'form-control']) }}
 					</div>
 
 					<div class="form-group col-md-4 @if($errors->first('departamento')) has-error has-feedback @endif">
@@ -67,18 +66,17 @@
 						{{ Form::label('responsable','Responsable') }}
 						{{ Form::select('responsable',$usuarios,null,['class'=>'form-control'])}}
 					</div>
-					<div class="form-group col-md-4 @if($errors->first('duracion')) has-error has-feedback @endif">
-						{{ Form::label('duracion','Duración') }}
-						{{ Form::number('duracion',null,['class'=>'form-control','readonly'])}}
+				</div>
+
+				<div class="row">
+					<div class="form-group col-md-12 @if($errors->first('descripcion')) has-error has-feedback @endif">
+						{{ Form::label('descripcion','Descripción') }}
+						{{ Form::textarea('descripcion', null, ['class'=>'form-control','rows'=>5]) }}
 					</div>
 				</div>
 
 				<div class="row">
-					<div class="form-group col-md-6 @if($errors->first('descripcion')) has-error has-feedback @endif">
-						{{ Form::label('descripcion','Descripción') }}
-						{{ Form::textarea('descripcion', null, ['class'=>'form-control','rows'=>5]) }}
-					</div>
-					<div class="form-group col-md-6 @if($errors->first('objetivos')) has-error has-feedback @endif">
+					<div class="form-group col-md-12 @if($errors->first('objetivos')) has-error has-feedback @endif">
 						{{ Form::label('objetivos','Objetivos') }}
 						{{ Form::textarea('objetivos', null, ['class'=>'form-control','rows'=>5]) }}
 					</div>
@@ -118,19 +116,17 @@
 								</div>
 
 								<div class="form-group col-md-3">
+									{{ Form::label('crono_duracion','Duración') }}
+									{{ Form::text('crono_duracion', null, ['class'=>'form-control']) }}
+								</div>
+
+								<div class="form-group col-md-3">
 									{{ Form::label('','&zwnj;&zwnj;') }}
 									<div class="btn btn-primary btn-block" id="btnAgregarCrono"><span class="glyphicon glyphicon-plus"></span> Agregar</div>
 								</div>
 
 								<div class="col-md-12">
 									<table class="table">
-										<tr class="info">
-											<th>Descripción</th>
-											<th>Fecha Inicio</th>
-											<th>Fecha Fin</th>
-											<th>Duración</th>
-											<th></th>
-										</tr>
 										<tbody class="crono_table">
 											@if(Input::old('crono_descripciones'))
 												@foreach(Input::old('crono_descripciones') as $key => $desc)
@@ -139,7 +135,7 @@
 														<td><input style="border:0" name='fechas_ini[]' value='{{Input::old('fechas_ini')[$key]}}' readonly/></td>
 														<td><input style="border:0" name='fechas_fin[]' value='{{Input::old('fechas_fin')[$key]}}' readonly/></td>
 														<td><input style="border:0" name='duraciones[]' value='{{Input::old('duraciones')[$key]}}' readonly/></td>
-														<td><a href='' class='btn btn-default delete-detail' onclick='deleteRowCrono(event,this)'>Eliminar</a></td></tr>
+														<td><a href='' class='btn btn-default delete-detail' onclick='deleteRow(event,this)'>Eliminar</a></td></tr>
 													</tr>
 												@endforeach
 											@endif
@@ -152,13 +148,9 @@
 				</div>
 
 				<div class="row">
-					<div class="form-group col-md-6 @if($errors->first('impacto')) has-error has-feedback @endif">
+					<div class="form-group col-md-12 @if($errors->first('impacto')) has-error has-feedback @endif">
 						{{ Form::label('impacto','Impacto') }}
 						{{ Form::textarea('impacto', null, ['class'=>'form-control','rows'=>5]) }}
-					</div>
-					<div class="form-group col-md-6 @if($errors->first('costo_beneficio')) has-error has-feedback @endif">
-						{{ Form::label('costo_beneficio','Costo Beneficio') }}
-						{{ Form::textarea('costo_beneficio', null, ['class'=>'form-control','rows'=>5]) }}
 					</div>
 				</div>
 
@@ -187,11 +179,6 @@
 
 								<div class="col-md-12">
 									<table class="table">
-										<tr class="info">
-											<th>Descripción</th>
-											<th>Costo</th>
-											<th></th>
-										</tr>
 										<tbody class="inv_table">
 											@if(Input::old('inv_descripciones'))
 												@foreach(Input::old('inv_descripciones') as $key => $desc)
@@ -210,6 +197,12 @@
 					</div>
 				</div>
 
+				<div class="row">
+					<div class="form-group col-md-12 @if($errors->first('costo_beneficio')) has-error has-feedback @endif">
+						{{ Form::label('costo_beneficio','Costo Beneficio') }}
+						{{ Form::textarea('costo_beneficio', null, ['class'=>'form-control','rows'=>5]) }}
+					</div>
+				</div>
 			</div>
 		</div>
 

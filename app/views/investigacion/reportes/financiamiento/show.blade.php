@@ -22,7 +22,7 @@
 
 				<div class="form-group col-md-4">
 					{{ Form::label('categoria','Categoría') }}
-					{{ Form::text('categoria', $reporte->id_categoria, ['class'=>'form-control','readonly']) }}
+					{{ Form::text('categoria', $reporte->categoria->nombre, ['class'=>'form-control','readonly']) }}
 				</div>
 
 				<div class="form-group col-md-4">
@@ -38,6 +38,11 @@
 				<div class="form-group col-md-4">
 					{{ Form::label('responsable','Responsable') }}
 					{{ Form::text('responsable',$reporte->responsable->UserFullName,['class'=>'form-control','readonly'])}}
+				</div>
+
+				<div class="form-group col-md-4">
+					{{ Form::label('duracion','Duración') }}
+					{{ Form::text('duracion',$reporte->duracion,['class'=>'form-control','readonly'])}}
 				</div>
 			</div>
 
@@ -137,7 +142,7 @@
 											}
 											
 											var options = {
-												height: 'auto',
+												height: 55*infos.length,
 												gantt: {
 													criticalPathEnabled: false,
 													criticalPathStyle: {
@@ -212,11 +217,28 @@
 	</div>
 
 	<div class="row">
+		
+	
+	@if($reporte->deleted_at)
+		<div class="form-group col-md-2 col-md-offset-10">
+			<a class="btn-under" href="{{route('reporte_financiamiento.restore',$reporte->id)}}">
+				{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-up"></span> Habilitar', array('id'=>'submit-delete', 'type' => 'submit', 'class' => 'btn btn-success btn-block')) }}
+			</a>
+		</div>
+	@else
+		<!--
 		<div class="form-group col-md-2">
 			<a href="{{URL::to('/reporte_financiamiento/edit')}}/{{$reporte->id}}">
 				{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Editar', array('class' => 'btn btn-primary btn-block')) }}
 			</a>
 		</div>
-	</div>	
+		-->
+		<div class="form-group col-md-2 col-md-offset-10">
+			<a class="btn-under" href="{{route('reporte_financiamiento.destroy',$reporte->id)}}">
+				{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-down"></span> Inhabilitar', array('id'=>'submit-delete', 'type' => 'submit', 'class' => 'btn btn-danger btn-block')) }}
+			</a>
+		</div>
+	@endif
 
+	</div>
 @stop

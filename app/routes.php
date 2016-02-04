@@ -640,11 +640,44 @@ Route::group(array('prefix'=>'reporte_financiamiento','before'=>'auth'),function
 	Route::post('/create',['uses'=>'ReporteFinanciamientoController@store','as'=>'reporte_financiamiento.store']);
 	Route::get('/edit/{id}',['uses'=>'ReporteFinanciamientoController@edit','as'=>'reporte_financiamiento.edit']);
 	Route::post('/edit/{id}',['uses'=>'ReporteFinanciamientoController@update','as'=>'reporte_financiamiento.update']);
+	Route::get('/destroy/{id}',['uses'=>'ReporteFinanciamientoController@destroy','as'=>'reporte_financiamiento.destroy']);
+	Route::get('/restore/{id}',['uses'=>'ReporteFinanciamientoController@restore','as'=>'reporte_financiamiento.restore']);
 	Route::get('/tarea/edit/{id}',['uses'=>'ReporteFinanciamientoController@editTarea','as'=>'reporte_financiamiento.tarea.edit']);
 	Route::post('/tarea/edit/{id}',['uses'=>'ReporteFinanciamientoController@updateTarea','as'=>'reporte_financiamiento.tarea.update']);
+	Route::get('/tarea/destroy/{id}',['uses'=>'ReporteFinanciamientoController@destroyTarea','as'=>'reporte_financiamiento.tarea.destroy']);
 	Route::get('/inversion/edit/{id}',['uses'=>'ReporteFinanciamientoController@editInversion','as'=>'reporte_financiamiento.inversion.edit']);
-	Route::post('/inversion/edit/	{id}',['uses'=>'ReporteFinanciamientoController@updateInversion','as'=>'reporte_financiamiento.inversion.update']);
+	Route::post('/inversion/edit/{id}',['uses'=>'ReporteFinanciamientoController@updateInversion','as'=>'reporte_financiamiento.inversion.update']);
+	Route::get('/inversion/destroy/{id}',['uses'=>'ReporteFinanciamientoController@destroyInversion','as'=>'reporte_financiamiento.inversion.destroy']);
+	
 	Route::post('/getServiciosAjax',['uses'=>'ReporteFinanciamientoController@getServiciosAjax','as'=>'reporte_financiamiento.getServicios.ajax']);
+});
+
+/* Reporte Desarrollo */
+Route::group(array('prefix'=>'reporte_desarrollo','before'=>'auth'),function(){
+	Route::get('/index',['uses'=>'ReporteDesarrolloController@index','as'=>'reporte_desarrollo.index']);
+	Route::get('/search',['uses'=>'ReporteDesarrolloController@search','as'=>'reporte_desarrollo.search']);
+	Route::get('/show/{id}',['uses'=>'ReporteDesarrolloController@show','as'=>'reporte_desarrollo.show']);
+	Route::get('/create',['uses'=>'ReporteDesarrolloController@create','as'=>'reporte_desarrollo.create']);
+	Route::post('/create',['uses'=>'ReporteDesarrolloController@store','as'=>'reporte_desarrollo.store']);
+	Route::get('/edit/{id}',['uses'=>'ReporteDesarrolloController@edit','as'=>'reporte_desarrollo.edit']);
+	Route::post('/edit/{id}',['uses'=>'ReporteDesarrolloController@update','as'=>'reporte_desarrollo.update']);
+	Route::get('/destroy/{id}',['uses'=>'ReporteDesarrolloController@destroy','as'=>'reporte_desarrollo.destroy']);
+	Route::get('/restore/{id}',['uses'=>'ReporteDesarrolloController@restore','as'=>'reporte_desarrollo.restore']);
+});
+
+/* Requerimientos Clinicos */
+Route::group(array('prefix'=>'requerimientos_clinicos','before'=>'auth'),function(){
+	Route::get('/index',['uses'=>'RequerimientosClinicosController@index','as'=>'requerimientos_clinicos.index']);
+	Route::get('/search',['uses'=>'RequerimientosClinicosController@search','as'=>'requerimientos_clinicos.search']);
+	Route::get('/show/{id}',['uses'=>'RequerimientosClinicosController@show','as'=>'requerimientos_clinicos.show']);
+	Route::get('/create',['uses'=>'RequerimientosClinicosController@create','as'=>'requerimientos_clinicos.create']);
+	Route::post('/create',['uses'=>'RequerimientosClinicosController@store','as'=>'requerimientos_clinicos.store']);
+	Route::get('/edit/{id}',['uses'=>'RequerimientosClinicosController@edit','as'=>'requerimientos_clinicos.edit']);
+	Route::post('/edit/{id}',['uses'=>'RequerimientosClinicosController@update','as'=>'requerimientos_clinicos.update']);
+	//Route::get('/destroy/{id}',['uses'=>'RequerimientosClinicosController@destroy','as'=>'requerimientos_clinicos.destroy']);
+	//Route::get('/restore/{id}',['uses'=>'RequerimientosClinicosController@restore','as'=>'requerimientos_clinicos.restore']);
+
+	Route::post('/validarReporteAjax',['uses'=>'RequerimientosClinicosController@validarReporteAjax','as'=>'requerimientos_clinicos.validarReporte.ajax']);
 });
 
 /* Adquisicion */

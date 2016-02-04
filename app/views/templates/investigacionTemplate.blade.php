@@ -50,7 +50,9 @@
     <script src="{{ asset('js/fileinput_locale_es.min.js') }}"></script>
     <script src="{{ asset('js/language_file_upload_plugin.min.js') }}"></script>
     <script src="{{ asset('js/investigacion/solicitud_servicio.js') }}"></script>
+    <script src="{{ asset('js/investigacion/requerimientos_clinicos.js') }}"></script>
     <script src="{{ asset('js/investigacion/reporte_financiamiento.js') }}"></script>
+    <script src="{{ asset('js/investigacion/reporte_desarrollo.js') }}"></script>
     <script src="{{ asset('js/investigacion/programacion.js') }}"></script>
     <script src="{{ asset('js/bootstrap-dialog.min.js') }}"></script>
     <!--Javascript para Diagrama de Gantt-->

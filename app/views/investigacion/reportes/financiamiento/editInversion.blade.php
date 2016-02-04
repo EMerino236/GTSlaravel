@@ -57,8 +57,14 @@
 			<div class="form-group col-md-2">
 				{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit_create', 'type'=>'submit','class' => 'btn btn-primary btn-block')) }}
 			</div>
-		</div>	
+		
 
 	{{ Form::close() }}
-
+		
+			<div class="form-group col-md-2 col-md-offset-8">
+				<a class="btn-under" href="{{route('reporte_financiamiento.inversion.destroy',$inversion->id)}}">
+					{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-down"></span> Borrar', array('class' => 'btn btn-danger btn-block')) }}
+				</a>
+			</div>
+		</div>
 @stop

@@ -47,9 +47,9 @@
                 <a href="#">Identificación de problemáticas, desarrollo de líneas de investigación e identificación de oportunidades de financiamiento <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">                           
                     <li>{{ HTML::linkRoute('reporte_financiamiento.index','Reporte que certifica la problemática e identificación de financiamiento') }}</li>
-                    <li>{{ HTML::link('#','Reporte de desarrollo de línea de investigación') }}</li>
+                    <li>{{ HTML::linkRoute('reporte_desarrollo.index','Reporte de desarrollo de línea de investigación') }}</li>
+                    <li>{{ HTML::linkRoute('requerimientos_clinicos.index','Requerimientos clínicos') }}</li>
                     <!--
-                    <li>{{ HTML::link('#','Requerimientos clínicos') }}</li>
                     <li>{{ HTML::link('#','Requerimientos hospitalarios') }}</li>
                     <li>{{ HTML::link('#','Indicadores de investigación') }}</li>
                     -->

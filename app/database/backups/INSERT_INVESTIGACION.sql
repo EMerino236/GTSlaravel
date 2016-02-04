@@ -69,3 +69,18 @@ INSERT INTO subtipo_documentosinf (id, nombre, id_tipo) VALUES ('42','Solicitud 
 INSERT INTO subtipo_documentosinf (id, nombre, id_tipo) VALUES ('43','Mapa de procesos','10');
 INSERT INTO subtipo_documentosinf (id, nombre, id_tipo) VALUES ('44','Diagrama de flujos','10');
 INSERT INTO subtipo_documentosinf (id, nombre, id_tipo) VALUES ('45','Catálogo de Requerimientos','10');
+
+/*Categorias de proyectos*/
+INSERT INTO proyecto_categorias (id, nombre) VALUES ('1','Inversión - Instalación del servicio');
+INSERT INTO proyecto_categorias (id, nombre) VALUES ('2','Inversión - Recuperación del servicio');
+INSERT INTO proyecto_categorias (id, nombre) VALUES ('3','Inversión - Ampliacion de la capacidad del servicio');
+INSERT INTO proyecto_categorias (id, nombre) VALUES ('4','Inversión - Mejoramiento del servicio');
+INSERT INTO proyecto_categorias (id, nombre) VALUES ('5','Investigación - Biomedica');
+INSERT INTO proyecto_categorias (id, nombre) VALUES ('6','Investigación - Clinica');
+INSERT INTO proyecto_categorias (id, nombre) VALUES ('7','Investigación - Sociomedica / Epidemiologia');
+INSERT INTO proyecto_categorias (id, nombre) VALUES ('8','Investigación - Tecnológica');
+
+/*Estados de requerimientos clinicos*/
+INSERT INTO requerimientos_clinicos_estados (id, nombre) VALUES ('1','Aprobado');
+INSERT INTO requerimientos_clinicos_estados (id, nombre) VALUES ('2','Rechazado');
+INSERT INTO requerimientos_clinicos_estados (id, nombre) VALUES ('3','Pendiente');
