@@ -32,7 +32,7 @@ function validarReporte()
         type: 'POST',
         data: { 'id_reporte' : id_reporte },
         beforeSend: function(){
-
+            
         },
         complete: function(){
 
@@ -40,10 +40,12 @@ function validarReporte()
         success: function(response){                
             if(response.success)
             {
+
                 if(response.reporte.length != 0){
                     $('#nombre').val(response.reporte.nombre);
                     $('#categoria').val(response.reporte.id_categoria);
                     $('#departamento').val(response.reporte.id_departamento);
+                    getServicios();
                     $('#servicio_clinico').val(response.reporte.id_servicio_clinico);
                     $('#responsable').val(response.reporte.id_responsable);
                 }else{

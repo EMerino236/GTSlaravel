@@ -55,22 +55,22 @@
 
 					<div class="form-group col-md-4 @if($errors->first('categoria')) has-error has-feedback @endif">
 						{{ Form::label('categoria','Categoría') }}
-						{{ Form::select('categoria', $categorias, null, ['id'=>'categoria','class'=>'form-control']) }}
+						{{ Form::select('categoria', $categorias, Input::old('categoria'), ['id'=>'categoria','class'=>'form-control']) }}
 					</div>
 
 					<div class="form-group col-md-4 @if($errors->first('departamento')) has-error has-feedback @endif">
 						{{ Form::label('departamento','Departamento') }}
-						{{ Form::select('departamento', $departamentos, null, ['id'=>'departamento','class'=>'form-control','onChange'=>'getServicios(this)']) }}
+						{{ Form::select('departamento', $departamentos, Input::old('departamento'), ['id'=>'departamento','class'=>'form-control','onChange'=>'getServicios(this)']) }}
 					</div>
 
 					<div class="form-group col-md-4 @if($errors->first('servicio_clinico')) has-error has-feedback @endif">
 						{{ Form::label('servicio_clinico','Servicio Clínico') }}
-						{{ Form::select('servicio_clinico', $servicios, null, ['id'=>'servicio_clinico','class'=>'form-control']) }}
+						{{ Form::select('servicio_clinico', $servicios, Input::old('servicio_clinico'), ['id'=>'servicio_clinico','class'=>'form-control']) }}
 					</div>
 
 					<div class="form-group col-md-4 @if($errors->first('responsable')) has-error has-feedback @endif">
 						{{ Form::label('responsable','Responsable') }}
-						{{ Form::select('responsable', $usuarios, null,['id'=>'responsable','class'=>'form-control'])}}
+						{{ Form::select('responsable', $usuarios, Input::old('responsable'),['id'=>'responsable','class'=>'form-control'])}}
 					</div>
 				</div>
 
@@ -109,7 +109,7 @@
 				<div class="row">
 					<div class="form-group col-md-12 @if($errors->first('observaciones')) has-error has-feedback @endif">
 						{{ Form::label('observaciones','Observaciones') }}
-						{{ Form::textarea('observaciones',null,['class'=>'form-control','rows'=>5])}}
+						{{ Form::textarea('observaciones',Input::old('observaciones'),['class'=>'form-control','rows'=>5])}}
 					</div>
 				</div>
 				

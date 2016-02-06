@@ -24,6 +24,7 @@ class ReporteDesarrolloController extends \BaseController {
 				$data["search_fecha_ini"] = null;
 				$data["search_fecha_fin"] = null;
 
+				$data["categorias"] = ProyectoCategoria::all()->lists('nombre','id');
 				$data["servicios"] = Servicio::all()->lists('nombre','idservicio');
 				$data["departamentos"] = Area::all()->lists('nombre','idarea');
 				$data["usuarios"] = User::all()->lists('UserFullName','id');
@@ -62,6 +63,7 @@ class ReporteDesarrolloController extends \BaseController {
 				$data["search_fecha_ini"] = Input::get('search_fecha_ini');
 				$data["search_fecha_fin"] = Input::get('search_fecha_fin');
 
+				$data["categorias"] = ProyectoCategoria::all()->lists('nombre','id');
 				$data["servicios"] = Servicio::all()->lists('nombre','idservicio');
 				$data["departamentos"] = Area::all()->lists('nombre','idarea');
 				$data["usuarios"] = User::all()->lists('UserFullName','id');
@@ -93,6 +95,7 @@ class ReporteDesarrolloController extends \BaseController {
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 
+				$data["categorias"] = ProyectoCategoria::all()->lists('nombre','id');
 				$data["servicios"] = Servicio::all()->lists('nombre','idservicio');
 				$data["departamentos"] = Area::all()->lists('nombre','idarea');
 				$data["usuarios"] = User::all()->lists('UserFullName','id');
@@ -165,5 +168,33 @@ class ReporteDesarrolloController extends \BaseController {
 		//
 	}
 
+
+	public function validarReporteAjax()
+	{
+		
+		if(!Request::ajax() || !Auth::check())
+		{
+			return Response::json(array( 'success' => false ),200);
+		}
+
+		$id = Auth::id();
+		$data["inside_url"] = Config::get('app.inside_url');
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
+			// Check if the current user is the "System Admin"
+			$id_reporte = Input::get('id_reporte');
+			$info = RequerimientoClinico::find($id_reporte);
+			if($id_reporte != "" && $info){
+				$reporte = $info;
+			}else{
+				$reporte = [];
+			}
+
+			return Response::json(array( 'success' => true, 'reporte' => $reporte),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
 
 }

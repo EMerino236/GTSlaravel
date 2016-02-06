@@ -21,21 +21,21 @@
 			</div>
 			<div class="col-xs-4">
 				{{ Form::label('search_categoria','Categoría') }}
-				{{ Form::text('search_categoria',$search_categoria,array('class'=>'form-control','placeholder'=>'Categoría')) }}
+				{{ Form::select('search_categoria',[0=>"Seleccione"]+$categorias,$search_categoria,array('class'=>'form-control')) }}
 			</div>
 			<div class="col-xs-4">
 				{{ Form::label('search_servicio_clinico','Servicio Clínico') }}
-				{{ Form::select('search_servicio_clinico',[0=>"Seleccione"]+$servicios,$search_servicio_clinico,array('class'=>'form-control','placeholder'=>'Servicio Clínico')) }}
+				{{ Form::select('search_servicio_clinico',[0=>"Seleccione"]+$servicios,$search_servicio_clinico,array('class'=>'form-control')) }}
 			</div>
 		</div>
 		<div class="form-group row">
 			<div class="col-xs-4">
 				{{ Form::label('search_departamento','Departamento') }}
-				{{ Form::select('search_departamento',[0=>"Seleccione"]+$departamentos,$search_departamento,array('class'=>'form-control','placeholder'=>'Departamento')) }}
+				{{ Form::select('search_departamento',[0=>"Seleccione"]+$departamentos,$search_departamento,array('class'=>'form-control')) }}
 			</div>
 			<div class="col-xs-4">
 				{{ Form::label('search_responsable','Responsable') }}
-				{{ Form::select('search_responsable',[0=>"Seleccione"]+$usuarios,$search_responsable,array('class'=>'form-control','placeholder'=>'Responsable')) }}
+				{{ Form::select('search_responsable',[0=>"Seleccione"]+$usuarios,$search_responsable,array('class'=>'form-control')) }}
 			</div>
 		</div>
 		<div class="form-group row">
@@ -63,7 +63,7 @@
 				{{ Form::button('<span class="glyphicon glyphicon-search"></span> Filtrar', array('id'=>'submit-search-form','type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}				
 			</div>
 			<div class="form-group col-md-2">
-				<div class="btn btn-default btn-block" id="btnLimpiar" onclick="limpiar_criterios_reporte_fin()">Limpiar</div>				
+				<div class="btn btn-default btn-block" id="btnLimpiar" onclick="limpiar_criterios_reporte_des()">Limpiar</div>				
 			</div>
 		</div>
 	  </div>

@@ -650,6 +650,7 @@ Route::group(array('prefix'=>'reporte_financiamiento','before'=>'auth'),function
 	Route::get('/inversion/destroy/{id}',['uses'=>'ReporteFinanciamientoController@destroyInversion','as'=>'reporte_financiamiento.inversion.destroy']);
 	
 	Route::post('/getServiciosAjax',['uses'=>'ReporteFinanciamientoController@getServiciosAjax','as'=>'reporte_financiamiento.getServicios.ajax']);
+	Route::post('/getTodoServiciosAjax',['uses'=>'ReporteFinanciamientoController@getTodoServiciosAjax','as'=>'reporte_financiamiento.getTodoServicios.ajax']);
 });
 
 /* Reporte Desarrollo */
@@ -661,8 +662,11 @@ Route::group(array('prefix'=>'reporte_desarrollo','before'=>'auth'),function(){
 	Route::post('/create',['uses'=>'ReporteDesarrolloController@store','as'=>'reporte_desarrollo.store']);
 	Route::get('/edit/{id}',['uses'=>'ReporteDesarrolloController@edit','as'=>'reporte_desarrollo.edit']);
 	Route::post('/edit/{id}',['uses'=>'ReporteDesarrolloController@update','as'=>'reporte_desarrollo.update']);
-	Route::get('/destroy/{id}',['uses'=>'ReporteDesarrolloController@destroy','as'=>'reporte_desarrollo.destroy']);
-	Route::get('/restore/{id}',['uses'=>'ReporteDesarrolloController@restore','as'=>'reporte_desarrollo.restore']);
+	//Route::get('/destroy/{id}',['uses'=>'ReporteDesarrolloController@destroy','as'=>'reporte_desarrollo.destroy']);
+	//Route::get('/restore/{id}',['uses'=>'ReporteDesarrolloController@restore','as'=>'reporte_desarrollo.restore']);
+
+	Route::post('/validarReporteAjax',['uses'=>'ReporteDesarrolloController@validarReporteAjax','as'=>'reporte_desarrollo.validarReporte.ajax']);
+	Route::post('/getTodoServiciosAjax',['uses'=>'ReporteDesarrolloController@getTodoServiciosAjax','as'=>'reporte_desarrollo.getTodoServicios.ajax']);
 });
 
 /* Requerimientos Clinicos */

@@ -107,15 +107,16 @@ function deleteRow(event,el)
     parent.parentNode.removeChild(parent);
 }
 
-function getServicios(el)
+function getServicios()
 {
     //console.log(el);
-    var id_departamento = el.value;
+    var id_departamento = $('#departamento').val();
 
     $.ajax({
         url: inside_url + 'reporte_financiamiento/getServiciosAjax',
         type: 'POST',
         data: { 'id_departamento' : id_departamento },
+        async: false,
         beforeSend: function(){
 
         },
@@ -148,12 +149,56 @@ function getServicios(el)
     });
 }
 
-function limpiar_criterios_reporte_fin()
+function getTodoServicios()
 {
-  $('#search_nombre').val('');
-  $('#search_categoria').val('');
-  $('#search_servicio_clinico').val('');
-  $('#search_responsable').val('');
-  $('#search_departamento').val('');
+    //console.log(el);
+    var id_departamento = 1;
+
+    $.ajax({
+        url: inside_url + 'reporte_financiamiento/getTodoServiciosAjax',
+        type: 'POST',
+        data: { 'id_departamento' : id_departamento },
+        async: false,
+        beforeSend: function(){
+
+        },
+        complete: function(){
+
+        },
+        success: function(response){                
+            if(response.success)
+            {
+                var select = document.getElementById("servicio_clinico");
+                select.options.length = 0;
+                for(servicio in response.servicios){
+                    select.options[select.options.length] = new Option(response.servicios[servicio], servicio);
+                }
+            }
+            else
+            {
+                return BootstrapDialog.alert({
+                    title:   'Alerta',
+                    message: 'La petición no se pudo completar, intentelo nuevamente',
+                });
+            }
+        },
+        error: function(){
+            return BootstrapDialog.alert({
+                    title:   'Alerta',
+                    message: 'La petición no se pudo completar, intentelo nuevamente',
+            });
+        }
+    });
+}
+
+function limpiar_criterios_reporte_des()
+{
+    $('#search_nombre').val('');
+    $('#search_categoria').val('');
+    $('#search_servicio_clinico').val('');
+    $('#search_responsable').val('');
+    $('#search_departamento').val('');
+    $('#search_fecha_ini').val('');
+    $('#search_fecha_fin').val('');
   
 }

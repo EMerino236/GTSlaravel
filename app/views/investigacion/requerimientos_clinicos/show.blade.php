@@ -39,40 +39,59 @@
 					{{ Form::label('responsable','Responsable') }}
 					{{ Form::text('responsable',$requerimiento->responsable->UserFullName,['class'=>'form-control','readonly'])}}
 				</div>
+				<div class="form-group col-md-4">
+					{{ Form::label('presupuesto','Presupuesto Total') }}
+					{{ Form::number('presupuesto',$requerimiento->presupuesto,['class'=>'form-control','step'=>'0.01','min'=>'0','readonly'])}}
+				</div>
+				<div class="form-group col-md-4">
+					{{ Form::label('tipo','Tipo') }}
+					{{ Form::text('tipo',$tipos[$requerimiento->tipo],array('class'=>'form-control','readonly')) }}
+				</div>
+				<div class="form-group col-md-4">
+					{{ Form::label('fecha_ini','Fecha Inicio') }}
+					{{ Form::text('fecha_ini',$requerimiento->fecha_ini,array('class'=>'form-control', 'readonly'=>'')) }}
+				</div>
+				<div class="form-group col-md-4">
+					{{ Form::label('fecha_fin','Fecha Fin') }}
+					{{ Form::text('fecha_fin',$requerimiento->fecha_fin,array('class'=>'form-control', 'readonly'=>'')) }}
+				</div>
 			</div>
 
 			<div class="row">
-					<div class="form-group col-md-4">
-						{{ Form::label('presupuesto','Presupuesto Total') }}
-						{{ Form::number('presupuesto',$requerimiento->presupuesto,['class'=>'form-control','step'=>'0.01','min'=>'0','readonly'])}}
-					</div>
-					<div class="form-group col-md-4">
-						{{ Form::label('tipo','Tipo') }}
-						{{ Form::text('tipo',$tipos[$requerimiento->tipo],array('class'=>'form-control','readonly')) }}
-					</div>
+				<div class="form-group col-md-12">
+					{{ Form::label('observaciones','Observaciones') }}
+					{{ Form::textarea('observaciones',$requerimiento->observaciones,['class'=>'form-control','rows'=>5,'readonly'])}}
 				</div>
-
-				<div class="row">
-					<div class="form-group col-md-4">
-						{{ Form::label('fecha_ini','Fecha Inicio') }}
-						{{ Form::text('fecha_ini',$requerimiento->fecha_ini,array('class'=>'form-control', 'readonly'=>'')) }}
-					</div>
-					<div class="form-group col-md-4">
-						{{ Form::label('fecha_fin','Fecha Fin') }}
-						{{ Form::text('fecha_fin',$requerimiento->fecha_fin,array('class'=>'form-control', 'readonly'=>'')) }}
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="form-group col-md-12">
-						{{ Form::label('observaciones','Observaciones') }}
-						{{ Form::textarea('observaciones',$requerimiento->observaciones,['class'=>'form-control','rows'=>5,'readonly'])}}
-					</div>
-				</div>
+			</div>
 		</div>
 	</div>
 
-	@if(!$requerimiento->id_modificador || $requerimiento->id_estado == 3)
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">Estado del proyecto</h3>
+		</div>
+		<div class="panel-body">
+			<div class="row">
+				<div class="form-group col-md-4">
+					{{ Form::label('estado','Estado') }}
+					{{ Form::text('estado', $estados[$requerimiento->id_estado], ['class'=>'form-control','readonly']) }}
+				</div>
+				<div class="form-group col-md-4">
+					{{ Form::label('modificador','Modificado por:') }}
+					{{ Form::text('modificador',$usuarios[$requerimiento->id_modificador],['class'=>'form-control','readonly'])}}				
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="form-group col-md-8">
+					{{ Form::label('observaciones','Observaciones') }}
+					{{ Form::textarea('observaciones',$requerimiento->observaciones,['class'=>'form-control','rows'=>5,'readonly'])}}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	@if($user->id == $requerimiento->id_responsable && (!$requerimiento->id_modificador || $requerimiento->id_estado == 3))
 	<div class="row">
 		<div class="form-group col-md-2">
 			<a href="{{URL::to('/requerimientos_clinicos/edit')}}/{{$requerimiento->id}}">

@@ -54,3 +54,8 @@ DIV.scroll2 { position:relative; PADDING-RIGHT: 0px; overflow:auto ;overflow-x:s
 a.btn-under{
 	text-decoration: none;
 }
+
+.cell{
+	border:0;
+	width:100px;
+}

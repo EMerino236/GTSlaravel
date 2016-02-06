@@ -184,6 +184,8 @@ class RequerimientosClinicosController extends \BaseController {
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 
+				$data["estados"] = RequerimientoClinicoEstado::all()->lists('nombre','id');
+				$data["usuarios"] = User::all()->lists('UserFullName','id');
 				$data["requerimiento"] = RequerimientoClinico::withTrashed()->find($id);
 				$data["tipos"] = [0=>"Seleccione",1=>'Clínico',2=>'Hospitalario'];
 				return View::make('investigacion.requerimientos_clinicos.show',$data);

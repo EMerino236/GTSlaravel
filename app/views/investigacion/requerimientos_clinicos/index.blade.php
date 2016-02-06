@@ -76,7 +76,7 @@
 					<th>Estado</th>
 				</tr>
 				@foreach($requerimientos_data as $requerimiento_data)
-				<tr class="@if($requerimiento_data->deleted_at) bg-danger @endif">
+				<tr class="@if($requerimiento_data->id_estado == 1) bg-success @elseif($requerimiento_data->id_estado == 2) bg-danger @endif">
 					<td>{{$requerimiento_data->id}}</td>
 					<td>
 						<a href="{{URL::to('/requerimientos_clinicos/show/')}}/{{$requerimiento_data->id}}">{{$requerimiento_data->nombre}}</a>
@@ -86,7 +86,7 @@
 					<td>{{$requerimiento_data->departamento->nombre}}</td>
 					<td>{{$requerimiento_data->responsable->nombre}} {{$requerimiento_data->responsable->apellido_pat}} {{$requerimiento_data->responsable->apellido_mat}}</td>	
 					<td>{{$tipos[$requerimiento_data->tipo]}}</td>
-					<td>{{$requerimiento_data->estado->nombre}}</td>
+					<td><b>{{$requerimiento_data->estado->nombre}}</b></td>
 				</tr>
 				@endforeach
 			</table>

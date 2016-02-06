@@ -218,7 +218,7 @@
 
 	<div class="row">
 		
-	
+	<!--
 	@if($reporte->deleted_at)
 		<div class="form-group col-md-2 col-md-offset-10">
 			<a class="btn-under" href="{{route('reporte_financiamiento.restore',$reporte->id)}}">
@@ -226,19 +226,19 @@
 			</a>
 		</div>
 	@else
-		<!--
+		
 		<div class="form-group col-md-2">
 			<a href="{{URL::to('/reporte_financiamiento/edit')}}/{{$reporte->id}}">
 				{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Editar', array('class' => 'btn btn-primary btn-block')) }}
 			</a>
 		</div>
-		-->
+		
 		<div class="form-group col-md-2 col-md-offset-10">
 			<a class="btn-under" href="{{route('reporte_financiamiento.destroy',$reporte->id)}}">
 				{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-down"></span> Inhabilitar', array('id'=>'submit-delete', 'type' => 'submit', 'class' => 'btn btn-danger btn-block')) }}
 			</a>
 		</div>
 	@endif
-
+	-->
 	</div>
 @stop
