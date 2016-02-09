@@ -99,7 +99,7 @@ class ReporteDesarrolloController extends \BaseController {
 				$data["servicios"] = Servicio::all()->lists('nombre','idservicio');
 				$data["departamentos"] = Area::all()->lists('nombre','idarea');
 				$data["usuarios"] = User::all()->lists('UserFullName','id');
-
+				$data["dimensiones"] = Dimension::all();
 				return View::make('investigacion.reportes.desarrollo.create',$data);
 			}else{
 				return View::make('error/error',$data);
@@ -117,7 +117,20 @@ class ReporteDesarrolloController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+		$nombres = Input::get('ind_nombres');
+		$bases = Input::get('ind_bases');
+		$unidades = Input::get('ind_unidades');
+		$definiciones = Input::get('ind_definiciones');
+		$verificaciones = Input::get('ind_verificaciones');
+		//dd(Input::all());
+		foreach($nombres as $keyD => $dimension){
+			var_dump('DIMENSION '.$keyD);
+			foreach($dimension as $keyA => $nombre){
+				var_dump(' Nombre: '.$nombre.' Base: '.$bases[$keyD][$keyA].' Unidad: '.$unidades[$keyD][$keyA].' Definicion: '.$definiciones[$keyD][$keyA].' Verificacion: '.$verificaciones[$keyD][$keyA]);
+			}
+			
+		}
+		
 	}
 
 

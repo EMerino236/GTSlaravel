@@ -74,6 +74,9 @@
                             <li>
                                 <a href="{{URL::to('/servicios/list_servicios')}}">Servicios</a>
                             </li>
+                            <li>
+                                <a href="{{route('dimensiones.index')}}">Dimensiones</a>
+                            </li>
                         </ul>
                     </ul>
                 </div>

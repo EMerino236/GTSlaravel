@@ -107,75 +107,77 @@
 				<h3 class="panel-title">Indicadores de linea base relacionados directamente a las actividades del proyecto</h3>
 			</div>
 			<div class="panel-body">
-				<div class="row">
-					<div class="form-group col-md-8">
+				@foreach($dimensiones as $dimension)
+				<div class="panel panel-default">
+					<div class="panel-heading">
 						<div class="input-group">
 							<span class="input-group-addon">Dimensión</span>
-							{{ Form::text('dimension', null, ['class'=>'form-control']) }}
+							{{ Form::text('dimension'.$dimension->id, $dimension->nombre, ['class'=>'form-control','readonly']) }}
+						</div>
+					</div>
+					<div class="panel-body">
+						<div class="row">
+
+							<div class="form-group col-md-4">
+								{{ Form::label('ind_nombre'.$dimension->id,'Nombre de indicador') }}
+								{{ Form::text('ind_nombre'.$dimension->id, null, ['class'=>'form-control']) }}
+							</div>
+
+							<div class="form-group col-md-4">
+								{{ Form::label('ind_base'.$dimension->id,'Indicador de base') }}
+								{{ Form::text('ind_base'.$dimension->id, null, ['class'=>'form-control']) }}
+							</div>
+
+							<div class="form-group col-md-4">
+								{{ Form::label('ind_unidad'.$dimension->id,'Unidad') }}
+								{{ Form::text('ind_unidad'.$dimension->id, null, ['class'=>'form-control']) }}
+							</div>
+
+							<div class="form-group col-md-4">
+								{{ Form::label('ind_definicion'.$dimension->id,'Definición del indicador') }}
+								{{ Form::text('ind_definicion'.$dimension->id, null, ['class'=>'form-control']) }}
+							</div>
+
+							<div class="form-group col-md-4">
+								{{ Form::label('ind_verificacion'.$dimension->id,'Medio de verificación') }}
+								{{ Form::text('ind_verificacion'.$dimension->id, null, ['class'=>'form-control']) }}
+							</div>
+
+							<div class="form-group col-md-4">
+								{{ Form::label('','&zwnj;&zwnj;') }}
+								<button class="btn btn-primary btn-block" type="button" onClick="agregaFila(this,{{$dimension->id}})"><span class="glyphicon glyphicon-plus"></span> Agregar</button>
+							</div>
+
+							<div class="col-md-12">
+								<table class="table">
+									<tr class="info">
+										<th>Nombre</th>
+										<th>Base</th>
+										<th>Unidad</th>
+										<th>Definición</th>
+										<th>Medio</th>
+										<th></th>
+									</tr>
+									<tbody class="ind_table{{$dimension->id}}">
+										@if(Input::old('ind_nombres'))
+											@foreach(Input::old('ind_nombres') as $key => $nomb)
+												<tr>
+													<td><input class="cell" name='ind_nombres[]' value='{{$nomb}}' readonly/></td>
+													<td><input class="cell" name='ind_bases[]' value='{{Input::old('bases')[$key]}}' readonly/></td>
+													<td><input class="cell" name='ind_unidades[]' value='{{Input::old('unidades')[$key]}}' readonly/></td>
+													<td><input class="cell" name='ind_definiciones[]' value='{{Input::old('definiciones')[$key]}}' readonly/></td>
+													<td><input class="cell" name='ind_verificaciones[]' value='{{Input::old('verificaciones')[$key]}}' readonly/></td>
+													<td><a href='' class='btn btn-default delete-detail' onclick='deleteRow(event,this)'>Eliminar</a></td></tr>
+												</tr>
+											@endforeach
+										@endif
+									</tbody>
+								</table>
+							</div>
 						</div>
 					</div>
 				</div>
-
-				<div class="row">
-
-					<div class="form-group col-md-4">
-						{{ Form::label('ind_nombre','Nombre de indicador') }}
-						{{ Form::text('ind_nombre', null, ['class'=>'form-control']) }}
-					</div>
-
-					<div class="form-group col-md-4">
-						{{ Form::label('ind_base','Indicador de base') }}
-						{{ Form::text('ind_base', null, ['class'=>'form-control']) }}
-					</div>
-
-					<div class="form-group col-md-4">
-						{{ Form::label('ind_unidad','Unidad') }}
-						{{ Form::text('ind_unidad', null, ['class'=>'form-control']) }}
-					</div>
-
-					<div class="form-group col-md-4">
-						{{ Form::label('ind_definicion','Definición del indicador') }}
-						{{ Form::text('ind_definicion', null, ['class'=>'form-control']) }}
-					</div>
-
-					<div class="form-group col-md-4">
-						{{ Form::label('ind_verificacion','Medio de verificación') }}
-						{{ Form::text('ind_verificacion', null, ['class'=>'form-control']) }}
-					</div>
-
-					<div class="form-group col-md-4">
-						{{ Form::label('','&zwnj;&zwnj;') }}
-						<div class="btn btn-primary btn-block" id="btnAgregarInd"><span class="glyphicon glyphicon-plus"></span> Agregar</div>
-					</div>
-
-					<div class="col-md-12">
-						<table class="table">
-							<tr class="info">
-								<th>Nombre</th>
-								<th>Base</th>
-								<th>Unidad</th>
-								<th>Definición</th>
-								<th>Medio</th>
-								<th></th>
-							</tr>
-							<tbody class="ind_table">
-								@if(Input::old('ind_nombres'))
-									@foreach(Input::old('ind_nombres') as $key => $nomb)
-										<tr>
-											<td><input class="cell" name='ind_nombres[]' value='{{$nomb}}' readonly/></td>
-											<td><input class="cell" name='ind_bases[]' value='{{Input::old('bases')[$key]}}' readonly/></td>
-											<td><input class="cell" name='ind_unidades[]' value='{{Input::old('unidades')[$key]}}' readonly/></td>
-											<td><input class="cell" name='ind_definiciones[]' value='{{Input::old('definiciones')[$key]}}' readonly/></td>
-											<td><input class="cell" name='ind_verificaciones[]' value='{{Input::old('verificaciones')[$key]}}' readonly/></td>
-											<td><a href='' class='btn btn-default delete-detail' onclick='deleteRow(event,this)'>Eliminar</a></td></tr>
-										</tr>
-									@endforeach
-								@endif
-							</tbody>
-						</table>
-					</div>
-
-				</div>
+				@endforeach
 			</div>	
 		</div>
 

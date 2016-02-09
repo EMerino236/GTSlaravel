@@ -684,6 +684,19 @@ Route::group(array('prefix'=>'requerimientos_clinicos','before'=>'auth'),functio
 	Route::post('/validarReporteAjax',['uses'=>'RequerimientosClinicosController@validarReporteAjax','as'=>'requerimientos_clinicos.validarReporte.ajax']);
 });
 
+/* Dimensiones */
+Route::group(array('prefix'=>'dimensiones','before'=>'auth'),function(){
+	Route::get('/index',['uses'=>'DimensionesController@index','as'=>'dimensiones.index']);
+	Route::get('/search',['uses'=>'DimensionesController@search','as'=>'dimensiones.search']);
+	//Route::get('/show/{id}',['uses'=>'DimensionesController@show','as'=>'dimensiones.show']);
+	Route::get('/create',['uses'=>'DimensionesController@create','as'=>'dimensiones.create']);
+	Route::post('/create',['uses'=>'DimensionesController@store','as'=>'dimensiones.store']);
+	Route::get('/edit/{id}',['uses'=>'DimensionesController@edit','as'=>'dimensiones.edit']);
+	Route::post('/edit/{id}',['uses'=>'DimensionesController@update','as'=>'dimensiones.update']);
+	Route::get('/restore/{id}',['uses'=>'DimensionesController@restore','as'=>'dimensiones.restore']);
+	Route::get('/destroy/{id}',['uses'=>'DimensionesController@destroy','as'=>'dimensiones.destroy']);
+});
+
 /* Adquisicion */
 Route::group(array('prefix'=>'adquisicion', 'before'=>'auth'),function(){
 	Route::get('/','AdquisicionController@home');

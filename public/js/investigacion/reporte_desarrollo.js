@@ -22,36 +22,47 @@ $( document ).ready(function(){
         $('#datetimepicker_desarrollo_fin').data("DateTimePicker").minDate(e.date);
     });
 
-    $('#btnAgregarInd').click(function(){
-        var nombre = $("input[name=ind_nombre]").val();
-        var base = $("input[name=ind_base]").val();
-        var unidad = $("input[name=ind_unidad]").val();
-        var definicion = $("input[name=ind_definicion]").val();
-        var verificacion = $("input[name=ind_verificacion]").val();
-        
-        if(nombre.length < 1 || base.length<1 || unidad.length<1 || definicion.length<1 || verificacion.length<1){
-            return BootstrapDialog.alert({
-                title:  'Alerta',
-                message: 'Debe llenar todos los campos',
-            });
-        }
-
-        var str = "<tr><td><input class='cell' name='ind_nombres[]' value='"+nombre+"' readonly/></td>";
-        str += "<td><input class='cell' name='ind_bases[]' value='"+base+"' readonly/></td>";
-        str += "<td><input class='cell' name='ind_unidades[]' value='"+unidad+"' readonly/></td>";
-        str += "<td><input class='cell' name='ind_definiciones[]' value='"+definicion+"' readonly/></td>";
-        str += "<td><input class='cell' name='ind_verificaciones[]' value='"+verificacion+"' readonly/></td>";
-        str += "<td><a href='' class='btn btn-default delete-detail' onclick='deleteRow(event,this)'>Eliminar</a></td></tr>";
-        $(str).prependTo(".ind_table");
-
-        $("input[name=ind_nombre]").val('');
-        $("input[name=ind_base]").val('');
-        $("input[name=ind_unidad]").val('');
-        $("input[name=ind_definicion]").val('');
-        $("input[name=ind_verificacion]").val('');
-    });
-
 });
+
+function agregaFila(el,id)
+{
+    str = "input[name=ind_nombre"+id+"]";
+    var nombre = $(str).val();
+    str = "input[name=ind_base"+id+"]";
+    var base = $(str).val();
+    str = "input[name=ind_unidad"+id+"]";
+    var unidad = $(str).val();
+    str = "input[name=ind_definicion"+id+"]";
+    var definicion = $(str).val();
+    str = "input[name=ind_verificacion"+id+"]";
+    var verificacion = $(str).val();
+    
+    if(nombre.length < 1 || base.length < 1 || unidad.length < 1 || definicion.length < 1 || verificacion.length < 1){
+        return BootstrapDialog.alert({
+            title:  'Alerta',
+            message: 'Debe llenar todos los campos',
+        });
+    }
+
+    var str = "<tr><td><input class='cell' name='ind_nombres["+id+"][]' value='"+nombre+"' readonly/></td>";
+    str += "<td><input class='cell' name='ind_bases["+id+"][]' value='"+base+"' readonly/></td>";
+    str += "<td><input class='cell' name='ind_unidades["+id+"][]' value='"+unidad+"' readonly/></td>";
+    str += "<td><input class='cell' name='ind_definiciones["+id+"][]' value='"+definicion+"' readonly/></td>";
+    str += "<td><input class='cell' name='ind_verificaciones["+id+"][]' value='"+verificacion+"' readonly/></td>";
+    str += "<td><a href='' class='btn btn-default delete-detail' onclick='deleteRow(event,this)'>Eliminar</a></td></tr>";
+    $(str).prependTo(".ind_table"+id);
+
+    str = "input[name=ind_nombre"+id+"]";
+    $(str).val('');
+    str = "input[name=ind_base"+id+"]";
+    $(str).val('');
+    str = "input[name=ind_unidad"+id+"]";
+    $(str).val('');
+    str = "input[name=ind_definicion"+id+"]";
+    $(str).val('');
+    str = "input[name=ind_verificacion"+id+"]";
+    $(str).val('');
+}
 
 function limpiar_criterios_reporte_fin()
 {
