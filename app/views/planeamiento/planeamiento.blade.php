@@ -14,19 +14,21 @@
 					<h3 class="panel-title">Últimos Certificados de Necesidad Elaborados</h3>
 				</div>
 				<div class="panel-body">
-					<!--
+					
 				    <table class="table">
 						<tr class="info">
+							<th>N°</th>
 							<th>N° Reporte</th>
 							<th>Fecha y Hora</th>
 							<th>Usuario</th>
 							<th>Nombre de Equipo</th>
-							<th>Servicio Clínico</th>
+							<!--<th>Servicio Clínico</th>-->
 							<th>Departamento</th>
-							<th>OT de Baja de Equipo</th>
+							<!--<th>OT de Baja de Equipo</th>-->
 						</tr>
-						@foreach($reportes_cn_data as $reporte_cn_data)
+						@foreach($reportes_cn_data as $index => $reporte_cn_data)
 						<tr class="@if($reporte_cn_data->deleted_at) bg-danger @endif">
+							<td>{{$index + 1}}</td>
 							<td>
 								@if($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4)
 									<a href="{{URL::to('/reporte_cn/edit_reporte_cn/')}}/{{$reporte_cn_data->idreporte_CN}}">{{$reporte_cn_data->numero_reporte_abreviatura}}{{$reporte_cn_data->numero_reporte_correlativo}}-{{$reporte_cn_data->numero_reporte_anho}}</a>
@@ -44,19 +46,23 @@
 							<td>
 								{{$reporte_cn_data->nombre_equipo}}
 							</td>
+							<!--
 							<td>
 								{{$reporte_cn_data->nombre_servicio}}
 							</td>
+							-->
 							<td>
 								{{$reporte_cn_data->nombre_area}}
-							</td>	
+							</td>
+							<!--	
 							<td>
 								<a href="{{URL::to('/retiro_servicio/create_ot/')}}/{{$reporte_cn_data->idot_retiro}}">{{$reporte_cn_data->ot_tipo_abreviatura}}{{$reporte_cn_data->ot_correlativo}}{{$reporte_cn_data->ot_activo_abreviatura}}
-							</td>		
+							</td>
+							-->		
 						</tr>
 						@endforeach
 					</table>
-				-->
+				
 				</div>
 			</div>
 		</div>

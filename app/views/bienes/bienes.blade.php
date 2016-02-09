@@ -14,19 +14,30 @@
 					<h3 class="panel-title">Lista de SOTs que no se han programado como OTM Correctivo</h3>
 				</div>
 				<div class="panel-body">
-					<!--
-				    <table class="table">
+					<table class="table">
 						<tr class="info">
-							<th>N° Reporte</th>
-							<th>Fecha y Hora</th>
-							<th>Usuario</th>
-							<th>Nombre de Equipo</th>
-							<th>Servicio Clínico</th>
-							<th>Departamento</th>
-							<th>OT de Baja de Equipo</th>
+							<th class="text-nowrap text-center">N°</th>
+							<th class="text-nowrap text-center">Número de SOT</th>
+							<th class="text-nowrap text-center">Fecha de solicitud</th>
+							<th class="text-nowrap text-center">Usuario solicitante</th>
 						</tr>
-					</table>
-				-->
+						@foreach($sots_data as $index => $sot_data)
+						<tr>
+							<td class="text-nowrap text-center">
+								{{$index+1}}
+							</td>
+							<td class="text-nowrap text-center">
+								<a href="{{URL::to('/sot/edit_sot/')}}/{{$sot_data->idsolicitud_orden_trabajo}}">{{$sot_data->sot_tipo_abreviatura}}{{$sot_data->sot_correlativo}}{{$sot_data->sot_activo_abreviatura}}</a>
+							</td>
+							<td class="text-nowrap text-center">
+								{{date('d-m-Y',strtotime($sot_data->fecha_solicitud))}}
+							</td>
+							<td class="text-nowrap text-center">
+								{{$sot_data->apellido_pat}} {{$sot_data->apellido_mat}}, {{$sot_data->nombre}}
+							</td>
+						</tr>
+					@endforeach
+				</table>
 				</div>
 			</div>
 		</div>
@@ -44,19 +55,38 @@
 					<h3 class="panel-title">Lista de OTM pendientes</h3>
 				</div>
 				<div class="panel-body">
-					<!--
-				    <table class="table">
+					<table class="table">
 						<tr class="info">
-							<th>N° Reporte</th>
-							<th>Fecha y Hora</th>
-							<th>Usuario</th>
-							<th>Nombre de Equipo</th>
-							<th>Servicio Clínico</th>
-							<th>Departamento</th>
-							<th>OT de Baja de Equipo</th>
+							<th class="text-nowrap text-center">OT</th>
+							<th class="text-nowrap text-center">Fecha y hora</th>
+							<th class="text-nowrap text-center">Departamento</th>
+							<th class="text-nowrap text-center">Servicio</th>
 						</tr>
+						@foreach($mant_correctivos_data as $mant_correctivo_data)
+						<tr>
+							<td class="text-nowrap text-center">
+								@if($user->idrol == 1 || $user->idrol==2 || $user->idrol==3 || $user->idrol==4)
+									@if($mant_correctivo_data->idestado_ot == 9)
+										<a href="{{URL::to('/mant_correctivo/create_ot/')}}/{{$mant_correctivo_data->idot_correctivo}}">{{$mant_correctivo_data->ot_tipo_abreviatura}}{{$mant_correctivo_data->ot_correlativo}}{{$mant_correctivo_data->ot_activo_abreviatura}}</a>
+									@else
+										<a href="{{URL::to('/mant_correctivo/view_ot/')}}/{{$mant_correctivo_data->idot_correctivo}}">{{$mant_correctivo_data->ot_tipo_abreviatura}}{{$mant_correctivo_data->ot_correlativo}}{{$mant_correctivo_data->ot_activo_abreviatura}}</a>
+									@endif
+								@else
+									<a href="{{URL::to('/mant_correctivo/view_ot/')}}/{{$mant_correctivo_data->idot_correctivo}}">{{$mant_correctivo_data->ot_tipo_abreviatura}}{{$mant_correctivo_data->ot_correlativo}}{{$mant_correctivo_data->ot_activo_abreviatura}}</a>
+								@endif
+							</td>
+							<td class="text-nowrap text-center">
+								{{date('d-m-Y H:i',strtotime($mant_correctivo_data->fecha_programacion))}}
+							</td>
+							<td class="text-nowrap text-center">
+								{{$mant_correctivo_data->nombre_area}}
+							</td>
+							<td class="text-nowrap text-center">
+								{{$mant_correctivo_data->nombre_servicio}}
+							</td>
+						</tr>
+						@endforeach
 					</table>
-				-->
 				</div>
 			</div>
 		</div>

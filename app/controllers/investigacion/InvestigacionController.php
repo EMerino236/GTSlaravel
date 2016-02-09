@@ -7,6 +7,7 @@ class InvestigacionController extends \BaseController
 	{
 		$data["inside_url"] = Config::get('app.inside_url');
 		$data["user"]= Session::get('user');
+		$data["documentos_data"] = DocumentoInf::GetGuiasPendientesCargar()->get();
 		return View::make('investigacion/investigacion',$data);
 	}
 

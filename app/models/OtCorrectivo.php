@@ -160,4 +160,19 @@ class OtCorrectivo extends Eloquent{
 		$query->where(DB::raw("CONCAT(ot_correctivos.ot_tipo_abreviatura,ot_correctivos.ot_correlativo,ot_correctivos.ot_activo_abreviatura)"),'=',$codigo_ot);
 		return $query;
 	}
+
+	public function scopeGetOtsMantCorrectivoPendientes($query)
+	{
+		$query->join('solicitud_orden_trabajos','solicitud_orden_trabajos.idsolicitud_orden_trabajo','=','ot_correctivos.idsolicitud_orden_trabajo')
+			  ->join('estados','estados.idestado','=','ot_correctivos.idestado_ot')
+			  ->join('servicios','servicios.idservicio','=','ot_correctivos.idservicio')
+			  ->join('areas','areas.idarea','=','servicios.idarea')
+			  ->join('activos','activos.idactivo','=','ot_correctivos.idactivo')
+			  ->join('ubicacion_fisicas','ubicacion_fisicas.idubicacion_fisica','=','activos.idubicacion_fisica')
+			  ->join('grupos','grupos.idgrupo','=','activos.idgrupo')
+			  ->join('users','users.id','=','grupos.id_responsable')
+			  ->select('ubicacion_fisicas.nombre as nombre_ubicacion','areas.nombre as nombre_area','users.nombre as nombre_user','users.apellido_pat','users.apellido_mat','servicios.nombre as nombre_servicio','estados.nombre as nombre_estado','solicitud_orden_trabajos.sot_tipo_abreviatura','solicitud_orden_trabajos.sot_correlativo','solicitud_orden_trabajos.sot_activo_abreviatura','ot_correctivos.*')
+			  ->where('idestado_ot',9);
+	  	return $query;
+	}
 }

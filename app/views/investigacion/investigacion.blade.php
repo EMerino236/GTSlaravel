@@ -14,19 +14,30 @@
 					<h3 class="panel-title">Lista de guías pendientes de cargar</h3>
 				</div>
 				<div class="panel-body">
-					<!--
-				    <table class="table">
-						<tr class="info">
-							<th>N° Reporte</th>
-							<th>Fecha y Hora</th>
-							<th>Usuario</th>
-							<th>Nombre de Equipo</th>
-							<th>Servicio Clínico</th>
-							<th>Departamento</th>
-							<th>OT de Baja de Equipo</th>
-						</tr>
-					</table>
-				-->
+				<table class="table">
+					<tr class="info">
+						<th>N°</th>
+						<th>Tipo de Guía</th>
+						<th>Nombre</th>
+						<th>Autor</th>
+						<th>Fecha de Creación</th>
+					</tr>
+					@foreach($documentos_data as $index => $documento_data)
+					<tr class="@if($documento_data->deleted_at) bg-danger @endif">
+						<td>{{$index + 1}}</td>
+						<td>{{$documento_data->nombre_tipo_documento}}</td>
+						<td>
+							<a href="{{URL::to('/guias_tecno_salud/edit_guia/')}}/{{$documento_data->iddocumentosinf}}">{{$documento_data->nombre}}</a>
+						</td>
+						<td>
+							{{$documento_data->autor}}
+						</td>
+						<td>
+							{{$documento_data->created_at}}
+						</td>
+					</tr>
+					@endforeach
+				</table>
 				</div>
 			</div>
 		</div>
