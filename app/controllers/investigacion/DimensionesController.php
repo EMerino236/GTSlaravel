@@ -187,8 +187,7 @@ class DimensionesController extends \BaseController {
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1){
 				
-				
-				
+				$url = "dimensiones/edit/".$id;
 				$dimension = Dimension::find($id);
 				$dimension->delete();
 

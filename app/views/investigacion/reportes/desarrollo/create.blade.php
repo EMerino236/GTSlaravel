@@ -20,8 +20,12 @@
 			<p><strong>{{ $errors->first('descripcion') }}</strong></p>
 			<p><strong>{{ $errors->first('objetivos') }}</strong></p>
 			<p><strong>{{ $errors->first('indicadores') }}</strong></p>
+			<p><strong>{{ $errors->first('ind_nombres') }}</strong></p>
+			<p><strong>{{ $errors->first('ind_bases') }}</strong></p>
+			<p><strong>{{ $errors->first('ind_unidades') }}</strong></p>
+			<p><strong>{{ $errors->first('ind_definiciones') }}</strong></p>
+			<p><strong>{{ $errors->first('ind_verificaciones') }}</strong></p>
 
-			<!--WIP FALTAN MAs -->
 		</div>
 	@endif
 
@@ -101,8 +105,9 @@
 						{{ Form::textarea('objetivos', Input::old('objetivos'), ['class'=>'form-control','rows'=>5]) }}
 					</div>
 				</div>
-			</div>	
+			</div>			
 
+			
 			<div class="panel-heading">
 				<h3 class="panel-title">Indicadores de linea base relacionados directamente a las actividades del proyecto</h3>
 			</div>
@@ -111,7 +116,7 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<div class="input-group">
-							<span class="input-group-addon">Dimensión</span>
+							<span class="input-group-addon"><b>Dimensión</b></span>
 							{{ Form::text('dimension'.$dimension->id, $dimension->nombre, ['class'=>'form-control','readonly']) }}
 						</div>
 					</div>
@@ -159,14 +164,14 @@
 										<th></th>
 									</tr>
 									<tbody class="ind_table{{$dimension->id}}">
-										@if(Input::old('ind_nombres'))
-											@foreach(Input::old('ind_nombres') as $key => $nomb)
+										@if(isset(Input::old('ind_nombres')[$dimension->id]))
+											@foreach(Input::old('ind_nombres')[$dimension->id] as $keyD => $dato)
 												<tr>
-													<td><input class="cell" name='ind_nombres[]' value='{{$nomb}}' readonly/></td>
-													<td><input class="cell" name='ind_bases[]' value='{{Input::old('bases')[$key]}}' readonly/></td>
-													<td><input class="cell" name='ind_unidades[]' value='{{Input::old('unidades')[$key]}}' readonly/></td>
-													<td><input class="cell" name='ind_definiciones[]' value='{{Input::old('definiciones')[$key]}}' readonly/></td>
-													<td><input class="cell" name='ind_verificaciones[]' value='{{Input::old('verificaciones')[$key]}}' readonly/></td>
+													<td><input class="cell" name='ind_nombres[{{$dimension->id}}][]' value='{{$dato}}' readonly/></td>
+													<td><input class="cell" name='ind_bases[{{$dimension->id}}][]' value='{{Input::old('ind_bases')[$dimension->id][$keyD]}}' readonly/></td>
+													<td><input class="cell" name='ind_unidades[{{$dimension->id}}][]' value='{{Input::old('ind_unidades')[$dimension->id][$keyD]}}' readonly/></td>
+													<td><input class="cell" name='ind_definiciones[{{$dimension->id}}][]' value='{{Input::old('ind_definiciones')[$dimension->id][$keyD]}}' readonly/></td>
+													<td><input class="cell" name='ind_verificaciones[{{$dimension->id}}][]' value='{{Input::old('ind_verificaciones')[$dimension->id][$keyD]}}' readonly/></td>
 													<td><a href='' class='btn btn-default delete-detail' onclick='deleteRow(event,this)'>Eliminar</a></td></tr>
 												</tr>
 											@endforeach

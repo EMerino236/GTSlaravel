@@ -117,20 +117,87 @@ class ReporteDesarrolloController extends \BaseController {
 	 */
 	public function store()
 	{
-		$nombres = Input::get('ind_nombres');
-		$bases = Input::get('ind_bases');
-		$unidades = Input::get('ind_unidades');
-		$definiciones = Input::get('ind_definiciones');
-		$verificaciones = Input::get('ind_verificaciones');
-		//dd(Input::all());
-		foreach($nombres as $keyD => $dimension){
-			var_dump('DIMENSION '.$keyD);
-			foreach($dimension as $keyA => $nombre){
-				var_dump(' Nombre: '.$nombre.' Base: '.$bases[$keyD][$keyA].' Unidad: '.$unidades[$keyD][$keyA].' Definicion: '.$definiciones[$keyD][$keyA].' Verificacion: '.$verificaciones[$keyD][$keyA]);
+
+		/*
+			$nombres = Input::get('ind_nombres');
+			$bases = Input::get('ind_bases');
+			$unidades = Input::get('ind_unidades');
+			$definiciones = Input::get('ind_definiciones');
+			$verificaciones = Input::get('ind_verificaciones');
+			dd(Input::all());
+			foreach($nombres as $keyD => $dimension){
+				var_dump('DIMENSION '.$keyD);
+				foreach($dimension as $keyA => $nombre){
+					var_dump(' Nombre: '.$nombre.' Base: '.$bases[$keyD][$keyA].' Unidad: '.$unidades[$keyD][$keyA].' Definicion: '.$definiciones[$keyD][$keyA].' Verificacion: '.$verificaciones[$keyD][$keyA]);
+				}
+				
 			}
-			
+			die();
+		*/
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$dimensiones = Dimension::all()->count();
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+				// Validate the info, create rules for the inputs	
+				$rules = array(
+							'id_reporte' => 'required',
+							'nombre' => 'required',
+							'categoria' => 'required',
+							'departamento' => 'required',
+							'responsable' => 'required',
+							'servicio_clinico' => 'required',
+							'descripcion' => 'required',
+							'indicadores' => 'required',
+							'objetivos' => 'required',
+							'ind_nombres' => 'required|size:'.$dimensiones,
+							'ind_bases' => 'required',
+							'ind_unidades' => 'required',
+							'ind_definiciones' => 'required',
+							'ind_verificaciones' => 'required',
+						);
+				$messages = array(
+						'ind_nombres.size' => 'Debe llenar todas las dimensiones',
+						'ind_bases.size' => 'Debe llenar todas las dimensiones',
+						'ind_unidades.size' => 'Debe llenar todas las dimensiones',
+						'ind_definiciones.size' => 'Debe llenar todas las dimensiones',
+						'ind_verificaciones.size' => 'Debe llenar todas las dimensiones',
+					);
+				// Run the validation rules on the inputs from the form
+				$validator = Validator::make(Input::all(), $rules, $messages);
+				// If the validator fails, redirect back to the form
+				if($validator->fails()){
+					return Redirect::to('reporte_desarrollo/create')->withErrors($validator)->withInput(Input::all());					
+				}else{
+						dd(Input::all());
+						$requerimiento_clinico = new RequerimientoClinico;
+						$requerimiento_clinico->nombre = Input::get('nombre');
+						$requerimiento_clinico->id_categoria = Input::get('categoria');
+						$requerimiento_clinico->id_servicio_clinico = Input::get('servicio_clinico');
+						$requerimiento_clinico->id_departamento = Input::get('departamento');
+						$requerimiento_clinico->id_responsable = Input::get('responsable');
+						$requerimiento_clinico->fecha_ini = date("Y-m-d",strtotime(Input::get('fecha_ini')));
+						$requerimiento_clinico->fecha_fin = date("Y-m-d",strtotime(Input::get('fecha_fin')));
+						$requerimiento_clinico->presupuesto = Input::get('presupuesto');
+						$requerimiento_clinico->tipo = Input::get('tipo');
+						$requerimiento_clinico->observaciones = Input::get('observaciones');
+						$requerimiento_clinico->id_estado = 3;
+						$requerimiento_clinico->id_reporte = Input::get('id_reporte');
+
+						$requerimiento_clinico->save();
+
+					Session::flash('message', 'Se registró correctamente el reporte.');
+					return Redirect::to('reporte_desarrollo/create');
+				}
+			}else{
+				return View::make('error/error',$data);
+			}
+
+		}else{
+			return View::make('error/error',$data);
 		}
-		
+
 	}
 
 

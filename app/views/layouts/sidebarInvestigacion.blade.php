@@ -2,6 +2,9 @@
     <div class="sidebar-nav navbar-collapse">
         <ul class="nav" id="side-menu">
             <li>
+                {{ HTML::link('programacion_guias/list_programacion_guias','Programación de elaboración de Guías y Reporte ETES') }}
+            </li>
+            <li>
                 {{ HTML::link('documento_investigacion/list_documentos','Repositorio de documentos de módulo de investigación') }}
                 
             </li>
@@ -80,10 +83,6 @@
                 </ul>
             </li>
             -->
-            <li>
-                {{ HTML::link('programacion_guias/list_programacion_guias','Programación de elaboración de Guías y Reporte ETES') }}
-            </li>
-
         </ul>
     </div>
     <!-- /.sidebar-collapse -->
