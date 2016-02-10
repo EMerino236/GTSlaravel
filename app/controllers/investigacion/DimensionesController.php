@@ -27,6 +27,28 @@ class DimensionesController extends \BaseController {
 		}
 	}
 
+	public function search()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1)
+			{
+				$data["search_nombre"] = Input::get('search_nombre');
+
+				$data["dimensiones"] = Dimension::searchDimensiones($data["search_nombre"])->paginate(10);
+				
+				return View::make('dimensiones.index',$data);	
+				
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
 	/**
 	 * Show the form for creating a new resource.
 	 *

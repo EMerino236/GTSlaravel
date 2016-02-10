@@ -20,7 +20,7 @@
 		</div>
 	@endif
 
-    {{ Form::open(array('url'=>'/areas/search_area','method'=>'get' ,'role'=>'form', 'id'=>'search-form','class' => 'form-group')) }}
+    {{ Form::open(array('route'=>'dimensiones.search','method'=>'get' ,'role'=>'form', 'id'=>'search-form','class' => 'form-group')) }}
 	<div class="panel panel-default">
 		<div class="panel-heading">
 	    	<h3 class="panel-title">Búsqueda</h3>
@@ -28,8 +28,8 @@
 	  	<div class="panel-body">
 			<div class="row">
 				<div class="col-md-4 form-group">
-					{{ Form::label('search_nombre_area','Nombre de la Dimensión:')}}
-					{{ Form::text('search_nombre_area',$search_nombre,array('class'=>'form-control','placeholder'=>'Nombre de la Dimensión')) }}					
+					{{ Form::label('search_nombre','Nombre de la Dimensión:')}}
+					{{ Form::text('search_nombre',$search_nombre,array('class'=>'form-control','placeholder'=>'Nombre de la Dimensión')) }}					
 				</div>
 
 				<div class="col-md-2 form-group">
@@ -38,7 +38,7 @@
 				</div>
 				<div class="col-md-2 form-group">
 					{{ Form::label('','&zwnj;&zwnj;') }}
-					<div class="btn btn-default btn-block" id="list_areas_btnLimpiar"><span class="glyphicon glyphicon-refresh"></span> Limpiar</div>
+					<div class="btn btn-default btn-block" onClick="limpiar_criterios_dimensiones()"><span class="glyphicon glyphicon-refresh"></span> Limpiar</div>
 				</div>
 			</div>
 		</div>

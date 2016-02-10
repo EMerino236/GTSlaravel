@@ -181,3 +181,7 @@ function limpiar_criterios_servicios(){
 	$('#search_area').val(0);
 	$('#search').val('');
 }
+
+function limpiar_criterios_dimensiones(){
+	$('#search_nombre').val('');
+}
