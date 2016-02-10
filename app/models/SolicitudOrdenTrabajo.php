@@ -49,4 +49,13 @@ class SolicitudOrdenTrabajo extends Eloquent{
 		$query->orderBy('idsolicitud_orden_trabajo','desc');
 	  	return $query;
 	}
+
+	public function scopeGetSotPendientes($query)
+	{
+		$query->join('users','users.id','=','solicitud_orden_trabajos.id')
+			  ->where('idestado',14)
+			  ->select('users.nombre','users.apellido_pat','users.apellido_mat','solicitud_orden_trabajos.*')
+			  ->orderBy('fecha_solicitud','asc');
+	  	return $query;
+	}
 }

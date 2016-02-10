@@ -105,4 +105,17 @@ class DocumentoInf extends Eloquent{
 	{
 		return $this->belongsTo('TipoDocumentoInfPadre','id_tipo_padre');
 	}	
+
+	public function scopeGetGuiasPendientesCargar($query)
+	{
+		$query->withTrashed()
+			  ->join('tipo_documentosinf','tipo_documentosinf.idtipo_documentosinf','=','documentosinf.idtipo_documentosinf')
+			  ->where('documentosinf.url','')
+			  ->where('documentosinf.idtipo_documentosinf',4)
+			  ->orwhere('documentosinf.idtipo_documentosinf',7)
+			  ->select('tipo_documentosinf.nombre as nombre_tipo_documento','documentosinf.*')
+			  ->orderby('documentosinf.idtipo_documentosinf')
+			  ->orderby('documentosinf.created_at');
+		return $query;
+	}
 }
