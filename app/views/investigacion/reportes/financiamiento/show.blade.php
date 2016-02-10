@@ -3,7 +3,7 @@
 
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Reporte que certifica la problemática e identificación de financiamiento</h3>
+            <h3 class="page-header">Reporte que certifica la problemática e identificación de financiamiento: {{$reporte->codigo}}</h3>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -218,7 +218,20 @@
 
 	<div class="row">
 		
+		<div class="form-group col-md-2">
+			<a class="btn-under" href="{{route('reporte_financiamiento.export',$reporte->id)}}">
+				{{ Form::button('<span class="glyphicon glyphicon-export"></span> Exportar', array('id'=>'exportar','class' => 'btn btn-success btn-block')) }}
+			</a>
+		</div>
 	<!--
+		@if($user->idrol == 1)
+			<div class="form-group col-md-2">
+				<a href="{{URL::to('/reporte_financiamiento/edit')}}/{{$reporte->id}}">
+					{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Editar', array('class' => 'btn btn-primary btn-block')) }}
+				</a>
+			</div>
+		@endif
+
 	@if($reporte->deleted_at)
 		<div class="form-group col-md-2 col-md-offset-10">
 			<a class="btn-under" href="{{route('reporte_financiamiento.restore',$reporte->id)}}">
@@ -226,12 +239,7 @@
 			</a>
 		</div>
 	@else
-		
-		<div class="form-group col-md-2">
-			<a href="{{URL::to('/reporte_financiamiento/edit')}}/{{$reporte->id}}">
-				{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Editar', array('class' => 'btn btn-primary btn-block')) }}
-			</a>
-		</div>
+
 		
 		<div class="form-group col-md-2 col-md-offset-10">
 			<a class="btn-under" href="{{route('reporte_financiamiento.destroy',$reporte->id)}}">

@@ -81,7 +81,7 @@
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('tipo')) has-error has-feedback @endif">
 						{{ Form::label('tipo','Tipo') }}
-						{{ Form::select('tipo',[0=>"Seleccione",1=>'Clínico',2=>'Hospitalario'],Input::old('tipo'),array('class'=>'form-control')) }}
+						{{ Form::select('tipo',[1=>'Clínico',2=>'Hospitalario'],Input::old('tipo'),array('class'=>'form-control')) }}
 					</div>
 				</div>
 

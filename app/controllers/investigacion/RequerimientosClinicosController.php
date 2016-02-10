@@ -157,6 +157,10 @@ class RequerimientosClinicosController extends \BaseController {
 
 						$requerimiento_clinico->save();
 
+						$requerimiento_clinico->codigo = 'P-'.date('Y').'-'.$requerimiento_clinico->id;
+
+						$requerimiento_clinico->save();
+
 					Session::flash('message', 'Se registró correctamente el requerimiento.');
 					return Redirect::to('requerimientos_clinicos/create');
 				}
@@ -187,7 +191,7 @@ class RequerimientosClinicosController extends \BaseController {
 				$data["estados"] = RequerimientoClinicoEstado::all()->lists('nombre','id');
 				$data["usuarios"] = User::all()->lists('UserFullName','id');
 				$data["requerimiento"] = RequerimientoClinico::withTrashed()->find($id);
-				$data["tipos"] = [0=>"Seleccione",1=>'Clínico',2=>'Hospitalario'];
+				$data["tipos"] = [1=>'Clínico',2=>'Hospitalario'];
 				return View::make('investigacion.requerimientos_clinicos.show',$data);
 			}else{
 				return View::make('error/error',$data);
@@ -311,5 +315,32 @@ class RequerimientosClinicosController extends \BaseController {
 		}
 	}
 
+
+	public function export($id){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 5 || $data["user"]->idrol == 6
+				 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
+				
+				$reporte = RequerimientoClinico::find($id);
+				if(!$reporte){
+					Session::flash('error', 'No se encontró el requerimiento.');
+					return Redirect::to('requerimientos_clinicos/index');
+				}
+				$data["reporte"] = $reporte;
+				$data["tipos"] = [1=>'Clínico',2=>'Hospitalario'];
+
+				$html = View::make('investigacion.requerimientos_clinicos.export',$data);
+				return PDF::load($html,"A4","portrait")->download('Requerimiento Clinico - '.$data["reporte"]->categoria->nombre.' - '.$data["reporte"]->id);
+				
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
 
 }

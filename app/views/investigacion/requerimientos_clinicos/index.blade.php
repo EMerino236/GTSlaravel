@@ -77,7 +77,7 @@
 				</tr>
 				@foreach($requerimientos_data as $requerimiento_data)
 				<tr class="@if($requerimiento_data->id_estado == 1) bg-success @elseif($requerimiento_data->id_estado == 2) bg-danger @endif">
-					<td>{{$requerimiento_data->id}}</td>
+					<td>{{$requerimiento_data->codigo}}</td>
 					<td>
 						<a href="{{URL::to('/requerimientos_clinicos/show/')}}/{{$requerimiento_data->id}}">{{$requerimiento_data->nombre}}</a>
 					</td>
@@ -92,8 +92,8 @@
 			</table>
 		</div>
 		<div class="col-md-12">
-		@if($search_nombre!=0)
-			{{ $requerimientos_data->appends(array('search_nombre' => $search_nombre))->links() }}
+		@if($search_nombre || $search_categoria!=0 || $search_servicio_clinico != 0 || $search_departamento != 0 || $search_tipo != 0 || $search_estado != 0)
+			{{ $requerimientos_data->appends(['search_nombre' => $search_nombre, 'search_categoria'=>$search_categoria,'search_servicio_clinico'=>$search_servicio_clinico,'search_departamento'=>$search_departamento, 'search_tipo'=>$search_tipo,'search_estado'=>$search_estado])->links() }}
 		@else
 			{{ $requerimientos_data->links() }}
 		@endif

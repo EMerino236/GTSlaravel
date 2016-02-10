@@ -29,8 +29,7 @@ class ReporteDesarrolloController extends \BaseController {
 				$data["departamentos"] = Area::all()->lists('nombre','idarea');
 				$data["usuarios"] = User::all()->lists('UserFullName','id');
 				
-				//WIP
-				$data["reportes_data"] = ReporteFinanciamiento::withTrashed()->paginate(10);
+				$data["reportes_data"] = ReporteDesarrollo::withTrashed()->paginate(10);
 				
 				return View::make('investigacion.reportes.desarrollo.index',$data);
 			}else{
@@ -69,10 +68,10 @@ class ReporteDesarrolloController extends \BaseController {
 				$data["usuarios"] = User::all()->lists('UserFullName','id');
 				
 				//WIP
-				$data["reportes_data"] = ReporteFinanciamiento::searchReporte($data['search_nombre'],$data['search_categoria'],$data['search_servicio_clinico'],$data['search_departamento'],$data['search_responsable']);
+				$data["reportes_data"] = ReporteDesarrollo::searchReporte($data['search_nombre'],$data['search_categoria'],$data['search_servicio_clinico'],$data['search_departamento'],$data['search_responsable'],$data["search_fecha_ini"],$data["search_fecha_fin"]);
 				$data["reportes_data"] = $data["reportes_data"]->paginate(10);
 				
-				return View::make('investigacion.reportes.financiamiento.index',$data);
+				return View::make('investigacion.reportes.desarrollo.index',$data);
 			}else{
 				return View::make('error/error',$data);
 			}
@@ -100,6 +99,7 @@ class ReporteDesarrolloController extends \BaseController {
 				$data["departamentos"] = Area::all()->lists('nombre','idarea');
 				$data["usuarios"] = User::all()->lists('UserFullName','id');
 				$data["dimensiones"] = Dimension::all();
+
 				return View::make('investigacion.reportes.desarrollo.create',$data);
 			}else{
 				return View::make('error/error',$data);
@@ -117,23 +117,6 @@ class ReporteDesarrolloController extends \BaseController {
 	 */
 	public function store()
 	{
-
-		/*
-			$nombres = Input::get('ind_nombres');
-			$bases = Input::get('ind_bases');
-			$unidades = Input::get('ind_unidades');
-			$definiciones = Input::get('ind_definiciones');
-			$verificaciones = Input::get('ind_verificaciones');
-			dd(Input::all());
-			foreach($nombres as $keyD => $dimension){
-				var_dump('DIMENSION '.$keyD);
-				foreach($dimension as $keyA => $nombre){
-					var_dump(' Nombre: '.$nombre.' Base: '.$bases[$keyD][$keyA].' Unidad: '.$unidades[$keyD][$keyA].' Definicion: '.$definiciones[$keyD][$keyA].' Verificacion: '.$verificaciones[$keyD][$keyA]);
-				}
-				
-			}
-			die();
-		*/
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
@@ -170,22 +153,50 @@ class ReporteDesarrolloController extends \BaseController {
 				if($validator->fails()){
 					return Redirect::to('reporte_desarrollo/create')->withErrors($validator)->withInput(Input::all());					
 				}else{
-						dd(Input::all());
-						$requerimiento_clinico = new RequerimientoClinico;
-						$requerimiento_clinico->nombre = Input::get('nombre');
-						$requerimiento_clinico->id_categoria = Input::get('categoria');
-						$requerimiento_clinico->id_servicio_clinico = Input::get('servicio_clinico');
-						$requerimiento_clinico->id_departamento = Input::get('departamento');
-						$requerimiento_clinico->id_responsable = Input::get('responsable');
-						$requerimiento_clinico->fecha_ini = date("Y-m-d",strtotime(Input::get('fecha_ini')));
-						$requerimiento_clinico->fecha_fin = date("Y-m-d",strtotime(Input::get('fecha_fin')));
-						$requerimiento_clinico->presupuesto = Input::get('presupuesto');
-						$requerimiento_clinico->tipo = Input::get('tipo');
-						$requerimiento_clinico->observaciones = Input::get('observaciones');
-						$requerimiento_clinico->id_estado = 3;
-						$requerimiento_clinico->id_reporte = Input::get('id_reporte');
+						//dd(Input::all());
+						$reporte_desarrollo = new ReporteDesarrollo;
+						$reporte_desarrollo->nombre = Input::get('nombre');
+						$reporte_desarrollo->id_categoria = Input::get('categoria');
+						$reporte_desarrollo->id_servicio_clinico = Input::get('servicio_clinico');
+						$reporte_desarrollo->id_departamento = Input::get('departamento');
+						$reporte_desarrollo->id_responsable = Input::get('responsable');
+						$reporte_desarrollo->fecha_ini = date("Y-m-d",strtotime(Input::get('fecha_ini')));
+						$reporte_desarrollo->fecha_fin = date("Y-m-d",strtotime(Input::get('fecha_fin')));
+						$reporte_desarrollo->descripcion = Input::get('descripcion');
+						$reporte_desarrollo->indicadores = Input::get('indicadores');
+						$reporte_desarrollo->objetivos = Input::get('objetivos');
+						$reporte_desarrollo->id_requerimiento = Input::get('id_reporte');
 
-						$requerimiento_clinico->save();
+						$reporte_desarrollo->save();
+
+						$reporte_desarrollo->codigo = 'ELB-'.date('Y').'-'.$reporte_desarrollo->id;
+
+						$reporte_desarrollo->save();
+
+						$nombres = Input::get('ind_nombres');
+						$bases = Input::get('ind_bases');
+						$unidades = Input::get('ind_unidades');
+						$definiciones = Input::get('ind_definiciones');
+						$verificaciones = Input::get('ind_verificaciones');
+
+						foreach($nombres as $keyD => $dimension){
+							//var_dump('DIMENSION '.$keyD);
+							foreach($dimension as $keyA => $nombre){
+								//var_dump(' Nombre: '.$nombre.' Base: '.$bases[$keyD][$keyA].' Unidad: '.$unidades[$keyD][$keyA].' Definicion: '.$definiciones[$keyD][$keyA].' Verificacion: '.$verificaciones[$keyD][$keyA]);
+								$reporte_desarrollo_indicador = new ReporteDesarrolloIndicador;
+
+								$reporte_desarrollo_indicador->nombre = $nombre;
+								$reporte_desarrollo_indicador->base = $bases[$keyD][$keyA];
+								$reporte_desarrollo_indicador->unidad = $unidades[$keyD][$keyA];
+								$reporte_desarrollo_indicador->definicion = $definiciones[$keyD][$keyA];
+								$reporte_desarrollo_indicador->medio = $verificaciones[$keyD][$keyA];
+								$reporte_desarrollo_indicador->reporte_id = $reporte_desarrollo->id;
+								$reporte_desarrollo_indicador->dimension_id = $keyD;
+
+								$reporte_desarrollo_indicador->save();
+							}
+							
+						}
 
 					Session::flash('message', 'Se registró correctamente el reporte.');
 					return Redirect::to('reporte_desarrollo/create');
@@ -209,7 +220,21 @@ class ReporteDesarrolloController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		//
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+
+				$data["reporte"] = ReporteDesarrollo::withTrashed()->find($id);
+
+				return View::make('investigacion.reportes.desarrollo.show',$data);
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
 	}
 
 

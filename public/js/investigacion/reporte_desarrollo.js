@@ -98,7 +98,9 @@ function validarReporteDesarrollo()
                     $('#departamento').val(response.reporte.id_departamento);
                     getServicios();
                     $('#servicio_clinico').val(response.reporte.id_servicio_clinico);
-                    console.log(response.reporte.id_servicio_clinico);
+                    //console.log(response.reporte.id_servicio_clinico);
+                    $('#fecha_ini').val(response.reporte.fecha_ini);
+                    $('#fecha_fin').val(response.reporte.fecha_fin);
                 }else{
                     limpiaCampos();
                     return BootstrapDialog.alert({

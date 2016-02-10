@@ -3,7 +3,7 @@
 
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Requerimiento Clínico y Hospitalario</h3>
+            <h3 class="page-header">Requerimiento Clínico y Hospitalario: {{$requerimiento->codigo}}</h3>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -76,10 +76,12 @@
 					{{ Form::label('estado','Estado') }}
 					{{ Form::text('estado', $estados[$requerimiento->id_estado], ['class'=>'form-control','readonly']) }}
 				</div>
+				@if($requerimiento->id_modificador)
 				<div class="form-group col-md-4">
 					{{ Form::label('modificador','Modificado por:') }}
 					{{ Form::text('modificador',$usuarios[$requerimiento->id_modificador],['class'=>'form-control','readonly'])}}				
 				</div>
+				@endif
 			</div>
 
 			<div class="row">
@@ -91,13 +93,21 @@
 		</div>
 	</div>
 
-	@if($user->id == $requerimiento->id_responsable && (!$requerimiento->id_modificador || $requerimiento->id_estado == 3))
 	<div class="row">
+		@if($user->id == $requerimiento->id_responsable && (!$requerimiento->id_modificador || $requerimiento->id_estado == 3))
+		
+			<div class="form-group col-md-2">
+				<a href="{{URL::to('/requerimientos_clinicos/edit')}}/{{$requerimiento->id}}">
+					{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Editar', array('class' => 'btn btn-primary btn-block')) }}
+				</a>
+			</div>
+		
+		@endif
+
 		<div class="form-group col-md-2">
-			<a href="{{URL::to('/requerimientos_clinicos/edit')}}/{{$requerimiento->id}}">
-				{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Editar', array('class' => 'btn btn-primary btn-block')) }}
+			<a class="btn-under" href="{{route('requerimientos_clinicos.export',$requerimiento->id)}}">
+				{{ Form::button('<span class="glyphicon glyphicon-export"></span> Exportar', array('id'=>'exportar','class' => 'btn btn-success btn-block')) }}
 			</a>
 		</div>
 	</div>
-	@endif
 @stop

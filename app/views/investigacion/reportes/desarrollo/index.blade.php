@@ -91,22 +91,22 @@
 				</tr>
 				@foreach($reportes_data as $reporte_data)
 				<tr class="@if($reporte_data->deleted_at) bg-danger @endif">
-					<td>{{$reporte_data->id}}</td>
+					<td>{{$reporte_data->codigo}}</td>
 					<td>
 						<a href="{{URL::to('/reporte_desarrollo/show/')}}/{{$reporte_data->id}}">{{$reporte_data->nombre}}</a>
 					</td>
-					<td>{{$reporte_data->id_categoria}}</td>
+					<td>{{$reporte_data->categoria->nombre}}</td>
 					<td>{{$reporte_data->servicio->nombre}}</td>
 					<td>{{$reporte_data->departamento->nombre}}</td>
 					<td>{{$reporte_data->responsable->nombre}} {{$reporte_data->responsable->apellido_pat}} {{$reporte_data->responsable->apellido_mat}}</td>
-					<td>WIP</td>
+					<td>{{$reporte_data->fecha_ini}}</td>
 				</tr>
 				@endforeach
 			</table>
 		</div>
 		<div class="col-md-12">
-		@if($search_nombre!=0)
-			{{ $reportes_data->appends(array('search_nombre' => $search_nombre))->links() }}
+		@if($search_nombre || $search_categoria!=0 || $search_servicio_clinico != 0 || $search_departamento != 0 || $search_responsable != 0 || $search_fecha_ini || $search_fecha_ini)
+			{{ $reportes_data->appends(['search_nombre' => $search_nombre,'search_categoria'=>$search_categoria,'search_servicio_clinico'=>$search_servicio_clinico,'search_departamento'=>$search_departamento,'search_responsable'=>$search_responsable,'search_fecha_ini'=>$search_fecha_ini,'search_fecha_ini'=>$search_fecha_ini])->links() }}
 		@else
 			{{ $reportes_data->links() }}
 		@endif

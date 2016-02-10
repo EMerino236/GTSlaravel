@@ -154,6 +154,10 @@ class ReporteFinanciamientoController extends \BaseController {
 
 						$reporte_financiamiento->save();
 
+						$reporte_financiamiento->codigo = 'RPIF-'.date('Y').'-'.$reporte_financiamiento->id;
+
+						$reporte_financiamiento->save();
+
 						foreach (Input::get('crono_descripciones') as $key => $crono_descripcion) {
 							$cronograma = new ReporteFinanciamientoCronograma;
 							$cronograma->descripcion = $crono_descripcion;
@@ -633,6 +637,32 @@ class ReporteFinanciamientoController extends \BaseController {
 			return Response::json(array( 'success' => true, 'servicios' => $servicios ),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
+	public function export($id){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 5 || $data["user"]->idrol == 6
+				 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
+				
+				$reporte = ReporteFinanciamiento::find($id);
+				if(!$reporte){
+					Session::flash('error', 'No se encontró el reporte.');
+					return Redirect::to('reporte_financiamiento/index');
+				}
+				$data["reporte"] = $reporte;
+
+				$html = View::make('investigacion.reportes.financiamiento.export',$data);
+				return PDF::load($html,"A4","portrait")->download('Reporte Financiamiento - '.$data["reporte"]->categoria->nombre.' - '.$data["reporte"]->id);
+				
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
 		}
 	}
 
