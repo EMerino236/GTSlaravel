@@ -662,8 +662,11 @@ Route::group(array('prefix'=>'reporte_desarrollo','before'=>'auth'),function(){
 	Route::get('/show/{id}',['uses'=>'ReporteDesarrolloController@show','as'=>'reporte_desarrollo.show']);
 	Route::get('/create',['uses'=>'ReporteDesarrolloController@create','as'=>'reporte_desarrollo.create']);
 	Route::post('/create',['uses'=>'ReporteDesarrolloController@store','as'=>'reporte_desarrollo.store']);
-	//Route::get('/edit/{id}',['uses'=>'ReporteDesarrolloController@edit','as'=>'reporte_desarrollo.edit']);
-	//Route::post('/edit/{id}',['uses'=>'ReporteDesarrolloController@update','as'=>'reporte_desarrollo.update']);
+	Route::get('/edit/{id}',['uses'=>'ReporteDesarrolloController@edit','as'=>'reporte_desarrollo.edit']);
+	Route::post('/edit/{id}',['uses'=>'ReporteDesarrolloController@update','as'=>'reporte_desarrollo.update']);
+	Route::get('/indicador/edit/{id}',['uses'=>'ReporteDesarrolloController@editIndicador','as'=>'reporte_desarrollo.indicador.edit']);
+	Route::post('/indicador/edit/{id}',['uses'=>'ReporteDesarrolloController@updateIndicador','as'=>'reporte_desarrollo.indicador.update']);
+	Route::get('/indicador/destroy/{id}',['uses'=>'ReporteDesarrolloController@destroyIndicador','as'=>'reporte_desarrollo.indicador.destroy']);
 	//Route::get('/destroy/{id}',['uses'=>'ReporteDesarrolloController@destroy','as'=>'reporte_desarrollo.destroy']);
 	//Route::get('/restore/{id}',['uses'=>'ReporteDesarrolloController@restore','as'=>'reporte_desarrollo.restore']);
 
@@ -698,6 +701,19 @@ Route::group(array('prefix'=>'dimensiones','before'=>'auth'),function(){
 	Route::post('/edit/{id}',['uses'=>'DimensionesController@update','as'=>'dimensiones.update']);
 	Route::get('/restore/{id}',['uses'=>'DimensionesController@restore','as'=>'dimensiones.restore']);
 	Route::get('/destroy/{id}',['uses'=>'DimensionesController@destroy','as'=>'dimensiones.destroy']);
+});
+
+/* Diseño de servicio clinico */
+Route::group(array('prefix'=>'servicios_clinicos','before'=>'auth'),function(){
+	Route::get('/index',['uses'=>'ServiciosClinicosController@index','as'=>'servicios_clinicos.index']);
+	Route::get('/search',['uses'=>'ServiciosClinicosController@search','as'=>'servicios_clinicos.search']);
+	Route::get('/create',['uses'=>'ServiciosClinicosController@create','as'=>'servicios_clinicos.create']);
+	Route::post('/create',['uses'=>'ServiciosClinicosController@store','as'=>'servicios_clinicos.store']);
+	Route::get('/edit/{id}',['uses'=>'ServiciosClinicosController@edit','as'=>'servicios_clinicos.edit']);
+	Route::post('/edit/{id}',['uses'=>'ServiciosClinicosController@update','as'=>'servicios_clinicos.update']);
+	Route::post('/download/{id}',['uses'=>'ServiciosClinicosController@download','as'=>'servicios_clinicos.download']);
+	Route::post('/restore/{id}',['uses'=>'ServiciosClinicosController@restore','as'=>'servicios_clinicos.restore']);
+	Route::post('/destroy/{id}',['uses'=>'ServiciosClinicosController@destroy','as'=>'servicios_clinicos.destroy']);
 });
 
 /* Adquisicion */

@@ -40,11 +40,11 @@
                 </ul>
             </li>
 
-            <!--
+            
             <li>
-                {{ HTML::link('#','Diseño de servicio clinico') }}
+                {{ HTML::linkRoute('servicios_clinicos.index','Diseño de servicio clinico') }}
             </li>
-            -->
+            
 
             <li>
                 <a href="#">Identificación de problemáticas, desarrollo de líneas de investigación e identificación de oportunidades de financiamiento <span class="fa arrow"></span></a>

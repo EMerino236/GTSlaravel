@@ -3,7 +3,7 @@
 
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Estudio de linea base</h3>
+            <h3 class="page-header">Estudio de linea base: {{$reporte->codigo}}</h3>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -36,47 +36,36 @@
 		<div class="alert alert-danger">{{ Session::get('error') }}</div>
 	@endif
 
-	{{ Form::open(array('route'=>'reporte_desarrollo.store', 'role'=>'form')) }}
+	{{ Form::open(array('route'=>['reporte_desarrollo.update',$reporte->id], 'role'=>'form')) }}
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">Datos generales del proyecto</h3>
 			</div>
 			<div class="panel-body">
 				<div class="row">
-					<div class="form-group col-md-4">
-						{{ Form::label('id_reporte','Código de proyecto') }}
-						{{ Form::number('id_reporte', null, ['id'=>'id_reporte','class'=>'form-control']) }}
-					</div>
-					<div class="form-group col-md-2">
-						{{ Form::label('','&zwnj;&zwnj;') }}
-						{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Validar', array('id'=>'submit_create', 'class' => 'btn btn-primary btn-block','onClick'=>'validarReporteDesarrollo()')) }}
-					</div>
-				</div>
-
-				<div class="row">
 					<div class="form-group col-md-4 @if($errors->first('nombre')) has-error has-feedback @endif">
 						{{ Form::label('nombre','Nombre') }}
-						{{ Form::text('nombre', Input::old('nombre'), ['class'=>'form-control']) }}
+						{{ Form::text('nombre', $reporte->nombre, ['class'=>'form-control']) }}
 					</div>
 
 					<div class="form-group col-md-4 @if($errors->first('categoria')) has-error has-feedback @endif">
 						{{ Form::label('categoria','Categoría') }}
-						{{ Form::select('categoria', $categorias, Input::old('categoria'), ['class'=>'form-control']) }}
+						{{ Form::select('categoria', $categorias, $reporte->id_categoria, ['class'=>'form-control']) }}
 					</div>
 
 					<div class="form-group col-md-4 @if($errors->first('departamento')) has-error has-feedback @endif">
 						{{ Form::label('departamento','Departamento') }}
-						{{ Form::select('departamento', $departamentos, Input::old('departamento'), ['id'=>'departamento','class'=>'form-control','onChange'=>'getServicios(this)']) }}
+						{{ Form::select('departamento', $departamentos, $reporte->id_departamento, ['id'=>'departamento','class'=>'form-control','onChange'=>'getServicios(this)']) }}
 					</div>
 
 					<div class="form-group col-md-4 @if($errors->first('servicio_clinico')) has-error has-feedback @endif">
 						{{ Form::label('servicio_clinico','Servicio Clínico') }}
-						{{ Form::select('servicio_clinico', $servicios, Input::old('servicio_clinico'), ['id'=>'servicio_clinico','class'=>'form-control']) }}
+						{{ Form::select('servicio_clinico', $servicios, $reporte->id_servicio_clinico, ['id'=>'servicio_clinico','class'=>'form-control']) }}
 					</div>
 
 					<div class="form-group col-md-4 @if($errors->first('responsable')) has-error has-feedback @endif">
 						{{ Form::label('responsable','Responsable de elaboración de linea base') }}
-						{{ Form::select('responsable',$usuarios, Input::old('responsable'),['class'=>'form-control'])}}
+						{{ Form::select('responsable',$usuarios, $reporte->id_responsable,['class'=>'form-control'])}}
 					</div>
 				</div>
 
@@ -84,7 +73,7 @@
 					<div class="form-group col-md-4 @if($errors->first('fecha_ini')) has-error has-feedback @endif">
 						{{ Form::label('fecha_ini','Fecha Inicio') }}
 						<div id="datetimepicker_desarrollo_ini" class="form-group input-group date">
-							{{ Form::text('fecha_ini',Input::old('fecha_ini'),array('class'=>'form-control', 'readonly'=>'')) }}
+							{{ Form::text('fecha_ini',$reporte->fecha_ini,array('class'=>'form-control', 'readonly'=>'')) }}
 							<span class="input-group-addon">
 		                        <span class="glyphicon glyphicon-calendar"></span>
 		                    </span>
@@ -93,7 +82,7 @@
 					<div class="form-group col-md-4 @if($errors->first('fecha_fin')) has-error has-feedback @endif">
 						{{ Form::label('fecha_fin','Fecha Fin') }}
 						<div id="datetimepicker_desarrollo_fin" class="form-group input-group date">
-							{{ Form::text('fecha_fin',Input::old('fecha_fin'),array('class'=>'form-control', 'readonly'=>'')) }}
+							{{ Form::text('fecha_fin',$reporte->fecha_fin,array('class'=>'form-control', 'readonly'=>'')) }}
 							<span class="input-group-addon">
 		                        <span class="glyphicon glyphicon-calendar"></span>
 		                    </span>
@@ -109,26 +98,25 @@
 				<div class="row">
 					<div class="form-group col-md-12 @if($errors->first('descripcion')) has-error has-feedback @endif">
 						{{ Form::label('descripcion','Descripción de estudio de linea base') }}
-						{{ Form::textarea('descripcion', Input::old('descripcion'), ['class'=>'form-control','rows'=>5]) }}
+						{{ Form::textarea('descripcion', $reporte->descripcion, ['class'=>'form-control','rows'=>5]) }}
 					</div>
 				</div>
 
 				<div class="row">
 					<div class="form-group col-md-12 @if($errors->first('indicadores')) has-error has-feedback @endif">
 						{{ Form::label('indicadores','Indicadores de efecto e impacto') }}
-						{{ Form::textarea('indicadores', Input::old('indicadores'), ['class'=>'form-control','rows'=>5]) }}
+						{{ Form::textarea('indicadores', $reporte->indicadores, ['class'=>'form-control','rows'=>5]) }}
 					</div>
 				</div>
 
 				<div class="row">
 					<div class="form-group col-md-12 @if($errors->first('objetivos')) has-error has-feedback @endif">
 						{{ Form::label('objetivos','Objetivos del proyecto') }}
-						{{ Form::textarea('objetivos', Input::old('objetivos'), ['class'=>'form-control','rows'=>5]) }}
+						{{ Form::textarea('objetivos', $reporte->objetivos, ['class'=>'form-control','rows'=>5]) }}
 					</div>
 				</div>
 			</div>			
 
-			
 			<div class="panel-heading">
 				<h3 class="panel-title">Indicadores de linea base relacionados directamente a las actividades del proyecto</h3>
 			</div>
@@ -185,6 +173,21 @@
 										<th></th>
 									</tr>
 									<tbody class="ind_table{{$dimension->id}}">
+										@if(isset($indicadores[$dimension->id]))
+											@foreach($indicadores[$dimension->id] as $indicador)
+												<tr>
+													<td>{{$indicador->nombre}}</td>
+													<td>{{$indicador->base}}</td>
+													<td>{{$indicador->unidad}}</td>
+													<td>{{$indicador->definicion}}</td>
+													<td>{{$indicador->medio}}</td>
+													<td>
+														<a class="btn btn-default delete-detail" href="{{route('reporte_desarrollo.indicador.edit',$indicador->id)}}">Editar</a>
+													</td>
+												</tr>
+											@endforeach
+										@endif
+
 										@if(isset(Input::old('ind_nombres')[$dimension->id]))
 											@foreach(Input::old('ind_nombres')[$dimension->id] as $keyD => $dato)
 												<tr>
@@ -211,9 +214,13 @@
 			<div class="form-group col-md-2">
 				{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit_create', 'type'=>'submit','class' => 'btn btn-primary btn-block')) }}
 			</div>
-		</div>
+		
 
 	{{ Form::close() }}
-
-
+			<div class="form-group col-md-2">
+				<a class="btn-under" href="{{route('reporte_desarrollo.show',$reporte->id)}}">
+					{{ Form::button('<span class="glyphicon glyphicon-repeat"></span> Regresar', array('class' => 'btn btn-primary btn-block')) }}
+				</a>
+			</div>
+		</div>
 @stop

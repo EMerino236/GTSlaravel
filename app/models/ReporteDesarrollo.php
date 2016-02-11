@@ -30,7 +30,7 @@ class ReporteDesarrollo extends Eloquent{
 
 	public function indicador()
 	{
-		return $this->hasMany('ReporteDesarrolloIndicador','reporte_id');
+		return $this->hasMany('ReporteDesarrolloIndicador','reporte_id')->orderBy('dimension_id','asc');
 	}
 
 	public function scopeSearchReporte($query,$search_nombre,$search_categoria,$search_servicio_clinico,$search_departamento,$search_responsable,$search_fecha_ini,$search_fecha_fin)

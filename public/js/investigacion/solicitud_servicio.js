@@ -59,3 +59,12 @@ function limpiar_criterios_ins_serv()
 	$('#search_marca').val(0);
 	
 }
+
+function limpiar_criterios_sol_serv()
+{
+	$('#search_codigo').val('');
+	$('#search_servicio').val('');
+	$('#search_usuario').val('');
+	$('#search_nombre').val('');
+	
+}

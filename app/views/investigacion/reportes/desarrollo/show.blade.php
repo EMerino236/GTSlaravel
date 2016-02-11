@@ -116,5 +116,12 @@
 			</div>
 		</div>	
 	</div>
-
+	
+	<div class="row">
+		<div class="form-group col-md-2">
+			<a href="{{route('reporte_desarrollo.edit',$reporte->id)}}">
+				{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Editar', array('class' => 'btn btn-primary btn-block')) }}
+			</a>
+		</div>
+	</div>
 @stop
