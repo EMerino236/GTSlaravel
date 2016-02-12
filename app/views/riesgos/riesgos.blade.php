@@ -1,4 +1,4 @@
-@extends('templates/bienesTemplate')
+@extends('templates/riesgosTemplate')
 @section('content')
 	<div class="row">
         <div class="col-lg-12">

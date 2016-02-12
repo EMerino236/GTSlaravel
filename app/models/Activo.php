@@ -207,8 +207,12 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 			  ->join('proveedores','proveedores.idproveedor','=','activos.idproveedor')
 			  ->join('familia_activos','familia_activos.idfamilia_activo','=','modelo_activos.idfamilia_activo')
 			  ->join('servicios','servicios.idservicio','=','activos.idservicio')
+			  ->join('ubicacion_fisicas','ubicacion_fisicas.idubicacion_fisica','=','activos.idubicacion_fisica')
+			  ->join('grupos','grupos.idgrupo','=','activos.idgrupo')
+			  ->join('areas','areas.idarea','=','servicios.idarea')
+			  ->join('marcas','marcas.idmarca','=','familia_activos.idmarca')
 			  ->where('activos.codigo_patrimonial','=',$search_criteria)
-			  ->select('servicios.nombre as nombre_servicio','modelo_activos.nombre as nombre_modelo','familia_activos.nombre_equipo','proveedores.razon_social as razon_social','activos.*');
+			  ->select('servicios.nombre as nombre_servicio','grupos.nombre as nombre_grupo','marcas.nombre as nombre_marca','areas.nombre as nombre_area','ubicacion_fisicas.nombre as nombre_ubicacion_fisica','modelo_activos.nombre as nombre_modelo','familia_activos.nombre_equipo','proveedores.razon_social as razon_social','activos.*');
 		return $query;	
 	}
 
@@ -262,5 +266,47 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 		$query->where('activos.idmodelo_equipo','=',$idmodelo);
 		return $query;
 	}
+
+	public function scopeSearchActivosCalibracion($query,$search_codigo_patrimonial,$search_nombre_equipo,$search_area,$search_servicio,$search_grupo)
+	{
+		$query->join('ubicacion_fisicas','ubicacion_fisicas.idubicacion_fisica','=','activos.idubicacion_fisica')
+			  ->join('servicios','servicios.idservicio','=','activos.idservicio')
+			  ->join('areas','areas.idarea','=','servicios.idarea')
+			  ->join('grupos','grupos.idgrupo','=','activos.idgrupo')
+			  ->join('modelo_activos','modelo_activos.idmodelo_equipo','=','activos.idmodelo_equipo')
+			  ->join('familia_activos','familia_activos.idfamilia_activo','=','modelo_activos.idfamilia_activo')
+			  ->join('marcas','marcas.idmarca','=','familia_activos.idmarca')
+			  ->join('proveedores','proveedores.idproveedor','=','activos.idproveedor');
+			  
+			  if($search_grupo != '')
+			  {
+			  	$query->where('activos.idgrupo','=',$search_grupo);
+			  }
+
+			  if($search_servicio != '')
+			  {
+			  	$query->where('activos.idservicio','=',$search_servicio);
+			  }
+
+			  if($search_area != '')
+			  {
+			  	$query->where('servicios.idarea','=',$search_area);
+			  }
+
+			  if($search_nombre_equipo != "")
+			  {
+			  	$query->where('familia_activos.nombre_equipo','LIKE',"%$search_nombre_equipo%");
+			  }
+
+			  if($search_codigo_patrimonial != "")
+			  {
+			  	$query->where('activos.codigo_patrimonial','LIKE',"%$search_codigo_patrimonial%");
+			  }
+
+			  $query->select('servicios.nombre as nombre_servicio','ubicacion_fisicas.nombre as nombre_ubicacion_fisica','grupos.nombre as nombre_grupo','familia_activos.nombre_equipo as nombre_equipo',
+			  		   'familia_activos.nombre_siga as nombre_siga','modelo_activos.nombre as modelo','marcas.nombre as nombre_marca','proveedores.razon_social as nombre_proveedor','activos.*');
+		return $query;
+	}
+
 
 }

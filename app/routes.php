@@ -747,6 +747,43 @@ Route::group(array('prefix'=>'riesgos', 'before'=>'auth'),function(){
 	Route::get('/','RiesgosController@home');
 });
 
+Route::group(array('prefix'=>'documentos_riesgos','before'=>'auth'),function(){
+	Route::get('/list_documentos','DocumentosRiesgosController@list_documentos');
+	Route::get('/edit_documento/{id}','DocumentosRiesgosController@render_edit_documento');
+	Route::post('/submit_edit_documento','DocumentosRiesgosController@submit_edit_documento');
+	Route::get('/create_documento','DocumentosRiesgosController@render_create_documento');
+	Route::post('/submit_create_documento','DocumentosRiesgosController@submit_create_documento');
+	Route::get('/search_documento','DocumentosRiesgosController@search_documento');
+	Route::post('/download_documento','DocumentosRiesgosController@download_documento');
+	Route::post('/submit_disable_documento','DocumentosRiesgosController@submit_disable_documento');
+	Route::post('/submit_enable_documento','DocumentosRiesgosController@submit_enable_documento');
+	Route::get('/view_documento/{id}','DocumentosRiesgosController@render_view_documento');	
+});
+
+Route::group(array('prefix'=>'eventos_adversos','before'=>'auth'),function(){
+	Route::get('/list_eventos_adversos','EventosAdversosController@list_eventos_adversos');		
+	Route::get('/create_evento_adverso','EventosAdversosController@render_create_evento_adverso');
+	Route::post('/show_subtipospadre','EventosAdversosController@show_subtipospadres');
+	Route::post('/show_subtiposhijo','EventosAdversosController@show_subtiposhijos');
+	Route::post('/show_tiposServicios','EventosAdversosController@show_tiposServicios');
+	Route::post('/show_etapasServicios','EventosAdversosController@show_etapasServicios');
+	Route::post('/show_subtiposnieto','EventosAdversosController@show_subtiposnietos');
+	Route::post('/fill_activo_info','EventosAdversosController@fill_activo_info');
+	Route::post('/submit_create_evento_adverso','EventosAdversosController@submit_create_evento_adverso');
+	Route::get('/search_eventos_adversos','EventosAdversosController@search_evento_adverso');
+	Route::get('/edit_evento_adverso/{id}','EventosAdversosController@render_edit_evento_adverso');
+	Route::post('/submit_edit_evento_adverso','EventosAdversosController@submit_edit_evento_adverso');
+	Route::get('/view_evento_adverso/{id}','EventosAdversosController@render_view_evento_adverso');
+	Route::post('/export_pdf','EventosAdversosController@export_pdf');
+});
+
+Route::group(array('prefix'=>'reportes_calibracion','before'=>'auth'),function(){
+	Route::get('/list_reportes_calibracion','ReportesCalibracionController@list_reportes_calibracion');	
+	Route::get('/create_reporte','ReportesCalibracionController@render_create_reporte');	
+	Route::post('/search_activos','ReportesCalibracionController@search_activos');
+	
+});
+
 /* RRHH */
 Route::group(array('prefix'=>'rrhh', 'before'=>'auth'),function(){
 	Route::get('/','RRHHController@home');

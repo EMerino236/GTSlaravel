@@ -28,7 +28,7 @@
 		<a href="{{ URL::to('bienes') }}"><i class="fa fa-wrench fa-fw"></i> Bienes</a>
     </li>
 	<li>
-		<a href="{{ URL::to('#') }}"><i class="fa fa-bomb fa-fw"></i> Riesgos</a>
+		<a href="{{ URL::to('riesgos') }}"><i class="fa fa-bomb fa-fw"></i> Riesgos</a>
     </li>
 	<li>
 		<a href="{{ URL::to('investigacion') }}"><i class="fa fa-graduation-cap fa-fw"></i> Investigación</a>
