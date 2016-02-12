@@ -59,11 +59,11 @@
                 </ul>
             </li>
 
-            <!--
             <li>
-                {{ HTML::link('#','Formulación y planificación de proyectos de investigación') }}
+                {{ HTML::linkRoute('proyecto.index','Formulación y planificación de proyectos de investigación') }}
             </li>
             
+            <!--
             <li>
                 <a href="#">Ejecución, control, cierre  y modificaciones de proyectos de investigación de TS y propiedad intelectual<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">

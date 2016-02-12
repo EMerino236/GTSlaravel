@@ -664,12 +664,13 @@ Route::group(array('prefix'=>'reporte_desarrollo','before'=>'auth'),function(){
 	Route::post('/create',['uses'=>'ReporteDesarrolloController@store','as'=>'reporte_desarrollo.store']);
 	Route::get('/edit/{id}',['uses'=>'ReporteDesarrolloController@edit','as'=>'reporte_desarrollo.edit']);
 	Route::post('/edit/{id}',['uses'=>'ReporteDesarrolloController@update','as'=>'reporte_desarrollo.update']);
+	//Route::get('/destroy/{id}',['uses'=>'ReporteDesarrolloController@destroy','as'=>'reporte_desarrollo.destroy']);
+	//Route::get('/restore/{id}',['uses'=>'ReporteDesarrolloController@restore','as'=>'reporte_desarrollo.restore']);
+	
 	Route::get('/indicador/edit/{id}',['uses'=>'ReporteDesarrolloController@editIndicador','as'=>'reporte_desarrollo.indicador.edit']);
 	Route::post('/indicador/edit/{id}',['uses'=>'ReporteDesarrolloController@updateIndicador','as'=>'reporte_desarrollo.indicador.update']);
 	Route::get('/indicador/destroy/{id}',['uses'=>'ReporteDesarrolloController@destroyIndicador','as'=>'reporte_desarrollo.indicador.destroy']);
-	//Route::get('/destroy/{id}',['uses'=>'ReporteDesarrolloController@destroy','as'=>'reporte_desarrollo.destroy']);
-	//Route::get('/restore/{id}',['uses'=>'ReporteDesarrolloController@restore','as'=>'reporte_desarrollo.restore']);
-
+	
 	Route::post('/validarReporteAjax',['uses'=>'ReporteDesarrolloController@validarReporteAjax','as'=>'reporte_desarrollo.validarReporte.ajax']);
 	Route::post('/getTodoServiciosAjax',['uses'=>'ReporteDesarrolloController@getTodoServiciosAjax','as'=>'reporte_desarrollo.getTodoServicios.ajax']);
 });
@@ -694,7 +695,6 @@ Route::group(array('prefix'=>'requerimientos_clinicos','before'=>'auth'),functio
 Route::group(array('prefix'=>'dimensiones','before'=>'auth'),function(){
 	Route::get('/index',['uses'=>'DimensionesController@index','as'=>'dimensiones.index']);
 	Route::get('/search',['uses'=>'DimensionesController@search','as'=>'dimensiones.search']);
-	//Route::get('/show/{id}',['uses'=>'DimensionesController@show','as'=>'dimensiones.show']);
 	Route::get('/create',['uses'=>'DimensionesController@create','as'=>'dimensiones.create']);
 	Route::post('/create',['uses'=>'DimensionesController@store','as'=>'dimensiones.store']);
 	Route::get('/edit/{id}',['uses'=>'DimensionesController@edit','as'=>'dimensiones.edit']);
@@ -714,6 +714,27 @@ Route::group(array('prefix'=>'servicios_clinicos','before'=>'auth'),function(){
 	Route::post('/download/{id}',['uses'=>'ServiciosClinicosController@download','as'=>'servicios_clinicos.download']);
 	Route::post('/restore/{id}',['uses'=>'ServiciosClinicosController@restore','as'=>'servicios_clinicos.restore']);
 	Route::post('/destroy/{id}',['uses'=>'ServiciosClinicosController@destroy','as'=>'servicios_clinicos.destroy']);
+});
+
+/* Formulacion de proyecto */
+Route::group(array('prefix'=>'proyecto','before'=>'auth'),function(){
+	Route::get('/index',['uses'=>'ProyectosController@index','as'=>'proyecto.index']);
+	Route::get('/search',['uses'=>'ProyectosController@search','as'=>'proyecto.search']);
+	Route::get('/show/{id}',['uses'=>'ProyectosController@show','as'=>'proyecto.show']);
+	Route::get('/create',['uses'=>'ProyectosController@create','as'=>'proyecto.create']);
+	Route::post('/create',['uses'=>'ProyectosController@store','as'=>'proyecto.store']);
+	Route::get('/edit/{id}',['uses'=>'ProyectosController@edit','as'=>'proyecto.edit']);
+	Route::post('/edit/{id}',['uses'=>'ProyectosController@update','as'=>'proyecto.update']);
+	Route::get('/export/{id}',['uses'=>'ProyectosController@export','as'=>'proyecto.export']);
+	//Route::get('/destroy/{id}',['uses'=>'ProyectosController@destroy','as'=>'proyecto.destroy']);
+	//Route::get('/restore/{id}',['uses'=>'ProyectosController@restore','as'=>'proyecto.restore']);
+	
+	Route::get('/indicador/edit/{id}',['uses'=>'ProyectosController@editIndicador','as'=>'proyecto.indicador.edit']);
+	Route::post('/indicador/edit/{id}',['uses'=>'ProyectosController@updateIndicador','as'=>'proyecto.indicador.update']);
+	Route::get('/indicador/destroy/{id}',['uses'=>'ProyectosController@destroyIndicador','as'=>'proyecto.indicador.destroy']);
+	
+	Route::post('/validarProyectoAjax',['uses'=>'ProyectosController@validarProyectoAjax','as'=>'proyecto.validarProyecto.ajax']);
+	Route::post('/getTodoServiciosAjax',['uses'=>'ProyectosController@getTodoServiciosAjax','as'=>'proyecto.getTodoServicios.ajax']);
 });
 
 /* Adquisicion */

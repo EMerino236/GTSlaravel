@@ -9,7 +9,6 @@ class ReporteDesarrolloController extends \BaseController {
 	 */
 	public function index()
 	{
-		//die('index');
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');

@@ -102,5 +102,15 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	{
 	    return $this->attributes['nombre'] .' '. $this->attributes['apellido_pat'] . ' ' . $this->attributes['apellido_mat'];
 	}
+
+	public function rol()
+	{
+		return $this->belongsTo('Rol', 'idrol','idrol');
+	}
+
+	public function area()
+	{
+		return $this->belongsTo('Area', 'idarea','idarea');
+	}
 	
 }

@@ -2,10 +2,10 @@
 
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
-class ProyectoCategoria extends Eloquent{
+class ProyectoPresupuesto extends Eloquent{
 	use SoftDeletingTrait;	
 	protected $softDelete = true;
 
-	protected $table = 'proyecto_categorias';
+	protected $table = 'proyectos_presupuestos';
 
 }
