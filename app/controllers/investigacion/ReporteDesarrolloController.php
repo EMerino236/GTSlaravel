@@ -130,6 +130,8 @@ class ReporteDesarrolloController extends \BaseController {
 							'departamento' => 'required',
 							'responsable' => 'required',
 							'servicio_clinico' => 'required',
+							'fecha_ini' => 'required|date',
+							'fecha_fin'	=> 'required|date',
 							'descripcion' => 'required',
 							'indicadores' => 'required',
 							'objetivos' => 'required',

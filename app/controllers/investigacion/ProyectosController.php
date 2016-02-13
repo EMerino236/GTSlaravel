@@ -396,12 +396,14 @@ class ProyectosController extends \BaseController {
 			// Check if the current user is the "System Admin"
 			$id_reporte = Input::get('id_reporte');
 			$req = RequerimientoClinico::find($id_reporte);
+			
 
 			if($id_reporte!='' && $req){				
 				
 				$linea = ReporteDesarrollo::where('id_requerimiento',$req->id)->first();
-				
-				if($linea && $req->estado->nombre == 'Aprobado'){
+				$proy = Proyecto::where('id_requerimiento',$req->id)->first();
+				// Requerimiento Estado aprobado, que exista linea de investigacion y que no se haya hecho un proyecto antes
+				if($linea && $req->estado->nombre == 'Aprobado' && !$proy){
 					$reporte = $req;
 				}elseif(!$linea){
 					return Response::json(array( 'success' => false, 'mensaje' => 'No se encuentra una linea de investigación' ),200);
@@ -409,11 +411,13 @@ class ProyectosController extends \BaseController {
 					return Response::json(array( 'success' => false, 'mensaje' => 'El requerimiento se encuentra rechazado' ),200);
 				}elseif($req->estado->nombre == 'Pendiente'){
 					return Response::json(array( 'success' => false, 'mensaje' => 'El requerimiento se encuentra pendiente' ),200);
+				}elseif(!$proy){
+					return Response::json(array( 'success' => false, 'mensaje' => 'Ya existe un proyecto para este requerimiento clínico' ),200);
 				}
 			}else{
 				$reporte = [];
 			}
-			// Requerimiento Estado aprobado y que exista linea de investigacion
+			
 			
 			return Response::json(array( 'success' => true, 'reporte' => $reporte),200);
 		}else{
