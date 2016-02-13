@@ -1,7 +1,7 @@
-<?php
+	<?php
 
-class DashboardController extends BaseController
-{
+	class DashboardController extends BaseController
+	{
 	public function home()
 	{
 		$data["inside_url"] = Config::get('app.inside_url');
