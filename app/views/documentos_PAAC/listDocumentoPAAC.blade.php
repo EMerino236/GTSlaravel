@@ -2,7 +2,7 @@
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Documentos para PAAC</h3>            
+            <h3 class="page-header">Presupuesto de planes</h3>            
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -62,7 +62,7 @@
 		<tr class="info">
 			<th>Nombre</th>
 			<th>Tipo</th>
-			<th>Anho</th>
+			<th>Año</th>
 		</tr>
 		@foreach($documentos_paac_data as $documento_paac_data)
 		<tr class="@if($documento_paac_data->deleted_at) bg-danger @endif">
