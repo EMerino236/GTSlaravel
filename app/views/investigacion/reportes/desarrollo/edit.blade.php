@@ -73,7 +73,7 @@
 					<div class="form-group col-md-4 @if($errors->first('fecha_ini')) has-error has-feedback @endif">
 						{{ Form::label('fecha_ini','Fecha Inicio') }}
 						<div id="datetimepicker_desarrollo_ini" class="form-group input-group date">
-							{{ Form::text('fecha_ini',$reporte->fecha_ini,array('class'=>'form-control', 'readonly'=>'')) }}
+							{{ Form::text('fecha_ini',date('dd-mm-YYYY',strtotime($reporte->fecha_ini)),array('class'=>'form-control', 'readonly'=>'')) }}
 							<span class="input-group-addon">
 		                        <span class="glyphicon glyphicon-calendar"></span>
 		                    </span>
@@ -82,7 +82,7 @@
 					<div class="form-group col-md-4 @if($errors->first('fecha_fin')) has-error has-feedback @endif">
 						{{ Form::label('fecha_fin','Fecha Fin') }}
 						<div id="datetimepicker_desarrollo_fin" class="form-group input-group date">
-							{{ Form::text('fecha_fin',$reporte->fecha_fin,array('class'=>'form-control', 'readonly'=>'')) }}
+							{{ Form::text('fecha_fin',date('dd-mm-YYYY',strtotime($reporte->fecha_fin)),array('class'=>'form-control', 'readonly'=>'')) }}
 							<span class="input-group-addon">
 		                        <span class="glyphicon glyphicon-calendar"></span>
 		                    </span>

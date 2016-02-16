@@ -10,6 +10,7 @@
 
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
+			<p><strong>{{ $errors->first('id_reporte') }}</strong></p>
 			<p><strong>{{ $errors->first('nombre') }}</strong></p>
 			<p><strong>{{ $errors->first('categoria') }}</strong></p>
 			<p><strong>{{ $errors->first('servicio_clinico') }}</strong></p>

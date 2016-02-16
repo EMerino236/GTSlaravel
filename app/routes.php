@@ -726,12 +726,45 @@ Route::group(array('prefix'=>'proyecto','before'=>'auth'),function(){
 	Route::get('/edit/{id}',['uses'=>'ProyectosController@edit','as'=>'proyecto.edit']);
 	Route::post('/edit/{id}',['uses'=>'ProyectosController@update','as'=>'proyecto.update']);
 	Route::get('/export/{id}',['uses'=>'ProyectosController@export','as'=>'proyecto.export']);
-	//Route::get('/destroy/{id}',['uses'=>'ProyectosController@destroy','as'=>'proyecto.destroy']);
-	//Route::get('/restore/{id}',['uses'=>'ProyectosController@restore','as'=>'proyecto.restore']);
+	Route::get('/download/{id}',['uses'=>'ProyectosController@download','as'=>'proyecto.download']);
+	Route::get('/upload/{id}',['uses'=>'ProyectosController@uploadCreate','as'=>'proyecto.upload.create']);
+	Route::post('/upload/{id}',['uses'=>'ProyectosController@uploadStore','as'=>'proyecto.upload.store']);
+
+	Route::get('/requerimiento/edit/{id}',['uses'=>'ProyectosController@editRequerimiento','as'=>'proyecto.requerimiento.edit']);
+	Route::post('/requerimiento/edit/{id}',['uses'=>'ProyectosController@updateRequerimiento','as'=>'proyecto.requerimiento.update']);
+	Route::get('/requerimiento/destroy/{id}',['uses'=>'ProyectosController@destroyRequerimiento','as'=>'proyecto.requerimiento.destroy']);
 	
-	Route::get('/indicador/edit/{id}',['uses'=>'ProyectosController@editIndicador','as'=>'proyecto.indicador.edit']);
-	Route::post('/indicador/edit/{id}',['uses'=>'ProyectosController@updateIndicador','as'=>'proyecto.indicador.update']);
-	Route::get('/indicador/destroy/{id}',['uses'=>'ProyectosController@destroyIndicador','as'=>'proyecto.indicador.destroy']);
+	Route::get('/asuncion/edit/{id}',['uses'=>'ProyectosController@editAsuncion','as'=>'proyecto.asuncion.edit']);
+	Route::post('/asuncion/edit/{id}',['uses'=>'ProyectosController@updateAsuncion','as'=>'proyecto.asuncion.update']);
+	Route::get('/asuncion/destroy/{id}',['uses'=>'ProyectosController@destroyAsuncion','as'=>'proyecto.asuncion.destroy']);
+
+	Route::get('/restriccion/edit/{id}',['uses'=>'ProyectosController@editRestriccion','as'=>'proyecto.restriccion.edit']);
+	Route::post('/restriccion/edit/{id}',['uses'=>'ProyectosController@updateRestriccion','as'=>'proyecto.restriccion.update']);
+	Route::get('/restriccion/destroy/{id}',['uses'=>'ProyectosController@destroyRestriccion','as'=>'proyecto.restriccion.destroy']);
+
+	Route::get('/riesgo/edit/{id}',['uses'=>'ProyectosController@editRiesgo','as'=>'proyecto.riesgo.edit']);
+	Route::post('/riesgo/edit/{id}',['uses'=>'ProyectosController@updateRiesgo','as'=>'proyecto.riesgo.update']);
+	Route::get('/riesgo/destroy/{id}',['uses'=>'ProyectosController@destroyRiesgo','as'=>'proyecto.riesgo.destroy']);
+
+	Route::get('/cronograma/edit/{id}',['uses'=>'ProyectosController@editCronograma','as'=>'proyecto.cronograma.edit']);
+	Route::post('/cronograma/edit/{id}',['uses'=>'ProyectosController@updateCronograma','as'=>'proyecto.cronograma.update']);
+	Route::get('/cronograma/destroy/{id}',['uses'=>'ProyectosController@destroyCronograma','as'=>'proyecto.cronograma.destroy']);
+	
+	Route::get('/presupuesto/edit/{id}',['uses'=>'ProyectosController@editPresupuesto','as'=>'proyecto.presupuesto.edit']);
+	Route::post('/presupuesto/edit/{id}',['uses'=>'ProyectosController@updatePresupuesto','as'=>'proyecto.presupuesto.update']);
+	Route::get('/presupuesto/destroy/{id}',['uses'=>'ProyectosController@destroyPresupuesto','as'=>'proyecto.presupuesto.destroy']);
+
+	Route::get('/personal/edit/{id}',['uses'=>'ProyectosController@editPersonal','as'=>'proyecto.personal.edit']);
+	Route::post('/personal/edit/{id}',['uses'=>'ProyectosController@updatePersonal','as'=>'proyecto.personal.update']);
+	Route::get('/personal/destroy/{id}',['uses'=>'ProyectosController@destroyPersonal','as'=>'proyecto.personal.destroy']);
+
+	Route::get('/entidad/edit/{id}',['uses'=>'ProyectosController@editEntidad','as'=>'proyecto.entidad.edit']);
+	Route::post('/entidad/edit/{id}',['uses'=>'ProyectosController@updateEntidad','as'=>'proyecto.entidad.update']);
+	Route::get('/entidad/destroy/{id}',['uses'=>'ProyectosController@destroyEntidad','as'=>'proyecto.entidad.destroy']);
+
+	Route::get('/aprobacion/edit/{id}',['uses'=>'ProyectosController@editAprobacion','as'=>'proyecto.aprobacion.edit']);
+	Route::post('/aprobacion/edit/{id}',['uses'=>'ProyectosController@updateAprobacion','as'=>'proyecto.aprobacion.update']);
+	Route::get('/aprobacion/destroy/{id}',['uses'=>'ProyectosController@destroyAprobacion','as'=>'proyecto.aprobacion.destroy']);
 	
 	Route::post('/validarProyectoAjax',['uses'=>'ProyectosController@validarProyectoAjax','as'=>'proyecto.validarProyecto.ajax']);
 	Route::post('/getTodoServiciosAjax',['uses'=>'ProyectosController@getTodoServiciosAjax','as'=>'proyecto.getTodoServicios.ajax']);

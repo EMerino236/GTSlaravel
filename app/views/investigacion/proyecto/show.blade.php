@@ -344,12 +344,13 @@
 	</div>
 	
 	<div class="row">
+		@if($reporte->url=="")
 		<div class="form-group col-md-2">
 			<a href="{{route('proyecto.edit',$reporte->id)}}">
 				{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Editar', array('class' => 'btn btn-primary btn-block')) }}
 			</a>
 		</div>
-
+		@endif
 		<div class="form-group col-md-2">
 			<a class="btn-under" href="{{route('proyecto.export',$reporte->id)}}">
 				{{ Form::button('<span class="glyphicon glyphicon-export"></span> Exportar', array('id'=>'exportar','class' => 'btn btn-success btn-block')) }}

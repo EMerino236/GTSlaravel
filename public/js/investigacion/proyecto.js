@@ -1,4 +1,5 @@
 $( document ).ready(function(){
+
     $("#datetimepicker_desarrollo_ini").on("dp.change", function (e) {
         $('#datetimepicker_desarrollo_fin').data("DateTimePicker").minDate(e.date);
     });
@@ -202,7 +203,8 @@ function validarProyecto()
         complete: function(){
 
         },
-        success: function(response){                
+        success: function(response){
+            console.log(response);
             if(response.success)
             {
 

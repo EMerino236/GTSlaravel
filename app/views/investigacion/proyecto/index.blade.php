@@ -87,7 +87,9 @@
 					<th>Servicio Clínico</th>
 					<th>Departamento</th>
 					<th>Responsable</th>
-					<th>Fecha de inicio de proyecto</th>					
+					<th>Fecha de inicio de proyecto</th>
+					<th></th>
+					<th></th>
 				</tr>
 				@foreach($reportes_data as $reporte_data)
 				<tr class="@if($reporte_data->deleted_at) bg-danger @endif">
@@ -100,6 +102,22 @@
 					<td>{{$reporte_data->departamento->nombre}}</td>
 					<td>{{$reporte_data->responsable->nombre}} {{$reporte_data->responsable->apellido_pat}} {{$reporte_data->responsable->apellido_mat}}</td>
 					<td>{{$reporte_data->fecha_ini}}</td>
+					<td class="text-nowrap text-center">
+						@if($reporte_data->url == '')
+							<a class="btn-under" href="{{route('proyecto.upload.create',$reporte_data->id)}}">
+								{{ Form::button('<span class="glyphicon glyphicon-upload"></span> Adjuntar', ['class' => 'btn btn-success btn-block']) }}
+							</a>
+						@endif
+					</td>
+					<td class="text-nowrap text-center">
+						@if($reporte_data->url != '')
+							<a class="btn-under" href="{{route('proyecto.download',$reporte_data->id)}}">
+								{{ Form::button('<span class="glyphicon glyphicon-download"></span> Descargar', ['class' => 'btn btn-success btn-block']) }}
+							</a>
+						@else
+							{{ Form::label('mensaje','Sin archivo adjunto') }}
+						@endif
+					</td>
 				</tr>
 				@endforeach
 			</table>
