@@ -30,7 +30,7 @@ $( document ).ready(function(){
 
 
         $('#entorno_asistencial').val($('#identorno_asistencial').val());
-        if($('#identorno_asistencial').val()==6 || $('#identorno_asistencial').val()==11 ){
+        if($('#identorno_asistencial').val()==6 || $('#identorno_asistencial').val()==49 ){
             //mostramos el comentario
             $('#flag_entornoAsistencial').val(1);
             $('#div_tipo_servicio').css('display','none');
@@ -124,9 +124,11 @@ $( document ).ready(function(){
         $('#flag_entornoAsistencial').val(0);
         $("#tipo_servicio").empty();
         $("#tipo_servicio").append('<option value=\'\'>Seleccione</option>');
+        $("#etapa_servicio").empty();
+        $("#etapa_servicio").append('<option value=\'\'>Seleccione</option>');
         if(val.length>0){
             //en caso que eliga otros:
-            if(val ==11 || val == 6){
+            if(val ==49 || val == 6){
                 //TODO
                 $('#flag_entornoAsistencial').val(1);
                 $('#comentario').val(null);
@@ -375,11 +377,13 @@ function show_tiposServicios(val){
 }
 
 function show_etapasServicios(val){
+    entorno_asistencial = $('#entorno_asistencial').val();
     $.ajax({
         url: inside_url+'eventos_adversos/show_etapasServicios',
         type: 'POST',
         async: false,
-        data: { 'idtipo_servicio' : val },
+        data: { 'idtipo_servicio' : val,
+                'identorno_asistencial': entorno_asistencial },
         beforeSend: function(){
             $("#delete-selected-profiles").addClass("disabled");
             $("#delete-selected-profiles").hide();

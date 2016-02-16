@@ -830,7 +830,10 @@ Route::group(array('prefix'=>'reportes_calibracion','before'=>'auth'),function()
 	Route::get('/list_reportes_calibracion','ReportesCalibracionController@list_reportes_calibracion');	
 	Route::get('/create_reporte','ReportesCalibracionController@render_create_reporte');	
 	Route::post('/search_activos','ReportesCalibracionController@search_activos');
-	
+	Route::post('/search_documentos','ReportesCalibracionController@search_documentos');
+	Route::post('/submit_create_reporte_calibracion','ReportesCalibracionController@submit_create_reporte_calibracion');	
+	Route::get('/search_reporte','ReportesCalibracionController@search_reporte_calibracion');
+	Route::get('/download_documento_anexo/{id}','ReportesCalibracionController@download_documento');
 });
 
 /* RRHH */

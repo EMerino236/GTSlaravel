@@ -30,7 +30,7 @@
 	    <div class="row">
 			<div class="col-md-4 form-group">
 				{{ Form::label('search_codigo_reporte','Código de Reporte:') }}
-				{{ Form::text('search_codigo_reporte',$search_codigo_reporte,array('class'=>'form-control','placeholder'=>'Código de Reporte')) }}
+				{{ Form::text('search_codigo_reporte',$search_codigo_reporte,array('class'=>'form-control','placeholder'=>'Ejemplo: RC-2653-16')) }}
 			</div>
 			<div class="col-md-4 form-group">
 				{{ Form::label('search_codigo_patrimonial','Código Patrimonial:') }}
@@ -42,15 +42,15 @@
 			</div>
 			<div class="col-md-4 form-group">
 				{{ Form::label('search_servicio','Servicio Clínico:') }}
-				{{ Form::select('search_servicio', array('0' => 'Seleccione') + $servicios,$search_servicio,array('class'=>'form-control')) }}
+				{{ Form::select('search_servicio', array('' => 'Seleccione') + $servicios,$search_servicio,array('class'=>'form-control')) }}
 			</div>
 			<div class="col-md-4 form-group">
 				{{ Form::label('search_area','Departamento:') }}				
-				{{ Form::select('search_area', array('0' => 'Seleccione') + $areas,$search_area,['class' => 'form-control']) }}				
+				{{ Form::select('search_area', array('' => 'Seleccione') + $areas,$search_area,['class' => 'form-control']) }}				
 			</div>
 			<div class="col-md-4 form-group">
 				{{ Form::label('search_grupo','Grupo:') }}				
-				{{ Form::select('search_grupo', array('0' => 'Seleccione') + $grupos,$search_grupo,['class' => 'form-control']) }}				
+				{{ Form::select('search_grupo', array('' => 'Seleccione') + $grupos,$search_grupo,['class' => 'form-control']) }}				
 			</div>
 		</div>	
 		<div class="row">
@@ -84,12 +84,40 @@
 						<th class="text-nowrap text-center">Modelo</th>
 						<th class="text-nowrap text-center">Código Patrimonial</th>
 						<th class="text-nowrap text-center">Proveedor de Calibracion</th>
-						<th class="text-nowrap text-center">Editar</th>
 					</tr>
-					
+					@foreach($reportes_data as $reporte_data)
+					<tr class="@if($reporte_data->deleted_at) bg-danger @endif">
+						<td class="text-nowrap text-center"  id="{{$reporte_data->id}}">
+							<a href="" onclick="show_modal_documentos(event,this)">{{$reporte_data->codigo_abreviatura}}-{{$reporte_data->codigo_correlativo}}-{{$reporte_data->codigo_anho}}</a>
+						</td>						
+						<td class="text-nowrap text-center">
+							{{$reporte_data->nombre_grupo}}
+						</td>
+						<td class="text-nowrap text-center">
+							{{$reporte_data->nombre_servicio}}
+						</td>
+						<td class="text-nowrap text-center">
+							{{$reporte_data->nombre_familia}}
+						</td>
+						<td class="text-nowrap text-center">
+							{{$reporte_data->nombre_marca}}
+						</td>
+						<td class="text-nowrap text-center">
+							{{$reporte_data->nombre_modelo}}
+						</td>
+						<td class="text-nowrap text-center">
+							{{$reporte_data->codigo_patrimonial}}
+						</td>
+						<td class="text-nowrap text-center">
+							{{$reporte_data->nombre_proveedor}}
+						</td>
+					</tr>
+					@endforeach
 				</table>
 			</div>
 		</div>
+	</div>
+	<div id="modals">
 	</div>
 	
 @stop

@@ -302,7 +302,7 @@ class EventosAdversosController extends BaseController
 
 						/*REGISTRO DE ENTORNO ASISTENCIAL*/
 						$entorno_asistencial = Input::get('entorno_asistencial');
-						if($entorno_asistencial == 6 || $entorno_asistencial==11){
+						if($entorno_asistencial == 6 || $entorno_asistencial==49){
 							//es elemento que contiene un comentario
 							$eventoxentorno = new EventoxEntornoAsistencial;
 							$eventoxentorno->identorno = $entorno_asistencial;
@@ -634,7 +634,7 @@ class EventosAdversosController extends BaseController
 
 						/*EDICIÓN DE ENTORNO ASISTENCIAL*/
 							$entorno_asistencial = Input::get('entorno_asistencial');
-							if($entorno_asistencial == 6 || $entorno_asistencial==11){
+							if($entorno_asistencial == 6 || $entorno_asistencial==49){
 								//es elemento que contiene un comentario
 								$eventoxentorno =  EventoxEntornoAsistencial::searchEntornoAsistencialByIdEvento($evento->id)->get();
 								if(!$eventoxentorno->isEmpty()){
@@ -871,8 +871,9 @@ class EventosAdversosController extends BaseController
 		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6
 			|| $data["user"]->idrol == 7 || $data["user"]->idrol == 8  || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 			// Check if the current user is the "System Admin"
-			$data = Input::get('idtipo_servicio');			
-			$array_subtipos = EtapaServicio::getEtapaServiciosByIdTipoServicio($data)->get()->toArray();
+			$data = Input::get('idtipo_servicio');	
+			$entorno_asistencial = Input::get('identorno_asistencial');		
+			$array_subtipos = EtapaServicio::getEtapaServiciosByIdTipoServicio($data,$entorno_asistencial)->get()->toArray();
 
 			return Response::json(array( 'success' => true, 'array_subtipos' => $array_subtipos ),200);
 		}else{
