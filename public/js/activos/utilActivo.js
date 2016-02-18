@@ -10,7 +10,7 @@ $( document ).ready(function(){
 		format: 'DD-MM-YYYY'
 	});
 
-	init_utilActivo();
+	//init_utilActivo();
 
  	$('#marca').change(function(){
  		search_nombre_equipo_ajax();
@@ -81,7 +81,7 @@ function search_nombre_equipo_ajax()
 	            }
 	            else
 	            {	            	
-	            	select.prop('disabled',true);
+	            	//select.prop('disabled',true);
 	            }
 	            
 	        }
@@ -135,7 +135,7 @@ function search_modelo_equipo_ajax()
 	            }
 	            else
 	            {	            	
-	            	select.prop('disabled',true);
+	            	//select.prop('disabled',true);
 	            }
 	            
 	        }

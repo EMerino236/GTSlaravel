@@ -45,6 +45,7 @@ class ReporteInstalacion extends Eloquent{
 			  ->where('numero_reporte_abreviatura','=',$abreviatura)
 			  ->where('numero_reporte_correlativo','=',$correlativo)
 			  ->where('numero_reporte_anho','=',$anho);
+			  
 		return $query;
 	}	
 

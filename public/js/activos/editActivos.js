@@ -2,6 +2,14 @@ $( document ).ready(function(){
 
 	init_editActivo();
 
+	$('#btnValidarNumReporte_Edit').click(function(){
+		validate_numero_reporte_edit_activo_ajax();
+	});
+
+	$('#btnLimpiarNumReporte_Edit').click(function(){
+		limpiar_reporte_instalacion_edit_activo();
+	});
+
 });
 
 
@@ -60,4 +68,12 @@ function validate_numero_reporte_edit_activo_ajax()
 		    }
 		});
 	}
+}
+
+function limpiar_reporte_instalacion_edit_activo()
+{
+	$('#reporte_instalacion_edit_activo').val("");	
+	$('#mensaje_validacion').val("");
+	$("#mensaje_validacion").css('background-color','#eee');
+    $("#mensaje_validacion").css('color','#555');
 }
