@@ -97,8 +97,7 @@ class ActivosController extends BaseController
 				$data["search_servicio"] = null;
 				$data["search_ubicacion"] = null;
 				$data["fecha_adquisicion_ini"] = null;
-				$data["fecha_adquisicion_fin"] = null;
-				$data["search_anho_adquisicion"] = null;
+				$data["fecha_adquisicion_fin"] = null;				
 
 				$data["grupos"] = Grupo::lists('nombre','idgrupo');
 				$data["servicio"] = Servicio::lists('nombre','idservicio');

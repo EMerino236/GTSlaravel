@@ -69,7 +69,7 @@
 			<div class="col-md-4">
 				{{ Form::label('fecha_adquisicion_ini','Fecha de Adquisición Inicial') }}
 				<div id="datetimepicker1" class="form-group input-group date">
-					{{ Form::text('fecha_adquisicion_ini',Input::old('fecha_adquisicion_ini'),array('class'=>'form-control','readonly'=>'')) }}
+					{{ Form::text('fecha_adquisicion_ini',$fecha_adquisicion_ini,array('class'=>'form-control','readonly'=>'')) }}
 					<span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
@@ -81,7 +81,7 @@
 			<div class="col-md-4">
 				{{ Form::label('fecha_adquisicion_fin','Fecha de Adquisición Final') }}
 				<div id="datetimepicker2" class="form-group input-group date">
-					{{ Form::text('fecha_adquisicion_fin',Input::old('fecha_adquisicion_fin'),array('class'=>'form-control','readonly'=>'')) }}
+					{{ Form::text('fecha_adquisicion_fin',$fecha_adquisicion_fin,array('class'=>'form-control','readonly'=>'')) }}
 					<span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
@@ -178,7 +178,7 @@
 					@endforeach				
 				</table>
 				@if($search_grupo || $search_servicio || $search_ubicacion || $search_nombre_equipo || $search_marca || $search_modelo
-					|| $search_proveedor || $search_codigo_patrimonial || $fecha_adquisicion_ini || fecha_adquisicion_fin)
+					|| $search_proveedor || $search_codigo_patrimonial || $fecha_adquisicion_ini || $fecha_adquisicion_fin)
 
 					{{ $activos_data->appends(array('search_grupo' => $search_grupo,'search_servicio' => $search_servicio, 'search_ubicacion' => $search_ubicacion,
 						'search_nombre_equipo' => $search_nombre_equipo, 'search_marca' => $search_marca, 'search_modelo' => $search_modelo,
