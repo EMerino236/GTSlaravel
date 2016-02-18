@@ -96,6 +96,9 @@ class ActivosController extends BaseController
 				$data["search_codigo_patrimonial"] = null;
 				$data["search_servicio"] = null;
 				$data["search_ubicacion"] = null;
+				$data["fecha_adquisicion_ini"] = null;
+				$data["fecha_adquisicion_fin"] = null;
+				$data["search_anho_adquisicion"] = null;
 
 				$data["grupos"] = Grupo::lists('nombre','idgrupo');
 				$data["servicio"] = Servicio::lists('nombre','idservicio');
@@ -150,9 +153,11 @@ class ActivosController extends BaseController
 				$data["search_modelo"] = Input::get('search_modelo');
 				$data["search_proveedor"] = Input::get('search_proveedor');				
 				$data["search_codigo_patrimonial"] = Input::get('search_codigo_patrimonial');
+				$data["fecha_adquisicion_ini"] = Input::get('fecha_adquisicion_ini');
+				$data["fecha_adquisicion_fin"] = Input::get('fecha_adquisicion_fin');
 
 				$data["activos_data"] = Activo::searchInventario($data["search_grupo"],$data["search_servicio"],$data["search_ubicacion"],$data["search_nombre_equipo"],
-										$data["search_marca"],$data["search_modelo"],$data["search_proveedor"],$data["search_codigo_patrimonial"])->paginate(10);
+										$data["search_marca"],$data["search_modelo"],$data["search_proveedor"],$data["search_codigo_patrimonial"],$data["fecha_adquisicion_ini"], $data["fecha_adquisicion_fin"])->paginate(10);
 
 				foreach ($data["activos_data"] as $value)
 				{

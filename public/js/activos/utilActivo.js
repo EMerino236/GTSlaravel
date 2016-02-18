@@ -5,6 +5,11 @@ $( document ).ready(function(){
 		format: 'DD-MM-YYYY'
 	});
 
+	$("#datetimepicker2").datetimepicker({
+		ignoreReadonly: true,
+		format: 'DD-MM-YYYY'
+	});
+
 	init_utilActivo();
 
  	$('#marca').change(function(){

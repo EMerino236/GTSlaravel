@@ -129,7 +129,7 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 	}
 
 	public function scopesearchInventario($query,$search_grupo,$search_servico,$search_ubicacion,$search_nombre_equipo,$search_marca,$search_modelo,
-									$search_proveedor,$search_codigo_patrimonial)
+									$search_proveedor,$search_codigo_patrimonial,$fecha_adquisicion_ini,$fecha_adquisicion_fin)
 	{
 		$query->join('ubicacion_fisicas','ubicacion_fisicas.idubicacion_fisica','=','activos.idubicacion_fisica')
 			  ->join('servicios','servicios.idservicio','=','activos.idservicio')
@@ -183,6 +183,15 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 			  	$query->where('activos.codigo_patrimonial','LIKE',"%$search_codigo_patrimonial%");
 			  }
 
+			  if($fecha_adquisicion_ini != "")
+			  {
+			  	$query->where(DB::raw('STR_TO_DATE(activos.anho_adquisicion,\'%Y-%m-%d\')'),'>=',date('Y-m-d H:i:s',strtotime($fecha_adquisicion_ini)));			  	
+			  }
+
+			  if($fecha_adquisicion_fin != "")
+			  {
+			  	$query->where(DB::raw('STR_TO_DATE(activos.anho_adquisicion,\'%Y-%m-%d\')'),'<=',date('Y-m-d H:i:s',strtotime($fecha_adquisicion_fin)));			  	
+			  }
 
 			  $query->select('servicios.nombre as nombre_servicio','ubicacion_fisicas.nombre as nombre_ubicacion_fisica','grupos.nombre as nombre_grupo','familia_activos.nombre_equipo as nombre_equipo',
 			  		   		 'modelo_activos.nombre as modelo','marcas.nombre as nombre_marca','proveedores.razon_social as nombre_proveedor','estados.nombre as estado','activos.*');
