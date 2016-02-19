@@ -269,12 +269,12 @@ function agregarProyRH(){
     var actividad = $("input[name=rh_actividad]").val();
     var descripcion = $("input[name=rh_descripcion]").val();
     var unidad = $("input[name=rh_unidad]").val();
-    var cantidad = parseInt($("input[name=rh_cantidad]").val());
-    var costo_unitario = parseFloat($("input[name=rh_costo_unitario]").val()).toFixed(2);
+    var cantidad = parseInt(0+$("input[name=rh_cantidad]").val());
+    var costo_unitario = parseFloat(0+$("input[name=rh_costo_unitario]").val()).toFixed(2);
     var subtotal = costo_unitario*cantidad;
     var total = parseFloat($("#rh_total").val());   
-
-    if(actividad.length < 1 || descripcion.length < 1 || unidad.length < 1 || cantidad.length < 1 || costo_unitario < 1){
+    console.log(cantidad);
+    if(actividad.length < 1 || descripcion.length < 1 || unidad.length < 1 || cantidad < 1 || costo_unitario < 1){
         return BootstrapDialog.alert({
             title:  'Alerta',
             message: 'Debe llenar todos los campos',
@@ -314,12 +314,12 @@ function agregarProyRH_post(){
     var actividad = $("input[name=rh_actividad_post]").val();
     var descripcion = $("input[name=rh_descripcion_post]").val();
     var unidad = $("input[name=rh_unidad_post]").val();
-    var cantidad = parseInt($("input[name=rh_cantidad_post]").val());
-    var costo_unitario = parseFloat($("input[name=rh_costo_unitario_post]").val()).toFixed(2);
+    var cantidad = parseInt(0+$("input[name=rh_cantidad_post]").val());
+    var costo_unitario = parseFloat(0+$("input[name=rh_costo_unitario_post]").val()).toFixed(2);
     var subtotal = costo_unitario*cantidad;
     var total = parseFloat($("#rh_total_post").val());   
 
-    if(actividad.length < 1 || descripcion.length < 1 || unidad.length < 1 || cantidad.length < 1 || costo_unitario < 1){
+    if(actividad.length < 1 || descripcion.length < 1 || unidad.length < 1 || cantidad < 1 || costo_unitario < 1){
         return BootstrapDialog.alert({
             title:  'Alerta',
             message: 'Debe llenar todos los campos',
@@ -359,12 +359,12 @@ function agregarProyEQ(){
     var actividad = $("input[name=eq_actividad]").val();
     var descripcion = $("input[name=eq_descripcion]").val();
     var unidad = $("input[name=eq_unidad]").val();
-    var cantidad = parseInt($("input[name=eq_cantidad]").val());
-    var costo_unitario = parseFloat($("input[name=eq_costo_unitario]").val()).toFixed(2);
+    var cantidad = parseInt(0+$("input[name=eq_cantidad]").val());
+    var costo_unitario = parseFloat(0+$("input[name=eq_costo_unitario]").val()).toFixed(2);
     var subtotal = costo_unitario*cantidad;
     var total = parseFloat($("#eq_total").val());  
 
-    if(actividad.length < 1 || descripcion.length < 1 || unidad.length < 1 || cantidad.length < 1 || costo_unitario < 1){
+    if(actividad.length < 1 || descripcion.length < 1 || unidad.length < 1 || cantidad < 1 || costo_unitario < 1){
         return BootstrapDialog.alert({
             title:  'Alerta',
             message: 'Debe llenar todos los campos',
@@ -405,12 +405,12 @@ function agregarProyEQ_post(){
     var actividad = $("input[name=eq_actividad_post]").val();
     var descripcion = $("input[name=eq_descripcion_post]").val();
     var unidad = $("input[name=eq_unidad_post]").val();
-    var cantidad = parseInt($("input[name=eq_cantidad_post]").val());
-    var costo_unitario = parseFloat($("input[name=eq_costo_unitario_post]").val()).toFixed(2);
+    var cantidad = parseInt(0+$("input[name=eq_cantidad_post]").val());
+    var costo_unitario = parseFloat(0+$("input[name=eq_costo_unitario_post]").val()).toFixed(2);
     var subtotal = costo_unitario*cantidad;
     var total = parseFloat($("#eq_total_post").val());  
 
-    if(actividad.length < 1 || descripcion.length < 1 || unidad.length < 1 || cantidad.length < 1 || costo_unitario < 1){
+    if(actividad.length < 1 || descripcion.length < 1 || unidad.length < 1 || cantidad < 1 || costo_unitario < 1){
         return BootstrapDialog.alert({
             title:  'Alerta',
             message: 'Debe llenar todos los campos',
@@ -451,12 +451,12 @@ function agregarProyGO(){
     var actividad = $("input[name=go_actividad]").val();
     var descripcion = $("input[name=go_descripcion]").val();
     var unidad = $("input[name=go_unidad]").val();
-    var cantidad = parseInt($("input[name=go_cantidad]").val());
-    var costo_unitario = parseFloat($("input[name=go_costo_unitario]").val()).toFixed(2);
+    var cantidad = parseInt(0+$("input[name=go_cantidad]").val());
+    var costo_unitario = parseFloat(0+$("input[name=go_costo_unitario]").val()).toFixed(2);
     var subtotal = costo_unitario*cantidad;
     var total = parseFloat($("#go_total").val());
    
-    if(actividad.length < 1 || descripcion.length < 1 || unidad.length < 1 || cantidad.length < 1 || costo_unitario < 1){
+    if(actividad.length < 1 || descripcion.length < 1 || unidad.length < 1 || cantidad < 1 || costo_unitario < 1){
         return BootstrapDialog.alert({
             title:  'Alerta',
             message: 'Debe llenar todos los campos',
@@ -496,12 +496,12 @@ function agregarProyGO_post(){
     var actividad = $("input[name=go_actividad_post]").val();
     var descripcion = $("input[name=go_descripcion_post]").val();
     var unidad = $("input[name=go_unidad_post]").val();
-    var cantidad = parseInt($("input[name=go_cantidad_post]").val());
-    var costo_unitario = parseFloat($("input[name=go_costo_unitario_post]").val()).toFixed(2);
+    var cantidad = parseInt(0+$("input[name=go_cantidad_post]").val());
+    var costo_unitario = parseFloat(0+$("input[name=go_costo_unitario_post]").val()).toFixed(2);
     var subtotal = costo_unitario*cantidad;
     var total = parseFloat($("#go_total_post").val());
    
-    if(actividad.length < 1 || descripcion.length < 1 || unidad.length < 1 || cantidad.length < 1 || costo_unitario < 1){
+    if(actividad.length < 1 || descripcion.length < 1 || unidad.length < 1 || cantidad < 1 || costo_unitario < 1){
         return BootstrapDialog.alert({
             title:  'Alerta',
             message: 'Debe llenar todos los campos',
@@ -541,12 +541,12 @@ function agregarProyGA(){
     var actividad = $("input[name=ga_actividad]").val();
     var descripcion = $("input[name=ga_descripcion]").val();
     var unidad = $("input[name=ga_unidad]").val();
-    var cantidad = parseInt($("input[name=ga_cantidad]").val());
-    var costo_unitario = parseFloat($("input[name=ga_costo_unitario]").val()).toFixed(2);
+    var cantidad = parseInt(0+$("input[name=ga_cantidad]").val());
+    var costo_unitario = parseFloat(0+$("input[name=ga_costo_unitario]").val()).toFixed(2);
     var subtotal = costo_unitario*cantidad;
     var total = parseFloat($("#ga_total").val());
 
-    if(actividad.length < 1 || descripcion.length < 1 || unidad.length < 1 || cantidad.length < 1 || costo_unitario < 1){
+    if(actividad.length < 1 || descripcion.length < 1 || unidad.length < 1 || cantidad < 1 || costo_unitario < 1){
         return BootstrapDialog.alert({
             title:  'Alerta',
             message: 'Debe llenar todos los campos',
@@ -586,12 +586,12 @@ function agregarProyGA_post(){
     var actividad = $("input[name=ga_actividad_post]").val();
     var descripcion = $("input[name=ga_descripcion_post]").val();
     var unidad = $("input[name=ga_unidad_post]").val();
-    var cantidad = parseInt($("input[name=ga_cantidad_post]").val());
-    var costo_unitario = parseFloat($("input[name=ga_costo_unitario_post]").val()).toFixed(2);
+    var cantidad = parseInt(0+$("input[name=ga_cantidad_post]").val());
+    var costo_unitario = parseFloat(0+$("input[name=ga_costo_unitario_post]").val()).toFixed(2);
     var subtotal = costo_unitario*cantidad;
     var total = parseFloat($("#ga_total_post").val());
 
-    if(actividad.length < 1 || descripcion.length < 1 || unidad.length < 1 || cantidad.length < 1 || costo_unitario < 1){
+    if(actividad.length < 1 || descripcion.length < 1 || unidad.length < 1 || cantidad < 1 || costo_unitario < 1){
         return BootstrapDialog.alert({
             title:  'Alerta',
             message: 'Debe llenar todos los campos',

@@ -221,7 +221,7 @@
 												@endforeach
 											@endif
 										</tbody>
-										<th>TOTAL: S/. <input class="cell" value=0 id="rh_total" readonly/></th>
+										<th>TOTAL: S/. <input class="cell" name="rh_total" value="{{0+Input::old('rh_total')}}" id="rh_total" readonly/></th>
 									</table>
 								</div>
 							</div>
@@ -283,7 +283,7 @@
 												@endforeach
 											@endif
 										</tbody>
-										<th>TOTAL: S/. <input class="cell" value=0 id="eq_total" readonly/></th>
+										<th>TOTAL: S/. <input class="cell" name="eq_total" value="{{0+Input::old('eq_total')}}" id="eq_total" readonly/></th>
 									</table>
 								</div>
 							</div>
@@ -345,7 +345,7 @@
 												@endforeach
 											@endif
 										</tbody>
-										<th>TOTAL: S/. <input class="cell" value=0 id="go_total" readonly/></th>
+										<th>TOTAL: S/. <input class="cell" name="go_total" value="{{0+Input::old('go_total')}}" id="go_total" readonly/></th>
 									</table>
 								</div>
 							</div>
@@ -407,7 +407,7 @@
 												@endforeach
 											@endif
 										</tbody>
-										<th>TOTAL: S/. <input class="cell" value=0 id="ga_total" readonly/></th>
+										<th>TOTAL: S/. <input class="cell" name="ga_total" value="{{0+Input::old('ga_total')}}" id="ga_total" readonly/></th>
 									</table>
 								</div>
 							</div>
@@ -473,7 +473,7 @@
 												@endforeach
 											@endif
 										</tbody>
-										<th>TOTAL: S/. <input class="cell" value=0 id="rh_total_post" readonly/></th>
+										<th>TOTAL: S/. <input class="cell" name="rh_total_post" value="{{0+Input::old('rh_total_post')}}" id="rh_total_post" readonly/></th>
 									</table>
 								</div>
 							</div>
@@ -535,7 +535,7 @@
 												@endforeach
 											@endif
 										</tbody>
-										<th>TOTAL: S/. <input class="cell" value=0 id="eq_total_post" readonly/></th>
+										<th>TOTAL: S/. <input class="cell" name="eq_total_post" value="{{0+Input::old('eq_total_post')}}" id="eq_total_post" readonly/></th>
 									</table>
 								</div>
 							</div>
@@ -597,7 +597,7 @@
 												@endforeach
 											@endif
 										</tbody>
-										<th>TOTAL: S/. <input class="cell" value=0 id="go_total_post" readonly/></th>
+										<th>TOTAL: S/. <input class="cell" name="go_total_post" value="{{0+Input::old('go_total_post')}}" id="go_total_post" readonly/></th>
 									</table>
 								</div>
 							</div>
@@ -659,7 +659,7 @@
 												@endforeach
 											@endif
 										</tbody>
-										<th>TOTAL: S/. <input class="cell" value=0 id="ga_total_post" readonly/></th>
+										<th>TOTAL: S/. <input class="cell" name="ga_total_post" value="{{0+Input::old('ga_total_post')}}" id="ga_total_post" readonly/></th>
 									</table>
 								</div>
 							</div>

@@ -196,7 +196,7 @@ class ProyectoAlcanceController extends \BaseController {
 				$data["usuarios"] = User::all()->lists('UserFullName','id');
 				
 				$proyecto = Proyecto::find($id);
-				$data["alcance"] = Alcance::find($proyecto->alcance->id);
+				$data["alcance"] = $proyecto->alcance;
 
 				return View::make('investigacion.proyecto.alcance.show',$data);
 			}else{

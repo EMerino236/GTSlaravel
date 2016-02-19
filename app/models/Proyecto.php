@@ -33,6 +33,11 @@ class Proyecto extends Eloquent{
 		return $this->belongsTo('Alcance', 'id_alcance');
 	}
 
+	public function presupuesto()
+	{
+		return $this->belongsTo('Presupuesto', 'id_presupuesto');
+	}
+
 	public function responsable()
 	{
 		return $this->belongsTo('User', 'id_responsable');
