@@ -59,6 +59,7 @@ INSERT INTO tipo_documentos(idtipo_documento,nombre,descripcion) VALUES ('21','P
 INSERT INTO tipo_documentos(idtipo_documento,nombre,descripcion) VALUES ('22','Plan y programación anual de mantenimiento preventivo','Plan y programación anual de mantenimiento preventivo');
 INSERT INTO tipo_documentos(idtipo_documento,nombre,descripcion) VALUES ('23','Plan anual de mantenimiento correctivo','Plan anual de mantenimiento correctivo');
 INSERT INTO tipo_documentos(idtipo_documento,nombre,descripcion) VALUES ('24','Plan anual de inspecciones','Plan anual de inspecciones');
+INSERT INTO tipo_documentos(idtipo_documento,nombre,descripcion) VALUES ('25','Análisis de recursos económicos desperdiciados','Análisis de recursos económicos desperdiciados');
 
 
 INSERT INTO tipo_fallas(idtipo_falla,nombre) VALUES ('1','Eléctrica');

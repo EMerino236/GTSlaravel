@@ -34,7 +34,7 @@
 		</div>
 	@endif
 
-	{{ Form::open(array('url'=>'reportes_calibracion/submit_create_reporte', 'role'=>'form', 'files'=>true)) }}
+	{{ Form::open(array('url'=>'reportes_calibracion/submit_create_reporte_calibracion', 'role'=>'form', 'files'=>true)) }}
 		{{Form::hidden('cantidad_activos',0,array('id'=>'cantidad_activos'))}}
 
 		<div class="panel panel-default">
@@ -108,16 +108,19 @@
 		<div id="modals">
 		</div>
 		<div id="activos_hidden_inputs">
+			<?php 
+				$details_activos = Input::old('details_activos');				
+				$count = count($details_activos);	
+			?>	
+			<?php for($i=0;$i<$count;$i++){ ?>
+				<input style="border:0" name='details_activos[]' value='{{ $details_activos[$i] }}' readonly/>	
+			<?php } ?>
 		</div>
 
 	{{ Form::close()}}
-	<script>
-		$("#input-file").fileinput({
-		    language: "es",
-		    allowedFileExtensions: ["png","jpe","jpeg","jpg","gif","bmp","zip","rar","pdf","doc","docx","xls","xlsx","ppt","pptx"]
-		});
+	
 	
 	
 
-	</script>
+	
 @stop

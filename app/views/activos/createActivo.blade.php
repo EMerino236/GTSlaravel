@@ -103,8 +103,8 @@
 								</div>
 							</div>
 							<div class="col-md-4 @if($errors->first('costo')) has-error has-feedback @endif">
-								{{ Form::label('costo','Costo (S/.)') }}<span style="color:red">*</span>
-								{{ Form::text('costo',Input::old('costo'),array('class'=>'form-control','placeholder'=>'Costo (S/.)'))}}
+								{{ Form::label('costo','Precio de Compra (S/.)') }}<span style="color:red">*</span>
+								{{ Form::text('costo',Input::old('costo'),array('class'=>'form-control','placeholder'=>'Precio de Compra (S/.)'))}}
 							</div>							
 						</div>
 						<div class="form-group row">							

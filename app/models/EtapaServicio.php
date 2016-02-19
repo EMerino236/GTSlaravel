@@ -8,12 +8,11 @@ class EtapaServicio extends Eloquent{
 
 	protected $table = 'etapa_servicio';
 
-	public function scopeGetEtapaServiciosByIdTipoServicio($query,$idtipo_servicio)
+	public function scopeGetEtapaServiciosByIdTipoServicio($query,$idtipo_servicio,$identorno)
 	{
-		$query->join('entorno_asistencialxtipo_servicio','entorno_asistencialxtipo_servicio.id','=','etapa_servicio.identornoxtipo')
-			  ->join('entorno_asistencial','entorno_asistencial.id','=','entorno_asistencialxtipo_servicio.identorno')			  
-		      ->join('tipo_servicio','tipo_servicio.id','=','entorno_asistencialxtipo_servicio.idtipo')
-		      ->where('tipo_servicio.id','=',$idtipo_servicio)
+		$query->join('entorno_asistencialxtipo_servicio','entorno_asistencialxtipo_servicio.id','=','etapa_servicio.identornoxtipo')		  
+		      ->where('entorno_asistencialxtipo_servicio.idtipo','=',$idtipo_servicio)
+		      ->where('entorno_asistencialxtipo_servicio.identorno','=',$identorno)
 		      ->select('etapa_servicio.*');
 		return $query;
 	}

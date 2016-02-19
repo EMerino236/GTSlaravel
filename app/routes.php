@@ -457,6 +457,22 @@ Route::group(array('prefix'=>'reporte_paac','before'=>'auth'),function(){
 	Route::post('/return_num_doc_responsable_paac/{postData}','ReportePAACController@return_num_doc_responsable_paac');
 });
 
+/* Reporte Priorización */
+Route::group(array('prefix'=>'reporte_priorizacion','before'=>'auth'),function(){
+	Route::get('/list_reporte_priorizacion','ReportePriorizacionController@list_reporte_priorizacion');
+	Route::get('/edit_reporte_priorizacion/{id}','ReportePriorizacionController@render_edit_reporte_priorizacion');
+	Route::get('/view_reporte_priorizacion/{id}','ReportePriorizacionController@render_view_reporte_priorizacion');
+	Route::post('/submit_edit_reporte_priorizacion','ReportePriorizacionController@submit_edit_reporte_priorizacion');
+	Route::get('/create_reporte_priorizacion/{id?}','ReportePriorizacionController@render_create_reporte_priorizacion');
+	Route::post('/submit_create_reporte_priorizacion','ReportePriorizacionController@submit_create_reporte_priorizacion');
+	Route::get('/search_reporte_priorizacion','ReportePriorizacionController@search_reporte_priorizacion');
+	Route::get('/download_documento/{id}','ReportePriorizacionController@download_documento');
+	Route::post('/return_area/{postData}','ReportePriorizacionController@return_area');
+	Route::post('/submit_disable_reporte_priorizacion','ReportePriorizacionController@submit_disable_reporte_priorizacion');
+	Route::post('/submit_enable_reporte_priorizacion','ReportePriorizacionController@submit_enable_reporte_priorizacion');
+	Route::post('/return_num_doc_responsable_priorizacion/{postData}','ReportePriorizacionController@return_num_doc_responsable_priorizacion');
+});
+
 /* Cotizaciones */
 Route::group(array('prefix'=>'cotizaciones','before'=>'auth'),function(){
 	Route::get('/list_cotizacion','CotizacionController@list_cotizacion');
@@ -814,7 +830,10 @@ Route::group(array('prefix'=>'reportes_calibracion','before'=>'auth'),function()
 	Route::get('/list_reportes_calibracion','ReportesCalibracionController@list_reportes_calibracion');	
 	Route::get('/create_reporte','ReportesCalibracionController@render_create_reporte');	
 	Route::post('/search_activos','ReportesCalibracionController@search_activos');
-	
+	Route::post('/search_documentos','ReportesCalibracionController@search_documentos');
+	Route::post('/submit_create_reporte_calibracion','ReportesCalibracionController@submit_create_reporte_calibracion');	
+	Route::get('/search_reporte','ReportesCalibracionController@search_reporte_calibracion');
+	Route::get('/download_documento_anexo/{id}','ReportesCalibracionController@download_documento');
 });
 
 /* RRHH */

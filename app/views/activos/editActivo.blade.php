@@ -104,8 +104,8 @@
 								</div>
 							</div>
 							<div class="col-md-4 @if($errors->first('costo')) has-error has-feedback @endif">
-								{{ Form::label('costo','Costo (S/.)') }}<span style="color:red">*</span>
-								{{ Form::text('costo',$equipo_info->costo,array('class'=>'form-control','placeholder'=>'Costo (S/.)'))}}
+								{{ Form::label('costo','Precio de Compra (S/.)') }}<span style="color:red">*</span>
+								{{ Form::text('costo',$equipo_info->costo,array('class'=>'form-control','placeholder'=>'Precio de Compra (S/.)'))}}
 							</div>							
 						</div>
 						<div class="form-group row">
@@ -130,10 +130,10 @@
 								{{ Form::text('reporte_instalacion_edit_activo',$reporte_instalacion->numero_reporte_abreviatura.$reporte_instalacion->numero_reporte_correlativo.'-'.$reporte_instalacion->numero_reporte_anho,['class' => 'form-control', 'placeholder'=>'Reporte de Instalación'])}}								
 							</div>
 							<div class="col-md-3">
-								<button id="btnValidarNumReporte" class="btn btn-primary btn-block" type="button" style="margin-top:25px"><span class="glyphicon glyphicon-search"></span> Buscar</button>
+								<button id="btnValidarNumReporte_Edit" class="btn btn-primary btn-block" type="button" style="margin-top:25px"><span class="glyphicon glyphicon-search"></span> Buscar</button>
 							</div>
 							<div class="col-md-3">
-								<button id="btnLimpiarNumReporte" class="btn btn-default btn-block" type="button" style="margin-top:25px"><span class="glyphicon glyphicon-refresh"></span> Limpiar</button>						
+								<button id="btnLimpiarNumReporte_Edit" class="btn btn-default btn-block" type="button" style="margin-top:25px"><span class="glyphicon glyphicon-refresh"></span> Limpiar</button>						
 							</div>
 							<div class="col-md-3">
 								{{ Form::label('mensaje_validacion','Validación') }}

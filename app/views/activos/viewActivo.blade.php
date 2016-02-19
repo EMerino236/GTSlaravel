@@ -1,4 +1,4 @@
-@extends('templates/bienesTemplate')
+@extends('templates/bienesViewTemplate')
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
@@ -88,8 +88,8 @@
 								</div>
 							</div>
 							<div class="col-md-4 @if($errors->first('costo')) has-error has-feedback @endif">
-								{{ Form::label('costo','Costo (S/.)') }}<span style="color:red">*</span>
-								{{ Form::text('costo',$equipo_info->costo,array('class'=>'form-control','placeholder'=>'Costo (S/.)','disabled'))}}
+								{{ Form::label('costo','Precio de Compra (S/.)') }}<span style="color:red">*</span>
+								{{ Form::text('costo',$equipo_info->costo,array('class'=>'form-control','placeholder'=>'Precio de Compra (S/.)','disabled'))}}
 							</div>							
 						</div>						
 						<div class="form-group row">

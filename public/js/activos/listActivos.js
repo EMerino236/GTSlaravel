@@ -19,4 +19,7 @@ function limpiar_criterios_list_activos(){
 	$('#search_codigo_compra').val("");
 	$('#search_codigo_patrimonial').val("");
 	$('#search_nombre_siga').val("");
+
+	$('#fecha_adquisicion_ini').val("");
+	$('#fecha_adquisicion_fin').val("");	
 }

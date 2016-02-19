@@ -47,7 +47,7 @@ function search_activos(){
                 'area': area,
                 'servicio': servicio,
                 'grupo': grupo
-              },
+              },        
         beforeSend: function(){
             $("#delete-selected-profiles").addClass("disabled");
             $("#delete-selected-profiles").hide();
@@ -66,6 +66,7 @@ function search_activos(){
                 if(activos.length>0){
                     tamanho = activos.length;
                     $('#cantidad_activos').val(tamanho);
+
                     for(i=0;i<tamanho;i++){
                         $('#table_activos').append("<tr>"
                         +"<td class=\"text-nowrap text-center\">"+activos[i].nombre_grupo+"</td>"
@@ -79,7 +80,35 @@ function search_activos(){
                         +"<td class=\"text-nowrap text-center\"><a href='' class='btn btn-danger delete-detail' onclick='deleteRow(event,this)'><span class=\"glyphicon glyphicon-remove\"></span></a></td>"
                         +"</tr>");
     
-                        $('#activos_hidden_inputs').append("<input class=\"invisible-input\" style=\"display:none;\" name=\""+activos[i].idactivo+"\" type=\"text\" value=\""+activos[i].idactivo+"\" id=\"input-"+activos[i].idactivo+"\">");
+                        $('#activos_hidden_inputs').append("<input id=\"input-"+activos[i].idactivo+"\" style=\"display:none\" class=\"invisible-input\" name='details_activos[]' value='"+activos[i].idactivo+"' readonly/>");
+                        var html_modal = '<div class=\"modal fade\" tabindex=\"-1\" role=\"dialog\" id=\"modal_'+activos[i].idactivo+'\">'+
+                                  "<div class=\"modal-dialog\">"+
+                                    "<div class=\"modal-content\">"+
+                                      "<div class=\"modal-header bg-primary\">"+
+                                       " <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+
+                                        "<h4 class=\"modal-title\">Certificados Anexos</h4>"+
+                                      "</div>"+
+                                      "<div class=\"modal-body\"  style=\"width:1000px; overflow: auto;\">"+
+                                        "<p> Adjunte los documentos relacionados:</p>";
+                                        for(j=0;j<5;j++){
+                                            html_docs = "<div class=\"row form-group\">"+
+                                                "<div class=\"col-md-12\">"+
+                                                "<label class=\"control-label\">Documento (Certificado,Constancia) N°"+(j+1)+"</label>"+
+                                                "<input name=\"input-file-"+activos[i].idactivo+"-"+j+"\" id=\"input-file-"+activos[i].idactivo+"-"+j+"\" type=\"file\" data-show-upload=\"true\">"+
+                                                "</div>"+
+                                            "</div>"; 
+                                            html_modal += html_docs;
+                                        }
+                                        html_modal += "</div>"+
+                                      "<div class=\"modal-footer\">"+
+                                        "<div class=\"col-md-4 col-md-offset-8\">"+
+                                            "<button type=\"button\" class=\"btn btn-danger btn-block\" data-dismiss=\"modal\"><span class=\"glyphicon glyphicon-remove\"></span>Cerrar</button>"+                    
+                                        "</div>"
+                                      "</div>"+
+                                    "</div><!-- /.modal-content -->"+
+                                  "</div><!-- /.modal-dialog -->"+
+                                "</div><!-- /.modal -->";
+                        $('#modals').append(html_modal);   
                     }                    
                 }
             }else{
@@ -96,38 +125,10 @@ function add_modal_documentos(event,idactivo){
     event.preventDefault();
     if($('#modal_'+idactivo).length){
         $('#modal_'+idactivo).modal('show');
-    }else{
-        var html_modal = '<div class=\"modal fade\" tabindex=\"-1\" role=\"dialog\" id=\"modal_'+idactivo+'\">'+
-              "<div class=\"modal-dialog\">"+
-                "<div class=\"modal-content\">"+
-                  "<div class=\"modal-header bg-primary\">"+
-                   " <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+
-                    "<h4 class=\"modal-title\">Certificados Anexos</h4>"+
-                  "</div>"+
-                  "<div class=\"modal-body\"  style=\"width:1000px; overflow: auto;\">"+
-                    "<p> Adjunte los documentos relacionados:</p>";
-                    for(i=0;i<5;i++){
-                        html_docs = "<div class=\"row form-group\">"+
-                            "<div class=\"col-md-6\">"+
-                            "<label class=\"control-label\">Documento (Certificado,Constancia) N°"+(i+1)+"</label>"+
-                            "<input name=\"archivo\" id=\"input-file-"+idactivo+"-"+i+"\" type=\"file\" data-show-upload=\"true\">"+
-                            "</div>"+
-                        "</div>"; 
-                        html_modal += html_docs;
-                    }
-                    html_modal += "</div>"+
-                  "<div class=\"modal-footer\">"+
-                    "<div class=\"col-md-4 col-md-offset-8\">"+
-                        "<button type=\"button\" class=\"btn btn-danger btn-block\" data-dismiss=\"modal\"><span class=\"glyphicon glyphicon-remove\"></span>Cerrar</button>"+                    
-                    "</div>"
-                  "</div>"+
-                "</div><!-- /.modal-content -->"+
-              "</div><!-- /.modal-dialog -->"+
-            "</div><!-- /.modal -->";
-        $('#modals').append(html_modal);   
-        $('#modal_'+idactivo).modal('show');     
-    }
+    }    
 }
+
+
 
 function deleteRow(event,el)
 {    

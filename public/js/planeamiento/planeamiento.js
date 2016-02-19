@@ -198,6 +198,50 @@ $( document ).ready(function(){
         }
     })
 
+    $('#idservicio_rp').change(function(){
+        var selectServicio = document.getElementById("idservicio_rp");
+        var selectedId = selectServicio.options[selectServicio.selectedIndex].value;// will gives u 2
+        if(selectedId != ''){
+            $.ajax({
+                url: inside_url+'reporte_priorizacion/return_area/'+selectedId,
+                type: 'POST',
+                data: { 'selected_id' : selectedId },
+                beforeSend: function(){
+                },
+                complete: function(){
+                },
+                success: function(response){
+                    if(response.success){
+                        var resp = response['servicio']; 
+                        document.getElementById("idarea_select_rp").value = resp[0].idarea;    
+                        $('#idarea_select_rp').prop('disabled','disabled');
+                        $('input[name=idarea_rp]').val(resp[0].idarea);
+                    }else{
+                        alert('La petición no se pudo completar, inténtelo de nuevo1.');
+                    }
+                },
+                error: function(){
+                    alert('La petición no se pudo completar, inténtelo de nuevo2.');
+                }
+            }); 
+        }
+        else{
+            $('#idarea_select_rp').prop('disabled',false);
+        }
+    })
+
+    $('#idarea_select_rp').change(function(){
+        var selectArea = document.getElementById("idarea_select_rp");
+        var selectedId = selectArea.options[selectArea.selectedIndex].value;// will gives u 2
+        if(selectedId != ''){   
+            $('#idservicio_rp').prop('disabled','disabled');
+            $('input[name=idarea_rp]').val(selectedId);
+        }
+        else{
+            $('#idservicio_rp').prop('disabled',false);
+               }
+    })
+
     $('#idtipo_reporte').change(function(){
         var selectArea = document.getElementById("idtipo_reporte");
         var selectedId = selectArea.options[selectArea.selectedIndex].value;// will gives u 2
@@ -645,4 +689,53 @@ function limpiar_nombre_responsable_paac(){
     $("#num_doc_responsable_paac").val('');
     $("#nombre_responsable_paac").val('');
     $("#nombre_responsable_paac").css('background-color','#eee');
+}
+
+function llenar_nombre_responsable_priorizacion(){
+    var val = $("#num_doc_responsable_priorizacion").val();
+    if(val!=""){
+        $.ajax({
+            url: inside_url+'reporte_priorizacion/return_num_doc_responsable_priorizacion/'+val,
+            type: 'POST',
+            data: { 'selected_id' : val },
+            beforeSend: function(){
+            },
+            complete: function(){
+            },
+            success: function(response){
+                if(response.success){
+                    var resp = response['reporte']; 
+                    if(resp!="vacio"){
+                        if(resp[0] != null){
+                            $("#nombre_responsable_priorizacion").val("");
+                            $("#nombre_responsable_priorizacion").css('background-color','#5cb85c');
+                            $("#nombre_responsable_priorizacion").css('color','white');
+                            $("#nombre_responsable_priorizacion").val(resp[0].apellido_pat+' '+resp[0].apellido_mat+' '+resp[0].nombre);  
+                            $('input[name=idresponsable_priorizacion]').val(resp[0].id);           
+                        }
+                        else{
+                            $("#nombre_responsable_priorizacion").val("Número de documento incorrecto");
+                            $("#nombre_responsable_priorizacion").css('background-color','#d9534f');
+                            $("#nombre_responsable_priorizacion").css('color','white');
+                        } 
+                    }else{
+                        $("#nombre_responsable_priorizacion").val("Número de documento incorrecto");
+                        $("#nombre_responsable_priorizacion").css('background-color','#d9534f');
+                        $("#nombre_responsable_priorizacion").css('color','white');
+                    }               
+                }else{
+                    alert('La petición no se pudo completar, inténtelo de nuevo.');
+                }
+            },
+            error: function(){
+                alert('La petición no se pudo completar, inténtelo de nuevo.');
+            }
+        }); 
+    }
+}
+
+function limpiar_nombre_responsable_priorizacion(){
+    $("#num_doc_responsable_priorizacion").val('');
+    $("#nombre_responsable_priorizacion").val('');
+    $("#nombre_responsable_priorizacion").css('background-color','#eee');
 }
