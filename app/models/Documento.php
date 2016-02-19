@@ -12,7 +12,12 @@ class Documento extends Eloquent implements UserInterface, RemindableInterface {
 	use SoftDeletingTrait;
 	protected $softDelete = true;
 	protected $primaryKey = 'iddocumento';
-	protected $table = 'documentos';	
+	protected $table = 'documentos';
+
+	public function tipoDocumento()
+	{
+		return $this->belongsTo('TipoDocumentos','idtipo_documento');
+	}	
 
 	public function scopeGetDocumentosInfo($query)
 	{
@@ -161,4 +166,5 @@ class Documento extends Eloquent implements UserInterface, RemindableInterface {
 			  ->where('idot_vmetrologica','=',$search_criteria);
 		return $query;
 	}
+
 }

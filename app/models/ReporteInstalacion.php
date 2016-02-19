@@ -114,5 +114,5 @@ class ReporteInstalacion extends Eloquent{
 			  ->where('documentos.iddocumento','=',$iddocumento)
 			  ->select('reporte_instalaciones.*');
 		return $query;
-	}		
+	}
 }

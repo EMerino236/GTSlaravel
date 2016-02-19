@@ -722,6 +722,7 @@ class ReportesInstalacionController extends BaseController {
 				$iddocumento = $id;		
 				$documento = Documento::searchDocumentoById($id)->get();
 				$file= $documento[0]->url.$documento[0]->nombre_archivo_encriptado;
+
 				$headers = array(
 		              'Content-Type',mime_content_type($file),
 	            );

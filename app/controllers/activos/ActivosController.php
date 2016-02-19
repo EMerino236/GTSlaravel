@@ -497,6 +497,14 @@ class ActivosController extends BaseController
 				$data["reporte_instalacion"] = ReporteInstalacion::where('idreporte_instalacion','=',$data["equipo_info"]->idreporte_instalacion)->get();
 				$data["reporte_instalacion"] = $data["reporte_instalacion"][0];
 
+				$data["documentos"]=[];
+				$data["documento_contrato"]= Documento::searchDocumentoContratoByIdReporteInstalacion($data["reporte_instalacion"]->idreporte_instalacion)->get();
+				$data["documento_certificado_func"]= Documento::searchDocumentoCertificadoFuncionalidadByIdReporteInstalacion($data["reporte_instalacion"]->idreporte_instalacion)->get();
+				$data["documento_manual"]= Documento::searchDocumentoManualByIdReporteInstalacion($data["reporte_instalacion"]->idreporte_instalacion)->get();
+				$data["documento_trd"]= Documento::searchDocumentoTdRByIdReporteInstalacion($data["reporte_instalacion"]->idreporte_instalacion)->get();
+
+				array_push($data["documentos"],$data["documento_contrato"][0],$data["documento_certificado_func"][0],$data["documento_manual"][0],$data["documento_trd"][0]);
+				
 				$data["soporte_tecnico_info"] = SoporteTecnicoxActivo::searchSoporteTecnicoByActivo($idequipo)->get();
 
 				$data["accesorios_info"] = Accesorio::getAccesorioByModelo($data["equipo_info"]->idmodelo_equipo)->get();

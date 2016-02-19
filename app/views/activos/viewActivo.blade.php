@@ -272,6 +272,51 @@
 
 			</div>
 		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">Documentos</div>
+		  	<div class="panel-body">
+		  		<div class="row">
+		  			<div class="container-fluid">		  				
+			  			<div class="table-responsive">
+							<table class="table">
+								<tr class="info">
+									<th class="text-nowrap">Nº</th>
+									<th class="text-nowrap">Tipo de Documento</th>
+									<th class="text-nowrap">Nombre Documento</th>
+									<th class="text-nowrap">Descargar</th>																	
+								</tr>
+								@foreach($documentos as $index => $documento)
+								<tr>			
+									<td class="text-nowrap">
+										{{$index + 1}}
+									</td>
+									<td class="text-nowrap">
+										{{$documento->tipoDocumento->nombre}}
+									</td>
+									<td class="text-nowrap">
+										{{$documento->nombre}}
+									</td>
+									<td class="text-nowrap">
+										{{ Form::open(array('url'=>'/documento/download_documento','role'=>'form')) }}
+											@if($documento->url != '')
+												{{ Form::hidden('url', $documento->url) }}
+												{{ Form::hidden('nombre_archivo', $documento->nombre_archivo) }}
+												{{ Form::hidden('nombre_archivo_encriptado', $documento->nombre_archivo_encriptado) }}
+												{{ Form::button('<span class="glyphicon glyphicon-download"></span> Descargar', array('id'=>'submit-search-form', 'type' => 'submit', 'class' => 'btn btn-success btn-block')) }}
+											@else
+												{{ Form::label('mensaje','Sin archivo adjunto') }}
+											@endif
+										{{ Form::close() }}
+									</td>																			
+								</tr>
+								@endforeach		
+							</table>
+						</div>
+					</div>
+				</div>
+		  	</div>
+		</div>
 		
 		<div class="container-fluid row">			
 			<div class="form-group col-md-offset-10 col-md-2">				
