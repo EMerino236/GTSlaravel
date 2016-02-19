@@ -38,6 +38,11 @@ class Proyecto extends Eloquent{
 		return $this->belongsTo('Presupuesto', 'id_presupuesto');
 	}
 
+	public function cronograma()
+	{
+		return $this->belongsTo('Presupuesto', 'id_cronograma');
+	}
+
 	public function responsable()
 	{
 		return $this->belongsTo('User', 'id_responsable');

@@ -8,6 +8,10 @@
         <!-- /.col-lg-12 -->
     </div>
 
+	@if (Session::has('message'))
+		<div class="alert alert-success">{{ Session::get('message') }}</div>
+	@endif
+
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<h3 class="panel-title">Informacion general del proyecto</h3>
@@ -52,18 +56,18 @@
 			<div class="row">
 				<div class="form-group col-md-4">
 					{{ Form::label('fecha_ini','Fecha Inicio') }}
-					{{ Form::text('fecha_ini',date('dd-mm-YYYY',strtotime($presupuesto->fecha_ini)),array('class'=>'form-control', 'readonly'=>'')) }}
+					{{ Form::text('fecha_ini',$presupuesto->fecha_ini,array('class'=>'form-control', 'readonly'=>'')) }}
 				</div>
 				<div class="form-group col-md-4">
 					{{ Form::label('fecha_fin','Fecha Fin') }}
-					{{ Form::text('fecha_fin',date('dd-mm-YYYY',strtotime($presupuesto->fecha_fin)),array('class'=>'form-control', 'readonly'=>'')) }}
+					{{ Form::text('fecha_fin',$presupuesto->fecha_fin,array('class'=>'form-control', 'readonly'=>'')) }}
 				</div>
 			</div>
 			
 			<div class="row">
 				<div class="col-md-4 form-group">
 					{{ Form::label('total_inversion','Total disponible por inversion') }}
-					{{ Form::text('total_inversion', $presupuesto->monto_restante ,['id'=>'total_inv','class'=>'form-control','readonly'])}}	
+					{{ Form::text('total_inversion', 'S/. '.$presupuesto->monto_restante ,['id'=>'total_inv','class'=>'form-control','readonly'])}}	
 				</div>
 			</div>
 
@@ -79,298 +83,323 @@
 
 			    <div class="tab-content clearfix">
 				    <div class="tab-pane active" id="tab_create_fase">
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<h3 class="panel-title">Recursos Humanos</h3>
-							</div>
-
-						  	<div class="panel-body">
-								<div class="col-md-12">
-									<table class="table">
-										<tr class="info">
-											<th>Actividad</th>
-											<th>Descripcion</th>
-											<th>Unidad</th>
-											<th>Cantidad</th>
-											<th>Costo por unidad</th>
-											<th>Subtotal</th>
-											<th></th>
-										</tr>
-										<tbody class="rh_table">
-											@if($presupuesto->actividadesrh)
-												@foreach($presupuesto->actividadesrh as $actividad)
-													<tr>
-														<td>{{$actividad->nombre}}</td>
-														<td>{{$actividad->descripcion}}</td>
-														<td>{{$actividad->unidad}}</td>
-														<td>{{$actividad->cantidad}}</td>
-														<td>{{$actividad->costo_unitario}}</td>
-														<td>{{$actividad->subtotal}}</td>
-													</tr>
-												@endforeach
-											@endif
-										</tbody>
-										<th>TOTAL: S/. {{$presupuesto->actividadesrh->sum('subtotal')}}</th>
-									</table>
+				    	@if($presupuesto->actividadesrh->isEmpty())
+							<div class="panel panel-default">
+								<div class="panel-body">
+						    		<div class="col-md-3">
+							    		<a class="btn-under" href="{{route('proyecto_presupuesto.edit',[$presupuesto->id,0])}}">
+											{{ Form::button('<span class="glyphicon glyphicon-upload"></span> Crear', ['class' => 'btn btn-success btn-block']) }}
+										</a>
+									</div>
 								</div>
 							</div>
+				    	@else
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title">Recursos Humanos</h3>
+								</div>
 
-							<div class="panel-heading">
-								<h3 class="panel-title">Equipos y bienes duraderos</h3>
-							</div>
+							  	<div class="panel-body">
+									<div class="col-md-12">
+										<table class="table">
+											<tr class="info">
+												<th>Actividad</th>
+												<th>Descripcion</th>
+												<th>Unidad</th>
+												<th>Cantidad</th>
+												<th>Costo por unidad</th>
+												<th>Subtotal</th>
+												<th></th>
+											</tr>
+											<tbody class="rh_table">
+												@if($presupuesto->actividadesrh)
+													@foreach($presupuesto->actividadesrh as $actividad)
+														<tr>
+															<td>{{$actividad->nombre}}</td>
+															<td>{{$actividad->descripcion}}</td>
+															<td>{{$actividad->unidad}}</td>
+															<td>{{$actividad->cantidad}}</td>
+															<td>{{$actividad->costo_unitario}}</td>
+															<td>{{$actividad->subtotal}}</td>
+														</tr>
+													@endforeach
+												@endif
+											</tbody>
+											<th>TOTAL: S/. {{$presupuesto->actividadesrh->sum('subtotal')}}</th>
+										</table>
+									</div>
+								</div>
 
-						  	<div class="panel-body">
-								
-								<div class="col-md-12">
-									<table class="table">
-										<tr class="info">
-											<th>Actividad</th>
-											<th>Descripcion</th>
-											<th>Unidad</th>
-											<th>Cantidad</th>
-											<th>Costo por unidad</th>
-											<th>Subtotal</th>
-											<th></th>
-										</tr>
-										<tbody class="eq_table">
-											@if($presupuesto->actividadeseq)
-												@foreach($presupuesto->actividadeseq as $actividad)
-													<tr>
-														<td>{{$actividad->nombre}}</td>
-														<td>{{$actividad->descripcion}}</td>
-														<td>{{$actividad->unidad}}</td>
-														<td>{{$actividad->cantidad}}</td>
-														<td>{{$actividad->costo_unitario}}</td>
-														<td>{{$actividad->subtotal}}</td>
-													</tr>
-												@endforeach
-											@endif
-										</tbody>
-										<th>TOTAL: S/. {{$presupuesto->actividadeseq->sum('subtotal')}}</th>
-									</table>
+								<div class="panel-heading">
+									<h3 class="panel-title">Equipos y bienes duraderos</h3>
+								</div>
+
+							  	<div class="panel-body">
+									
+									<div class="col-md-12">
+										<table class="table">
+											<tr class="info">
+												<th>Actividad</th>
+												<th>Descripcion</th>
+												<th>Unidad</th>
+												<th>Cantidad</th>
+												<th>Costo por unidad</th>
+												<th>Subtotal</th>
+												<th></th>
+											</tr>
+											<tbody class="eq_table">
+												@if($presupuesto->actividadeseq)
+													@foreach($presupuesto->actividadeseq as $actividad)
+														<tr>
+															<td>{{$actividad->nombre}}</td>
+															<td>{{$actividad->descripcion}}</td>
+															<td>{{$actividad->unidad}}</td>
+															<td>{{$actividad->cantidad}}</td>
+															<td>{{$actividad->costo_unitario}}</td>
+															<td>{{$actividad->subtotal}}</td>
+														</tr>
+													@endforeach
+												@endif
+											</tbody>
+											<th>TOTAL: S/. {{$presupuesto->actividadeseq->sum('subtotal')}}</th>
+										</table>
+									</div>
+								</div>
+
+								<div class="panel-heading">
+									<h3 class="panel-title">Gastos operativos</h3>
+								</div>
+
+							  	<div class="panel-body">
+
+									<div class="col-md-12">
+										<table class="table">
+											<tr class="info">
+												<th>Actividad</th>
+												<th>Descripcion</th>
+												<th>Unidad</th>
+												<th>Cantidad</th>
+												<th>Costo por unidad</th>
+												<th>Subtotal</th>
+												<th></th>
+											</tr>
+											<tbody class="go_table">
+												@if($presupuesto->actividadesgo)
+													@foreach($presupuesto->actividadesgo as $actividad)
+														<tr>
+															<td>{{$actividad->nombre}}</td>
+															<td>{{$actividad->descripcion}}</td>
+															<td>{{$actividad->unidad}}</td>
+															<td>{{$actividad->cantidad}}</td>
+															<td>{{$actividad->costo_unitario}}</td>
+															<td>{{$actividad->subtotal}}</td>
+														</tr>
+													@endforeach
+												@endif
+											</tbody>
+											<th>TOTAL: S/. {{$presupuesto->actividadesgo->sum('subtotal')}}</th>
+										</table>
+									</div>
+								</div>
+
+								<div class="panel-heading">
+									<h3 class="panel-title">Gastos administrativos y gestión</h3>
+								</div>
+
+							  	<div class="panel-body">
+									 
+									<div class="col-md-12">
+										<table class="table">
+											<tr class="info">
+												<th>Actividad</th>
+												<th>Descripcion</th>
+												<th>Unidad</th>
+												<th>Cantidad</th>
+												<th>Costo por unidad</th>
+												<th>Subtotal</th>
+												<th></th>
+											</tr>
+											<tbody class="ga_table">
+												@if($presupuesto->actividadesga)
+													@foreach($presupuesto->actividadesga as $actividad)
+														<tr>
+															<td>{{$actividad->nombre}}</td>
+															<td>{{$actividad->descripcion}}</td>
+															<td>{{$actividad->unidad}}</td>
+															<td>{{$actividad->cantidad}}</td>
+															<td>{{$actividad->costo_unitario}}</td>
+															<td>{{$actividad->subtotal}}</td>
+														</tr>
+													@endforeach
+												@endif
+											</tbody>
+											<th>TOTAL: S/. {{$presupuesto->actividadesga->sum('subtotal')}}</th>
+										</table>
+									</div>
 								</div>
 							</div>
-
-							<div class="panel-heading">
-								<h3 class="panel-title">Gastos operativos</h3>
-							</div>
-
-						  	<div class="panel-body">
-
-								<div class="col-md-12">
-									<table class="table">
-										<tr class="info">
-											<th>Actividad</th>
-											<th>Descripcion</th>
-											<th>Unidad</th>
-											<th>Cantidad</th>
-											<th>Costo por unidad</th>
-											<th>Subtotal</th>
-											<th></th>
-										</tr>
-										<tbody class="go_table">
-											@if($presupuesto->actividadesgo)
-												@foreach($presupuesto->actividadesgo as $actividad)
-													<tr>
-														<td>{{$actividad->nombre}}</td>
-														<td>{{$actividad->descripcion}}</td>
-														<td>{{$actividad->unidad}}</td>
-														<td>{{$actividad->cantidad}}</td>
-														<td>{{$actividad->costo_unitario}}</td>
-														<td>{{$actividad->subtotal}}</td>
-													</tr>
-												@endforeach
-											@endif
-										</tbody>
-										<th>TOTAL: S/. {{$presupuesto->actividadesgo->sum('subtotal')}}</th>
-									</table>
-								</div>
-							</div>
-
-							<div class="panel-heading">
-								<h3 class="panel-title">Gastos administrativos y gestión</h3>
-							</div>
-
-						  	<div class="panel-body">
-								 
-								<div class="col-md-12">
-									<table class="table">
-										<tr class="info">
-											<th>Actividad</th>
-											<th>Descripcion</th>
-											<th>Unidad</th>
-											<th>Cantidad</th>
-											<th>Costo por unidad</th>
-											<th>Subtotal</th>
-											<th></th>
-										</tr>
-										<tbody class="ga_table">
-											@if($presupuesto->actividadesga)
-												@foreach($presupuesto->actividadesga as $actividad)
-													<tr>
-														<td>{{$actividad->nombre}}</td>
-														<td>{{$actividad->descripcion}}</td>
-														<td>{{$actividad->unidad}}</td>
-														<td>{{$actividad->cantidad}}</td>
-														<td>{{$actividad->costo_unitario}}</td>
-														<td>{{$actividad->subtotal}}</td>
-													</tr>
-												@endforeach
-											@endif
-										</tbody>
-										<th>TOTAL: S/. {{$presupuesto->actividadesga->sum('subtotal')}}</th>
-									</table>
-								</div>
-							</div>
-						</div>
+						@endif
 				    </div>
 
 				    <div class="tab-pane" id="tab_create_fase_post">
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<h3 class="panel-title">Recursos Humanos</h3>
-							</div>
-
-						  	<div class="panel-body">
-
-								<div class="col-md-12">
-									<table class="table">
-										<tr class="info">
-											<th>Actividad</th>
-											<th>Descripcion</th>
-											<th>Unidad</th>
-											<th>Cantidad</th>
-											<th>Costo por unidad</th>
-											<th>Subtotal</th>
-											<th></th>
-										</tr>
-										<tbody class="rh_table_post">
-											@if($presupuesto->actividadesrhpost)
-												@foreach($presupuesto->actividadesrhpost as $actividad)
-													<tr>
-														<td>{{$actividad->nombre}}</td>
-														<td>{{$actividad->descripcion}}</td>
-														<td>{{$actividad->unidad}}</td>
-														<td>{{$actividad->cantidad}}</td>
-														<td>{{$actividad->costo_unitario}}</td>
-														<td>{{$actividad->subtotal}}</td>
-													</tr>
-												@endforeach
-											@endif
-										</tbody>
-										<th>TOTAL: S/. {{$presupuesto->actividadesrhpost->sum('subtotal')}}</th>
-									</table>
-								</div>
-							</div>
-
-							<div class="panel-heading">
-								<h3 class="panel-title">Equipos y bienes duraderos</h3>
-							</div>
-
-						  	<div class="panel-body">
-
-								<div class="col-md-12">
-									<table class="table">
-										<tr class="info">
-											<th>Actividad</th>
-											<th>Descripcion</th>
-											<th>Unidad</th>
-											<th>Cantidad</th>
-											<th>Costo por unidad</th>
-											<th>Subtotal</th>
-											<th></th>
-										</tr>
-										<tbody class="eq_table_post">
-											@if($presupuesto->actividadeseqpost)
-												@foreach($presupuesto->actividadeseqpost as $actividad)
-													<tr>
-														<td>{{$actividad->nombre}}</td>
-														<td>{{$actividad->descripcion}}</td>
-														<td>{{$actividad->unidad}}</td>
-														<td>{{$actividad->cantidad}}</td>
-														<td>{{$actividad->costo_unitario}}</td>
-														<td>{{$actividad->subtotal}}</td>
-													</tr>
-												@endforeach
-											@endif
-										</tbody>
-										<th>TOTAL: S/. {{$presupuesto->actividadeseqpost->sum('subtotal')}}</th>
-									</table>
-								</div>
-							</div>
-
-							<div class="panel-heading">
-								<h3 class="panel-title">Gastos operativos</h3>
-							</div>
-
+				    	@if($presupuesto->actividadesrhpost->isEmpty())
+							<div class="panel panel-default">
 								<div class="panel-body">
-								 
-								<div class="col-md-12">
-									<table class="table">
-										<tr class="info">
-											<th>Actividad</th>
-											<th>Descripcion</th>
-											<th>Unidad</th>
-											<th>Cantidad</th>
-											<th>Costo por unidad</th>
-											<th>Subtotal</th>
-											<th></th>
-										</tr>
-										<tbody class="go_table_post">
-											@if($presupuesto->actividadesgopost)
-												@foreach($presupuesto->actividadesgopost as $actividad)
-													<tr>
-														<td>{{$actividad->nombre}}</td>
-														<td>{{$actividad->descripcion}}</td>
-														<td>{{$actividad->unidad}}</td>
-														<td>{{$actividad->cantidad}}</td>
-														<td>{{$actividad->costo_unitario}}</td>
-														<td>{{$actividad->subtotal}}</td>
-													</tr>
-												@endforeach
-											@endif
-										</tbody>
-										<th>TOTAL: S/. {{$presupuesto->actividadesgopost->sum('subtotal')}}</th>
-									</table>
+						    		<div class="col-md-3">
+							    		<a class="btn-under" href="{{route('proyecto_presupuesto.edit',[$presupuesto->id,1])}}">
+											{{ Form::button('<span class="glyphicon glyphicon-upload"></span> Crear', ['class' => 'btn btn-success btn-block']) }}
+										</a>
+									</div>
 								</div>
 							</div>
+						@else
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title">Recursos Humanos</h3>
+								</div>
 
-							<div class="panel-heading">
-								<h3 class="panel-title">Gastos administrativos y gestión</h3>
-							</div>
+							  	<div class="panel-body">
 
-						  	<div class="panel-body">
-								 
-								<div class="col-md-12">
-									<table class="table">
-										<tr class="info">
-											<th>Actividad</th>
-											<th>Descripcion</th>
-											<th>Unidad</th>
-											<th>Cantidad</th>
-											<th>Costo por unidad</th>
-											<th>Subtotal</th>
-											<th></th>
-										</tr>
-										<tbody class="ga_table_post">
-											@if($presupuesto->actividadesgapost)
-												@foreach($presupuesto->actividadesgapost as $actividad)
-													<tr>
-														<td>{{$actividad->nombre}}</td>
-														<td>{{$actividad->descripcion}}</td>
-														<td>{{$actividad->unidad}}</td>
-														<td>{{$actividad->cantidad}}</td>
-														<td>{{$actividad->costo_unitario}}</td>
-														<td>{{$actividad->subtotal}}</td>
-													</tr>
-												@endforeach
-											@endif
-										</tbody>
-										<th>TOTAL: S/. {{$presupuesto->actividadesgapost->sum('subtotal')}}</th>
-									</table>
+									<div class="col-md-12">
+										<table class="table">
+											<tr class="info">
+												<th>Actividad</th>
+												<th>Descripcion</th>
+												<th>Unidad</th>
+												<th>Cantidad</th>
+												<th>Costo por unidad</th>
+												<th>Subtotal</th>
+												<th></th>
+											</tr>
+											<tbody class="rh_table_post">
+												@if($presupuesto->actividadesrhpost)
+													@foreach($presupuesto->actividadesrhpost as $actividad)
+														<tr>
+															<td>{{$actividad->nombre}}</td>
+															<td>{{$actividad->descripcion}}</td>
+															<td>{{$actividad->unidad}}</td>
+															<td>{{$actividad->cantidad}}</td>
+															<td>{{$actividad->costo_unitario}}</td>
+															<td>{{$actividad->subtotal}}</td>
+														</tr>
+													@endforeach
+												@endif
+											</tbody>
+											<th>TOTAL: S/. {{$presupuesto->actividadesrhpost->sum('subtotal')}}</th>
+										</table>
+									</div>
+								</div>
+
+								<div class="panel-heading">
+									<h3 class="panel-title">Equipos y bienes duraderos</h3>
+								</div>
+
+							  	<div class="panel-body">
+
+									<div class="col-md-12">
+										<table class="table">
+											<tr class="info">
+												<th>Actividad</th>
+												<th>Descripcion</th>
+												<th>Unidad</th>
+												<th>Cantidad</th>
+												<th>Costo por unidad</th>
+												<th>Subtotal</th>
+												<th></th>
+											</tr>
+											<tbody class="eq_table_post">
+												@if($presupuesto->actividadeseqpost)
+													@foreach($presupuesto->actividadeseqpost as $actividad)
+														<tr>
+															<td>{{$actividad->nombre}}</td>
+															<td>{{$actividad->descripcion}}</td>
+															<td>{{$actividad->unidad}}</td>
+															<td>{{$actividad->cantidad}}</td>
+															<td>{{$actividad->costo_unitario}}</td>
+															<td>{{$actividad->subtotal}}</td>
+														</tr>
+													@endforeach
+												@endif
+											</tbody>
+											<th>TOTAL: S/. {{$presupuesto->actividadeseqpost->sum('subtotal')}}</th>
+										</table>
+									</div>
+								</div>
+
+								<div class="panel-heading">
+									<h3 class="panel-title">Gastos operativos</h3>
+								</div>
+
+									<div class="panel-body">
+									 
+									<div class="col-md-12">
+										<table class="table">
+											<tr class="info">
+												<th>Actividad</th>
+												<th>Descripcion</th>
+												<th>Unidad</th>
+												<th>Cantidad</th>
+												<th>Costo por unidad</th>
+												<th>Subtotal</th>
+												<th></th>
+											</tr>
+											<tbody class="go_table_post">
+												@if($presupuesto->actividadesgopost)
+													@foreach($presupuesto->actividadesgopost as $actividad)
+														<tr>
+															<td>{{$actividad->nombre}}</td>
+															<td>{{$actividad->descripcion}}</td>
+															<td>{{$actividad->unidad}}</td>
+															<td>{{$actividad->cantidad}}</td>
+															<td>{{$actividad->costo_unitario}}</td>
+															<td>{{$actividad->subtotal}}</td>
+														</tr>
+													@endforeach
+												@endif
+											</tbody>
+											<th>TOTAL: S/. {{$presupuesto->actividadesgopost->sum('subtotal')}}</th>
+										</table>
+									</div>
+								</div>
+
+								<div class="panel-heading">
+									<h3 class="panel-title">Gastos administrativos y gestión</h3>
+								</div>
+
+							  	<div class="panel-body">
+									 
+									<div class="col-md-12">
+										<table class="table">
+											<tr class="info">
+												<th>Actividad</th>
+												<th>Descripcion</th>
+												<th>Unidad</th>
+												<th>Cantidad</th>
+												<th>Costo por unidad</th>
+												<th>Subtotal</th>
+												<th></th>
+											</tr>
+											<tbody class="ga_table_post">
+												@if($presupuesto->actividadesgapost)
+													@foreach($presupuesto->actividadesgapost as $actividad)
+														<tr>
+															<td>{{$actividad->nombre}}</td>
+															<td>{{$actividad->descripcion}}</td>
+															<td>{{$actividad->unidad}}</td>
+															<td>{{$actividad->cantidad}}</td>
+															<td>{{$actividad->costo_unitario}}</td>
+															<td>{{$actividad->subtotal}}</td>
+														</tr>
+													@endforeach
+												@endif
+											</tbody>
+											<th>TOTAL: S/. {{$presupuesto->actividadesgapost->sum('subtotal')}}</th>
+										</table>
+									</div>
 								</div>
 							</div>
-						</div>
+				    	@endif
+
 				    </div>
 
 			    </div>

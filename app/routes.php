@@ -861,7 +861,7 @@ Route::group(array('prefix'=>'proyecto_presupuesto','before'=>'auth'),function()
 	Route::get('/create/{id}',['uses'=>'ProyectoPresupuestoController@create','as'=>'proyecto_presupuesto.create']);
 	Route::post('/create/{id}',['uses'=>'ProyectoPresupuestoController@store','as'=>'proyecto_presupuesto.store']);
 	Route::get('/show/{id}',['uses'=>'ProyectoPresupuestoController@show','as'=>'proyecto_presupuesto.show']);
-	Route::get('/edit/{id}',['uses'=>'ProyectoPresupuestoController@edit','as'=>'proyecto_presupuesto.edit']);
+	Route::get('/edit/{id}/{tipo}',['uses'=>'ProyectoPresupuestoController@edit','as'=>'proyecto_presupuesto.edit']);
 	Route::post('/edit/{id}',['uses'=>'ProyectoPresupuestoController@update','as'=>'proyecto_presupuesto.update']);
 });
 

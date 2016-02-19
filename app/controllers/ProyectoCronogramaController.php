@@ -18,9 +18,28 @@ class ProyectoCronogramaController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function create()
+	public function create($id)
 	{
-		//
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+
+				$data["categorias"] = ProyectoCategoria::orderBy('nombre')->get()->lists('nombre','id');
+				$data["servicios"] = Servicio::orderBy('nombre')->get()->lists('nombre','idservicio');
+				$data["departamentos"] = Area::orderBy('nombre')->get()->lists('nombre','idarea');
+				$data["usuarios"] = User::orderBy('nombre')->get()->lists('UserFullName','id');
+				$data["tipos"]	= [0=>'Fase de inversión',1=>'Fase de post-inversión',2=>'Ambas'];
+				$data["proyecto"] = Proyecto::find($id);
+
+				return View::make('investigacion.proyecto.cronograma.create',$data);
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
 	}
 
 

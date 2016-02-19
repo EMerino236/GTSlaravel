@@ -110,18 +110,18 @@
 							</a>
 						@else
 							<a class="btn-under" href="{{route('proyecto_alcance.show',$reporte_data->id)}}">
-								{{ Form::button('<span class="glyphicon glyphicon-upload"></span> Ver', ['class' => 'btn btn-success btn-block']) }}
+								{{ Form::button('<span class="glyphicon glyphicon-search"></span> Ver', ['class' => 'btn btn-success btn-block']) }}
 							</a>
 						@endif
 					</td>
 					<td class="text-center">
 						@if($reporte_data->id_alcance && !$reporte_data->id_presupuesto)
 							<a class="btn-under" href="{{route('proyecto_presupuesto.create',$reporte_data->id)}}">
-								{{ Form::button('<span class="glyphicon glyphicon-download"></span> Crear', ['class' => 'btn btn-success btn-block']) }}
+								{{ Form::button('<span class="glyphicon glyphicon-upload"></span> Crear', ['class' => 'btn btn-success btn-block']) }}
 							</a>
 						@elseif($reporte_data->id_alcance && $reporte_data->id_presupuesto)
 							<a class="btn-under" href="{{route('proyecto_presupuesto.show',$reporte_data->id)}}">
-								{{ Form::button('<span class="glyphicon glyphicon-download"></span> Ver', ['class' => 'btn btn-success btn-block']) }}
+								{{ Form::button('<span class="glyphicon glyphicon-search"></span> Ver', ['class' => 'btn btn-success btn-block']) }}
 							</a>
 						@else
 							<h6>Primero debe agregarse el alcance</h6>
@@ -134,7 +134,7 @@
 							</a>
 						@elseif($reporte_data->id_alcance && $reporte_data->id_cronograma)
 							<a class="btn-under" href="{{route('proyecto_cronograma.show',$reporte_data->id)}}">
-								{{ Form::button('<span class="glyphicon glyphicon-upload"></span> Ver', ['class' => 'btn btn-success btn-block']) }}
+								{{ Form::button('<span class="glyphicon glyphicon-search"></span> Ver', ['class' => 'btn btn-success btn-block']) }}
 							</a>
 						@else
 							<h6>Primero debe agregarse el alcance</h6>

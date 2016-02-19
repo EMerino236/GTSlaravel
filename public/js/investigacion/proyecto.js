@@ -18,12 +18,30 @@ $( document ).ready(function(){
         format:'DD-MM-YYYY'
     });
 
+    $('#datetimepicker_crono_ini_post').datetimepicker({
+        ignoreReadonly: true,
+        format:'DD-MM-YYYY'
+    });
+
+    $('#datetimepicker_crono_fin_post').datetimepicker({
+        ignoreReadonly: true,
+        format:'DD-MM-YYYY'
+    });
+
     $("#datetimepicker_crono_ini").on("dp.change", function (e) {
         $('#datetimepicker_crono_fin').data("DateTimePicker").minDate(e.date);
     });
     
     $("#datetimepicker_crono_fin").on("dp.change", function (e) {
         $('#datetimepicker_crono_ini').data("DateTimePicker").maxDate(e.date);
+    });
+
+    $("#datetimepicker_crono_ini_post").on("dp.change", function (e) {
+        $('#datetimepicker_crono_fin_post').data("DateTimePicker").minDate(e.date);
+    });
+    
+    $("#datetimepicker_crono_fin_post").on("dp.change", function (e) {
+        $('#datetimepicker_crono_ini_post').data("DateTimePicker").maxDate(e.date);
     });
 
 }); 
@@ -818,4 +836,49 @@ function deleteRowProyGA_post(event,el)
     $("#ga_total_post").val(total - subtotal);
     
     parent.parentNode.removeChild(parent);
+}
+
+function agregarCrono(){
+    var actividad = $("input[name=actividad]").val();
+    var descripcion = $("input[name=descripcion]").val();
+    var fecha_ini = $("input[name=crono_fecha_ini]").val();
+    var fecha_fin = $("input[name=crono_fecha_fin]").val();
+    var actividad_previa = $("#actividad_previa :selected");
+    
+    //Sacar tamaño de tabla para ponerla como numeracion de indice al colocar nueva fila
+    console.log(actividad_previa.length);
+    if(actividad.length < 1 || descripcion.length < 1 || fecha_ini.length < 1 || fecha_fin.length < 1){
+        return BootstrapDialog.alert({
+            title:  'Alerta',
+            message: 'Debe llenar todos los campos',
+        });  
+    }
+
+    var duracion = Date.daysBetween($('#datetimepicker_crono_ini').data("DateTimePicker").viewDate()._d,$('#datetimepicker_crono_fin').data("DateTimePicker").viewDate()._d);
+
+    var str = "<tr><td><input class='cell' name='actividades[]' value='"+actividad+"' readonly/></td>";
+    str += "<td><input class='cell' name='descripciones[]' value='"+descripcion+"' readonly/></td>";
+    str += "<td><input class='cell' name='fechas_ini[]' value='"+fecha_ini+"' readonly/></td>";
+    str += "<td><input class='cell' name='fechas_fin[]' value='"+fecha_fin+"' readonly/></td>";
+    str += "<td><input class='cell' name='duraciones[]' value='"+duracion+"' readonly/></td>";
+    str += "<td><input class='cell' name='actividades_previas_txt[]' value='"+actividad_previa.text()+"' readonly/><input type='hidden' name='actividades_previas[]' value='"+actividad_previa.val()+"'></td>";
+    str += "<td><a href='' class='btn btn-default delete-detail' onclick='deleteRow(event,this)'>Eliminar</a></td></tr>";
+    $(str).appendTo(".table_pre");
+
+    $('#datetimepicker_crono_fin').data("DateTimePicker").minDate(false);
+    $('#datetimepicker_crono_fin').data("DateTimePicker").maxDate(false);
+    
+    $('#datetimepicker_crono_ini').data("DateTimePicker").maxDate(false);
+    $('#datetimepicker_crono_ini').data("DateTimePicker").minDate(false);
+    
+    $("input[name=actividad]").val('');
+    $("input[name=descripcion]").val('');
+    $("input[name=crono_fecha_ini]").val('');
+    $("input[name=crono_fecha_fin]").val('');
+    $("input[name=actividad_previa]").val('');
+
+    $('#actividad_previa').append($('<option>', {
+        //value:  actividad,
+        text:   actividad
+    }));
 }
