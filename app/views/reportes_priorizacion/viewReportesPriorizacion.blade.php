@@ -36,6 +36,17 @@
 						{{ Form::hidden('idarea')}}
 					</div>
 				</div>	
+				<div class="row">
+					<div class="form-group col-md-4 @if($errors->first('num_doc_responsable_priorizacion')) has-error has-feedback @endif">
+						{{ Form::label('num_doc_responsable_priorizacion','N° Documento Responsable',array('id'=>'num_doc_responsable_priorizacion_label')) }}
+						{{ Form::text('num_doc_responsable_priorizacion',$responsable_info->numero_doc_identidad,array('class'=>'form-control','maxlength'=>8)) }}
+						{{ Form::hidden('idresponsable_priorizacion')}}
+					</div>
+					<div class="form-group col-md-4 @if($errors->first('nombre_responsable_priorizacion')) has-error has-feedback @endif">
+						{{ Form::label('nombre_responsable_priorizacion','Nombre de Responsable',array('id'=>'nombre_responsable_priorizacion_label')) }}
+						{{ Form::text('nombre_responsable_priorizacion',$responsable_info->apellido_pat.' '.$responsable_info->apellido_mat.' '.$responsable_info->nombre,array('class'=>'form-control','readonly'=>'')) }}
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="row">

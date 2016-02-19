@@ -424,6 +424,7 @@ Route::group(array('prefix'=>'reporte_cn','before'=>'auth'),function(){
 	Route::post('/return_num_ot_retiro/{postData}','ReporteCNController@return_num_ot_retiro');
 	Route::post('/return_num_doc_responsable_cn/{postData}','ReporteCNController@return_num_doc_responsable_cn');
 	Route::post('/return_area/{postData}','ReporteCNController@return_area');
+	Route::post('/return_reporte_etes/{postData}','ReporteCNController@return_reporte_etes');
 	Route::get('/download_documento/{id}','ReporteCNController@download_documento');
 	Route::post('/submit_disable_reporte_cn','ReporteCNController@submit_disable_reporte_cn');
 	Route::post('/submit_enable_reporte_cn','ReporteCNController@submit_enable_reporte_cn');

@@ -95,6 +95,22 @@
 						{{ Form::text('nombre_equipo',Input::old('nombre_equipo'),array('class'=>'form-control','readonly'=>'')) }}
 					</div>
 				</div>	
+				<div class="row">
+					<div class="form-group col-md-4 @if($errors->first('codigo_reporte_etes')) has-error has-feedback @endif">
+						{{ Form::label('codigo_reporte_etes','ETES Vinculadas',array('id'=>'codigo_reporte_etes_label')) }}
+						{{ Form::text('codigo_reporte_etes',Input::old('codigo_reporte_etes'),array('placeholder'=>'EC0001-16','class'=>'form-control','maxlength'=>9)) }}
+						{{ Form::hidden('idreporte_etes')}}
+					</div>
+					<div class="form-group col-md-2" style="margin-top:25px">
+						<a id="btn_agregar_etes" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-plus"></span> Agregar</a>
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-md-4" id="div_etes">
+					</div>
+					<div class="form-group col-md-2" id="div_remove_etes">
+					</div>
+				</div>	
 			</div>
 		</div>
 		<div class="panel panel-default">

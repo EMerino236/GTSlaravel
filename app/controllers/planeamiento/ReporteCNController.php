@@ -291,6 +291,30 @@ class ReporteCNController extends BaseController
 		}
 	}
 
+	public function return_reporte_etes(){
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$id = Auth::id();
+		$data["inside_url"] = Config::get('app.inside_url');
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+			// Check if the current user is the "System Admin"
+			$data = Input::get('selected_id');
+			if($data !="vacio"){
+				$abreviatura = mb_substr($data,0,2);
+				$correlativo = mb_substr($data,2,4);
+				$anho = mb_substr($data,7,2);
+				$reporte = ReporteETES::searchReporteETESByCodigoReporte($abreviatura,$correlativo,$anho)->get();
+			}else{
+				$reporte = null;
+			}
+			return Response::json(array( 'success' => true, 'reporte' => $reporte ),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
 	public function getCorrelativeReportNumber($abreviatura){
 		$reporte = ReporteCN::getLastReporte($abreviatura)->first();
 		$string = "";

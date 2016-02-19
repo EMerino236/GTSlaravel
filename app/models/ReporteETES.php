@@ -48,4 +48,13 @@ class ReporteETES extends Eloquent{
 	  	return $query;
 	}
 
+	public function scopeSearchReporteETESByCodigoReporte($query,$abreviatura,$correlativo,$anho)
+	{
+		$query->where('numero_reporte_abreviatura','=',$abreviatura)
+			  ->where('numero_reporte_correlativo','=',$correlativo)
+			  ->where('numero_reporte_anho','=',$anho)
+			  ->select('reporte_etes.*');
+	  	return $query;
+	}
+
 }
