@@ -81,7 +81,14 @@
 				{{ Form::label('search_codigo_patrimonial','Código Patrimonial') }}				
 				{{ Form::text('search_codigo_patrimonial',$search_codigo_patrimonial,array('class'=>'form-control','placeholder'=>'Código Patrimonial')) }}
 			</div>			
-		</div>		
+		</div>
+
+		<div class="form-group row">
+			<div class="col-md-4">
+				{{ Form::label('row_number','Registros por Página') }}
+				{{ Form::select('row_number', array('10' => '10 Registros','30' => '30 Registros','60' => '60 Registros','120' => '120 Registros'),$row_number,['class' => 'form-control']) }}								
+			</div>
+		</div>	
 
 		<div class="row">
 			<div class="form-group col-md-2 col-md-offset-8">
@@ -95,7 +102,7 @@
 	</div>
 	
 	{{ Form::close() }}	
-	<div class="container-fluid form-group row">
+	<div class="container-fluid form-group row">		
 		<div class="col-md-2 col-md-offset-10">
 			<a class="btn btn-primary btn-block" href="{{URL::to('/equipos/create_equipo')}}">
 			<span class="glyphicon glyphicon-plus"></span> Agregar</a>

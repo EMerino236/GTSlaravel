@@ -5,7 +5,8 @@ $( document ).ready(function(){
  	});
 });
 
-function limpiar_criterios_list_activos(){
+function limpiar_criterios_list_activos()
+{
 
 	$('#search_grupo').prop('selectedIndex','0');
 	$('#search_servicio').prop('selectedIndex','0');

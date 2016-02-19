@@ -89,6 +89,13 @@
 			</div>					
 		</div>
 
+		<div class="form-group row">
+			<div class="col-md-4">
+				{{ Form::label('row_number','Registros por Página') }}
+				{{ Form::select('row_number', array('10' => '10 Registros','30' => '30 Registros','60' => '60 Registros','120' => '120 Registros'),$row_number,['class' => 'form-control']) }}								
+			</div>
+		</div>
+
 		<div class="row">
 			<div class="form-group col-md-2 col-md-offset-8">
 				{{ Form::button('<span class="glyphicon glyphicon-search"></span> Buscar', array('id'=>'submit-search-form','type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}				
