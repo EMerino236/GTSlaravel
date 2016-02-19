@@ -8,6 +8,11 @@ class Proyecto extends Eloquent{
 
 	protected $table = 'proyectos';
 
+	public function requerimientoClinico()
+	{
+		return $this->belongsTo('RequerimientoClinico', 'id_requerimiento');
+	}
+
 	public function categoria()
 	{
 		return $this->belongsTo('ProyectoCategoria', 'id_categoria');
@@ -21,6 +26,11 @@ class Proyecto extends Eloquent{
 	public function departamento()
 	{
 		return $this->belongsTo('Area', 'id_departamento');
+	}
+
+	public function alcance()
+	{
+		return $this->belongsTo('Alcance', 'id_alcance');
 	}
 
 	public function responsable()
@@ -72,7 +82,6 @@ class Proyecto extends Eloquent{
 	{
 		return $this->hasMany('ProyectoAprobacion', 'id_proyecto');
 	}
-
 
 	public function scopeSearchReporte($query,$search_nombre,$search_categoria,$search_servicio_clinico,$search_departamento,$search_responsable,$search_fecha_ini,$search_fecha_fin)
 	{

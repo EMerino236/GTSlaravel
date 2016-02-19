@@ -34,6 +34,11 @@ class RequerimientoClinico extends Eloquent{
 		return $this->belongsTo('RequerimientoClinicoEstado', 'id_estado');
 	}
 
+	public function reporte()
+	{
+		return $this->belongsTo('ReporteFinanciamiento', 'id_reporte');
+	}
+
 	public function scopeSearchRequerimiento($query,$search_nombre,$search_categoria,$search_servicio_clinico,$search_departamento,$search_tipo, $search_estado)
 	{
 		$query->withTrashed();

@@ -63,17 +63,19 @@
                 {{ HTML::linkRoute('proyecto.index','Formulación y planificación de proyectos de investigación') }}
             </li>
             
-            <!--
+            
             <li>
                 <a href="#">Ejecución, control, cierre  y modificaciones de proyectos de investigación de TS y propiedad intelectual<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
-                    <li>{{ HTML::link('#','Documento general del proyecto (paquete tecnológico)') }}</li>
+                    <li>{{ HTML::linkRoute('proyecto_documentacion.index','Documentación general de proyectos') }}</li>
+                    {{--
                     <li>{{ HTML::link('#','Informe económico del proyecto') }}</li>
                     <li>{{ HTML::link('#','Plan de aprendizaje proyectos de investigación de TS') }}</li>
                     <li>{{ HTML::link('#','Indicadores de proyecto') }}</li>
+                    --}}
                 </ul>
             </li>
-
+            <!--
             <li>
                 <a href="#">Gestión de transferencia de tecnología en salud desarrollada<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">

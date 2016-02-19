@@ -44,9 +44,10 @@
 	<div id="tab_menu">
 	  <ul class="nav nav-pills">
 	    <li class="active">
-	      <a href="#tab_reporte_cn" data-toggle="tab">Reporte de Necesidad</a>
+	      	<a href="#tab_reporte_cn" data-toggle="tab">Reporte de Necesidad</a>
 	    </li>
-	    <li><a href="#tab_reporte_paac" data-toggle="tab">Reporte de Evaluación de Instalación o Implantación</a>
+	    <li>
+	    	<a href="#tab_reporte_paac" data-toggle="tab">Reporte de Evaluación de Instalación o Implantación</a>
 	    </li>
 	  </ul>
 

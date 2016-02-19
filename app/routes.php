@@ -821,3 +821,36 @@ Route::group(array('prefix'=>'reportes_calibracion','before'=>'auth'),function()
 Route::group(array('prefix'=>'rrhh', 'before'=>'auth'),function(){
 	Route::get('/','RRHHController@home');
 });
+
+/* Documentacion general de proyecto */
+Route::group(array('prefix'=>'proyecto_documentacion','before'=>'auth'),function(){
+	Route::get('/index',['uses'=>'ProyectoDocumentacionController@index','as'=>'proyecto_documentacion.index']);
+	Route::get('/search',['uses'=>'ProyectoDocumentacionController@search','as'=>'proyecto_documentacion.search']);
+});
+
+/* Alcance del proyecto */
+Route::group(array('prefix'=>'proyecto_alcance','before'=>'auth'),function(){
+	Route::get('/create/{id}',['uses'=>'ProyectoAlcanceController@create','as'=>'proyecto_alcance.create']);
+	Route::post('/store/{id}',['uses'=>'ProyectoAlcanceController@store','as'=>'proyecto_alcance.store']);
+	Route::get('/show/{id}',['uses'=>'ProyectoAlcanceController@show','as'=>'proyecto_alcance.show']);
+	Route::get('/edit/{id}',['uses'=>'ProyectoAlcanceController@edit','as'=>'proyecto_alcance.edit']);
+	Route::post('/edit/{id}',['uses'=>'ProyectoAlcanceController@update','as'=>'proyecto_alcance.update']);
+});
+
+/* Presupuesto del proyecto */
+Route::group(array('prefix'=>'proyecto_presupuesto','before'=>'auth'),function(){
+	Route::get('/create/{id}',['uses'=>'ProyectoPresupuestoController@create','as'=>'proyecto_presupuesto.create']);
+	Route::post('/create/{id}',['uses'=>'ProyectoPresupuestoController@store','as'=>'proyecto_presupuesto.store']);
+	Route::get('/show/{id}',['uses'=>'ProyectoPresupuestoController@show','as'=>'proyecto_presupuesto.show']);
+	Route::get('/edit/{id}',['uses'=>'ProyectoPresupuestoController@edit','as'=>'proyecto_presupuesto.edit']);
+	Route::post('/edit/{id}',['uses'=>'ProyectoPresupuestoController@update','as'=>'proyecto_presupuesto.update']);
+});
+
+/* Cronograma del proyecto */
+Route::group(array('prefix'=>'proyecto_cronograma','before'=>'auth'),function(){
+	Route::get('/create/{id}',['uses'=>'ProyectoCronogramaController@create','as'=>'proyecto_cronograma.create']);
+	Route::get('/store/{id}',['uses'=>'ProyectoCronogramaController@store','as'=>'proyecto_cronograma.store']);
+	Route::get('/show/{id}',['uses'=>'ProyectoCronogramaController@show','as'=>'proyecto_cronograma.show']);
+	Route::get('/edit/{id}',['uses'=>'ProyectoCronogramaController@edit','as'=>'proyecto_cronograma.edit']);
+	Route::post('/edit/{id}',['uses'=>'ProyectoCronogramaController@update','as'=>'proyecto_cronograma.update']);
+});
