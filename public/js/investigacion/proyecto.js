@@ -1,3 +1,6 @@
+var proy_ini;
+var proy_fin;
+
 $( document ).ready(function(){
 
     $("#datetimepicker_desarrollo_ini").on("dp.change", function (e) {
@@ -26,6 +29,29 @@ $( document ).ready(function(){
     $('#datetimepicker_crono_fin_post').datetimepicker({
         ignoreReadonly: true,
         format:'DD-MM-YYYY'
+    });
+
+    $('#datetimepicker_crono_act_ini').datetimepicker({
+        ignoreReadonly: true,
+        format:'DD-MM-YYYY',
+        minDate: proy_ini,
+    });
+
+    $('#datetimepicker_crono_act_fin').datetimepicker({
+        ignoreReadonly: true,
+        format:'DD-MM-YYYY',
+        maxDate: proy_fin,
+
+    });
+
+    $("#datetimepicker_crono_act_ini").on("dp.change", function (e) {
+        $('#datetimepicker_crono_act_fin').data("DateTimePicker").minDate(e.date);
+        calcula_duracion();
+    });
+    
+    $("#datetimepicker_crono_act_fin").on("dp.change", function (e) {
+        $('#datetimepicker_crono_act_ini').data("DateTimePicker").maxDate(e.date);
+        calcula_duracion();
     });
 
     $("#datetimepicker_crono_ini").on("dp.change", function (e) {
@@ -838,47 +864,59 @@ function deleteRowProyGA_post(event,el)
     parent.parentNode.removeChild(parent);
 }
 
-function agregarCrono(){
-    var actividad = $("input[name=actividad]").val();
-    var descripcion = $("input[name=descripcion]").val();
-    var fecha_ini = $("input[name=crono_fecha_ini]").val();
-    var fecha_fin = $("input[name=crono_fecha_fin]").val();
-    var actividad_previa = $("#actividad_previa :selected");
+function calcula_duracion(){
+    var fecha_ini = $("input[name=fecha_ini]").val();
+    var fecha_fin = $("input[name=fecha_fin]").val();
     
-    //Sacar tamaño de tabla para ponerla como numeracion de indice al colocar nueva fila
-    console.log(actividad_previa.length);
-    if(actividad.length < 1 || descripcion.length < 1 || fecha_ini.length < 1 || fecha_fin.length < 1){
-        return BootstrapDialog.alert({
-            title:  'Alerta',
-            message: 'Debe llenar todos los campos',
-        });  
+
+    if(!fecha_ini.length < 1 || !fecha_fin.length < 1){
+        var duracion = Date.daysBetween($('#datetimepicker_crono_act_ini').data("DateTimePicker").viewDate()._d,$('#datetimepicker_crono_act_fin').data("DateTimePicker").viewDate()._d);
     }
 
-    var duracion = Date.daysBetween($('#datetimepicker_crono_ini').data("DateTimePicker").viewDate()._d,$('#datetimepicker_crono_fin').data("DateTimePicker").viewDate()._d);
+    $("input[name=duracion]").val(duracion);
 
-    var str = "<tr><td><input class='cell' name='actividades[]' value='"+actividad+"' readonly/></td>";
-    str += "<td><input class='cell' name='descripciones[]' value='"+descripcion+"' readonly/></td>";
-    str += "<td><input class='cell' name='fechas_ini[]' value='"+fecha_ini+"' readonly/></td>";
-    str += "<td><input class='cell' name='fechas_fin[]' value='"+fecha_fin+"' readonly/></td>";
-    str += "<td><input class='cell' name='duraciones[]' value='"+duracion+"' readonly/></td>";
-    str += "<td><input class='cell' name='actividades_previas_txt[]' value='"+actividad_previa.text()+"' readonly/><input type='hidden' name='actividades_previas[]' value='"+actividad_previa.val()+"'></td>";
-    str += "<td><a href='' class='btn btn-default delete-detail' onclick='deleteRow(event,this)'>Eliminar</a></td></tr>";
-    $(str).appendTo(".table_pre");
+}
 
-    $('#datetimepicker_crono_fin').data("DateTimePicker").minDate(false);
-    $('#datetimepicker_crono_fin').data("DateTimePicker").maxDate(false);
+function getActividades()
+{
     
-    $('#datetimepicker_crono_ini').data("DateTimePicker").maxDate(false);
-    $('#datetimepicker_crono_ini').data("DateTimePicker").minDate(false);
-    
-    $("input[name=actividad]").val('');
-    $("input[name=descripcion]").val('');
-    $("input[name=crono_fecha_ini]").val('');
-    $("input[name=crono_fecha_fin]").val('');
-    $("input[name=actividad_previa]").val('');
+    var id_tipo = $('#tipo').val();
+    var id_cronograma = $('#cronograma').val();
 
-    $('#actividad_previa').append($('<option>', {
-        //value:  actividad,
-        text:   actividad
-    }));
+    $.ajax({
+        url: inside_url + 'proyecto_cronograma/getActividadesAjax',
+        type: 'POST',
+        data: { 'id_tipo' : id_tipo,
+                'id_cronograma' : id_cronograma
+        },
+        beforeSend: function(){
+
+        },
+        complete: function(){
+
+        },
+        success: function(response){   
+            if(response.success)
+            {
+                var select = document.getElementById("actividad_previa");
+                select.options.length = 0;
+                for(actividad in response.actividades){
+                    select.options[select.options.length] = new Option(response.actividades[actividad], actividad);
+                }
+            }
+            else
+            {
+                return BootstrapDialog.alert({
+                    title:   'Alerta',
+                    message: 'La petición no se pudo completar, intentelo nuevamente',
+                });
+            }
+        },
+        error: function(){
+            return BootstrapDialog.alert({
+                    title:   'Alerta',
+                    message: 'La petición no se pudo completar, intentelo nuevamente',
+            });
+        }
+    });
 }

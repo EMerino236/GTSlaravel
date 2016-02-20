@@ -868,8 +868,10 @@ Route::group(array('prefix'=>'proyecto_presupuesto','before'=>'auth'),function()
 /* Cronograma del proyecto */
 Route::group(array('prefix'=>'proyecto_cronograma','before'=>'auth'),function(){
 	Route::get('/create/{id}',['uses'=>'ProyectoCronogramaController@create','as'=>'proyecto_cronograma.create']);
-	Route::get('/store/{id}',['uses'=>'ProyectoCronogramaController@store','as'=>'proyecto_cronograma.store']);
+	Route::post('/create/{id}',['uses'=>'ProyectoCronogramaController@store','as'=>'proyecto_cronograma.store']);
 	Route::get('/show/{id}',['uses'=>'ProyectoCronogramaController@show','as'=>'proyecto_cronograma.show']);
 	Route::get('/edit/{id}',['uses'=>'ProyectoCronogramaController@edit','as'=>'proyecto_cronograma.edit']);
 	Route::post('/edit/{id}',['uses'=>'ProyectoCronogramaController@update','as'=>'proyecto_cronograma.update']);
+
+	Route::post('/getActividadesAjax',['uses'=>'ProyectoCronogramaController@getActividadesAjax','as'=>'proyecto_cronograma.getActividades.ajax']);
 });

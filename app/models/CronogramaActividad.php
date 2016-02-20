@@ -1,0 +1,16 @@
+<?php
+
+use Illuminate\Database\Eloquent\SoftDeletingTrait;
+
+class CronogramaActividad extends Eloquent{
+	use SoftDeletingTrait;	
+	protected $softDelete = true;
+
+	protected $table = 'cronogramas_actividades';
+
+	public function actividadPrevia()
+	{
+		return $this->belongsTo('CronogramaActividad', 'id_actividad_previa');
+	}
+
+}

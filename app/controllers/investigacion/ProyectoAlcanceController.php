@@ -164,7 +164,7 @@ class ProyectoAlcanceController extends \BaseController {
 					}
 
 					Session::flash('message', 'Se registró correctamente el alcance.');
-					return Redirect::to('proyecto_alcance/create/'.$id);
+					return Redirect::to('proyecto_alcance/show/'.$id);
 				}
 			}else{
 				return View::make('error/error',$data);

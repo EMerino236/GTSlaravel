@@ -53,7 +53,6 @@ class ProyectoPresupuestoController extends \BaseController {
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
-			$dimensiones = Dimension::all()->count();
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				// Validate the info, create rules for the inputs	
@@ -322,7 +321,7 @@ class ProyectoPresupuestoController extends \BaseController {
 					}
 
 					Session::flash('message', 'Se registró correctamente el presupuesto.');
-					return Redirect::to('proyecto_presupuesto/create/'.$id);
+					return Redirect::to('proyecto_presupuesto/show/'.$id);
 				}
 			}else{
 				return View::make('error/error',$data);
@@ -519,7 +518,7 @@ class ProyectoPresupuestoController extends \BaseController {
 					$presupuesto->save();
 
 					Session::flash('message', 'Se editó correctamente el presupuesto.');
-					return Redirect::to('proyecto_presupuesto/show/'.$presupuesto->id_proyecto);
+					return Redirect::to('proyecto_presupuesto/show/'.$id);
 				}
 			}else{
 				return View::make('error/error',$data);
