@@ -98,6 +98,7 @@ class ReportePriorizacionController extends BaseController
 				$data["areas"] = Area::lists('nombre','idarea');
 				$data["servicios"] = Servicio::lists('nombre','idservicio');
 				$data["reporte_priorizacion_info"] = ReportePriorizacion::withTrashed()->find($id);
+				$data["responsable_info"] = User::withTrashed()->find($data["reporte_priorizacion_info"]->iduser);
 				return View::make('reportes_priorizacion/editReportesPriorizacion',$data);
 			}else{
 				return View::make('error/error',$data);
@@ -118,11 +119,8 @@ class ReportePriorizacionController extends BaseController
 				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 				$data["areas"] = Area::lists('nombre','idarea');
 				$data["servicios"] = Servicio::lists('nombre','idservicio');
-				$data["tipo_reporte_priorizacion"] = TipoReportePriorizacion::lists('nombre','idtipo_reporte_priorizacion');
 				$data["reporte_priorizacion_info"] = ReportePriorizacion::withTrashed()->find($id);
-				$data["programacion_reporte_priorizacion_info"] = ProgramacionReportePriorizacion::withTrashed()->find($data["reporte_priorizacion_info"]->idprogramacion_reporte_priorizacion);
-				$data["otretiro_info"] = OtRetiro::find($data["reporte_priorizacion_info"]->idot_retiro);
-				$data["otretiro_info"] = OtRetiro::searchOtByCodigoReporte($data["otretiro_info"]->ot_tipo_abreviatura,$data["otretiro_info"]->ot_correlativo,$data["otretiro_info"]->ot_activo_abreviatura)->get()[0];
+				$data["responsable_info"] = User::withTrashed()->find($data["reporte_priorizacion_info"]->iduser);
 				return View::make('reportes_priorizacion/viewReportesPriorizacion',$data);
 			}else{
 				return View::make('error/error',$data);

@@ -542,6 +542,92 @@ $( document ).ready(function(){
       $("#nombre_paac").val('');
       $("#fecha_paac").val('');
     });
+
+    
+    var x = 0; //initlal text box count
+    $("#btn_agregar_etes").click(function(e){ //on add input button click
+        var val = $("#codigo_reporte_etes").val();
+        if(val!=""){
+            $.ajax({
+                url: inside_url+'reporte_cn/return_reporte_etes/'+val,
+                type: 'POST',
+                data: { 'selected_id' : val },
+                beforeSend: function(){
+                },
+                complete: function(){
+                },
+                success: function(response){
+                    if(response.success){
+                        var resp = response['reporte']; 
+                        if(resp!="vacio"){
+                            if(resp[0] != null){
+                                x++; //text box increment
+                                $("#div_etes").append('<div><input class="form-control" maxlength=8 type="text" id="p_scnt'+x+'" name="p_scnt_" value=""/><a href="#" class="remove_field">Eliminar</a></div>'); //add input box
+                                document.getElementById("p_scnt"+x).value = resp[0].numero_reporte_abreviatura+resp[0].numero_reporte_correlativo+'-'+resp[0].numero_reporte_anho;                    
+                            }
+                            else{
+                                dialog = BootstrapDialog.show({
+                                    title: 'Advertencia',
+                                    message: "El código de Reporte ETES no existe",
+                                    type : BootstrapDialog.TYPE_DANGER,
+                                    buttons: [{
+                                        label: 'Aceptar',
+                                        action: function(dialog) {
+                                            dialog.close();
+                                        }
+                                    }]
+                                });
+                            } 
+                        }else{
+                            dialog = BootstrapDialog.show({
+                                title: 'Advertencia',
+                                message: "El código de Reporte ETES no existe",
+                                type : BootstrapDialog.TYPE_DANGER,
+                                buttons: [{
+                                    label: 'Aceptar',
+                                    action: function(dialog) {
+                                        dialog.close();
+                                    }
+                                }]
+                            });
+                        }               
+                    }else{
+                          dialog = BootstrapDialog.show({
+                                title: 'Advertencia',
+                                message: "El código de Reporte ETES no existe",
+                                type : BootstrapDialog.TYPE_DANGER,
+                                buttons: [{
+                                    label: 'Aceptar',
+                                    action: function(dialog) {
+                                        dialog.close();
+                                    }
+                                }]
+                            });
+                    }
+                },
+                error: function(){
+                                dialog = BootstrapDialog.show({
+                                    title: 'Advertencia',
+                                    message: "El código de Reporte ETES no existe",
+                                    type : BootstrapDialog.TYPE_DANGER,
+                                    buttons: [{
+                                        label: 'Aceptar',
+                                        action: function(dialog) {
+                                            dialog.close();
+                                        }
+                                    }]
+                                });
+                }
+            }); 
+        }
+    });
+    
+    $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+        e.preventDefault(); 
+        $(this).parent('div').remove(); 
+        alert($(this).parent().children('.form-control').text());
+        x--;
+    })
 });
 
 function llenar_nombre_equipo(){
@@ -738,4 +824,86 @@ function limpiar_nombre_responsable_priorizacion(){
     $("#num_doc_responsable_priorizacion").val('');
     $("#nombre_responsable_priorizacion").val('');
     $("#nombre_responsable_priorizacion").css('background-color','#eee');
+}
+
+function llenar_reporte_etes(){
+    var val = $("#codigo_reporte_etes").val();
+    if(val!=""){
+        $.ajax({
+            url: inside_url+'reporte_cn/return_reporte_etes/'+val,
+            type: 'POST',
+            data: { 'selected_id' : val },
+            beforeSend: function(){
+            },
+            complete: function(){
+            },
+            success: function(response){
+                if(response.success){
+                    var resp = response['reporte']; 
+                    if(resp!="vacio"){
+                        if(resp[0] != null){
+                            $('<label for="p_scnts"><input class="form-control" maxlength=8 type="text" id="p_scnt" name="p_scnt_" value=""/></label>').appendTo(div_etes);
+                            $('<a id="btn_limpiar" class="btn btn-default btn-block" onclick="limpiar_reporte_etes()"><span class="glyphicon glyphicon-refresh"></span> Eliminar</a>').appendTo(div_remove_etes);
+                            return false;                      
+                        }
+                        else{
+                            dialog = BootstrapDialog.show({
+                                title: 'Advertencia',
+                                message: "El código de Reporte ETES no existe",
+                                type : BootstrapDialog.TYPE_DANGER,
+                                buttons: [{
+                                    label: 'Aceptar',
+                                    action: function(dialog) {
+                                        dialog.close();
+                                    }
+                                }]
+                            });
+                        } 
+                    }else{
+                        dialog = BootstrapDialog.show({
+                            title: 'Advertencia',
+                            message: "El código de Reporte ETES no existe",
+                            type : BootstrapDialog.TYPE_DANGER,
+                            buttons: [{
+                                label: 'Aceptar',
+                                action: function(dialog) {
+                                    dialog.close();
+                                }
+                            }]
+                        });
+                    }               
+                }else{
+                      dialog = BootstrapDialog.show({
+                            title: 'Advertencia',
+                            message: "El código de Reporte ETES no existe",
+                            type : BootstrapDialog.TYPE_DANGER,
+                            buttons: [{
+                                label: 'Aceptar',
+                                action: function(dialog) {
+                                    dialog.close();
+                                }
+                            }]
+                        });
+                }
+            },
+            error: function(){
+                            dialog = BootstrapDialog.show({
+                                title: 'Advertencia',
+                                message: "El código de Reporte ETES no existe",
+                                type : BootstrapDialog.TYPE_DANGER,
+                                buttons: [{
+                                    label: 'Aceptar',
+                                    action: function(dialog) {
+                                        dialog.close();
+                                    }
+                                }]
+                            });
+            }
+        }); 
+    }
+}
+
+function limpiar_reporte_etes(){
+    $(this).parent('div').remove();
+    return false;
 }
