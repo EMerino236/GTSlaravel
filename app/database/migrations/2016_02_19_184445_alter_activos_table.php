@@ -14,10 +14,11 @@ class AlterActivosTable extends Migration {
 	{
 		Schema::table('activos', function(Blueprint $table)
 		{
-			$table->integer('fe');
-			$table->integer('ac');
-			$table->integer('rm');
-			$table->integer('hie');
+			$table->integer('ge')->after('idmodelo_equipo');
+			$table->integer('hie')->after('idmodelo_equipo');
+			$table->integer('rm')->after('idmodelo_equipo');
+			$table->integer('ac')->after('idmodelo_equipo');
+			$table->integer('fe')->after('idmodelo_equipo');
 		});
 	}
 
