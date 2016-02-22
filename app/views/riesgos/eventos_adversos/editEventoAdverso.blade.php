@@ -2,7 +2,7 @@
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Registro de Evento Adverso</h3>
+            <h3 class="page-header">Evento Adverso {{$evento_adverso_info->codigo_abreviatura}}-{{$evento_adverso_info->codigo_correlativo}}-{{$evento_adverso_info->codigo_anho}}</h3>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -516,19 +516,37 @@
 			</div>
 		</div>
 		<div class="container-fluid row">
-			<div class="form-group col-md-2">				
-				{{ Form::button('<span class="glyphicon glyphicon-disk"></span> Guardar', array('id'=>'submit-create', 'type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}
-			</div>
-		{{Form::close()}}
+			@if(!$evento_adverso_info->deleted_at)
+				<div class="form-group col-md-2">				
+					{{ Form::button('<span class="glyphicon glyphicon-disk"></span> Guardar', array('id'=>'submit-create', 'type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}
+				</div>
+			@endif			
 			<div class="form-group col-md-2">
 				<a class="btn btn-default btn-block" href="{{URL::to('/eventos_adversos/list_eventos_adversos')}}">Cancelar</a>				
 			</div>
-			<div class="form-group col-md-2 col-md-offset-6">
+		{{Form::close()}}
+			
+			<div class="form-group col-md-2">
 				{{ Form::open(array('url'=>'eventos_adversos/export_pdf', 'role'=>'form')) }}
 				{{ Form::hidden('evento_adverso_id', $evento_adverso_info->id) }}
 				{{ Form::button('<span class="glyphicon glyphicon-export"></span> Exportar', array('id'=>'exportar', 'type'=>'submit' ,'class' => 'btn btn-success btn-block')) }}
 				{{ Form::close() }}
 			</div>
+			@if($evento_adverso_info->deleted_at)
+			{{ Form::open(array('url'=>'eventos_adversos/submit_enable_evento', 'role'=>'form','id'=>'submit_enable')) }}
+				{{ Form::hidden('evento_id', $evento_adverso_info->id) }}
+					<div class="form-group col-md-2">
+						{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-up"></span> Habilitar', array('id'=>'btnEnable', 'class' => 'btn btn-success btn-block')) }}
+					</div>
+			{{ Form::close() }}
+			@else
+			{{ Form::open(array('url'=>'eventos_adversos/submit_disable_evento', 'role'=>'form','id'=>'submit_disable')) }}
+				{{ Form::hidden('evento_id', $evento_adverso_info->id) }}
+					<div class="form-group col-md-2 ">
+						{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-down"></span> Inhabilitar', array('id'=>'btnDisable', 'class' => 'btn btn-danger btn-block')) }}
+					</div>
+			{{ Form::close() }}
+			@endif
 		</div>
 	
 @stop

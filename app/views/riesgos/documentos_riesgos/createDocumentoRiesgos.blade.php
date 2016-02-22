@@ -96,7 +96,7 @@
 	<script>
 		$("#input-file").fileinput({
 		    language: "es",
-		    allowedFileExtensions: ["png","jpe","jpeg","jpg","gif","bmp","zip","rar","pdf","doc","docx","xls","xlsx","ppt","pptx"]
+		    allowedFileExtensions: ["png","jpe","jpeg","jpg","pdf","doc","docx","xls","xlsx","ppt","pptx"]
 		});
 	</script>
 	

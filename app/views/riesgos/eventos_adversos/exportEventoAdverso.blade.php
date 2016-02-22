@@ -95,7 +95,7 @@
 		<ul class="lista_generales">
 			
 			@if($evento_adverso_info->idetapa_servicio == null)
-			<li><label><strong>Entorno Asistencial:</strong></label> {{$entorno_asistencial->nombre}}</li>
+				<li><label><strong>Entorno Asistencial:</strong></label> {{$entorno_asistencial->nombre_tipo}}</li>
 				<li><label><strong>Observacion:</strong></label> {{$entorno_asistencial->comentario}}</li>
 			@else
 				<li><label><strong>Entorno Asistencial:</strong></label> {{$entorno_asistencial->nombre}}</li>

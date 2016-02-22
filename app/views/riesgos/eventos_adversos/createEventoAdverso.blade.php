@@ -66,7 +66,7 @@
 		{{ Form::hidden('flag_edit',0,array('id'=>'flag_edit'))}}
 		{{ Form::hidden('flag_tipoHijo',0,array('id'=>'flag_tipoHijo'))}}
 		{{ Form::hidden('flag_entornoAsistencial',0,array('id'=>'flag_entornoAsistencial'))}}
-		{{ Form::hidden('cantidad_tipo_implicados',0,array('id'=>'cantidad_tipo_implicados'))}}
+		{{ Form::text('cantidad_tipo_implicados',0,array('id'=>'cantidad_tipo_implicados'))}}
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">Identificación del Paciente</h3>

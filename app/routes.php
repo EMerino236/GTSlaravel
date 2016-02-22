@@ -825,17 +825,47 @@ Route::group(array('prefix'=>'eventos_adversos','before'=>'auth'),function(){
 	Route::post('/submit_edit_evento_adverso','EventosAdversosController@submit_edit_evento_adverso');
 	Route::get('/view_evento_adverso/{id}','EventosAdversosController@render_view_evento_adverso');
 	Route::post('/export_pdf','EventosAdversosController@export_pdf');
+	Route::post('/submit_disable_evento','EventosAdversosController@submit_disable_evento');
+	Route::post('/submit_enable_evento','EventosAdversosController@submit_enable_evento');
 });
 
 Route::group(array('prefix'=>'reportes_calibracion','before'=>'auth'),function(){
 	Route::get('/list_reportes_calibracion','ReportesCalibracionController@list_reportes_calibracion');	
 	Route::get('/create_reporte','ReportesCalibracionController@render_create_reporte');	
-	Route::post('/search_activos','ReportesCalibracionController@search_activos');
+	Route::get('/search_activos','ReportesCalibracionController@search_activos');
 	Route::post('/search_documentos','ReportesCalibracionController@search_documentos');
 	Route::post('/submit_create_reporte_calibracion','ReportesCalibracionController@submit_create_reporte_calibracion');	
 	Route::get('/search_reporte','ReportesCalibracionController@search_reporte_calibracion');
 	Route::get('/download_documento_anexo/{id}','ReportesCalibracionController@download_documento');
 });
+
+Route::group(array('prefix'=>'reportes_investigacion','before'=>'auth'),function(){
+	Route::get('/list_reportes_investigacion','ReportesInvestigacionController@list_reportes_investigacion');	
+	Route::get('/create_reporte','ReportesInvestigacionController@render_create_reporte');
+	Route::get('/search_reporte','ReportesInvestigacionController@search_reporte_investigacion');
+	Route::get('/create_reporte','ReportesInvestigacionController@render_create_reporte');	
+	Route::post('/validate_reporte','ReportesInvestigacionController@validate_evento_adverso');
+	Route::post('/submit_create_reporte_investigacion','ReportesInvestigacionController@submit_create_reporte_investigacion');	
+	Route::get('/view_reporte/{id}','ReportesInvestigacionController@render_view_reporte_investigacion');
+	Route::post('/submit_disable_reporte','ReportesInvestigacionController@submit_disable_reporte');
+	Route::post('/submit_enable_reporte','ReportesInvestigacionController@submit_enable_reporte');
+	Route::post('/show_toma_acciones','ReportesInvestigacionController@show_toma_acciones');
+});
+
+Route::group(array('prefix'=>'ipers','before'=>'auth'),function(){
+	Route::get('/list_ipers/{tipo}','IpersController@list_ipers');	
+	Route::get('/search_ipers','IpersController@search_ipers');
+	Route::get('/create_iper/{tipo}','IpersController@render_create_iper');
+	Route::post('/submit_create_iper','IpersController@submit_create_iper');	
+	Route::get('/edit_iper/{tipo}/{id}','IpersController@render_edit_iper');	
+	Route::get('/download_version_iper/{id}','IpersController@download_version_iper');	
+	Route::post('/submit_edit_iper','IpersController@submit_edit_iper');
+	Route::get('/view_iper/{tipo}/{id}','IpersController@render_view_iper');
+	Route::post('/submit_disable_iper','IpersController@submit_disable_iper');
+	Route::post('/submit_enable_iper','IpersController@submit_enable_iper');
+
+});
+
 
 /* RRHH */
 Route::group(array('prefix'=>'rrhh', 'before'=>'auth'),function(){

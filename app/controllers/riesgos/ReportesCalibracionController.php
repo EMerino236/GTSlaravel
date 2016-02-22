@@ -75,6 +75,50 @@ class ReportesCalibracionController extends BaseController
 				$data["servicios"] = Servicio::lists('nombre','idservicio');
 				$data["areas"] = Area::lists('nombre','idarea');
 				$data["grupos"] = Grupo::lists('nombre','idgrupo');
+
+				$data["codigo_patrimonial"] = null;
+				$data["nombre_equipo"] = null;
+				$data["servicio"] = null;
+				$data["area"] = null;
+				$data["grupo"] = null;
+				$data["equipos_data"] = [];
+
+				return View::make('riesgos/reporte_calibracion/createReporteCalibracion',$data);
+			}else{
+				return View::make('error/error',$data);
+			}
+
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+	public function search_activos()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 
+			   || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8
+			   || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12 ){
+				
+				$data["servicios"] = Servicio::lists('nombre','idservicio');
+				$data["areas"] = Area::lists('nombre','idarea');
+				$data["grupos"] = Grupo::lists('nombre','idgrupo');
+
+				$data["codigo_patrimonial"] = Input::get('codigo_patrimonial');
+				$data["nombre_equipo"] = Input::get('nombre_equipo');
+				$data["servicio"] = Input::get('servicio');
+				$data["area"] = Input::get('area');
+				$data["grupo"] = Input::get('grupo');
+
+				if($data["codigo_patrimonial"] == null && $data["nombre_equipo"] == null && $data["servicio"] == null
+					&& $data["area"] == null && $data["grupo"] == null ){
+					$data["equipos_data"] = [];
+				}else
+					$data["equipos_data"] = Activo::searchActivosCalibracion($data["codigo_patrimonial"],$data["nombre_equipo"],$data["area"],$data["servicio"],$data["grupo"])->get();
+
 				return View::make('riesgos/reporte_calibracion/createReporteCalibracion',$data);
 			}else{
 				return View::make('error/error',$data);
@@ -112,26 +156,25 @@ class ReportesCalibracionController extends BaseController
 				
 
 				// If the validator fails, redirect back to the form
-				if($validator->fails()){
+				if($validator->fails()){					
 					return Redirect::to('reportes_calibracion/create_reporte')->withErrors($validator)->withInput(Input::all());
 				}else{	
+					
 					$array_activos_no_registrados = [];
 					$cantidad_activos = Input::get('cantidad_activos');
 					if($cantidad_activos>0){
 						$array_idactivos = Input::get('details_activos');
-
+						
 						for($i=0;$i<$cantidad_activos;$i++){
 							$idactivo = $array_idactivos[$i];
 							//se realiza una primera validacion de que se estan subierno por lo menos un archivo.
 							$existeArchivos = 0;
-							for($j=0;$j<5;$j++){
+							for($j=0;$j<10;$j++){
 								if(Input::hasFile('input-file-'.$idactivo.'-'.$j)){
 									$existeArchivos = 1;
 									break;
 								}
 							}
-
-							
 
 							if($existeArchivos == 1){								
 								//como ya existe se crea de una vez el reporte de calibracion
@@ -141,7 +184,7 @@ class ReportesCalibracionController extends BaseController
 								$reporte_calibracion->codigo_anho = date('y');
 								$reporte_calibracion->idactivo = $idactivo;
 								$reporte_calibracion->save();
-								for($j=0;$j<5;$j++){
+								for($j=0;$j<10;$j++){
 									if(Input::hasFile('input-file-'.$idactivo.'-'.$j)){	
 										$archivo            = Input::file('input-file-'.$idactivo.'-'.$j);
 								        $rutaDestino = 'documentos/riesgos/Reportes de Calibracion/' . $reporte_calibracion->codigo_abreviatura . $reporte_calibracion->codigo_correlativo. $reporte_calibracion->codigo_anho  . '/';
@@ -194,7 +237,7 @@ class ReportesCalibracionController extends BaseController
 	}
 	
 
-	public function search_activos(){
+	/*public function search_activos(){
 		if(!Request::ajax() || !Auth::check()){
 			return Response::json(array( 'success' => false ),200);
 		}
@@ -220,7 +263,7 @@ class ReportesCalibracionController extends BaseController
 		}else{
 			return Response::json(array( 'success' => false ),200);
 		}
-	}
+	}*/
 
 	public function getCorrelativeReportNumber(){
 		$reporte_ultimo = ReporteCalibracion::orderBy('id','desc')->first();

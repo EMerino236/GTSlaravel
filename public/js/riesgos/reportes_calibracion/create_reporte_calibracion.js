@@ -8,9 +8,7 @@ $( document ).ready(function(){
         $('#grupo').val(null);
     });
 
-    $('#btnBuscar').click(function(){
-        search_activos();
-    });
+    generar_detail_activos();
 
     $('#btnLimpiarResultados').click(function(){
         limpiar_resultados();
@@ -25,100 +23,12 @@ function limpiar_resultados(){
     $('#cantidad_activos').val(0);
 }
 
-function search_activos(){
-    //lectura de los campos
-    codigo_patrimonial = $('#codigo_patrimonial').val();
-    nombre_equipo = $('#nombre_equipo').val();
-    area = $('#area').val();
-    servicio = $('#servicio').val();
-    grupo = $('#grupo').val();
-
-    limpiar_resultados();
-    if(codigo_patrimonial.length==0 && nombre_equipo.length==0 && area=='' &&
-        servicio=='' && grupo==''){
-        return;
+function generar_detail_activos(){
+    size = document.getElementById('table_activos').rows.length;
+    for(i=1;i<size;i++){
+        idactivo = document.getElementById('table_activos').rows[i].cells[0].id;
+        $('#activos_hidden_inputs').append("<input id=\"input-"+idactivo+"\" style=\"display:inline\" class=\"invisible-input\" name='details_activos[]' value='"+idactivo  +"' readonly/>");
     }
-
-    $.ajax({
-        url: inside_url+'reportes_calibracion/search_activos',
-        type: 'POST',
-        data: { 'codigo_patrimonial' : codigo_patrimonial,
-                'nombre_equipo' : nombre_equipo,
-                'area': area,
-                'servicio': servicio,
-                'grupo': grupo
-              },        
-        beforeSend: function(){
-            $("#delete-selected-profiles").addClass("disabled");
-            $("#delete-selected-profiles").hide();
-            $(".loader_container").show();
-        },
-        complete: function(){
-            $(".loader_container").hide();
-            $("#delete-selected-profiles").removeClass("disabled");
-            $("#delete-selected-profiles").show();
-            delete_selected_profiles = true;
-        },
-        success: function(response){
-            if(response.success){
-                activos = response["activos"];
-
-                if(activos.length>0){
-                    tamanho = activos.length;
-                    $('#cantidad_activos').val(tamanho);
-
-                    for(i=0;i<tamanho;i++){
-                        $('#table_activos').append("<tr>"
-                        +"<td class=\"text-nowrap text-center\">"+activos[i].nombre_grupo+"</td>"
-                        +"<td class=\"text-nowrap text-center\">"+activos[i].nombre_servicio+"</td>"
-                        +"<td class=\"text-nowrap text-center\">"+activos[i].nombre_equipo+"</td>"
-                        +"<td class=\"text-nowrap text-center\">"+activos[i].nombre_marca+"</td>"
-                        +"<td class=\"text-nowrap text-center\">"+activos[i].modelo+"</td>"
-                        +"<td class=\"text-nowrap text-center\" id= \""+activos[i].idactivo+"\">"+activos[i].codigo_patrimonial+"</td>"
-                        +"<td class=\"text-nowrap text-center\">"+activos[i].nombre_proveedor+"</td>"
-                        +"<td class=\"text-nowrap text-center\"><a href='' class='btn btn-success' onclick='add_modal_documentos(event,"+activos[i].idactivo+")'><span class=\"glyphicon glyphicon-plus\"> </span>Agregar Documentos</a></td>"
-                        +"<td class=\"text-nowrap text-center\"><a href='' class='btn btn-danger delete-detail' onclick='deleteRow(event,this)'><span class=\"glyphicon glyphicon-remove\"></span></a></td>"
-                        +"</tr>");
-    
-                        $('#activos_hidden_inputs').append("<input id=\"input-"+activos[i].idactivo+"\" style=\"display:none\" class=\"invisible-input\" name='details_activos[]' value='"+activos[i].idactivo+"' readonly/>");
-                        var html_modal = '<div class=\"modal fade\" tabindex=\"-1\" role=\"dialog\" id=\"modal_'+activos[i].idactivo+'\">'+
-                                  "<div class=\"modal-dialog\">"+
-                                    "<div class=\"modal-content\">"+
-                                      "<div class=\"modal-header bg-primary\">"+
-                                       " <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+
-                                        "<h4 class=\"modal-title\">Certificados Anexos</h4>"+
-                                      "</div>"+
-                                      "<div class=\"modal-body\"  style=\"width:1000px; overflow: auto;\">"+
-                                        "<p> Adjunte los documentos relacionados:</p>";
-                                        for(j=0;j<5;j++){
-                                            html_docs = "<div class=\"row form-group\">"+
-                                                "<div class=\"col-md-12\">"+
-                                                "<label class=\"control-label\">Documento (Certificado,Constancia) N°"+(j+1)+"</label>"+
-                                                "<input name=\"input-file-"+activos[i].idactivo+"-"+j+"\" id=\"input-file-"+activos[i].idactivo+"-"+j+"\" type=\"file\" data-show-upload=\"true\">"+
-                                                "</div>"+
-                                            "</div>"; 
-                                            html_modal += html_docs;
-                                        }
-                                        html_modal += "</div>"+
-                                      "<div class=\"modal-footer\">"+
-                                        "<div class=\"col-md-4 col-md-offset-8\">"+
-                                            "<button type=\"button\" class=\"btn btn-danger btn-block\" data-dismiss=\"modal\"><span class=\"glyphicon glyphicon-remove\"></span>Cerrar</button>"+                    
-                                        "</div>"
-                                      "</div>"+
-                                    "</div><!-- /.modal-content -->"+
-                                  "</div><!-- /.modal-dialog -->"+
-                                "</div><!-- /.modal -->";
-                        $('#modals').append(html_modal);   
-                    }                    
-                }
-            }else{
-                alert('La petición no se pudo completar, inténtelo de nuevo.');
-            }
-        },
-        error: function(){
-            alert('La petición no se pudo completar, inténtelo de nuevo.');
-        }
-    });   
 }
 
 function add_modal_documentos(event,idactivo){
@@ -128,15 +38,13 @@ function add_modal_documentos(event,idactivo){
     }    
 }
 
-
-
 function deleteRow(event,el)
 {    
     event.preventDefault();
     var parent = el.parentNode;
     parent = parent.parentNode;
     cells = parent.cells;  
-    idactivo = cells[5].id;
+    idactivo = cells[0].id;
     parent.parentNode.removeChild(parent);
     /*borramos el modal*/
     //siempre y cuando exista
