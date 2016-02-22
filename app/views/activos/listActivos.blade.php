@@ -180,11 +180,11 @@
 					@endforeach				
 				</table>
 				@if($search_grupo || $search_servicio || $search_ubicacion || $search_nombre_siga || $search_nombre_equipo || $search_marca || $search_modelo
-					|| $search_serie || $search_proveedor || $search_codigo_compra || $search_codigo_patrimonial)
+					|| $search_serie || $search_proveedor || $search_codigo_compra || $search_codigo_patrimonial || $row_number)
 
 					{{ $activos_data->appends(array('search_grupo' => $search_grupo,'search_servicio' => $search_servicio, 'search_ubicacion' => $search_ubicacion,
 						'search_nombre_siga' => $search_nombre_siga, 'search_nombre_equipo' => $search_nombre_equipo, 'search_marca' => $search_marca, 'search_modelo' => $search_modelo,
-						'search_serie' => $search_serie, 'search_proveedor' => $search_proveedor, 'search_codigo_compra' => $search_codigo_compra, 'search_codigo_patrimonial' => $search_codigo_patrimonial))->links() }}
+						'search_serie' => $search_serie, 'search_proveedor' => $search_proveedor, 'search_codigo_compra' => $search_codigo_compra, 'search_codigo_patrimonial' => $search_codigo_patrimonial, 'row_number' => $row_number))->links() }}
 				@else	
 					{{ $activos_data->links()}}
 				@endif

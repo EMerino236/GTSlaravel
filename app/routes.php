@@ -61,6 +61,15 @@ Route::group(array('prefix'=>'proveedores', 'before'=>'auth'),function(){
 	Route::post('submit_delete_soporte_tecnico_proveedor_ajax','ProveedorController@submit_delete_soporte_tecnico_proveedor_ajax');
 });
 
+/*IRE*/
+Route::group(array('prefix'=>'estado_ts', 'before'=>'auth'),function(){
+	Route::get('/list_ire','ActivosController@list_ire');
+	Route::get('/search_ire','ActivosController@search_ire');
+	Route::get('/view_ire_servicio/{id}', 'ActivosController@render_view_servicio_ire');
+	Route::get('/edit_ire_activo/{id}', 'ActivosController@render_edit_activo_ire');
+	Route::post('/submit_edit_activo_ire','ActivosController@submit_edit_activo_ire');
+});
+
 /* SOT */
 Route::group(array('prefix'=>'sot', 'before'=>'auth'),function(){
 	Route::get('/list_sots','SotController@list_sots');

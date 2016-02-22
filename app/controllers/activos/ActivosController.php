@@ -184,6 +184,59 @@ class ActivosController extends BaseController
 		}
 	}
 
+	public function list_ire()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
+				$data["search_departamento"] = null;
+				$data["search_servicio"] = null;				
+				$data["row_number"] = 10;				
+
+				$data["departamentos"] = Area::lists('nombre','idarea');
+				$data["servicios"] = Servicio::lists('nombre','idservicio');
+
+				$data["servicios_data"] = Servicio::getServiciosInfo()->paginate($data["row_number"]);								
+
+				return View::make('bienes/ire/listIre',$data);
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+	public function search_ire()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
+				$data["departamentos"] = Area::lists('nombre','idarea');
+				$data["servicios"] = Servicio::lists('nombre','idservicio');
+				
+				$data["search_departamento"] = Input::get('search_departamento');
+				$data["search_servicio"] = Input::get('search_servicio');
+
+				$data["row_number"] = Input::get('row_number');			
+
+				$data["servicios_data"] = Servicio::searchServicios($data["search_servicio"],$data["search_departamento"])->paginate($data["row_number"]);
+
+				return View::make('bienes/ire/listIre',$data);
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
 	public function render_create_activo()
 	{
 		if(Auth::check()){
@@ -556,6 +609,120 @@ class ActivosController extends BaseController
 				$data["marcas"]	= Marca::lists('nombre','idmarca');
 				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
 				return View::make('activos/viewActivoInventario',$data);
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+	public function render_edit_activo_ire($idactivo=null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if(($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4) && $idactivo){
+				
+				$data["equipo_info"] = Activo::find($idactivo);
+
+				if($data["equipo_info"] == null)
+				{
+					return Redirect::to('estado_ts/list_ire');
+				}				
+				
+				return View::make('bienes/ire/editIre',$data);
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+	public function submit_edit_activo_ire()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+				// Validate the info, create rules for the inputs
+				$attributes=array(
+					'fe' => 'Funciol del Equipo',
+					'ac' => 'Aplicación Clínica',
+					'rm' => 'Requerimiento de Mantenimiento',
+					'hie' => 'Historial de Incidentes del Equipo',					
+					);
+
+				$messages=array(
+					);
+
+				$rules = array(
+					'fe' => 'required|integer',
+					'ac' => 'required|integer',
+					'rm' => 'required|integer',
+					'hie' => 'required|integer'
+					);
+				// Run the validation rules on the inputs from the form
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
+				// If the validator fails, redirect back to the form
+				if($validator->fails()){
+					$equipo_id = Input::get('idequipo');
+					$url = "estado_ts/edit_ire_activo/"."/".$equipo_id;
+					return Redirect::to($url)->withErrors($validator)->withInput(Input::all());
+				}else{
+					
+					$equipo_id = Input::get('idequipo');
+					
+					$activo = Activo::find($equipo_id);
+					$fe = Input::get('fe');
+					$ac = Input::get('ac');
+					$rm = Input::get('rm');
+					$hie = Input::get('hie');
+
+					$activo->fe = $fe;
+					$activo->ac = $ac;
+					$activo->rm = $rm;
+					$activo->hie = $hie;	
+					
+					$activo->ge = $fe + $ac + $rm + $hie;
+
+					$activo->save();
+					
+					$url = "estado_ts/view_ire_servicio"."/".$activo->idservicio;
+					return Redirect::to($url)->with('message', 'Se editó correctamente el equipo.');
+				}
+			}else{
+				return View::make('error/error',$data);
+			}
+
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+	public function render_view_servicio_ire($idservicio=null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if(($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12) && $idservicio){
+				
+				$data["equipo_info"] = Activo::getActivosByServicioId($idservicio)->paginate(10);
+				
+				if($data["equipo_info"]->isEmpty())
+				{
+					return Redirect::to('estado_ts/list_ire');
+				
+				}
+				
+				$data["servicio_info"] = Servicio::find($idservicio);
+				
+				return View::make('bienes/ire/viewIre',$data);
 			}else{
 				return View::make('error/error',$data);
 			}

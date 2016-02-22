@@ -20,6 +20,10 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 	protected $table = 'activos';
 	protected $primaryKey = 'idactivo';
 
+	public function modelo()
+	{
+		return $this->belongsTo('ModeloActivo','idmodelo_equipo');
+	}
 
 	/**
 	 * The attributes excluded from the model's JSON form.
@@ -231,17 +235,17 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 			  ->whereNested(function($query) use($search_criteria){
 			  		$query->where('activos.idgrupo','=',$search_criteria);
 			  })
-			  ->select('modelo_activos.nombre as nombre_equipo','activos.*');
+			  ->select('activos.*');
 		return $query;
 	}
 	
 	public function scopeGetActivosByServicioId($query,$search_criteria)
 	{
-		$query->join('modelo_activos','modelo_activos.idmodelo_equipo','=','activos.idmodelo_equipo')
+		$query->join('modelo_activos','modelo_activos.idmodelo_equipo','=','activos.idmodelo_equipo')			  
 			  ->whereNested(function($query) use($search_criteria){
 			  		$query->where('activos.idservicio','=',$search_criteria);
 			  })
-			  ->select('modelo_activos.nombre as nombre_equipo','activos.*');
+			  ->select('activos.*');
 		return $query;
 	}
 
