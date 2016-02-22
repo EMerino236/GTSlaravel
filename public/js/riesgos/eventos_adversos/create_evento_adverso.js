@@ -30,7 +30,7 @@ $( document ).ready(function(){
 
 
         $('#entorno_asistencial').val($('#identorno_asistencial').val());
-        if($('#identorno_asistencial').val()==6 || $('#identorno_asistencial').val()==49 ){
+        if($('#identorno_asistencial').val()==6 || $('#identorno_asistencial').val()==8 || $('#identorno_asistencial').val()==49 ){
             //mostramos el comentario
             $('#flag_entornoAsistencial').val(1);
             $('#div_tipo_servicio').css('display','none');
@@ -128,7 +128,7 @@ $( document ).ready(function(){
         $("#etapa_servicio").append('<option value=\'\'>Seleccione</option>');
         if(val.length>0){
             //en caso que eliga otros:
-            if(val ==49 || val == 6){
+            if(val ==49 || val == 6 || val == 8){
                 //TODO
                 $('#flag_entornoAsistencial').val(1);
                 $('#comentario').val(null);

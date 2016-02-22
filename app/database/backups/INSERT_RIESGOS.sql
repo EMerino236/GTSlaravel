@@ -61,7 +61,8 @@ INSERT INTO subtipopadre_incidente(id,nombre,idtipo_incidente) VALUES ('34','Est
 INSERT INTO subtipopadre_incidente(id,nombre,idtipo_incidente) VALUES ('35','Problema','12');
 INSERT INTO subtipopadre_incidente(id,nombre,idtipo_incidente) VALUES ('36','Recursos/gestión de la organización','13');
 
-/****SUBTIPO HIJO DE INCIDENTE *****/INSERT INTO subtipohijo_incidente(id,nombre,idsubtipopadre_incidente) VALUES ('1','Relevo de equipo asistencial','1');
+/****SUBTIPO HIJO DE INCIDENTE *****/
+INSERT INTO subtipohijo_incidente(id,nombre,idsubtipopadre_incidente) VALUES ('1','Relevo de equipo asistencial','1');
 INSERT INTO subtipohijo_incidente(id,nombre,idsubtipopadre_incidente) VALUES ('2','Cita','1');
 INSERT INTO subtipohijo_incidente(id,nombre,idsubtipopadre_incidente) VALUES ('3','Lista de espera','1');
 INSERT INTO subtipohijo_incidente(id,nombre,idsubtipopadre_incidente) VALUES ('4','Derivación/interconsulta','1');
@@ -1060,3 +1061,14 @@ INSERT INTO procesos (id,nombre) VALUES ('2','Por un cambio en el estado del pac
 INSERT INTO procesos (id,nombre) VALUES ('3','Por una máquina/un sistema/un cambio ambiental/una alarma');
 INSERT INTO procesos (id,nombre) VALUES ('4','Por un recuento/una auditoría/una inspección');
 INSERT INTO procesos (id,nombre) VALUES ('5','Evaluación proactiva del riesgo');
+
+/*** METODO DIFUSION ***/
+INSERT INTO metodo_difusion(id,nombre) VALUES ('1','Elaboración de informes agregados');
+INSERT INTO metodo_difusion(id,nombre) VALUES ('2','Alertas y recopilación de consejos y prácticas seguras');
+INSERT INTO metodo_difusion(id,nombre) VALUES ('3','Noticias');
+INSERT INTO metodo_difusion(id,nombre) VALUES ('4','Boletines informativos');
+INSERT INTO metodo_difusion(id,nombre) VALUES ('5','Foros de discusión');
+
+/*** TIPO CAPACITACION RIESGOS ***/
+INSERT INTO tipo_capacitacion_riesgos (id,nombre) VALUES ('1','Capacitación en procedimientos clínicos');
+INSERT INTO tipo_capacitacion_riesgos (id,nombre) VALUES ('2','Capacitación en uso de tecnología en salud');

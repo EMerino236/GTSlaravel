@@ -15,10 +15,12 @@ class ReporteInvestigacion extends Eloquent{
 			  ->join('reporte_investigacionxmetodo','reporte_investigacionxmetodo.idreporte','=','reporte_investigacion.id')
 			  ->join('reporte_investigacionxtipo_capacitacion','reporte_investigacionxtipo_capacitacion.idreporte','=','reporte_investigacion.id')
 			  ->join('eventos_adversos','eventos_adversos.id','=','reporte_investigacion.idevento_adverso')
-			  ->join('etapa_servicio','etapa_servicio.id','=','eventos_adversos.idetapa_servicio')
-			  ->join('entorno_asistencialxtipo_servicio','entorno_asistencialxtipo_servicio.id','=','etapa_servicio.identornoxtipo')
-			  ->join('entorno_asistencial','entorno_asistencial.id','=','entorno_asistencialxtipo_servicio.identorno')
-			  ->select('reporte_investigacion.*','entorno_asistencial.nombre as nombre_entorno','eventos_adversos.codigo_abreviatura as evento_abreviatura','eventos_adversos.codigo_correlativo as evento_correlativo','eventos_adversos.codigo_anho as evento_anho','users.nombre as nombre','users.apellido_pat as apellido_pat','users.apellido_mat as apellido_mat','eventos_adversos.id as idevento');
+			  ->leftJoin('etapa_servicio','etapa_servicio.id','=','eventos_adversos.idetapa_servicio')
+			  ->leftJoin('entorno_asistencialxtipo_servicio','entorno_asistencialxtipo_servicio.id','=','etapa_servicio.identornoxtipo')
+			  ->leftJoin('entorno_asistencial','entorno_asistencial.id','=','entorno_asistencialxtipo_servicio.identorno')
+			  ->leftJoin('eventoxentorno_asistencial','eventoxentorno_asistencial.idevento','=','eventos_adversos.id')
+			  ->leftJoin('entorno_asistencial as entorno','entorno.id','=','eventoxentorno_asistencial.identorno')
+			  ->select('reporte_investigacion.*','entorno_asistencial.nombre as nombre_entorno_etapa', 'entorno.nombre as nombre_entorno','eventos_adversos.codigo_abreviatura as evento_abreviatura','eventos_adversos.codigo_correlativo as evento_correlativo','eventos_adversos.codigo_anho as evento_anho','users.nombre as nombre','users.apellido_pat as apellido_pat','users.apellido_mat as apellido_mat','eventos_adversos.id as idevento');
 		return $query;
 	}
 
@@ -29,9 +31,11 @@ class ReporteInvestigacion extends Eloquent{
 			  ->join('reporte_investigacionxmetodo','reporte_investigacionxmetodo.idreporte','=','reporte_investigacion.id')
 			  ->join('reporte_investigacionxtipo_capacitacion','reporte_investigacionxtipo_capacitacion.idreporte','=','reporte_investigacion.id')
 			  ->join('eventos_adversos','eventos_adversos.id','=','reporte_investigacion.idevento_adverso')
-			  ->join('etapa_servicio','etapa_servicio.id','=','eventos_adversos.idetapa_servicio')
-			  ->join('entorno_asistencialxtipo_servicio','entorno_asistencialxtipo_servicio.id','=','etapa_servicio.identornoxtipo')
-			  ->join('entorno_asistencial','entorno_asistencial.id','=','entorno_asistencialxtipo_servicio.identorno');
+			  ->leftJoin('etapa_servicio','etapa_servicio.id','=','eventos_adversos.idetapa_servicio')
+			  ->leftJoin('entorno_asistencialxtipo_servicio','entorno_asistencialxtipo_servicio.id','=','etapa_servicio.identornoxtipo')
+			  ->leftJoin('entorno_asistencial','entorno_asistencial.id','=','entorno_asistencialxtipo_servicio.identorno')
+			  ->leftJoin('eventoxentorno_asistencial','eventoxentorno_asistencial.idevento','=','eventos_adversos.id')
+			  ->leftJoin('entorno_asistencial as entorno','entorno.id','=','eventoxentorno_asistencial.identorno');
 			  
 
 			  if($search_codigo_reporte_investigacion != '')
@@ -64,7 +68,7 @@ class ReporteInvestigacion extends Eloquent{
 			  if($search_fin != "")
 				$query->where(DB::raw('STR_TO_DATE(reporte_investigacion.created_at,\'%Y-%m-%d\')'),'<=',date('Y-m-d',strtotime($search_fin)));
 
-			  $query->select('reporte_investigacion.*','entorno_asistencial.nombre as nombre_entorno','eventos_adversos.codigo_abreviatura as evento_abreviatura','eventos_adversos.codigo_correlativo as evento_correlativo','eventos_adversos.codigo_anho as evento_anho','users.nombre as nombre','users.apellido_pat as apellido_pat','users.apellido_mat as apellido_mat','eventos_adversos.id as idevento');
+			  $query->select('reporte_investigacion.*','entorno_asistencial.nombre as nombre_entorno_etapa', 'entorno.nombre as nombre_entorno','eventos_adversos.codigo_abreviatura as evento_abreviatura','eventos_adversos.codigo_correlativo as evento_correlativo','eventos_adversos.codigo_anho as evento_anho','users.nombre as nombre','users.apellido_pat as apellido_pat','users.apellido_mat as apellido_mat','eventos_adversos.id as idevento');
 
 		return $query;
 	}

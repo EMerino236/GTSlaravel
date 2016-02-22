@@ -101,7 +101,11 @@
 							<a href="" onclick="show_modal(event,{{$reporte_data->idevento}})">{{ $reporte_data->evento_abreviatura}}-{{$reporte_data->evento_correlativo}}-{{$reporte_data->evento_anho}}</a>
 						</td>
 						<td class="text-nowrap text-center">
-							{{$reporte_data->nombre_entorno}}
+							@if($reporte_data->nombre_entorno_etapa == NULL)
+								{{$reporte_data->nombre_entorno}}
+							@else
+								{{$reporte_data->nombre_entorno_etapa}}
+							@endif
 						</td>
 						<td class="text-nowrap text-center" class="text-nowrap text-center">
 							{{$reporte_data->nombre}} {{$reporte_data->apellido_pat}} {{$reporte_data->apellido_mat}}

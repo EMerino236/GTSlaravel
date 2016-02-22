@@ -303,7 +303,7 @@ class EventosAdversosController extends BaseController
 
 						/*REGISTRO DE ENTORNO ASISTENCIAL*/
 						$entorno_asistencial = Input::get('entorno_asistencial');
-						if($entorno_asistencial == 6 || $entorno_asistencial==49){
+						if($entorno_asistencial == 6 || $entorno_asistencial==49 || $entorno_asistencial == 8){
 							//es elemento que contiene un comentario
 							$eventoxentorno = new EventoxEntornoAsistencial;
 							$eventoxentorno->identorno = $entorno_asistencial;
@@ -638,7 +638,7 @@ class EventosAdversosController extends BaseController
 
 						/*EDICIÓN DE ENTORNO ASISTENCIAL*/
 							$entorno_asistencial = Input::get('entorno_asistencial');
-							if($entorno_asistencial == 6 || $entorno_asistencial==49){
+							if($entorno_asistencial == 6 || $entorno_asistencial==49 || $entorno_asistencial==8){
 								//es elemento que contiene un comentario
 								$eventoxentorno =  EventoxEntornoAsistencial::searchEntornoAsistencialByIdEvento($evento->id)->get();
 								if(!$eventoxentorno->isEmpty()){
