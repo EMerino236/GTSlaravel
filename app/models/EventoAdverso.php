@@ -41,7 +41,7 @@ class EventoAdverso extends Eloquent{
 
 		if($search_numero_reporte != "")
 		{
-			$query->where(DB::raw("CONCAT(eventos_adversos.codigo_abreviatura,'-',eventos_adversos.codigo_correlativo)"),'LIKE',"%$search_numero_reporte%");
+			$query->where(DB::raw("CONCAT(eventos_adversos.codigo_abreviatura,'-',eventos_adversos.codigo_correlativo,'-',eventos_adversos.codigo_anho)"),'LIKE',"%$search_numero_reporte%");
 		}
 
 		if($search_tipo != "")
@@ -70,5 +70,17 @@ class EventoAdverso extends Eloquent{
 	{
 		$query->orderBy('id','desc');
 	  	return $query;
+	}
+
+	public function scopeGetEventoByCodigoEvento($query,$codigo)
+	{
+		$query->withTrashed()
+			  ->join('eventos_adversosxsubtipohijo_incidente','eventos_adversosxsubtipohijo_incidente.idevento','=','eventos_adversos.id')
+			  ->join('subtipohijo_incidente','subtipohijo_incidente.id','=','eventos_adversosxsubtipohijo_incidente.idsubtipohijo')
+			  ->join('subtipopadre_incidente','subtipopadre_incidente.id','=','subtipohijo_incidente.idsubtipopadre_incidente')
+			  ->join('tipo_incidente','tipo_incidente.id','=','subtipopadre_incidente.idtipo_incidente')
+			  ->where(DB::raw("CONCAT(eventos_adversos.codigo_abreviatura,'-',eventos_adversos.codigo_correlativo,'-',eventos_adversos.codigo_anho)"),'=',$codigo)
+			  ->select('tipo_incidente.nombre as nombre_incidente','eventos_adversos.*');
+		return $query;
 	}
 }

@@ -48,12 +48,12 @@ function show_modal_documentos(event,el)
 	                                   " <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"+
 	                                    "<h4 class=\"modal-title\">Certificados Anexos</h4>"+
 	                                  "</div>"+
-	                                  "<div class=\"modal-body\"  style=\"width:900px; overflow: auto;\">"+
+	                                  "<div class=\"modal-body\"  style=\"width:1000px; overflow: auto;\">"+
 	                                    "<p> Documentos relacionados al certificado:</p>";
 	                                  for(i=0;i<size;i++){
 	                                     html_docs = "<div class=\"row form-group\">"+
-	                                            "<div class=\"col-md-4 col-md-offset-1\">"+
-	                                            "<label class=\"control-label\">Documento N°"+(i+1)+"</label>"+
+	                                            "<div class=\"col-md-5\">"+
+	                                            "<label class=\"control-label\">Documento (Certificado o Reporte de Calibración) N°"+(i+1)+"</label>"+
 	                                            "<input class=\"form-control text\" value=\""+documentos[i].nombre+"\" readonly></input>"+
 	                                            "</div>"+
 	                                            "<div class=\"col-md-2\" style=\"margin-top:25px;\">"+	                                            

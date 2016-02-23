@@ -83,15 +83,21 @@
 				  			<div class="table-responsive">
 					  			<table class="table">
 					  				<tr class="info">
-					  					<th class="text-nowrap text-center">Código Patrimonial</th>
-					  					<th class="text-nowrap text-center">Número de Serie</th>
-					  					<th class="text-nowrap text-center">Nombre de Equipo</th>
+					  					<th class="text-nowrap">Nº</th>
+					  					<th class="text-nowrap">Código Patrimonial</th>
+					  					<th class="text-nowrap">Nombre de Equipo</th>
+					  					<th class="text-nowrap">Modelo</th>
+					  					<th class="text-nowrap">Marca</th>					  					
+					  					<th class="text-nowrap">Número de Serie</th>
 					  				</tr>
 					  				@foreach($activos_grupo as $index => $activo_grupo)
 					  				<tr>
-					  					<td class="text-nowrap text-center">{{$activo_grupo->codigo_patrimonial}}</td>
-					  					<td class="text-nowrap text-center">{{$activo_grupo->numero_serie}}</td>
-					  					<td class="text-nowrap text-center">{{$activo_grupo->nombre_equipo}}</td>
+					  					<td class="text-nowrap">{{$index + 1}}</td>
+					  					<td class="text-nowrap">{{$activo_grupo->codigo_patrimonial}}</td>
+					  					<td class="text-nowrap">{{$activo_grupo->modelo->familiaActivo->nombre_equipo}}</td>
+					  					<td class="text-nowrap">{{$activo_grupo->modelo->nombre}}</td>
+					  					<td class="text-nowrap">{{$activo_grupo->modelo->familiaActivo->marca->nombre}}</td>
+					  					<td class="text-nowrap">{{$activo_grupo->numero_serie}}</td>
 					  				</tr>
 					  				@endforeach
 				  				</table>

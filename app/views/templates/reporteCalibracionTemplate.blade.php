@@ -5,6 +5,7 @@
 	<meta charset="UTF-8">
 	<meta name="robots" content="noindex, follow">
 	<title>Reportes de Calibracion</title>
+ 
     <link rel="shortcut icon" href="{{ asset('img')}}/logo_gts.png">
 	<!-- Bootstrap Core CSS -->
     <link href="{{ asset('bower_components/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -18,8 +19,9 @@
     <link href="{{ asset('bower_components/morrisjs/morris.css') }}" rel="stylesheet">
     <!-- Custom Fonts -->
     <link href="{{ asset('bower_components/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
-
     <link href="{{ asset('css/fileinput.min.css') }}" rel="stylesheet">
+    
+   
     <script type="text/javascript">
 		var inside_url = "{{$inside_url}}";
 	</script>
@@ -37,14 +39,14 @@
     <!-- Morris Charts JavaScript -->
     <script src="{{ asset('bower_components/raphael/raphael-min.js') }}"></script>
     <script src="{{ asset('bower_components/morrisjs/morris.min.js') }}"></script>
-     <script src="{{ asset('js/fileinput.min.js') }}"></script>
-    <script src="{{ asset('js/fileinput_locale_es.min.js') }}"></script>
-    <script src="{{ asset('js/language_file_upload_plugin.min.js') }}"></script>
+     
     <!-- Custom Theme JavaScript -->
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
     <script src="{{ asset('js/riesgos/reportes_calibracion/list_reportes_calibracion.js') }}"></script>
     <script src="{{ asset('js/riesgos/reportes_calibracion/create_reporte_calibracion.js') }}"></script>
-   
+    <script src="{{ asset('js/fileinput.min.js') }}"></script>
+    <script src="{{ asset('js/fileinput_locale_es.min.js') }}"></script>
+    <script src="{{ asset('js/language_file_upload_plugin.min.js') }}"></script>
     <!--Bootstrap-Dialog Javascritp-->
     <script src="{{asset('js/bootstrap-dialog.min.js') }}"></script>  
 </head>

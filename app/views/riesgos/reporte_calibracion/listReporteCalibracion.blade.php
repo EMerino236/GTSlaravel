@@ -114,6 +114,13 @@
 					</tr>
 					@endforeach
 				</table>
+				@if($search_codigo_reporte || $search_codigo_patrimonial || $search_nombre_equipo || $search_servicio || $search_area ||$search_grupo)
+
+					{{ $reportes_data->appends(array('search_codigo_reporte' => $search_codigo_reporte,'search_codigo_patrimonial' => $search_codigo_patrimonial, 'search_nombre_equipo' => $search_nombre_equipo,
+						'search_servicio' => $search_servicio , 'search_area' => $search_area,  'search_grupo' => $search_grupo))->links() }}
+				@else	
+					{{ $reportes_data->links()}}
+				@endif
 			</div>
 		</div>
 	</div>

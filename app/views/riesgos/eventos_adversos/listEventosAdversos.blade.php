@@ -30,15 +30,15 @@
 	    <div class="row">
 			<div class="col-md-4 form-group">
 				{{ Form::label('search_numero_reporte','Número de Registro del Evento Adverso') }}
-				{{ Form::text('search_numero_reporte',$search_numero_reporte,array('class'=>'form-control','placeholder'=>'Ejemplo: EA-4568')) }}
+				{{ Form::text('search_numero_reporte',$search_numero_reporte,array('class'=>'form-control','placeholder'=>'Ejemplo: EA-4568-16')) }}
 			</div>
 			<div class="col-md-4 form-group">
 				{{ Form::label('search_tipo','Tipo de Evento') }}
 				{{ Form::select('search_tipo', array('' => 'Seleccione')+$tipo_eventos, $search_tipo,['class' => 'form-control']) }}				
 			</div>
 			<div class="col-md-4 form-group">
-				{{ Form::label('search_usuario','Usuario') }}				
-				{{ Form::text('search_usuario',$search_usuario,array('class'=>'form-control','placeholder'=>'Usuario')) }}
+				{{ Form::label('search_usuario','Usuario Reportante') }}				
+				{{ Form::text('search_usuario',$search_usuario,array('class'=>'form-control','placeholder'=>'Usuario Reportante')) }}
 			</div>
 			<div class="form-group col-md-4">
 				{{ Form::label('search_fecha_ini','Fecha inicio') }}
@@ -89,10 +89,10 @@
 						<th class="text-nowrap text-center">Editar</th>
 					</tr>
 					@foreach($eventos_adversos_data as $evento_adverso)
-					<tr>
+					<tr class="@if($evento_adverso->deleted_at) bg-danger @endif">
 						<td class="text-nowrap text-center">
 							<a href="{{URL::to('/eventos_adversos/view_evento_adverso/')}}/{{$evento_adverso->id}}">
-								{{$evento_adverso->codigo_abreviatura}}-{{$evento_adverso->codigo_correlativo}}
+								{{$evento_adverso->codigo_abreviatura}}-{{$evento_adverso->codigo_correlativo}}-{{$evento_adverso->codigo_anho}}
 							</a>
 						</td>
 						<td class="text-nowrap text-center">

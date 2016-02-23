@@ -202,7 +202,8 @@ class EventosAdversosController extends BaseController
 					return Redirect::to('eventos_adversos/create_evento_adverso')->withErrors($validator)->withInput(Input::all());
 				}else{				
 
-					$cantidad_personas = Input::get('cantidad_tipo_implicados');
+					$personas_implicadas = Input::get('personas_implicadas');
+					$cantidad_personas = count($personas_implicadas);
 					if($cantidad_personas > 0){
 
 						$cantidades = Input::get('cantidades');
@@ -216,7 +217,7 @@ class EventosAdversosController extends BaseController
 
 						$evento->codigo_abreviatura = $abreviatura;
 						$evento->codigo_correlativo = $string;
-
+						$evento->codigo_anho = date('y');
 						//INFORMACIÓN SOBRE EL PACIENTE
 						$evento->nombre_paciente = Input::get('nombre_paciente');
 						$evento->idtipo_documento = Input::get('tipo_documento');
@@ -302,7 +303,7 @@ class EventosAdversosController extends BaseController
 
 						/*REGISTRO DE ENTORNO ASISTENCIAL*/
 						$entorno_asistencial = Input::get('entorno_asistencial');
-						if($entorno_asistencial == 6 || $entorno_asistencial==49){
+						if($entorno_asistencial == 6 || $entorno_asistencial==49 || $entorno_asistencial == 8){
 							//es elemento que contiene un comentario
 							$eventoxentorno = new EventoxEntornoAsistencial;
 							$eventoxentorno->identorno = $entorno_asistencial;
@@ -316,6 +317,7 @@ class EventosAdversosController extends BaseController
 						}
 
 						/*REGISTRO DE LAS PERSONAS IMPLICADAS*/
+
 						for($i=0;$i<$cantidad_personas;$i++){
 							$eventoxpersonas = new EventoxPersonasImplicadas;
 							$nombre_tipo = $personas_implicadas[$i];
@@ -331,7 +333,7 @@ class EventosAdversosController extends BaseController
 						Session::flash('error', 'No se han registrado personas implicadas.');
 						return Redirect::to('eventos_adversos/create_evento_adverso')->withInput(Input::all());
 					}					
-					return Redirect::to('eventos_adversos/list_eventos_adversos')->with('message', 'Se registró correctamente el reporte '.$evento->codigo_abreviatura.'-'.$evento->codigo_correlativo);
+					return Redirect::to('eventos_adversos/list_eventos_adversos')->with('message', 'Se registró correctamente el reporte '.$evento->codigo_abreviatura.'-'.$evento->codigo_correlativo.'-'.$evento->codigo_anho);
 				}
 			}else{
 				return View::make('error/error',$data);
@@ -534,7 +536,9 @@ class EventosAdversosController extends BaseController
 				}else{	
 					$evento_id = Input::get('evento_adverso_id');
 					$url = "eventos_adversos/edit_evento_adverso"."/".$evento_id;
-					if(Input::get('cantidad_tipo_implicados')>0){
+					$personas_implicadas = Input::get('personas_implicadas');
+					$cantidad_personas = count($personas_implicadas); 
+					if( $cantidad_personas >0){
 						$evento = EventoAdverso::find($evento_id);
 					
 						//INFORMACIÓN SOBRE EL PACIENTE
@@ -634,7 +638,7 @@ class EventosAdversosController extends BaseController
 
 						/*EDICIÓN DE ENTORNO ASISTENCIAL*/
 							$entorno_asistencial = Input::get('entorno_asistencial');
-							if($entorno_asistencial == 6 || $entorno_asistencial==49){
+							if($entorno_asistencial == 6 || $entorno_asistencial==49 || $entorno_asistencial==8){
 								//es elemento que contiene un comentario
 								$eventoxentorno =  EventoxEntornoAsistencial::searchEntornoAsistencialByIdEvento($evento->id)->get();
 								if(!$eventoxentorno->isEmpty()){
@@ -671,10 +675,8 @@ class EventosAdversosController extends BaseController
 							}
 
 							/*REGISTRO DE LAS PERSONAS IMPLICADAS*/
-							$personas_implicadas = EventoxPersonasImplicadas::getPersonasImplicadasByIdEvento($evento->id)->forceDelete();
+							$personas = EventoxPersonasImplicadas::getPersonasImplicadasByIdEvento($evento->id)->forceDelete();
 
-							$cantidad_personas = Input::get('cantidad_tipo_implicados');
-							$personas_implicadas = Input::get('personas_implicadas');
 							$cantidades = Input::get('cantidades');
 							/*REGISTRO DE LAS PERSONAS IMPLICADAS*/
 							for($i=0;$i<$cantidad_personas;$i++){
@@ -690,7 +692,7 @@ class EventosAdversosController extends BaseController
 							}
 
 
-							return Redirect::to('eventos_adversos/list_eventos_adversos')->with('message', 'Se editó correctamente el evento adverso '.$evento->codigo_abreviatura.'-'.$evento->codigo_correlativo);
+							return Redirect::to('eventos_adversos/list_eventos_adversos')->with('message', 'Se editó correctamente el evento adverso '.$evento->codigo_abreviatura.'-'.$evento->codigo_correlativo.'-'.$evento->codigo_anho);
 					}else{
 						Session::flash('error', 'No se han registrado personas implicadas.');
 						$evento_id = Input::get('evento_adverso_id');
@@ -958,7 +960,7 @@ class EventosAdversosController extends BaseController
 					$data["entorno_asistencial"] = EventoxEntornoAsistencial::searchEntornoAsistencialByIdEvento($data["evento_adverso_info"]->id)->get()[0];
 					$data["etapa_servicio"] = null;
 					/*echo '<pre>';
-					print_r($data["entorno_asistencial"]->comentario);
+					print_r($data["entorno_asistencial"]);
 					exit;*/			
 				}else{
 					$data["etapa_servicio"] = EtapaServicio::getEtapaServiciosByIdEtapaServicio($data["evento_adverso_info"]->idetapa_servicio)->get()[0];
@@ -1002,5 +1004,53 @@ class EventosAdversosController extends BaseController
 			$string = "0001";
 		}
 		return $string;
+	}
+
+	public function submit_disable_evento()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+				$evento_id = Input::get('evento_id');
+				$url = "eventos_adversos/edit_evento_adverso"."/".$evento_id;
+				$evento = EventoAdverso::find($evento_id);
+				$evento->delete();
+				Session::flash('message', 'Se inhabilitó correctamente el evento.');
+				return Redirect::to($url);
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+	public function submit_enable_evento()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+				$evento_id = Input::get('evento_id');
+				$url = "eventos_adversos/edit_evento_adverso"."/".$evento_id;
+				$evento = EventoAdverso::searchEventoAdversoById($evento_id)->get();
+				if(!$evento->isEmpty()){
+					$evento[0]->restore();
+				}else{
+					Session::flash('error', 'No se pudo habilitar el evento.');
+					return Redirect::to($url);
+				}
+				
+				Session::flash('message', 'Se habilitó correctamente el evento.');
+				return Redirect::to($url);
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
 	}
 }

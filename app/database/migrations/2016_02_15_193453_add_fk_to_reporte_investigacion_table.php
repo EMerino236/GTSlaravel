@@ -15,6 +15,7 @@ class AddFkToReporteInvestigacionTable extends Migration {
 		Schema::table('reporte_investigacion', function(Blueprint $table)
 		{
 			$table->foreign('idevento_adverso')->references('id')->on('eventos_adversos');
+			$table->foreign('idusuario_elaborador')->references('id')->on('users');
 		});
 	}
 
@@ -28,6 +29,7 @@ class AddFkToReporteInvestigacionTable extends Migration {
 		Schema::table('reporte_investigacion', function(Blueprint $table)
 		{
 			$table->dropForeign('reporte_investigacion_idevento_adverso_foreign');
+			$table->dropForeign('reporte_investigacion_idusuario_elaborador_foreign');
 		});
 	}
 
