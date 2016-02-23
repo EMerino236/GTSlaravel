@@ -126,7 +126,8 @@
 						<th class="text-nowrap text-center">Código Patrimonial</th>
 						<th class="text-nowrap text-center">Fecha de Adquisición</th>
 						<th class="text-nowrap text-center">Garantía Restante</th>
-						<th class="text-nowrap text-center">Garantía Vigente</th>					
+						<th class="text-nowrap text-center">Garantía Vigente</th>
+						<th class="text-nowrap text-center">Freq. Mantenimiento</th>					
 						<th class="text-nowrap text-center">Estado</th>
 					</tr>
 					@foreach($activos_data as $index => $activo_data)					
@@ -176,6 +177,17 @@
 								NO
 							@else
 								SI
+							@endif
+						</td>
+						<td class="text-nowrap">
+							@if($activo_data->ge < 12)
+	  							NINGUNO
+  							@elseif($activo_data->ge >= 12 && $activo_data->ge <= 15)
+  								ANUAL
+							@elseif($activo_data->ge > 15 && $activo_data->ge <= 18)
+								SEMESTRAL
+							@else($activo_data->ge > 18)
+								TRIMESTRAL
 							@endif
 						</td>						
 						<td class="text-nowrap">
