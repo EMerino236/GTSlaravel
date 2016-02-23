@@ -784,6 +784,7 @@ Route::group(array('prefix'=>'proyecto','before'=>'auth'),function(){
 	Route::get('/aprobacion/destroy/{id}',['uses'=>'ProyectosController@destroyAprobacion','as'=>'proyecto.aprobacion.destroy']);
 	
 	Route::post('/validarProyectoAjax',['uses'=>'ProyectosController@validarProyectoAjax','as'=>'proyecto.validarProyecto.ajax']);
+	Route::post('/validarProyectoExisteAjax',['uses'=>'ProyectosController@validarProyectoExisteAjax','as'=>'proyecto.validarProyectoExiste.ajax']);
 	Route::post('/getTodoServiciosAjax',['uses'=>'ProyectosController@getTodoServiciosAjax','as'=>'proyecto.getTodoServicios.ajax']);
 });
 
@@ -873,6 +874,28 @@ Route::group(array('prefix'=>'proyecto_cronograma','before'=>'auth'),function(){
 	Route::get('/show/{id}',['uses'=>'ProyectoCronogramaController@show','as'=>'proyecto_cronograma.show']);
 	Route::get('/edit/{id}',['uses'=>'ProyectoCronogramaController@edit','as'=>'proyecto_cronograma.edit']);
 	Route::post('/edit/{id}',['uses'=>'ProyectoCronogramaController@update','as'=>'proyecto_cronograma.update']);
+	Route::get('/edit/actividad/{id}',['uses'=>'ProyectoCronogramaController@editActividad','as'=>'proyecto_cronograma.actividad.edit']);
+	Route::post('/edit/actividad/{id}',['uses'=>'ProyectoCronogramaController@updateActividad','as'=>'proyecto_cronograma.actividad.update']);
 
 	Route::post('/getActividadesAjax',['uses'=>'ProyectoCronogramaController@getActividadesAjax','as'=>'proyecto_cronograma.getActividades.ajax']);
+});
+
+/* Plan de aprendizaje */
+Route::group(array('prefix'=>'plan_aprendizaje','before'=>'auth'),function(){
+	Route::get('/index',['uses'=>'PlanAprendizajeController@index','as'=>'plan_aprendizaje.index']);
+	Route::get('/search',['uses'=>'PlanAprendizajeController@search','as'=>'plan_aprendizaje.search']);
+	Route::get('/create',['uses'=>'PlanAprendizajeController@create','as'=>'plan_aprendizaje.create']);
+	Route::post('/create',['uses'=>'PlanAprendizajeController@store','as'=>'plan_aprendizaje.store']);
+	Route::get('/show/{id}',['uses'=>'PlanAprendizajeController@show','as'=>'plan_aprendizaje.show']);
+	Route::get('/edit/{id}',['uses'=>'PlanAprendizajeController@edit','as'=>'plan_aprendizaje.edit']);
+	Route::post('/edit/{id}',['uses'=>'PlanAprendizajeController@update','as'=>'plan_aprendizaje.update']);
+	Route::get('/download/{id}',['uses'=>'PlanAprendizajeController@download','as'=>'plan_aprendizaje.download']);
+
+	Route::get('/actividad/edit/{id}',['uses'=>'PlanAprendizajeController@editActividad','as'=>'plan_aprendizaje.actividad.edit']);
+	Route::post('/actividad/edit/{id}',['uses'=>'PlanAprendizajeController@updateActividad','as'=>'plan_aprendizaje.actividad.update']);
+	Route::get('/actividad/delete/{id}',['uses'=>'PlanAprendizajeController@destroyActividad','as'=>'plan_aprendizaje.actividad.destroy']);
+
+	Route::get('/recurso/edit/{id}',['uses'=>'PlanAprendizajeController@editRecurso','as'=>'plan_aprendizaje.recurso.edit']);
+	Route::post('/recurso/edit/{id}',['uses'=>'PlanAprendizajeController@updateRecurso','as'=>'plan_aprendizaje.recurso.update']);
+	Route::get('/recurso/delete/{id}',['uses'=>'PlanAprendizajeController@destroyRecurso','as'=>'plan_aprendizaje.recurso.destroy']);
 });

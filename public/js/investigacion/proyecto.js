@@ -685,7 +685,7 @@ function validarProyecto()
 
         },
         success: function(response){
-            console.log(response);
+            //console.log(response);
             if(response.success)
             {
 

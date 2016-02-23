@@ -3,7 +3,7 @@
 
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Cronograma</h3>
+            <h3 class="page-header">Cronograma: {{$cronograma->nombre}}</h3>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -105,7 +105,9 @@
 											<tbody id="table" class="table_pre">
 												@foreach($cronograma->actividades as $actividad)
 													<tr>
-														<td>{{$actividad->nombre}}</td>
+														<td>
+															<a href="{{route('proyecto_cronograma.actividad.edit',$actividad->id)}}">{{$actividad->nombre}}</a>
+														</td>
 														<td>{{$actividad->descripcion}}</td>
 														<td>{{$actividad->fecha_ini}}</td>
 														<td>{{$actividad->fecha_fin}}</td>
@@ -255,7 +257,7 @@
 			<div class="row">
 				<div class="col-md-3">
 		    		<a class="btn-under" href="{{route('proyecto_cronograma.edit',$cronograma->id)}}">
-						{{ Form::button('<span class="glyphicon glyphicon-upload"></span> Editar', ['class' => 'btn btn-success btn-block']) }}
+						{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Agregar', ['class' => 'btn btn-success btn-block']) }}
 					</a>
 				</div>
 			</div>

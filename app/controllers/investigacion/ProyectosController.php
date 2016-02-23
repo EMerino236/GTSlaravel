@@ -1444,4 +1444,40 @@ class ProyectosController extends \BaseController {
 		}
 	}
 
+	public function validarProyectoExisteAjax()
+	{
+		
+		if(!Request::ajax() || !Auth::check())
+		{
+			return Response::json(array( 'success' => false ),200);
+		}
+
+		$id = Auth::id();
+		$data["inside_url"] = Config::get('app.inside_url');
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
+			
+			$id_proyecto = Input::get('id_proyecto');
+			
+			if($id_proyecto!=''){				
+				
+				$proyecto = Proyecto::find($id_proyecto);
+
+				if($proyecto){
+					$reporte = $proyecto;
+				}else{
+					$reporte = [];
+				}
+			}else{
+				$reporte = [];
+			}
+			
+			
+			return Response::json(array( 'success' => true, 'reporte' => $reporte),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
 }
