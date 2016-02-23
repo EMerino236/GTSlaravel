@@ -13,4 +13,9 @@ class CronogramaActividad extends Eloquent{
 		return $this->belongsTo('CronogramaActividad', 'id_actividad_previa');
 	}
 
+	public function cronograma()
+	{
+		return $this->belongsTo('Cronograma', 'id_cronograma');
+	}
+
 }

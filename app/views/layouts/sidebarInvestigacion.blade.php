@@ -77,16 +77,17 @@
                     --}}
                 </ul>
             </li>
-            <!--
+           
             <li>
                 <a href="#">Gestión de transferencia de tecnología en salud desarrollada<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
-                    <li>{{ HTML::link('#','Indicadores de TTS') }}</li>
-                    <li>{{ HTML::link('#','Reporte de seguimiento y control de TTS') }}</li>
-                    <li>{{ HTML::link('#','Cronograma de trabajo de TTS') }}</li>
+                     <!--
+                    <li>{{ HTML::link('#','Indicadores de TTS') }}</li>                    
+                    -->
+                    <li>{{ HTML::link('#','Reporte de seguimiento y control de TTS y cronograma') }}</li>
                 </ul>
             </li>
-            -->
+            
         </ul>
     </div>
     <!-- /.sidebar-collapse -->

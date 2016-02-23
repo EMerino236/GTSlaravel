@@ -87,14 +87,20 @@
 	</div>
 
 	<div class="row">
-		<div class="form-group col-md-3">
-			<a class="btn-under" href="{{route('proyecto_cronograma.show',$cronograma->id_proyecto)}}">
-				{{ Form::button('<span class="glyphicon glyphicon-repeat"></span> Regresar', array('class' => 'btn btn-primary btn-block')) }}
+		<div class="form-group col-md-2">
+			{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit_create', 'type'=>'submit','class' => 'btn btn-primary btn-block')) }}
+		</div>
+
+		<div class="form-group col-md-2">
+			<a class="btn-under" href="{{route('proyecto_cronograma.actividad.destroy',$actividad->id)}}">
+				{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-down"></span> Eliminar', array('class' => 'btn btn-danger btn-block')) }}
 			</a>
 		</div>
 
-		<div class="form-group col-md-3">
-			{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit_create', 'type'=>'submit','class' => 'btn btn-primary btn-block')) }}
+		<div class="form-group col-md-offset-6 col-md-2">
+			<a class="btn-under" href="{{route('proyecto_cronograma.show',$cronograma->id_proyecto)}}">
+				{{ Form::button('<span class="glyphicon glyphicon-repeat"></span> Regresar', array('class' => 'btn btn-primary btn-block')) }}
+			</a>
 		</div>
 	</div>
 

@@ -330,6 +330,33 @@ class ProyectoCronogramaController extends \BaseController {
 	}
 
 
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function destroyActividad($id)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+				$actividad = CronogramaActividad::find($id);
+				$url = "proyecto_cronograma/show/".$actividad->cronograma->proyecto->id;
+				$actividad->delete();
+				Session::flash('message','Se borro correctamente la actividad.');					
+				return Redirect::to($url);
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+
 	public function getActividadesAjax()
 	{
 		

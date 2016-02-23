@@ -913,9 +913,11 @@ Route::group(array('prefix'=>'proyecto_cronograma','before'=>'auth'),function(){
 	Route::get('/show/{id}',['uses'=>'ProyectoCronogramaController@show','as'=>'proyecto_cronograma.show']);
 	Route::get('/edit/{id}',['uses'=>'ProyectoCronogramaController@edit','as'=>'proyecto_cronograma.edit']);
 	Route::post('/edit/{id}',['uses'=>'ProyectoCronogramaController@update','as'=>'proyecto_cronograma.update']);
+	
 	Route::get('/edit/actividad/{id}',['uses'=>'ProyectoCronogramaController@editActividad','as'=>'proyecto_cronograma.actividad.edit']);
 	Route::post('/edit/actividad/{id}',['uses'=>'ProyectoCronogramaController@updateActividad','as'=>'proyecto_cronograma.actividad.update']);
-
+	Route::get('/delete/actividad/{id}',['uses'=>'ProyectoCronogramaController@destroyActividad','as'=>'proyecto_cronograma.actividad.destroy']);
+	
 	Route::post('/getActividadesAjax',['uses'=>'ProyectoCronogramaController@getActividadesAjax','as'=>'proyecto_cronograma.getActividades.ajax']);
 });
 
