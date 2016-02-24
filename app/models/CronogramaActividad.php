@@ -18,4 +18,9 @@ class CronogramaActividad extends Eloquent{
 		return $this->belongsTo('Cronograma', 'id_cronograma');
 	}
 
+	public function actividadesPosteriores()
+	{
+		return $this->hasMany('CronogramaActividad', 'id_actividad_previa');
+	}
+
 }

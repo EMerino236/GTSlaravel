@@ -28,7 +28,7 @@
 		<div class="alert alert-danger">{{ Session::get('error') }}</div>
 	@endif
 
-	{{ Form::open(array('route'=>['proyecto_cronograma.actividad.update',$actividad->id], 'role'=>'form')) }}
+	{{ Form::open(array('route'=>['trabajo_cronograma.actividad.update',$actividad->id], 'role'=>'form')) }}
 
 	<div class="panel panel-default">
 		<div class="panel-heading">
@@ -50,7 +50,7 @@
 
 				<div class="form-group col-md-4 @if($errors->first('actividad_previa')) has-error has-feedback @endif">
 					{{ Form::label('actividad_previa','Actividad Previa') }}
-					{{ Form::select('actividad_previa', [0=>'No posee actividad previa']+$actividades, $actividad->id_actividad_previa, ['id'=>'actividad_previa','class'=>'form-control','onChange'=>'setLimiteActividadProyecto()']) }}
+					{{ Form::select('actividad_previa', [0=>'No posee actividad previa']+$actividades, $actividad->id_actividad_previa, ['id'=>'actividad_previa','class'=>'form-control','onChange'=>'setLimite()']) }}
 				</div>
 			</div>
 
@@ -63,7 +63,7 @@
 	                        <span class="glyphicon glyphicon-calendar"></span>
 	                    </span>
 					</div>
-					<script type="text/javascript">proy_ini = new Date("{{$cronograma->proyecto->fecha_ini}}")</script>
+					<script type="text/javascript">proy_ini = new Date("{{$cronograma->fecha_ini}}")</script>
 				</div>
 
 				<div class="form-group col-md-4 @if($errors->first('fecha_fin')) has-error has-feedback @endif">
@@ -74,7 +74,7 @@
 	                        <span class="glyphicon glyphicon-calendar"></span>
 	                    </span>
 					</div>
-					<script type="text/javascript">proy_fin = new Date("{{$cronograma->proyecto->fecha_fin}}")</script>
+					<script type="text/javascript">proy_fin = new Date("{{$cronograma->fecha_fin}}")</script>
 				</div>
 
 				<div class="form-group col-md-4 @if($errors->first('duracion')) has-error has-feedback @endif">
@@ -90,13 +90,13 @@
 		</div>
 
 		<div class="form-group col-md-2">
-			<a class="btn-under" href="{{route('proyecto_cronograma.actividad.destroy',$actividad->id)}}">
+			<a class="btn-under" href="{{route('trabajo_cronograma.actividad.destroy',$actividad->id)}}">
 				{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-down"></span> Eliminar', array('class' => 'btn btn-danger btn-block')) }}
 			</a>
 		</div>
 
 		<div class="form-group col-md-offset-6 col-md-2">
-			<a class="btn-under" href="{{route('proyecto_cronograma.show',$cronograma->id_proyecto)}}">
+			<a class="btn-under" href="{{route('trabajo_cronograma.show',$cronograma->id)}}">
 				{{ Form::button('<span class="glyphicon glyphicon-repeat"></span> Regresar', array('class' => 'btn btn-primary btn-block')) }}
 			</a>
 		</div>

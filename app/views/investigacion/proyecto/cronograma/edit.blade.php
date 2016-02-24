@@ -58,7 +58,7 @@
 
 				<div class="form-group col-md-4 @if($errors->first('actividad_previa')) has-error has-feedback @endif">
 					{{ Form::label('actividad_previa','Actividad Previa') }}
-					{{ Form::select('actividad_previa', [0=>'No posee actividad previa'], null, ['id'=>'actividad_previa','class'=>'form-control']) }}
+					{{ Form::select('actividad_previa', [0=>'No posee actividad previa'], null, ['id'=>'actividad_previa','class'=>'form-control','onChange'=>'setLimiteActividadProyecto()']) }}
 				</div>
 			</div>
 
@@ -93,7 +93,7 @@
 		</div>
 		
 	</div>
-
+	
 	<div class="row">
 		<div class="form-group col-md-3">
 			<a class="btn-under" href="{{route('proyecto_cronograma.show',$cronograma->id_proyecto)}}">

@@ -84,7 +84,7 @@
                      <!--
                     <li>{{ HTML::link('#','Indicadores de TTS') }}</li>                    
                     -->
-                    <li>{{ HTML::link('#','Reporte de seguimiento y control de TTS y cronograma') }}</li>
+                    <li>{{ HTML::linkRoute('reporte_seguimiento.index','Reporte de seguimiento y control de TTS y cronograma') }}</li>
                 </ul>
             </li>
             

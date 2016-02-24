@@ -189,8 +189,14 @@
 					  	</div>
 
 					  	<div class="panel-body">
-							<div class="col-md-5">
+							<div class="form-group col-md-6">
 								{{ Form::text('archivo', $plan->nombre_archivo, ['class'=>'form-control','readonly']) }}
+							</div>
+
+							<div class="form-group col-md-2">
+								<a class="btn-under" href="{{route('plan_aprendizaje.download',$plan->id)}}">
+									{{ Form::button('<span class="glyphicon glyphicon-download"></span> Descargar', ['class' => 'btn btn-success btn-block']) }}
+								</a>
 							</div>
 					  	</div>
 					  </div>
@@ -202,8 +208,8 @@
 
 	<div class="row">
 		<div class="form-group col-md-2">
-			<a class="btn-under" href="{{route('plan_aprendizaje.download',$plan->id)}}">
-				{{ Form::button('<span class="glyphicon glyphicon-download"></span> Descargar', ['class' => 'btn btn-success btn-block']) }}
+			<a class="btn-under" href="{{route('plan_aprendizaje.export',$plan->id)}}">
+				{{ Form::button('<span class="glyphicon glyphicon-download"></span> Exportar', ['class' => 'btn btn-success btn-block']) }}
 			</a>
 		</div>
 

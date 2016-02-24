@@ -3,7 +3,7 @@
 
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Editar actividad: {{$actividad->nombre}}</h3>
+            <h3 class="page-header">Actividades de Cronograma</h3>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -28,7 +28,7 @@
 		<div class="alert alert-danger">{{ Session::get('error') }}</div>
 	@endif
 
-	{{ Form::open(array('route'=>['proyecto_cronograma.actividad.update',$actividad->id], 'role'=>'form')) }}
+	{{ Form::open(array('route'=>['trabajo_cronograma.update',$cronograma->id], 'role'=>'form')) }}
 
 	<div class="panel panel-default">
 		<div class="panel-heading">
@@ -39,18 +39,17 @@
 	  		<div class="row">
 				<div class="form-group col-md-4 @if($errors->first('actividad')) has-error has-feedback @endif">
 					{{ Form::label('actividad','Actividad') }}
-					{{ Form::text('actividad', $actividad->nombre, ['class'=>'form-control']) }}
+					{{ Form::text('actividad', null, ['class'=>'form-control']) }}
 				</div>
 
 				<div class="form-group col-md-4 @if($errors->first('descripcion')) has-error has-feedback @endif">
 					{{ Form::label('descripcion','Descripción') }}
-					{{ Form::text('descripcion', $actividad->descripcion, ['class'=>'form-control']) }}
+					{{ Form::text('descripcion', null, ['class'=>'form-control']) }}
 				</div>
-
 
 				<div class="form-group col-md-4 @if($errors->first('actividad_previa')) has-error has-feedback @endif">
 					{{ Form::label('actividad_previa','Actividad Previa') }}
-					{{ Form::select('actividad_previa', [0=>'No posee actividad previa']+$actividades, $actividad->id_actividad_previa, ['id'=>'actividad_previa','class'=>'form-control','onChange'=>'setLimiteActividadProyecto()']) }}
+					{{ Form::select('actividad_previa', [0=>'No posee actividad previa']+$actividades, null, ['id'=>'actividad_previa','class'=>'form-control','onChange'=>'setLimite()']) }}
 				</div>
 			</div>
 
@@ -58,48 +57,46 @@
 				<div class="form-group col-md-4 @if($errors->first('fecha_ini')) has-error has-feedback @endif">
 					{{ Form::label('fecha_ini','Fecha Inicio') }}
 					<div id="datetimepicker_crono_act_ini" class="form-group input-group date">
-						{{ Form::text('fecha_ini', date('d-m-Y',strtotime($actividad->fecha_ini)),array('class'=>'form-control', 'readonly'=>'','onChange'=>'calcula_duracion()')) }}
+						{{ Form::text('fecha_ini', Input::old('fecha_ini'),array('class'=>'form-control', 'readonly'=>'','onChange'=>'calcula_duracion()')) }}
 						<span class="input-group-addon">
 	                        <span class="glyphicon glyphicon-calendar"></span>
 	                    </span>
 					</div>
-					<script type="text/javascript">proy_ini = new Date("{{$cronograma->proyecto->fecha_ini}}")</script>
+					<script type="text/javascript">proy_ini = new Date("{{$cronograma->fecha_ini}}")</script>
 				</div>
 
 				<div class="form-group col-md-4 @if($errors->first('fecha_fin')) has-error has-feedback @endif">
 					{{ Form::label('fecha_fin','Fecha Fin') }}
 					<div id="datetimepicker_crono_act_fin" class="form-group input-group date">
-						{{ Form::text('fecha_fin', date('d-m-Y',strtotime($actividad->fecha_fin)),array('class'=>'form-control', 'readonly'=>'','onChange'=>'calcula_duracion()')) }}
+						{{ Form::text('fecha_fin', Input::old('fecha_fin'),array('class'=>'form-control', 'readonly'=>'','onChange'=>'calcula_duracion()')) }}
 						<span class="input-group-addon">
 	                        <span class="glyphicon glyphicon-calendar"></span>
 	                    </span>
 					</div>
-					<script type="text/javascript">proy_fin = new Date("{{$cronograma->proyecto->fecha_fin}}")</script>
+					<script type="text/javascript">proy_fin = new Date("{{$cronograma->fecha_fin}}")</script>
 				</div>
 
 				<div class="form-group col-md-4 @if($errors->first('duracion')) has-error has-feedback @endif">
 					{{ Form::label('duracion','Duración') }}
-					{{ Form::text('duracion', $actividad->duracion, ['class'=>'form-control','readonly']) }}
+					{{ Form::text('duracion', null, ['class'=>'form-control','readonly']) }}
 				</div>
 			</div>
 		</div>
+		
 	</div>
+
 	<div class="row">
 		<div class="form-group col-md-2">
 			{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit_create', 'type'=>'submit','class' => 'btn btn-primary btn-block')) }}
 		</div>
 
-		<div class="form-group col-md-2">
-			<a class="btn-under" href="{{route('proyecto_cronograma.actividad.destroy',$actividad->id)}}">
-				{{ Form::button('<span class="glyphicon glyphicon-circle-arrow-down"></span> Eliminar', array('class' => 'btn btn-danger btn-block')) }}
-			</a>
-		</div>
-
-		<div class="form-group col-md-offset-6 col-md-2">
-			<a class="btn-under" href="{{route('proyecto_cronograma.show',$cronograma->id_proyecto)}}">
+		<div class="form-group col-md-offset-8 col-md-2">
+			<a class="btn-under" href="{{route('trabajo_cronograma.show',$cronograma->id)}}">
 				{{ Form::button('<span class="glyphicon glyphicon-repeat"></span> Regresar', array('class' => 'btn btn-primary btn-block')) }}
 			</a>
 		</div>
+
+
 	</div>
 
 	{{Form::close()}}

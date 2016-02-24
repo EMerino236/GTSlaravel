@@ -656,4 +656,32 @@ class PlanAprendizajeController extends \BaseController {
 			return View::make('error/error',$data);
 		}
 	}
+
+
+	public function export($id)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 5 || $data["user"]->idrol == 6
+				 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
+				
+				$plan = PlanAprendizaje::find($id);
+				if(!$plan){
+					Session::flash('error', 'No se encontró el plan de aprendizaje.');
+					return Redirect::to('plan_aprendizaje/index');
+				}
+				$data["plan"] = $plan;
+
+				$html = View::make('investigacion.proyecto.plan_aprendizaje.export',$data);
+				return PDF::load($html,"A4","portrait")->download('Plan de aprendizaje - '.$data["plan"]->proyecto->codigo);
+				
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
 }

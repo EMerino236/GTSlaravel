@@ -913,12 +913,16 @@ Route::group(array('prefix'=>'proyecto_cronograma','before'=>'auth'),function(){
 	Route::get('/show/{id}',['uses'=>'ProyectoCronogramaController@show','as'=>'proyecto_cronograma.show']);
 	Route::get('/edit/{id}',['uses'=>'ProyectoCronogramaController@edit','as'=>'proyecto_cronograma.edit']);
 	Route::post('/edit/{id}',['uses'=>'ProyectoCronogramaController@update','as'=>'proyecto_cronograma.update']);
+
+	Route::get('/edit/cronograma/{id}',['uses'=>'ProyectoCronogramaController@editCronograma','as'=>'proyecto_cronograma.cronograma.edit']);
+	Route::post('/edit/cronograma/{id}',['uses'=>'ProyectoCronogramaController@updateCronograma','as'=>'proyecto_cronograma.cronograma.update']);
 	
 	Route::get('/edit/actividad/{id}',['uses'=>'ProyectoCronogramaController@editActividad','as'=>'proyecto_cronograma.actividad.edit']);
 	Route::post('/edit/actividad/{id}',['uses'=>'ProyectoCronogramaController@updateActividad','as'=>'proyecto_cronograma.actividad.update']);
 	Route::get('/delete/actividad/{id}',['uses'=>'ProyectoCronogramaController@destroyActividad','as'=>'proyecto_cronograma.actividad.destroy']);
 	
 	Route::post('/getActividadesAjax',['uses'=>'ProyectoCronogramaController@getActividadesAjax','as'=>'proyecto_cronograma.getActividades.ajax']);
+	Route::post('/getActividadAjax',['uses'=>'ProyectoCronogramaController@getActividadAjax','as'=>'proyecto_cronograma.getActividad.ajax']);
 });
 
 /* Plan de aprendizaje */
@@ -931,6 +935,7 @@ Route::group(array('prefix'=>'plan_aprendizaje','before'=>'auth'),function(){
 	Route::get('/edit/{id}',['uses'=>'PlanAprendizajeController@edit','as'=>'plan_aprendizaje.edit']);
 	Route::post('/edit/{id}',['uses'=>'PlanAprendizajeController@update','as'=>'plan_aprendizaje.update']);
 	Route::get('/download/{id}',['uses'=>'PlanAprendizajeController@download','as'=>'plan_aprendizaje.download']);
+	Route::get('/export/{id}',['uses'=>'PlanAprendizajeController@export','as'=>'plan_aprendizaje.export']);
 
 	Route::get('/actividad/edit/{id}',['uses'=>'PlanAprendizajeController@editActividad','as'=>'plan_aprendizaje.actividad.edit']);
 	Route::post('/actividad/edit/{id}',['uses'=>'PlanAprendizajeController@updateActividad','as'=>'plan_aprendizaje.actividad.update']);
@@ -939,4 +944,35 @@ Route::group(array('prefix'=>'plan_aprendizaje','before'=>'auth'),function(){
 	Route::get('/recurso/edit/{id}',['uses'=>'PlanAprendizajeController@editRecurso','as'=>'plan_aprendizaje.recurso.edit']);
 	Route::post('/recurso/edit/{id}',['uses'=>'PlanAprendizajeController@updateRecurso','as'=>'plan_aprendizaje.recurso.update']);
 	Route::get('/recurso/delete/{id}',['uses'=>'PlanAprendizajeController@destroyRecurso','as'=>'plan_aprendizaje.recurso.destroy']);
+});
+
+/* Reporte de seguimiento y control */
+Route::group(array('prefix'=>'reporte_seguimiento','before'=>'auth'),function(){
+	Route::get('/index',['uses'=>'ReporteSeguimientoController@index','as'=>'reporte_seguimiento.index']);
+	Route::get('/search',['uses'=>'ReporteSeguimientoController@search','as'=>'reporte_seguimiento.search']);
+	Route::get('/create',['uses'=>'ReporteSeguimientoController@create','as'=>'reporte_seguimiento.create']);
+	Route::post('/create',['uses'=>'ReporteSeguimientoController@store','as'=>'reporte_seguimiento.store']);
+	Route::get('/show/{id}',['uses'=>'ReporteSeguimientoController@show','as'=>'reporte_seguimiento.show']);
+	Route::get('/edit/{id}',['uses'=>'ReporteSeguimientoController@edit','as'=>'reporte_seguimiento.edit']);
+	Route::post('/edit/{id}',['uses'=>'ReporteSeguimientoController@update','as'=>'reporte_seguimiento.update']);
+	Route::get('/download/{id}',['uses'=>'ReporteSeguimientoController@download','as'=>'reporte_seguimiento.download']);
+
+});
+
+/* Cronograma de trabajo */
+Route::group(array('prefix'=>'trabajo_cronograma','before'=>'auth'),function(){
+	Route::get('/create/{id}',['uses'=>'TrabajoCronogramaController@create','as'=>'trabajo_cronograma.create']);
+	Route::post('/create/{id}',['uses'=>'TrabajoCronogramaController@store','as'=>'trabajo_cronograma.store']);
+	Route::get('/show/{id}',['uses'=>'TrabajoCronogramaController@show','as'=>'trabajo_cronograma.show']);
+	Route::get('/edit/{id}',['uses'=>'TrabajoCronogramaController@edit','as'=>'trabajo_cronograma.edit']);
+	Route::post('/edit/{id}',['uses'=>'TrabajoCronogramaController@update','as'=>'trabajo_cronograma.update']);
+	
+	Route::get('/edit/cronograma/{id}',['uses'=>'TrabajoCronogramaController@editCronograma','as'=>'trabajo_cronograma.cronograma.edit']);
+	Route::post('/edit/cronograma/{id}',['uses'=>'TrabajoCronogramaController@updateCronograma','as'=>'trabajo_cronograma.cronograma.update']);
+
+	Route::get('/edit/actividad/{id}',['uses'=>'TrabajoCronogramaController@editActividad','as'=>'trabajo_cronograma.actividad.edit']);
+	Route::post('/edit/actividad/{id}',['uses'=>'TrabajoCronogramaController@updateActividad','as'=>'trabajo_cronograma.actividad.update']);
+	Route::get('/delete/actividad/{id}',['uses'=>'TrabajoCronogramaController@destroyActividad','as'=>'trabajo_cronograma.actividad.destroy']);
+	
+	Route::post('/getActividadAjax',['uses'=>'TrabajoCronogramaController@getActividadAjax','as'=>'trabajo_cronograma.getActividad.ajax']);
 });
