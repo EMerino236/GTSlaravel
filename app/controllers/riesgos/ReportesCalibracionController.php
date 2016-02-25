@@ -21,7 +21,7 @@ class ReportesCalibracionController extends BaseController
 				$data["servicios"] = Servicio::lists('nombre','idservicio');
 				$data["areas"] = Area::lists('nombre','idarea');
 				$data["grupos"] = Grupo::lists('nombre','idgrupo');
-				$data["reportes_data"] = ReporteCalibracion::getReportesInfo()->distinct()->paginate(10);
+				$data["reportes_data"] = ReporteCalibracion::getReportesInfo()->distinct()->orderBy('id','asc')->paginate(10);
 				return View::make('riesgos/reporte_calibracion/listReporteCalibracion',$data);
 			}else{
 				return View::make('error/error',$data);
@@ -119,6 +119,10 @@ class ReportesCalibracionController extends BaseController
 				}else
 					$data["equipos_data"] = Activo::searchActivosCalibracion($data["codigo_patrimonial"],$data["nombre_equipo"],$data["area"],$data["servicio"],$data["grupo"])->get();
 
+				if(count($data["equipos_data"])>50){
+					Session::flash('error','La búsqueda retornó más de 50 resultados, se recomienda realizar una búsqueda más detallada.');
+					return Redirect::to('reportes_calibracion/create_reporte');
+				}
 				return View::make('riesgos/reporte_calibracion/createReporteCalibracion',$data);
 			}else{
 				return View::make('error/error',$data);
@@ -142,14 +146,18 @@ class ReportesCalibracionController extends BaseController
 					
 				);
 
-
-
 				$messages = array(
 					);
 
 				$rules = array(
 					
 				);
+
+				$array_activos = Input::get('details_activos');
+
+				$array_posiciones = Input::get('details_posiciones');
+				
+
 
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules, $messages, $attributes);
@@ -161,13 +169,14 @@ class ReportesCalibracionController extends BaseController
 				}else{	
 					
 					$array_activos_no_registrados = [];
-					$cantidad_activos = Input::get('cantidad_activos');
+
+					$array_idactivos = Input::get('details_activos');
+					$cantidad_activos = count($array_idactivos);
 					if($cantidad_activos>0){
-						$array_idactivos = Input::get('details_activos');
-						
 						for($i=0;$i<$cantidad_activos;$i++){
 							$idactivo = $array_idactivos[$i];
 							//se realiza una primera validacion de que se estan subierno por lo menos un archivo.
+							
 							$existeArchivos = 0;
 							for($j=0;$j<10;$j++){
 								if(Input::hasFile('input-file-'.$idactivo.'-'.$j)){
@@ -175,14 +184,15 @@ class ReportesCalibracionController extends BaseController
 									break;
 								}
 							}
-
-							if($existeArchivos == 1){								
+							if($existeArchivos == 1 && Input::get('fecha_calibracion-'.$idactivo) != null && Input::get('fecha_proximo-'.$idactivo)!=null ){								
 								//como ya existe se crea de una vez el reporte de calibracion
 								$reporte_calibracion = new ReporteCalibracion;
 								$reporte_calibracion->codigo_abreviatura = "RC";
 								$reporte_calibracion->codigo_correlativo = $this->getCorrelativeReportNumber();
 								$reporte_calibracion->codigo_anho = date('y');
 								$reporte_calibracion->idactivo = $idactivo;
+								$reporte_calibracion->fecha_calibracion = date("Y-m-d",strtotime(Input::get('fecha_calibracion-'.$idactivo)));
+								$reporte_calibracion->fecha_proxima_calibracion = date("Y-m-d",strtotime(Input::get('fecha_proximo-'.$idactivo)));
 								$reporte_calibracion->save();
 								for($j=0;$j<10;$j++){
 									if(Input::hasFile('input-file-'.$idactivo.'-'.$j)){	
@@ -206,18 +216,23 @@ class ReportesCalibracionController extends BaseController
 							
 						}
 						
-						$string = "Se han registrado los reportes de calibracion con excepción de los siguientes equipos:<br>";
+						
 						$cantidad = count($array_activos_no_registrados);
 						if($cantidad != $cantidad_activos){
+							if($cantidad == 0){
+								$string = "Se han registrado los reportes de calibracion.<br>";
+								return Redirect::to('reportes_calibracion/list_reportes_calibracion');
+							}
+							$string = "Se han registrado los reportes de calibracion con excepción de los siguientes equipos:<br>";
 							for($i=0;$i<$cantidad;$i++){
 								$activo = Activo::searchActivosById($array_activos_no_registrados[$i])->get()[0];
 								$familia_activo = FamiliaActivo::find($activo->idfamilia_activo)->get()[0];
 								$modelo_activo = ModeloActivo::find($activo->modelo)->get()[0];
-								$string_line = ($i+1).': Equipo: '.$familia_activo->nombre_equipo.' Modelo: '.$modelo_activo->nombre.' Cód. Patrimonial: '.$activo->codigo_patrimonial.'<br>';
+								$string_line = ($i+1).':<pre> Equipo: '.$familia_activo->nombre_equipo.' Modelo: '.$modelo_activo->nombre.' Cód. Patrimonial: '.$activo->codigo_patrimonial.'</pre><br>';
 								$string = $string.$string_line;							
 							}
 						}else{
-							Session::flash('error','Para registrar un reporte de calibración a un equipo debe adjuntarle por lo menos 1 documento.');
+							Session::flash('error','Para registrar un reporte de calibración a un equipo debe:<br> Adjuntar por lo menos 1 documento.<br>Llenar los campos Fecha de Calibración y Fecha Próxima de Calibración');
 							return Redirect::to('reportes_calibracion/create_reporte');
 						}
 						Session::flash('message', $string);				
@@ -293,9 +308,10 @@ class ReportesCalibracionController extends BaseController
 			// Check if the current user is the "System Admin"
 			$idreporte = Input::get('id_reporte');
 			$documentos = ReporteCalibracion::getDetalleReporteCalibracion($idreporte)->get();
+			$reporte = ReporteCalibracion::find($idreporte);
 				
 
-			return Response::json(array( 'success' => true, 'documentos' => $documentos),200);
+			return Response::json(array( 'success' => true, 'documentos' => $documentos,'reporte'=>$reporte),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
 		}

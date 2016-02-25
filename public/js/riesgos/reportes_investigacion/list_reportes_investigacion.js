@@ -29,6 +29,7 @@ $( document ).ready(function(){
 
 function show_modal(event,idEvento){
     event.preventDefault();
+    $('#toma_acciones').val(null);
     $.ajax({
         url: inside_url+'reportes_investigacion/show_toma_acciones',
         type: 'POST',
@@ -48,18 +49,19 @@ function show_modal(event,idEvento){
         success: function(response){
             if(response.success){
                 texto = response["texto"];
-                dialog = BootstrapDialog.show({
-                            title: 'Toma de Acciones del Evento',                            
-                            type: BootstrapDialog.TYPE_INFO,
-                            message: texto,
-                            buttons: [{
-                                label: 'Aceptar',
-                                cssClass: 'btn-default',
-                                action: function() {                                    
-                                    dialog.close();
-                                }
-                            }]
-                        }); 
+                /*dialog = BootstrapDialog.show({
+                    title: 'Toma de Acciones del Evento',                            
+                    type: BootstrapDialog.TYPE_INFO,
+                    message: texto,
+                    buttons: [{
+                        label: 'Aceptar',
+                        cssClass: 'btn-default',
+                        action: function() {                                    
+                            dialog.close();
+                        }
+                    }]
+                }); */
+                $('#toma_acciones').val(texto);
                 
             }else{
                 alert('La petición no se pudo completar, inténtelo de nuevo.');

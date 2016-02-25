@@ -11,6 +11,8 @@
     <link href="{{ asset('bower_components/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- MetisMenu CSS -->
     <link href="{{ asset('bower_components/metisMenu/dist/metisMenu.min.css') }}" rel="stylesheet">
+    <!-- Datepicker CSS-->
+    <link rel="stylesheet" href="{{asset('css/bootstrap-datetimepicker.min.css') }}">
     <!-- Timeline CSS -->
     <link href="{{ asset('dist/css/timeline.css') }}" rel="stylesheet">
     <!-- Custom CSS -->
@@ -39,6 +41,8 @@
     <!-- Morris Charts JavaScript -->
     <script src="{{ asset('bower_components/raphael/raphael-min.js') }}"></script>
     <script src="{{ asset('bower_components/morrisjs/morris.min.js') }}"></script>
+    <!-- Bootstrap Datepicker JavaScript -->
+    <script type="text/javascript" src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
      
     <!-- Custom Theme JavaScript -->
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>

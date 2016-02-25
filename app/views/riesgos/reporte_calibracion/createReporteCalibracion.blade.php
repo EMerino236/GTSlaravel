@@ -7,17 +7,10 @@
         <!-- /.col-lg-12 -->
     </div>
 
+
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert" id="rules">
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			<p><strong>{{ $errors->first('nombre') }}</strong></p>
-			<p><strong>{{ $errors->first('descripcion') }}</strong></p>
-			<p><strong>{{ $errors->first('autor') }}</strong></p>
-			<p><strong>{{ $errors->first('codigo_archivamiento') }}</strong></p>
-			<p><strong>{{ $errors->first('ubicacion') }}</strong></p>
-			<p><strong>{{ $errors->first('url') }}</strong></p>
-			<p><strong>{{ $errors->first('idtipo_documento') }}</strong></p>
-			<p><strong>{{ $errors->first('archivo') }}</strong></p>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>			
 		</div>
 	@endif
 
@@ -34,8 +27,8 @@
 		</div>
 	@endif
 
-	
 	{{ Form::open(array('url'=>'/reportes_calibracion/search_activos','method'=>'get' ,'role'=>'form', 'id'=>'search-form','class' => 'form-group')) }}
+	
 		<div class="panel panel-default">
 		  <div class="panel-heading">
 		    <h3 class="panel-title">Criterios de Búsqueda de Activos</h3>
@@ -120,7 +113,7 @@
 								{{$equipo_data->nombre_proveedor}}
 							</td>
 							<td class="text-nowrap text-center">
-								<a href='' class='btn btn-success' onclick='add_modal_documentos(event,{{$equipo_data->idactivo}})'><span class="glyphicon glyphicon-plus"> </span>Agregar Documentos</a>
+								<a href='' class='btn btn-success' onclick='add_modal_documentos(event,{{$equipo_data->idactivo}})'><span class="glyphicon glyphicon-file"> </span> Documentos</a>
 							</td>
 							<td class=\"text-nowrap text-center\">
 								<a href='' class='btn btn-danger delete-detail' onclick='deleteRow(event,this)'><span class="glyphicon glyphicon-remove"></span></a>
@@ -144,36 +137,87 @@
 		</div>
 
 		<div id="modals">
-			@foreach($equipos_data as $index => $equipo_data)
+			@foreach($equipos_data as $index => $equipo)
 			<div class="container">
 			  <!-- Modal -->
-			  <div class="modal fade" id="modal_{{$equipo_data->idactivo}}" role="dialog">
+			  <div class="modal fade" id="modal_{{$equipo->idactivo}}" role="dialog" data-backdrop="static" data-keyboard="false">
 			    <div class="modal-dialog modal-md">    
 			      <!-- Modal content-->
 			      <div class="modal-content">
 			        <div class="modal-header bg-primary">
-			          <button type="button" class="close" data-dismiss="modal">&times;</button>
-			          <h4 class="modal-title">Documentos Adjuntos</h4>
+			           <h4 class="modal-title">Documentos Adjuntos</h4>
 			        </div>
-			        <div class="modal-body"> 			        	
-			        	@for($i = 0 ; $i < 10 ; $i++)
-			        		<div class="row">
-			        			<div class="col-md-8 form-group">
-			        				@if($i < 5)
-				        			{{ Form::label('label_doc',$i.') Certificado de Calibración:') }}
-									@else
-									{{ Form::label('label_doc',$i.') Reporte de Calibración:') }}
-									@endif
-									<input name="input-file-{{$equipo_data->idactivo}}-{{$i}}" id="input-file-{{$equipo_data->idactivo}}-{{$i}}" type="file" class="file file-loading" data-show-upload="false">
-			       				</div>
-			       			</div>
-			       		@endfor        	
+			        <div class="modal-body">
+			        	<div class="panel panel-default">
+							<div class="panel-heading">
+							  <h3 class="panel-title">Documentos</h3>
+							</div>
+						   <div class="panel-body"> 			        	
+					        	@for($i = 0 ; $i < 10 ; $i+=2 )
+					        		<div class="row" style="@if($i>1) display:none; @endif" id="div_file_{{$equipo->idactivo}}_{{$i}}" >
+					        			<div class="col-md-8 form-group">
+					        				{{ Form::label('label_doc',($i+1).') Certificado de Calibración:') }}
+											<input name="input-file-{{$equipo->idactivo}}-{{$i}}" id="input-file-{{$equipo->idactivo}}-{{$i}}" type="file" class="file file-loading" data-show-upload="false">
+					       				</div>
+					       				@if($i>1)
+					       				<div class="col-md-2" style="margin-top:25px;">
+					       					<a href='' class='btn btn-danger delete-detail' onclick='hide_div(event,{{$equipo_data->idactivo}},{{$i}})'><span class="glyphicon glyphicon-remove"></span></a>
+					       				</div>
+					       				@endif
+					       			</div>
+					       			<div class="row" style="@if($i>1) display:none; @endif" id="div_file_{{$equipo->idactivo}}_{{$i+1}}" >
+					        			<div class="col-md-8 form-group">
+					        				{{ Form::label('label_doc',($i+2).') Reporte de Calibración:') }}
+											<input name="input-file-{{$equipo->idactivo}}-{{$i+1}}" id="input-file-{{$equipo->idactivo}}-{{$i+1}}" type="file" class="file file-loading" data-show-upload="false">
+					       				</div>
+					       				@if($i>1)
+					       				<div class="col-md-2" style="margin-top:25px;">
+					       					<a href='' class='btn btn-danger delete-detail' onclick='hide_div(event,{{$equipo_data->idactivo}},{{$i+1}})'><span class="glyphicon glyphicon-remove"></span></a>
+					       				</div>
+					       				@endif
+					       			</div>
+					       		@endfor					       		
+					       	</div>    
+					    </div>
+					    <div class="row"> 
+				       		<div class="form-group col-md-5 col-md-offset-7">
+								<a class="btn btn-success btn-block" onclick="show_files(event,{{$equipo->idactivo}})"><span class="glyphicon glyphicon-plus"></span> Agregar Documentos</a>				
+							</div>
+			       		</div>
+					    <div class="panel panel-default">
+							<div class="panel-heading">
+							  <h3 class="panel-title">Fecha de Calibración</h3>
+							</div>
+						   <div class="panel-body"> 			        	
+					        	<div class="form-group col-md-6">
+									{{ Form::label('fecha_calibracion','Fecha de Calibracion') }}
+									<div id="fecha_calibracion_datetimepicker" class=" input-group date @if($errors->first('fecha_calibracion')) has-error has-feedback @endif">
+										{{ Form::text('fecha_calibracion-'.$equipo->idactivo,Input::old('fecha_calibracion-'.$equipo->idactivo),array('class'=>'form-control','readonly'=>'','id'=>'fecha_calibracion_'.$equipo->idactivo)) }}
+										<span class="input-group-addon">
+						                    <span class="glyphicon glyphicon-calendar"></span>
+						                </span>
+									</div>
+								</div>
+								<div class="form-group col-md-6">
+									{{ Form::label('fecha_proximo','Fecha Próxima de Calibración') }}
+									<div id="fecha_proximo_datetimepicker" class=" input-group date @if($errors->first('fecha_proximo')) has-error has-feedback @endif">
+										{{ Form::text('fecha_proximo-'.$equipo->idactivo,Input::old('fecha_proximo-'.$equipo->idactivo),array('class'=>'form-control','readonly'=>'','id'=>'fecha_proximo_'.$equipo->idactivo)) }}
+										<span class="input-group-addon">
+						                    <span class="glyphicon glyphicon-calendar"></span>
+						                </span>
+									</div>
+								</div>
+					       	</div>    
+					    </div>     	
 			        </div>
 			        <div class="modal-footer">
 			        	<div class="row">
-		        			<div class="col-md-3 col-md-offset-9">
-		       					<button type="button" class="btn btn-success btn-block" id="btn_close_modal" data-dismiss="modal"><span class="glyphicon glyphicon-ok"></span>Aceptar</button>
-		        			</div>
+		        			<div class="col-md-3 col-md-offset-6">
+		       					<button type="button" class="btn btn-primary btn-block" data-container="body" data-placement="top" data-trigger="click" id="btn_close_{{$equipo->idactivo}}" onclick="save_modal({{$equipo->idactivo}})" ><span class="glyphicon glyphicon-floppy-disk"></span> Grabar</button>
+		        			</div>		        			
+							<div class="form-group col-md-3">
+								<a class="btn btn-default btn-block" onclick="close_modal({{$equipo->idactivo}})">Cancelar</a>				
+							</div>
 			        	</div>
 			        </div>
 			      </div>      
@@ -184,11 +228,11 @@
 		</div>
 		<div id="activos_hidden_inputs" style="display:none">
 			<?php 
-				$details_activos = Input::old('details_activos');				
+				$details_activos = Input::old('details_activos');			
 				$count = count($details_activos);	
 			?>	
 			<?php for($i=0;$i<$count;$i++){ ?>
-				<input style="border:0;" name='details_activos[]' value='{{ $details_activos[$i] }}' readonly/>	
+				<input style="border:0;" name='details_activos[]' value='{{ $details_activos[$i] }}' readonly/>
 			<?php } ?>
 		</div>
 
@@ -203,7 +247,6 @@
 					    allowedFileExtensions: ["png","jpe","jpeg","jpg","pdf","doc","docx","xls","xlsx","ppt","pptx"]
 					});
 				}
-				
 			}
 		</script>
 	{{ Form::close()}}

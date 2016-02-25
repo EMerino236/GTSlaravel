@@ -91,6 +91,8 @@ class EventosAdversosController extends BaseController
 			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				// Validate the info, create rules for the inputs
 				 
+				$checkbox = Input::get('checkbox_equipo');
+
 				$attributes = array(
 					'nombre_paciente' => 'Nombre del Paciente',
 					'tipo_documento' => 'Tipo de Documento de Identida',
@@ -109,7 +111,7 @@ class EventosAdversosController extends BaseController
 					'diagnostico' => 'Diagnóstico',
 					'causa' => 'Causas',
 					'medidas' => 'Medidas',
-					'codigo_patrimonial' => 'Código Patrimonial',
+					'codigo_patrimonial' => 'Equipo Involucrado',
 					'informacion' => 'Información Adicional',
 					'nombre_reportante' => 'Nombre del Reportante',
 					'profesion' => 'Profesión o Cargo',
@@ -146,7 +148,6 @@ class EventosAdversosController extends BaseController
 					'diagnostico' => 'required|alpha_num_spaces_slash_dash_enter',
 					'causa' => 'required|alpha_num_spaces_slash_dash_enter',
 					'medidas' => 'required|alpha_num_spaces_slash_dash_enter',
-					'codigo_patrimonial' => 'required|numeric',
 					'informacion' => 'required|alpha_num_spaces_slash_dash_enter',
 					'nombre_reportante' => 'required|alpha_spaces',
 					'profesion' => 'required|alpha_num_spaces',
@@ -158,6 +159,8 @@ class EventosAdversosController extends BaseController
 					'factor' => 'required',
 					'danho_bienes' => 'required|alpha_num_spaces',
 				);
+
+	
 
 				$flag = Input::get('flag_tipoHijo');
 				if($flag == 0){
@@ -190,6 +193,11 @@ class EventosAdversosController extends BaseController
 					$attributes += $element_attribute;
 					$rules += $element_rule;				
 				}
+
+				if($checkbox == true ){
+					$element_rule = array('codigo_patrimonial' => 'required');
+					$rules += $element_rule;
+				}	
 
 				
 
@@ -252,9 +260,10 @@ class EventosAdversosController extends BaseController
 						$evento->medidas = Input::get('medidas');
 
 						//ACTIVO
-						$activo = Activo::searchActivosByCodigoPatrimonial(Input::get('codigo_patrimonial'))->get()[0];
-						$evento->idactivo = $activo->idactivo;
-
+						if($checkbox == true){
+							$activo = Activo::searchActivosByCodigoPatrimonial(Input::get('codigo_patrimonial'))->get()[0];
+							$evento->idactivo = $activo->idactivo;
+						}
 						//INFORMACION ADICIONAL
 						$evento->informacion = Input::get('informacion');
 
@@ -360,9 +369,14 @@ class EventosAdversosController extends BaseController
 				}
 
 				$data["evento_adverso_info"] = $data["evento_adverso_info"][0];
-				$activo = Activo::find($data["evento_adverso_info"]->idactivo);
-				$data["activo_info"] = Activo::searchActivosByCodigoPatrimonial($activo->codigo_patrimonial)->get();
-				$data["activo_info"] = $data["activo_info"][0];
+				if($data["evento_adverso_info"]->idactivo == null)
+					$data["activo_info"] = null;
+				else{
+					$activo = Activo::find($data["evento_adverso_info"]->idactivo);
+					$data["activo_info"] = Activo::searchActivosByCodigoPatrimonial($activo->codigo_patrimonial)->get();
+					$data["activo_info"] = $data["activo_info"][0];
+				}
+				
 
 				//sacaremos los datos de la clasificacion
 				$data["subtipohijo_info"] = EventoxSubTipoHijo::searchEventoXSubTiposById($data["evento_adverso_info"]->id)->get();
@@ -426,6 +440,8 @@ class EventosAdversosController extends BaseController
 			if($data["user"]->idrol == 1){
 				// Validate the info, create rules for the inputs
 				
+				$checkbox = Input::get('checkbox_equipo');
+
 				$attributes = array(
 					'nombre_paciente' => 'Nombre del Paciente',
 					'tipo_documento' => 'Tipo de Documento de Identida',
@@ -444,7 +460,7 @@ class EventosAdversosController extends BaseController
 					'diagnostico' => 'Diagnóstico',
 					'causa' => 'Causas',
 					'medidas' => 'Medidas',
-					'codigo_patrimonial' => 'Código Patrimonial',
+					'codigo_patrimonial' => 'Equipo Involucrado',
 					'informacion' => 'Información Adicional',
 					'nombre_reportante' => 'Nombre del Reportante',
 					'profesion' => 'Profesión o Cargo',
@@ -481,7 +497,6 @@ class EventosAdversosController extends BaseController
 					'diagnostico' => 'required|alpha_num_spaces_slash_dash_enter',
 					'causa' => 'required|alpha_num_spaces_slash_dash_enter',
 					'medidas' => 'required|alpha_num_spaces_slash_dash_enter',
-					'codigo_patrimonial' => 'required|numeric',
 					'informacion' => 'required|alpha_num_spaces_slash_dash_enter',
 					'nombre_reportante' => 'required|alpha_spaces',
 					'profesion' => 'required|alpha_num_spaces',
@@ -525,6 +540,11 @@ class EventosAdversosController extends BaseController
 					$attributes += $element_attribute;
 					$rules += $element_rule;				
 				}
+
+				if($checkbox == true ){
+					$element_rule = array('codigo_patrimonial' => 'required');
+					$rules += $element_rule;
+				}	
 
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
@@ -575,8 +595,13 @@ class EventosAdversosController extends BaseController
 						$evento->medidas = Input::get('medidas');
 
 						//ACTIVO
-						$activo = Activo::searchActivosByCodigoPatrimonial(Input::get('codigo_patrimonial'))->get()[0];
-						$evento->idactivo = $activo->idactivo;
+						if($checkbox == true){
+							$activo = Activo::searchActivosByCodigoPatrimonial(Input::get('codigo_patrimonial'))->get()[0];
+							$evento->idactivo = $activo->idactivo;
+						}else{
+							$evento->idactivo = null;
+						}
+						
 
 						//INFORMACION ADICIONAL
 						$evento->informacion = Input::get('informacion');
@@ -729,9 +754,13 @@ class EventosAdversosController extends BaseController
 				}
 
 				$data["evento_adverso_info"] = $data["evento_adverso_info"][0];
-				$activo = Activo::find($data["evento_adverso_info"]->idactivo);
-				$data["activo_info"] = Activo::searchActivosByCodigoPatrimonial($activo->codigo_patrimonial)->get();
-				$data["activo_info"] = $data["activo_info"][0];
+				if($data["evento_adverso_info"]->idactivo == null)
+					$data["activo_info"] = null;
+				else{
+					$activo = Activo::find($data["evento_adverso_info"]->idactivo);
+					$data["activo_info"] = Activo::searchActivosByCodigoPatrimonial($activo->codigo_patrimonial)->get();
+					$data["activo_info"] = $data["activo_info"][0];
+				}
 
 				//sacaremos los datos de la clasificacion
 				$data["subtipohijo_info"] = EventoxSubTipoHijo::searchEventoXSubTiposById($data["evento_adverso_info"]->id)->get();
@@ -923,9 +952,13 @@ class EventosAdversosController extends BaseController
 				}
 
 				$data["evento_adverso_info"] = $data["evento_adverso_info"][0];
-				$activo = Activo::find($data["evento_adverso_info"]->idactivo);
-				$data["activo_info"] = Activo::searchActivosByCodigoPatrimonial($activo->codigo_patrimonial)->get();
-				$data["activo_info"] = $data["activo_info"][0];
+				if($data["evento_adverso_info"]->idactivo == null)
+					$data["activo_info"] = null;
+				else{
+					$activo = Activo::find($data["evento_adverso_info"]->idactivo);
+					$data["activo_info"] = Activo::searchActivosByCodigoPatrimonial($activo->codigo_patrimonial)->get();
+					$data["activo_info"] = $data["activo_info"][0];
+				}
 
 				//sacaremos los datos de la clasificacion
 				$data["subtipohijo_info"] = EventoxSubTipoHijo::searchEventoXSubTiposById($data["evento_adverso_info"]->id)->get();
