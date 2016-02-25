@@ -133,7 +133,7 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 	}
 
 	public function scopesearchInventario($query,$search_grupo,$search_servico,$search_ubicacion,$search_nombre_equipo,$search_marca,$search_modelo,
-									$search_proveedor,$search_codigo_patrimonial,$fecha_adquisicion_ini,$fecha_adquisicion_fin)
+									$search_proveedor,$search_codigo_patrimonial,$search_vigencia,$fecha_adquisicion_ini,$fecha_adquisicion_fin)
 	{
 		$query->join('ubicacion_fisicas','ubicacion_fisicas.idubicacion_fisica','=','activos.idubicacion_fisica')
 			  ->join('servicios','servicios.idservicio','=','activos.idservicio')
@@ -185,6 +185,20 @@ class Activo extends Eloquent implements UserInterface, RemindableInterface {
 			  if($search_codigo_patrimonial != "")
 			  {
 			  	$query->where('activos.codigo_patrimonial','LIKE',"%$search_codigo_patrimonial%");
+			  }
+			  
+
+			  if($search_vigencia == 0)
+			  {
+			  	$fecha_actual = Carbon\Carbon::now();
+			  	$query->where(DB::raw('STR_TO_DATE(activos.fecha_garantia_fin,\'%Y-%m-%d\')'),'<',date('Y-m-d H:i:s',strtotime($fecha_actual)));			  	
+
+			  }
+
+			  if($search_vigencia == 1)
+			  {
+			  	$fecha_actual = Carbon\Carbon::now();
+			  	$query->where(DB::raw('STR_TO_DATE(activos.fecha_garantia_fin,\'%Y-%m-%d\')'),'>=',date('Y-m-d H:i:s',strtotime($fecha_actual)));			  	
 			  }
 
 			  if($fecha_adquisicion_ini != "")

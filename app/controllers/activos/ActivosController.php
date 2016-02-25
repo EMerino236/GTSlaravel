@@ -98,6 +98,7 @@ class ActivosController extends BaseController
 				$data["search_codigo_patrimonial"] = null;
 				$data["search_servicio"] = null;
 				$data["search_ubicacion"] = null;
+				$data["search_vigencia"] = null;
 				$data["fecha_adquisicion_ini"] = null;
 				$data["fecha_adquisicion_fin"] = null;
 				$data["row_number"] = 10;				
@@ -112,10 +113,12 @@ class ActivosController extends BaseController
 				
 
 				foreach ($data["activos_data"] as $value)
-				{
+				{				
+
 					$meses_garantia = $value->garantia;					
-					$inicio_garantia = Carbon\Carbon::createFromFormat('Y-m-d', $value->anho_adquisicion);
-					$fin_garantia = $inicio_garantia->addMonths($meses_garantia);
+					//$inicio_garantia = Carbon\Carbon::createFromFormat('Y-m-d', $value->anho_adquisicion);
+					//$fin_garantia = $inicio_garantia->addMonths($meses_garantia);
+					$fin_garantia = Carbon\Carbon::createFromFormat('Y-m-d', $value->fecha_garantia_fin);
 
 					$fecha_actual = Carbon\Carbon::now();
 					
@@ -153,20 +156,23 @@ class ActivosController extends BaseController
 				$data["search_nombre_equipo"] = Input::get('search_nombre_equipo');
 				$data["search_marca"] = Input::get('search_marca');
 				$data["search_modelo"] = Input::get('search_modelo');
-				$data["search_proveedor"] = Input::get('search_proveedor');				
+				$data["search_proveedor"] = Input::get('search_proveedor');
+				$data["search_vigencia"] = Input::get('search_vigencia');		
 				$data["search_codigo_patrimonial"] = Input::get('search_codigo_patrimonial');
 				$data["fecha_adquisicion_ini"] = Input::get('fecha_adquisicion_ini');
 				$data["fecha_adquisicion_fin"] = Input::get('fecha_adquisicion_fin');
 				$data["row_number"] = Input::get('row_number');			
 
 				$data["activos_data"] = Activo::searchInventario($data["search_grupo"],$data["search_servicio"],$data["search_ubicacion"],$data["search_nombre_equipo"],
-										$data["search_marca"],$data["search_modelo"],$data["search_proveedor"],$data["search_codigo_patrimonial"],$data["fecha_adquisicion_ini"], $data["fecha_adquisicion_fin"])->paginate($data["row_number"]);
+										$data["search_marca"],$data["search_modelo"],$data["search_proveedor"],$data["search_codigo_patrimonial"],
+										$data["search_vigencia"],$data["fecha_adquisicion_ini"], $data["fecha_adquisicion_fin"])->paginate($data["row_number"]);
 
 				foreach ($data["activos_data"] as $value)
 				{
 					$meses_garantia = $value->garantia;					
-					$inicio_garantia = Carbon\Carbon::createFromFormat('Y-m-d', $value->anho_adquisicion);
-					$fin_garantia = $inicio_garantia->addMonths($meses_garantia);
+					//$inicio_garantia = Carbon\Carbon::createFromFormat('Y-m-d', $value->anho_adquisicion);
+					//$fin_garantia = $inicio_garantia->addMonths($meses_garantia);
+					$fin_garantia = Carbon\Carbon::createFromFormat('Y-m-d', $value->fecha_garantia_fin);
 
 					$fecha_actual = Carbon\Carbon::now();
 					
@@ -313,7 +319,8 @@ class ActivosController extends BaseController
 					$activo->codigo_patrimonial = Input::get('codigo_patrimonial');
 					$activo->numero_serie = Input::get('numero_serie');
 					$activo->anho_adquisicion = date('Y-m-d',strtotime(Input::get('fecha_adquisicion')));
-					$activo->garantia = Input::get('garantia');	
+					$activo->garantia = Input::get('garantia');
+					$activo->fecha_garantia_fin = Carbon\Carbon::createFromFormat('Y-m-d',$activo->anho_adquisicion)->addMonths($activo->garantia);
 					$activo->codigo_compra = Input::get('codigo_compra');
 					$activo->idgrupo = Input::get('grupo');
 					$activo->idmodelo_equipo = Input::get('modelo');
@@ -428,7 +435,8 @@ class ActivosController extends BaseController
 					$activo->codigo_patrimonial = Input::get('codigo_patrimonial');
 					$activo->numero_serie = Input::get('numero_serie');
 					$activo->anho_adquisicion = date('Y-m-d',strtotime(Input::get('fecha_adquisicion')));
-					$activo->garantia = Input::get('garantia');	
+					$activo->garantia = Input::get('garantia');
+					$activo->fecha_garantia_fin = Carbon\Carbon::createFromFormat('Y-m-d',$activo->anho_adquisicion)->addMonths($activo->garantia);
 					$activo->codigo_compra = Input::get('codigo_compra');
 					$activo->idgrupo = Input::get('grupo');
 					$activo->idmodelo_equipo = Input::get('modelo');
