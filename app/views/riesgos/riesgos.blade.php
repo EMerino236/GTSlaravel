@@ -15,13 +15,6 @@
 				<div class="panel-body">
 				    <table class="table">
 						<tr class="info">
-							<th>N° Reporte</th>
-							<th>Fecha y Hora</th>
-							<th>Usuario</th>
-							<th>Nombre de Equipo</th>
-							<th>Servicio Clínico</th>
-							<th>Departamento</th>
-							<th>OT de Baja de Equipo</th>
 						</tr>
 					</table>
 				</div>
@@ -41,15 +34,6 @@
 				</div>
 				<div class="panel-body">
 				    <table class="table">
-						<tr class="info">
-							<th>N° Reporte</th>
-							<th>Fecha y Hora</th>
-							<th>Usuario</th>
-							<th>Nombre de Equipo</th>
-							<th>Servicio Clínico</th>
-							<th>Departamento</th>
-							<th>OT de Baja de Equipo</th>
-						</tr>
 					</table>
 				</div>
 			</div>

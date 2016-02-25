@@ -58,43 +58,80 @@ class ReportePAACController extends BaseController
 				if($validator->fails()){
 					return Redirect::to('reporte_paac/create_reporte_paac')->withErrors($validator)->withInput(Input::all());					
 				}else{
-					switch (Input::get('idtipo_reporte')) {
-					    case 1:
-					        $abreviatura = "PP";
-					        break;
-					    case 2:
-					        $abreviatura = "PC";
-					        break;
+					if(!(Input::get('idreporte_cn_paac1')=='' && Input::get('idreporte_cn_paac2')=='' 
+						&& Input::get('idreporte_cn_paac3')=='' && Input::get('idreporte_cn_paac4')==''
+						&& Input::get('idreporte_cn_paac5')=='')){
+						if(!((Input::get('idreporte_cn_paac1')==Input::get('idreporte_cn_paac2') && Input::get('idreporte_cn_paac1')!='')
+						||(Input::get('idreporte_cn_paac1')==Input::get('idreporte_cn_paac3') && Input::get('idreporte_cn_paac1')!='')
+						||(Input::get('idreporte_cn_paac1')==Input::get('idreporte_cn_paac4') && Input::get('idreporte_cn_paac1')!='')
+						||(Input::get('idreporte_cn_paac1')==Input::get('idreporte_cn_paac5') && Input::get('idreporte_cn_paac1')!='')
+						||(Input::get('idreporte_cn_paac2')==Input::get('idreporte_cn_paac3') && Input::get('idreporte_cn_paac2')!='')
+						||(Input::get('idreporte_cn_paac2')==Input::get('idreporte_cn_paac4') && Input::get('idreporte_cn_paac2')!='')
+						||(Input::get('idreporte_cn_paac2')==Input::get('idreporte_cn_paac5') && Input::get('idreporte_cn_paac2')!='')
+						||(Input::get('idreporte_cn_paac3')==Input::get('idreporte_cn_paac4') && Input::get('idreporte_cn_paac3')!='')
+						||(Input::get('idreporte_cn_paac3')==Input::get('idreporte_cn_paac5') && Input::get('idreporte_cn_paac3')!='')
+						||(Input::get('idreporte_cn_paac4')==Input::get('idreporte_cn_paac5') && Input::get('idreporte_cn_paac4')!='')) 
+							){
+								switch (Input::get('idtipo_reporte')) {
+								    case 1:
+								        $abreviatura = "PP";
+								        break;
+								    case 2:
+								        $abreviatura = "PC";
+								        break;
+								}
+
+							    $rutaDestino ='';
+							    $nombreArchivo ='';	
+							    if (Input::hasFile('archivo')) {
+							        $archivo = Input::file('archivo');
+							        $rutaDestino = 'documentos/planeamiento/ReportePAAC/';
+							        $nombreArchivo        = $archivo->getClientOriginalName();
+							        $nombreArchivoEncriptado = Str::random(27).'.'.pathinfo($nombreArchivo, PATHINFO_EXTENSION);
+							        $uploadSuccess = $archivo->move($rutaDestino, $nombreArchivoEncriptado);
+							    }
+
+								$correlativo = $this->getCorrelativeReportNumber($abreviatura);
+								$anho = date('y');
+								$reporte_paac = new ReportePAAC;
+								$reporte_paac->numero_reporte_abreviatura = $abreviatura;
+								$reporte_paac->numero_reporte_correlativo = $correlativo;
+								$reporte_paac->numero_reporte_anho = $anho;
+								$reporte_paac->url = $rutaDestino;
+								$reporte_paac->nombre_archivo = $nombreArchivo;
+								$reporte_paac->nombre_archivo_encriptado = $nombreArchivoEncriptado;
+								$reporte_paac->idprogramacion_reporte_paac = Input::get('idprogramacion_reporte_paac');
+								if(Input::get('idreporte_cn_paac1')!=''){
+									$reporte_paac->idreporte_cn_paac1 = Input::get('idreporte_cn_paac1');
+								}
+								if(Input::get('idreporte_cn_paac2')!=''){
+									$reporte_paac->idreporte_cn_paac2 = Input::get('idreporte_cn_paac2');
+								}
+								if(Input::get('idreporte_cn_paac3')!=''){
+									$reporte_paac->idreporte_cn_paac3 = Input::get('idreporte_cn_paac3');
+								}
+								if(Input::get('idreporte_cn_paac4')!=''){
+									$reporte_paac->idreporte_cn_paac4 = Input::get('idreporte_cn_paac4');
+								}
+								if(Input::get('idreporte_cn_paac5')!=''){
+									$reporte_paac->idreporte_cn_paac5 = Input::get('idreporte_cn_paac5');
+								}
+								$reporte_paac->save();
+
+								$programacion_reporte_paac = ProgramacionReportePAAC::find(Input::get('idprogramacion_reporte_paac'));
+								$programacion_reporte_paac->idestado_programacion_reportes = 2;
+								$programacion_reporte_paac->save();
+								
+								Session::flash('message', 'Se registró correctamente el Reporte de Instalación.');
+								return Redirect::to('reporte_paac/create_reporte_paac');
+							}else{
+							Session::flash('error', 'Existen dos o más Reportes de Necesidad o PAAC repetidos.');
+							return Redirect::to('reporte_paac/create_reporte_paac')->withInput(Input::all());
+						}
+					}else{
+							Session::flash('error', 'Debe ingresar al menos un Reporte de Necesidad o PAAC vinculado.');
+							return Redirect::to('reporte_paac/create_reporte_paac')->withInput(Input::all());
 					}
-
-				    $rutaDestino ='';
-				    $nombreArchivo ='';	
-				    if (Input::hasFile('archivo')) {
-				        $archivo = Input::file('archivo');
-				        $rutaDestino = 'documentos/planeamiento/ReportePAAC/';
-				        $nombreArchivo        = $archivo->getClientOriginalName();
-				        $nombreArchivoEncriptado = Str::random(27).'.'.pathinfo($nombreArchivo, PATHINFO_EXTENSION);
-				        $uploadSuccess = $archivo->move($rutaDestino, $nombreArchivoEncriptado);
-				    }
-
-					$correlativo = $this->getCorrelativeReportNumber($abreviatura);
-					$anho = date('y');
-					$reporte_paac = new ReportePAAC;
-					$reporte_paac->numero_reporte_abreviatura = $abreviatura;
-					$reporte_paac->numero_reporte_correlativo = $correlativo;
-					$reporte_paac->numero_reporte_anho = $anho;
-					$reporte_paac->url = $rutaDestino;
-					$reporte_paac->nombre_archivo = $nombreArchivo;
-					$reporte_paac->nombre_archivo_encriptado = $nombreArchivoEncriptado;
-					$reporte_paac->idprogramacion_reporte_paac = Input::get('idprogramacion_reporte_paac');
-					$reporte_paac->save();
-
-					$programacion_reporte_paac = ProgramacionReportePAAC::find(Input::get('idprogramacion_reporte_paac'));
-					$programacion_reporte_paac->idestado_programacion_reportes = 2;
-					$programacion_reporte_paac->save();
-					
-					Session::flash('message', 'Se registró correctamente el Reporte de Instalación.');
-					return Redirect::to('reporte_paac/create_reporte_paac');
 				}
 			}else{
 				return View::make('error/error',$data);
@@ -116,8 +153,58 @@ class ReportePAACController extends BaseController
 				$data["servicios"] = Servicio::lists('nombre','idservicio');
 				$data["tipo_reporte_paac"] = TipoReportePAAC::lists('nombre','idtipo_reporte_PAAC');
 				$data["reporte_paac_info"] = ReportePAAC::withTrashed()->find($id);
-				$data["programacion_reporte_paac_info"] = ProgramacionReportePAAC::withTrashed()->find($data["reporte_paac_info"]->idprogramacion_reporte_paac);
+				$data["programacion_reporte_paac_info"] = ProgramacionReportePAAC::withTrashed()->find($data["reporte_paac_info"]->idprogramacion_reporte_paac);				
 				return View::make('reportes_PAAC/editReportePAAC',$data);
+			}else{
+				return View::make('error/error',$data);
+			}
+
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+	public function submit_edit_reporte_paac(){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){				
+				if(!((Input::get('idreporte_cn_paac1')==Input::get('idreporte_cn_paac2') && Input::get('idreporte_cn_paac1')!='')
+				||(Input::get('idreporte_cn_paac1')==Input::get('idreporte_cn_paac3') && Input::get('idreporte_cn_paac1')!='')
+				||(Input::get('idreporte_cn_paac1')==Input::get('idreporte_cn_paac4') && Input::get('idreporte_cn_paac1')!='')
+				||(Input::get('idreporte_cn_paac1')==Input::get('idreporte_cn_paac5') && Input::get('idreporte_cn_paac1')!='')
+				||(Input::get('idreporte_cn_paac2')==Input::get('idreporte_cn_paac3') && Input::get('idreporte_cn_paac2')!='')
+				||(Input::get('idreporte_cn_paac2')==Input::get('idreporte_cn_paac4') && Input::get('idreporte_cn_paac2')!='')
+				||(Input::get('idreporte_cn_paac2')==Input::get('idreporte_cn_paac5') && Input::get('idreporte_cn_paac2')!='')
+				||(Input::get('idreporte_cn_paac3')==Input::get('idreporte_cn_paac4') && Input::get('idreporte_cn_paac3')!='')
+				||(Input::get('idreporte_cn_paac3')==Input::get('idreporte_cn_paac5') && Input::get('idreporte_cn_paac3')!='')
+				||(Input::get('idreporte_cn_paac4')==Input::get('idreporte_cn_paac5') && Input::get('idreporte_cn_paac4')!='')) 
+					){
+						$reporte_paac = ReportePAAC::find(Input::get('idreporte_paac'));
+						if(Input::get('idreporte_cn_paac1')!=''){
+							$reporte_paac->idreporte_cn_paac1 = Input::get('idreporte_cn_paac1');
+						}
+						if(Input::get('idreporte_cn_paac2')!=''){
+							$reporte_paac->idreporte_cn_paac2 = Input::get('idreporte_cn_paac2');
+						}
+						if(Input::get('idreporte_cn_paac3')!=''){
+							$reporte_paac->idreporte_cn_paac3 = Input::get('idreporte_cn_paac3');
+						}
+						if(Input::get('idreporte_cn_paac4')!=''){
+							$reporte_paac->idreporte_cn_paac4 = Input::get('idreporte_cn_paac4');
+						}
+						if(Input::get('idreporte_cn_paac5')!=''){
+							$reporte_paac->idreporte_cn_paac5 = Input::get('idreporte_cn_paac5');
+						}
+						$reporte_paac->save();
+						
+						Session::flash('message', 'Se editó correctamente el Reporte de Instalación.');
+						return Redirect::to('reporte_paac/edit_reporte_paac/'.Input::get('idreporte_paac'));
+					}else{
+					Session::flash('error', 'Existen dos o más Reportes de Necesidad o PAAC repetidos.');
+					return Redirect::to('reporte_paac/edit_reporte_paac/'.Input::get('idreporte_paac'))->withInput(Input::all());
+				}
 			}else{
 				return View::make('error/error',$data);
 			}

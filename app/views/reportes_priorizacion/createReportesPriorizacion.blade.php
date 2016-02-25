@@ -19,7 +19,7 @@
 		<div class="alert alert-success">{{ Session::get('message') }}</div>
 	@endif
 	@if (Session::has('error'))
-		<div class="alert alert-danger">{{ Session::get('error') }}</div>
+		<div class="alert alert-danger"><strong>{{ Session::get('error') }}</strong></div>
 	@endif
 
 	{{ Form::open(array('url'=>'reporte_priorizacion/submit_create_reporte_priorizacion', 'role'=>'form', 'files'=>true)) }}
@@ -55,24 +55,73 @@
 						{{ Form::label('nombre_responsable_priorizacion','Nombre de Responsable',array('id'=>'nombre_responsable_priorizacion_label')) }}
 						{{ Form::text('nombre_responsable_priorizacion',Input::old('nombre_responsable_priorizacion'),array('class'=>'form-control','readonly'=>'')) }}
 					</div>
-				</div>	
+				</div>
 				<div class="row">
-					<div class="form-group col-md-4 @if($errors->first('codigo_ot_retiro')) has-error has-feedback @endif">
-						{{ Form::label('codigo_ot_retiro','OT de Baja de Equipo',array('id'=>'codigo_ot_retiro_label')) }}<span style='color:red'>*</span>
-						{{ Form::text('codigo_ot_retiro',Input::old('codigo_ot_retiro'),array('placeholder'=>'RS0001TS','class'=>'form-control','maxlength'=>8)) }}
-						{{ Form::hidden('idot_retiro')}}
+					<div class="form-group col-md-12">
+						<strong>Reportes de Necesidad Vinculados</strong>  (Los reportes deben tener al menos un Reporte ETES vinculado)
 					</div>
-					<div class="form-group col-md-2" style="margin-top:25px">
-						<a id="btn_agregar" class="btn btn-primary btn-block" onclick="llenar_nombre_equipo()"><span class="glyphicon glyphicon-plus"></span> Agregar OT</a>
+				</div>
+				<div id="div_cn1" class="row">
+					<div class="form-group col-md-4 @if($errors->first('codigo_reporte_cn1')) has-error has-feedback @endif">					
+						{{ Form::text('codigo_reporte_cn1',Input::old('codigo_reporte_cn1'),array('id'=>'codigo_reporte_cn1', 'placeholder'=>'NI0001-16','class'=>'form-control','maxlength'=>9)) }}
+						{{ Form::hidden('idreporte_cn1')}}
 					</div>
-					<div class="form-group col-md-2" style="margin-top:25px; margin-left:15px">
-						<a id="btn_limpiar" class="btn btn-default btn-block" onclick="limpiar_nombre_equipo()"><span class="glyphicon glyphicon-refresh"></span> Limpiar</a>
+					<div class="form-group col-md-2">
+						<a id="btn_validar_cn1" class="btn btn-primary btn-block" onclick="validar_cn(1)"><span class="glyphicon glyphicon-plus"></span> Validar</a>
 					</div>
-					<div class="form-group col-md-4 @if($errors->first('nombre_equipo')) has-error has-feedback @endif">
-						{{ Form::label('nombre_equipo','Nombre de Equipo',array('id'=>'nombre_equipo_label')) }}
-						{{ Form::text('nombre_equipo',Input::old('nombre_equipo'),array('class'=>'form-control','readonly'=>'')) }}
+					<div class="form-group col-md-2" style="margin-left:15px">
+						<a id="btn_limpiar_cn1" class="btn btn-default btn-block" onclick="limpiar_cn(1)"><span class="glyphicon glyphicon-refresh"></span> Limpiar</a>
 					</div>
-				</div>	
+				</div>
+				<div id="div_cn2" class="row">
+					<div class="form-group col-md-4 @if($errors->first('codigo_reporte_cn2')) has-error has-feedback @endif">
+						{{ Form::text('codigo_reporte_cn2',Input::old('codigo_reporte_cn2'),array('id'=>'codigo_reporte_cn2', 'placeholder'=>'NI0001-16','class'=>'form-control','maxlength'=>9)) }}
+						{{ Form::hidden('idreporte_cn2')}}
+					</div>
+					<div class="form-group col-md-2">
+						<a id="btn_validar_cn2" class="btn btn-primary btn-block" onclick="validar_cn(2)"><span class="glyphicon glyphicon-plus"></span> Validar</a>
+					</div>
+					<div class="form-group col-md-2" style="margin-left:15px">
+						<a id="btn_limpiar_cn2" class="btn btn-default btn-block" onclick="limpiar_cn(2)"><span class="glyphicon glyphicon-refresh"></span> Limpiar</a>
+					</div>
+				</div>
+				<div id="div_cn3" class="row" hidden>
+					<div class="form-group col-md-4 @if($errors->first('codigo_reporte_cn3')) has-error has-feedback @endif">
+						{{ Form::text('codigo_reporte_cn3',Input::old('codigo_reporte_cn3'),array('id'=>'codigo_reporte_cn3', 'placeholder'=>'NI0001-16','class'=>'form-control','maxlength'=>9)) }}
+						{{ Form::hidden('idreporte_cn3')}}
+					</div>
+					<div class="form-group col-md-2">
+						<a id="btn_validar_cn3" class="btn btn-primary btn-block" onclick="validar_cn(3)"><span class="glyphicon glyphicon-plus"></span> Validar</a>
+					</div>
+					<div class="form-group col-md-2" style="margin-left:15px">
+						<a id="btn_limpiar_cn3" class="btn btn-default btn-block" onclick="limpiar_cn(3)"><span class="glyphicon glyphicon-refresh"></span> Limpiar</a>
+					</div>
+				</div>
+				<div id="div_cn4" class="row" hidden>
+					<div class="form-group col-md-4 @if($errors->first('codigo_reporte_cn4')) has-error has-feedback @endif">
+						{{ Form::text('codigo_reporte_cn4',Input::old('codigo_reporte_cn4'),array('id'=>'codigo_reporte_cn4', 'placeholder'=>'NI0001-16','class'=>'form-control','maxlength'=>9)) }}
+						{{ Form::hidden('idreporte_cn4')}}
+					</div>
+					<div class="form-group col-md-2">
+						<a id="btn_validar_cn4" class="btn btn-primary btn-block" onclick="validar_cn(4)"><span class="glyphicon glyphicon-plus"></span> Validar</a>
+					</div>
+					<div class="form-group col-md-2" style="margin-left:15px">
+						<a id="btn_limpiar_cn4" class="btn btn-default btn-block" onclick="limpiar_cn(4)"><span class="glyphicon glyphicon-refresh"></span> Limpiar</a>
+					</div>
+				</div>
+				<div id="div_cn5" class="row" hidden>
+					<div class="form-group col-md-4 @if($errors->first('codigo_reporte_cn5')) has-error has-feedback @endif">
+						{{ Form::text('codigo_reporte_cn5',Input::old('codigo_reporte_cn5'),array('id'=>'codigo_reporte_cn5', 'placeholder'=>'NI0001-16','class'=>'form-control','maxlength'=>9)) }}
+						{{ Form::hidden('idreporte_cn5')}}
+					</div>
+					<div class="form-group col-md-2">
+						<a id="btn_validar_cn5" class="btn btn-primary btn-block" onclick="validar_cn(5)"><span class="glyphicon glyphicon-plus"></span> Agregar</a>
+					</div>
+					<div class="form-group col-md-2" style="margin-left:15px">
+						<a id="btn_limpiar_cn5" class="btn btn-default btn-block" onclick="limpiar_cn(5)"><span class="glyphicon glyphicon-refresh"></span> Limpiar</a>
+					</div>
+				</div>
+				<a id="label_agregar_cn">Agregar más Reportes de Necesidad vinculados</a>
 			</div>
 		</div>
 		<div class="panel panel-default">

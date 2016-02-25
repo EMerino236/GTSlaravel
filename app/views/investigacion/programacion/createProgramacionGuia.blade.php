@@ -18,7 +18,7 @@
 			<p><strong>{{ $errors->first('fecha_ts') }}</strong></p>
 			<p><strong>{{ $errors->first('fecha_etes') }}</strong></p>
 			<p><strong>{{ $errors->first('fecha_gpc') }}</strong></p>
-			<p><strong>{{ $errors->first('idarea_etes') }}</strong></p>
+			<p><strong>{{ $errors->first('num_doc_responsable_etes') }}</strong></p>
 			<p><strong>{{ $errors->first('archivo') }}</strong></p>
 		</div>
 	@endif
@@ -146,6 +146,23 @@
 							<div class="form-group col-md-8 @if($errors->first('nombre_etes')) has-error has-feedback @endif">
 								{{ Form::label('nombre_etes','Nombre de Reporte') }}<span style='color:red'>*</span>
 								{{ Form::text('nombre_etes',Input::old('nombre_etes'),['class' => 'form-control']) }}
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-4 @if($errors->first('num_doc_responsable_etes')) has-error has-feedback @endif">
+								{{ Form::label('num_doc_responsable_etes','N° Documento Responsable',array('id'=>'num_doc_responsable_etes_label')) }}<span style='color:red'>*</span>
+								{{ Form::text('num_doc_responsable_etes',Input::old('num_doc_responsable_etes'),array('placeholder'=>'N° Documento de Identidad','class'=>'form-control','maxlength'=>8)) }}
+								{{ Form::hidden('idresponsable_etes')}}
+							</div>
+							<div class="form-group col-md-2" style="margin-top:25px">
+								<a id="btn_agregar" class="btn btn-primary btn-block" onclick="llenar_nombre_responsable_etes()"><span class="glyphicon glyphicon-plus"></span> Agregar</a>
+							</div>
+							<div class="form-group col-md-2" style="margin-top:25px; margin-left:15px">
+								<a id="btn_limpiar" class="btn btn-default btn-block" onclick="limpiar_nombre_responsable_etes()"><span class="glyphicon glyphicon-refresh"></span> Limpiar</a>
+							</div>
+							<div class="form-group col-md-4 @if($errors->first('nombre_responsable_etes')) has-error has-feedback @endif">
+								{{ Form::label('nombre_responsable_etes','Nombre de Responsable',array('id'=>'nombre_responsable_etes_label')) }}
+								{{ Form::text('nombre_responsable_etes',Input::old('nombre_responsable_etes'),array('class'=>'form-control','readonly'=>'')) }}
 							</div>
 						</div>
 						<div class="row">

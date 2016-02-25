@@ -1,4 +1,4 @@
-@extends('templates/planeamientoTemplate')
+x|@extends('templates/planeamientoTemplate')
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
@@ -50,6 +50,66 @@
 		                        <span class="glyphicon glyphicon-calendar"></span>
 		                    </span>
 						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-md-12">
+						<strong>Reportes Vinculados</strong> 
+					</div>
+				</div>
+				<div id="div_paac1" class="row">
+					<div class="form-group col-md-4 @if($errors->first('codigo_reporte_cn_paac1')) has-error has-feedback @endif">
+						@if($documento_paac_info->cod_reporte_cn_paac1 != '')
+							{{ Form::text('codigo_reporte_cn_paac1',$documento_paac_info->cod_reporte_cn_paac1,array('id'=>'codigo_reporte_cn_paac1','readonly'=>'','class'=>'form-control','maxlength'=>9)) }}
+							{{ Form::hidden('cod_reporte_cn_paac1')}}
+						@else
+							{{ Form::text('codigo_reporte_cn_paac1',Input::old('codigo_reporte_cn_paac1'),array('id'=>'codigo_reporte_cn_paac1','placeholder'=>'NI0001-16','class'=>'form-control','maxlength'=>9)) }}
+							{{ Form::hidden('cod_reporte_cn_paac1')}}
+						@endif
+					</div>
+				</div>
+				<div id="div_paac2" class="row">
+					<div class="form-group col-md-4 @if($errors->first('codigo_reporte_cn_paac2')) has-error has-feedback @endif">
+						@if($documento_paac_info->cod_reporte_cn_paac2 != '')
+							{{ Form::text('codigo_reporte_cn_paac2',$documento_paac_info->cod_reporte_cn_paac2,array('id'=>'codigo_reporte_cn_paac2','readonly'=>'','class'=>'form-control','maxlength'=>9)) }}
+							{{ Form::hidden('cod_reporte_cn_paac2')}}
+						@else
+							{{ Form::text('codigo_reporte_cn_paac2',Input::old('codigo_reporte_cn_paac2'),array('id'=>'codigo_reporte_cn_paac2','placeholder'=>'NI0001-16','class'=>'form-control','maxlength'=>9)) }}
+							{{ Form::hidden('cod_reporte_cn_paac2')}}
+						@endif
+					</div>
+				</div>
+				<div id="div_paac3" class="row">
+					<div class="form-group col-md-4 @if($errors->first('codigo_reporte_cn_paac3')) has-error has-feedback @endif">
+						@if($documento_paac_info->cod_reporte_cn_paac3 != '')
+							{{ Form::text('codigo_reporte_cn_paac3',$documento_paac_info->cod_reporte_cn_paac3,array('id'=>'codigo_reporte_cn_paac3','readonly'=>'','class'=>'form-control','maxlength'=>9)) }}
+							{{ Form::hidden('cod_reporte_cn_paac3')}}
+						@else
+							{{ Form::text('codigo_reporte_cn_paac3',Input::old('codigo_reporte_cn_paac3'),array('id'=>'codigo_reporte_cn_paac3','placeholder'=>'NI0001-16','class'=>'form-control','maxlength'=>9)) }}
+							{{ Form::hidden('cod_reporte_cn_paac3')}}
+						@endif
+					</div>
+				</div>
+				<div id="div_paac4" class="row">
+					<div class="form-group col-md-4 @if($errors->first('codigo_reporte_cn_paac4')) has-error has-feedback @endif">
+						@if($documento_paac_info->cod_reporte_cn_paac4 != '')
+							{{ Form::text('codigo_reporte_cn_paac4',$documento_paac_info->cod_reporte_cn_paac4,array('id'=>'codigo_reporte_cn_paac4','readonly'=>'','class'=>'form-control','maxlength'=>9)) }}
+							{{ Form::hidden('cod_reporte_cn_paac4')}}
+						@else
+							{{ Form::text('codigo_reporte_cn_paac4',Input::old('codigo_reporte_cn_paac4'),array('id'=>'codigo_reporte_cn_paac4','placeholder'=>'NI0001-16','class'=>'form-control','maxlength'=>9)) }}
+							{{ Form::hidden('cod_reporte_cn_paac4')}}
+						@endif
+					</div>
+				</div>
+				<div id="div_paac5" class="row">
+					<div class="form-group col-md-4 @if($errors->first('codigo_reporte_cn_paac5')) has-error has-feedback @endif">
+						@if($documento_paac_info->cod_reporte_cn_paac5 != '')
+							{{ Form::text('codigo_reporte_cn_paac5',$documento_paac_info->cod_reporte_cn_paac5,array('id'=>'codigo_reporte_cn_paac5','readonly'=>'','class'=>'form-control','maxlength'=>9)) }}
+							{{ Form::hidden('cod_reporte_cn_paac5')}}
+						@else
+							{{ Form::text('codigo_reporte_cn_paac5',Input::old('codigo_reporte_cn_paac5'),array('id'=>'codigo_reporte_cn_paac5','placeholder'=>'NI0001-16','class'=>'form-control','maxlength'=>9)) }}
+							{{ Form::hidden('cod_reporte_cn_paac5')}}
+						@endif
 					</div>
 				</div>	
 			</div>

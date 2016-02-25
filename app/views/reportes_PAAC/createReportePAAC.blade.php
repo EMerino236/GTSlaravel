@@ -18,7 +18,7 @@
 		<div class="alert alert-success">{{ Session::get('message') }}</div>
 	@endif
 	@if (Session::has('error'))
-		<div class="alert alert-danger">{{ Session::get('error') }}</div>
+		<div class="alert alert-danger"><strong>{{ Session::get('error') }}</strong></div>
 	@endif
 
 	{{ Form::open(array('url'=>'reporte_paac/submit_create_reporte_paac', 'role'=>'form', 'files'=>true)) }}
@@ -76,7 +76,7 @@
 						@endif
 						{{ Form::hidden('idarea')}}
 					</div>
-				</div>	
+				</div>					
 			</div>
 		</div>
 		<div class="panel panel-default">

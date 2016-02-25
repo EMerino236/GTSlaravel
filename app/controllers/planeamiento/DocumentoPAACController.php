@@ -40,7 +40,7 @@ class DocumentoPAACController extends BaseController
 	
 				$rules = array(
 							'idtipo_documento' => 'required',
-							'nombre' => 'required|unique:documentospaac',
+							'nombre' => 'required|unique:documentospacc',
 							'anho' => 'required',
 							'archivo' => 'required|max:15360',											
 						);
@@ -50,26 +50,62 @@ class DocumentoPAACController extends BaseController
 				if($validator->fails()){
 					return Redirect::to('documentos_PAAC/create_documento_paac')->withErrors($validator)->withInput(Input::all());					
 				}else{
-				    $rutaDestino ='';
-				    $nombreArchivo ='';	
-				    if (Input::hasFile('archivo')) {
-				        $archivo = Input::file('archivo');
-				        $rutaDestino = 'documentos/planeamiento/DocumentosPAAC/';
-				        $nombreArchivo        = $archivo->getClientOriginalName();
-				        $nombreArchivoEncriptado = Str::random(27).'.'.pathinfo($nombreArchivo, PATHINFO_EXTENSION);
-				        $uploadSuccess = $archivo->move($rutaDestino, $nombreArchivoEncriptado);
-				    }
-					$documento_paac = new DocumentoPAAC;
-					$documento_paac->nombre = Input::get('nombre');	
-					$documento_paac->url = $rutaDestino;
-					$documento_paac->nombre_archivo = $nombreArchivo;
-					$documento_paac->nombre_archivo_encriptado = $nombreArchivoEncriptado;
-					$documento_paac->idtipo_documentosPAAC = Input::get('idtipo_documento');
-					$documento_paac->anho = Input::get('anho');				
-					$documento_paac->save();
-					
-					Session::flash('message', 'Se registró correctamente el Documento para PAAC.');
-					return Redirect::to('documentos_PAAC/create_documento_paac');
+					if(!(Input::get('cod_reporte_cn_paac1')=='' && Input::get('cod_reporte_cn_paac2')=='' 
+						&& Input::get('cod_reporte_cn_paac3')=='' && Input::get('cod_reporte_cn_paac4')==''
+						&& Input::get('cod_reporte_cn_paac5')=='')){
+						if(!((Input::get('cod_reporte_cn_paac1')==Input::get('cod_reporte_cn_paac2') && Input::get('cod_reporte_cn_paac1')!='')
+							||(Input::get('cod_reporte_cn_paac1')==Input::get('cod_reporte_cn_paac3') && Input::get('cod_reporte_cn_paac1')!='')
+							||(Input::get('cod_reporte_cn_paac1')==Input::get('cod_reporte_cn_paac4') && Input::get('cod_reporte_cn_paac1')!='')
+							||(Input::get('cod_reporte_cn_paac1')==Input::get('cod_reporte_cn_paac5') && Input::get('cod_reporte_cn_paac1')!='')
+							||(Input::get('cod_reporte_cn_paac2')==Input::get('cod_reporte_cn_paac3') && Input::get('cod_reporte_cn_paac2')!='')
+							||(Input::get('cod_reporte_cn_paac2')==Input::get('cod_reporte_cn_paac4') && Input::get('cod_reporte_cn_paac2')!='')
+							||(Input::get('cod_reporte_cn_paac2')==Input::get('cod_reporte_cn_paac5') && Input::get('cod_reporte_cn_paac2')!='')
+							||(Input::get('cod_reporte_cn_paac3')==Input::get('cod_reporte_cn_paac4') && Input::get('cod_reporte_cn_paac3')!='')
+							||(Input::get('cod_reporte_cn_paac3')==Input::get('cod_reporte_cn_paac5') && Input::get('cod_reporte_cn_paac3')!='')
+							||(Input::get('cod_reporte_cn_paac4')==Input::get('cod_reporte_cn_paac5') && Input::get('cod_reporte_cn_paac4')!='')) ){
+						    $rutaDestino ='';
+						    $nombreArchivo ='';	
+						    if (Input::hasFile('archivo')) {
+						        $archivo = Input::file('archivo');
+						        $rutaDestino = 'documentos/planeamiento/DocumentosPAAC/';
+						        $nombreArchivo        = $archivo->getClientOriginalName();
+						        $nombreArchivoEncriptado = Str::random(27).'.'.pathinfo($nombreArchivo, PATHINFO_EXTENSION);
+						        $uploadSuccess = $archivo->move($rutaDestino, $nombreArchivoEncriptado);
+						    }
+							$documento_paac = new DocumentoPAAC;
+							$documento_paac->nombre = Input::get('nombre');	
+							$documento_paac->url = $rutaDestino;
+							$documento_paac->nombre_archivo = $nombreArchivo;
+							$documento_paac->nombre_archivo_encriptado = $nombreArchivoEncriptado;
+							$documento_paac->idtipo_documentosPAAC = Input::get('idtipo_documento');
+							$documento_paac->anho = Input::get('anho');		
+							if(Input::get('cod_reporte_cn_paac1')!=''){
+								$documento_paac->cod_reporte_cn_paac1 = Input::get('cod_reporte_cn_paac1');
+							}
+							if(Input::get('cod_reporte_cn_paac2')!=''){
+								$documento_paac->cod_reporte_cn_paac2 = Input::get('cod_reporte_cn_paac2');
+							}
+							if(Input::get('cod_reporte_cn_paac3')!=''){
+								$documento_paac->cod_reporte_cn_paac3 = Input::get('cod_reporte_cn_paac3');
+							}
+							if(Input::get('cod_reporte_cn_paac4')!=''){
+								$documento_paac->cod_reporte_cn_paac4 = Input::get('cod_reporte_cn_paac4');
+							}
+							if(Input::get('cod_reporte_cn_paac5')!=''){
+								$documento_paac->cod_reporte_cn_paac5 = Input::get('cod_reporte_cn_paac5');
+							}		
+							$documento_paac->save();
+							
+							Session::flash('message', 'Se registró correctamente el Documento para PAAC.');
+							return Redirect::to('documentos_PAAC/create_documento_paac');
+						}else{
+							Session::flash('error', 'Existen dos o más Reportes de Necesidad o PAAC repetidos.');
+							return Redirect::to('documentos_PAAC/create_documento_paac')->withInput(Input::all());
+						}
+					}else{
+						Session::flash('error', 'Debe ingresar al menos un Reporte de Necesidad o PAAC vinculado.');
+						return Redirect::to('documentos_PAAC/create_documento_paac')->withInput(Input::all());
+					}
 				}
 			}else{
 				return View::make('error/error',$data);
@@ -109,7 +145,7 @@ class DocumentoPAACController extends BaseController
 				// Validate the info, create rules for the inputs	
 				$rules = array(
 							'idtipo_documento' => 'required',
-							'nombre' => 'required|unique:documentospaac,nombre,'.$iddocumentosPAAC.',iddocumentosPAAC',			
+							'nombre' => 'required|unique:documentospacc,nombre,'.$iddocumentosPAAC.',iddocumentosPAAC',			
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules);
@@ -118,14 +154,43 @@ class DocumentoPAACController extends BaseController
 				if($validator->fails()){
 					return Redirect::to($url)->withErrors($validator)->withInput(Input::all());					
 				}else{
-					$documento_paac = DocumentoPAAC::find($iddocumentosPAAC);
-					$documento_paac->nombre = Input::get('nombre');	
-					$documento_paac->idtipo_documentosPAAC = Input::get('idtipo_documento');
-					$documento_paac->anho = Input::get('anho');				
-					$documento_paac->save();
-					
-					Session::flash('message', 'Se editó correctamente el Documento para PAAC.');
-					return Redirect::to($url);
+					if(!((Input::get('cod_reporte_cn_paac1')==Input::get('cod_reporte_cn_paac2') && Input::get('cod_reporte_cn_paac1')!='')
+							||(Input::get('cod_reporte_cn_paac1')==Input::get('cod_reporte_cn_paac3') && Input::get('cod_reporte_cn_paac1')!='')
+							||(Input::get('cod_reporte_cn_paac1')==Input::get('cod_reporte_cn_paac4') && Input::get('cod_reporte_cn_paac1')!='')
+							||(Input::get('cod_reporte_cn_paac1')==Input::get('cod_reporte_cn_paac5') && Input::get('cod_reporte_cn_paac1')!='')
+							||(Input::get('cod_reporte_cn_paac2')==Input::get('cod_reporte_cn_paac3') && Input::get('cod_reporte_cn_paac2')!='')
+							||(Input::get('cod_reporte_cn_paac2')==Input::get('cod_reporte_cn_paac4') && Input::get('cod_reporte_cn_paac2')!='')
+							||(Input::get('cod_reporte_cn_paac2')==Input::get('cod_reporte_cn_paac5') && Input::get('cod_reporte_cn_paac2')!='')
+							||(Input::get('cod_reporte_cn_paac3')==Input::get('cod_reporte_cn_paac4') && Input::get('cod_reporte_cn_paac3')!='')
+							||(Input::get('cod_reporte_cn_paac3')==Input::get('cod_reporte_cn_paac5') && Input::get('cod_reporte_cn_paac3')!='')
+							||(Input::get('cod_reporte_cn_paac4')==Input::get('cod_reporte_cn_paac5') && Input::get('cod_reporte_cn_paac4')!='')) ){
+						$documento_paac = DocumentoPAAC::find($iddocumentosPAAC);
+						$documento_paac->nombre = Input::get('nombre');	
+						$documento_paac->idtipo_documentosPAAC = Input::get('idtipo_documento');
+						$documento_paac->anho = Input::get('anho');	
+						if(Input::get('cod_reporte_cn_paac1')!=''){
+							$documento_paac->cod_reporte_cn_paac1 = Input::get('cod_reporte_cn_paac1');
+						}
+						if(Input::get('cod_reporte_cn_paac2')!=''){
+							$documento_paac->cod_reporte_cn_paac2 = Input::get('cod_reporte_cn_paac2');
+						}
+						if(Input::get('cod_reporte_cn_paac3')!=''){
+							$documento_paac->cod_reporte_cn_paac3 = Input::get('cod_reporte_cn_paac3');
+						}
+						if(Input::get('cod_reporte_cn_paac4')!=''){
+							$documento_paac->cod_reporte_cn_paac4 = Input::get('cod_reporte_cn_paac4');
+						}
+						if(Input::get('cod_reporte_cn_paac5')!=''){
+							$documento_paac->cod_reporte_cn_paac5 = Input::get('cod_reporte_cn_paac5');
+						}				
+						$documento_paac->save();
+						
+						Session::flash('message', 'Se editó correctamente el Documento para PAAC.');
+						return Redirect::to($url);
+					}else{
+						Session::flash('error', 'Existen dos o más Reportes de Necesidad o PAAC repetidos.');
+						return Redirect::to($url)->withInput(Input::all());
+					}
 				}
 			}else{
 				return View::make('error/error',$data);
@@ -204,8 +269,34 @@ class DocumentoPAACController extends BaseController
 		}
 	}
 
+	public function return_reporte_cn_paac(){
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$id = Auth::id();
+		$data["inside_url"] = Config::get('app.inside_url');
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+			// Check if the current user is the "System Admin"
+			$data = Input::get('selected_id');
+			if($data !="vacio"){
+				$abreviatura = mb_substr($data,0,2);
+				$correlativo = mb_substr($data,2,4);
+				$anho = mb_substr($data,7,2);
+				if($abreviatura=="NS" || $abreviatura=="NI" || $abreviatura=="NP"){
+					$reporte = ReporteCN::searchReporteCN_PAACByCodigoReporte($abreviatura,$correlativo,$anho);
+				}else{
+					$reporte = ReportePAAC::searchReporteCN_PAACByCodigoReporte($abreviatura,$correlativo,$anho);
+				}
+			}else{
+				$reporte = null;
+			}
 
-	
+			return Response::json(array( 'success' => true, 'reporte' => $reporte ),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}	
 
 	public function download_documento($id=null)
 	{

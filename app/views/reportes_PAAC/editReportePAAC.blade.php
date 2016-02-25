@@ -21,7 +21,8 @@
 		<div class="alert alert-danger">{{ Session::get('error') }}</div>
 	@endif
 
-	{{ Form::open(array('url'=>'', 'role'=>'form', 'files'=>true)) }}
+	{{ Form::open(array('url'=>'reporte_paac/submit_edit_reporte_paac', 'role'=>'form', 'files'=>true)) }}
+		{{ Form::hidden('idreporte_paac', $reporte_paac_info->idreporte_PAAC) }}
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">Datos del Reporte</h3>
@@ -69,8 +70,13 @@
 				</div>
 			</div>
 		</div>	
-	{{ Form::close() }}
 		<div class="row">
+			@if(!$reporte_paac_info->deleted_at)
+				<div class="col-md-2 form-group">
+					{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit-edit', 'type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}						
+				</div>
+			@endif
+	{{ Form::close() }}
 			<div class="form-group col-md-2">
 			@if($reporte_paac_info->deleted_at)
 				{{ Form::open(array('url'=>'reporte_paac/submit_enable_reporte_paac', 'role'=>'form')) }}

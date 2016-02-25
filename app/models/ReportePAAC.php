@@ -58,4 +58,18 @@ class ReportePAAC extends Eloquent{
 	  	return $query;
 	}
 
+	public function scopeSearchReporteCN_PAACByCodigoReporte($query,$abreviatura,$correlativo,$anho)
+	{
+		$sql = 'select c.*
+				from reporte_paac c
+				join programacion_reporte_paac p 
+					ON p.idprogramacion_reporte_paac = c.idprogramacion_reporte_paac 
+					   and (p.idtipo_reporte_PAAC = 1 or p.idtipo_reporte_PAAC = 2)
+				where c.numero_reporte_abreviatura = \''.$abreviatura.'\' 
+					and c.numero_reporte_correlativo = \''.$correlativo.'\' 
+					and c.numero_reporte_anho = \''.$anho.'\' ';
+		$query = DB::select(DB::raw($sql));	
+		return $query;
+	}
+
 }
