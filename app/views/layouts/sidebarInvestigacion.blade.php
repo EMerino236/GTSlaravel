@@ -68,11 +68,9 @@
                 <a href="#">Ejecución, control, cierre  y modificaciones de proyectos de investigación de TS y propiedad intelectual<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>{{ HTML::linkRoute('proyecto_documentacion.index','Documentación general de proyectos') }}</li>
-                    
                     <li>{{ HTML::linkRoute('plan_aprendizaje.index','Plan de aprendizaje proyectos de investigación de TS') }}</li>
+                    <li>{{ HTML::linkRoute('informacion_economica.index','Informe económico del proyecto') }}</li>
                     {{--
-                    <li>{{ HTML::link('#','Informe económico del proyecto') }}</li>
-                    
                     <li>{{ HTML::link('#','Indicadores de proyecto') }}</li>
                     --}}
                 </ul>

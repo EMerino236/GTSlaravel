@@ -976,3 +976,16 @@ Route::group(array('prefix'=>'trabajo_cronograma','before'=>'auth'),function(){
 	
 	Route::post('/getActividadAjax',['uses'=>'TrabajoCronogramaController@getActividadAjax','as'=>'trabajo_cronograma.getActividad.ajax']);
 });
+
+/* Informacion economica */
+Route::group(array('prefix'=>'informacion_economica','before'=>'auth'),function(){
+	Route::get('/index',['uses'=>'InformacionEconomicaController@index','as'=>'informacion_economica.index']);
+	Route::get('/search',['uses'=>'InformacionEconomicaController@search','as'=>'informacion_economica.search']);
+	Route::get('/create',['uses'=>'InformacionEconomicaController@create','as'=>'informacion_economica.create']);
+	Route::post('/create',['uses'=>'InformacionEconomicaController@store','as'=>'informacion_economica.store']);
+	Route::get('/show/{id}',['uses'=>'InformacionEconomicaController@show','as'=>'informacion_economica.show']);
+	Route::get('/edit/{id}/{tipo}',['uses'=>'InformacionEconomicaController@edit','as'=>'informacion_economica.edit']);
+	Route::post('/edit/{id}',['uses'=>'InformacionEconomicaController@update','as'=>'informacion_economica.update']);
+
+	Route::post('/validarProyectoExisteAjax',['uses'=>'InformacionEconomicaController@validarProyectoExisteAjax','as'=>'informacion_economica.validarProyectoExiste.ajax']);
+});

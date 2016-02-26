@@ -36,8 +36,10 @@ function validarProyectoExiste()
                     getServicios();
                     $('#servicio_clinico').val(response.reporte.id_servicio_clinico);
                     //console.log(response.reporte.id_servicio_clinico);
-                    $('#fecha_ini').val(response.reporte.fecha_ini);
-                    $('#fecha_fin').val(response.reporte.fecha_fin);
+                    d = new Date(response.reporte.fecha_ini);
+                    $('#fecha_ini').val(d.getDate()+'-'+d.getMonth()+'-'+d.getFullYear());
+                    d = new Date(response.reporte.fecha_fin);
+                    $('#fecha_fin').val(d.getDate()+'-'+d.getMonth()+'-'+d.getFullYear());
                 }else{
                     limpiaCamposProyecto();
                     return BootstrapDialog.alert({

@@ -57,6 +57,7 @@
     <script src="{{ asset('js/investigacion/proyecto.js') }}"></script>
     <script src="{{ asset('js/investigacion/plan_aprendizaje.js') }}"></script>
     <script src="{{ asset('js/investigacion/reporte_seguimiento_cronograma.js') }}"></script>
+    <script src="{{ asset('js/investigacion/informacion_economica.js') }}"></script>
     <script src="{{ asset('js/bootstrap-dialog.min.js') }}"></script>
     <!--Javascript para Diagrama de Gantt-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>

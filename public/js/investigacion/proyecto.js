@@ -560,7 +560,7 @@ function agregarProyGO_post(){
         str += "<td><input class='cell' name='go_cantidades_post[]' value='"+cantidad+"' readonly/></td>";
         str += "<td><input class='cell' name='go_costos_unitarios_post[]' value='"+costo_unitario+"' readonly/></td>";
         str += "<td><input class='cell' value='"+subtotal+"' readonly/></td>";
-        str += "<td><a href='' class='btn btn-default delete-detail' onclick='deleteRowProyGO(event,this)'>Eliminar</a></td></tr>";
+        str += "<td><a href='' class='btn btn-default delete-detail' onclick='deleteRowProyGO_post(event,this)'>Eliminar</a></td></tr>";
         $(str).prependTo(".go_table_post");
         
         var total_inv = parseInt($("#total_inv").val());
@@ -685,10 +685,9 @@ function validarProyecto()
 
         },
         success: function(response){
-            //console.log(response);
             if(response.success)
             {
-
+ 
                 if(response.reporte.length != 0){
                     $('#nombre').val(response.reporte.nombre);
                     $('#categoria').val(response.reporte.id_categoria);
@@ -696,9 +695,10 @@ function validarProyecto()
                     $('#departamento').val(response.reporte.id_departamento);
                     getServicios();
                     $('#servicio_clinico').val(response.reporte.id_servicio_clinico);
-                    //console.log(response.reporte.id_servicio_clinico);
-                    $('#fecha_ini').val(response.reporte.fecha_ini);
-                    $('#fecha_fin').val(response.reporte.fecha_fin);
+                    d = new Date(response.reporte.fecha_ini);
+                    $('#fecha_ini').val(d.getDate()+'-'+d.getMonth()+'-'+d.getFullYear());
+                    d = new Date(response.reporte.fecha_fin);
+                    $('#fecha_fin').val(d.getDate()+'-'+d.getMonth()+'-'+d.getFullYear());
                 }else{
                     limpiaCamposProyecto();
                     return BootstrapDialog.alert({
