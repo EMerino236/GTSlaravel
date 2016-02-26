@@ -122,7 +122,7 @@
 							<div class="row">
 
 								<script type="text/javascript">
-								    google.charts.load('current', {'packages':['gantt'], 'language': 'es'});
+								    google.charts.load('current', {'packages':['gantt']});
 								    google.charts.setOnLoadCallback(drawChart);
 
 								    function daysToMilliseconds(days) {
