@@ -83,7 +83,7 @@ class InformacionEconomicaController extends \BaseController {
 			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				// Validate the info, create rules for the inputs	
 				$rules = array(
-							'id_proyecto' => 'required',
+							'id_proyecto' => 'required|unique:informaciones_economicas|exists:proyectos,id',
 							'nombre' => 'required',
 							'categoria' => 'required',
 							'departamento' => 'required',

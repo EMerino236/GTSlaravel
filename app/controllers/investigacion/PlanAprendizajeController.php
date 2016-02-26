@@ -119,7 +119,7 @@ class PlanAprendizajeController extends \BaseController {
 			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				// Validate the info, create rules for the inputs	
 				$rules = array(
-							'id_reporte' => 'required',
+							'id_reporte' => 'required|unique:planes_aprendizaje,id_proyecto|exists:proyectos,id',
 							'nombre' => 'required',
 							'categoria' => 'required',
 							'departamento' => 'required',
@@ -160,7 +160,7 @@ class PlanAprendizajeController extends \BaseController {
 					return Redirect::to('plan_aprendizaje/create')->withErrors($validator)->withInput(Input::all());					
 				}else{
 
-					//dd(Input::all());
+					dd(Input::all());
 
 					$plan_aprendizaje = new PlanAprendizaje;
 					$plan_aprendizaje->nombre = Input::get('nombre');

@@ -3,7 +3,7 @@
 
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Presupuesto</h3>
+            <h3 class="page-header">Información Económica</h3>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -11,6 +11,7 @@
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<p><strong>{{ $errors->first('id_proyecto') }}</strong></p>
 			<p><strong>{{ $errors->first('nombre') }}</strong></p>
 			<p><strong>{{ $errors->first('categoria') }}</strong></p>
 			<p><strong>{{ $errors->first('servicio_clinico') }}</strong></p>

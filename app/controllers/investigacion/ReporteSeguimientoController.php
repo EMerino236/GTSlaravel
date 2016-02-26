@@ -118,7 +118,7 @@ class ReporteSeguimientoController extends \BaseController {
 			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				// Validate the info, create rules for the inputs	
 				$rules = array(
-							'id_proyecto' => 'required',
+							'id_proyecto' => 'required|unique:reportes_seguimiento|exists:proyectos,id',
 							'nombre' => 'required',
 							'departamento' => 'required',
 							'responsable' => 'required',
