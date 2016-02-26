@@ -117,17 +117,24 @@
 		<ul class="lista_generales">			
 			<li><label><strong>Daño de Bienes:</strong></label> {{$evento_adverso_info->danho_bienes}}</li>
 		</ul>
+		@if($activo_info)
+			<h3>Información del Equipo Médico Involucrado</h3>
+			<ul class="lista_generales">
+				<li><label><strong>Código Patrimonial:</strong></label> {{$activo_info->codigo_patrimonial}}</li>
+				<li><label><strong>Servicio Clínico:</strong></label> {{$activo_info->nombre_servicio}}</li>
+				<li><label><strong>Ubicación Física:</strong></label> {{$activo_info->nombre_ubicacion_fisica}}</li>
+				<li><label><strong>Número de Serie:</strong></label> {{$activo_info->numero_serie}}</li>
+				<li><label><strong>Nombre del Equipo:</strong></label> {{$activo_info->nombre_equipo}}</li>
+				<li><label><strong>Modelo:</strong></label> {{$activo_info->nombre_modelo}}</li>
+				<li><label><strong>Proveedor:</strong></label> {{$activo_info->razon_social}}</li>
+			</ul>
+		@else
+			<h3>Información del Equipo Médico Involucrado</h3>
+			<ul class="lista_generales">
+				<h4 style="text-align:center">No hay equipos involucrados en el presente evento adverso</h4>
+			</ul>
+		@endif
 
-		<h3>Información del Equipo Médico Involucrado</h3>
-		<ul class="lista_generales">
-			<li><label><strong>Código Patrimonial:</strong></label> {{$activo_info->codigo_patrimonial}}</li>
-			<li><label><strong>Servicio Clínico:</strong></label> {{$activo_info->nombre_servicio}}</li>
-			<li><label><strong>Ubicación Física:</strong></label> {{$activo_info->nombre_ubicacion_fisica}}</li>
-			<li><label><strong>Número de Serie:</strong></label> {{$activo_info->numero_serie}}</li>
-			<li><label><strong>Nombre del Equipo:</strong></label> {{$activo_info->nombre_equipo}}</li>
-			<li><label><strong>Modelo:</strong></label> {{$activo_info->nombre_modelo}}</li>
-			<li><label><strong>Proveedor:</strong></label> {{$activo_info->razon_social}}</li>
-		</ul>
 		<h3>Información Adicional</h3>
 		<ul class="lista_generales">
 			<li><label><strong>Información:</strong></label> {{$evento_adverso_info->informacion}}</li>

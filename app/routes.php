@@ -450,6 +450,7 @@ Route::group(array('prefix'=>'reporte_etes','before'=>'auth'),function(){
 	Route::get('/download_documento/{id}','ReporteETESController@download_documento');
 	Route::post('/submit_disable_reporte_etes','ReporteETESController@submit_disable_reporte_etes');
 	Route::post('/submit_enable_reporte_etes','ReporteETESController@submit_enable_reporte_etes');
+	Route::post('/return_num_doc_responsable_etes/{postData}','ReporteETESController@return_num_doc_responsable_etes');
 });
 
 /* Reporte PAAC */
@@ -478,6 +479,7 @@ Route::group(array('prefix'=>'reporte_priorizacion','before'=>'auth'),function()
 	Route::get('/search_reporte_priorizacion','ReportePriorizacionController@search_reporte_priorizacion');
 	Route::get('/download_documento/{id}','ReportePriorizacionController@download_documento');
 	Route::post('/return_area/{postData}','ReportePriorizacionController@return_area');
+	Route::post('/return_reporte_cn/{postData}','ReportePriorizacionController@return_reporte_cn');
 	Route::post('/submit_disable_reporte_priorizacion','ReportePriorizacionController@submit_disable_reporte_priorizacion');
 	Route::post('/submit_enable_reporte_priorizacion','ReportePriorizacionController@submit_enable_reporte_priorizacion');
 	Route::post('/return_num_doc_responsable_priorizacion/{postData}','ReportePriorizacionController@return_num_doc_responsable_priorizacion');
@@ -507,6 +509,7 @@ Route::group(array('prefix'=>'documentos_PAAC','before'=>'auth'),function(){
 	Route::get('/download_documento/{id}','DocumentoPAACController@download_documento');
 	Route::post('/submit_disable_documento_paac','DocumentoPAACController@submit_disable_documento_paac');
 	Route::post('/submit_enable_documento_paac','DocumentoPAACController@submit_enable_documento_paac');
+	Route::post('/return_reporte_cn_paac/{postData}','DocumentoPAACController@return_reporte_cn_paac');
 });
 
 /* Plan Director */

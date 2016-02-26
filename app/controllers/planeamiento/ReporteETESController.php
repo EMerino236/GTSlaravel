@@ -16,8 +16,10 @@ class ReporteETESController extends BaseController
 																			->lists('nombre_reporte','idprogramacion_reporte_etes');
 				$data["programacion_reporte_etes_id"] = $id;
 				$data["programacion_reporte_etes"] = null;
+				$data["responsable"] = null;
 				if($id){
 					$data["programacion_reporte_etes"] = ProgramacionReporteETES::where('idprogramacion_reporte_etes','=',$id)->get()[0];					
+					$data["responsable"] = User::find($data["programacion_reporte_etes"]->iduser);
 				}
 				$data["reporte_etes_info"] = null;
 				return View::make('reportes_ETES/createReporteETES',$data);
@@ -261,6 +263,27 @@ class ReporteETESController extends BaseController
 			}
 		}else{
 			return View::make('error/error',$data);
+		}
+	}
+
+	public function return_num_doc_responsable_etes(){
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$id = Auth::id();
+		$data["inside_url"] = Config::get('app.inside_url');
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+			// Check if the current user is the "System Admin"
+			$data = Input::get('selected_id');
+			if($data !="vacio"){
+				$responsable = User::searchPersonalByNumeroDoc($data)->get();
+			}else{
+				$reporte = null;
+			}
+			return Response::json(array( 'success' => true, 'reporte' => $responsable ),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
 		}
 	}
 }

@@ -88,4 +88,40 @@ class ReporteCN extends Eloquent{
 	  	return $query;
 	}
 
+	public function scopeSearchReporteCNconETESByCodigoReporte($query,$abreviatura,$correlativo,$anho)
+	{
+		$query->where('numero_reporte_abreviatura','=',$abreviatura)
+			  ->where('numero_reporte_correlativo','=',$correlativo)
+			  ->where('numero_reporte_anho','=',$anho)
+			  ->where(function($query2){
+					$query2->orWhereNotNull('idreporte_etes1')
+						  ->orWhereNotNull('idreporte_etes2')
+						  ->orWhereNotNull('idreporte_etes3')
+						  ->orWhereNotNull('idreporte_etes4')
+						  ->orWhereNotNull('idreporte_etes5');
+			  })				  
+			  ->select('reporte_cn.*');
+	  	return $query;
+	}
+
+	public function scopeSearchReporteCN_PAACByCodigoReporte($query,$abreviatura,$correlativo,$anho)
+	{
+		$sql = 'select c.*
+				from reporte_cn c
+				join programacion_reporte_cn p 
+					ON p.idprogramacion_reporte_cn = c.idprogramacion_reporte_cn 
+					   and (p.idtipo_reporte_CN = 2 or p.idtipo_reporte_CN = 3)
+				join (SELECT idreporte_cn1 as idreporte FROM `reporte_priorizacion` WHERE idreporte_cn1 is not null 
+					UNION SELECT idreporte_cn2 as idreporte FROM `reporte_priorizacion` WHERE idreporte_cn2 is not null 
+					UNION SELECT idreporte_cn3 as idreporte FROM `reporte_priorizacion` WHERE idreporte_cn3 is not null 
+					UNION SELECT idreporte_cn4 as idreporte FROM `reporte_priorizacion` WHERE idreporte_cn4 is not null 
+					UNION SELECT idreporte_cn5 as idreporte FROM `reporte_priorizacion` WHERE idreporte_cn5 is not null) as a
+				ON c.idreporte_CN = a.idreporte
+				where c.numero_reporte_abreviatura = \''.$abreviatura.'\' 
+					and c.numero_reporte_correlativo = \''.$correlativo.'\' 
+					and c.numero_reporte_anho = \''.$anho.'\' ';
+		$query = DB::select(DB::raw($sql));	
+		return $query;
+	}
+
 }

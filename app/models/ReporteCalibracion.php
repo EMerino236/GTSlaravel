@@ -19,7 +19,7 @@ class ReporteCalibracion extends Eloquent{
 			  ->join('marcas','marcas.idmarca','=','familia_activos.idmarca')
 			  ->join('proveedores','proveedores.idproveedor','=','activos.idproveedor')
 			  ->join('detalle_reporte_calibracion','detalle_reporte_calibracion.idreporte_calibracion','=','reporte_calibracion.id')
-			  ->select('reporte_calibracion.*','servicios.nombre as nombre_servicio','grupos.nombre as nombre_grupo','marcas.nombre as nombre_marca','familia_activos.nombre_equipo as nombre_familia','modelo_activos.nombre as nombre_modelo','activos.*','proveedores.razon_social as nombre_proveedor');
+			  ->select('reporte_calibracion.*','servicios.nombre as nombre_servicio','grupos.nombre as nombre_grupo','marcas.nombre as nombre_marca','familia_activos.nombre_equipo as nombre_familia','modelo_activos.nombre as nombre_modelo','activos.*','proveedores.razon_social as nombre_proveedor','activos.idactivo as idactivo');
 		return $query;
 	}
 
@@ -65,7 +65,7 @@ class ReporteCalibracion extends Eloquent{
 			  	$query->where('grupos.idgrupo','=',$search_grupo);
 			  }
 
-			  $query ->select('reporte_calibracion.*','servicios.nombre as nombre_servicio','grupos.nombre as nombre_grupo','marcas.nombre as nombre_marca','familia_activos.nombre_equipo as nombre_familia','modelo_activos.nombre as nombre_modelo','activos.*','proveedores.razon_social as nombre_proveedor');
+			  $query ->select('reporte_calibracion.*','servicios.nombre as nombre_servicio','grupos.nombre as nombre_grupo','marcas.nombre as nombre_marca','familia_activos.nombre_equipo as nombre_familia','modelo_activos.nombre as nombre_modelo','activos.*','proveedores.razon_social as nombre_proveedor','activos.idactivo as idactivo');
 		return $query;
 	}
 

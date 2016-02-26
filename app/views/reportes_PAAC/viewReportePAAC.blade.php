@@ -42,7 +42,7 @@
 						{{ Form::select('idarea_select',array(''=>'Seleccione') + $areas,$programacion_reporte_paac_info->idarea,['class' => 'form-control','disabled'=>'disabled']) }}
 						{{ Form::hidden('idarea')}}
 					</div>
-				</div>	
+				</div>
 			</div>
 		</div>
 		<div class="row">

@@ -82,7 +82,7 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-12">
+		<div class="col-md-8">
 			<div class="table-responsive">
 				<table class="table">
 					<tr class="info">
@@ -98,7 +98,7 @@
 							<a href="{{URL::to('/reportes_investigacion/view_reporte/')}}/{{$reporte_data->id}}">{{$reporte_data->codigo_abreviatura}}-{{$reporte_data->codigo_correlativo}}-{{$reporte_data->codigo_anho}}</a>
 						</td>
 						<td class="text-nowrap text-center">
-							<a href="" onclick="show_modal(event,{{$reporte_data->idevento}})">{{ $reporte_data->evento_abreviatura}}-{{$reporte_data->evento_correlativo}}-{{$reporte_data->evento_anho}}</a>
+							<a href="{{URL::to('/eventos_adversos/view_evento_adverso/')}}/{{$reporte_data->idevento}}" onmouseover="show_modal(event,{{$reporte_data->idevento}})" >{{ $reporte_data->evento_abreviatura}}-{{$reporte_data->evento_correlativo}}-{{$reporte_data->evento_anho}}</a>
 						</td>
 						<td class="text-nowrap text-center">
 							@if($reporte_data->nombre_entorno_etapa == NULL)
@@ -116,16 +116,20 @@
 					</tr>
 					@endforeach
 				</table>
-				@if($search_codigo_reporte_investigacion || $search_codigo_reporte_evento || $search_entorno_asistencial || $search_usuario || $search_fecha_ini ||$search_fecha_fin)
-
-					{{ $reportes_data->appends(array('search_codigo_reporte_investigacion' => $search_codigo_reporte_investigacion,'search_codigo_reporte_evento' => $search_codigo_reporte_evento, 'search_entorno_asistencial' => $search_entorno_asistencial,
-						'search_usuario' => $search_usuario , 'search_fecha_ini' => $search_fecha_ini,  'search_fecha_fin' => $search_fecha_fin))->links() }}
-				@else	
-					{{ $reportes_data->links()}}
-				@endif
 			</div>
 		</div>
+		<div class="col-md-4">
+			{{ Form::label('toma_acciones','Toma de Acciones:') }}
+			{{ Form::textarea('toma_acciones', null,array('class'=>'form-control','maxlength'=>'500','rows'=>5,'style'=>'resize:none;','id'=>'toma_acciones')) }}
+		</div>
 	</div>
+	@if($search_codigo_reporte_investigacion || $search_codigo_reporte_evento || $search_entorno_asistencial || $search_usuario || $search_fecha_ini ||$search_fecha_fin)
+
+		{{ $reportes_data->appends(array('search_codigo_reporte_investigacion' => $search_codigo_reporte_investigacion,'search_codigo_reporte_evento' => $search_codigo_reporte_evento, 'search_entorno_asistencial' => $search_entorno_asistencial,
+			'search_usuario' => $search_usuario , 'search_fecha_ini' => $search_fecha_ini,  'search_fecha_fin' => $search_fecha_fin))->links() }}
+	@else	
+		{{ $reportes_data->links()}}
+	@endif
 	<div id="modals">
 	</div>
 	

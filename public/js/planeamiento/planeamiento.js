@@ -337,72 +337,6 @@ $( document ).ready(function(){
         }
     })
 
-    $('#idprogramacion_reporte_etes').ready(function(){
-        var selectServicio = document.getElementById("idprogramacion_reporte_etes");
-        var selectedId = selectServicio.options[selectServicio.selectedIndex].value;// will gives u 2
-        if(selectedId != ''){
-            $.ajax({
-                url: inside_url+'programacion_reportes/return_programacion_etes/'+selectedId,
-                type: 'POST',
-                data: { 'selected_id' : selectedId },
-                beforeSend: function(){
-                },
-                complete: function(){
-                },
-                success: function(response){
-                    if(response.success){
-                        var resp = response['programacion_reporte_etes']; 
-                        document.getElementById("idtipo_reporte_select").value = resp[0].idtipo_reporte_ETES; 
-                        $('input[name=idtipo_reporte]').val(resp[0].idtipo_reporte_ETES);  
-                        document.getElementById("nombre").value = resp[0].nombre_reporte;
-                    }else{
-                        alert('La petición no se pudo completar, inténtelo de nuevo1.');
-                    }
-                },
-                error: function(){
-                    alert('La petición no se pudo completar, inténtelo de nuevo2.');
-                }
-            }); 
-        }
-        else{
-            document.getElementById("idtipo_reporte").value = '';    
-            document.getElementById("nombre").value = '';
-        }
-    })
-    
-    $('#idprogramacion_reporte_etes').change(function(){
-        var selectServicio = document.getElementById("idprogramacion_reporte_etes");
-        var selectedId = selectServicio.options[selectServicio.selectedIndex].value;// will gives u 2
-        if(selectedId != ''){
-            $.ajax({
-                url: inside_url+'programacion_reportes/return_programacion_etes/'+selectedId,
-                type: 'POST',
-                data: { 'selected_id' : selectedId },
-                beforeSend: function(){
-                },
-                complete: function(){
-                },
-                success: function(response){
-                    if(response.success){
-                        var resp = response['programacion_reporte_etes']; 
-                        document.getElementById("idtipo_reporte_select").value = resp[0].idtipo_reporte_ETES; 
-                        $('input[name=idtipo_reporte]').val(resp[0].idtipo_reporte_ETES);  
-                        document.getElementById("nombre").value = resp[0].nombre_reporte;
-                    }else{
-                        alert('La petición no se pudo completar, inténtelo de nuevo1.');
-                    }
-                },
-                error: function(){
-                    alert('La petición no se pudo completar, inténtelo de nuevo2.');
-                }
-            }); 
-        }
-        else{
-            document.getElementById("idtipo_reporte").value = '';    
-            document.getElementById("nombre").value = '';
-        }
-    })
-
     $('#idprogramacion_reporte_paac').ready(function(){
         var selectServicio = document.getElementById("idprogramacion_reporte_paac");
         var selectedId = selectServicio.options[selectServicio.selectedIndex].value;// will gives u 2
@@ -543,10 +477,78 @@ $( document ).ready(function(){
       $("#fecha_paac").val('');
     });
 
-    
-    var x = 0; //initlal text box count
-    $("#btn_agregar_etes").click(function(e){ //on add input button click
-        var val = $("#codigo_reporte_etes").val();
+    $("#label_agregar_etes").click(function(){
+        $("#div_etes3").toggle();
+        $("#div_etes4").toggle();
+        $("#div_etes5").toggle();
+        if($("#div_etes3").is(":visible"))
+           $("#label_agregar_etes").text("Quitar Reportes ETES vinculados");
+        else{
+            $("#label_agregar_etes").text("Agregar más Reportes ETES vinculados");
+            $("#codigo_reporte_etes3").val("");
+            $("#codigo_reporte_etes3").css('color','black');
+            $("#codigo_reporte_etes3").css('background-color','white');
+            $('input[name=idreporte_etes3]').val(''); 
+            $("#codigo_reporte_etes4").val("");
+            $("#codigo_reporte_etes4").css('color','black');
+            $("#codigo_reporte_etes4").css('background-color','white');
+            $('input[name=idreporte_etes4]').val(''); 
+            $("#codigo_reporte_etes5").val("");
+            $("#codigo_reporte_etes5").css('color','black');
+            $("#codigo_reporte_etes5").css('background-color','white');
+            $('input[name=idreporte_etes5]').val(''); 
+        }
+    })
+
+    $("#label_agregar_cn").click(function(){
+        $("#div_cn3").toggle();
+        $("#div_cn4").toggle();
+        $("#div_cn5").toggle();
+        if($("#div_cn3").is(":visible"))
+           $("#label_agregar_cn").text("Quitar Reportes de Necesidad vinculados");
+        else {
+            $("#label_agregar_cn").text("Agregar más Reportes de Necesidad vinculados");
+            $("#codigo_reporte_cn3").val("");
+            $("#codigo_reporte_cn3").css('color','black');
+            $("#codigo_reporte_cn3").css('background-color','white');
+            $('input[name=idreporte_cn3]').val(''); 
+            $("#codigo_reporte_cn4").val("");
+            $("#codigo_reporte_cn4").css('color','black');
+            $("#codigo_reporte_cn4").css('background-color','white');
+            $('input[name=idreporte_cn4]').val(''); 
+            $("#codigo_reporte_cn5").val("");
+            $("#codigo_reporte_cn5").css('color','black');
+            $("#codigo_reporte_cn5").css('background-color','white');
+            $('input[name=idreporte_cn5]').val(''); 
+        }
+    })
+
+    $("#label_agregar_cn_paac").click(function(){
+        $("#div_cn_paac3").toggle();
+        $("#div_cn_paac4").toggle();
+        $("#div_cn_paac5").toggle();
+        if($("#div_cn_paac3").is(":visible"))
+           $("#label_agregar_cn_paac").text("Quitar Reportes vinculados");
+        else{
+            $("#label_agregar_cn_paac").text("Agregar más Reportes vinculados");
+            $("#codigo_reporte_cn_paac3").val("");
+            $("#codigo_reporte_cn_paac3").css('color','black');
+            $("#codigo_reporte_cn_paac3").css('background-color','white');
+            $('input[name=idreporte_cn_paac3]').val(''); 
+            $("#codigo_reporte_cn_paac4").val("");
+            $("#codigo_reporte_cn_paac4").css('color','black');
+            $("#codigo_reporte_cn_paac4").css('background-color','white');
+            $('input[name=idreporte_cn_paac4]').val(''); 
+            $("#codigo_reporte_cn_paac5").val("");
+            $("#codigo_reporte_cn_paac5").css('color','black');
+            $("#codigo_reporte_cn_paac5").css('background-color','white');
+            $('input[name=idreporte_cn_paac5]').val(''); 
+        }
+    })
+});
+
+function validar_etes(id){    
+    var val = $("#codigo_reporte_etes"+id).val();
         if(val!=""){
             $.ajax({
                 url: inside_url+'reporte_cn/return_reporte_etes/'+val,
@@ -560,75 +562,161 @@ $( document ).ready(function(){
                     if(response.success){
                         var resp = response['reporte']; 
                         if(resp!="vacio"){
-                            if(resp[0] != null){
-                                x++; //text box increment
-                                $("#div_etes").append('<div><input class="form-control" maxlength=8 type="text" id="p_scnt'+x+'" name="p_scnt_" value=""/><a href="#" class="remove_field">Eliminar</a></div>'); //add input box
-                                document.getElementById("p_scnt"+x).value = resp[0].numero_reporte_abreviatura+resp[0].numero_reporte_correlativo+'-'+resp[0].numero_reporte_anho;                    
+                            if(resp[0] != null){                                
+                                $("#codigo_reporte_etes"+id).css('background-color','#5cb85c');
+                                $("#codigo_reporte_etes"+id).css('color','white');
+                                $("#codigo_reporte_etes"+id).val(resp[0].numero_reporte_abreviatura+resp[0].numero_reporte_correlativo+'-'+resp[0].numero_reporte_anho+" - Código correcto");                                
+                                $('input[name=idreporte_etes'+id+']').val(resp[0].idreporte_ETES);
                             }
                             else{
-                                dialog = BootstrapDialog.show({
-                                    title: 'Advertencia',
-                                    message: "El código de Reporte ETES no existe",
-                                    type : BootstrapDialog.TYPE_DANGER,
-                                    buttons: [{
-                                        label: 'Aceptar',
-                                        action: function(dialog) {
-                                            dialog.close();
-                                        }
-                                    }]
-                                });
+                                $("#codigo_reporte_etes"+id).css('background-color','#d9534f');
+                                $("#codigo_reporte_etes"+id).css('color','white');
+                                $("#codigo_reporte_etes"+id).val(val+" - El código es incorrecto"); 
+                                $('input[name=idreporte_etes'+id+']').val('');                   
                             } 
                         }else{
-                            dialog = BootstrapDialog.show({
-                                title: 'Advertencia',
-                                message: "El código de Reporte ETES no existe",
-                                type : BootstrapDialog.TYPE_DANGER,
-                                buttons: [{
-                                    label: 'Aceptar',
-                                    action: function(dialog) {
-                                        dialog.close();
-                                    }
-                                }]
-                            });
+                            $("#codigo_reporte_etes"+id).css('background-color','#d9534f');
+                                $("#codigo_reporte_etes"+id).css('color','white');
+                                $("#codigo_reporte_etes"+id).val(val+" - El código es incorrecto"); 
+                                $('input[name=idreporte_etes'+id+']').val('');        
                         }               
                     }else{
-                          dialog = BootstrapDialog.show({
-                                title: 'Advertencia',
-                                message: "El código de Reporte ETES no existe",
-                                type : BootstrapDialog.TYPE_DANGER,
-                                buttons: [{
-                                    label: 'Aceptar',
-                                    action: function(dialog) {
-                                        dialog.close();
-                                    }
-                                }]
-                            });
+                          $("#codigo_reporte_etes"+id).css('background-color','#d9534f');
+                                $("#codigo_reporte_etes"+id).css('color','white');
+                                $("#codigo_reporte_etes"+id).val(val+" - El código es incorrecto"); 
+                                $('input[name=idreporte_etes'+id+']').val('');        
                     }
                 },
                 error: function(){
-                                dialog = BootstrapDialog.show({
-                                    title: 'Advertencia',
-                                    message: "El código de Reporte ETES no existe",
-                                    type : BootstrapDialog.TYPE_DANGER,
-                                    buttons: [{
-                                        label: 'Aceptar',
-                                        action: function(dialog) {
-                                            dialog.close();
-                                        }
-                                    }]
-                                });
+                                $("#codigo_reporte_etes"+id).css('background-color','#d9534f');
+                                $("#codigo_reporte_etes"+id).css('color','white');
+                                $("#codigo_reporte_etes"+id).val(val+" - El código es incorrecto");
+                                $('input[name=idreporte_etes'+id+']').val('');         
                 }
             }); 
         }
-    });
-    
-    $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
-        e.preventDefault(); 
-        $(this).parent('div').remove(); 
-        alert($(this).parent().children('.form-control').text());
-        x--;
-    })
-});
+}
+
+function limpiar_etes(id){
+    $("#codigo_reporte_etes"+id).val("");
+    $("#codigo_reporte_etes"+id).css('color','black');
+    $("#codigo_reporte_etes"+id).css('background-color','white');
+    $('input[name=idreporte_etes'+id+']').val(''); 
+}
+
+function validar_cn(id){    
+    var val = $("#codigo_reporte_cn"+id).val();
+        if(val!=""){
+            $.ajax({
+                url: inside_url+'reporte_priorizacion/return_reporte_cn/'+val,
+                type: 'POST',
+                data: { 'selected_id' : val },
+                beforeSend: function(){
+                },
+                complete: function(){
+                },
+                success: function(response){
+                    if(response.success){
+                        var resp = response['reporte']; 
+                        if(resp!="vacio"){
+                            if(resp[0] != null){                                
+                                $("#codigo_reporte_cn"+id).css('background-color','#5cb85c');
+                                $("#codigo_reporte_cn"+id).css('color','white');
+                                $("#codigo_reporte_cn"+id).val(resp[0].numero_reporte_abreviatura+resp[0].numero_reporte_correlativo+'-'+resp[0].numero_reporte_anho+" - Código correcto");                                
+                                $('input[name=idreporte_cn'+id+']').val(resp[0].idreporte_CN);
+                            }
+                            else{
+                                $("#codigo_reporte_cn"+id).css('background-color','#d9534f');
+                                $("#codigo_reporte_cn"+id).css('color','white');
+                                $("#codigo_reporte_cn"+id).val(val+" - El código es incorrecto"); 
+                                $('input[name=idreporte_cn'+id+']').val('');                   
+                            } 
+                        }else{
+                            $("#codigo_reporte_cn"+id).css('background-color','#d9534f');
+                                $("#codigo_reporte_cn"+id).css('color','white');
+                                $("#codigo_reporte_cn"+id).val(val+" - El código es incorrecto"); 
+                                $('input[name=idreporte_cn'+id+']').val('');        
+                        }               
+                    }else{
+                          $("#codigo_reporte_cn"+id).css('background-color','#d9534f');
+                                $("#codigo_reporte_cn"+id).css('color','white');
+                                $("#codigo_reporte_cn"+id).val(val+" - El código es incorrecto"); 
+                                $('input[name=idreporte_cn'+id+']').val('');        
+                    }
+                },
+                error: function(){
+                                $("#codigo_reporte_cn"+id).css('background-color','#d9534f');
+                                $("#codigo_reporte_cn"+id).css('color','white');
+                                $("#codigo_reporte_cn"+id).val(val+" - El código es incorrecto");
+                                $('input[name=idreporte_cn'+id+']').val('');         
+                }
+            }); 
+        }
+}
+
+function limpiar_cn(id){
+    $("#codigo_reporte_cn"+id).val("");
+    $("#codigo_reporte_cn"+id).css('color','black');
+    $("#codigo_reporte_cn"+id).css('background-color','white');
+    $('input[name=idreporte_cn'+id+']').val(''); 
+}
+
+function validar_cn_paac(id){
+    var val = $("#codigo_reporte_cn_paac"+id).val();
+        if(val!=""){
+            $.ajax({
+                url: inside_url+'documentos_PAAC/return_reporte_cn_paac/'+val,
+                type: 'POST',
+                data: { 'selected_id' : val },
+                beforeSend: function(){
+                },
+                complete: function(){
+                },
+                success: function(response){
+                    if(response.success){
+                        var resp = response['reporte']; 
+                        if(resp!="vacio"){
+                            if(resp[0] != null){                                
+                                $("#codigo_reporte_cn_paac"+id).css('background-color','#5cb85c');
+                                $("#codigo_reporte_cn_paac"+id).css('color','white');
+                                $("#codigo_reporte_cn_paac"+id).val(resp[0].numero_reporte_abreviatura+resp[0].numero_reporte_correlativo+'-'+resp[0].numero_reporte_anho+" - Código correcto");                                
+                                $('input[name=cod_reporte_cn_paac'+id+']').val(resp[0].numero_reporte_abreviatura+resp[0].numero_reporte_correlativo+'-'+resp[0].numero_reporte_anho);
+                            }
+                            else{
+                                $("#codigo_reporte_cn_paac"+id).css('background-color','#d9534f');
+                                $("#codigo_reporte_cn_paac"+id).css('color','white');
+                                $("#codigo_reporte_cn_paac"+id).val(val+" - El código es incorrecto"); 
+                                $('input[name=cod_reporte_cn_paac'+id+']').val('');                   
+                            } 
+                        }else{
+                            $("#codigo_reporte_cn_paac"+id).css('background-color','#d9534f');
+                                $("#codigo_reporte_cn_paac"+id).css('color','white');
+                                $("#codigo_reporte_cn_paac"+id).val(val+" - El código es incorrecto"); 
+                                $('input[name=cod_reporte_cn_paac'+id+']').val('');        
+                        }               
+                    }else{
+                          $("#codigo_reporte_cn_paac"+id).css('background-color','#d9534f');
+                                $("#codigo_reporte_cn_paac"+id).css('color','white');
+                                $("#codigo_reporte_cn_paac"+id).val(val+" - El código es incorrecto"); 
+                                $('input[name=cod_reporte_cn_paac'+id+']').val('');        
+                    }
+                },
+                error: function(){
+                                $("#codigo_reporte_cn_paac"+id).css('background-color','#d9534f');
+                                $("#codigo_reporte_cn_paac"+id).css('color','white');
+                                $("#codigo_reporte_cn_paac"+id).val(val+" - El código es incorrecto");
+                                $('input[name=cod_reporte_cn_paac'+id+']').val('');         
+                }
+            }); 
+        }
+}
+
+function limpiar_cn_paac(id){
+    $("#codigo_reporte_cn_paac"+id).val("");
+    $("#codigo_reporte_cn_paac"+id).css('color','black');
+    $("#codigo_reporte_cn_paac"+id).css('background-color','white');
+    $('input[name=cod_reporte_cn_paac'+id+']').val(''); 
+}
 
 function llenar_nombre_equipo(){
     var val = $("#codigo_ot_retiro").val();
@@ -903,7 +991,3 @@ function llenar_reporte_etes(){
     }
 }
 
-function limpiar_reporte_etes(){
-    $(this).parent('div').remove();
-    return false;
-}

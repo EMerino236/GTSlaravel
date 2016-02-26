@@ -19,7 +19,7 @@
 		<div class="alert alert-success">{{ Session::get('message') }}</div>
 	@endif
 	@if (Session::has('error'))
-		<div class="alert alert-danger">{{ Session::get('error') }}</div>
+		<div class="alert alert-danger"><strong>{{ Session::get('error') }}</strong></div>
 	@endif
 
 	{{ Form::open(array('url'=>'reporte_cn/submit_create_reporte_cn', 'role'=>'form', 'files'=>true)) }}
@@ -94,23 +94,69 @@
 						{{ Form::label('nombre_equipo','Nombre de Equipo',array('id'=>'nombre_equipo_label')) }}
 						{{ Form::text('nombre_equipo',Input::old('nombre_equipo'),array('class'=>'form-control','readonly'=>'')) }}
 					</div>
-				</div>	
-				<div class="row">
-					<div class="form-group col-md-4 @if($errors->first('codigo_reporte_etes')) has-error has-feedback @endif">
-						{{ Form::label('codigo_reporte_etes','ETES Vinculadas',array('id'=>'codigo_reporte_etes_label')) }}
-						{{ Form::text('codigo_reporte_etes',Input::old('codigo_reporte_etes'),array('placeholder'=>'EC0001-16','class'=>'form-control','maxlength'=>9)) }}
-						{{ Form::hidden('idreporte_etes')}}
+				</div>
+				<div id="div_etes1" class="row">
+					<div class="form-group col-md-4 @if($errors->first('codigo_reporte_etes1')) has-error has-feedback @endif">
+						{{ Form::label('codigo_reporte_etes1','Reportes ETES Vinculados',array('id'=>'codigo_reporte_etes_label')) }}
+						{{ Form::text('codigo_reporte_etes1',Input::old('codigo_reporte_etes1'),array('placeholder'=>'EC0001-16','class'=>'form-control','maxlength'=>9)) }}
+						{{ Form::hidden('idreporte_etes1')}}
 					</div>
 					<div class="form-group col-md-2" style="margin-top:25px">
-						<a id="btn_agregar_etes" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-plus"></span> Agregar</a>
+						<a id="btn_validar_etes1" class="btn btn-primary btn-block" onclick="validar_etes(1)"><span class="glyphicon glyphicon-plus"></span> Validar</a>
+					</div>
+					<div class="form-group col-md-2" style="margin-top:25px; margin-left:15px">
+						<a id="btn_limpiar_etes1" class="btn btn-default btn-block" onclick="limpiar_etes(1)"><span class="glyphicon glyphicon-refresh"></span> Limpiar</a>
 					</div>
 				</div>
-				<div class="row">
-					<div class="form-group col-md-4" id="div_etes">
+				<div id="div_etes2" class="row">
+					<div class="form-group col-md-4 @if($errors->first('codigo_reporte_etes2')) has-error has-feedback @endif">
+						{{ Form::text('codigo_reporte_etes2',Input::old('codigo_reporte_etes2'),array('id'=>'codigo_reporte_etes2', 'placeholder'=>'EC0001-16','class'=>'form-control','maxlength'=>9)) }}
+						{{ Form::hidden('idreporte_etes2')}}
 					</div>
-					<div class="form-group col-md-2" id="div_remove_etes">
+					<div class="form-group col-md-2">
+						<a id="btn_validar_etes2" class="btn btn-primary btn-block" onclick="validar_etes(2)"><span class="glyphicon glyphicon-plus"></span> Validar</a>
 					</div>
-				</div>	
+					<div class="form-group col-md-2" style="margin-left:15px">
+						<a id="btn_limpiar_etes2" class="btn btn-default btn-block" onclick="limpiar_etes(2)"><span class="glyphicon glyphicon-refresh"></span> Limpiar</a>
+					</div>
+				</div>
+				<div id="div_etes3" class="row" hidden>
+					<div class="form-group col-md-4 @if($errors->first('codigo_reporte_etes3')) has-error has-feedback @endif">
+						{{ Form::text('codigo_reporte_etes3',Input::old('codigo_reporte_etes3'),array('id'=>'codigo_reporte_etes3', 'placeholder'=>'EC0001-16','class'=>'form-control','maxlength'=>9)) }}
+						{{ Form::hidden('idreporte_etes3')}}
+					</div>
+					<div class="form-group col-md-2">
+						<a id="btn_validar_etes3" class="btn btn-primary btn-block" onclick="validar_etes(3)"><span class="glyphicon glyphicon-plus"></span> Validar</a>
+					</div>
+					<div class="form-group col-md-2" style="margin-left:15px">
+						<a id="btn_limpiar_etes3" class="btn btn-default btn-block" onclick="limpiar_etes(3)"><span class="glyphicon glyphicon-refresh"></span> Limpiar</a>
+					</div>
+				</div>
+				<div id="div_etes4" class="row" hidden>
+					<div class="form-group col-md-4 @if($errors->first('codigo_reporte_etes4')) has-error has-feedback @endif">
+						{{ Form::text('codigo_reporte_etes4',Input::old('codigo_reporte_etes4'),array('id'=>'codigo_reporte_etes4', 'placeholder'=>'EC0001-16','class'=>'form-control','maxlength'=>9)) }}
+						{{ Form::hidden('idreporte_etes4')}}
+					</div>
+					<div class="form-group col-md-2">
+						<a id="btn_validar_etes4" class="btn btn-primary btn-block" onclick="validar_etes(4)"><span class="glyphicon glyphicon-plus"></span> Validar</a>
+					</div>
+					<div class="form-group col-md-2" style="margin-left:15px">
+						<a id="btn_limpiar_etes4" class="btn btn-default btn-block" onclick="limpiar_etes(4)"><span class="glyphicon glyphicon-refresh"></span> Limpiar</a>
+					</div>
+				</div>
+				<div id="div_etes5" class="row" hidden>
+					<div class="form-group col-md-4 @if($errors->first('codigo_reporte_etes5')) has-error has-feedback @endif">
+						{{ Form::text('codigo_reporte_etes5',Input::old('codigo_reporte_etes5'),array('id'=>'codigo_reporte_etes5', 'placeholder'=>'EC0001-16','class'=>'form-control','maxlength'=>9)) }}
+						{{ Form::hidden('idreporte_etes5')}}
+					</div>
+					<div class="form-group col-md-2">
+						<a id="btn_validar_etes5" class="btn btn-primary btn-block" onclick="validar_etes(5)"><span class="glyphicon glyphicon-plus"></span> Agregar</a>
+					</div>
+					<div class="form-group col-md-2" style="margin-left:15px">
+						<a id="btn_limpiar_etes5" class="btn btn-default btn-block" onclick="limpiar_etes(5)"><span class="glyphicon glyphicon-refresh"></span> Limpiar</a>
+					</div>
+				</div>
+				<a id="label_agregar_etes">Agregar más Reportes ETES vinculados</a>
 			</div>
 		</div>
 		<div class="panel panel-default">

@@ -239,6 +239,23 @@ $( document ).ready(function(){
             }
         });
     });
+
+    $('#checkbox_equipo').click(function(){
+        val = $(event.target).val();        
+        if($('#checkbox_equipo').is(":checked")){
+            $('#codigo_patrimonial').prop('readonly',false);
+        }else{ 
+            $('#codigo_patrimonial').prop('readonly',true);
+            $('#codigo_patrimonial').val(null);
+            $('#servicio').val(null);
+            $('#ubicacion_fisica').val(null);
+            $('#nombre_equipo').val(null);
+            $('#serie').val(null);
+            $('#modelo').val(null);
+            $('#proveedor').val(null);
+        }
+            
+    });
 });
 
 function refresh_table(){

@@ -54,6 +54,62 @@
 						{{ Form::label('nombre_equipo','Nombre de Equipo') }}
 						{{ Form::text('nombre_equipo',$otretiro_info->nombre_equipo,array('class'=>'form-control','readonly'=>'')) }}
 					</div>
+				</div>
+				<div id="div_etes1" class="row">
+					<div class="form-group col-md-4 @if($errors->first('codigo_reporte_etes1')) has-error has-feedback @endif">
+						{{ Form::label('codigo_reporte_etes1','Reportes ETES Vinculados',array('id'=>'codigo_reporte_etes_label')) }}
+						@if($reporte_etes_info1)
+							{{ Form::text('codigo_reporte_etes1',$reporte_etes_info1->numero_reporte_abreviatura.$reporte_etes_info1->numero_reporte_correlativo.'-'.$reporte_etes_info1->numero_reporte_anho,array('readonly'=>'','class'=>'form-control','maxlength'=>9)) }}
+							{{ Form::hidden('idreporte_etes1',$reporte_etes_info1->idreporte_ETES)}}
+						@else
+							{{ Form::text('codigo_reporte_etes1',Input::old('codigo_reporte_etes1'),array('id'=>'codigo_reporte_etes1', 'placeholder'=>'EC0001-16','class'=>'form-control','maxlength'=>9)) }}
+							{{ Form::hidden('idreporte_etes1')}}						
+						@endif
+					</div>
+				</div>
+				<div id="div_etes2" class="row">
+					<div class="form-group col-md-4 @if($errors->first('codigo_reporte_etes2')) has-error has-feedback @endif">
+						@if($reporte_etes_info2)
+							{{ Form::text('codigo_reporte_etes2',$reporte_etes_info2->numero_reporte_abreviatura.$reporte_etes_info2->numero_reporte_correlativo.'-'.$reporte_etes_info2->numero_reporte_anho,array('readonly'=>'','class'=>'form-control','maxlength'=>9)) }}
+							{{ Form::hidden('idreporte_etes2',$reporte_etes_info2->idreporte_ETES)}}
+						@else
+							{{ Form::text('codigo_reporte_etes2',Input::old('codigo_reporte_etes2'),array('id'=>'codigo_reporte_etes2', 'placeholder'=>'EC0001-16','class'=>'form-control','maxlength'=>9)) }}
+							{{ Form::hidden('idreporte_etes2')}}						
+						@endif
+					</div>
+				</div>
+				<div id="div_etes3" class="row">
+					<div class="form-group col-md-4 @if($errors->first('codigo_reporte_etes3')) has-error has-feedback @endif">
+						@if($reporte_etes_info3)
+							{{ Form::text('codigo_reporte_etes3',$reporte_etes_info3->numero_reporte_abreviatura.$reporte_etes_info3->numero_reporte_correlativo.'-'.$reporte_etes_info3->numero_reporte_anho,array('readonly'=>'','class'=>'form-control','maxlength'=>9)) }}
+							{{ Form::hidden('idreporte_etes3',$reporte_etes_info3->idreporte_ETES)}}
+						@else
+							{{ Form::text('codigo_reporte_etes3',Input::old('codigo_reporte_etes3'),array('id'=>'codigo_reporte_etes3', 'placeholder'=>'EC0001-16','class'=>'form-control','maxlength'=>9)) }}
+							{{ Form::hidden('idreporte_etes3')}}						
+						@endif
+					</div>
+				</div>
+				<div id="div_etes4" class="row">
+					<div class="form-group col-md-4 @if($errors->first('codigo_reporte_etes4')) has-error has-feedback @endif">
+						@if($reporte_etes_info4)
+							{{ Form::text('codigo_reporte_etes4',$reporte_etes_info4->numero_reporte_abreviatura.$reporte_etes_info4->numero_reporte_correlativo.'-'.$reporte_etes_info4->numero_reporte_anho,array('readonly'=>'','class'=>'form-control','maxlength'=>9)) }}
+							{{ Form::hidden('idreporte_etes4',$reporte_etes_info4->idreporte_ETES)}}
+						@else
+							{{ Form::text('codigo_reporte_etes4',Input::old('codigo_reporte_etes4'),array('id'=>'codigo_reporte_etes4', 'placeholder'=>'EC0001-16','class'=>'form-control','maxlength'=>9)) }}
+							{{ Form::hidden('idreporte_etes4')}}						
+						@endif
+					</div>
+				</div>
+				<div id="div_etes5" class="row">
+					<div class="form-group col-md-4 @if($errors->first('codigo_reporte_etes5')) has-error has-feedback @endif">
+						@if($reporte_etes_info5)
+							{{ Form::text('codigo_reporte_etes5',$reporte_etes_info5->numero_reporte_abreviatura.$reporte_etes_info5->numero_reporte_correlativo.'-'.$reporte_etes_info5->numero_reporte_anho,array('readonly'=>'','class'=>'form-control','maxlength'=>9)) }}
+							{{ Form::hidden('idreporte_etes5',$reporte_etes_info5->idreporte_ETES)}}
+						@else
+							{{ Form::text('codigo_reporte_etes5',Input::old('codigo_reporte_etes5'),array('id'=>'codigo_reporte_etes5', 'placeholder'=>'EC0001-16','class'=>'form-control','maxlength'=>9)) }}
+							{{ Form::hidden('idreporte_etes5')}}						
+						@endif
+					</div>
 				</div>	
 			</div>
 		</div>

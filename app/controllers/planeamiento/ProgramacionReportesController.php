@@ -315,7 +315,11 @@ class ProgramacionReportesController extends BaseController
 			// Check if the current user is the "System Admin"
 			$data = Input::get('selected_id');
 			if($data !="vacio"){
-				$programacion_reporte_etes = ProgramacionReporteETES::where('idprogramacion_reporte_etes','=',$data)->get();
+				$programacion_reporte_etes = DB::table('programacion_reporte_etes')
+												->join('users','users.id','=','programacion_reporte_etes.iduser')
+												->where('idprogramacion_reporte_etes','=',$data)
+												->select('programacion_reporte_etes.*','users.nombre','users.apellido_pat','users.apellido_mat')
+												->get();
 			}else{
 				$programacion_reporte_etes = null;
 			}

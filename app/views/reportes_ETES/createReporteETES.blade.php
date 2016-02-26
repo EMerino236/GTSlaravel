@@ -33,13 +33,13 @@
 						{{ Form::label('idprogramacion_reporte_etes','Programaciones No Concluidas') }}<span style='color:red'>*</span>
 						{{ Form::select('idprogramacion_reporte_etes',array(''=>'Seleccione') + $programaciones_reporte_etes,$programacion_reporte_etes_id,['class' => 'form-control']) }}
 					</div>
+				</div>
 				<div class="row">
 					<div class="form-group col-md-8">
 						@if(!$programaciones_reporte_etes)
-							<span style='color:red'>No existen Reportes ETES programados. </span><a href="{{URL::to('/programacion_reportes/create_programacion_reportes')}}"><span style='color:red'><u>Agregar Programación aquí.</u></span></a>						
+							<span style='color:red'>No existen Reportes ETES programados. </span><a href="{{URL::to('/programacion_guias/create_programacion_guias')}}"><span style='color:red'><u>Agregar Programación aquí.</u></span></a>						
 						@endif
 					</div>
-				</div>
 				</div>
 				<div class="row">
 					<div class="form-group col-md-4 @if($errors->first('idtipo_reporte_select')) has-error has-feedback @endif">
@@ -50,6 +50,14 @@
 							{{ Form::select('idtipo_reporte_select',array(''=>'Seleccione') + $tipo_reporte_etes,'',['class' => 'form-control','disabled'=>'disabled']) }}
 						@endif
 						{{ Form::hidden('idtipo_reporte')}}
+					</div>
+					<div class="form-group col-md-4 @if($errors->first('responsable')) has-error has-feedback @endif">
+						{{ Form::label('responsable','Responsable') }}
+						@if($programacion_reporte_etes)
+							{{ Form::text('responsable',$responsable->apellido_pat.' '.$responsable->apellido_mat.' '.$responsable->nombre,['class' => 'form-control','disabled'=>'disabled']) }}
+						@else
+							{{ Form::text('responsable','',['class' => 'form-control','disabled'=>'disabled']) }}
+						@endif
 					</div>
 				</div>	
 				<div class="row">

@@ -388,6 +388,15 @@
 				</div>
 			</div>
 		</div>
+		<div class="row form-group">
+			<div style="text-align:center">
+				@if($evento_adverso_info->idactivo == null)
+					¿Evento Adverso posee un Equipo Médico Involucrado? {{Form::checkbox('checkbox_equipo','checkbox_equipo',false,array('id'=>'checkbox_equipo','disabled'=>'disabled'))}}
+				@else
+					¿Evento Adverso posee un Equipo Médico Involucrado? {{Form::checkbox('checkbox_equipo','checkbox_equipo',true,array('id'=>'checkbox_equipo','disabled'=>'disabled'))}}
+				@endif
+			</div>
+		</div>
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">Información del Equipo Médico Involucrado</h3>
@@ -397,34 +406,72 @@
 					<div class="form-group col-md-4 @if($errors->first('codigo_patrimonial')) has-error has-feedback @endif">
 						{{ Form::label('codigo_patrimonial','Código Patrimonial:') }}
 						@if($evento_adverso_info->deleted_at)
-							{{ Form::text('codigo_patrimonial',$activo_info->codigo_patrimonial,array('class'=>'form-control','id'=>'codigo_patrimonial','placeholder'=>'Código Patrimonial','readonly'=>'')) }}
+							@if($activo_info)
+								{{ Form::text('codigo_patrimonial',$activo_info->codigo_patrimonial,array('class'=>'form-control','id'=>'codigo_patrimonial','placeholder'=>'Código Patrimonial','readonly'=>'')) }}
+							@else
+								{{ Form::text('codigo_patrimonial',null,array('class'=>'form-control','id'=>'codigo_patrimonial','placeholder'=>'Código Patrimonial','readonly'=>'')) }}
+							@endif
 						@else
-							{{ Form::text('codigo_patrimonial',$activo_info->codigo_patrimonial,array('class'=>'form-control','id'=>'codigo_patrimonial','placeholder'=>'Código Patrimonial','readonly'=>'')) }}
+							@if($activo_info)
+								{{ Form::text('codigo_patrimonial',$activo_info->codigo_patrimonial,array('class'=>'form-control','id'=>'codigo_patrimonial','placeholder'=>'Código Patrimonial','readonly'=>'')) }}
+							@else
+								{{ Form::text('codigo_patrimonial',null,array('class'=>'form-control','id'=>'codigo_patrimonial','placeholder'=>'Código Patrimonial','readonly'=>'')) }}
+							@endif
+							
 						@endif
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('servicio')) has-error has-feedback @endif">
 						{{ Form::label('servicio','Servicio Clínico:') }}
-						{{ Form::text('servicio',$activo_info->nombre_servicio,array('class'=>'form-control','readonly'=>'','id'=>'servicio')) }}
+						@if($activo_info)
+							{{ Form::text('servicio',$activo_info->nombre_servicio,array('class'=>'form-control','readonly'=>'','id'=>'servicio')) }}
+						@else
+							{{ Form::text('servicio',null,array('class'=>'form-control','readonly'=>'','id'=>'servicio')) }}
+						@endif
+						
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('ubicacion_fisica')) has-error has-feedback @endif">
 						{{ Form::label('ubicacion_fisica','Ubicación Física:') }}
-						{{ Form::text('ubicacion_fisica',$activo_info->nombre_ubicacion_fisica,array('class'=>'form-control','readonly'=>'','id'=>'ubicacion_fisica')) }}
+						@if($activo_info)
+							{{ Form::text('ubicacion_fisica',$activo_info->nombre_ubicacion_fisica,array('class'=>'form-control','readonly'=>'','id'=>'ubicacion_fisica')) }}
+						@else
+							{{ Form::text('ubicacion_fisica',null,array('class'=>'form-control','readonly'=>'','id'=>'ubicacion_fisica')) }}
+						@endif
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('serie')) has-error has-feedback @endif">
 						{{ Form::label('serie','Número de Serie:') }}
-						{{ Form::text('serie',$activo_info->numero_serie,array('class'=>'form-control','readonly'=>'','id'=>'serie')) }}
+						@if($activo_info)
+							{{ Form::text('serie',$activo_info->numero_serie,array('class'=>'form-control','readonly'=>'','id'=>'serie')) }}
+						@else
+							{{ Form::text('serie',null,array('class'=>'form-control','readonly'=>'','id'=>'serie')) }}
+						@endif
+
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('nombre_equipo')) has-error has-feedback @endif">
 						{{ Form::label('nombre_equipo','Nombre del Equipo:') }}
-						{{ Form::text('nombre_equipo',$activo_info->nombre_equipo,array('class'=>'form-control','readonly'=>'','id'=>'nombre_equipo')) }}
+						@if($activo_info)
+							{{ Form::text('nombre_equipo',$activo_info->nombre_equipo,array('class'=>'form-control','readonly'=>'','id'=>'nombre_equipo')) }}
+						@else
+							{{ Form::text('nombre_equipo',null,array('class'=>'form-control','readonly'=>'','id'=>'nombre_equipo')) }}
+						@endif
+
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('modelo')) has-error has-feedback @endif">
 						{{ Form::label('modelo','Modelo:') }}
-						{{ Form::text('modelo',$activo_info->nombre_modelo,array('class'=>'form-control','readonly'=>'','id'=>'modelo')) }}
+						@if($activo_info)
+							{{ Form::text('modelo',$activo_info->nombre_modelo,array('class'=>'form-control','readonly'=>'','id'=>'modelo')) }}
+						@else
+							{{ Form::text('modelo',null,array('class'=>'form-control','readonly'=>'','id'=>'modelo')) }}
+						@endif
+						
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('proveedor')) has-error has-feedback @endif">
 						{{ Form::label('proveedor','Proveedor:') }}
-						{{ Form::text('proveedor',$activo_info->razon_social,array('class'=>'form-control','readonly'=>'','id'=>'proveedor')) }}
+						@if($activo_info)
+							{{ Form::text('proveedor',$activo_info->razon_social,array('class'=>'form-control','readonly'=>'','id'=>'proveedor')) }}
+						@else
+							{{ Form::text('proveedor',null,array('class'=>'form-control','readonly'=>'','id'=>'proveedor')) }}
+						@endif
+
 					</div>
 				</div>
 			</div>

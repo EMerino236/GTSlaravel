@@ -17,10 +17,11 @@
 		<div class="alert alert-success">{{ Session::get('message') }}</div>
 	@endif
 	@if (Session::has('error'))
-		<div class="alert alert-danger">{{ Session::get('error') }}</div>
+		<div class="alert alert-danger"><stong>{{ Session::get('error') }}</strong></div>
 	@endif
 
-	{{ Form::open(array('url'=>'', 'role'=>'form', 'files'=>true)) }}
+	{{ Form::open(array('url'=>'reporte_priorizacion/submit_edit_reporte_priorizacion', 'role'=>'form', 'files'=>true)) }}
+		{{ Form::hidden('idreporte_priorizacion', $reporte_priorizacion_info->idreporte_priorizacion) }}
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">Datos del Reporte</h3>
@@ -46,7 +47,107 @@
 						{{ Form::label('nombre_responsable_priorizacion','Nombre de Responsable',array('id'=>'nombre_responsable_priorizacion_label')) }}
 						{{ Form::text('nombre_responsable_priorizacion',$responsable_info->apellido_pat.' '.$responsable_info->apellido_mat.' '.$responsable_info->nombre,array('class'=>'form-control','readonly'=>'')) }}
 					</div>
-				</div>	
+				</div>
+				<div class="row">
+					<div class="form-group col-md-12">
+						<strong>Reportes de Necesidad Vinculados</strong>  (Los reportes deben tener al menos un Reporte ETES vinculado)
+					</div>
+				</div>
+				<div id="div_cn1" class="row">
+					<div class="form-group col-md-4 @if($errors->first('codigo_reporte_cn1')) has-error has-feedback @endif">					
+						@if($reporte_cn_info1)
+							{{ Form::text('codigo_reporte_cn1',$reporte_cn_info1->numero_reporte_abreviatura.$reporte_cn_info1->numero_reporte_correlativo.'-'.$reporte_cn_info1->numero_reporte_anho,array('id'=>'codigo_reporte_cn1', 'readonly'=>'','class'=>'form-control','maxlength'=>9)) }}
+							{{ Form::hidden('idreporte_cn1',$reporte_cn_info1->idreporte_CN)}}
+						@else
+							{{ Form::text('codigo_reporte_cn1',Input::old('codigo_reporte_cn1'),array('id'=>'codigo_reporte_cn1', 'placeholder'=>'NI0001-16','class'=>'form-control','maxlength'=>9)) }}
+							{{ Form::hidden('idreporte_cn1')}}
+						@endif
+					</div>
+					@if(!$reporte_cn_info1)
+						<div class="form-group col-md-2">
+							<a id="btn_validar_cn1" class="btn btn-primary btn-block" onclick="validar_cn(1)"><span class="glyphicon glyphicon-plus"></span> Validar</a>
+						</div>
+						<div class="form-group col-md-2" style="margin-left:15px">
+							<a id="btn_limpiar_cn1" class="btn btn-default btn-block" onclick="limpiar_cn(1)"><span class="glyphicon glyphicon-refresh"></span> Limpiar</a>
+						</div>
+					@endif
+				</div>
+				<div id="div_cn2" class="row">
+					<div class="form-group col-md-4 @if($errors->first('codigo_reporte_cn2')) has-error has-feedback @endif">					
+						@if($reporte_cn_info2)
+							{{ Form::text('codigo_reporte_cn2',$reporte_cn_info2->numero_reporte_abreviatura.$reporte_cn_info2->numero_reporte_correlativo.'-'.$reporte_cn_info2->numero_reporte_anho,array('id'=>'codigo_reporte_cn2', 'readonly'=>'','class'=>'form-control','maxlength'=>9)) }}
+							{{ Form::hidden('idreporte_cn2',$reporte_cn_info2->idreporte_CN)}}
+						@else
+							{{ Form::text('codigo_reporte_cn2',Input::old('codigo_reporte_cn2'),array('id'=>'codigo_reporte_cn2', 'placeholder'=>'NI0001-16','class'=>'form-control','maxlength'=>9)) }}
+							{{ Form::hidden('idreporte_cn2')}}
+						@endif
+					</div>
+					@if(!$reporte_cn_info2)
+						<div class="form-group col-md-2">
+							<a id="btn_validar_cn2" class="btn btn-primary btn-block" onclick="validar_cn(2)"><span class="glyphicon glyphicon-plus"></span> Validar</a>
+						</div>
+						<div class="form-group col-md-2" style="margin-left:15px">
+							<a id="btn_limpiar_cn2" class="btn btn-default btn-block" onclick="limpiar_cn(2)"><span class="glyphicon glyphicon-refresh"></span> Limpiar</a>
+						</div>
+					@endif
+				</div>
+				<div id="div_cn3" class="row">
+					<div class="form-group col-md-4 @if($errors->first('codigo_reporte_cn3')) has-error has-feedback @endif">					
+						@if($reporte_cn_info3)
+							{{ Form::text('codigo_reporte_cn3',$reporte_cn_info3->numero_reporte_abreviatura.$reporte_cn_info3->numero_reporte_correlativo.'-'.$reporte_cn_info3->numero_reporte_anho,array('id'=>'codigo_reporte_cn3', 'readonly'=>'','class'=>'form-control','maxlength'=>9)) }}
+							{{ Form::hidden('idreporte_cn3',$reporte_cn_info3->idreporte_CN)}}
+						@else
+							{{ Form::text('codigo_reporte_cn3',Input::old('codigo_reporte_cn3'),array('id'=>'codigo_reporte_cn3', 'placeholder'=>'NI0001-16','class'=>'form-control','maxlength'=>9)) }}
+							{{ Form::hidden('idreporte_cn3')}}
+						@endif
+					</div>
+					@if(!$reporte_cn_info3)
+						<div class="form-group col-md-2">
+							<a id="btn_validar_cn3" class="btn btn-primary btn-block" onclick="validar_cn(3)"><span class="glyphicon glyphicon-plus"></span> Validar</a>
+						</div>
+						<div class="form-group col-md-2" style="margin-left:15px">
+							<a id="btn_limpiar_cn3" class="btn btn-default btn-block" onclick="limpiar_cn(3)"><span class="glyphicon glyphicon-refresh"></span> Limpiar</a>
+						</div>
+					@endif
+				</div>
+				<div id="div_cn4" class="row">
+					<div class="form-group col-md-4 @if($errors->first('codigo_reporte_cn4')) has-error has-feedback @endif">					
+						@if($reporte_cn_info4)
+							{{ Form::text('codigo_reporte_cn4',$reporte_cn_info4->numero_reporte_abreviatura.$reporte_cn_info4->numero_reporte_correlativo.'-'.$reporte_cn_info4->numero_reporte_anho,array('id'=>'codigo_reporte_cn4', 'readonly'=>'','class'=>'form-control','maxlength'=>9)) }}
+							{{ Form::hidden('idreporte_cn4',$reporte_cn_info4->idreporte_CN)}}
+						@else
+							{{ Form::text('codigo_reporte_cn4',Input::old('codigo_reporte_cn4'),array('id'=>'codigo_reporte_cn4', 'placeholder'=>'NI0001-16','class'=>'form-control','maxlength'=>9)) }}
+							{{ Form::hidden('idreporte_cn4')}}
+						@endif
+					</div>
+					@if(!$reporte_cn_info4)
+						<div class="form-group col-md-2">
+							<a id="btn_validar_cn4" class="btn btn-primary btn-block" onclick="validar_cn(4)"><span class="glyphicon glyphicon-plus"></span> Validar</a>
+						</div>
+						<div class="form-group col-md-2" style="margin-left:15px">
+							<a id="btn_limpiar_cn4" class="btn btn-default btn-block" onclick="limpiar_cn(4)"><span class="glyphicon glyphicon-refresh"></span> Limpiar</a>
+						</div>
+					@endif
+				</div>
+				<div id="div_cn5" class="row">
+					<div class="form-group col-md-4 @if($errors->first('codigo_reporte_cn5')) has-error has-feedback @endif">					
+						@if($reporte_cn_info5)
+							{{ Form::text('codigo_reporte_cn5',$reporte_cn_info5->numero_reporte_abreviatura.$reporte_cn_info5->numero_reporte_correlativo.'-'.$reporte_cn_info5->numero_reporte_anho,array('id'=>'codigo_reporte_cn5', 'readonly'=>'','class'=>'form-control','maxlength'=>9)) }}
+							{{ Form::hidden('idreporte_cn5',$reporte_cn_info5->idreporte_CN)}}
+						@else
+							{{ Form::text('codigo_reporte_cn5',Input::old('codigo_reporte_cn5'),array('id'=>'codigo_reporte_cn5', 'placeholder'=>'NI0001-16','class'=>'form-control','maxlength'=>9)) }}
+							{{ Form::hidden('idreporte_cn5')}}
+						@endif
+					</div>
+					@if(!$reporte_cn_info5)
+						<div class="form-group col-md-2">
+							<a id="btn_validar_cn5" class="btn btn-primary btn-block" onclick="validar_cn(5)"><span class="glyphicon glyphicon-plus"></span> Validar</a>
+						</div>
+						<div class="form-group col-md-2" style="margin-left:15px">
+							<a id="btn_limpiar_cn5" class="btn btn-default btn-block" onclick="limpiar_cn(5)"><span class="glyphicon glyphicon-refresh"></span> Limpiar</a>
+						</div>
+					@endif
+				</div>
 			</div>
 		</div>
 		<div class="row">
@@ -73,8 +174,13 @@
 				</div>
 			</div>
 		</div>	
-	{{ Form::close() }}
 		<div class="row">
+			@if(!$reporte_priorizacion_info->deleted_at)
+				<div class="col-md-2 form-group">
+					{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit-edit', 'type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}						
+				</div>
+			@endif
+	{{ Form::close() }}
 			<div class="form-group col-md-2">
 			@if($reporte_priorizacion_info->deleted_at)
 				{{ Form::open(array('url'=>'reporte_priorizacion/submit_enable_reporte_priorizacion', 'role'=>'form')) }}

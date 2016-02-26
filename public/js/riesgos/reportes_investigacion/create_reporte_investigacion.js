@@ -8,6 +8,7 @@ $( document ).ready(function(){
             $('#show-browser-'+val).css('display','none');
     });
 
+  
    
 
     $('#btnValidate').click(function(){

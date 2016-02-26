@@ -60,47 +60,78 @@ class ReporteCNController extends BaseController
 				if($validator->fails()){
 					return Redirect::to('reporte_cn/create_reporte_cn')->withErrors($validator)->withInput(Input::all());					
 				}else{
-					switch (Input::get('idtipo_reporte')) {
-					    case 1:
-					        $abreviatura = "NS";
-					        break;
-					    case 2:
-					        $abreviatura = "NI";
-					        break;
-					    case 3:
-					        $abreviatura = "NP";
-					        break;
+					if(!((Input::get('idreporte_etes1')==Input::get('idreporte_etes2') && Input::get('idreporte_etes1')!='')
+						||(Input::get('idreporte_etes1')==Input::get('idreporte_etes3') && Input::get('idreporte_etes1')!='')
+						||(Input::get('idreporte_etes1')==Input::get('idreporte_etes4') && Input::get('idreporte_etes1')!='')
+						||(Input::get('idreporte_etes1')==Input::get('idreporte_etes5') && Input::get('idreporte_etes1')!='')
+						||(Input::get('idreporte_etes2')==Input::get('idreporte_etes3') && Input::get('idreporte_etes2')!='')
+						||(Input::get('idreporte_etes2')==Input::get('idreporte_etes4') && Input::get('idreporte_etes2')!='')
+						||(Input::get('idreporte_etes2')==Input::get('idreporte_etes5') && Input::get('idreporte_etes3')!='')
+						||(Input::get('idreporte_etes3')==Input::get('idreporte_etes4') && Input::get('idreporte_etes3')!='')
+						||(Input::get('idreporte_etes3')==Input::get('idreporte_etes5') && Input::get('idreporte_etes3')!='')
+						||(Input::get('idreporte_etes4')==Input::get('idreporte_etes5') && Input::get('idreporte_etes4')!='')) 
+						){
+						switch (Input::get('idtipo_reporte')) {
+						    case 1:
+						        $abreviatura = "NS";
+						        break;
+						    case 2:
+						        $abreviatura = "NI";
+						        break;
+						    case 3:
+						        $abreviatura = "NP";
+						        break;
+						}
+
+					    $rutaDestino ='';
+					    $nombreArchivo ='';	
+					    if (Input::hasFile('archivo')) {
+					        $archivo = Input::file('archivo');
+					        $rutaDestino = 'documentos/planeamiento/reporteCN/';
+					        $nombreArchivo        = $archivo->getClientOriginalName();
+					        $nombreArchivoEncriptado = Str::random(27).'.'.pathinfo($nombreArchivo, PATHINFO_EXTENSION);
+					        $uploadSuccess = $archivo->move($rutaDestino, $nombreArchivoEncriptado);
+					    }
+
+						$correlativo = $this->getCorrelativeReportNumber($abreviatura);
+						$anho = date('y');
+						$reporte_cn = new ReporteCN;
+						$reporte_cn->numero_reporte_abreviatura = $abreviatura;
+						$reporte_cn->numero_reporte_correlativo = $correlativo;
+						$reporte_cn->numero_reporte_anho = $anho;
+						$reporte_cn->url = $rutaDestino;
+						$reporte_cn->nombre_archivo = $nombreArchivo;
+						$reporte_cn->nombre_archivo_encriptado = $nombreArchivoEncriptado;
+						$reporte_cn->idot_retiro = Input::get('idot_retiro');
+						$reporte_cn->idprogramacion_reporte_cn = Input::get('idprogramacion_reporte_cn');
+						if(Input::get('idreporte_etes1')!=''){
+							$reporte_cn->idreporte_etes1 = Input::get('idreporte_etes1');
+						}
+						if(Input::get('idreporte_etes2')!=''){
+							$reporte_cn->idreporte_etes2 = Input::get('idreporte_etes2');
+						}
+						if(Input::get('idreporte_etes3')!=''){
+							$reporte_cn->idreporte_etes3 = Input::get('idreporte_etes3');
+						}
+						if(Input::get('idreporte_etes4')!=''){
+							$reporte_cn->idreporte_etes4 = Input::get('idreporte_etes4');
+						}
+						if(Input::get('idreporte_etes5')!=''){
+							$reporte_cn->idreporte_etes5 = Input::get('idreporte_etes5');
+						}
+						$reporte_cn->save();
+
+						$programacion_reporte_cn = ProgramacionReporteCN::find(Input::get('idprogramacion_reporte_cn'));
+						$programacion_reporte_cn->idestado_programacion_reportes = 2;
+						$programacion_reporte_cn->save();
+						
+						Session::flash('message', 'Se registró correctamente el Reporte para Certificado de Necesidad.');
+						return Redirect::to('reporte_cn/create_reporte_cn');
 					}
-
-				    $rutaDestino ='';
-				    $nombreArchivo ='';	
-				    if (Input::hasFile('archivo')) {
-				        $archivo = Input::file('archivo');
-				        $rutaDestino = 'documentos/planeamiento/reporteCN/';
-				        $nombreArchivo        = $archivo->getClientOriginalName();
-				        $nombreArchivoEncriptado = Str::random(27).'.'.pathinfo($nombreArchivo, PATHINFO_EXTENSION);
-				        $uploadSuccess = $archivo->move($rutaDestino, $nombreArchivoEncriptado);
-				    }
-
-					$correlativo = $this->getCorrelativeReportNumber($abreviatura);
-					$anho = date('y');
-					$reporte_cn = new ReporteCN;
-					$reporte_cn->numero_reporte_abreviatura = $abreviatura;
-					$reporte_cn->numero_reporte_correlativo = $correlativo;
-					$reporte_cn->numero_reporte_anho = $anho;
-					$reporte_cn->url = $rutaDestino;
-					$reporte_cn->nombre_archivo = $nombreArchivo;
-					$reporte_cn->nombre_archivo_encriptado = $nombreArchivoEncriptado;
-					$reporte_cn->idot_retiro = Input::get('idot_retiro');
-					$reporte_cn->idprogramacion_reporte_cn = Input::get('idprogramacion_reporte_cn');
-					$reporte_cn->save();
-
-					$programacion_reporte_cn = ProgramacionReporteCN::find(Input::get('idprogramacion_reporte_cn'));
-					$programacion_reporte_cn->idestado_programacion_reportes = 2;
-					$programacion_reporte_cn->save();
-					
-					Session::flash('message', 'Se registró correctamente el Reporte para Certificado de Necesidad.');
-					return Redirect::to('reporte_cn/create_reporte_cn');
+					else{
+						Session::flash('error', 'Existen dos o más Reportes ETES repetidos.');
+						return Redirect::to('reporte_cn/create_reporte_cn')->withInput(Input::all());		
+					}
 				}
 			}else{
 				return View::make('error/error',$data);
@@ -125,7 +156,63 @@ class ReporteCNController extends BaseController
 				$data["programacion_reporte_cn_info"] = ProgramacionReporteCN::withTrashed()->find($data["reporte_cn_info"]->idprogramacion_reporte_cn);
 				$data["otretiro_info"] = OtRetiro::find($data["reporte_cn_info"]->idot_retiro);
 				$data["otretiro_info"] = OtRetiro::searchOtByCodigoReporte($data["otretiro_info"]->ot_tipo_abreviatura,$data["otretiro_info"]->ot_correlativo,$data["otretiro_info"]->ot_activo_abreviatura)->get()[0];
+				$data["reporte_etes_info1"] = ReporteETES::withTrashed()->find($data["reporte_cn_info"]->idreporte_etes1);
+				$data["reporte_etes_info2"] = ReporteETES::withTrashed()->find($data["reporte_cn_info"]->idreporte_etes2);
+				$data["reporte_etes_info3"] = ReporteETES::withTrashed()->find($data["reporte_cn_info"]->idreporte_etes3);
+				$data["reporte_etes_info4"] = ReporteETES::withTrashed()->find($data["reporte_cn_info"]->idreporte_etes4);
+				$data["reporte_etes_info5"] = ReporteETES::withTrashed()->find($data["reporte_cn_info"]->idreporte_etes5);
 				return View::make('reportes_CN/editReporteCN',$data);
+			}else{
+				return View::make('error/error',$data);
+			}
+
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+	public function submit_edit_reporte_cn(){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+				if(!((Input::get('idreporte_etes1')==Input::get('idreporte_etes2') && Input::get('idreporte_etes1')!='')
+					||(Input::get('idreporte_etes1')==Input::get('idreporte_etes3') && Input::get('idreporte_etes1')!='')
+					||(Input::get('idreporte_etes1')==Input::get('idreporte_etes4') && Input::get('idreporte_etes1')!='')
+					||(Input::get('idreporte_etes1')==Input::get('idreporte_etes5') && Input::get('idreporte_etes1')!='')
+					||(Input::get('idreporte_etes2')==Input::get('idreporte_etes3') && Input::get('idreporte_etes2')!='')
+					||(Input::get('idreporte_etes2')==Input::get('idreporte_etes4') && Input::get('idreporte_etes2')!='')
+					||(Input::get('idreporte_etes2')==Input::get('idreporte_etes5') && Input::get('idreporte_etes3')!='')
+					||(Input::get('idreporte_etes3')==Input::get('idreporte_etes4') && Input::get('idreporte_etes3')!='')
+					||(Input::get('idreporte_etes3')==Input::get('idreporte_etes5') && Input::get('idreporte_etes3')!='')
+					||(Input::get('idreporte_etes4')==Input::get('idreporte_etes5') && Input::get('idreporte_etes4')!='')) 
+					){					    
+					$reporte_cn = ReporteCN::find(Input::get('idreporte_cn'));
+					if(Input::get('idreporte_etes1')!=''){
+						$reporte_cn->idreporte_etes1 = Input::get('idreporte_etes1');
+					}
+					if(Input::get('idreporte_etes2')!=''){
+						$reporte_cn->idreporte_etes2 = Input::get('idreporte_etes2');
+					}
+					if(Input::get('idreporte_etes3')!=''){
+						$reporte_cn->idreporte_etes3 = Input::get('idreporte_etes3');
+					}
+					if(Input::get('idreporte_etes4')!=''){
+						$reporte_cn->idreporte_etes4 = Input::get('idreporte_etes4');
+					}
+					if(Input::get('idreporte_etes5')!=''){
+						$reporte_cn->idreporte_etes5 = Input::get('idreporte_etes5');
+					}
+					$reporte_cn->save();
+					
+					Session::flash('message', 'Se editó correctamente el Reporte para Certificado de Necesidad.');
+					return Redirect::to('reporte_cn/edit_reporte_cn/'.Input::get('idreporte_cn'));
+				}
+				else{
+					Session::flash('error', 'Existen dos o más Reportes ETES repetidos.');
+					return Redirect::to('reporte_cn/edit_reporte_cn/'.Input::get('idreporte_cn'))->withInput(Input::all());		
+				}
 			}else{
 				return View::make('error/error',$data);
 			}

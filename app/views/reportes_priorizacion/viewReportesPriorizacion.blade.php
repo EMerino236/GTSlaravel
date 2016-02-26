@@ -47,6 +47,66 @@
 						{{ Form::text('nombre_responsable_priorizacion',$responsable_info->apellido_pat.' '.$responsable_info->apellido_mat.' '.$responsable_info->nombre,array('class'=>'form-control','readonly'=>'')) }}
 					</div>
 				</div>
+				<div class="row">
+					<div class="form-group col-md-12">
+						<strong>Reportes de Necesidad Vinculados</strong>
+					</div>
+				</div>
+				<div id="div_cn1" class="row">
+					<div class="form-group col-md-4 @if($errors->first('codigo_reporte_cn1')) has-error has-feedback @endif">					
+						@if($reporte_cn_info1)
+							{{ Form::text('codigo_reporte_cn1',$reporte_cn_info1->numero_reporte_abreviatura.$reporte_cn_info1->numero_reporte_correlativo.'-'.$reporte_cn_info1->numero_reporte_anho,array('id'=>'codigo_reporte_cn1', 'readonly'=>'','class'=>'form-control','maxlength'=>9)) }}
+							{{ Form::hidden('idreporte_cn1')}}
+						@else
+							{{ Form::text('codigo_reporte_cn1',Input::old('codigo_reporte_cn1'),array('id'=>'codigo_reporte_cn1', 'placeholder'=>'NI0001-16','class'=>'form-control','maxlength'=>9)) }}
+							{{ Form::hidden('idreporte_cn1')}}
+						@endif
+					</div>
+				</div>
+				<div id="div_cn2" class="row">
+					<div class="form-group col-md-4 @if($errors->first('codigo_reporte_cn2')) has-error has-feedback @endif">					
+						@if($reporte_cn_info2)
+							{{ Form::text('codigo_reporte_cn2',$reporte_cn_info2->numero_reporte_abreviatura.$reporte_cn_info2->numero_reporte_correlativo.'-'.$reporte_cn_info2->numero_reporte_anho,array('id'=>'codigo_reporte_cn2', 'readonly'=>'','class'=>'form-control','maxlength'=>9)) }}
+							{{ Form::hidden('idreporte_cn2')}}
+						@else
+							{{ Form::text('codigo_reporte_cn2',Input::old('codigo_reporte_cn2'),array('id'=>'codigo_reporte_cn2', 'placeholder'=>'NI0001-16','class'=>'form-control','maxlength'=>9)) }}
+							{{ Form::hidden('idreporte_cn2')}}
+						@endif
+					</div>
+				</div>
+				<div id="div_cn3" class="row">
+					<div class="form-group col-md-4 @if($errors->first('codigo_reporte_cn3')) has-error has-feedback @endif">					
+						@if($reporte_cn_info3)
+							{{ Form::text('codigo_reporte_cn3',$reporte_cn_info3->numero_reporte_abreviatura.$reporte_cn_info3->numero_reporte_correlativo.'-'.$reporte_cn_info3->numero_reporte_anho,array('id'=>'codigo_reporte_cn3', 'readonly'=>'','class'=>'form-control','maxlength'=>9)) }}
+							{{ Form::hidden('idreporte_cn3')}}
+						@else
+							{{ Form::text('codigo_reporte_cn3',Input::old('codigo_reporte_cn3'),array('id'=>'codigo_reporte_cn3', 'placeholder'=>'NI0001-16','class'=>'form-control','maxlength'=>9)) }}
+							{{ Form::hidden('idreporte_cn3')}}
+						@endif
+					</div>
+				</div>
+				<div id="div_cn4" class="row">
+					<div class="form-group col-md-4 @if($errors->first('codigo_reporte_cn4')) has-error has-feedback @endif">					
+						@if($reporte_cn_info4)
+							{{ Form::text('codigo_reporte_cn4',$reporte_cn_info4->numero_reporte_abreviatura.$reporte_cn_info4->numero_reporte_correlativo.'-'.$reporte_cn_info4->numero_reporte_anho,array('id'=>'codigo_reporte_cn4', 'readonly'=>'','class'=>'form-control','maxlength'=>9)) }}
+							{{ Form::hidden('idreporte_cn4')}}
+						@else
+							{{ Form::text('codigo_reporte_cn4',Input::old('codigo_reporte_cn4'),array('id'=>'codigo_reporte_cn4', 'placeholder'=>'NI0001-16','class'=>'form-control','maxlength'=>9)) }}
+							{{ Form::hidden('idreporte_cn4')}}
+						@endif
+					</div>
+				</div>
+				<div id="div_cn5" class="row">
+					<div class="form-group col-md-4 @if($errors->first('codigo_reporte_cn5')) has-error has-feedback @endif">					
+						@if($reporte_cn_info5)
+							{{ Form::text('codigo_reporte_cn5',$reporte_cn_info5->numero_reporte_abreviatura.$reporte_cn_info5->numero_reporte_correlativo.'-'.$reporte_cn_info5->numero_reporte_anho,array('id'=>'codigo_reporte_cn5', 'readonly'=>'','class'=>'form-control','maxlength'=>9)) }}
+							{{ Form::hidden('idreporte_cn5')}}
+						@else
+							{{ Form::text('codigo_reporte_cn5',Input::old('codigo_reporte_cn5'),array('id'=>'codigo_reporte_cn5', 'placeholder'=>'NI0001-16','class'=>'form-control','maxlength'=>9)) }}
+							{{ Form::hidden('idreporte_cn5')}}
+						@endif
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="row">

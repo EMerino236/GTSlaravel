@@ -67,6 +67,13 @@
 				{{ Form::text('search_codigo_patrimonial',$search_codigo_patrimonial,array('class'=>'form-control','placeholder'=>'Código Patrimonial')) }}
 			</div>
 			<div class="col-md-4">
+				{{ Form::label('search_vigencia','Garantía Vigencia') }}
+				{{ Form::select('search_vigencia', array('' => 'Seleccione','0'=>'NO','1'=>'SI'),$search_vigencia,['class' => 'form-control']) }}								
+			</div>			
+		</div>
+
+		<div class="form-group row">
+			<div class="col-md-4">
 				{{ Form::label('fecha_adquisicion_ini','Fecha de Adquisición Inicial') }}
 				<div id="datetimepicker1" class="form-group input-group date">
 					{{ Form::text('fecha_adquisicion_ini',$fecha_adquisicion_ini,array('class'=>'form-control','readonly'=>'')) }}
@@ -74,10 +81,7 @@
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
 				</div>				
-			</div>					
-		</div>
-
-		<div class="form-group row">						
+			</div>											
 			<div class="col-md-4">
 				{{ Form::label('fecha_adquisicion_fin','Fecha de Adquisición Final') }}
 				<div id="datetimepicker2" class="form-group input-group date">
@@ -197,12 +201,12 @@
 					@endforeach				
 				</table>
 				@if($search_grupo || $search_servicio || $search_ubicacion || $search_nombre_equipo || $search_marca || $search_modelo
-					|| $search_proveedor || $search_codigo_patrimonial || $fecha_adquisicion_ini || $fecha_adquisicion_fin || $row_number)
+					|| $search_proveedor || $search_codigo_patrimonial || $fecha_adquisicion_ini || $search_vigencia || $fecha_adquisicion_fin || $row_number)
 
 					{{ $activos_data->appends(array('search_grupo' => $search_grupo,'search_servicio' => $search_servicio, 'search_ubicacion' => $search_ubicacion,
 						'search_nombre_equipo' => $search_nombre_equipo, 'search_marca' => $search_marca, 'search_modelo' => $search_modelo,
 						'search_proveedor' => $search_proveedor, 'search_codigo_patrimonial' => $search_codigo_patrimonial,
-						 'fecha_adquisicion_ini' => $fecha_adquisicion_ini, 'fecha_adquisicion_fin' => $fecha_adquisicion_fin, 'row_number' => $row_number))->links() }}
+						 'search_vigencia' =>$search_vigencia, 'fecha_adquisicion_ini' => $fecha_adquisicion_ini, 'fecha_adquisicion_fin' => $fecha_adquisicion_fin, 'row_number' => $row_number))->links() }}
 				@else	
 					{{ $activos_data->links()}}
 				@endif

@@ -312,6 +312,11 @@
 				</div>
 			</div>
 		</div>
+		<div class="row form-group">
+			<div style="text-align:center">
+				¿Evento Adverso posee un Equipo Médico Involucrado? {{Form::checkbox('checkbox_equipo','checkbox_equipo',false,array('id'=>'checkbox_equipo'))}}
+			</div>
+		</div>
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">Información del Equipo Médico Involucrado</h3>
@@ -320,7 +325,7 @@
 				<div class="row">
 					<div class="form-group col-md-4 @if($errors->first('codigo_patrimonial')) has-error has-feedback @endif">
 						{{ Form::label('codigo_patrimonial','Código Patrimonial:') }}
-						{{ Form::text('codigo_patrimonial',Input::old('codigo_patrimonial'),array('class'=>'form-control','id'=>'codigo_patrimonial','placeholder'=>'Código Patrimonial')) }}
+						{{ Form::text('codigo_patrimonial',Input::old('codigo_patrimonial'),array('class'=>'form-control','id'=>'codigo_patrimonial','placeholder'=>'Código Patrimonial','readonly'=>'')) }}
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('servicio')) has-error has-feedback @endif">
 						{{ Form::label('servicio','Servicio Clínico:') }}
