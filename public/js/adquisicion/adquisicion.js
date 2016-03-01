@@ -88,7 +88,7 @@ $( document ).ready(function(){
         else{
             $('#idarea_select').prop('disabled',false);
         }
-    })
+    });
 
     $('#idarea_select').change(function(){
         var selectArea = document.getElementById("idarea_select");
@@ -100,7 +100,14 @@ $( document ).ready(function(){
         else{
             $('#idservicio').prop('disabled',false);
                }
-    })
+    });
+
+     $('#datetimepicker_search_anho').datetimepicker({
+        useCurrent: false,
+        defaultDate: false,
+        ignoreReadonly: true,
+        format: 'YYYY'
+    });
 });
 
 function llenar_nombre_responsable(){

@@ -156,8 +156,6 @@ class DocumentoController extends BaseController {
 					$url = "documento/edit_documento"."/".$iddocumento;
 					return Redirect::to($url)->withErrors($validator)->withInput(Input::all());
 				}else{
-					$data["tipo_documentos"] = TipoDocumentos::searchTipoDocumentosById(Input::get('idtipo_documento'))->get();
-					$data["documento_info"] = Documento::searchDocumentoById(Input::get('documento_id'))->get();
 					/*
 					if(!Input::file('archivo')){
 						$archivo = readfile($data["documento_info"][0]->url);
@@ -186,8 +184,6 @@ class DocumentoController extends BaseController {
 					$documento->autor = Input::get('autor');
 					$documento->codigo_archivamiento = Input::get('codigo_archivamiento');
 					$documento->ubicacion = Input::get('ubicacion');
-					$documento->url = $data["documento_info"][0]->url;
-					$documento->idtipo_documento = $data["documento_info"][0]->idtipo_documento;
 					$documento->idestado = 1;
 					$documento->save();
 					Session::flash('message', 'Se editó correctamente el Documento.');

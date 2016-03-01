@@ -154,9 +154,6 @@ class PlanMejoraProcesosController extends BaseController {
 					$url = "plan_mejora_proceso/edit_plan_mejora_proceso"."/".$iddocumento;
 					return Redirect::to($url)->withErrors($validator)->withInput(Input::all());
 				}else{
-					$data["tipo_documentos"] = TipoDocumentos::searchTipoDocumentosById(Input::get('idtipo_documento'))->get();
-					$data["plan_mejora_proceso_info"] = PlanMejoraProceso::searchPlanMejoraProcesoById(Input::get('documento_id'))->get();
-
 					$iddocumento = Input::get('documento_id');
 					$url = "plan_mejora_proceso/edit_plan_mejora_proceso"."/".$iddocumento;
 					$plan_mejora_proceso = PlanMejoraProceso::find($iddocumento);
@@ -165,8 +162,6 @@ class PlanMejoraProcesosController extends BaseController {
 					$plan_mejora_proceso->autor = Input::get('autor');
 					$plan_mejora_proceso->codigo_archivamiento = Input::get('codigo_archivamiento');
 					$plan_mejora_proceso->ubicacion = Input::get('ubicacion');
-					$plan_mejora_proceso->url = $data["plan_mejora_proceso_info"][0]->url;
-					$plan_mejora_proceso->idtipo_documento = $data["plan_mejora_proceso_info"][0]->idtipo_documento;
 					$plan_mejora_proceso->save();
 					Session::flash('message', 'Se editó correctamente el Plan de Mejora de Procesos.');
 					return Redirect::to($url);

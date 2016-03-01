@@ -140,8 +140,6 @@
 		                    </span>
 						</div>
 					</div>
-				</div>
-				<div class="row">
 					<div class="col-md-4">
 						{{ Form::label('fecha_aproximada_adquisicion','Fecha Aproximada de Adquisición') }}<span style='color:red'>*</span>
 						<div id="datetimepicker_fecha_aproximada_adquisicion" class="form-group input-group date @if($errors->first('fecha_aproximada_adquisicion')) has-error has-feedback @endif">
