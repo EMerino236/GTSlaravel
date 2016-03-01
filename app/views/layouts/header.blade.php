@@ -22,7 +22,7 @@
 		<a href="{{ URL::to('planeamiento') }}"><i class="fa fa-calendar fa-fw"></i> Planeamiento</a>
     </li>
 	<li>
-		<a href="{{ URL::to('#') }}"><i class="fa fa-credit-card fa-fw"></i> Adquisición</a>
+		<a href="{{ URL::to('adquisicion') }}"><i class="fa fa-credit-card fa-fw"></i> Adquisición</a>
     </li>
 	<li>
 		<a href="{{ URL::to('bienes') }}"><i class="fa fa-wrench fa-fw"></i> Bienes</a>

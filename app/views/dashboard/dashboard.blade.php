@@ -9,7 +9,7 @@
             <div id="divCircle">
                 <div id="gts-logo"><img src="{{asset('img')}}/logo_gts.png" id="logo-gts"/></div>
                 <font size=5><a href="{{ URL::to('planeamiento') }}" id="link-planeamiento"><i class="fa fa-calendar fa-fw"></i> Planeamiento</a></font>
-                <font size=5><a href="{{ URL::to('#') }}" id="link-adquisicion"><i class="fa fa-credit-card fa-fw"></i> Adquisición</a></font>
+                <font size=5><a href="{{ URL::to('adquisicion') }}" id="link-adquisicion"><i class="fa fa-credit-card fa-fw"></i> Adquisición</a></font>
                 <font size=5><a href="{{ URL::to('bienes') }}" id="link-bienes"><i class="fa fa-wrench fa-fw"></i> Bienes </a></font>
                 <font size=5><a href="{{ URL::to('riesgos') }}" id="link-riesgos"><i class="fa fa-bomb fa-fw"></i> Riesgos</a></font>
                 <font size=5><a href="{{ URL::to('investigacion') }}" id="link-investigacion"><i class="fa fa-graduation-cap fa-fw"></i> Investigación</a></font>
