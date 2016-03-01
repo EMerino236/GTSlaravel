@@ -84,6 +84,8 @@
 						<th class="text-nowrap text-center">Modelo</th>
 						<th class="text-nowrap text-center">Código Patrimonial</th>
 						<th class="text-nowrap text-center">Proveedor de Calibracion</th>
+						<th class="text-nowrap text-center">Estado</th>
+						<th class="text-nowrap text-center">Editar</th>
 					</tr>
 					@foreach($reportes_data as $reporte_data)
 					<tr class="@if($reporte_data->deleted_at) bg-danger @endif">
@@ -111,6 +113,25 @@
 						<td class="text-nowrap text-center">
 							{{$reporte_data->nombre_proveedor}}
 						</td>
+						<td class="text-nowrap text-center">
+							{{$reporte_data->nombre_estado}}
+						</td>
+						@if($user->idrol == 5 || $user->idrol == 7 || $user->idrol == 8 || $user->idrol == 9 || $user->idrol == 10 || $user->idrol == 11
+						|| $user->idrol == 12)
+							<td class="text-nowrap text-center">
+								-
+							</td>	
+						@else
+							@if($reporte_data->idestado == 27)
+								<td class="text-nowrap text-center">
+									<a class="btn btn-warning btn-block btn-sm" href="{{URL::to('/reportes_calibracion/edit_reporte_calibracion/')}}/{{$reporte_data->id}}">
+									<span class="glyphicon glyphicon-pencil"></span></a>
+								</td>
+							@else
+								<td class="text-nowrap text-center">-</td>
+							@endif	
+						@endif
+						
 					</tr>
 					@endforeach
 				</table>

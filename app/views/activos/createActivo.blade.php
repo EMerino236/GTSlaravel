@@ -24,6 +24,9 @@
 			<p><strong>{{ $errors->first('garantia') }}</strong></p>
 			<p><strong>{{ $errors->first('reporte_instalacion') }}</strong></p>
 			<p><strong>{{ $errors->first('idreporte_instalacion',"Ingrese un número de reporte válido. ") }}</strong></p>
+			<p><strong>{{ $errors->first('fecha_calibracion')}}</strong></p>
+			<p><strong>{{ $errors->first('fecha_proximo')}}</strong></p>
+			<p><strong>{{ $errors->first('input-file-0')}}</strong></p>
 		</div>
 	@endif
 
@@ -40,7 +43,7 @@
 		</div>
 	@endif
 
-	{{ Form::open(array('url'=>'equipos/submit_create_equipo', 'role'=>'form')) }}
+	{{ Form::open(array('url'=>'equipos/submit_create_equipo', 'role'=>'form','files'=>true)) }}
 		<div class="row">			
 			<div class="col-md-12">
 				<div class="panel panel-default">
@@ -145,6 +148,42 @@
 			</div>
 		</div>
 
+		<div class="row">			
+			<div class="col-md-12">
+				<div class="panel panel-default">
+		  		<div class="panel-heading">Calibración del Equipo</div>
+		  			<div class="panel-body">	
+						<div class="row" >
+		        			<div class="col-md-12 form-group @if($errors->first('input-file-0')) has-error has-feedback @endif">
+		        				{{ Form::label('label_doc','Certificado de Calibración:') }}
+								<input name="input-file-0" id="input-file-0" type="file" class="file file-loading" data-show-upload="false">
+		       				</div>
+		       			</div>
+		       			<div class="row">
+			       			<div class="form-group col-md-6">
+								{{ Form::label('fecha_calibracion','Fecha de Calibracion') }}
+								<div id="fecha_calibracion_datetimepicker" class=" input-group date @if($errors->first('fecha_calibracion')) has-error has-feedback @endif">
+									{{ Form::text('fecha_calibracion',Input::old('fecha_calibracion'),array('class'=>'form-control','readonly'=>'','id'=>'fecha_calibracion')) }}
+									<span class="input-group-addon">
+					                    <span class="glyphicon glyphicon-calendar"></span>
+					                </span>
+								</div>
+							</div>
+							<div class="form-group col-md-6">
+								{{ Form::label('fecha_proximo','Fecha Próxima de Calibración') }}
+								<div id="fecha_proximo_datetimepicker" class=" input-group date @if($errors->first('fecha_proximo')) has-error has-feedback @endif">
+									{{ Form::text('fecha_proximo',Input::old('fecha_proximo'),array('class'=>'form-control','readonly'=>'','id'=>'fecha_proximo')) }}
+									<span class="input-group-addon">
+					                    <span class="glyphicon glyphicon-calendar"></span>
+					                </span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>			
+			</div>
+		</div>
+
 		<div class="container-fluid row">
 			<div class="form-group col-md-2 col-md-offset-8">				
 				{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Crear', array('id'=>'submit-edit', 'type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}
@@ -156,4 +195,11 @@
 		
 				
 	{{ Form::close() }}
+	<script>
+		$("#input-file-0").fileinput({
+		    language: "es",
+		    maxFileSize: 15360,
+		    allowedFileExtensions: ["png","jpe","jpeg","jpg","pdf","doc","docx","xls","xlsx","ppt","pptx"]
+		});
+	</script>
 @stop

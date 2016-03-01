@@ -25,6 +25,7 @@
     </script>
     <!--Bootstrap-Dialog CSS-->
     <link rel="stylesheet" href="{{ asset('css/bootstrap-dialog.min.css') }}">
+    <link href="{{ asset('css/fileinput.min.css') }}" rel="stylesheet">
 
     <!-- jQuery -->
     <script src="{{ asset('bower_components/jquery/dist/jquery.min.js') }}"></script>
@@ -51,6 +52,9 @@
     <script src="{{ asset('js/reporte_instalacion/list_reporte_instalacion.js') }}"></script>
     <!--Bootstrap-Dialog Javascritp-->
     <script src="{{asset('js/bootstrap-dialog.min.js') }}"></script> 
+    <script src="{{ asset('js/fileinput.min.js') }}"></script>
+    <script src="{{ asset('js/fileinput_locale_es.min.js') }}"></script>
+    <script src="{{ asset('js/language_file_upload_plugin.min.js') }}"></script>
 </head>
 
 <body>

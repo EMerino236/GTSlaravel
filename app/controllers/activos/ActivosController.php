@@ -286,7 +286,10 @@ class ActivosController extends BaseController
 					'fecha_adquisicion' => 'Fecha de Adquisición',
 					'garantia' => 'Garantía',
 					'idreporte_instalacion' => 'Código de Reporte de Instalación',
-					'costo' => 'Costo'
+					'costo' => 'Costo',
+					'fecha_calibracion' => 'Fecha de Calibración',
+					'fecha_proximo' => 'Próxima Fecha de Calibración',
+					'input-file-0' => 'Certificado de Calibración',
 					);
 
 				$messages=array(
@@ -301,12 +304,15 @@ class ActivosController extends BaseController
 					'modelo' => 'required',
 					'numero_serie' => 'required|alpha_dash',
 					'proveedor' => 'required',
-					'codigo_compra' => 'required|digits',
+					'codigo_compra' => 'required|numeric',
 					'codigo_patrimonial' => 'required|digits:12|unique:activos,codigo_patrimonial',
 					'fecha_adquisicion' => 'required',
 					'garantia' => 'required|numeric',
 					'idreporte_instalacion' => 'required',
-					'costo' => 'required|numeric'
+					'costo' => 'required|numeric',
+					'fecha_calibracion' => 'required',
+					'fecha_proximo' => 'required',
+					'input-file-0' => 'required',
 					);
 
 				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
@@ -330,9 +336,36 @@ class ActivosController extends BaseController
 					$activo->idestado = 1;
 					$activo->idubicacion_fisica = Input::get('ubicacion_fisica');
 					$activo->costo = Input::get('costo');
-
 					$activo->save();
 
+					/* Registrar reporte de calibracion */
+					$reporte_calibracion = new ReporteCalibracion;
+					$reporte_controller = new ReportesCalibracionController;
+					$reporte_calibracion->codigo_abreviatura = "RC";
+					$reporte_calibracion->codigo_correlativo = $reporte_controller->getCorrelativeReportNumber();
+					$reporte_calibracion->codigo_anho = date('y');
+					$reporte_calibracion->idactivo = $activo->idactivo;
+					$reporte_calibracion->fecha_calibracion = date("Y-m-d",strtotime(Input::get('fecha_calibracion')));
+					$reporte_calibracion->fecha_proxima_calibracion = date("Y-m-d",strtotime(Input::get('fecha_proximo')));
+					$reporte_calibracion->idestado = 27;
+					$reporte_calibracion->save();
+
+
+					if(Input::hasFile('input-file-0')){
+						$archivo            = Input::file('input-file-0');
+				        $rutaDestino = 'uploads/documentos/riesgos/Reportes de Calibracion/' . $reporte_calibracion->codigo_abreviatura . $reporte_calibracion->codigo_correlativo. $reporte_calibracion->codigo_anho  . '/';
+				        $nombreArchivo        = $archivo->getClientOriginalName();
+				        $nombreArchivoEncriptado = Str::random(27).'.'.pathinfo($nombreArchivo, PATHINFO_EXTENSION);
+				        $uploadSuccess = $archivo->move($rutaDestino, $nombreArchivoEncriptado);
+						$detalle_reporte_calibracion = new DetalleReporteCalibracion;										
+						$detalle_reporte_calibracion->nombre = $nombreArchivo;
+						$detalle_reporte_calibracion->nombre_archivo = $nombreArchivo;
+						$detalle_reporte_calibracion->nombre_archivo_encriptado = $nombreArchivoEncriptado;
+						$detalle_reporte_calibracion->url = $rutaDestino;
+						$detalle_reporte_calibracion->idreporte_calibracion = $reporte_calibracion->id;
+						$detalle_reporte_calibracion->save();
+					}
+					
 					return Redirect::to('equipos/list_equipos')->with('message', 'Se registró correctamente el activo.');
 				}
 			}else{
@@ -365,6 +398,14 @@ class ActivosController extends BaseController
 				$data["modelo_equipo"] = ModeloActivo::where('idfamilia_activo','=',$data["equipo_info"]->idfamilia_activo)->lists('nombre','idmodelo_equipo');
 				$data["reporte_instalacion"] = ReporteInstalacion::where('idreporte_instalacion','=',$data["equipo_info"]->idreporte_instalacion)->get();
 				$data["reporte_instalacion"] = $data["reporte_instalacion"][0];				
+				$data["reporte_calibracion"] =ReporteCalibracion::getReporteCalibracionByIdActivo($data["equipo_info"]->idactivo)->get();
+				if($data["reporte_calibracion"]->isEmpty()){
+					$data["reporte_calibracion"] = null;
+					$data["detalles_reporte_calibracion"] = null;
+				}else{
+					$data["reporte_calibracion"] = $data["reporte_calibracion"][0];
+					$data["detalles_reporte_calibracion"] = ReporteCalibracion::getDetalleReporteCalibracion($data["reporte_calibracion"]->id)->get();
+				}
 				
 				$data["marcas"]	= Marca::lists('nombre','idmarca');
 				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
@@ -578,6 +619,17 @@ class ActivosController extends BaseController
 				
 				$data["marcas"]	= Marca::lists('nombre','idmarca');
 				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
+
+				$data["reporte_calibracion"] =ReporteCalibracion::getReporteCalibracionByIdActivo($data["equipo_info"]->idactivo)->get();
+
+				if($data["reporte_calibracion"]->isEmpty()){
+
+					$data["reporte_calibracion"] = null;
+					$data["detalles_reporte_calibracion"] = null;
+				}else{
+					$data["reporte_calibracion"] = $data["reporte_calibracion"][0];
+					$data["detalles_reporte_calibracion"] = ReporteCalibracion::getDetalleReporteCalibracion($data["reporte_calibracion"]->id)->get();
+				}
 				return View::make('activos/viewActivo',$data);
 			}else{
 				return View::make('error/error',$data);

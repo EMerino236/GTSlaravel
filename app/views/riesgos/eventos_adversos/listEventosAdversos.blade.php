@@ -104,10 +104,18 @@
 						<td class="text-nowrap text-center">
 								{{date('d-m-Y',strtotime($evento_adverso->fecha_reporte))}}
 						</td>
-						<td class="text-nowrap text-center">
-							<a class="btn btn-warning btn-block btn-sm" href="{{URL::to('/eventos_adversos/edit_evento_adverso/')}}/{{$evento_adverso->id}}">
-							<span class="glyphicon glyphicon-pencil"></span></a>
-						</td>
+						@if($user->idrol == 5 || $user->idrol == 7 || $user->idrol == 8 || $user->idrol == 9 || $user->idrol == 10 || $user->idrol == 11
+						|| $user->idrol == 12)
+							<td class="text-nowrap text-center">
+								-
+							</td>	
+						@else
+							<td class="text-nowrap text-center">
+								<a class="btn btn-warning btn-block btn-sm" href="{{URL::to('/eventos_adversos/edit_evento_adverso/')}}/{{$evento_adverso->id}}">
+								<span class="glyphicon glyphicon-pencil"></span></a>
+							</td>		
+						@endif
+						
 					</tr>
 					@endforeach
 				</table>				

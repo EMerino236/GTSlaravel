@@ -157,9 +157,9 @@ class IpersController extends BaseController
 				    if (Input::hasFile('archivo')) {
 				        $archivo            = Input::file('archivo');
 				        if($tipo == 1)
-				        	$rutaDestino = 'documentos/riesgos/IPER TS/' .$iper->codigo_abreviatura.'-'.$iper->codigo_tipo.'-'.$iper->codigo_correlativo.'-'.$iper->codigo_anho. '/';
+				        	$rutaDestino = 'uploads/documentos/riesgos/IPER TS/' .$iper->codigo_abreviatura.'-'.$iper->codigo_tipo.'-'.$iper->codigo_correlativo.'-'.$iper->codigo_anho. '/';
 				        else
-				        	$rutaDestino = 'documentos/riesgos/IPER Salud Ocupacional/' .$iper->codigo_abreviatura.'-'.$iper->codigo_tipo.'-'.$iper->codigo_correlativo.'-'.$iper->codigo_anho. '/';
+				        	$rutaDestino = 'uploads/documentos/riesgos/IPER Salud Ocupacional/' .$iper->codigo_abreviatura.'-'.$iper->codigo_tipo.'-'.$iper->codigo_correlativo.'-'.$iper->codigo_anho. '/';
 				        $nombreArchivo        = $archivo->getClientOriginalName();
 				        $nombreArchivoEncriptado = Str::random(27).'.'.pathinfo($nombreArchivo, PATHINFO_EXTENSION);
 				        $uploadSuccess = $archivo->move($rutaDestino, $nombreArchivoEncriptado);
@@ -229,7 +229,9 @@ class IpersController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 ) && $id){
+			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 
+			   || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8
+			   || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12 ) && $id){
 				
 				if($tipo == 1)
 					$data["servicios"] = Servicio::lists('nombre','idservicio');
@@ -334,6 +336,7 @@ class IpersController extends BaseController
 					    
 					   
 						if($detalle->numero_version >= $version){
+							$url = "ipers/edit_iper"."/".$tipo."/".$idiper;
 					    	Session::flash('error', 'La versión ingresada es menor a la última versión.');
 							return Redirect::to($url);
 					    }
@@ -341,9 +344,9 @@ class IpersController extends BaseController
 					   
 				        $archivo            = Input::file('archivo');
 				        if($tipo == 1)
-				        	$rutaDestino = 'documentos/riesgos/IPER TS/' .$iper_data->codigo_abreviatura.'-'.$iper_data->codigo_tipo.'-'.$iper_data->codigo_correlativo.'-'.$iper_data->codigo_anho. '/';
+				        	$rutaDestino = 'uploads/documentos/riesgos/IPER TS/' .$iper_data->codigo_abreviatura.'-'.$iper_data->codigo_tipo.'-'.$iper_data->codigo_correlativo.'-'.$iper_data->codigo_anho. '/';
 				        else
-				        	$rutaDestino = 'documentos/riesgos/IPER Salud Ocupacional/' .$iper_data->codigo_abreviatura.'-'.$iper_data->codigo_tipo.'-'.$iper_data->codigo_correlativo.'-'.$iper_data->codigo_anho. '/';
+				        	$rutaDestino = 'uploads/documentos/riesgos/IPER Salud Ocupacional/' .$iper_data->codigo_abreviatura.'-'.$iper_data->codigo_tipo.'-'.$iper_data->codigo_correlativo.'-'.$iper_data->codigo_anho. '/';
 				        $nombreArchivo        = $archivo->getClientOriginalName();
 				        $nombreArchivoEncriptado = Str::random(27).'.'.pathinfo($nombreArchivo, PATHINFO_EXTENSION);
 				        $uploadSuccess = $archivo->move($rutaDestino, $nombreArchivoEncriptado);

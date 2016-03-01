@@ -873,6 +873,7 @@ Route::group(array('prefix'=>'eventos_adversos','before'=>'auth'),function(){
 	Route::post('/export_pdf','EventosAdversosController@export_pdf');
 	Route::post('/submit_disable_evento','EventosAdversosController@submit_disable_evento');
 	Route::post('/submit_enable_evento','EventosAdversosController@submit_enable_evento');
+
 });
 
 Route::group(array('prefix'=>'reportes_calibracion','before'=>'auth'),function(){
@@ -882,7 +883,12 @@ Route::group(array('prefix'=>'reportes_calibracion','before'=>'auth'),function()
 	Route::post('/search_documentos','ReportesCalibracionController@search_documentos');
 	Route::post('/submit_create_reporte_calibracion','ReportesCalibracionController@submit_create_reporte_calibracion');	
 	Route::get('/search_reporte','ReportesCalibracionController@search_reporte_calibracion');
-	Route::get('/download_documento_anexo/{id}','ReportesCalibracionController@download_documento');
+	Route::get('/download_documento_anexo/{id}','ReportesCalibracionController@download_documento');		
+	Route::get('/edit_reporte_calibracion/{id}','ReportesCalibracionController@render_edit_reporte_calibracion');
+	Route::post('/submit_disable_reporte','ReportesCalibracionController@submit_disable_reporte');
+	Route::post('/submit_terminado_reporte','ReportesCalibracionController@submit_terminado_reporte');
+	Route::post('/submit_edit_reporte','ReportesCalibracionController@submit_edit_reporte_calibracion');
+	Route::post('/verify_reporte_calibracion','ReportesCalibracionController@verify_reporte_calibracion');
 });
 
 Route::group(array('prefix'=>'reportes_investigacion','before'=>'auth'),function(){

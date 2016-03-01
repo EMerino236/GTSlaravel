@@ -59,7 +59,7 @@
 		<div class="div_documento" style="display:none;">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h3 class="panel-title">Documento Anexo al Reporte</h3>
+					<h3 class="panel-title">Documento del Reporte</h3>
 				</div>
 				<div class="panel-body">
 					<div class="col-md-12">

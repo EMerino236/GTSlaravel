@@ -11,7 +11,21 @@ $( document ).ready(function(){
 	$('#btnLimpiarNumReporte').click(function(){
 		limpiar_reporte_instalacion();
 	});
+	
+	$('#fecha_calibracion_datetimepicker').datetimepicker({
+		defaultDate: false,
+		ignoreReadonly: true,
+		format: 'DD-MM-YYYY'
+	});
 
+	$('#fecha_proximo_datetimepicker').datetimepicker({
+		defaultDate: false,
+		ignoreReadonly: true,
+		format: 'DD-MM-YYYY',
+		minDate: new Date()
+	});
+
+	
 });
 
 function init_createActivo()

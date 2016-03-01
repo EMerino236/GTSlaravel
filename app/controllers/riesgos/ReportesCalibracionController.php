@@ -38,7 +38,9 @@ class ReportesCalibracionController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1)
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 
+			   || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8
+			   || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12)
 			{
 				$data["search_codigo_reporte"] = Input::get('search_codigo_reporte');
 				$data["search_codigo_patrimonial"] = Input::get('search_codigo_patrimonial');
@@ -50,7 +52,7 @@ class ReportesCalibracionController extends BaseController
 				$data["areas"] = Area::lists('nombre','idarea');
 				$data["grupos"] = Grupo::lists('nombre','idgrupo');
 				
-				$data["reportes_data"] = ReporteCalibracion::searchReportesCalibracion($data["search_codigo_reporte"],$data["search_codigo_patrimonial"],$data["search_nombre_equipo"],$data["search_servicio"],$data["search_area"],$data["search_grupo"])->distinct()->paginate(10);
+				$data["reportes_data"] = ReporteCalibracion::searchReportesCalibracion($data["search_codigo_reporte"],$data["search_codigo_patrimonial"],$data["search_nombre_equipo"],$data["search_servicio"],$data["search_area"],$data["search_grupo"])->distinct()->orderBy('id','asc')->paginate(10);
 				
 				return View::make('riesgos/reporte_calibracion/listReporteCalibracion',$data);	
 				
@@ -68,9 +70,7 @@ class ReportesCalibracionController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 
-			   || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8
-			   || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12 ){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 ){
 				
 				$data["servicios"] = Servicio::lists('nombre','idservicio');
 				$data["areas"] = Area::lists('nombre','idarea');
@@ -93,15 +93,163 @@ class ReportesCalibracionController extends BaseController
 		}
 	}
 
+	public function render_edit_reporte_calibracion($id=null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4   ) && $id){
+				
+				$data["reporte_calibracion"] =ReporteCalibracion::searchReporteCalibracionById($id)->get();
+				if($data["reporte_calibracion"]->isEmpty()){
+					return Redirect::to('reportes_calibracion/list_reportes_calibracion');
+				}else{
+					$data["reporte_calibracion"] = $data["reporte_calibracion"][0];
+
+					$data["detalles_reporte_calibracion"] = ReporteCalibracion::getDetalleReporteCalibracion($data["reporte_calibracion"]->id)->get();
+				}
+				return View::make('riesgos/reporte_calibracion/editReporteCalibracion',$data);
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+	}	
+
+	public function submit_edit_reporte_calibracion()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 ){
+				// Validate the info, create rules for the inputs
+				$cantidad_detalle = Input::get('cantidad_detalle');
+
+				$attributes = array(					
+					'fecha_calibracion' => 'Fecha de Calibración',
+					'fecha_proximo' => 'Fecha Próxima de Calibración'
+				);
+
+				$messages = array();
+
+				$rules = array(
+					'fecha_calibracion'  => 'required',		
+					'fecha_proximo' => 'required',
+							
+				);
+				
+
+
+				for($i=0;$i<$cantidad_detalle;$i++){
+					if(Input::has('seleccionado-'.$i)){
+						$element_attribute = array('input-file-'.$i => 'Certificado de Calibración / Reporte de Calibración N° '.($i+1));				 
+						$element_rule = array('input-file-'.$i => 'required|max:15360');					
+						$rules += $element_rule;
+						$attributes += $element_attribute;
+					}					
+				}
+
+				if(Input::has('cb_nuevos_documentos')){
+					for($i=$cantidad_detalle;$i<10;$i++){
+						$element_attribute = array('input-file-'.$i => 'Certificado de Calibración / Reporte de Calibración N° '.($i+1));				 
+						$attributes += $element_attribute;
+					}
+				}
+
+			
+				// Run the validation rules on the inputs from the form
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
+				// If the validator fails, redirect back to the form
+				if($validator->fails()){
+					$idreporte = Input::get('reporte_id');
+					$url = "reportes_calibracion/edit_reporte_calibracion"."/".$idreporte;
+					return Redirect::to($url)->withErrors($validator);
+				}else{
+
+					$idreporte = Input::get('reporte_id');
+					$url = "reportes_calibracion/edit_reporte_calibracion"."/".$idreporte;
+
+					$reporte_data = ReporteCalibracion::searchReporteCalibracionById($idreporte)->get();
+					if($reporte_data->isEmpty()){
+						$url = "reportes_calibracion/edit_reporte_calibracion"."/".$idreporte;
+						return Redirect::to($url);
+					}
+
+					
+					$reporte_data = $reporte_data[0];
+					$reporte_data->fecha_calibracion = date("Y-m-d",strtotime(Input::get('fecha_calibracion')));					
+					$reporte_data->fecha_proxima_calibracion = date("Y-m-d",strtotime(Input::get('fecha_proximo')));
+
+					$detalle_reporte_calibracion = DetalleReporteCalibracion::getDetalleReporteCalibracion($reporte_data->id)->get();
+					
+					for($i=0;$i<$cantidad_detalle;$i++){
+						if(Input::has('seleccionado-'.$i)){
+							if (Input::hasFile('input-file-'.$i)) {
+						    	$archivo            = Input::file('input-file-'.$i);
+						        $rutaDestino = 'uploads/documentos/riesgos/Reportes de Calibracion/' . $reporte_data->codigo_abreviatura . $reporte_data->codigo_correlativo. $reporte_data->codigo_anho  . '/';
+						        $nombreArchivo        = $archivo->getClientOriginalName();
+						        $nombreArchivoEncriptado = Str::random(27).'.'.pathinfo($nombreArchivo, PATHINFO_EXTENSION);
+						        $uploadSuccess = $archivo->move($rutaDestino, $nombreArchivoEncriptado);
+						        
+						        $detalle_reporte_calibracion = $detalle_reporte_calibracion[$i];
+						        //borramos el archivo anterior
+						        $rutaArchivoEliminar = $detalle_reporte_calibracion->url.$detalle_reporte_calibracion->nombre_archivo_encriptado;
+						        if(File::exists($rutaArchivoEliminar))
+						            File::delete($rutaArchivoEliminar);
+						    	$detalle_reporte_calibracion->nombre = $nombreArchivo;
+								$detalle_reporte_calibracion->nombre_archivo = $nombreArchivo;
+								$detalle_reporte_calibracion->nombre_archivo_encriptado = $nombreArchivoEncriptado;
+								$detalle_reporte_calibracion->url = $rutaDestino;
+								$detalle_reporte_calibracion->idreporte_calibracion = $reporte_data->id;
+								$detalle_reporte_calibracion->save();
+						    }
+						}					
+					}
+
+					for($i=$cantidad_detalle;$i<10;$i++){
+						if (Input::hasFile('input-file-'.$i)) {
+					    	$archivo            = Input::file('input-file-'.$i);
+					        $rutaDestino = 'uploads/documentos/riesgos/Reportes de Calibracion/' . $reporte_data->codigo_abreviatura . $reporte_data->codigo_correlativo. $reporte_data->codigo_anho  . '/';
+					        $nombreArchivo        = $archivo->getClientOriginalName();
+					        $nombreArchivoEncriptado = Str::random(27).'.'.pathinfo($nombreArchivo, PATHINFO_EXTENSION);
+					        $uploadSuccess = $archivo->move($rutaDestino, $nombreArchivoEncriptado);
+					        
+					        $detalle_reporte_calibracion = new DetalleReporteCalibracion;
+					    	$detalle_reporte_calibracion->nombre = $nombreArchivo;
+							$detalle_reporte_calibracion->nombre_archivo = $nombreArchivo;
+							$detalle_reporte_calibracion->nombre_archivo_encriptado = $nombreArchivoEncriptado;
+							$detalle_reporte_calibracion->url = $rutaDestino;
+							$detalle_reporte_calibracion->idreporte_calibracion = $reporte_data->id;
+							$detalle_reporte_calibracion->save();
+					    }
+							
+					}
+					
+
+				    $reporte_data->save();
+
+					Session::flash('message', 'Se editó correctamente el reporte de calibración.');
+					return Redirect::to($url);
+				}
+			}else{
+				return View::make('error/error',$data);
+			}
+
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
 	public function search_activos()
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 
-			   || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8
-			   || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12 ){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  ){
 				
 				$data["servicios"] = Servicio::lists('nombre','idservicio');
 				$data["areas"] = Area::lists('nombre','idarea');
@@ -193,11 +341,12 @@ class ReportesCalibracionController extends BaseController
 								$reporte_calibracion->idactivo = $idactivo;
 								$reporte_calibracion->fecha_calibracion = date("Y-m-d",strtotime(Input::get('fecha_calibracion-'.$idactivo)));
 								$reporte_calibracion->fecha_proxima_calibracion = date("Y-m-d",strtotime(Input::get('fecha_proximo-'.$idactivo)));
+								$reporte_calibracion->idestado = 27;
 								$reporte_calibracion->save();
 								for($j=0;$j<10;$j++){
 									if(Input::hasFile('input-file-'.$idactivo.'-'.$j)){	
 										$archivo            = Input::file('input-file-'.$idactivo.'-'.$j);
-								        $rutaDestino = 'documentos/riesgos/Reportes de Calibracion/' . $reporte_calibracion->codigo_abreviatura . $reporte_calibracion->codigo_correlativo. $reporte_calibracion->codigo_anho  . '/';
+								        $rutaDestino = 'uploads/documentos/riesgos/Reportes de Calibracion/' . $reporte_calibracion->codigo_abreviatura . $reporte_calibracion->codigo_correlativo. $reporte_calibracion->codigo_anho  . '/';
 								        $nombreArchivo        = $archivo->getClientOriginalName();
 								        $nombreArchivoEncriptado = Str::random(27).'.'.pathinfo($nombreArchivo, PATHINFO_EXTENSION);
 								        $uploadSuccess = $archivo->move($rutaDestino, $nombreArchivoEncriptado);
@@ -221,6 +370,7 @@ class ReportesCalibracionController extends BaseController
 						if($cantidad != $cantidad_activos){
 							if($cantidad == 0){
 								$string = "Se han registrado los reportes de calibracion.<br>";
+								Session::flash('message', $string);
 								return Redirect::to('reportes_calibracion/list_reportes_calibracion');
 							}
 							$string = "Se han registrado los reportes de calibracion con excepción de los siguientes equipos:<br>";
@@ -308,7 +458,11 @@ class ReportesCalibracionController extends BaseController
 			// Check if the current user is the "System Admin"
 			$idreporte = Input::get('id_reporte');
 			$documentos = ReporteCalibracion::getDetalleReporteCalibracion($idreporte)->get();
-			$reporte = ReporteCalibracion::find($idreporte);
+			$reporte = ReporteCalibracion::searchReporteCalibracionById($idreporte)->get();
+			if($reporte->isEmpty())
+				$reporte = null;
+			else
+				$reporte = $reporte[0];
 				
 
 			return Response::json(array( 'success' => true, 'documentos' => $documentos,'reporte'=>$reporte),200);
@@ -340,6 +494,76 @@ class ReportesCalibracionController extends BaseController
 			return View::make('error/error',$data);
 		}
 	}
+
+	public function submit_disable_reporte()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+				$reporte_id = Input::get('reporte_id');
+				$url = "reportes_calibracion/list_reportes_calibracion";
+				$reporte = ReporteCalibracion::find($reporte_id);
+				$reporte->idestado = 29;
+				$reporte->save();
+				$reporte->delete();
+				Session::flash('message', 'Se inhabilitó correctamente al reporte.');
+				return Redirect::to($url);
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+	public function submit_terminado_reporte()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+				$reporte_id = Input::get('reporte_id');
+				$url = "reportes_calibracion/list_reportes_calibracion";
+				$reporte = ReporteCalibracion::find($reporte_id);
+				$reporte->idestado = 28;
+				$reporte->save();
+				Session::flash('message', 'Se marcó el reporte de calibración como finalizado.');
+				return Redirect::to($url);
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+	public function verify_reporte_calibracion(){
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$id = Auth::id();
+		$data["inside_url"] = Config::get('app.inside_url');
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6
+			|| $data["user"]->idrol == 7 || $data["user"]->idrol == 8  || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
+			// Check if the current user is the "System Admin"
+			$idactivo = Input::get('idactivo');
+			$reporte = ReporteCalibracion::getLastActiveReporteByIdActivo($idactivo)->get();
+			if($reporte->isEmpty()){
+				$reporte = null;
+			}else
+				$reporte = $reporte[0];
+				
+
+			return Response::json(array( 'success' => true, 'reporte' => $reporte),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
 
 }
 
