@@ -45,10 +45,11 @@
 						{{ Form::label('idtipo_reporte_select','Tipo de Reporte') }}
 						@if($programacion_reporte_paac)
 							{{ Form::select('idtipo_reporte_select',array(''=>'Seleccione') + $tipo_reporte_paac,$programacion_reporte_paac->idtipo_reporte_PAAC,['class' => 'form-control','disabled'=>'disabled']) }}
+							{{ Form::hidden('idtipo_reporte',$programacion_reporte_paac->idtipo_reporte_PAAC)}}
 						@else
 							{{ Form::select('idtipo_reporte_select',array(''=>'Seleccione') + $tipo_reporte_paac,'',['class' => 'form-control','disabled'=>'disabled']) }}
-						@endif
-						{{ Form::hidden('idtipo_reporte')}}
+							{{ Form::hidden('idtipo_reporte')}}
+						@endif						
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('responsable')) has-error has-feedback @endif">
 						{{ Form::label('responsable','Responsable') }}
