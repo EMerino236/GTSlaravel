@@ -24,7 +24,7 @@ class ReporteFinanciamientoController extends \BaseController {
 				$data["categorias"] = ProyectoCategoria::all()->lists('nombre','id');
 				$data["servicios"] = Servicio::all()->lists('nombre','idservicio');
 				$data["departamentos"] = Area::all()->lists('nombre','idarea');
-				$data["usuarios"] = User::all()->lists('UserFullName','id');
+				$data["usuarios"] = User::orderBy('nombre')->get()->lists('UserFullName','id');
 				
 				$data["reportes_data"] = ReporteFinanciamiento::withTrashed()->paginate(10);
 				
@@ -59,7 +59,7 @@ class ReporteFinanciamientoController extends \BaseController {
 				$data["categorias"] = ProyectoCategoria::all()->lists('nombre','id');
 				$data["servicios"] = Servicio::all()->lists('nombre','idservicio');
 				$data["departamentos"] = Area::all()->lists('nombre','idarea');
-				$data["usuarios"] = User::all()->lists('UserFullName','id');
+				$data["usuarios"] = User::orderBy('nombre')->get()->lists('UserFullName','id');
 				
 				$data["reportes_data"] = ReporteFinanciamiento::searchReporte($data['search_nombre'],$data['search_categoria'],$data['search_servicio_clinico'],$data['search_departamento'],$data['search_responsable']);
 				$data["reportes_data"] = $data["reportes_data"]->paginate(10);
@@ -90,7 +90,7 @@ class ReporteFinanciamientoController extends \BaseController {
 				$data["categorias"] = ProyectoCategoria::all()->lists('nombre','id');
 				$data["servicios"] = Servicio::all()->lists('nombre','idservicio');
 				$data["departamentos"] = Area::all()->lists('nombre','idarea');
-				$data["usuarios"] = User::all()->lists('UserFullName','id');
+				$data["usuarios"] = User::orderBy('nombre')->get()->lists('UserFullName','id');
 
 				return View::make('investigacion.reportes.financiamiento.create',$data);
 			}else{
@@ -234,7 +234,7 @@ class ReporteFinanciamientoController extends \BaseController {
 				$data["categorias"] = ProyectoCategoria::all()->lists('nombre','id');
 				$data["servicios"] = Servicio::all()->lists('nombre','idservicio');
 				$data["departamentos"] = Area::all()->lists('nombre','idarea');
-				$data["usuarios"] = User::all()->lists('UserFullName','id');
+				$data["usuarios"] = User::orderBy('nombre')->get()->lists('UserFullName','id');
 
 				$data["reporte"] = ReporteFinanciamiento::find($id);
 				

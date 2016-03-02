@@ -24,7 +24,7 @@ class ReporteSeguimientoController extends \BaseController {
 
 				$data["servicios"] = Servicio::all()->lists('nombre','idservicio');
 				$data["departamentos"] = Area::all()->lists('nombre','idarea');
-				$data["usuarios"] = User::all()->lists('UserFullName','id');
+				$data["usuarios"] = User::orderBy('nombre')->get()->lists('UserFullName','id');
 				
 				$data["reportes_data"] = ReporteSeguimiento::withTrashed()->paginate(10);
 				
@@ -60,7 +60,7 @@ class ReporteSeguimientoController extends \BaseController {
 
 				$data["servicios"] = Servicio::all()->lists('nombre','idservicio');
 				$data["departamentos"] = Area::all()->lists('nombre','idarea');
-				$data["usuarios"] = User::all()->lists('UserFullName','id');
+				$data["usuarios"] = User::orderBy('nombre')->get()->lists('UserFullName','id');
 				
 				$data["reportes_data"] = ReporteSeguimiento::searchReporte($data['search_nombre'],$data['search_servicio_clinico'],$data['search_departamento'],$data['search_responsable'],$data["search_fecha_ini"],$data["search_fecha_fin"]);
 

@@ -37,7 +37,7 @@
 		<div class="alert alert-danger">{{ Session::get('error') }}</div>
 	@endif
 
-	{{ Form::open(array('route'=>'reporte_desarrollo.store', 'role'=>'form')) }}
+	{{ Form::open(array('route'=>'reporte_desarrollo.store', 'role'=>'form','id'=>'form')) }}
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">Datos generales del proyecto</h3>
@@ -46,11 +46,11 @@
 				<div class="row">
 					<div class="form-group col-md-4">
 						{{ Form::label('id_reporte','Código de proyecto') }}
-						{{ Form::number('id_reporte', null, ['id'=>'id_reporte','class'=>'form-control']) }}
+						{{ Form::number('id_reporte', null, ['id'=>'id_reporte','class'=>'form-control','min'=>'1']) }}
 					</div>
 					<div class="form-group col-md-2">
 						{{ Form::label('','&zwnj;&zwnj;') }}
-						{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Validar', array('id'=>'submit_create', 'class' => 'btn btn-primary btn-block','onClick'=>'validarReporteDesarrollo()')) }}
+						{{ Form::button('<span class="glyphicon glyphicon-check"></span> Validar', array('id'=>'submit_create', 'class' => 'btn btn-primary btn-block','onClick'=>'validarReporteDesarrollo()')) }}
 					</div>
 				</div>
 
@@ -62,17 +62,17 @@
 
 					<div class="form-group col-md-4 @if($errors->first('categoria')) has-error has-feedback @endif">
 						{{ Form::label('categoria','Categoría') }}
-						{{ Form::select('categoria', $categorias, Input::old('categoria'), ['class'=>'form-control']) }}
+						{{ Form::select('categoria', $categorias, Input::old('categoria'), ['class'=>'form-control','disabled']) }}
 					</div>
 
 					<div class="form-group col-md-4 @if($errors->first('departamento')) has-error has-feedback @endif">
 						{{ Form::label('departamento','Departamento') }}
-						{{ Form::select('departamento', $departamentos, Input::old('departamento'), ['id'=>'departamento','class'=>'form-control','onChange'=>'getServicios(this)']) }}
+						{{ Form::select('departamento', $departamentos, Input::old('departamento'), ['id'=>'departamento','class'=>'form-control','onChange'=>'getServicios(this)','disabled']) }}
 					</div>
 
 					<div class="form-group col-md-4 @if($errors->first('servicio_clinico')) has-error has-feedback @endif">
 						{{ Form::label('servicio_clinico','Servicio Clínico') }}
-						{{ Form::select('servicio_clinico', $servicios, Input::old('servicio_clinico'), ['id'=>'servicio_clinico','class'=>'form-control']) }}
+						{{ Form::select('servicio_clinico', $servicios, Input::old('servicio_clinico'), ['id'=>'servicio_clinico','class'=>'form-control','disabled']) }}
 					</div>
 
 					<div class="form-group col-md-4 @if($errors->first('responsable')) has-error has-feedback @endif">

@@ -3,6 +3,10 @@ var proy_fin;
 
 $( document ).ready(function(){
 
+    $('#form').on('submit', function() {
+        $('select').prop('disabled', false);
+    });
+
     $("#datetimepicker_desarrollo_ini").on("dp.change", function (e) {
         $('#datetimepicker_desarrollo_fin').data("DateTimePicker").minDate(e.date);
     });
@@ -169,7 +173,8 @@ function agregarProyCrono(){
 
 function agregarProyPre(){
     var descripcion = $("input[name=pre_desc]").val();
-    var monto = $("input[name=pre_monto]").val();
+    var monto = parseFloat(0+$("input[name=pre_monto]").val());
+    var total = parseFloat($("#total").val());
     if(descripcion.length < 1 || monto.length < 1){
         return BootstrapDialog.alert({
             title:  'Alerta',
@@ -177,11 +182,24 @@ function agregarProyPre(){
         });  
     }
 
-    var str = "<tr><td><input style=\"border:0\" name='pre_descs[]' value='"+descripcion+"' readonly/></td>";
-    str += "<td><input style=\"border:0\" name='pre_montos[]' value='"+monto+"' readonly/></td>";
-    str += "<td><a href='' class='btn btn-default delete-detail' onclick='deleteRow(event,this)'>Eliminar</a></td></tr>";
-    $(str).prependTo(".pre_table");
-    
+    if(validaTotalInversion(monto)){
+
+        var str = "<tr><td><input style=\"border:0\" name='pre_descs[]' value='"+descripcion+"' readonly/></td>";
+        str += "<td><input style=\"border:0\" name='pre_montos[]' value='"+monto+"' readonly/></td>";
+        str += "<td><a href='' class='btn btn-default delete-detail' onclick='deleteRowPre(event,this)'>Eliminar</a></td></tr>";
+        $(str).prependTo(".pre_table");
+
+        var total_inv = parseInt($("#total_inv").val());
+        $("#total_inv").val(total_inv - monto);
+
+    }else{
+        return BootstrapDialog.alert({
+            title:  'Alerta',
+            message: 'Se sobrepaso el presupuesto de inversión',
+        });  
+    }
+
+    $("#total").val(total + monto);
     $("input[name=pre_desc]").val('');
     $("input[name=pre_monto]").val('');
 }
@@ -316,8 +334,8 @@ function agregarProyRH(){
     var cantidad = parseInt(0+$("input[name=rh_cantidad]").val());
     var costo_unitario = parseFloat(0+$("input[name=rh_costo_unitario]").val()).toFixed(2);
     var subtotal = costo_unitario*cantidad;
-    var total = parseFloat($("#rh_total").val());   
-    console.log(cantidad);
+    var total = parseFloat($("#rh_total").val());
+    //console.log(cantidad);
     if(actividad.length < 1 || descripcion.length < 1 || unidad.length < 1 || cantidad < 1 || costo_unitario < 1){
         return BootstrapDialog.alert({
             title:  'Alerta',
@@ -693,6 +711,7 @@ function validarProyecto()
                     $('#categoria').val(response.reporte.id_categoria);
                     $('#responsable').val(response.reporte.id_responsable);
                     $('#departamento').val(response.reporte.id_departamento);
+                    $('#total_inv').val(response.inversion);
                     getServicios();
                     $('#servicio_clinico').val(response.reporte.id_servicio_clinico);
                     d = new Date(response.reporte.fecha_ini);
@@ -734,6 +753,22 @@ function limpiaCamposProyecto(){
     $('#responsable').val('');
     $('#fecha_ini').val('');
     $('#fecha_fin').val('');
+}
+
+function deleteRowPre(event,el)
+{
+    event.preventDefault();
+    var parent = el.parentNode;
+    parent = parent.parentNode;
+
+    var total_inversion = parseFloat(0 + parseFloat($('#total_inv').val()));
+    var subtotal = parseFloat(parent.children[1].children[0].value);
+    var total = parseFloat($("#total").val());
+
+    $('#total_inv').val(total_inversion + subtotal);
+    $("#total").val(total - subtotal);
+    
+    parent.parentNode.removeChild(parent);
 }
 
 function deleteRowProyRH(event,el)

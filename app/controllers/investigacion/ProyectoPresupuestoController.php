@@ -350,7 +350,7 @@ class ProyectoPresupuestoController extends \BaseController {
 				$data["categorias"] = ProyectoCategoria::all()->lists('nombre','id');
 				$data["servicios"] = Servicio::all()->lists('nombre','idservicio');
 				$data["departamentos"] = Area::all()->lists('nombre','idarea');
-				$data["usuarios"] = User::all()->lists('UserFullName','id');
+				$data["usuarios"] = User::orderBy('nombre')->get()->lists('UserFullName','id');
 				
 				$proyecto = Proyecto::find($id);
 				$data["presupuesto"] = $proyecto->presupuesto;

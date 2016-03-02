@@ -91,10 +91,10 @@
 				</tr>
 				@foreach($proyectos_data as $reporte_data)
 				<tr class="@if($reporte_data->deleted_at) bg-danger @endif">
-					<td>{{$reporte_data->codigo}}</td>
 					<td>
-						<a href="{{route('proyecto.show',$reporte_data->id)}}">{{$reporte_data->nombre}}</a>
+						<a href="{{route('informacion_economica.show',$reporte_data->id)}}">{{$reporte_data->proyecto->codigo}}</a>
 					</td>
+					<td>{{$reporte_data->nombre}}</td>
 					<td>{{$reporte_data->categoria->nombre}}</td>
 					<td>{{$reporte_data->servicio->nombre}}</td>
 					<td>{{$reporte_data->departamento->nombre}}</td>

@@ -36,7 +36,7 @@
 		<div class="alert alert-danger">{{ Session::get('error') }}</div>
 	@endif
 
-	{{ Form::open(array('route'=>'reporte_financiamiento.store', 'role'=>'form')) }}
+	{{ Form::open(array('route'=>'reporte_financiamiento.store', 'role'=>'form','id'=>'form')) }}
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">Información del proyecto</h3>

@@ -94,7 +94,7 @@
 	</div>
 
 	<div class="row">
-		@if($user->id == $requerimiento->id_responsable && (!$requerimiento->id_modificador || $requerimiento->id_estado == 3))
+		@if($user->idrol == 1 || ($user->id == $requerimiento->id_responsable && (!$requerimiento->id_modificador || $requerimiento->id_estado == 3)))
 		
 			<div class="form-group col-md-2">
 				<a href="{{URL::to('/requerimientos_clinicos/edit')}}/{{$requerimiento->id}}">

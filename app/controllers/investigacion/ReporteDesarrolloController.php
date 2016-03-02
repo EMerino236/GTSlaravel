@@ -26,7 +26,7 @@ class ReporteDesarrolloController extends \BaseController {
 				$data["categorias"] = ProyectoCategoria::all()->lists('nombre','id');
 				$data["servicios"] = Servicio::all()->lists('nombre','idservicio');
 				$data["departamentos"] = Area::all()->lists('nombre','idarea');
-				$data["usuarios"] = User::all()->lists('UserFullName','id');
+				$data["usuarios"] = User::orderBy('nombre')->get()->lists('UserFullName','id');
 				
 				$data["reportes_data"] = ReporteDesarrollo::withTrashed()->paginate(10);
 				
@@ -64,7 +64,7 @@ class ReporteDesarrolloController extends \BaseController {
 				$data["categorias"] = ProyectoCategoria::all()->lists('nombre','id');
 				$data["servicios"] = Servicio::all()->lists('nombre','idservicio');
 				$data["departamentos"] = Area::all()->lists('nombre','idarea');
-				$data["usuarios"] = User::all()->lists('UserFullName','id');
+				$data["usuarios"] = User::orderBy('nombre')->get()->lists('UserFullName','id');
 				
 				//WIP
 				$data["reportes_data"] = ReporteDesarrollo::searchReporte($data['search_nombre'],$data['search_categoria'],$data['search_servicio_clinico'],$data['search_departamento'],$data['search_responsable'],$data["search_fecha_ini"],$data["search_fecha_fin"]);
@@ -96,7 +96,7 @@ class ReporteDesarrolloController extends \BaseController {
 				$data["categorias"] = ProyectoCategoria::all()->lists('nombre','id');
 				$data["servicios"] = Servicio::all()->lists('nombre','idservicio');
 				$data["departamentos"] = Area::all()->lists('nombre','idarea');
-				$data["usuarios"] = User::all()->lists('UserFullName','id');
+				$data["usuarios"] = User::orderBy('nombre')->get()->lists('UserFullName','id');
 				$data["dimensiones"] = Dimension::all();
 
 				return View::make('investigacion.reportes.desarrollo.create',$data);
@@ -256,7 +256,7 @@ class ReporteDesarrolloController extends \BaseController {
 				$data["categorias"] = ProyectoCategoria::all()->lists('nombre','id');
 				$data["servicios"] = Servicio::all()->lists('nombre','idservicio');
 				$data["departamentos"] = Area::all()->lists('nombre','idarea');
-				$data["usuarios"] = User::all()->lists('UserFullName','id');
+				$data["usuarios"] = User::orderBy('nombre')->get()->lists('UserFullName','id');
 				$data["dimensiones"] = Dimension::all();
 
 				$data["reporte"] = ReporteDesarrollo::find($id);

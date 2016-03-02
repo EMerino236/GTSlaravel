@@ -17,7 +17,7 @@ class ServiciosClinicosController extends \BaseController {
 				$data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 12){
 				
 				$data["servicios"] = Servicio::all()->lists('nombre','idservicio');
-				$data["usuarios"] = User::all()->lists('UserFullName','id');
+				$data["usuarios"] = User::orderBy('nombre')->get()->lists('UserFullName','id');
 
 				$data["search_codigo"] = null;
 				$data["search_servicio"] = null;
@@ -47,7 +47,7 @@ class ServiciosClinicosController extends \BaseController {
 				$data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 12){
 
 				$data["servicios"] = Servicio::all()->lists('nombre','idservicio');
-				$data["usuarios"] = User::all()->lists('UserFullName','id');
+				$data["usuarios"] = User::orderBy('nombre')->get()->lists('UserFullName','id');
 
 				$data["search_codigo"] = Input::get('search_codigo');
 				$data["search_servicio"] = Input::get('search_servicio');
@@ -82,7 +82,7 @@ class ServiciosClinicosController extends \BaseController {
 			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 
 				$data["servicios"] = Servicio::all()->lists('nombre','idservicio');
-				$data["usuarios"] = User::all()->lists('UserFullName','id');
+				$data["usuarios"] = User::orderBy('nombre')->get()->lists('UserFullName','id');
 
 				return View::make('investigacion.servicios_clinicos.create',$data);
 			}else{
@@ -184,7 +184,7 @@ class ServiciosClinicosController extends \BaseController {
 			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4) && $id){
 				
 				$data["servicios"] = Servicio::all()->lists('nombre','idservicio');
-				$data["usuarios"] = User::all()->lists('UserFullName','id');
+				$data["usuarios"] = User::orderBy('nombre')->get()->lists('UserFullName','id');
 				$data["documento_info"] = DocumentoServicioClinico::withTrashed()->find($id);
 				$data["archivo"] = basename($data["documento_info"]->url);
 				

@@ -40,7 +40,6 @@ function validarReporte()
         success: function(response){                
             if(response.success)
             {
-
                 if(response.reporte.length != 0){
                     $('#nombre').val(response.reporte.nombre);
                     $('#categoria').val(response.reporte.id_categoria);

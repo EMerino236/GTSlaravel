@@ -44,11 +44,11 @@
 			<div class="row">
 				<div class="form-group col-md-4 @if($errors->first('fecha_ini')) has-error has-feedback @endif">
 					{{ Form::label('fecha_ini','Fecha Inicio') }}
-					{{ Form::text('fecha_ini',date('dd-mm-YYYY',strtotime($alcance->fecha_ini)),array('class'=>'form-control', 'readonly'=>'')) }}
+					{{ Form::text('fecha_ini',$alcance->fecha_ini,array('class'=>'form-control', 'readonly'=>'')) }}
 				</div>
 				<div class="form-group col-md-4 @if($errors->first('fecha_fin')) has-error has-feedback @endif">
 					{{ Form::label('fecha_fin','Fecha Fin') }}
-					{{ Form::text('fecha_fin',date('dd-mm-YYYY',strtotime($alcance->fecha_fin)),array('class'=>'form-control', 'readonly'=>'')) }}
+					{{ Form::text('fecha_fin',$alcance->fecha_fin,array('class'=>'form-control', 'readonly'=>'')) }}
 				</div>
 			</div>
 						

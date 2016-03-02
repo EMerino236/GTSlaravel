@@ -26,9 +26,9 @@ class InformacionEconomicaController extends \BaseController {
 				$data["categorias"] = ProyectoCategoria::all()->lists('nombre','id');
 				$data["servicios"] = Servicio::all()->lists('nombre','idservicio');
 				$data["departamentos"] = Area::all()->lists('nombre','idarea');
-				$data["usuarios"] = User::all()->lists('UserFullName','id');
+				$data["usuarios"] = User::orderBy('nombre')->get()->lists('UserFullName','id');
 				
-				$data["proyectos_data"] = Proyecto::withTrashed()->paginate(10);
+				$data["proyectos_data"] = InformacionEconomica::withTrashed()->paginate(10);
 				
 				return View::make('investigacion.proyecto.informacion_economica.index',$data);
 			}else{
@@ -339,7 +339,7 @@ class InformacionEconomicaController extends \BaseController {
 				$data["categorias"] = ProyectoCategoria::all()->lists('nombre','id');
 				$data["servicios"] = Servicio::all()->lists('nombre','idservicio');
 				$data["departamentos"] = Area::all()->lists('nombre','idarea');
-				$data["usuarios"] = User::all()->lists('UserFullName','id');
+				$data["usuarios"] = User::orderBy('nombre')->get()->lists('UserFullName','id');
 				
 				$data["presupuesto"] = InformacionEconomica::find($id);
 
@@ -558,7 +558,13 @@ class InformacionEconomicaController extends \BaseController {
 				
 				$proyecto = Proyecto::find($id_proyecto);
 
-				if($proyecto){
+				if(!$proyecto){
+					$mensaje = 'No se encontro el proyecto.';
+					return Response::json(array( 'success' => false, 'mensaje'=>$mensaje),200);
+				}
+
+				$informacion_economica = InformacionEconomica::where('id_proyecto',$proyecto->id)->first();
+				if(!$informacion_economica){
 					$presupuesto = $proyecto->presupuesto;
 					if($presupuesto){
 						$reporte = $proyecto;
@@ -579,10 +585,18 @@ class InformacionEconomicaController extends \BaseController {
 						$actividades['eq_inversion_post'] = $presupuesto->actividadeseqpost;
 						$actividades['go_inversion_post'] = $presupuesto->actividadesgopost;
 						$actividades['ga_inversion_post'] = $presupuesto->actividadesgapost;
+					}else{
+						$mensaje = 'No se ha creado un presupuesto para este proyecto.';
+						return Response::json(array( 'success' => false, 'mensaje'=>$mensaje),200);
 					}
 					
 				}else{
 					$reporte = [];
+					
+					if($informacion_economica){
+						$mensaje = 'Ya existe un reporte de información económica para este proyecto.';
+					}
+					return Response::json(array( 'success' => false, 'mensaje'=>$mensaje),200);
 				}
 			}else{
 				$reporte = [];

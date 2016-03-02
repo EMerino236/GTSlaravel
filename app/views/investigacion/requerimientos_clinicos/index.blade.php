@@ -77,10 +77,10 @@
 				</tr>
 				@foreach($requerimientos_data as $requerimiento_data)
 				<tr class="@if($requerimiento_data->id_estado == 1) bg-success @elseif($requerimiento_data->id_estado == 2) bg-danger @endif">
-					<td>{{$requerimiento_data->codigo}}</td>
 					<td>
-						<a href="{{URL::to('/requerimientos_clinicos/show/')}}/{{$requerimiento_data->id}}">{{$requerimiento_data->nombre}}</a>
+						<a href="{{URL::to('/requerimientos_clinicos/show/')}}/{{$requerimiento_data->id}}">{{$requerimiento_data->codigo}}</a>
 					</td>
+					<td>{{$requerimiento_data->nombre}}</td>
 					<td>{{$requerimiento_data->categoria->nombre}}</td>
 					<td>{{$requerimiento_data->servicio->nombre}}</td>
 					<td>{{$requerimiento_data->departamento->nombre}}</td>

@@ -35,7 +35,7 @@
 	@if (Session::has('error'))
 		<div class="alert alert-danger">{{ Session::get('error') }}</div>
 	@endif
-	{{ Form::open(['route'=>['reporte_financiamiento.update',$reporte->id], 'role'=>'form']) }}
+	{{ Form::open(['route'=>['reporte_financiamiento.update',$reporte->id], 'role'=>'form', 'id'=>'form']) }}
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">Información del proyecto</h3>
@@ -49,17 +49,17 @@
 
 					<div class="form-group col-md-4 @if($errors->first('categoria')) has-error has-feedback @endif">
 						{{ Form::label('categoria','Categoría') }}
-						{{ Form::select('categoria', $categorias, $reporte->categoria->id, ['class'=>'form-control']) }}
+						{{ Form::select('categoria', $categorias, $reporte->categoria->id, ['class'=>'form-control','disabled']) }}
 					</div>
 
 					<div class="form-group col-md-4 @if($errors->first('departamento')) has-error has-feedback @endif">
 						{{ Form::label('departamento','Departamento') }}
-						{{ Form::select('departamento', $departamentos, $reporte->departamento->idarea,['id'=>'departamento','class'=>'form-control','onChange'=>'getServicios(this)']) }}
+						{{ Form::select('departamento', $departamentos, $reporte->departamento->idarea,['id'=>'departamento','class'=>'form-control','onChange'=>'getServicios(this)','disabled']) }}
 					</div>
 	
 					<div class="form-group col-md-4 @if($errors->first('servicio_clinico')) has-error has-feedback @endif">
 						{{ Form::label('servicio_clinico','Servicio Clínico') }}
-						{{ Form::select('servicio_clinico', $servicios, $reporte->servicio->idservicio, ['class'=>'form-control']) }}
+						{{ Form::select('servicio_clinico', $servicios, $reporte->servicio->idservicio, ['class'=>'form-control','disabled']) }}
 					</div>
 
 					<div class="form-group col-md-4 @if($errors->first('responsable')) has-error has-feedback @endif">

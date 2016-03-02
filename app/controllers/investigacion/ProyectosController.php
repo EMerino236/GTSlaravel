@@ -26,7 +26,7 @@ class ProyectosController extends \BaseController {
 				$data["categorias"] = ProyectoCategoria::all()->lists('nombre','id');
 				$data["servicios"] = Servicio::all()->lists('nombre','idservicio');
 				$data["departamentos"] = Area::all()->lists('nombre','idarea');
-				$data["usuarios"] = User::all()->lists('UserFullName','id');
+				$data["usuarios"] = User::orderBy('nombre')->get()->lists('UserFullName','id');
 				
 				$data["reportes_data"] = Proyecto::withTrashed()->paginate(10);
 				
@@ -64,7 +64,7 @@ class ProyectosController extends \BaseController {
 				$data["categorias"] = ProyectoCategoria::all()->lists('nombre','id');
 				$data["servicios"] = Servicio::all()->lists('nombre','idservicio');
 				$data["departamentos"] = Area::all()->lists('nombre','idarea');
-				$data["usuarios"] = User::all()->lists('UserFullName','id');
+				$data["usuarios"] = User::orderBy('nombre')->get()->lists('UserFullName','id');
 				
 				$data["reportes_data"] = Proyecto::searchReporte($data['search_nombre'],$data['search_categoria'],$data['search_servicio_clinico'],$data['search_departamento'],$data['search_responsable'],$data["search_fecha_ini"],$data["search_fecha_fin"]);
 				$data["reportes_data"] = $data["reportes_data"]->paginate(10);
@@ -1421,9 +1421,11 @@ class ProyectosController extends \BaseController {
 				
 				$linea = ReporteDesarrollo::where('id_requerimiento',$req->id)->first();
 				$proy = Proyecto::where('id_requerimiento',$req->id)->first();
+				$financia = ReporteFinanciamiento::find($req->id_reporte);
 				// Requerimiento Estado aprobado, que exista linea de investigacion y que no se haya hecho un proyecto antes
 				if($linea && ($req->estado->nombre == 'Aprobado') && !$proy){
 					$reporte = $req;
+					$inversion = $financia->inversiones->sum('costo');
 				}elseif(!$linea){
 					return Response::json(array( 'success' => false, 'mensaje' => 'No se encuentra una linea de investigación' ),200);
 				}elseif($req->estado->nombre == 'Rechazado'){
@@ -1438,7 +1440,7 @@ class ProyectosController extends \BaseController {
 			}
 			
 			
-			return Response::json(array( 'success' => true, 'reporte' => $reporte),200);
+			return Response::json(array( 'success' => true, 'reporte' => $reporte,'inversion'=>$inversion),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
 		}

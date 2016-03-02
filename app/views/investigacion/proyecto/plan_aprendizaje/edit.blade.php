@@ -47,7 +47,7 @@
 		<div class="alert alert-danger">{{ Session::get('error') }}</div>
 	@endif
 
-	{{ Form::open(array('route'=>['plan_aprendizaje.update',$plan->id], 'role'=>'form','files'=>true)) }}
+	{{ Form::open(array('route'=>['plan_aprendizaje.update',$plan->id], 'role'=>'form','files'=>true, 'id'=>'form')) }}
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">Datos generales del proyecto</h3>
@@ -68,17 +68,17 @@
 
 					<div class="form-group col-md-4 @if($errors->first('categoria')) has-error has-feedback @endif">
 						{{ Form::label('categoria','Categoría') }}
-						{{ Form::select('categoria', $categorias, $plan->id_categoria, ['class'=>'form-control']) }}
+						{{ Form::select('categoria', $categorias, $plan->id_categoria, ['class'=>'form-control','disabled']) }}
 					</div>
 
 					<div class="form-group col-md-4 @if($errors->first('departamento')) has-error has-feedback @endif">
 						{{ Form::label('departamento','Departamento') }}
-						{{ Form::select('departamento', $departamentos, $plan->id_departamento, ['id'=>'departamento','class'=>'form-control','onChange'=>'getServicios(this)']) }}
+						{{ Form::select('departamento', $departamentos, $plan->id_departamento, ['id'=>'departamento','class'=>'form-control','onChange'=>'getServicios(this)','disabled']) }}
 					</div>
 
 					<div class="form-group col-md-4 @if($errors->first('servicio_clinico')) has-error has-feedback @endif">
 						{{ Form::label('servicio_clinico','Servicio Clínico') }}
-						{{ Form::select('servicio_clinico', $servicios, $plan->id_servicio_clinico, ['id'=>'servicio_clinico','class'=>'form-control']) }}
+						{{ Form::select('servicio_clinico', $servicios, $plan->id_servicio_clinico, ['id'=>'servicio_clinico','class'=>'form-control','disabled']) }}
 					</div>
 
 					<div class="form-group col-md-4 @if($errors->first('responsable')) has-error has-feedback @endif">
@@ -210,36 +210,40 @@
 						  	</div>
 
 						  	<div class="panel-body">
-								<div class="form-group col-md-4">
+								<div class="form-group col-md-12">
 									{{ Form::label('infraestructura','Infraestructura') }}
-									{{ Form::text('infraestructura', $plan->infraestructura, ['class'=>'form-control']) }}
+									{{ Form::textarea('infraestructura', $plan->infraestructura, ['class'=>'form-control','rows'=>5]) }}
 								</div>
 
-								<div class="form-group col-md-4">
+								<div class="form-group col-md-12">
 									{{ Form::label('equipos','Equipos') }}
-									{{ Form::text('equipos', $plan->equipos, ['class'=>'form-control']) }}
+									{{ Form::textarea('equipos', $plan->equipos, ['class'=>'form-control','rows'=>5]) }}
 								</div>
 
-								<div class="form-group col-md-4">
+								<div class="form-group col-md-12">
 									{{ Form::label('herramientas','Herramientas') }}
-									{{ Form::text('herramientas', $plan->herramientas, ['class'=>'form-control']) }}
+									{{ Form::textarea('herramientas', $plan->herramientas, ['class'=>'form-control','rows'=>5]) }}
 								</div>
 
-								<div class="form-group col-md-4">
+								<div class="form-group col-md-12">
 									{{ Form::label('insumos','Insumos') }}
-									{{ Form::text('insumos', $plan->insumos, ['class'=>'form-control']) }}
+									{{ Form::textarea('insumos', $plan->insumos, ['class'=>'form-control','rows'=>5]) }}
 								</div>
 
-								<div class="form-group col-md-4">
+								<div class="form-group col-md-12">
 									{{ Form::label('equipo_personal','Equipo Personal') }}
-									{{ Form::text('equipo_personal', $plan->equipo_personal, ['class'=>'form-control']) }}
+									{{ Form::textarea('equipo_personal', $plan->equipo_personal, ['class'=>'form-control','rows'=>5]) }}
 								</div>
 
-								<div class="form-group col-md-4">
+								<div class="form-group col-md-12">
 									{{ Form::label('condiciones','Condiciones de seguridad') }}
-									{{ Form::text('condiciones', $plan->condiciones, ['class'=>'form-control']) }}
+									{{ Form::textarea('condiciones', $plan->condiciones, ['class'=>'form-control','rows'=>5]) }}
 								</div>
 							</div>
+
+							<div class="panel-heading">
+						    	<h3 class="panel-title">Competencias</h3>
+						  	</div>			
 
 							<div class="panel-body">
 
