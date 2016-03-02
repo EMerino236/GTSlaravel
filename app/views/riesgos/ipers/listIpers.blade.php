@@ -123,10 +123,18 @@
 						<td class="text-nowrap text-center">
 							{{date('Y',strtotime($iper_data->fecha))}}
 						</td>
-						<td class="text-nowrap text-center">
-							<a class="btn btn-warning btn-block btn-sm" href="{{URL::to('/ipers/edit_iper/')}}/{{$iper_data->idtipo_iper}}/{{$iper_data->id}}">
-							<span class="glyphicon glyphicon-pencil"></span></a>
-						</td>
+						@if($user->idrol == 5 || $user->idrol == 7 || $user->idrol == 8 || $user->idrol == 9 || $user->idrol == 10 || $user->idrol == 11
+						|| $user->idrol == 12)
+							<td class="text-nowrap text-center">
+								-
+							</td>	
+						@else
+							<td class="text-nowrap text-center">
+								<a class="btn btn-warning btn-block btn-sm" href="{{URL::to('/ipers/edit_iper/')}}/{{$iper_data->idtipo_iper}}/{{$iper_data->id}}">
+								<span class="glyphicon glyphicon-pencil"></span></a>
+							</td>		
+						@endif
+						
 					</tr>
 					@endforeach
 				</table>

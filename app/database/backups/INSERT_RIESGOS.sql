@@ -1072,3 +1072,9 @@ INSERT INTO metodo_difusion(id,nombre) VALUES ('5','Foros de discusión');
 /*** TIPO CAPACITACION RIESGOS ***/
 INSERT INTO tipo_capacitacion_riesgos (id,nombre) VALUES ('1','Capacitación en procedimientos clínicos');
 INSERT INTO tipo_capacitacion_riesgos (id,nombre) VALUES ('2','Capacitación en uso de tecnología en salud');
+
+/*** UPDATES ***/
+INSERT INTO tablas (nombre_tabla) VALUES ('estado_reporte_calibracion');
+INSERT INTO estados (nombre,idtabla) VALUES ('Pendiente','5');
+INSERT INTO estados (nombre,idtabla) VALUES ('Terminado','5');
+INSERT INTO estados (nombre,idtabla) VALUES ('Anulado','5');

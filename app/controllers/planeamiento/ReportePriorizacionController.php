@@ -70,7 +70,7 @@ class ReportePriorizacionController extends BaseController
 						    $nombreArchivo ='';	
 						    if (Input::hasFile('archivo')) {
 						        $archivo = Input::file('archivo');
-						        $rutaDestino = 'documentos/planeamiento/ReportePriorizacion/';
+						        $rutaDestino = 'uploads/documentos/planeamiento/ReportePriorizacion/';
 						        $nombreArchivo        = $archivo->getClientOriginalName();
 						        $nombreArchivoEncriptado = Str::random(27).'.'.pathinfo($nombreArchivo, PATHINFO_EXTENSION);
 						        $uploadSuccess = $archivo->move($rutaDestino, $nombreArchivoEncriptado);

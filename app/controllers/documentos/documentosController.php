@@ -58,7 +58,7 @@ class DocumentoController extends BaseController {
 				    $nombreArchivo        ='';	
 				    if (Input::hasFile('archivo')) {
 				        $archivo            = Input::file('archivo');
-				        $rutaDestino = 'documentos/bienes/' . $data["tipo_documentos"][0]->nombre . '/';
+				        $rutaDestino = 'uploads/documentos/bienes/' . $data["tipo_documentos"][0]->nombre . '/';
 				        $nombreArchivo        = $archivo->getClientOriginalName();
 				        $nombreArchivoEncriptado = Str::random(27).'.'.pathinfo($nombreArchivo, PATHINFO_EXTENSION);
 				        $uploadSuccess = $archivo->move($rutaDestino, $nombreArchivoEncriptado);
@@ -110,7 +110,7 @@ class DocumentoController extends BaseController {
 				$data["documento_info"] = Documento::searchDocumentoById($id)->get();
 				$data["archivo"] = basename($data["documento_info"][0]->url);
 				if($data["documento_info"]->isEmpty()){
-					return Redirect::to('documento/list_documento');
+					return Redirect::to('documento/list_documentos');
 				}
 				$data["documento_info"] = $data["documento_info"][0];
 				return View::make('documentos/editDocumento',$data);
@@ -156,8 +156,6 @@ class DocumentoController extends BaseController {
 					$url = "documento/edit_documento"."/".$iddocumento;
 					return Redirect::to($url)->withErrors($validator)->withInput(Input::all());
 				}else{
-					$data["tipo_documentos"] = TipoDocumentos::searchTipoDocumentosById(Input::get('idtipo_documento'))->get();
-					$data["documento_info"] = Documento::searchDocumentoById(Input::get('documento_id'))->get();
 					/*
 					if(!Input::file('archivo')){
 						$archivo = readfile($data["documento_info"][0]->url);
@@ -186,8 +184,6 @@ class DocumentoController extends BaseController {
 					$documento->autor = Input::get('autor');
 					$documento->codigo_archivamiento = Input::get('codigo_archivamiento');
 					$documento->ubicacion = Input::get('ubicacion');
-					$documento->url = $data["documento_info"][0]->url;
-					$documento->idtipo_documento = $data["documento_info"][0]->idtipo_documento;
 					$documento->idestado = 1;
 					$documento->save();
 					Session::flash('message', 'Se editó correctamente el Documento.');

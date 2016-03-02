@@ -65,9 +65,7 @@ class ReportesInvestigacionController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 
-			   || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8
-			   || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12 ){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				
 				$data["metodos"] = MetodoDifusion::getMetodos()->get();
 				$data["tipos_capacitacion"] = TipoCapacitacionRiesgos::getTipos()->get();
@@ -123,7 +121,7 @@ class ReportesInvestigacionController extends BaseController
 
 					if (Input::hasFile('archivo')) {
 				        $archivo            = Input::file('archivo');
-				        $rutaDestino = 'documentos/riesgos/Reportes Investigacion/' .$reporte->codigo_abreviatura.'-'.$reporte->codigo_correlativo.'-'.$reporte->codigo_anho . '/archivo_reporte/';
+				        $rutaDestino = 'uploads/documentos/riesgos/Reportes Investigacion/' .$reporte->codigo_abreviatura.'-'.$reporte->codigo_correlativo.'-'.$reporte->codigo_anho . '/archivo_reporte/';
 				        $nombreArchivo        = $archivo->getClientOriginalName();
 				        $nombreArchivoEncriptado = Str::random(27).'.'.pathinfo($nombreArchivo, PATHINFO_EXTENSION);
 				        $uploadSuccess = $archivo->move($rutaDestino, $nombreArchivoEncriptado);
@@ -167,7 +165,7 @@ class ReportesInvestigacionController extends BaseController
 				    	if(Input::has('seleccionado-metodo-'.$i)){
 					    	if(Input::hasFile('archivo-'.$i)){
 					    		$archivo            = Input::file('archivo-'.$i);
-						        $rutaDestino = 'documentos/riesgos/Reportes Investigacion/' .$reporte->codigo_abreviatura.'-'.$reporte->codigo_correlativo.'-'.$reporte->codigo_anho . '/Metodos de Difusion/Tipo '.$metodos[$i]->id.'/';
+						        $rutaDestino = 'uploads/documentos/riesgos/Reportes Investigacion/' .$reporte->codigo_abreviatura.'-'.$reporte->codigo_correlativo.'-'.$reporte->codigo_anho . '/Metodos de Difusion/Tipo '.$metodos[$i]->id.'/';
 						        $nombreArchivo        = $archivo->getClientOriginalName();
 						        $nombreArchivoEncriptado = Str::random(27).'.'.pathinfo($nombreArchivo, PATHINFO_EXTENSION);
 						        $uploadSuccess = $archivo->move($rutaDestino, $nombreArchivoEncriptado);

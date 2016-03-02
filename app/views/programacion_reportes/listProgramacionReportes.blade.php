@@ -56,6 +56,7 @@
 	@else
 		<h1 style="font-weight:bold">Año: {{$anho_actual}}</h1>
 	@endif
+	<!--
 	<table class="table">
 		<tr>							
 			<th bgcolor='lightGreen'></th>
@@ -66,6 +67,28 @@
 			<th>Atrasado</th>
 		</tr>
 	</table>
+-->
+	<div class="col-md-3">
+		<strong>Leyenda</strong>
+		<table class="table" border="1">
+			<tr class="info">
+				<th width="10">Color</th>
+				<th width="50">Descripción</th>
+			</tr>
+			<tr>	
+				<td bgcolor='red'></td>
+				<td>Atrasado</td>	
+			</tr>
+			<tr>	
+				<td bgcolor='yellow'></td>
+				<td>En Elaboración</td>	
+			</tr>
+			<tr>				
+				<td bgcolor='lightGreen'></td>
+				<td>Concluido</td>
+			</tr>
+		</table>
+	</div>
 	@foreach($usuarios_responsable_data as $usuario_responsable_data)
 		<table class="table">
 			<tr >

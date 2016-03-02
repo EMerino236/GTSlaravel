@@ -55,19 +55,28 @@
 					<h3 class="panel-title">Lista de proyectos en curso</h3>
 				</div>
 				<div class="panel-body">
-					<!--
-				    <table class="table">
+					<table class="table">
 						<tr class="info">
-							<th>N° Reporte</th>
-							<th>Fecha y Hora</th>
-							<th>Usuario</th>
-							<th>Nombre de Equipo</th>
-							<th>Servicio Clínico</th>
-							<th>Departamento</th>
-							<th>OT de Baja de Equipo</th>
+							<th>Código del Proyecto</th>
+							<th>Nombre</th>
+							<th>Categoría</th>
+							<th>Responsable</th>
+							<th>Fecha de inicio de proyecto</th>
+							<th>Fecha de fin de proyecto</th>
 						</tr>
+						@foreach($reportes_data as $reporte_data)
+						<tr class="@if($reporte_data->deleted_at) bg-danger @endif">
+							<td>{{$reporte_data->codigo}}</td>
+							<td>
+								<a href="{{route('proyecto.show',$reporte_data->id)}}">{{$reporte_data->nombre}}</a>
+							</td>
+							<td>{{$reporte_data->categoria->nombre}}</td>
+							<td>{{$reporte_data->responsable->nombre}} {{$reporte_data->responsable->apellido_pat}} {{$reporte_data->responsable->apellido_mat}}</td>
+							<td>{{$reporte_data->fecha_ini}}</td>
+							<td>{{$reporte_data->fecha_fin}}</td>							
+						</tr>
+						@endforeach
 					</table>
-				-->
 				</div>
 			</div>
 		</div>

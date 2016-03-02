@@ -85,7 +85,7 @@ function show_modal_documentos(event,el)
 						   				"</div></div>"+
 						   				"</div></div>"+
 	                                  "<div class=\"modal-footer\">"+
-	                                    "<div class=\"col-md-4 col-md-offset-8\">"+
+	                                    "<div class=\"col-md-3 col-md-offset-9\">"+
 	                                        "<button type=\"button\" class=\"btn btn-danger btn-block\" data-dismiss=\"modal\"><span class=\"glyphicon glyphicon-remove\"></span>Cerrar</button>"+                    
 	                                    "</div>"
 	                                  "</div>"+

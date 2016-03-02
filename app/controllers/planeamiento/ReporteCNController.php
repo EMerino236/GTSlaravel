@@ -87,7 +87,7 @@ class ReporteCNController extends BaseController
 					    $nombreArchivo ='';	
 					    if (Input::hasFile('archivo')) {
 					        $archivo = Input::file('archivo');
-					        $rutaDestino = 'documentos/planeamiento/reporteCN/';
+					        $rutaDestino = 'uploads/documentos/planeamiento/reporteCN/';
 					        $nombreArchivo        = $archivo->getClientOriginalName();
 					        $nombreArchivoEncriptado = Str::random(27).'.'.pathinfo($nombreArchivo, PATHINFO_EXTENSION);
 					        $uploadSuccess = $archivo->move($rutaDestino, $nombreArchivoEncriptado);

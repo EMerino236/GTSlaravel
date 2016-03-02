@@ -489,12 +489,17 @@ Route::group(array('prefix'=>'reporte_priorizacion','before'=>'auth'),function()
 Route::group(array('prefix'=>'cotizaciones','before'=>'auth'),function(){
 	Route::get('/list_cotizacion','CotizacionController@list_cotizacion');
 	Route::get('/view_cotizacion/{id}','CotizacionController@render_view_cotizacion');
-	Route::post('/submit_edit_cotizacion','CotizacionController@submit_edit_cotizacion');
+	//Route::post('/submit_edit_cotizacion','CotizacionController@submit_edit_cotizacion');
 	Route::get('/create_cotizacion','CotizacionController@render_create_cotizacion');
 	Route::post('/submit_create_cotizacion','CotizacionController@submit_create_cotizacion');
 	Route::get('/search_cotizacion','CotizacionController@search_cotizacion');
 	Route::get('/download_documento/{id}','CotizacionController@download_documento');
 	Route::post('/export_pdf','CotizacionController@export_pdf');
+
+	Route::get('/list_cotizacion_adquisicion','CotizacionController@list_cotizacion_adquisicion');
+	Route::get('/view_cotizacion_adquisicion/{id}','CotizacionController@render_view_cotizacion_adquisicion');
+	Route::get('/search_cotizacion_adquisicion','CotizacionController@search_cotizacion_adquisicion');
+	Route::post('/export_pdf_adquisicion','CotizacionController@export_pdf_adquisicion');
 });
 
 /* Documentos PAAC */
@@ -805,6 +810,34 @@ Route::group(array('prefix'=>'adquisicion', 'before'=>'auth'),function(){
 	Route::get('/','AdquisicionController@home');
 });
 
+Route::group(array('prefix'=>'plan_mejora_proceso', 'before'=>'auth'),function(){
+	Route::get('/list_plan_mejora_procesos','PlanMejoraProcesosController@list_plan_mejora_procesos');
+	Route::get('/edit_plan_mejora_proceso/{id}','PlanMejoraProcesosController@render_edit_plan_mejora_proceso');
+	Route::post('/submit_edit_plan_mejora_proceso','PlanMejoraProcesosController@submit_edit_plan_mejora_proceso');
+	Route::get('/create_plan_mejora_proceso','PlanMejoraProcesosController@render_create_plan_mejora_proceso');
+	Route::post('/submit_create_plan_mejora_proceso','PlanMejoraProcesosController@submit_create_plan_mejora_proceso');
+	Route::get('/search_plan_mejora_proceso','PlanMejoraProcesosController@search_plan_mejora_proceso');
+	Route::post('/download_documento','PlanMejoraProcesosController@download_documento');
+	Route::post('/submit_disable_plan_mejora_proceso','PlanMejoraProcesosController@submit_disable_plan_mejora_proceso');
+	Route::post('/submit_enable_plan_mejora_proceso','PlanMejoraProcesosController@submit_enable_plan_mejora_proceso');
+	Route::get('/view_plan_mejora_proceso/{id}','PlanMejoraProcesosController@render_view_plan_mejora_proceso');	
+});
+
+Route::group(array('prefix'=>'programacion_compra', 'before'=>'auth'),function(){
+	Route::get('/list_programacion_compras','ProgramacionComprasController@list_programacion_compras');
+	Route::get('/edit_programacion_compra/{id}','ProgramacionComprasController@render_edit_programacion_compra');
+	Route::post('/submit_edit_programacion_compra','ProgramacionComprasController@submit_edit_programacion_compra');
+	Route::get('/create_programacion_compra','ProgramacionComprasController@render_create_programacion_compra');
+	Route::post('/submit_create_programacion_compra','ProgramacionComprasController@submit_create_programacion_compra');
+	Route::get('/search_programacion_compra','ProgramacionComprasController@search_programacion_compra');
+	Route::post('/submit_disable_programacion_compra','ProgramacionComprasController@submit_disable_programacion_compra');
+	Route::post('/submit_enable_programacion_compra','ProgramacionComprasController@submit_enable_programacion_compra');
+	Route::get('/view_programacion_compra/{id}','ProgramacionComprasController@render_view_programacion_compra');	
+	Route::post('/return_num_doc_responsable/{postData}','ProgramacionComprasController@return_num_doc_responsable');
+	Route::post('/return_num_doc_usuario/{postData}','ProgramacionComprasController@return_num_doc_usuario');
+	Route::post('/return_area/{postData}','ProgramacionComprasController@return_area');
+});
+
 /* Riesgos */
 Route::group(array('prefix'=>'riesgos', 'before'=>'auth'),function(){
 	Route::get('/','RiesgosController@home');
@@ -840,6 +873,7 @@ Route::group(array('prefix'=>'eventos_adversos','before'=>'auth'),function(){
 	Route::post('/export_pdf','EventosAdversosController@export_pdf');
 	Route::post('/submit_disable_evento','EventosAdversosController@submit_disable_evento');
 	Route::post('/submit_enable_evento','EventosAdversosController@submit_enable_evento');
+
 });
 
 Route::group(array('prefix'=>'reportes_calibracion','before'=>'auth'),function(){
@@ -849,7 +883,12 @@ Route::group(array('prefix'=>'reportes_calibracion','before'=>'auth'),function()
 	Route::post('/search_documentos','ReportesCalibracionController@search_documentos');
 	Route::post('/submit_create_reporte_calibracion','ReportesCalibracionController@submit_create_reporte_calibracion');	
 	Route::get('/search_reporte','ReportesCalibracionController@search_reporte_calibracion');
-	Route::get('/download_documento_anexo/{id}','ReportesCalibracionController@download_documento');
+	Route::get('/download_documento_anexo/{id}','ReportesCalibracionController@download_documento');		
+	Route::get('/edit_reporte_calibracion/{id}','ReportesCalibracionController@render_edit_reporte_calibracion');
+	Route::post('/submit_disable_reporte','ReportesCalibracionController@submit_disable_reporte');
+	Route::post('/submit_terminado_reporte','ReportesCalibracionController@submit_terminado_reporte');
+	Route::post('/submit_edit_reporte','ReportesCalibracionController@submit_edit_reporte_calibracion');
+	Route::post('/verify_reporte_calibracion','ReportesCalibracionController@verify_reporte_calibracion');
 });
 
 Route::group(array('prefix'=>'reportes_investigacion','before'=>'auth'),function(){

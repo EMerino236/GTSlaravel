@@ -69,7 +69,8 @@
 							<div class="form-group col-md-4 @if($errors->first('idservicio_cn')) has-error has-feedback @endif">
 								{{ Form::label('idservicio_cn','Servicio') }}
 								{{ Form::select('idservicio_cn',array(''=>'Seleccione') + $servicios,Input::old('idservicio_cn'),['class' => 'form-control']) }}
-							</div><div class="form-group col-md-4 @if($errors->first('idarea_select_cn')) has-error has-feedback @endif">
+							</div>
+							<div class="form-group col-md-4 @if($errors->first('idarea_select_cn')) has-error has-feedback @endif">
 								{{ Form::label('idarea_select_cn','Departamento') }}<span style='color:red'>*</span>
 								{{ Form::select('idarea_select_cn',array(''=>'Seleccione') + $areas,Input::old('idarea_select_cn'),['class' => 'form-control']) }}
 								{{ Form::hidden('idarea_cn')}}

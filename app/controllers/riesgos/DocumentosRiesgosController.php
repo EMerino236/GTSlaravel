@@ -8,7 +8,7 @@ class DocumentosRiesgosController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 ){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 4 ){
 				$data["tipo_documentos"] = TipoDocumentoRiesgos::orderBy('nombre','asc')->lists('nombre','id');
 				return View::make('riesgos/documentos_riesgos/createDocumentoRiesgos',$data);
 			}else{
@@ -26,7 +26,7 @@ class DocumentosRiesgosController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 ){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 4 ){
 				// Validate the info, create rules for the inputs
 				$attributes = array(					
 					'idtipo_documento' => 'Tipo de Documento',		
@@ -61,7 +61,7 @@ class DocumentosRiesgosController extends BaseController {
 				    $nombreArchivo        ='';	
 				    if (Input::hasFile('archivo')) {
 				        $archivo            = Input::file('archivo');
-				        $rutaDestino = 'documentos/riesgos/' . $data["tipo_documentos"][0]->nombre . '/';
+				        $rutaDestino = 'uploads/documentos/riesgos/' . $data["tipo_documentos"][0]->nombre . '/';
 				        $nombreArchivo        = $archivo->getClientOriginalName();
 				        $nombreArchivoEncriptado = Str::random(27).'.'.pathinfo($nombreArchivo, PATHINFO_EXTENSION);
 				        $uploadSuccess = $archivo->move($rutaDestino, $nombreArchivoEncriptado);
@@ -108,7 +108,7 @@ class DocumentosRiesgosController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 ) && $id){
+			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 4) && $id){
 				$data["tipo_documentos"] = TipoDocumentoRiesgos::lists('nombre','id');
 				$data["documento_info"] = DocumentoRiesgos::searchDocumentoById($id)->get();
 				$data["archivo"] = basename($data["documento_info"][0]->url);
@@ -131,7 +131,7 @@ class DocumentosRiesgosController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 ){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 4 ){
 				// Validate the info, create rules for the inputs
 				$iddocumento = Input::get('documento_id');
 				$attributes = array(
@@ -272,7 +272,7 @@ class DocumentosRiesgosController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 ){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 4 ){
 				$documento_id = Input::get('documento_id');
 				$url = "documentos_riesgos/edit_documento"."/".$documento_id;
 				$documento = DocumentoRiesgos::withTrashed()->find($documento_id);
@@ -292,7 +292,7 @@ class DocumentosRiesgosController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 ){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 4 ){
 				$documento_id = Input::get("documento_id");
 				$url = "documentos_riesgos/edit_documento"."/".$documento_id;
 				$documento = DocumentoRiesgos::find($documento_id);

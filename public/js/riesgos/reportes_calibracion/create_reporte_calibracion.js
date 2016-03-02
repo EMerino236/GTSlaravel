@@ -8,15 +8,87 @@ $( document ).ready(function(){
         $('#grupo').val(null);
     });
 
-    generar_detail_activos();
+    if($('#type_form').val() == 0)
+        generar_detail_activos();
 
     $('#btnLimpiarResultados').click(function(){
         limpiar_resultados();
     });
 
-    $('.input-group').datetimepicker({
-        ignoreReadonly: true,
-        format:'DD-MM-YYYY'
+    if($('#type_form').val() == 0)
+        $('.input-group').datetimepicker({
+            ignoreReadonly: true,
+            format:'DD-MM-YYYY'
+        });
+
+    if($('#type_form').val()==1){
+        $('#fecha_calibracion_datetimepicker').datetimepicker({
+            ignoreReadonly: true,
+            format:'DD-MM-YYYY'
+        });
+        $('#fecha_proximo_datetimepicker').datetimepicker({
+            ignoreReadonly: true,
+            format:'DD-MM-YYYY'
+        });
+    }
+
+    $('.checkbox-metodo').change(function(){
+        val = $(event.target).val();     
+        if($('.checkbox-metodo').is(':checked')){
+            $('#file-'+val).prop('readonly',true);
+            $('#input-file-'+val).fileinput('enable');
+            $('#input-file-'+val).fileinput('clear');   
+        }else{
+            $('#file-'+val).prop('readonly',false);            
+            $('#input-file-'+val).fileinput('clear');
+            $('#input-file-'+val).fileinput('disable');
+        }
+    });
+
+    $('#cb_nuevos_documentos').change(function(){
+        if($('#cb_nuevos_documentos').is(':checked')){
+            $('#div_nuevos_documentos').css('display','inline');
+            cantidad = $('#cantidad_detalle').val();
+            for(i=cantidad;i<10;i++){
+                $('#file-input-'+i).fileinput('clear');
+            }
+        }else{
+            $('#div_nuevos_documentos').css('display','none');
+            cantidad = $('#cantidad_detalle').val();            
+            for(i=cantidad;i<10;i++){
+                $('#file-input-'+i).fileinput('clear');
+            }
+        }
+    });
+
+    $('#btnDisable').click(function(){
+         BootstrapDialog.confirm({
+            title: 'Mensaje de Confirmación',
+            message: '¿Está seguro que desea realizar esta acción?', 
+            type: BootstrapDialog.TYPE_INFO,
+            btnCancelLabel: 'Cancelar', 
+            btnOKLabel: 'Aceptar', 
+            callback: function(result){
+                if(result) {
+                    document.getElementById('submit_disable').submit();
+                }
+            }
+        });
+    });
+
+     $('#btnTerminado').click(function(){
+         BootstrapDialog.confirm({
+            title: 'Mensaje de Confirmación',
+            message: '¿Está seguro que desea realizar esta acción?', 
+            type: BootstrapDialog.TYPE_INFO,
+            btnCancelLabel: 'Cancelar', 
+            btnOKLabel: 'Aceptar', 
+            callback: function(result){
+                if(result) {
+                    document.getElementById('submit_terminado').submit();
+                }
+            }
+        });
     });
 
 
@@ -73,6 +145,16 @@ function show_files(event,idactivo){
     }
 }
 
+function show_files_edit(event){
+    event.preventDefault();
+    for(i=0;i<10;i++){
+        if($('#div_file_'+i).css('display') == "none"){
+            $('#div_file_'+i).css('display','block');
+            break;
+        }
+    }
+}
+
 function limpiar_resultados(){
     $("#table_activos tr:not(:first)").remove();
     $(".modal").remove();
@@ -91,9 +173,88 @@ function generar_detail_activos(){
 
 function add_modal_documentos(event,idactivo){
     event.preventDefault();
-    if($('#modal_'+idactivo).length){
-        $('#modal_'+idactivo).modal('show');
-    }    
+    /*aca se verifica si se muestra el modal para agregar documentos o no
+    dependiendo si lo puede agregar*/
+    $.ajax({
+        url: inside_url+'reportes_calibracion/verify_reporte_calibracion',
+        type: 'POST',
+        async: false,
+        data: { 'idactivo' : idactivo },
+        beforeSend: function(){
+            $("#delete-selected-profiles").addClass("disabled");
+            $("#delete-selected-profiles").hide();
+            $(".loader_container").show();
+        },
+        complete: function(){
+            $(".loader_container").hide();
+            $("#delete-selected-profiles").removeClass("disabled");
+            $("#delete-selected-profiles").show();
+            delete_selected_profiles = true;
+        },
+        success: function(response){
+            if(response.success){
+                var reporte = response["reporte"];
+                if(reporte == null){
+                    // si no ha habido ningun reporte activo ultimo como pendiente
+                    // se muestra el modal
+                    if($('#modal_'+idactivo).length){
+                        $('#modal_'+idactivo).modal('show');
+                    } 
+                }else{
+                    fecha_proximo_reporte = reporte.fecha_proxima_calibracion;
+                    array_fecha = fecha_proximo_reporte.split('-');
+                    fecha_proximo = new Date(array_fecha[0],(array_fecha[1]-1),array_fecha[2]);
+                    fecha_actual = new Date();  
+                    fecha_actual.setHours(0,0,0,0);     
+                    idestado = reporte.idestado;
+                    if(fecha_actual < fecha_proximo){
+                         dialog = BootstrapDialog.show({
+                            title: 'Advertencia',
+                            message: 'La fecha próxima de calibración es: '+array_fecha[2]+"-"+array_fecha[1]+"-"+array_fecha[0],
+                            closable: false,
+                            type : BootstrapDialog.TYPE_INFO,
+                            buttons: [{
+                                label: 'Aceptar',
+                                action: function(dialog) {
+                                    dialog.close();                        
+                                }
+                            }]
+                        });
+                    }else if(+fecha_actual >= +fecha_proximo){
+                        if(idestado == 27 || idestado == 29){
+                            dialog = BootstrapDialog.show({
+                                title: 'Advertencia',
+                                message: 'La última calibración sigue pendiente.\nDebe actualizar el reporte '+reporte.codigo_abreviatura+'-'+reporte.codigo_correlativo+'-'+
+                                reporte.codigo_anho+' como Terminado para poder registrar la siguiente calibración.',
+                                closable: false,
+                                type : BootstrapDialog.TYPE_DANGER,
+                                buttons: [{
+                                    label: 'Aceptar',
+                                    action: function(dialog) {
+                                        dialog.close();                        
+                                    }
+                                }]
+                            });
+                        }else{
+                            if($('#modal_'+idactivo).length){
+                                $('#modal_'+idactivo).modal('show');
+                            }
+                        }                             
+                    }
+
+                }
+                
+            }else{
+                alert('La petición no se pudo completar, inténtelo de nuevo.');
+            }
+        },
+        error: function(){
+            alert('La petición no se pudo completar, inténtelo de nuevo.');
+        }
+    });
+
+
+       
 }
 
 function deleteRow(event,el)
@@ -121,7 +282,7 @@ function deleteRow(event,el)
     $('#cantidad_activos').val(cantidad_activos);
 }
 
-function hide_div(event,idactivo,i){
+function hide_div_edit(event,i){
     event.preventDefault();
-    $('#div_file_'+idactivo+'_'+i).css('display','none');
+    $('#div_file_'+i).css('display','none');
 }

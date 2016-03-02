@@ -28,7 +28,7 @@
 	@endif
 
 	{{ Form::open(array('url'=>'/reportes_calibracion/search_activos','method'=>'get' ,'role'=>'form', 'id'=>'search-form','class' => 'form-group')) }}
-	
+		{{Form::hidden('type_form',0,array('id'=>'type_form'))}}
 		<div class="panel panel-default">
 		  <div class="panel-heading">
 		    <h3 class="panel-title">Criterios de Búsqueda de Activos</h3>

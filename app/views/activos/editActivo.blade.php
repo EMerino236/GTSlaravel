@@ -145,7 +145,44 @@
 				</div>			
 			</div>
 		</div>
-
+		@if($reporte_calibracion != null)
+		<div class="row">			
+			<div class="col-md-12">
+				<div class="panel panel-default">
+		  		<div class="panel-heading">Calibración del Equipo - {{$reporte_calibracion->codigo_abreviatura}}-{{$reporte_calibracion->codigo_correlativo}}-{{$reporte_calibracion->codigo_anho}}</div>
+		  			<div class="panel-body">		  				
+		       			<div class="row">
+		       				<div class="form-group col-md-6">
+								{{ Form::label('fecha_calibracion','Fecha de Calibracion') }}
+								
+								{{ Form::text('fecha_calibracion',date('d-m-Y',strtotime($reporte_calibracion->fecha_calibracion)),array('class'=>'form-control','readonly'=>'','id'=>'fecha_calibracion')) }}
+									
+							</div>
+							<div class="form-group col-md-6">
+								{{ Form::label('fecha_proximo','Fecha Próxima de Calibración') }}
+									{{ Form::text('fecha_proximo',date('d-m-Y',strtotime($reporte_calibracion->fecha_proxima_calibracion)),array('class'=>'form-control','readonly'=>'','id'=>'fecha_proximo')) }}
+							</div>
+		       			</div>
+		  				@foreach($detalles_reporte_calibracion as $index => $detalle)
+						<div class="row" >
+		        			<div class="col-md-6 col-md-offset-2 form-group @if($errors->first('nombre_doc')) has-error has-feedback @endif">
+		        				{{ Form::label('label_doc',($index+1).') Certificado de Calibración:') }}
+		        				{{ Form::text('nombre',$detalle->nombre_archivo,array('class'=>'form-control','id'=>'file-'.$index,'readonly'=>''))}}								
+		       				</div>
+		       				<div class="col-md-2" style="margin-top:25px;">
+		       					@if($detalle->url != '')
+									<a class="btn btn-success btn-block" id="btn-{{$index}}" href="{{URL::to('/reportes_calibracion/download_documento_anexo')}}/{{$detalle->id}}" ><span class="glyphicon glyphicon-download"></span> Descargar</a>
+								@else
+									Sin archivo adjunto
+								@endif
+		       				</div>
+		       			</div>
+		       			@endforeach
+					</div>
+				</div>			
+			</div>
+		</div>
+		@endif
 		<div class="container-fluid row">
 			<div class="form-group col-md-2 col-md-offset-8">				
 				{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit-edit', 'type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}
@@ -153,8 +190,7 @@
 			<div class="form-group col-md-2">				
 				<a class="btn btn-default btn-block" href="{{URL::to('/equipos/list_equipos')}}">Cancelar</a>
 			</div>
-		</div>		
-		
-				
+		</div>					
 	{{ Form::close() }}
+	
 @stop
