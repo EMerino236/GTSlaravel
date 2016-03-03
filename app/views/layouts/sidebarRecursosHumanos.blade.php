@@ -11,7 +11,7 @@
                     <li>
                         <a href="#">Identificación de programas de capacitación<span class="fa arrow"></span></a>
                         <ul class="nav nav-third-level">
-                            <li>{{ HTML::link('#','Listado de capacitaciones') }}</li>
+                            <li>{{ HTML::link('rrhh/list_capacitaciones','Listado de capacitaciones') }}</li>
                             <li>{{ HTML::link('#','Indicadores de capacitación') }}</li>
                         </ul>
                     </li>
