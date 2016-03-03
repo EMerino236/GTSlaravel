@@ -11,7 +11,7 @@ class ModeloActivo extends Eloquent{
 
 	public function familiaActivo()
 	{
-		return $this->belongsTo('familiaActivo','idfamilia_activo');
+		return $this->belongsTo('FamiliaActivo','idfamilia_activo');
 	}	
 
 	public function scopeGetModeloByFamiliaActivo($query,$search_idfamilia)
