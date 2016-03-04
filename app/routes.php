@@ -1031,3 +1031,58 @@ Route::group(array('prefix'=>'informacion_economica','before'=>'auth'),function(
 
 	Route::post('/validarProyectoExisteAjax',['uses'=>'InformacionEconomicaController@validarProyectoExisteAjax','as'=>'informacion_economica.validarProyectoExiste.ajax']);
 });
+
+/* Indicadores diseño */
+Route::group(array('prefix'=>'indicador_diseno','before'=>'auth'),function(){
+	Route::get('/index',['uses'=>'IndicadorDisenoController@index','as'=>'indicador_diseno.index']);
+	Route::get('/create',['uses'=>'IndicadorDisenoController@create','as'=>'indicador_diseno.create']);
+	Route::post('/create',['uses'=>'IndicadorDisenoController@store','as'=>'indicador_diseno.store']);
+	Route::get('/show/{id}',['uses'=>'IndicadorDisenoController@show','as'=>'indicador_diseno.show']);
+	Route::get('/edit/{id}/{tipo}',['uses'=>'IndicadorDisenoController@edit','as'=>'indicador_diseno.edit']);
+	Route::post('/edit/{id}',['uses'=>'IndicadorDisenoController@update','as'=>'indicador_diseno.update']);
+
+});
+
+/* Indicadores elaboracion guia */
+Route::group(array('prefix'=>'indicador_elaboracion','before'=>'auth'),function(){
+	Route::get('/index',['uses'=>'IndicadorElaboracionController@index','as'=>'indicador_elaboracion.index']);
+	Route::get('/create',['uses'=>'IndicadorElaboracionController@create','as'=>'indicador_elaboracion.create']);
+	Route::post('/create',['uses'=>'IndicadorElaboracionController@store','as'=>'indicador_elaboracion.store']);
+	Route::get('/show/{id}',['uses'=>'IndicadorElaboracionController@show','as'=>'indicador_elaboracion.show']);
+	Route::get('/edit/{id}/{tipo}',['uses'=>'IndicadorElaboracionController@edit','as'=>'indicador_elaboracion.edit']);
+	Route::post('/edit/{id}',['uses'=>'IndicadorElaboracionController@update','as'=>'indicador_elaboracion.update']);
+
+});
+
+/* Indicadores investigacion */
+Route::group(array('prefix'=>'indicador_investigacion','before'=>'auth'),function(){
+	Route::get('/index',['uses'=>'IndicadorInvestigacionController@index','as'=>'indicador_investigacion.index']);
+	Route::get('/create',['uses'=>'IndicadorInvestigacionController@create','as'=>'indicador_investigacion.create']);
+	Route::post('/create',['uses'=>'IndicadorInvestigacionController@store','as'=>'indicador_investigacion.store']);
+	Route::get('/show/{id}',['uses'=>'IndicadorInvestigacionController@show','as'=>'indicador_investigacion.show']);
+	Route::get('/edit/{id}/{tipo}',['uses'=>'IndicadorInvestigacionController@edit','as'=>'indicador_investigacion.edit']);
+	Route::post('/edit/{id}',['uses'=>'IndicadorInvestigacionController@update','as'=>'indicador_investigacion.update']);
+
+});
+
+/* Indicadores proyecto */
+Route::group(array('prefix'=>'indicador_proyecto','before'=>'auth'),function(){
+	Route::get('/index',['uses'=>'IndicadorProyectoController@index','as'=>'indicador_proyecto.index']);
+	Route::get('/create',['uses'=>'IndicadorProyectoController@create','as'=>'indicador_proyecto.create']);
+	Route::post('/create',['uses'=>'IndicadorProyectoController@store','as'=>'indicador_proyecto.store']);
+	Route::get('/show/{id}',['uses'=>'IndicadorProyectoController@show','as'=>'indicador_proyecto.show']);
+	Route::get('/edit/{id}/{tipo}',['uses'=>'IndicadorProyectoController@edit','as'=>'indicador_proyecto.edit']);
+	Route::post('/edit/{id}',['uses'=>'IndicadorProyectoController@update','as'=>'indicador_proyecto.update']);
+
+});
+
+/* Indicadores TTS */
+Route::group(array('prefix'=>'indicador_tts','before'=>'auth'),function(){
+	Route::get('/index',['uses'=>'IndicadorTTSController@index','as'=>'indicador_tts.index']);
+	Route::get('/create',['uses'=>'IndicadorTTSController@create','as'=>'indicador_tts.create']);
+	Route::post('/create',['uses'=>'IndicadorTTSController@store','as'=>'indicador_tts.store']);
+	Route::get('/show/{id}',['uses'=>'IndicadorTTSController@show','as'=>'indicador_tts.show']);
+	Route::get('/edit/{id}/{tipo}',['uses'=>'IndicadorTTSController@edit','as'=>'indicador_tts.edit']);
+	Route::post('/edit/{id}',['uses'=>'IndicadorTTSController@update','as'=>'indicador_tts.update']);
+
+});

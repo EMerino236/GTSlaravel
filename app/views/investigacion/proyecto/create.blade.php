@@ -28,6 +28,7 @@
 			<p><strong>{{ $errors->first('crono_descs') }}</strong></p>
 			<p><strong>{{ $errors->first('crono_fechas_ini') }}</strong></p>
 			<p><strong>{{ $errors->first('crono_fechas_fin') }}</strong></p>
+			<p><strong>{{ $errors->first('crono_duraciones') }}</strong></p>
 			<p><strong>{{ $errors->first('pre_descs') }}</strong></p>
 			<p><strong>{{ $errors->first('pre_montos') }}</strong></p>
 			<p><strong>{{ $errors->first('pers_nombres') }}</strong></p>
@@ -352,6 +353,7 @@
 											<th>Descripción</th>
 											<th>Fecha Inicio</th>
 											<th>Fecha Fin</th>
+											<th>Duración</th>
 											<th></th>
 										</tr>
 										<tbody class="crono_table">
@@ -361,6 +363,7 @@
 														<td><input style="border:0" name='crono_descs[]' value='{{$data}}' readonly/></td>
 														<td><input style="border:0" name='crono_fechas_ini[]' value='{{Input::old('crono_fechas_ini')[$key]}}' readonly/></td>
 														<td><input style="border:0" name='crono_fechas_fin[]' value='{{Input::old('crono_fechas_fin')[$key]}}' readonly/></td>
+														<td><input style="border:0" name='crono_duraciones[]' value='{{Input::old('crono_duraciones')[$key]}}' readonly/></td>
 														<td><a href='' class='btn btn-default delete-detail' onclick='deleteRow(event,this)'>Eliminar</a></td></tr>
 													</tr>
 												@endforeach

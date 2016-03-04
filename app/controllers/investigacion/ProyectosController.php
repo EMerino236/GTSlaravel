@@ -141,6 +141,7 @@ class ProyectosController extends \BaseController {
 							'crono_descs' => 'required',
 							'crono_fechas_ini' => 'required',
 							'crono_fechas_fin' => 'required',
+							'crono_duraciones' => 'required',
 							'pre_descs' => 'required',
 							'pre_montos' => 'required',
 							'pers_nombres' => 'required',
@@ -254,11 +255,13 @@ class ProyectosController extends \BaseController {
 					$crono_descs = Input::get('crono_descs');
 					$crono_fechas_ini = Input::get('crono_fechas_ini');
 					$crono_fechas_fin = Input::get('crono_fechas_fin');
+					$crono_duraciones = Input::get('crono_duraciones');
 					foreach ($crono_descs as $key => $descripcion) {
 						$proyecto_cronograma = new ProyectoCronograma;
 						$proyecto_cronograma->descripcion = $descripcion;
 						$proyecto_cronograma->fecha_ini = date('Y-m-d',strtotime($crono_fechas_ini[$key]));
 						$proyecto_cronograma->fecha_fin = date('Y-m-d',strtotime($crono_fechas_fin[$key]));
+						$proyecto_cronograma->duracion = $crono_duraciones[$key];
 						$proyecto_cronograma->id_proyecto = $proyecto->id;
 
 						$proyecto_cronograma->save();
@@ -481,12 +484,14 @@ class ProyectosController extends \BaseController {
 					$crono_descs = Input::get('crono_descs');
 					$crono_fechas_ini = Input::get('crono_fechas_ini');
 					$crono_fechas_fin = Input::get('crono_fechas_fin');
+					$crono_duraciones = Input::get('crono_duraciones');
 					if($crono_descs){
 						foreach ($crono_descs as $key => $descripcion) {
 							$proyecto_cronograma = new ProyectoCronograma;
 							$proyecto_cronograma->descripcion = $descripcion;
 							$proyecto_cronograma->fecha_ini = date('Y-m-d',strtotime($crono_fechas_ini[$key]));
 							$proyecto_cronograma->fecha_fin = date('Y-m-d',strtotime($crono_fechas_fin[$key]));
+							$proyecto_cronograma->duracion = $crono_duraciones[$key];
 							$proyecto_cronograma->id_proyecto = $proyecto->id;
 
 							$proyecto_cronograma->save();
@@ -926,6 +931,7 @@ class ProyectosController extends \BaseController {
 							'descripcion' => 'required',
 							'fecha_ini' => 'required',
 							'fecha_fin' => 'required',
+							'duracion'	=>	'required',
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules);
@@ -938,7 +944,8 @@ class ProyectosController extends \BaseController {
 					$cronograma->descripcion = Input::get('descripcion');
 					$cronograma->fecha_ini = date('Y-m-d',strtotime(Input::get('fecha_ini')));
 					$cronograma->fecha_ini = date('Y-m-d',strtotime(Input::get('fecha_ini')));
-					
+					$cronograma->duracion = Input::get('duracion');
+
 					$cronograma->save();
 					
 					Session::flash('message', 'Se modificó correctamente el cronograma.');

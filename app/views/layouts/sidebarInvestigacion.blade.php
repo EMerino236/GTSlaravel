@@ -22,7 +22,7 @@
                             <li>{{ HTML::link('plantillas_mant_preventivo/list_mantenimientos','Plantillas de mantenimiento') }}</li>
                         </ul>
                     </li>
-                    <li>{{ HTML::link('#','Indicadores de diseño de procesos y procedimientos') }}</li>
+                    <li>{{ HTML::linkRoute('indicador_diseno.index','Indicadores de diseño de procesos y procedimientos') }}</li>
                 </ul>                
             </li>
             
@@ -32,7 +32,7 @@
                     <li>{{ HTML::link('guias_clinica_gpc/list_guias','Guía de Práctica Clínica') }}</li>
                     <li>{{ HTML::link('guias_tecno_salud/list_guias','Guía de Práctica de TS') }}</li>
                     <li>{{ HTML::link('/reporte_etes/list_reporte_etes','ETES de procedimientos clínicos') }}</li>
-                    <li>{{ HTML::link('#','Indicadores de elaboración de guía de práctica clínica') }}</li>
+                    <li>{{ HTML::linkRoute('indicador_elaboracion.index','Indicadores de elaboración de guía de práctica clínica') }}</li>
                 </ul>
             </li>
 
@@ -48,7 +48,7 @@
                     <li>{{ HTML::linkRoute('reporte_financiamiento.index','Reporte que certifica la problemática') }}</li>
                     <li>{{ HTML::linkRoute('requerimientos_clinicos.index','Requerimientos clínicos') }}</li>
                     <li>{{ HTML::linkRoute('reporte_desarrollo.index','Reporte de desarrollo de línea de investigación') }}</li>
-                    <li>{{ HTML::link('#','Indicadores de investigación') }}</li>
+                    <li>{{ HTML::linkRoute('indicador_investigacion.index','Indicadores de investigación') }}</li>
                 </ul>
             </li>
 
@@ -63,14 +63,14 @@
                     <li>{{ HTML::linkRoute('proyecto_documentacion.index','Documentación general') }}</li>
                     <li>{{ HTML::linkRoute('informacion_economica.index','Informe económico') }}</li>
                     <li>{{ HTML::linkRoute('plan_aprendizaje.index','Plan de aprendizaje') }}</li>
-                    <li>{{ HTML::link('#','Indicadores de proyecto') }}</li>
+                    <li>{{ HTML::linkRoute('indicador_proyecto.index','Indicadores de proyecto') }}</li>
                 </ul>
             </li>
            
             <li>
                 <a href="#">Gestión de transferencia de TS<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
-                    <li>{{ HTML::link('#','Indicadores de TTS') }}</li>                    
+                    <li>{{ HTML::linkRoute('indicador_tts.index','Indicadores de TTS') }}</li>                    
                     <li>{{ HTML::linkRoute('reporte_seguimiento.index','Reporte de seguimiento y control') }}</li>
                 </ul>
             </li>

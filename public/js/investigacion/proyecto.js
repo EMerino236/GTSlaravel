@@ -154,9 +154,12 @@ function agregarProyCrono(){
         });  
     }
 
+    var duracion = Date.daysBetween($('#datetimepicker_crono_ini').data("DateTimePicker").viewDate()._d,$('#datetimepicker_crono_fin').data("DateTimePicker").viewDate()._d);
+
     var str = "<tr><td><input style=\"border:0\" name='crono_descs[]' value='"+descripcion+"' readonly/></td>";
     str += "<td><input style=\"border:0\" name='crono_fechas_ini[]' value='"+fecha_ini+"' readonly/></td>";
     str += "<td><input style=\"border:0\" name='crono_fechas_fin[]' value='"+fecha_fin+"' readonly/></td>";
+    str += "<td><input style=\"border:0\" name='crono_duraciones[]' value='"+duracion+"' readonly/></td>";
     str += "<td><a href='' class='btn btn-default delete-detail' onclick='deleteRow(event,this)'>Eliminar</a></td></tr>";
     $(str).prependTo(".crono_table");
 
