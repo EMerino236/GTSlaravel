@@ -1,5 +1,6 @@
 $( document ).ready(function(){
-
+    var menor_fecha = -1;
+    var mayor_fecha = -1;
 	$('#btnAgregarCrono').click(function(){
         var descripcion = $("input[name=crono_descripcion]").val();
         var fecha_ini = $("input[name=fecha_ini]").val();
@@ -12,9 +13,32 @@ $( document ).ready(function(){
         	});
         }
 
-        var duracion_total = parseInt(0 + $('input[name=duracion]').val());
-        var duracion = Date.daysBetween($('#datetimepicker_cronograma_ini').data("DateTimePicker").viewDate()._d,$('#datetimepicker_cronograma_fin').data("DateTimePicker").viewDate()._d);
-        $('input[name=duracion]').val(duracion_total + duracion);
+        fecha_ini_date = new Date(fecha_ini.split("-")[2],fecha_ini.split("-")[1],fecha_ini.split("-")[0]);
+        fecha_fin_date = new Date(fecha_fin.split("-")[2],fecha_fin.split("-")[1],fecha_fin.split("-")[0]);
+
+        if(menor_fecha == -1 && mayor_fecha == -1){
+            menor_fecha = fecha_ini_date;
+            mayor_fecha = fecha_fin_date;
+            //console.log("Inicializa: menor_fecha="+menor_fecha+" y mayor_fecha="+mayor_fecha);
+        }else{
+            if((menor_fecha > fecha_ini_date) && (mayor_fecha < fecha_fin_date)){
+                menor_fecha = fecha_ini_date;
+                mayor_fecha = fecha_fin_date;
+                //console.log("Ambas fechas sobrepasan lo previo");
+            }else if(menor_fecha > fecha_ini_date){
+                menor_fecha = fecha_ini;
+                //console.log("Nueva fecha menor: "+menor_fecha);
+            }else if(mayor_fecha < fecha_fin_date){
+                mayor_fecha = fecha_fin_date;
+                //console.log("Nueva fecha mayor: "+mayor_fecha);
+            }
+        }
+        var duracion_total = Date.daysBetween(menor_fecha,mayor_fecha);
+        //console.log(duracion_total);
+        $('input[name=duracion]').val(duracion_total);
+
+        var duracion = Date.daysBetween(fecha_ini_date,fecha_fin_date);
+        
 
         var str = "<tr><td><input style=\"border:0\" name='crono_descripciones[]' value='"+descripcion+"' readonly/></td>";
         str += "<td><input style=\"border:0\" name='fechas_ini[]' value='"+fecha_ini+"' readonly/></td>";
@@ -31,7 +55,9 @@ $( document ).ready(function(){
 
     $('#btnAgregarInv').click(function(){
       var descripcion = $("input[name=inv_descripcion]").val();
-      var costo = $("input[name=costo]").val();
+      var costo = parseFloat($("input[name=costo]").val());
+      var total = parseFloat($("#total").val());
+
       if(descripcion.length < 1 || costo.length<1){
          return BootstrapDialog.alert({
             title: 	'Alerta',
@@ -41,9 +67,10 @@ $( document ).ready(function(){
 
      var str = "<tr><td><input style=\"border:0\" name='inv_descripciones[]' value='"+descripcion+"' readonly/></td>";
      str += "<td><input style=\"border:0\" name='costos[]' value='"+costo+"' readonly/></td>";
-     str += "<td><a href='' class='btn btn-default delete-detail' onclick='deleteRow(event,this)'>Eliminar</a></td></tr>";
+     str += "<td><a href='' class='btn btn-default delete-detail' onclick='deleteRowProyPre(event,this)'>Eliminar</a></td></tr>";
      $(str).prependTo(".inv_table");
 
+     $("#total").val(total + costo);
      $("input[name=inv_descripcion]").val('');
      $("input[name=costo]").val('');
     });
@@ -72,8 +99,8 @@ $( document ).ready(function(){
 });
 
 Date.daysBetween = function( date1, date2 ) {
-    //Get 1 day in milliseconds
-    var one_day=1000*60*60*24*30;
+    //Get 1 month in milliseconds
+    var one_month=1000*60*60*24*30;
 
     // Convert both dates to milliseconds
     var date1_ms = date1.getTime();
@@ -83,20 +110,52 @@ Date.daysBetween = function( date1, date2 ) {
     var difference_ms = date2_ms - date1_ms;
 
     // Convert back to days and return
-    return Math.round(difference_ms/one_day); 
+    return Math.round(difference_ms/one_month); 
 }
 
 function deleteRowCrono(event,el)
 {
+    menor = -1;
+    mayor = -1;
 	event.preventDefault();
 	var parent = el.parentNode;
 	parent = parent.parentNode;
-
-    var duracion_total = parseInt(0 + $('input[name=duracion]').val());
-    var duracion = parent.childNodes[3].children[0].value;
-    $('input[name=duracion]').val(duracion_total - duracion);
-	
+    table = parent.parentNode;
+    
     parent.parentNode.removeChild(parent);
+
+    if(table.childNodes.length != 1){
+        for(i = 0;i < table.childNodes.length - 1; i++){
+            //Fechas iniciales
+            fecha_ini = table.childNodes[i].childNodes[1].children[0].value;
+            fecha_ini_date = new Date(fecha_ini.split("-")[2],fecha_ini.split("-")[1],fecha_ini.split("-")[0]);
+            if(menor == -1){
+                menor = fecha_ini_date;
+            }else{
+                if(fecha_ini_date < menor){
+                    menor = fecha_ini_date;
+                }
+            }
+            //Fechas finales
+            fecha_fin = table.childNodes[i].childNodes[2].children[0].value;
+            fecha_fin_date = new Date(fecha_fin.split("-")[2],fecha_fin.split("-")[1],fecha_fin.split("-")[0]);
+            if(mayor == -1){
+                mayor = fecha_fin_date;
+            }else{
+                if(fecha_fin_date > mayor){
+                    mayor = fecha_fin_date;
+                }
+            }
+        }
+
+        duracion = Date.daysBetween(menor,mayor);
+
+    }else{
+        duracion = 0;
+    }
+    
+    $('input[name=duracion]').val(duracion);
+    
 }
 
 function deleteRow(event,el)
@@ -201,4 +260,18 @@ function limpiar_criterios_reporte_des()
     $('#search_fecha_ini').val('');
     $('#search_fecha_fin').val('');
   
+}
+
+function deleteRowProyPre(event,el)
+{
+    event.preventDefault();
+    var parent = el.parentNode;
+    parent = parent.parentNode;
+
+    var subtotal = parseFloat(parent.children[1].children[0].value);
+    var total = parseFloat($("#total").val());
+
+    $("#total").val(total - subtotal);
+    
+    parent.parentNode.removeChild(parent);
 }

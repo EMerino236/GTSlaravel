@@ -8,7 +8,10 @@ class ReporteETESController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
-			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || 
+				$data["user"]->idrol == 7 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || 
+				$data["user"]->idrol == 12){
+				
 				$data["tipo_reporte_etes"] = TipoReporteETES::lists('nombre','idtipo_reporte_etes');
 				$data["programaciones_reporte_etes"] = ProgramacionReporteETES::where('idestado_programacion_reportes',1)
 																			->where('iduser',$data["user"]->id)

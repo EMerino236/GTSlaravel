@@ -198,11 +198,12 @@
 													<tr>
 														<td><input style="border:0" name='inv_descripciones[]' value='{{$desc}}' readonly/></td>
 														<td><input style="border:0" name='costos[]' value='{{Input::old('costos')[$key]}}' readonly/></td>
-														<td><a href='' class='btn btn-default delete-detail' onclick='deleteRow(event,this)'>Eliminar</a></td></tr>
+														<td><a href='' class='btn btn-default delete-detail' onclick='deleteRowProyPre(event,this)'>Eliminar</a></td></tr>
 													</tr>
 												@endforeach
 											@endif
 										</tbody>
+										<th>TOTAL: S/. <input class="cell" name="total" value="{{0+Input::old('total')}}" id="total" readonly/></th>
 									</table>
 								</div>
 							</div>
