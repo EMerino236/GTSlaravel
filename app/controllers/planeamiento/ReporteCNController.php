@@ -44,7 +44,7 @@ class ReporteCNController extends BaseController
 				$attributes = array(
 					'idprogramacion_reporte_cn' => 'Programaciones No Concluidas',
 					'archivo' => 'Documento adjunto',
-					'codigo_ot_retiro' => 'OT de Baja de Equipo',
+					'idot_retiro' => 'OT de Baja de Equipo',
 				);
 
 				$messages = array();
@@ -52,7 +52,7 @@ class ReporteCNController extends BaseController
 				$rules = array(
 							'idprogramacion_reporte_cn' => 'required',
 							'archivo' => 'required|max:15360',		
-							'codigo_ot_retiro' => 'required',									
+							'idot_retiro' => 'required',									
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);

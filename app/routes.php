@@ -922,6 +922,8 @@ Route::group(array('prefix'=>'ipers','before'=>'auth'),function(){
 /* RRHH */
 Route::group(array('prefix'=>'rrhh', 'before'=>'auth'),function(){
 	Route::get('/','RRHHController@home');
+	Route::get('/list_capacitaciones','RRHHController@list_capacitaciones');
+	Route::get('/create_capacitacion','RRHHController@render_create_capacitacion');
 });
 
 /* Documentacion general de proyecto */

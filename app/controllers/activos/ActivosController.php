@@ -608,8 +608,19 @@ class ActivosController extends BaseController
 				$data["documento_certificado_func"]= Documento::searchDocumentoCertificadoFuncionalidadByIdReporteInstalacion($data["reporte_instalacion"]->idreporte_instalacion)->get();
 				$data["documento_manual"]= Documento::searchDocumentoManualByIdReporteInstalacion($data["reporte_instalacion"]->idreporte_instalacion)->get();
 				$data["documento_trd"]= Documento::searchDocumentoTdRByIdReporteInstalacion($data["reporte_instalacion"]->idreporte_instalacion)->get();
+				
+				if(!$data["documento_contrato"]->isEmpty())
+					array_push($data["documentos"],$data["documento_contrato"][0]);
 
-				array_push($data["documentos"],$data["documento_contrato"][0],$data["documento_certificado_func"][0],$data["documento_manual"][0],$data["documento_trd"][0]);
+				if(!$data["documento_certificado_func"]->isEmpty())
+					array_push($data["documentos"],$data["documento_certificado_func"][0]);
+
+				if(!$data["documento_manual"]->isEmpty())
+					array_push($data["documentos"],$data["documento_manual"][0]);
+
+				if(!$data["documento_trd"]->isEmpty())
+					array_push($data["documentos"],$data["documento_trd"][0]);
+				
 				
 				$data["soporte_tecnico_info"] = SoporteTecnicoxActivo::searchSoporteTecnicoByActivo($idequipo)->get();
 

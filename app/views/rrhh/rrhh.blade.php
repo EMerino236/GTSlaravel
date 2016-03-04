@@ -1,4 +1,4 @@
-@extends('templates/planeamientoTemplate')
+@extends('templates/recursosHumanosTemplate')
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
