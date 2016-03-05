@@ -74,7 +74,9 @@
 
 		<div class="form-group row">
 			<div class="col-md-4">
-				{{ Form::label('fecha_adquisicion_ini','Fecha de Adquisición Inicial') }}
+				{{ Form::label('fecha_adquisicion_ini','Fecha de Adquisición') }}
+				<br>
+				{{ Form::label('fecha_adquisicion_ini','Desde:') }}
 				<div id="datetimepicker1" class="form-group input-group date">
 					{{ Form::text('fecha_adquisicion_ini',$fecha_adquisicion_ini,array('class'=>'form-control','readonly'=>'')) }}
 					<span class="input-group-addon">
@@ -83,7 +85,8 @@
 				</div>				
 			</div>											
 			<div class="col-md-4">
-				{{ Form::label('fecha_adquisicion_fin','Fecha de Adquisición Final') }}
+				<br>
+				{{ Form::label('fecha_adquisicion_fin','Hasta:') }}
 				<div id="datetimepicker2" class="form-group input-group date">
 					{{ Form::text('fecha_adquisicion_fin',$fecha_adquisicion_fin,array('class'=>'form-control','readonly'=>'')) }}
 					<span class="input-group-addon">
@@ -102,10 +105,10 @@
 
 		<div class="row">
 			<div class="form-group col-md-2 col-md-offset-8">
-				{{ Form::button('<span class="glyphicon glyphicon-search"></span> Buscar', array('id'=>'submit-search-form','type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}				
+				{{ Form::button('<span class="glyphicon glyphicon-search"></span> Buscar', array('id'=>'submit-search-form','type' => 'submit', 'class' => 'btn btn-primary btn-block', 'style'=>'width:145px')) }}				
 			</div>
 			<div class="form-group col-md-2">
-				<div class="btn btn-default btn-block" id="btnLimpiar_list_activos">Limpiar</div>				
+				<div class="btn btn-default btn-block" style="width:145px" id="btnLimpiar_list_activos">Limpiar</div>				
 			</div>
 		</div>
 	  </div>
