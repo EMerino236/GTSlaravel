@@ -43,9 +43,10 @@
 		</div>
 		<div class="col-md-4" style="margin-top:50px;">
 			<font size=6 color="#337ab7"><i class="fa fa-graduation-cap fa-fw"></i> Investigación</font>
-			<p style="text-align:justify;">El módulo de investigación realiza la retroalimentación del software 
-				a través de la actualización de formatos usados en los otros módulos así como la gestión de los 
-				proyectos de investigación.</p>
+			<p style="text-align:justify;">El módulo de investigación guía el diseño y mejora de las herramientas de
+			GTS (procesos, fichas, formatos, etc.), así como guiar los proyectos de
+			investigación, estudios y productos de información para toma de decisiones
+			en la GTS.</p>
 		</div>
 	</div>
 	<div class="row">
