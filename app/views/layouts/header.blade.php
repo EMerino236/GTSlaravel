@@ -34,7 +34,7 @@
 		<a href="{{ URL::to('investigacion') }}"><i class="fa fa-graduation-cap fa-fw"></i> Investigación</a>
     </li>
 	<li>
-		<a href="{{ URL::to('#') }}"><i class="fa fa-users fa-fw"></i> RRHH</a>
+		<a href="{{ URL::to('rrhh') }}"><i class="fa fa-users fa-fw"></i> RRHH</a>
     </li>
     
     <!-- /.dropdown -->

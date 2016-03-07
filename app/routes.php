@@ -922,8 +922,30 @@ Route::group(array('prefix'=>'ipers','before'=>'auth'),function(){
 /* RRHH */
 Route::group(array('prefix'=>'rrhh', 'before'=>'auth'),function(){
 	Route::get('/','RRHHController@home');
-	Route::get('/list_capacitaciones','RRHHController@list_capacitaciones');
-	Route::get('/create_capacitacion','RRHHController@render_create_capacitacion');
+});
+
+/* Plan de desarrollo de rrhh*/
+Route::group(array('prefix'=>'plan_desarrollo', 'before'=>'auth'),function(){
+	Route::get('/index',['uses' => 'PlanDesarrolloController@index', 'as'=>'plan_desarrollo.index']);
+	Route::get('/create',['uses' => 'PlanDesarrolloController@create', 'as'=>'plan_desarrollo.create']);
+});
+
+/* Capacitaciones de rrhh*/
+Route::group(array('prefix'=>'capacitacion', 'before'=>'auth'),function(){
+	Route::get('/index',['uses' => 'CapacitacionesController@index','as' => 'capacitacion.index']);
+	Route::get('/create',['uses' => 'CapacitacionesController@create', 'as' => 'capacitacion.create']);
+});
+
+/* Acuerdos y convenios*/
+Route::group(array('prefix'=>'convenio', 'before'=>'auth'),function(){
+	Route::get('/index',['uses' => 'ConveniosController@index','as' => 'convenio.index']);
+	Route::get('/create',['uses' => 'ConveniosController@create', 'as' => 'convenio.create']);
+});
+
+/* Planteamiento difusión*/
+Route::group(array('prefix'=>'planteamiento_difusion', 'before'=>'auth'),function(){
+	Route::get('/index',['uses' => 'PlanteamientoDifusionController@index','as' => 'planteamiento_difusion.index']);
+	Route::get('/create',['uses' => 'PlanteamientoDifusionController@create', 'as' => 'planteamiento_difusion.create']);
 });
 
 /* Documentacion general de proyecto */

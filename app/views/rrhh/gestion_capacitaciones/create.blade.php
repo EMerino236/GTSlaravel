@@ -37,7 +37,7 @@
 					</div>								
 					<div class="col-md-4 @if($errors->first('tipo_capacitacion')) has-error has-feedback @endif">
 						{{ Form::label('tipo_capacitacion','Tipo de Capacitación') }}<span style='color:red'>*</span>
-						{{ Form::select('tipo_capacitacion',array(''=> 'Seleccione'), Input::old('tipo_capacitacion'),array('class'=>'form-control'))}}
+						{{ Form::select('tipo_capacitacion',array(''=> 'Seleccione','1'=> 'Opción 1','2'=> 'Opción 2'), Input::old('tipo_capacitacion'),array('class'=>'form-control'))}}
 					</div>
 					<div class="col-md-4 @if($errors->first('modalidad_capacitacion')) has-error has-feedback @endif">
 						{{ Form::label('modalidad_capacitacion','Modalidad de Capacitación') }}<span style='color:red'>*</span>
@@ -99,10 +99,10 @@
 		
 		<div class="container-fluid row">
 			<div class="form-group col-md-2 col-md-offset-8">				
-				{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Crear', array('id'=>'submit-create', 'type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}
+				{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Crear', array('id'=>'submit-create', 'type' => 'submit', 'class' => 'btn btn-primary btn-block', 'style' => '145px')) }}
 			</div>
 			<div class="form-group col-md-2">
-				<a class="btn btn-default btn-block" href="{{URL::to('#')}}">Cancelar</a>				
+				<a class="btn btn-default btn-block" style="width:145px" href="{{route('capacitacion.index')}}">Cancelar</a>				
 			</div>
 		</div>
 		{{ Form::close() }}

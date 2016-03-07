@@ -2,7 +2,7 @@
     <div class="sidebar-nav navbar-collapse">
         <ul class="nav" id="side-menu">
             <li>
-                {{ HTML::link('#','Planes de Desarrollo de RR.HH. para GTS') }}
+                {{ HTML::linkRoute('plan_desarrollo.index','Planes de Desarrollo de RR.HH. para GTS') }}
             </li>            
 
             <li>
@@ -11,15 +11,15 @@
                     <li>
                         <a href="#">Identificación de programas de capacitación<span class="fa arrow"></span></a>
                         <ul class="nav nav-third-level">
-                            <li>{{ HTML::link('rrhh/list_capacitaciones','Listado de capacitaciones') }}</li>
+                            <li>{{ HTML::linkRoute('capacitacion.index','Listado de capacitaciones') }}</li>
                             <li>{{ HTML::link('#','Indicadores de capacitación') }}</li>
                         </ul>
                     </li>
                     <li>
                         <a href="#">Gestión interinstitucional para capacitación, financiamiento y difusión de los programas<span class="fa arrow"></span></a>
                         <ul class="nav nav-third-level">
-                            <li>{{ HTML::link('#','Acuerdos y convenios de asociación con entidades') }}</li>
-                            <li>{{ HTML::link('#','Planteamiento de disfusión por programa') }}</li>
+                            <li>{{ HTML::linkRoute('convenio.index','Acuerdos y convenios de asociación con entidades') }}</li>
+                            <li>{{ HTML::linkRoute('planteamiento_difusion.index','Planteamiento de disfusión por programa') }}</li>
                         </ul>
                     </li>
                     <li>

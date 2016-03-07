@@ -92,10 +92,10 @@
 
 		<div class="row">
 			<div class="form-group col-md-2 col-md-offset-8">
-				{{ Form::button('<span class="glyphicon glyphicon-search"></span> Buscar', array('id'=>'submit-search-form','type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}				
+				{{ Form::button('<span class="glyphicon glyphicon-search"></span> Buscar', array('id'=>'submit-search-form','type' => 'submit', 'class' => 'btn btn-primary btn-block', 'style' => 'width:145px')) }}				
 			</div>
 			<div class="form-group col-md-2">
-				<div class="btn btn-default btn-block" id="btnLimpiar_list_activos">Limpiar</div>				
+				<div class="btn btn-default btn-block" style="width:145px" id="btnLimpiar_list_activos">Limpiar</div>				
 			</div>
 		</div>
 	  </div>
@@ -104,7 +104,7 @@
 	{{ Form::close() }}	
 	<div class="container-fluid form-group row">		
 		<div class="col-md-2 col-md-offset-10">
-			<a class="btn btn-primary btn-block" href="{{URL::to('/equipos/create_equipo')}}">
+			<a class="btn btn-primary btn-block" style="width:145px" href="{{URL::to('/equipos/create_equipo')}}">
 			<span class="glyphicon glyphicon-plus"></span> Agregar</a>
 		</div>
 	</div>
@@ -128,7 +128,7 @@
 						<th class="text-nowrap text-center">Código Patrimonial</th>
 						@if($user->idrol==1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4)
 							<th class="text-nowrap text-center">Soporte Técnico</th>
-							<th class="text-nowrap text-center">Editar</th>
+							<th class="text-nowrap text-center"></th>
 						@endif
 					</tr>
 					@foreach($activos_data as $index => $activo_data)					
@@ -168,11 +168,11 @@
 						</td>
 						@if($user->idrol==1 || $user->idrol==2 || $user->idrol==3 || $user->idrol==4)
 							<td>
-								<a class="btn btn-success btn-block btn-sm" href="{{URL::to('/equipos/create_soporte_tecnico_equipo/')}}/{{$activo_data->idactivo}}">
+								<a class="btn btn-success btn-block btn-sm" style="width:145px" href="{{URL::to('/equipos/create_soporte_tecnico_equipo/')}}/{{$activo_data->idactivo}}">
 								<span class="glyphicon glyphicon-plus"></span> Agregar</a>
 							</td>
 							<td>
-								<a class="btn btn-warning btn-block btn-sm" href="{{URL::to('/equipos/edit_equipo/')}}/{{$activo_data->idactivo}}">
+								<a class="btn btn-warning btn-block btn-sm" style="width:145px" href="{{URL::to('/equipos/edit_equipo/')}}/{{$activo_data->idactivo}}">
 								<span class="glyphicon glyphicon-pencil"></span> Editar</a>
 							</td>
 						@endif

@@ -13,7 +13,7 @@
                 <font size=5><a href="{{ URL::to('bienes') }}" id="link-bienes"><i class="fa fa-wrench fa-fw"></i> Bienes </a></font>
                 <font size=5><a href="{{ URL::to('riesgos') }}" id="link-riesgos"><i class="fa fa-bomb fa-fw"></i> Riesgos</a></font>
                 <font size=5><a href="{{ URL::to('investigacion') }}" id="link-investigacion"><i class="fa fa-graduation-cap fa-fw"></i> Investigación</a></font>
-                <font size=5><a href="{{ URL::to('#') }}" id="link-rrhh"><i class="fa fa-users fa-fw"></i> RRHH</a></font>
+                <font size=5><a href="{{ URL::to('rrhh') }}" id="link-rrhh"><i class="fa fa-users fa-fw"></i> RRHH</a></font>
                 <a href="{{ URL::to('mision_vision') }}" id="logo-mision-vision"><img src="{{asset('img')}}/MisionVision.jpg"/></a>
                 <font size=3><a href="#" id="font-misionVision">Misión y Visión</a></font>
                 <a href="{{ URL::to('acerca_desarrollo') }}" id="logo-acerca-desarrollo"><img src="{{asset('img')}}/AcercaDesarrollo.jpg"/></a>
