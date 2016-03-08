@@ -927,7 +927,14 @@ Route::group(array('prefix'=>'rrhh', 'before'=>'auth'),function(){
 /* Plan de desarrollo de rrhh*/
 Route::group(array('prefix'=>'plan_desarrollo', 'before'=>'auth'),function(){
 	Route::get('/index',['uses' => 'PlanDesarrolloController@index', 'as'=>'plan_desarrollo.index']);
+	Route::get('/search',['uses'=>'PlanDesarrolloController@search','as'=>'plan_desarrollo.search']);
 	Route::get('/create',['uses' => 'PlanDesarrolloController@create', 'as'=>'plan_desarrollo.create']);
+	Route::post('/store',['uses'=>'PlanDesarrolloController@store','as'=>'plan_desarrollo.store']);
+	Route::get('/show/{id}',['uses'=>'PlanDesarrolloController@show','as'=>'plan_desarrollo.show']);
+	Route::get('/edit/{id}',['uses'=>'PlanDesarrolloController@edit','as'=>'plan_desarrollo.edit']);
+	Route::post('/edit/{id}',['uses'=>'PlanDesarrolloController@update','as'=>'plan_desarrollo.update']);
+	Route::post('/destoy',['uses' => 'PlanDesarrolloController@destroy','as'=>'plan_desarrollo.destroy']);
+	Route::get('/download/{id}',['uses'=>'PlanDesarrolloController@download','as'=>'plan_desarrollo.download']);
 });
 
 /* Capacitaciones de rrhh*/
