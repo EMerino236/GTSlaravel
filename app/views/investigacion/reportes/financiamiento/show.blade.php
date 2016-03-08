@@ -223,7 +223,7 @@
 				{{ Form::button('<span class="glyphicon glyphicon-export"></span> Exportar', array('id'=>'exportar','class' => 'btn btn-success btn-block')) }}
 			</a>
 		</div>
-	<!--
+	
 		@if($user->idrol == 1)
 			<div class="form-group col-md-2">
 				<a href="{{URL::to('/reporte_financiamiento/edit')}}/{{$reporte->id}}">
@@ -231,7 +231,7 @@
 				</a>
 			</div>
 		@endif
-
+	<!--
 	@if($reporte->deleted_at)
 		<div class="form-group col-md-2 col-md-offset-10">
 			<a class="btn-under" href="{{route('reporte_financiamiento.restore',$reporte->id)}}">

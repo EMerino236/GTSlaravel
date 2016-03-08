@@ -49,17 +49,17 @@
 
 					<div class="form-group col-md-4 @if($errors->first('categoria')) has-error has-feedback @endif">
 						{{ Form::label('categoria','Categoría') }}
-						{{ Form::select('categoria', $categorias, $reporte->categoria->id, ['class'=>'form-control','disabled']) }}
+						{{ Form::select('categoria', $categorias, $reporte->categoria->id, ['class'=>'form-control']) }}
 					</div>
 
 					<div class="form-group col-md-4 @if($errors->first('departamento')) has-error has-feedback @endif">
 						{{ Form::label('departamento','Departamento') }}
-						{{ Form::select('departamento', $departamentos, $reporte->departamento->idarea,['id'=>'departamento','class'=>'form-control','onChange'=>'getServicios(this)','disabled']) }}
+						{{ Form::select('departamento', $departamentos, $reporte->departamento->idarea,['id'=>'departamento','class'=>'form-control','onChange'=>'getServicios(this)']) }}
 					</div>
 	
 					<div class="form-group col-md-4 @if($errors->first('servicio_clinico')) has-error has-feedback @endif">
 						{{ Form::label('servicio_clinico','Servicio Clínico') }}
-						{{ Form::select('servicio_clinico', $servicios, $reporte->servicio->idservicio, ['class'=>'form-control','disabled']) }}
+						{{ Form::select('servicio_clinico', $servicios, $reporte->servicio->idservicio, ['class'=>'form-control']) }}
 					</div>
 
 					<div class="form-group col-md-4 @if($errors->first('responsable')) has-error has-feedback @endif">

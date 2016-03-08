@@ -164,7 +164,7 @@ class PlanAprendizajeController extends \BaseController {
 					return Redirect::to('plan_aprendizaje/create')->withErrors($validator)->withInput(Input::all());					
 				}else{
 
-					dd(Input::all());
+					//dd(Input::all());
 
 					$plan_aprendizaje = new PlanAprendizaje;
 					$plan_aprendizaje->nombre = Input::get('nombre');
