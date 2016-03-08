@@ -13,7 +13,7 @@ class ConveniosController extends BaseController
 			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
 				|| $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12)
 			{
-				$data["search_nombre_convenio"] = null;
+				$data["search_nombre_convenio"]= null;
 				$data["search_duracion_convenio"]=null;
 				$data["fecha_ini_firma_convenio"]=null;
 				$data["fecha_fin_firma_convenio"]=null;

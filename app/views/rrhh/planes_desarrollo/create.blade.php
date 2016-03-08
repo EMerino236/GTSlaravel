@@ -22,11 +22,16 @@
 
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>			
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<p><strong>{{ $errors->first('nombre_documento') }}</strong></p>
+			<p><strong>{{ $errors->first('autor_documento') }}</strong></p>
+			<p><strong>{{ $errors->first('codigo_documento') }}</strong></p>
+			<p><strong>{{ $errors->first('descripcion_documento') }}</strong></p>
+			<p><strong>{{ $errors->first('archivo') }}</strong></p>
 		</div>
 	@endif
 
-	{{ Form::open(array('url'=>'#', 'role'=>'form')) }}		
+	{{ Form::open(array('route'=>'plan_desarrollo.store', 'role'=>'form', 'files'=>true)) }}		
 	<div class="panel panel-default">
 	  	<div class="panel-heading">Datos Generales</div>
 		  	<div class="panel-body">	
@@ -52,14 +57,33 @@
 				</div>				
 			</div>
 		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Adjuntar Archivo</h3>
+			</div>
+			<div class="panel-body">
+				<div class="col-md-8 @if($errors->first('archivo')) has-error has-feedback @endif">
+					<label class="control-label">Seleccione un Documento </label><span style='color:red'>*</span><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="Formatos Permitidos: png, jpe, jpeg, jpg, gif, bmp, zip, rar, pdf, doc, docx, xls, xlsx, ppt, pptx"></span>
+					<input name="archivo" id="input-file" type="file" class="file file-loading" data-show-upload="false">
+				</div>
+			</div>
+		</div>
 		
 		<div class="container-fluid row">
 			<div class="form-group col-md-2 col-md-offset-8">				
-				{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Crear', array('id'=>'submit-create', 'type' => 'submit', 'class' => 'btn btn-primary btn-block', 'style' => '145px')) }}
+				{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Crear', array('id'=>'submit-create', 'type' => 'submit', 'class' => 'btn btn-primary btn-block', 'style' => 'width:145px')) }}
 			</div>
 			<div class="form-group col-md-2">
-				<a class="btn btn-default btn-block" sytle="width:145px" href="{{route('plan_desarrollo.index')}}">Cancelar</a>				
+				<a class="btn btn-default btn-block" style="width:145px" href="{{route('plan_desarrollo.index')}}">Cancelar</a>				
 			</div>
 		</div>
 		{{ Form::close() }}
+
+	<script>
+	$("#input-file").fileinput({
+	    language: "es",
+	    allowedFileExtensions: ["png","jpe","jpeg","jpg","gif","bmp","zip","rar","pdf","doc","docx","xls","xlsx","ppt","pptx"]
+	});
+	</script>
 @stop

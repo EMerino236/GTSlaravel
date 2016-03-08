@@ -79,7 +79,7 @@
 				{{ Form::button('<span class="glyphicon glyphicon-search"></span> Buscar', array('id'=>'submit-search-form','type' => 'submit', 'class' => 'btn btn-primary btn-block', 'style' => 'width:145px')) }}				
 			</div>
 			<div class="form-group col-md-2">
-				<div class="btn btn-default btn-block" style="width=145px" id="btnlimpiar_list_capacitaciones">Limpiar</div>				
+				<div class="btn btn-default btn-block" style="width:145px" id="btnlimpiar_list_capacitaciones">Limpiar</div>				
 			</div>
 		</div>
 	  </div>
@@ -88,7 +88,7 @@
 	{{ Form::close() }}	
 	<div class="container-fluid form-group row">		
 		<div class="col-md-2 col-md-offset-10">
-			<a class="btn btn-primary btn-block" style="width=145px" href="{{route('planteamiento_difusion.create')}}">
+			<a class="btn btn-primary btn-block" style="width:145px" href="{{route('planteamiento_difusion.create')}}">
 			<span class="glyphicon glyphicon-plus"></span> Agregar</a>
 		</div>
 	</div>
