@@ -952,7 +952,17 @@ Route::group(array('prefix'=>'convenio', 'before'=>'auth'),function(){
 /* Planteamiento difusión*/
 Route::group(array('prefix'=>'planteamiento_difusion', 'before'=>'auth'),function(){
 	Route::get('/index',['uses' => 'PlanteamientoDifusionController@index','as' => 'planteamiento_difusion.index']);
+	Route::get('/search',['uses'=>'PlanteamientoDifusionController@search','as'=>'planteamiento_difusion.search']);
 	Route::get('/create',['uses' => 'PlanteamientoDifusionController@create', 'as' => 'planteamiento_difusion.create']);
+	Route::post('/store',['uses'=>'PlanteamientoDifusionController@store','as'=>'planteamiento_difusion.store']);
+	Route::get('/show/{id}',['uses'=>'PlanteamientoDifusionController@show','as'=>'planteamiento_difusion.show']);
+	Route::get('/edit/{id}',['uses'=>'PlanteamientoDifusionController@edit','as'=>'planteamiento_difusion.edit']);
+	Route::post('/edit/{id}',['uses'=>'PlanteamientoDifusionController@update','as'=>'planteamiento_difusion.update']);
+	Route::post('/destoy',['uses' => 'PlanteamientoDifusionController@destroy','as'=>'planteamiento_difusion.destroy']);
+	Route::get('/download/{id}',['uses'=>'PlanteamientoDifusionController@download','as'=>'planteamiento_difusion.download']);
+
+	Route::post('/getServiciosAjax',['uses'=>'PlanteamientoDifusionController@getServiciosAjax','as'=>'planteamiento_difusion.getServicios.ajax']);
+	Route::post('/getUserAjax',['uses' => 'PlanteamientoDifusionController@getUserAjax', 'as' => 'planteamiento_difusion.getUser.ajax']);
 });
 
 /* Documentacion general de proyecto */

@@ -127,7 +127,7 @@
 		  		<div class="panel-heading">Reporte de Instalación</div>
 		  			<div class="panel-body">	
 						<div class="form-group row">								
-							<div class="col-md-3 @if($errors->first('servicio_clinico')) has-error has-feedback @endif">
+							<div class="col-md-3 @if($errors->first('reporte_instalacion')) has-error has-feedback @endif">
 								{{ Form::label('reporte_instalacion','Reporte de Instalación') }}<span style="color:red">*</span>
 								{{ Form::text('reporte_instalacion',Input::old('reporte_instalacion'),['class' => 'form-control', 'placeholder'=>'Reporte de Instalación'])}}								
 							</div>

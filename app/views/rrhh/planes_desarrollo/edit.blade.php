@@ -65,14 +65,14 @@
 						<span class="glyphicon glyphicon-download"></span> Descargar</a>
 					</div>
 					<div class="col-md-2">
-						<div class="btn btn-warning btn-block" style="width:145px; float: left; margin-top:25px" id="btnReemplazar" onClick="showAdjuntarArchivo()">
+						<div class="btn btn-warning btn-block" style="width:145px; float: left; margin-top:25px" id="btnReemplazar" onClick="showAdjuntarPlanDesarrolo()">
 							<span class="glyphicon glyphicon-refresh"></span> Reemplazar</div>				
 					</div>
 				</div>				
 			</div>
 		</div>
 
-		<div id="adjuntar_archivo" class="panel panel-default">
+		<div id="adjuntar_plan_desarrollo" class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">Adjuntar Archivo</h3>
 			</div>

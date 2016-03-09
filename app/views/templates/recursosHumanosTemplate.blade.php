@@ -45,6 +45,7 @@
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>    
     <script src="{{ asset('js/rrhh/utilrrhh.js') }}"></script>    
     <script src="{{ asset('js/rrhh/plan_desarrollo.js') }}"></script>
+    <script src="{{ asset('js/rrhh/plan_difusion.js') }}"></script>
     <script src="{{ asset('js/fileinput.min.js') }}"></script>
     <script src="{{ asset('js/fileinput_locale_es.min.js') }}"></script>
     <script src="{{ asset('js/language_file_upload_plugin.min.js') }}"></script>

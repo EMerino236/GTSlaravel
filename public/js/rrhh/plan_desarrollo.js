@@ -1,6 +1,6 @@
 $( document ).ready(function(){ 
 
-	$("#adjuntar_archivo").hide();
+	$("#adjuntar_plan_desarrollo").hide();
 
 	$('#modalDeletePlanDesarrollo').on('show.bs.modal', function (event) {
 	  var button = $(event.relatedTarget) // Button that triggered the modal
@@ -20,7 +20,7 @@ function limpiarCriteriosPlanDesarrollo()
     $("#search_autor_documento").val("");
 }
 
-function showAdjuntarArchivo()
+function showAdjuntarPlanDesarrolo()
 {
-	$("#adjuntar_archivo").toggle();
+	$("#adjuntar_plan_desarrollo").toggle();
 }
