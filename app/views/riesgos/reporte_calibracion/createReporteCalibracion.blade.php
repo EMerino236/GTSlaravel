@@ -191,7 +191,7 @@
 						   <div class="panel-body"> 			        	
 					        	<div class="form-group col-md-6">
 									{{ Form::label('fecha_calibracion','Fecha de Calibracion') }}
-									<div id="fecha_calibracion_datetimepicker" class=" input-group date @if($errors->first('fecha_calibracion')) has-error has-feedback @endif">
+									<div id="fecha_calibracion_datetimepicker" class="input-group date @if($errors->first('fecha_calibracion')) has-error has-feedback @endif">
 										{{ Form::text('fecha_calibracion-'.$equipo->idactivo,Input::old('fecha_calibracion-'.$equipo->idactivo),array('class'=>'form-control','readonly'=>'','id'=>'fecha_calibracion_'.$equipo->idactivo)) }}
 										<span class="input-group-addon">
 						                    <span class="glyphicon glyphicon-calendar"></span>

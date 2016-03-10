@@ -22,8 +22,11 @@ $( document ).ready(function(){
 		defaultDate: false,
 		ignoreReadonly: true,
 		format: 'DD-MM-YYYY',
-		minDate: new Date()
 	});
+
+	$('#fecha_calibracion_datetimepicker').on("dp.change", function (e) {
+        $('#fecha_proximo_datetimepicker').data("DateTimePicker").minDate(e.date);
+    });
 
 	
 });

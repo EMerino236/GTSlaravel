@@ -32,11 +32,14 @@
 		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 		<div class="alert alert-danger">{{ Session::get('error') }}</div>
 	@endif
+		
+		
 	@if($ot_info->idestado_ot == 9)
 	{{ Form::open(array('url'=>'mant_correctivo/submit_create_ot', 'role'=>'form','id'=>'submit_ot_correctivo')) }}
 	@endif
 		{{ Form::hidden('idot_correctivo', $ot_info->idot_correctivo) }}
 		{{ Form::hidden('idactivo', $ot_info->idactivo) }}
+		{{ Form::hidden('idestado_activo',$ot_info->idestado_activo,array('id'=>'idestado_activo'))}}
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">Datos de la OT</h3>

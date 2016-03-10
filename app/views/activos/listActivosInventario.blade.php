@@ -149,7 +149,11 @@
 							{{$activo_data->nombre_servicio}}
 						</td>						
 						<td class="text-nowrap">
-							{{$activo_data->nombre_ubicacion_fisica}}
+							@if($activo_data->idestado != 24)
+								{{$activo_data->nombre_ubicacion_fisica}}
+							@else
+								-
+							@endif
 						</td>
 						<td class="text-nowrap">
 							{{$activo_data->nombre_equipo}}

@@ -567,4 +567,52 @@ class OtController extends BaseController {
 			return View::make('error/error',$data);
 		}
 	}
+
+	public function initialize_ot()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4)){
+					$ot = OtCorrectivo::find(Input::get('idot_correctivo'));
+					
+					$activo = Activo::find(Input::get('idactivo'));
+					$activo->idestado = 24;
+					$activo->save();
+					return Redirect::to('mant_correctivo/list_mant_correctivo')->with('message', 'Se inició la OTM: '.$ot->ot_tipo_abreviatura.$ot->ot_correlativo.$ot->ot_activo_abreviatura);
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+	public function finish_ot()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4)){
+					
+					$idot_correctivo = Input::get('idot_correctivo');
+					$ot = OtCorrectivo::find($idot_correctivo);
+					
+					$activo = Activo::find(Input::get('idactivo'));
+					if($ot->idestado_final == null){
+						Session::flash('error','Campo Estado Final del Activo es requerido');
+						return Redirect::to('mant_correctivo/create_ot/'.$idot_correctivo);				
+					}
+					$activo->idestado = $ot->idestado_final;
+					$activo->save();
+					return Redirect::to('mant_correctivo/list_mant_correctivo')->with('message', 'Se inició la OTM: '.$ot->ot_tipo_abreviatura.$ot->ot_correlativo.$ot->ot_activo_abreviatura);
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
 }

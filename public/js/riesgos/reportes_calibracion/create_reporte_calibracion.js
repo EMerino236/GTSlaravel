@@ -15,11 +15,20 @@ $( document ).ready(function(){
         limpiar_resultados();
     });
 
-    if($('#type_form').val() == 0)
-        $('.input-group').datetimepicker({
-            ignoreReadonly: true,
-            format:'DD-MM-YYYY'
+    if($('#type_form').val()){        
+        $( '.input-group' ).each( function( index, element ){
+            if($(this).hasClass('date')){
+                $(this).datetimepicker({
+                    ignoreReadonly: true,
+                    format:'DD-MM-YYYY'
+                });
+            }
+            
         });
+ 
+        
+    }
+       
 
     if($('#type_form').val()==1){
         $('#fecha_calibracion_datetimepicker').datetimepicker({
@@ -98,11 +107,12 @@ function save_modal(idactivo){
     //se verifica si se agregaron documentos 
     vacio = true;
     for(i=0;i<10;i++){
-        if($('#input-file-'+idactivo+'-'+i).val().length>0){
+        if($('#input-file-'+idactivo+'-'+i).val().length > 0){            
             vacio = false;
             break;
         }
     }
+    alert($('#input-file-'+idactivo+'-0').val());
 
     message = "";
 

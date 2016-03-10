@@ -225,8 +225,12 @@ class ReportesInvestigacionController extends BaseController
 					$reporte_investigacion = ReporteInvestigacion::getReporteByIdEvento($evento_adverso->id)->get();
 					if(!$reporte_investigacion->isEmpty()){
 						//ya existe un reporte con ese evento adverso
-
-						$existe = 1;
+						//verificamos si este reporte no ha sido eliminado
+						$reporte_investigacion = $reporte_investigacion[0];
+						if($reporte_investigacion->deleted_at == null)
+							$existe = 1;
+						else
+							$existe = 2;
 					}else
 						$existe = 2;
 				}else
