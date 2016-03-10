@@ -65,7 +65,7 @@
 					@endif
 				</div>	
 				<div class="row">
-					<div class="form-group col-md-8 col-md-offset-2 @if($errors->first('descripcion')) has-error has-feedback @endif">
+					<div class="form-group col-md-8 col-md-offset-2 @if($errors->first('archivo')) has-error has-feedback @endif">
 						<label class="control-label">Seleccione un Documento</label>(png,jpe,jpeg,jpg,pdf,doc,docx,xls,xlsx,ppt,pptx)
 						<input name="archivo" id="input-file" type="file" class="file file-loading" data-show-upload="false">
 					</div>
