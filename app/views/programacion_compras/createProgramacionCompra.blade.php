@@ -47,41 +47,41 @@
 			<div class="panel-body">
 				<div class="row">
 					<div class="form-group col-md-4 @if($errors->first('codigo_compra')) has-error has-feedback @endif">
-						{{ Form::label('codigo_compra','Código de Compra') }}
+						{{ Form::label('codigo_compra','Código de Compra') }}<span style='color:red'>*</span>
 						{{ Form::text('codigo_compra',Input::old('codigo_compra'),array('class'=>'form-control')) }}
 					</div>
 				</div>
 				<div class="row">
 					<div class="form-group col-md-8 @if($errors->first('descripcion_corta')) has-error has-feedback @endif">
-						{{ Form::label('descripcion_corta','Descripción corta') }}
+						{{ Form::label('descripcion_corta','Descripción corta') }}<span style='color:red'>*</span>
 						{{ Form::text('descripcion_corta',Input::old('descripcion_corta'),array('class'=>'form-control')) }}
 					</div>
 				</div>		
 				<div class="row">
 					<div class="form-group col-md-4 @if($errors->first('idtipo_compra')) has-error has-feedback @endif">
-						{{ Form::label('idtipo_compra','Tipo de Compra') }}
+						{{ Form::label('idtipo_compra','Elemento de Compra') }}<span style='color:red'>*</span>
 						{{ Form::select('idtipo_compra',array(''=>'Seleccione') + $tipo_compra,Input::old('idtipo_compra'),['class' => 'form-control']) }}
 					</div>
 				</div>	
 				<div class="row">
 					<div class="form-group col-md-4 @if($errors->first('cantidad')) has-error has-feedback @endif">
-						{{ Form::label('cantidad','Cantidad') }}
+						{{ Form::label('cantidad','Cantidad') }}<span style='color:red'>*</span>
 						{{ Form::text('cantidad',Input::old('cantidad'),array('class'=>'form-control')) }}
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('idunidad_medida')) has-error has-feedback @endif">
-						{{ Form::label('idunidad_medida','Unidad de Medida') }}
+						{{ Form::label('idunidad_medida','Unidad de Medida') }}<span style='color:red'>*</span>
 						{{ Form::select('idunidad_medida',array(''=>'Seleccione') + $unidad_medida,Input::old('idunidad_medida'),['class' => 'form-control']) }}
 					</div>
 				</div>	
 				<div class="row">
 					<div class="form-group col-md-4 @if($errors->first('costo_aproximado')) has-error has-feedback @endif">
-						{{ Form::label('costo_aproximado','Costo aproximado') }}
+						{{ Form::label('costo_aproximado','Costo aproximado') }}<span style='color:red'>*</span>
 						{{ Form::text('costo_aproximado',Input::old('costo_aproximado'),array('class'=>'form-control')) }}
 					</div>
 				</div>	
 				<div class="row">
 					<div class="form-group col-md-4 @if($errors->first('idservicio')) has-error has-feedback @endif">
-						{{ Form::label('idservicio','Servicio') }}
+						{{ Form::label('idservicio','Servicio') }}<span style='color:red'>*</span>
 						{{ Form::select('idservicio',array(''=>'Seleccione') + $servicios,Input::old('idservicio'),['class' => 'form-control']) }}
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('idarea_select')) has-error has-feedback @endif">
@@ -126,7 +126,7 @@
 				</div>
 				<div class="row">
 					<div class="form-group col-md-8 @if($errors->first('descripcion')) has-error has-feedback @endif">
-						{{ Form::label('descripcion','Descripción') }}
+						{{ Form::label('descripcion','Descripción') }}<span style='color:red'>*</span>
 						{{ Form::textarea('descripcion',Input::old('descripcion'),array('class'=>'form-control')) }}
 					</div>
 				</div>	
@@ -158,7 +158,7 @@
 					{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit_create', 'type'=>'submit','class' => 'btn btn-primary btn-block')) }}
 				</div>	
 				<div class="form-group col-md-2">
-					<a class="btn btn-default btn-block" href="{{URL::to('/programacion_compra/list_programacion_compra/')}}">Regresar</a>				
+					<a class="btn btn-default btn-block" href="{{URL::to('/programacion_compra/list_programacion_compras/')}}"><span class="glyphicon glyphicon-menu-left"></span> Regresar</a>				
 				</div>
 			</div>
 		</div>

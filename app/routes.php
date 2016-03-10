@@ -841,6 +841,98 @@ Route::group(array('prefix'=>'programacion_compra', 'before'=>'auth'),function()
 	Route::post('/return_area/{postData}','ProgramacionComprasController@return_area');
 });
 
+Route::group(array('prefix'=>'expediente_tecnico', 'before'=>'auth'),function(){
+	Route::get('/list_expediente_tecnicos','ExpedienteTecnicoController@list_expediente_tecnicos');
+	Route::get('/edit_expediente_tecnico/{id}','ExpedienteTecnicoController@render_edit_expediente_tecnico');
+	Route::post('/submit_edit_expediente_tecnico','ExpedienteTecnicoController@submit_edit_expediente_tecnico');
+	Route::get('/create_expediente_tecnico','ExpedienteTecnicoController@render_create_expediente_tecnico');
+	Route::post('/submit_create_expediente_tecnico','ExpedienteTecnicoController@submit_create_expediente_tecnico');
+	Route::get('/search_expediente_tecnico','ExpedienteTecnicoController@search_expediente_tecnico');
+	Route::post('/submit_disable_expediente_tecnico','ExpedienteTecnicoController@submit_disable_expediente_tecnico');
+	Route::post('/submit_enable_expediente_tecnico','ExpedienteTecnicoController@submit_enable_expediente_tecnico');
+	Route::get('/view_expediente_tecnico/{id}','ExpedienteTecnicoController@render_view_expediente_tecnico');	
+	Route::post('/return_num_doc_responsable/{postData}','ExpedienteTecnicoController@return_num_doc_responsable');
+	Route::post('/return_num_doc_usuario/{postData}','ExpedienteTecnicoController@return_num_doc_usuario');
+	Route::get('/download_resolucion/{id}','ExpedienteTecnicoController@download_resolucion');
+	Route::get('/download_tdr/{id}','ExpedienteTecnicoController@download_tdr');
+	Route::get('/download_bases/{id}','ExpedienteTecnicoController@download_bases');
+});
+
+Route::group(array('prefix'=>'oferta_expediente', 'before'=>'auth'),function(){
+	Route::get('/list_oferta_expedientes','OfertaExpedienteController@list_oferta_expedientes');
+	Route::get('/edit_oferta_expediente/{idoferta_expediente}','OfertaExpedienteController@render_edit_oferta_expediente');
+	Route::post('/submit_edit_oferta_expediente','OfertaExpedienteController@submit_edit_oferta_expediente');
+	Route::get('/create_oferta_expediente/{idexpediente_tecnico}','OfertaExpedienteController@render_create_oferta_expediente');
+	Route::post('/submit_create_oferta_expediente','OfertaExpedienteController@submit_create_oferta_expediente');
+	Route::get('/search_oferta_expediente','OfertaExpedienteController@search_oferta_expediente');
+	Route::post('/submit_disable_oferta_expediente','OfertaExpedienteController@submit_disable_oferta_expediente');
+	Route::post('/submit_enable_oferta_expediente','OfertaExpedienteController@submit_enable_oferta_expediente');
+	Route::get('/view_oferta_expediente/{idoferta_expediente}','OfertaExpedienteController@render_view_oferta_expediente');	
+	Route::get('/download/{id}','OfertaExpedienteController@download');
+});
+
+Route::group(array('prefix'=>'miembro_comite', 'before'=>'auth'),function(){
+	Route::get('/list_miembro_comites','MiembroComiteController@list_miembro_comites');
+	Route::get('/edit_miembro_comite/{idexpediente_tecnico}','MiembroComiteController@render_edit_miembro_comite');
+	Route::post('/submit_edit_miembro_comite','MiembroComiteController@submit_edit_miembro_comite');
+	//Route::get('/create_miembro_comite/{idexpediente_tecnico}','MiembroComiteController@render_create_miembro_comite');
+	//Route::post('/submit_create_miembro_comite','MiembroComiteController@submit_create_miembro_comite');
+	Route::get('/search_miembro_comite','MiembroComiteController@search_miembro_comite');
+	Route::post('/submit_disable_miembro_comite','MiembroComiteController@submit_disable_miembro_comite');
+	Route::post('/submit_enable_miembro_comite','MiembroComiteController@submit_enable_miembro_comite');
+	Route::get('/view_miembro_comite/{idmiembro_comite}','MiembroComiteController@render_view_miembro_comite');
+	Route::post('/return_nombre_usuario/{postData}','MiembroComiteController@return_nombre_usuario');
+});
+
+Route::group(array('prefix'=>'observacion_expediente', 'before'=>'auth'),function(){
+	Route::get('/list_observacion_expedientes','ObservacionExpedienteController@list_observacion_expedientes');
+	Route::get('/edit_observacion_expediente/{idobservacion_expediente}','ObservacionExpedienteController@render_edit_observacion_expediente');
+	Route::post('/submit_edit_observacion_expediente','ObservacionExpedienteController@submit_edit_observacion_expediente');
+	Route::get('/create_observacion_expediente/{idoferta_expediente}','ObservacionExpedienteController@render_create_observacion_expediente');
+	Route::post('/submit_create_observacion_expediente','ObservacionExpedienteController@submit_create_observacion_expediente');
+	Route::get('/search_observacion_expediente','ObservacionExpedienteController@search_observacion_expediente');
+	Route::post('/submit_disable_observacion_expediente','ObservacionExpedienteController@submit_disable_observacion_expediente');
+	Route::post('/submit_enable_observacion_expediente','ObservacionExpedienteController@submit_enable_observacion_expediente');
+	Route::get('/view_observacion_expediente/{idobservacion_expediente}','ObservacionExpedienteController@render_view_observacion_expediente');
+	Route::get('/download/{id}','ObservacionExpedienteController@download');
+});
+
+Route::group(array('prefix'=>'oferta_evaluada_expediente', 'before'=>'auth'),function(){
+	Route::get('/list_oferta_evaluada_expedientes','OfertaEvaluadaExpedienteController@list_oferta_evaluada_expedientes');
+	Route::get('/edit_oferta_evaluada_expediente/{idoferta_evaluada_expediente}','OfertaEvaluadaExpedienteController@render_edit_oferta_evaluada_expediente');
+	Route::post('/submit_edit_oferta_evaluada_expediente','OfertaEvaluadaExpedienteController@submit_edit_oferta_evaluada_expediente');
+	Route::get('/create_oferta_evaluada_expediente/{idoferta_expediente}','OfertaEvaluadaExpedienteController@render_create_oferta_evaluada_expediente');
+	Route::post('/submit_create_oferta_evaluada_expediente','OfertaEvaluadaExpedienteController@submit_create_oferta_evaluada_expediente');
+	Route::get('/search_oferta_evaluada_expediente','OfertaEvaluadaExpedienteController@search_oferta_evaluada_expediente');
+	Route::post('/submit_disable_oferta_evaluada_expediente','OfertaEvaluadaExpedienteController@submit_disable_oferta_evaluada_expediente');
+	Route::post('/submit_enable_oferta_evaluada_expediente','OfertaEvaluadaExpedienteController@submit_enable_oferta_evaluada_expediente');
+	Route::get('/view_oferta_evaluada_expediente/{idoferta_evaluada_expediente}','OfertaEvaluadaExpedienteController@render_view_oferta_evaluada_expediente');	
+	Route::get('/download/{id}','OfertaEvaluadaExpedienteController@download');
+	Route::post('/submit_finalizar_evaluacion','OfertaEvaluadaExpedienteController@submit_finalizar_evaluacion');
+});
+
+Route::group(array('prefix'=>'adjudicacion_expediente', 'before'=>'auth'),function(){
+	Route::get('/list_adjudicacion_expedientes','AdjudicacionExpedienteController@list_adjudicacion_expedientes');
+	Route::get('/edit_adjudicacion_expediente/{idadjudicacion_expediente}','AdjudicacionExpedienteController@render_edit_adjudicacion_expediente');
+	Route::post('/submit_edit_adjudicacion_expediente','AdjudicacionExpedienteController@submit_edit_adjudicacion_expediente');
+	Route::get('/create_adjudicacion_expediente/{idoferta_expediente}','AdjudicacionExpedienteController@render_create_adjudicacion_expediente');
+	Route::post('/submit_create_adjudicacion_expediente','AdjudicacionExpedienteController@submit_create_adjudicacion_expediente');
+	Route::get('/search_adjudicacion_expediente','AdjudicacionExpedienteController@search_adjudicacion_expediente');
+	Route::post('/submit_disable_adjudicacion_expediente','AdjudicacionExpedienteController@submit_disable_adjudicacion_expediente');
+	Route::post('/submit_enable_adjudicacion_expediente','AdjudicacionExpedienteController@submit_enable_adjudicacion_expediente');
+	Route::get('/view_adjudicacion_expediente/{idadjudicacion_expediente}','AdjudicacionExpedienteController@render_view_adjudicacion_expediente');	
+	Route::get('/download_contrato/{id}','AdjudicacionExpedienteController@download_contrato');
+	Route::get('/download_documento_adicional/{id}','AdjudicacionExpedienteController@download_documento_adicional');	
+});
+
+Route::group(array('prefix'=>'especificacion_tecnica', 'before'=>'auth'),function(){
+	Route::get('/list_especificacion_tecnica','EspecificacionTecnicaController@list_especificacion_tecnica');
+	Route::get('/search_especificacion_tecnica','EspecificacionTecnicaController@search_especificacion_tecnica');
+	Route::get('/list_archivos_ECRI','EspecificacionTecnicaController@list_archivos_ECRI');
+	Route::get('/download_archivo_ECRI/{id}','EspecificacionTecnicaController@download_archivo_ECRI');
+});
+
+
 /* Riesgos */
 Route::group(array('prefix'=>'riesgos', 'before'=>'auth'),function(){
 	Route::get('/','RiesgosController@home');

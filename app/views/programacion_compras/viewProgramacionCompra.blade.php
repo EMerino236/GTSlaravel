@@ -47,7 +47,7 @@
 				</div>		
 				<div class="row">
 					<div class="form-group col-md-4 @if($errors->first('idtipo_compra')) has-error has-feedback @endif">
-						{{ Form::label('idtipo_compra','Tipo de Compra') }}
+						{{ Form::label('idtipo_compra','Elemento de Compra') }}
 						{{ Form::select('idtipo_compra',array(''=>'Seleccione') + $tipo_compra,$programacion_compra_info->idtipo_compra,['class' => 'form-control']) }}
 					</div>
 				</div>	
@@ -131,7 +131,7 @@
 		<div>
 			<div class="row">
 				<div class="form-group col-md-2">
-					<a class="btn btn-default btn-block" href="{{URL::to('/programacion_compra/list_programacion_compra/')}}">Regresar</a>				
+					<a class="btn btn-default btn-block" href="{{URL::to('/programacion_compra/list_programacion_compra/')}}"><span class="glyphicon glyphicon-menu-left"></span> Regresar</a>				
 				</div>
 			</div>
 		</div>

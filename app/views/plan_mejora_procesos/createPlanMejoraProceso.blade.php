@@ -90,7 +90,7 @@
 					{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit_create', 'type'=>'submit','class' => 'btn btn-primary btn-block')) }}
 				</div>
 				<div class="form-group col-md-2">
-					<a class="btn btn-default btn-block" href="{{URL::to('/plan_mejora_proceso/list_plan_mejora_procesos/')}}">Regresar</a>				
+					<a class="btn btn-default btn-block" href="{{URL::to('/plan_mejora_proceso/list_plan_mejora_procesos/')}}"><span class="glyphicon glyphicon-menu-left"></span> Regresar</a>				
 				</div>	
 			</div>	
 		</div>	

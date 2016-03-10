@@ -89,7 +89,7 @@
 	<table class="table">
 		<tr class="info">	
 			<th>Código de Compra</th>
-			<th>Tipo de compra</th>
+			<th>Elemento de compra</th>
 			<th>Usuario Solicitante</th>
 			<th>Departamento</th>
 			<th>Servicio</th>

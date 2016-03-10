@@ -124,7 +124,7 @@
 				</div>
 				@endif
 				<div class="col-md-2 form-group">
-					<a class="btn btn-default btn-block" href="{{URL::to('/plan_mejora_proceso/list_plan_mejora_procesos')}}">Cancelar</a>
+					<a class="btn btn-default btn-block" href="{{URL::to('/plan_mejora_proceso/list_plan_mejora_procesos')}}"><span class="glyphicon glyphicon-menu-left"></span> Regresar</a>
 				</div>	
 		{{ Form::close() }}
 			@if($plan_mejora_proceso_info->deleted_at)

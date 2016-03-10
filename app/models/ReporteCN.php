@@ -53,7 +53,7 @@ class ReporteCN extends Eloquent{
 			  if($search_numero_reporte!="")
 			  	$query->where(DB::raw("CONCAT(reporte_cn.numero_reporte_abreviatura,reporte_cn.numero_reporte_correlativo,'-',reporte_cn.numero_reporte_anho)"),'LIKE',"%$search_numero_reporte%");
 			  if($search_nombre_equipo!="")
-			  	$query->where('familia_activos.nombre_equipo','LIKE','%$search_nombre_equipo%');
+			  	$query->where('familia_activos.nombre_equipo','LIKE',"%$search_nombre_equipo%");
 			  if($search_fecha_ini != "")
 				$query->where('reporte_cn.created_at','>=',date('Y-m-d H:i:s',strtotime($search_fecha_ini)));
 			  if($search_fecha_fin != "")
