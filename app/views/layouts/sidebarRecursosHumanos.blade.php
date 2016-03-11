@@ -18,7 +18,7 @@
                     <li>
                         <a href="#">Gestión interinstitucional para capacitación, financiamiento y difusión de los programas<span class="fa arrow"></span></a>
                         <ul class="nav nav-third-level">
-                            <li>{{ HTML::linkRoute('convenio.index','Acuerdos y convenios de asociación con entidades') }}</li>
+                            <li>{{ HTML::linkRoute('acuerdo_convenio.index','Acuerdos y convenios de asociación con entidades') }}</li>
                             <li>{{ HTML::linkRoute('planteamiento_difusion.index','Planteamiento de disfusión por programa') }}</li>
                         </ul>
                     </li>

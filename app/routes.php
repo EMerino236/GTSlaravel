@@ -1045,9 +1045,16 @@ Route::group(array('prefix'=>'capacitacion', 'before'=>'auth'),function(){
 });
 
 /* Acuerdos y convenios*/
-Route::group(array('prefix'=>'convenio', 'before'=>'auth'),function(){
-	Route::get('/index',['uses' => 'ConveniosController@index','as' => 'convenio.index']);
-	Route::get('/create',['uses' => 'ConveniosController@create', 'as' => 'convenio.create']);
+Route::group(array('prefix'=>'acuerdo_convenio', 'before'=>'auth'),function(){
+	Route::get('/index',['uses' => 'AcuerdoConvenioController@index','as' => 'acuerdo_convenio.index']);
+	Route::get('/search',['uses'=>'AcuerdoConvenioController@search','as'=>'acuerdo_convenio.search']);
+	Route::get('/create',['uses' => 'AcuerdoConvenioController@create', 'as' => 'acuerdo_convenio.create']);
+	Route::post('/store',['uses'=>'AcuerdoConvenioController@store','as'=>'acuerdo_convenio.store']);
+	Route::get('/show/{id}',['uses'=>'AcuerdoConvenioController@show','as'=>'acuerdo_convenio.show']);
+	Route::get('/edit/{id}',['uses'=>'AcuerdoConvenioController@edit','as'=>'acuerdo_convenio.edit']);
+	Route::post('/edit/{id}',['uses'=>'AcuerdoConvenioController@update','as'=>'acuerdo_convenio.update']);
+	Route::post('/destoy',['uses' => 'AcuerdoConvenioController@destroy','as'=>'acuerdo_convenio.destroy']);
+	Route::get('/download/{id}',['uses'=>'AcuerdoConvenioController@download','as'=>'acuerdo_convenio.download']);
 });
 
 /* Planteamiento difusión*/
