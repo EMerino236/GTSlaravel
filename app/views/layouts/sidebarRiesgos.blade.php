@@ -30,7 +30,7 @@
                 </ul>                
             </li>
             <li>
-                <a href="#">Verificación metrológica y ajustes de equipo médico y hospitalario<span class="fa arrow"></span></a>
+                <a href="#">Calibración<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">   
                     <li>
                         {{ HTML::link('/reportes_calibracion/list_reportes_calibracion','Certificado de Calibración') }}

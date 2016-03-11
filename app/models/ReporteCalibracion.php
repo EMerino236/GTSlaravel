@@ -118,12 +118,27 @@ class ReporteCalibracion extends Eloquent{
 			  ->join('proveedores','proveedores.idproveedor','=','activos.idproveedor')
 			  ->join('estados','estados.idestado','=','reporte_calibracion.idestado')	
 			  ->join('detalle_reporte_calibracion','detalle_reporte_calibracion.idreporte_calibracion','=','reporte_calibracion.id')
-			  ->where('activos.idactivo','=',$idactivo)
-			  ->where('reporte_calibracion.idestado','=',27)
-			  ->orwhere('reporte_calibracion.idestado','=',28)
+			  ->where('reporte_calibracion.idactivo','=',$idactivo)
+			  ->where('reporte_calibracion.idestado','!=',29)
 			  ->select('reporte_calibracion.*','estados.nombre as nombre_estado','estados.idestado as idestado','servicios.nombre as nombre_servicio','activos.codigo_patrimonial as codigo_patrimonial','grupos.nombre as nombre_grupo','marcas.nombre as nombre_marca','familia_activos.nombre_equipo as nombre_familia','modelo_activos.nombre as nombre_modelo','proveedores.razon_social as nombre_proveedor','activos.idactivo as idactivo')
 			  ->orderBy('updated_at','asc')
 			  ->first();
 	}
 	
+	public function scopeGetReportesInfoPendientes($query)
+	{
+		$query->withTrashed()
+			  ->join('activos','activos.idactivo','=','reporte_calibracion.idactivo')
+			  ->join('estados','estados.idestado','=','reporte_calibracion.idestado')			
+			  ->join('servicios','servicios.idservicio','=','activos.idservicio')
+			  ->join('grupos','grupos.idgrupo','=','activos.idgrupo')
+			  ->join('modelo_activos','modelo_activos.idmodelo_equipo','=','activos.idmodelo_equipo')
+			  ->join('familia_activos','familia_activos.idfamilia_activo','=','modelo_activos.idfamilia_activo')			  
+			  ->join('marcas','marcas.idmarca','=','familia_activos.idmarca')
+			  ->join('proveedores','proveedores.idproveedor','=','activos.idproveedor')
+			  ->join('detalle_reporte_calibracion','detalle_reporte_calibracion.idreporte_calibracion','=','reporte_calibracion.id')
+			  ->where('reporte_calibracion.idestado','=',27)
+			  ->select('reporte_calibracion.*','estados.nombre as nombre_estado','estados.idestado as idestado','servicios.nombre as nombre_servicio','activos.codigo_patrimonial as codigo_patrimonial','grupos.nombre as nombre_grupo','marcas.nombre as nombre_marca','familia_activos.nombre_equipo as nombre_familia','modelo_activos.nombre as nombre_modelo','proveedores.razon_social as nombre_proveedor','activos.idactivo as idactivo');
+		return $query;
+	}
 }

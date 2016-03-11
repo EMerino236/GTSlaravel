@@ -233,7 +233,7 @@ class PlanDesarrolloController extends BaseController
 				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 
 				if($validator->fails()){
-					return Redirect::to('plan_desarrollo/create')->withErrors($validator)->withInput(Input::all());
+					return Redirect::to('plan_desarrollo/edit')->withErrors($validator)->withInput(Input::all());
 				}else{
 
 					$plan_desarrollo = PLanDesarrollo::find($id);
@@ -266,7 +266,7 @@ class PlanDesarrolloController extends BaseController
 
 					$plan_desarrollo->save();
 					
-					return Redirect::to('plan_desarrollo/index')->with('message', 'Se registró correctamente el plan de desarrollo de rrhh.');
+					return Redirect::to('plan_desarrollo/index')->with('message', 'Se actualizó correctamente el plan de desarrollo de rrhh.');
 				}
 			}else{
 				return View::make('error/error',$data);

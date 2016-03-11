@@ -113,4 +113,9 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $this->belongsTo('Area', 'idarea','idarea');
 	}
 	
+	public function scopeSearchPersonalByUsername($query,$search_criteria){
+		$query->withTrashed()
+			  ->where('users.username','=',$search_criteria);			  	   
+		return $query;
+	}
 }

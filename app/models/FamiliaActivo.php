@@ -223,4 +223,12 @@ class FamiliaActivo extends Eloquent{
 		return $this->belongsTo('Estado','idestado');
 	}
 
+	public function scopeGetNombreEquipo($query)
+	{
+		$query->withTrashed()
+			  ->distinct()
+			  ->select('familia_activos.nombre_equipo');
+	    return $query;
+	}
+
 }

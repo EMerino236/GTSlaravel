@@ -333,7 +333,7 @@ class ActivosController extends BaseController
 					$activo->idservicio = Input::get('servicio_clinico');
 					$activo->idproveedor = Input::get('proveedor');
 					$activo->idreporte_instalacion = Input::get('idreporte_instalacion');
-					$activo->idestado = 1;
+					$activo->idestado = 3;
 					$activo->idubicacion_fisica = Input::get('ubicacion_fisica');
 					$activo->costo = Input::get('costo');
 					$activo->save();
@@ -679,6 +679,17 @@ class ActivosController extends BaseController
 				
 				$data["marcas"]	= Marca::lists('nombre','idmarca');
 				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
+
+				$data["reporte_calibracion"] =ReporteCalibracion::getReporteCalibracionByIdActivo($data["equipo_info"]->idactivo)->get();
+
+				if($data["reporte_calibracion"]->isEmpty()){
+
+					$data["reporte_calibracion"] = null;
+					$data["detalles_reporte_calibracion"] = null;
+				}else{
+					$data["reporte_calibracion"] = $data["reporte_calibracion"][0];
+					$data["detalles_reporte_calibracion"] = ReporteCalibracion::getDetalleReporteCalibracion($data["reporte_calibracion"]->id)->get();
+				}
 				return View::make('activos/viewActivoInventario',$data);
 			}else{
 				return View::make('error/error',$data);
