@@ -32,4 +32,41 @@ class Capacitacion extends Eloquent{
 	{
 		return $this->belongsTo('RHModalidad', 'id_modalidad');	
 	}
+
+	public function scopeSearchReporte($query,$search_nombre,$search_responsable,$search_departamento,$search_servicio_clinico,$search_fecha_ini,$search_fecha_fin)
+	{
+		$query->withTrashed();
+			  
+		if($search_nombre != "")
+		{
+			$query->where('capacitaciones.nombre','LIKE',"%$search_nombre%");
+		}
+
+		if($search_responsable != 0)
+		{
+			$query->where('capacitaciones.id_responsable', '=' ,$search_responsable);
+		}
+
+		if($search_departamento != 0)
+		{
+			$query->where('capacitaciones.id_departamento','=', $search_departamento);
+		}
+
+		if($search_servicio_clinico != 0)
+		{
+			$query->where('capacitaciones.id_servicio_clinico','=',$search_servicio_clinico);
+		}
+
+		if($search_fecha_ini != "")
+		{
+			$query->where('capacitaciones.fecha_ini', '>' ,date('Y-m-d',strtotime($search_fecha_ini)));
+		}
+
+		if($search_fecha_fin != "")
+		{
+			$query->where('capacitaciones.fecha_ini', '<' ,date('Y-m-d',strtotime($search_fecha_fin)));
+		}
+		
+		return $query;
+	}
 }

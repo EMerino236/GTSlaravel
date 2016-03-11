@@ -21,7 +21,7 @@
 		</div>
 	@endif
 
-    {{ Form::open(array('url'=>'#','method'=>'get' ,'role'=>'form', 'id'=>'search-form','class' => 'form-group')) }}	
+    {{ Form::open(array('route'=>'capacitacion.search','method'=>'get' ,'role'=>'form', 'id'=>'search-form','class' => 'form-group')) }}	
 	<div class="panel panel-default">
 	  <div class="panel-heading">
 	    <h3 class="panel-title">Búsqueda</h3>
@@ -34,18 +34,18 @@
 			</div>
 			<div class="col-md-4">
 				{{ Form::label('search_responsable_capacitacion','Responsable') }}
-				{{ Form::text('search_responsable_capacitacion',$search_responsable_capacitacion,array('class'=>'form-control','placeholder'=>'Nombre Responsable')) }}
+				{{ Form::select('search_responsable_capacitacion',[0=>'Seleccione']+$usuarios,$search_responsable_capacitacion,array('class'=>'form-control','placeholder'=>'Nombre Responsable')) }}
 			</div>
 			<div class="col-md-4">
 				{{ Form::label('search_departamento_capacitacion','Departamento') }}
-				{{ Form::select('search_departamento_capacitacion', array('' => 'Seleccione') + $departamentos,$search_departamento_capacitacion,['class' => 'form-control']) }}
+				{{ Form::select('search_departamento_capacitacion', array(0 => 'Seleccione') + $departamentos,$search_departamento_capacitacion,['class' => 'form-control']) }}
 			</div>
 		</div>
 
 		<div class="form-group row">
 			<div class="col-md-4">
 				{{ Form::label('search_servicio_capacitacion','Servicio') }}				
-				{{ Form::select('search_servicio_capacitacion', array('' => 'Seleccione') + $servicios,$search_servicio_capacitacion,['class' => 'form-control']) }}
+				{{ Form::select('search_servicio_capacitacion', array(0 => 'Seleccione') + $servicios,$search_servicio_capacitacion,['class' => 'form-control']) }}
 			</div>
 			<div class="col-md-4">
 				{{ Form::label('fecha_ini_capacitacion','Fecha de Inicio') }}
@@ -76,10 +76,10 @@
 
 		<div class="row">
 			<div class="form-group col-md-2 col-md-offset-8">
-				{{ Form::button('<span class="glyphicon glyphicon-search"></span> Buscar', array('id'=>'submit-search-form','type' => 'submit', 'class' => 'btn btn-primary btn-block', 'style' => 'width:145px')) }}				
+				{{ Form::button('<span class="glyphicon glyphicon-search"></span> Buscar', array('id'=>'submit-search-form','type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}				
 			</div>
 			<div class="form-group col-md-2">
-				<div class="btn btn-default btn-block" style="width:145px" id="btnlimpiar_list_capacitaciones">Limpiar</div>				
+				<div class="btn btn-default btn-block" id="btnlimpiar_list_capacitaciones" onclick="limpiarCriteriosPresupuesto()">Limpiar</div>				
 			</div>
 		</div>
 	  </div>
@@ -100,7 +100,7 @@
 				<table class="table">
 					<tr class="info">						
 						<th class="text-nowrap text-center">Código</th>
-						<th class="text-nowrap text-center">Nombre Capacitación</th>						
+						<th class="text-nowrap text-center">Nombre</th>						
 						<th class="text-nowrap text-center">Departamento</th>
 						<th class="text-nowrap text-center">Servicio</th>
 						<th class="text-nowrap text-center">Responsable</th>
@@ -119,7 +119,7 @@
 						<td class="text-nowrap">
 							{{$capacitacion->departamento->nombre}}
 						</td>						
-						<td class="text-nowrap">
+						<td>
 							{{$capacitacion->servicio->nombre}}
 						</td>
 						<td class="text-nowrap">

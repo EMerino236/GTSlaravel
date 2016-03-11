@@ -79,7 +79,7 @@ class PresupuestoCapacitacionController extends \BaseController {
 	 */
 	public function store()
 	{
-				if(Auth::check()){
+		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Verifico si el usuario es un Webmaster
@@ -255,7 +255,27 @@ class PresupuestoCapacitacionController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		//
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+
+				$data["tipos"] = RHTipo::all()->lists('nombre','id');
+				$data["modalidades"] = RHModalidad::all()->lists('nombre','id');
+				$data["servicios"] = Servicio::orderBy('nombre')->get()->lists('nombre','idservicio');
+				$data["departamentos"] = Area::orderBy('nombre')->get()->lists('nombre','idarea');
+				$data["usuarios"] = User::orderBy('nombre')->get()->lists('UserFullName','id');
+
+				$data["presupuesto"] = PresupuestoCapacitacion::find($id);
+
+				return View::make('rrhh.presupuesto_capacitacion.edit',$data);
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
 	}
 
 
