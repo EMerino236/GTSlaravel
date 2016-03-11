@@ -31,7 +31,7 @@ class PresupuestoCapacitacionController extends \BaseController {
 				$data["usuarios"] = User::orderBy('nombre')->get()->lists('UserFullName','id');
 				
 				//WIP DEBE SER PRESUPUESTO CAPACITACION
-				$data["proyectos_data"] = InformacionEconomica::withTrashed()->paginate(10);
+				$data["proyectos_data"] = PresupuestoCapacitacion::withTrashed()->paginate(10);
 				
 				return View::make('rrhh.presupuesto_capacitacion.index',$data);
 			}else{

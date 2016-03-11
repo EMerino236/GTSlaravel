@@ -218,14 +218,11 @@
 		</div>
 	</div>
 
-	@if($user->idrol==1)
+	
 	<div class="row">
-		<div class="form-group col-md-2">
-			<a href="{{route('presupuesto_capacitacion.edit',$presupuesto->id)}}">
-				{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Editar', array('id'=>'submit_create','class' => 'btn btn-primary btn-block')) }}
-			</a>
+
+		<div class="form-group col-md-offset-10 col-md-2">
+			<a class="btn btn-default btn-block" href="{{route('presupuesto_capacitacion.index')}}">Regresar</a>				
 		</div>
 	</div>
-	@endif
-
 @stop

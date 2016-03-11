@@ -108,7 +108,7 @@
 			</a>
 		</div>
 		<div class="form-group col-md-offset-8 col-md-2">
-			<a class="btn btn-default btn-block" href="{{route('capacitacion.index')}}">Cancelar</a>				
+			<a class="btn btn-default btn-block" href="{{route('capacitacion.index')}}">Regresar</a>				
 		</div>
 	</div>
 @stop

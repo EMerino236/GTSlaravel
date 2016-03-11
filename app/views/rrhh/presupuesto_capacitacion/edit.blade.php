@@ -3,7 +3,7 @@
 
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Presupuesto por Capacitacion</h3>
+            <h3 class="page-header">Presupuesto por Capacitacion: {{$presupuesto->capacitacion->codigo}}</h3>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -32,43 +32,39 @@
 				<div class="row">
 					<div class="form-group col-md-4">
 						{{ Form::label('id_capacitacion','Código de Capacitacion') }}
-						{{ Form::number('id_capacitacion', null, ['id'=>'id_capacitacion','class'=>'form-control','min'=>'1']) }}
-					</div>
-					<div class="form-group col-md-2">
-						{{ Form::label('','&zwnj;&zwnj;') }}
-						{{ Form::button('<span class="glyphicon glyphicon-check"></span> Validar', array('id'=>'submit_create', 'class' => 'btn btn-primary btn-block','onClick'=>'validarCapacitacionExiste()')) }}
+						{{ Form::text('id_capacitacion', $presupuesto->capacitacion->codigo, ['id'=>'id_capacitacion','class'=>'form-control','readonly']) }}
 					</div>
 				</div>
 				
 				<div class="row">
 					<div class="form-group col-md-4 @if($errors->first('nombre')) has-error has-feedback @endif">
 						{{ Form::label('nombre','Nombre') }}
-						{{ Form::text('nombre', Input::old('nombre'), ['class'=>'form-control']) }}
+						{{ Form::text('nombre', $presupuesto->nombre, ['class'=>'form-control']) }}
 					</div>
 
 					<div class="form-group col-md-4 @if($errors->first('tipo')) has-error has-feedback @endif">
 						{{ Form::label('tipo','Tipo') }}
-						{{ Form::select('tipo', $tipos, Input::old('tipo'), ['class'=>'form-control','disabled']) }}
+						{{ Form::select('tipo', $tipos, $presupuesto->id_tipo, ['class'=>'form-control','disabled']) }}
 					</div>
 
 					<div class="form-group col-md-4 @if($errors->first('modalidad')) has-error has-feedback @endif">
 						{{ Form::label('modalidad','Modalidad') }}
-						{{ Form::select('modalidad', $modalidades, Input::old('modalidad'), ['class'=>'form-control','disabled']) }}
+						{{ Form::select('modalidad', $modalidades, $presupuesto->id_modalidad, ['class'=>'form-control','disabled']) }}
 					</div>
 
 					<div class="form-group col-md-4 @if($errors->first('departamento')) has-error has-feedback @endif">
 						{{ Form::label('departamento','Departamento') }}
-						{{ Form::select('departamento', $departamentos, Input::old('departamento'), ['id'=>'departamento','class'=>'form-control','onChange'=>'getServicios(this)','disabled']) }}
+						{{ Form::select('departamento', $departamentos, $presupuesto->id_departamento, ['id'=>'departamento','class'=>'form-control','onChange'=>'getServicios(this)','disabled']) }}
 					</div>
 
 					<div class="form-group col-md-4 @if($errors->first('servicio_clinico')) has-error has-feedback @endif">
 						{{ Form::label('servicio_clinico','Servicio Clínico') }}
-						{{ Form::select('servicio_clinico', $servicios, Input::old('servicio_clinico'), ['id'=>'servicio_clinico','class'=>'form-control','disabled']) }}
+						{{ Form::select('servicio_clinico', $servicios, $presupuesto->id_servicio_clinico, ['id'=>'servicio_clinico','class'=>'form-control','disabled']) }}
 					</div>
 
 					<div class="form-group col-md-4 @if($errors->first('responsable')) has-error has-feedback @endif">
 						{{ Form::label('responsable','Responsable') }}
-						{{ Form::select('responsable',$usuarios, Input::old('responsable'),['class'=>'form-control'])}}
+						{{ Form::select('responsable',$usuarios, $presupuesto->id_responsable,['class'=>'form-control'])}}
 					</div>
 
 				</div>

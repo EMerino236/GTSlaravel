@@ -66,7 +66,7 @@
 		<div class="col-md-12">
 			<table class="table">
 				<tr class="info">
-					<th>Código del Capacitación</th>
+					<th>Código Capacitación</th>
 					<th>Nombre</th>
 					<th>Tipo</th>
 					<th>Modalidad</th>
@@ -77,14 +77,14 @@
 				@foreach($proyectos_data as $reporte_data)
 				<tr class="@if($reporte_data->deleted_at) bg-danger @endif">
 					<td>
-						<a href="{{route('presupuesto_capacitacion.show',$reporte_data->id)}}">{{$reporte_data->proyecto->codigo}}</a>
+						<a href="{{route('presupuesto_capacitacion.show',$reporte_data->id)}}">{{$reporte_data->capacitacion->codigo}}</a>
 					</td>
 					<td>{{$reporte_data->nombre}}</td>
-					<td>{{$reporte_data->categoria->nombre}}</td> 	<!--Tipo-->
-					<td>{{$reporte_data->categoria->nombre}}</td>	<!--Modalidad-->
+					<td>{{$reporte_data->tipo->nombre}}</td>
+					<td>{{$reporte_data->modalidad->nombre}}</td>
 					<td>{{$reporte_data->servicio->nombre}}</td>
 					<td>{{$reporte_data->departamento->nombre}}</td>
-					<td>{{$reporte_data->responsable->nombre}} {{$reporte_data->responsable->apellido_pat}} {{$reporte_data->responsable->apellido_mat}}</td>
+					<td>{{$reporte_data->responsable->UserFullName}}</td>
 				</tr>
 				@endforeach
 			</table>

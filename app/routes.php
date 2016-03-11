@@ -1242,3 +1242,22 @@ Route::group(array('prefix'=>'presupuesto_capacitacion','before'=>'auth'),functi
 
 	Route::post('/validarCapacitacionExisteAjax',['uses'=>'PresupuestoCapacitacionController@validarCapacitacionExisteAjax','as'=>'presupuesto_capacitacion.validarCapacitacionExiste.ajax']);
 });
+
+/* RRHH Plan de aprendizaje */
+Route::group(array('prefix'=>'rh_plan_aprendizaje','before'=>'auth'),function(){
+	Route::get('/create',['uses'=>'RHPlanAprendizajeController@create','as'=>'rh_plan_aprendizaje.create']);
+	Route::post('/create',['uses'=>'RHPlanAprendizajeController@store','as'=>'rh_plan_aprendizaje.store']);
+	Route::get('/show/{id}',['uses'=>'RHPlanAprendizajeController@show','as'=>'rh_plan_aprendizaje.show']);
+	Route::get('/edit/{id}',['uses'=>'RHPlanAprendizajeController@edit','as'=>'rh_plan_aprendizaje.edit']);
+	Route::post('/edit/{id}',['uses'=>'RHPlanAprendizajeController@update','as'=>'rh_plan_aprendizaje.update']);
+	Route::get('/download/{id}',['uses'=>'RHPlanAprendizajeController@download','as'=>'rh_plan_aprendizaje.download']);
+	Route::get('/export/{id}',['uses'=>'RHPlanAprendizajeController@export','as'=>'rh_plan_aprendizaje.export']);
+
+	Route::get('/actividad/edit/{id}',['uses'=>'RHPlanAprendizajeController@editActividad','as'=>'rh_plan_aprendizaje.actividad.edit']);
+	Route::post('/actividad/edit/{id}',['uses'=>'RHPlanAprendizajeController@updateActividad','as'=>'rh_plan_aprendizaje.actividad.update']);
+	Route::get('/actividad/delete/{id}',['uses'=>'RHPlanAprendizajeController@destroyActividad','as'=>'rh_plan_aprendizaje.actividad.destroy']);
+
+	Route::get('/recurso/edit/{id}',['uses'=>'RHPlanAprendizajeController@editRecurso','as'=>'rh_plan_aprendizaje.recurso.edit']);
+	Route::post('/recurso/edit/{id}',['uses'=>'RHPlanAprendizajeController@updateRecurso','as'=>'rh_plan_aprendizaje.recurso.update']);
+	Route::get('/recurso/delete/{id}',['uses'=>'RHPlanAprendizajeController@destroyRecurso','as'=>'rh_plan_aprendizaje.recurso.destroy']);
+});
