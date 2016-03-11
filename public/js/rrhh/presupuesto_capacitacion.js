@@ -29,8 +29,8 @@ function validarCapacitacionExiste()
 
                 if(response.reporte.length != 0){
                     $('#nombre').val(response.reporte.nombre);
-                    //$('#tipo').val(response.reporte.id_tipo);
-                    //$('#modalidad').val(response.reporte.id_modalidad);
+                    $('#tipo').val(response.reporte.id_tipo);
+                    $('#modalidad').val(response.reporte.id_modalidad);
                     $('#responsable').val(response.reporte.id_responsable);
                     $('#departamento').val(response.reporte.id_departamento);
                     getServicios();

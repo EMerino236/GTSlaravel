@@ -11,29 +11,9 @@
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			<p><strong>{{ $errors->first('id_capacitacion') }}</strong></p>
-			<p><strong>{{ $errors->first('nombre') }}</strong></p>
-			<p><strong>{{ $errors->first('tipo') }}</strong></p>
-			<p><strong>{{ $errors->first('modalidad') }}</strong></p>
-			<p><strong>{{ $errors->first('servicio_clinico') }}</strong></p>
-			<p><strong>{{ $errors->first('responsable') }}</strong></p>
-			<p><strong>{{ $errors->first('departamento') }}</strong></p>
-
-			<p><strong>{{ $errors->first('rh_actividades') }}</strong></p>
-
-			<p><strong>{{ $errors->first('eq_actividades') }}</strong></p>
-
-			<p><strong>{{ $errors->first('go_actividades') }}</strong></p>
-
-			<p><strong>{{ $errors->first('ga_actividades') }}</strong></p>
-
-			<p><strong>{{ $errors->first('rh_actividades_post') }}</strong></p>
-
-			<p><strong>{{ $errors->first('eq_actividades_post') }}</strong></p>
-
-			<p><strong>{{ $errors->first('go_actividades_post') }}</strong></p>
-
-			<p><strong>{{ $errors->first('ga_actividades_post') }}</strong></p>
+			@foreach($errors->all() as $error)
+				<p><strong>{{ $error }}</strong></p>
+			@endforeach		
 		</div>
 	@endif
 

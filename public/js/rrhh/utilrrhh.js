@@ -1,5 +1,9 @@
 $( document ).ready(function(){
 
+    $('#form').on('submit', function() {
+        $('select').prop('disabled', false);
+    });
+
 	$("#datetimepicker1").datetimepicker({
 		ignoreReadonly: true,
 		format: 'DD-MM-YYYY'

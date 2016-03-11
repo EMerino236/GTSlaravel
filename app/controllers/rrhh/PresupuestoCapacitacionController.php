@@ -114,7 +114,7 @@ class PresupuestoCapacitacionController extends \BaseController {
 					return Redirect::to('presupuesto_capacitacion/create')->withErrors($validator)->withInput(Input::all());					
 				}else{
 					
-					dd(Input::all());
+					//dd(Input::all());
 					$presupuesto = new PresupuestoCapacitacion;
 					$presupuesto->nombre = Input::get('nombre');
 					$presupuesto->id_tipo = Input::get('tipo');
@@ -227,7 +227,23 @@ class PresupuestoCapacitacionController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		//
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 ||
+				$data["user"]->idrol == 7 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 ||
+				$data["user"]->idrol == 12){
+
+				$data["presupuesto"] = PresupuestoCapacitacion::withTrashed()->find($id);
+
+				return View::make('rrhh.presupuesto_capacitacion.show',$data);
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
 	}
 
 
@@ -284,8 +300,7 @@ class PresupuestoCapacitacionController extends \BaseController {
 			
 			if($id_capacitacion!=''){				
 				
-				//WIP DEBE SER CAPACITACION
-				$capacitacion = Proyecto::find($id_capacitacion);
+				$capacitacion = Capacitacion::find($id_capacitacion);
 
 				if($capacitacion){
 					$reporte = $capacitacion;
