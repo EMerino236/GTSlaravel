@@ -48,7 +48,7 @@
                     <li>
                         <a href="#">Elaboración del presupuesto por actividad<span class="fa arrow"></span></a>
                         <ul class="nav nav-third-level">
-                            <li>{{ HTML::link('#','Presupuesto de capacitación formulado por actividad de capacitación') }}</li>                            
+                            <li>{{ HTML::linkRoute('presupuesto_capacitacion.index','Presupuesto de capacitación formulado por actividad de capacitación') }}</li>                            
                         </ul>
                     </li>
                     <li>

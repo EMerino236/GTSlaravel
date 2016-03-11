@@ -941,6 +941,12 @@ Route::group(array('prefix'=>'plan_desarrollo', 'before'=>'auth'),function(){
 Route::group(array('prefix'=>'capacitacion', 'before'=>'auth'),function(){
 	Route::get('/index',['uses' => 'CapacitacionesController@index','as' => 'capacitacion.index']);
 	Route::get('/create',['uses' => 'CapacitacionesController@create', 'as' => 'capacitacion.create']);
+	Route::post('/create',['uses'=>'CapacitacionesController@store','as'=>'capacitacion.store']);	
+	Route::get('/search',['uses'=>'CapacitacionesController@search','as'=>'capacitacion.search']);
+	Route::get('/show/{id}',['uses'=>'CapacitacionesController@show','as'=>'capacitacion.show']);
+	Route::get('/edit/{id}',['uses'=>'CapacitacionesController@edit','as'=>'capacitacion.edit']);
+	Route::post('/edit/{id}',['uses'=>'CapacitacionesController@update','as'=>'capacitacion.update']);
+
 });
 
 /* Acuerdos y convenios*/
@@ -1116,4 +1122,18 @@ Route::group(array('prefix'=>'indicador_tts','before'=>'auth'),function(){
 	Route::get('/edit/{id}/{tipo}',['uses'=>'IndicadorTTSController@edit','as'=>'indicador_tts.edit']);
 	Route::post('/edit/{id}',['uses'=>'IndicadorTTSController@update','as'=>'indicador_tts.update']);
 
+});
+
+
+/* Presupuesto Capacitacion */
+Route::group(array('prefix'=>'presupuesto_capacitacion','before'=>'auth'),function(){
+	Route::get('/index',['uses'=>'PresupuestoCapacitacionController@index','as'=>'presupuesto_capacitacion.index']);
+	Route::get('/search',['uses'=>'PresupuestoCapacitacionController@search','as'=>'presupuesto_capacitacion.search']);
+	Route::get('/create',['uses'=>'PresupuestoCapacitacionController@create','as'=>'presupuesto_capacitacion.create']);
+	Route::post('/create',['uses'=>'PresupuestoCapacitacionController@store','as'=>'presupuesto_capacitacion.store']);
+	Route::get('/show/{id}',['uses'=>'PresupuestoCapacitacionController@show','as'=>'presupuesto_capacitacion.show']);
+	Route::get('/edit/{id}',['uses'=>'PresupuestoCapacitacionController@edit','as'=>'presupuesto_capacitacion.edit']);
+	Route::post('/edit/{id}',['uses'=>'PresupuestoCapacitacionController@update','as'=>'presupuesto_capacitacion.update']);
+
+	Route::post('/validarCapacitacionExisteAjax',['uses'=>'PresupuestoCapacitacionController@validarCapacitacionExisteAjax','as'=>'presupuesto_capacitacion.validarCapacitacionExiste.ajax']);
 });

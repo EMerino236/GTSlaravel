@@ -8,6 +8,13 @@
         <!-- /.col-lg-12 -->
     </div>
 
+   	@if (Session::has('message'))
+		<div class="alert alert-success">{{ Session::get('message') }}</div>
+	@endif
+	@if (Session::has('error'))
+		<div class="alert alert-danger">{{ Session::get('error') }}</div>
+	@endif
+
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<h3 class="panel-title">Informacion general del proyecto</h3>

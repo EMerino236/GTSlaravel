@@ -108,29 +108,31 @@
 						<th class="text-nowrap text-center">Fecha Fin</th>
 					</tr>
 					
-					<tr class="@if(0) bg-danger @endif">			
+					@foreach($capacitaciones as $capacitacion)
+					<tr class="@if($capacitacion->deleted_at) bg-danger @endif">			
 						<td class="text-nowrap">
-							
+							<a href="{{route('capacitacion.show',$capacitacion->id)}}">{{$capacitacion->codigo}}</a>
 						</td>	
 						<td class="text-nowrap">
-							
+							{{$capacitacion->nombre}}
 						</td>
 						<td class="text-nowrap">
-							
+							{{$capacitacion->departamento->nombre}}
 						</td>						
 						<td class="text-nowrap">
-							
+							{{$capacitacion->servicio->nombre}}
 						</td>
 						<td class="text-nowrap">
-							
+							{{$capacitacion->responsable->UserFullName}}
 						</td>
 						<td class="text-nowrap">
-							
+							{{$capacitacion->fecha_ini}}
 						</td>
 						<td class="text-nowrap">
-							
+							{{$capacitacion->fecha_fin}}
 						</td>
-					</tr>					
+					</tr>
+					@endforeach				
 				</table>				
 			</div>
 		</div>

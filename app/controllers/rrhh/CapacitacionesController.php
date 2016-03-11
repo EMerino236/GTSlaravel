@@ -1,7 +1,12 @@
 <?php
 
-class CapacitacionesController extends BaseController
-{	
+class CapacitacionesController extends \BaseController {
+
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return Response
+	 */
 	public function index()
 	{
 		if(Auth::check())
@@ -23,6 +28,8 @@ class CapacitacionesController extends BaseController
 				$data["departamentos"] = Area::lists('nombre','idarea');
 				$data["servicios"] = Servicio::lists('nombre','idservicio');
 
+				//FALTA LA DATA DE LAS CAPACITACIONES
+				$data["capacitaciones"] = Capacitacion::all();
 
 				return View::make('rrhh/gestion_capacitaciones/index',$data);
 			}
@@ -37,6 +44,12 @@ class CapacitacionesController extends BaseController
 		}
 	}
 
+
+	/**
+	 * Show the form for creating a new resource.
+	 *
+	 * @return Response
+	 */
 	public function create()
 	{
 		if(Auth::check())
@@ -46,6 +59,12 @@ class CapacitacionesController extends BaseController
 
 			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4)
 			{
+				$data["tipos"] = RHTipo::all()->lists('nombre','id');
+				$data["modalidades"] = RHModalidad::all()->lists('nombre','id');
+				$data["departamentos"] = Area::lists('nombre','idarea');
+				$data["servicios"] = Servicio::lists('nombre','idservicio');
+				$data["usuarios"] = User::orderBy('nombre')->get()->lists('UserFullName','id');
+				
 				return View::make('rrhh/gestion_capacitaciones/create',$data);
 			}
 			else
@@ -58,4 +77,146 @@ class CapacitacionesController extends BaseController
 			return View::make('error/error',$data);
 		}
 	}
+
+
+	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @return Response
+	 */
+	public function store()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$dimensiones = Dimension::all()->count();
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+				// Validate the info, create rules for the inputs	
+				$rules = array(
+					'nombre_capacitacion' => 'required',
+					'tipo_capacitacion' => 'required',
+					'modalidad_capacitacion' => 'required',
+					'descripcion' => 'required',
+					'codigo_patrimonial' => 'required_if:tipo_capacitacion,1|required_if:tipo_capacitacion,2',
+					'equipo_relacionado' => 'required_if:tipo_capacitacion,1|required_if:tipo_capacitacion,2',
+					'departamento' => 'required',
+					'responsable' => 'required',
+					'servicio_clinico' => 'required',
+					'fecha_ini' => 'required|date',
+					'fecha_fin'	=> 'required|date',
+				);
+
+				$messages = array(
+					'required_if' => 'El campo :attribute es requerido cuando el tipo de capacitacion es capacitacion de usuario o tecnica por equipo nuevo',
+					'fecha_ini.required' => 'El campo Fecha Inicio es requerido',
+					'fecha_fin.required' => 'El campo Fecha Final es requerido',
+				);
+				// Run the validation rules on the inputs from the form
+				$validator = Validator::make(Input::all(), $rules, $messages);
+				// If the validator fails, redirect back to the form
+				if($validator->fails()){
+					return Redirect::to('capacitacion/create')->withErrors($validator)->withInput(Input::all());					
+				}else{
+						$capacitacion = new Capacitacion;
+						$capacitacion->nombre = Input::get('nombre_capacitacion');
+						$capacitacion->id_tipo = Input::get('tipo_capacitacion');
+						$capacitacion->id_modalidad = Input::get('modalidad_capacitacion');
+						$capacitacion->descripcion = Input::get('descripcion');
+						
+						if(Input::get('tipo_capacitacion') != 3){
+							$capacitacion->codigo_patrimonial = Input::get('codigo_patrimonial');
+							$capacitacion->equipo_relacionado = Input::get('equipo_relacionado');
+						}
+						
+						$capacitacion->id_departamento = Input::get('departamento');
+						$capacitacion->id_responsable = Input::get('responsable');
+						$capacitacion->id_servicio_clinico = Input::get('servicio_clinico');
+						$capacitacion->fecha_ini = date("Y-m-d",strtotime(Input::get('fecha_ini')));
+						$capacitacion->fecha_fin = date("Y-m-d",strtotime(Input::get('fecha_fin')));
+
+						$capacitacion->save();
+
+						$capacitacion->codigo = 'C-'.date('Y').'-'.$capacitacion->id;
+
+						$capacitacion->save();
+
+
+					Session::flash('message', 'Se registró correctamente la capacitación.');
+					return Redirect::to('capacitacion/create');
+				}
+			}else{
+				return View::make('error/error',$data);
+			}
+
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function show($id)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 ||
+				$data["user"]->idrol == 7 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 ||
+				$data["user"]->idrol == 12){
+
+				$data["capacitacion"] = Capacitacion::withTrashed()->find($id);
+
+				return View::make('rrhh.gestion_capacitaciones.show',$data);
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+
+	/**
+	 * Show the form for editing the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function edit($id)
+	{
+		//
+	}
+
+
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function update($id)
+	{
+		//
+	}
+
+
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function destroy($id)
+	{
+		//
+	}
+
+
 }

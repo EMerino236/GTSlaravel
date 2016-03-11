@@ -55,7 +55,7 @@
 
 					<div class="form-group col-md-4 @if($errors->first('departamento')) has-error has-feedback @endif">
 						{{ Form::label('departamento','Departamento') }}
-						{{ Form::select('departamento', $departamentos, $reporte->id_departamento, ['id'=>'departamento','class'=>'form-control','onChange'=>'getServicios(this),'disabled'']) }}
+						{{ Form::select('departamento', $departamentos, $reporte->id_departamento, ['id'=>'departamento','class'=>'form-control','onChange'=>'getServicios(this)','disabled']) }}
 					</div>
 
 					<div class="form-group col-md-4 @if($errors->first('servicio_clinico')) has-error has-feedback @endif">

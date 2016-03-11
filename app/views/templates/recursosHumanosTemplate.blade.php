@@ -16,6 +16,7 @@
     <link href="{{ asset('dist/css/timeline.css') }}" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="{{ asset('dist/css/sb-admin-2.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/rrhh.css') }}" rel="stylesheet">
     <!-- Morris Charts CSS -->
     <link href="{{ asset('bower_components/morrisjs/morris.css') }}" rel="stylesheet">
     <!-- Custom Fonts -->
@@ -44,7 +45,9 @@
     <!-- Custom Theme JavaScript -->
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>    
     <script src="{{ asset('js/rrhh/utilrrhh.js') }}"></script>    
+    <script src="{{ asset('js/rrhh/capacitacion.js') }}"></script>
     <script src="{{ asset('js/rrhh/plan_desarrollo.js') }}"></script>
+    <script src="{{ asset('js/rrhh/presupuesto_capacitacion.js') }}"></script>
     <script src="{{ asset('js/fileinput.min.js') }}"></script>
     <script src="{{ asset('js/fileinput_locale_es.min.js') }}"></script>
     <script src="{{ asset('js/language_file_upload_plugin.min.js') }}"></script>
