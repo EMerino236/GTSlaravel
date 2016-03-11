@@ -21,7 +21,7 @@
 		</div>
 	@endif
 
-    {{ Form::open(array('url'=>'#','method'=>'get' ,'role'=>'form', 'id'=>'search-form','class' => 'form-group')) }}	
+    {{ Form::open(array('route'=>'acuerdo_convenio.search','method'=>'get' ,'role'=>'form', 'id'=>'search-form','class' => 'form-group')) }}	
 	<div class="panel panel-default">
 	  <div class="panel-heading">
 	    <h3 class="panel-title">Búsqueda</h3>
@@ -33,7 +33,7 @@
 				{{ Form::text('search_nombre_convenio',$search_nombre_convenio,array('class'=>'form-control','placeholder'=>'Nombre')) }}
 			</div>
 			<div class="col-md-4">
-				{{ Form::label('search_duracion_convenio','Duración') }}
+				{{ Form::label('search_duracion_convenio','Duración de Convenio (En Meses)') }}
 				{{ Form::text('search_duracion_convenio',$search_duracion_convenio,array('class'=>'form-control','placeholder'=>'Duración')) }}
 			</div>
 			<div class="col-md-4">
@@ -85,7 +85,7 @@
 	{{ Form::close() }}	
 	<div class="container-fluid form-group row">		
 		<div class="col-md-2 col-md-offset-10">
-			<a class="btn btn-primary btn-block" style="width:145px" href="{{route('convenio.create')}}">
+			<a class="btn btn-primary btn-block" style="width:145px" href="{{route('acuerdo_convenio.create')}}">
 			<span class="glyphicon glyphicon-plus"></span> Agregar</a>
 		</div>
 	</div>
@@ -100,9 +100,21 @@
 						<th class="text-nowrap text-center">Duración</th>						
 						<th class="text-nowrap text-center">Fecha Firma</th>
 						<th class="text-nowrap text-center">Fecha de Creación</th>						
-						<th class="text-nowrap text-center"></th>						
+						<th class="text-nowrap text-center"></th>
+						<th></th>
+						@if($user->idrol==1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4)
+						<th></th>
+						@endif
+						@if($user->idrol==1 || $user->idrol == 2)
+						<th></th>
+						@endif
 					</tr>
-					
+					@if($acuerdos_convenios->isEmpty())			
+						<tr class="">
+						<td><h4 style="color:red">NO HAY REGISTROS EN LA BÚSQUEDA</h4></td>						 
+						</tr>					
+					@else
+					@foreach($acuerdos_convenios as $acuerdo_convenio_data)			
 					<tr class="@if(0) bg-danger @endif">			
 						<td class="text-nowrap">
 							
@@ -116,12 +128,62 @@
 						<td class="text-nowrap">
 							
 						</td>
-						<td class="text-nowrap">
-							
-						</td>					
-					</tr>					
-				</table>				
+						<td>
+							<a class="btn btn-success btn-block btn-sm" style="width:145px; float: right" href="{{route('acuerdo_convenio.download',$acuerdo_convenio_data->id)}}">
+							<span class="glyphicon glyphicon-download"></span> Descargar</a>
+						</td>
+						@if($user->idrol==1 || $user->idrol == 2 || $user->idrol == 3 || $user->idrol == 4)
+						<td>
+							<a class="btn btn-warning btn-block btn-sm" style="width:145px; float: right" href="{{route('acuerdo_convenio.edit',$acuerdo_convenio_data->id)}}">
+							<span class="glyphicon glyphicon-pencil"></span> Editar</a>
+						</td>
+						@endif
+						@if($user->idrol==1 || $user->idrol == 2)
+						<td>
+							<div class="btn btn-danger btn-block btn-sm" style="width:145px; float: right" data-value="{{$acuerdo_convenio_data->id}}" data-toggle="modal" data-target="#modalDeleteAcuerdoConvenio">
+								<span class="glyphicon glyphicon-trash"></span> Eliminar</a>
+							</div>
+						</td>
+						@endif
+					@endforeach					
+					</tr>	
+					@endif				
+				</table>
+				@if($search_nombre_convenio || $search_duracion_convenio || $fecha_ini_firma_convenio || $fecha_fin_firma_convenio || $row_number)
+					{{ $acuerdos_convenios->appends(array('search_nombre_convenio' => $search_nombre_convenio,'search_duracion_convenio' => $search_duracion_convenio, 'fecha_ini_firma_convenio' => $fecha_ini_firma_convenio,
+					   'fecha_fin_firma_convenio' => $fecha_fin_firma_convenio,'row_number' => $row_number))->links() }}
+				@else	
+					{{ $planes_desarrollo->links()}}
+				@endif				
 			</div>
 		</div>
-	</div>	
+	</div>
+
+	<div id="modalDeleteAcuerdoConvenio" class="modal fade">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header bg-danger">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title">ADVERTENCIA</h4>
+	      </div>
+	      <div class="modal-body">
+	        <p>¿Está seguro que desea eliminar el Acuerdo y/o Convenio?</p>
+	      </div>
+	      <div class="modal-footer">
+	        {{ Form::open(array('route'=>'acuerdo_convenio.destroy','role'=>'form')) }}
+	        {{ Form::hidden('id_acuerdo_convenio',"",array('id' => 'id_acuerdo_convenio')) }}
+	        <div class="row">
+	        	<div class="col-md-offset-8 col-md-2">
+	        		<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+	        	</div>
+	        	<div class="col-md-2">
+	        		{{ Form::button('Eliminar', array('id'=>'submit-destroy-form','type' => 'submit', 'class' => 'btn btn-danger')) }}
+	        	</div>
+	        </div>      
+	        {{ Form::close() }}
+	      </div>
+	    </div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->	
+
 @stop
