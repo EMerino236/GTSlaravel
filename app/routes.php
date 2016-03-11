@@ -1250,10 +1250,24 @@ Route::group(array('prefix'=>'presupuesto_capacitacion','before'=>'auth'),functi
 	Route::post('/validarCapacitacionExisteAjax',['uses'=>'PresupuestoCapacitacionController@validarCapacitacionExisteAjax','as'=>'presupuesto_capacitacion.validarCapacitacionExiste.ajax']);
 });
 
+
+/* Programacion Internado */
+Route::group(array('prefix'=>'programacion_internado','before'=>'auth'),function(){
+	Route::get('/index',['uses'=>'ProgramacionInternadoController@index','as'=>'programacion_internado.index']);
+	Route::get('/search',['uses'=>'ProgramacionInternadoController@search','as'=>'programacion_internado.search']);
+	Route::get('/create',['uses'=>'ProgramacionInternadoController@create','as'=>'programacion_internado.create']);
+	Route::post('/create',['uses'=>'ProgramacionInternadoController@store','as'=>'programacion_internado.store']);
+	Route::get('/show/{id}',['uses'=>'ProgramacionInternadoController@show','as'=>'programacion_internado.show']);
+	Route::get('/edit/{id}',['uses'=>'ProgramacionInternadoController@edit','as'=>'programacion_internado.edit']);
+	Route::post('/edit/{id}',['uses'=>'ProgramacionInternadoController@update','as'=>'programacion_internado.update']);
+
+});
+
+
 /* RRHH Plan de aprendizaje */
 Route::group(array('prefix'=>'rh_plan_aprendizaje','before'=>'auth'),function(){
-	Route::get('/create',['uses'=>'RHPlanAprendizajeController@create','as'=>'rh_plan_aprendizaje.create']);
-	Route::post('/create',['uses'=>'RHPlanAprendizajeController@store','as'=>'rh_plan_aprendizaje.store']);
+	Route::get('/create/{id}',['uses'=>'RHPlanAprendizajeController@create','as'=>'rh_plan_aprendizaje.create']);
+	Route::post('/create/{id}',['uses'=>'RHPlanAprendizajeController@store','as'=>'rh_plan_aprendizaje.store']);
 	Route::get('/show/{id}',['uses'=>'RHPlanAprendizajeController@show','as'=>'rh_plan_aprendizaje.show']);
 	Route::get('/edit/{id}',['uses'=>'RHPlanAprendizajeController@edit','as'=>'rh_plan_aprendizaje.edit']);
 	Route::post('/edit/{id}',['uses'=>'RHPlanAprendizajeController@update','as'=>'rh_plan_aprendizaje.update']);

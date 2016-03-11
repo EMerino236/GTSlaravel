@@ -54,7 +54,7 @@
                     <li>
                         <a href="#">Gestión de internado / residentado / PSP en TS<span class="fa arrow"></span></a>
                         <ul class="nav nav-third-level">
-                            <li>{{ HTML::link('#','Programación por servicio clínico') }}</li>
+                            <li>{{ HTML::linkRoute('programacion_internado.index','Programación por servicio clínico') }}</li>
                             <li>{{ HTML::link('#','Indicadores de Gestión') }}</li>
                         </ul>
                     </li>

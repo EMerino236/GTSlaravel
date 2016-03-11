@@ -14,6 +14,11 @@ $( document ).ready(function(){
 		format: 'DD-MM-YYYY'
 	});
 
+	$("#datetimepicker3").datetimepicker({
+		ignoreReadonly: true,
+		format: 'DD-MM-YYYY'
+	});
+
     $("#datetimepicker1").on("dp.change", function (e) {
         $('#datetimepicker2').data("DateTimePicker").minDate(e.date);
     });
@@ -33,3 +38,11 @@ $( document ).ready(function(){
 	});
 
 });
+
+function deleteRow(event,el)
+{
+    event.preventDefault();
+    var parent = el.parentNode;
+    parent = parent.parentNode;
+    parent.parentNode.removeChild(parent);
+}

@@ -10,6 +10,8 @@
     <link href="{{ asset('bower_components/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- Datepicker CSS-->
     <link rel="stylesheet" href="{{ asset('css/bootstrap-datetimepicker.min.css') }}">
+    <!-- Calendar CSS-->
+    <link rel="stylesheet" href="{{ asset('css/responsive-calendar.css') }}">
     <!-- MetisMenu CSS -->
     <link href="{{ asset('bower_components/metisMenu/dist/metisMenu.min.css') }}" rel="stylesheet">
     <!-- Timeline CSS -->
@@ -37,6 +39,8 @@
     <script type="text/javascript" src="{{ asset('js/moment.min.js') }}"></script>
     <!-- Bootstrap Datepicker JavaScript -->
     <script type="text/javascript" src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
+    <!-- Bootstrap Calendar JavaScript -->
+    <script type="text/javascript" src="{{ asset('js/responsive-calendar.min.js') }}"></script>
     <!-- Metis Menu Plugin JavaScript -->
     <script src="{{ asset('bower_components/metisMenu/dist/metisMenu.min.js') }}"></script>
     <!-- Morris Charts JavaScript -->
@@ -49,6 +53,8 @@
     <script src="{{ asset('js/rrhh/plan_desarrollo.js') }}"></script>
     <script src="{{ asset('js/rrhh/presupuesto_capacitacion.js') }}"></script>
     <script src="{{ asset('js/rrhh/plan_difusion.js') }}"></script>
+    <script src="{{ asset('js/rrhh/plan_aprendizaje.js') }}"></script>
+    <script src="{{ asset('js/rrhh/programacion_internado.js') }}"></script>
     <script src="{{ asset('js/fileinput.min.js') }}"></script>
     <script src="{{ asset('js/fileinput_locale_es.min.js') }}"></script>
     <script src="{{ asset('js/language_file_upload_plugin.min.js') }}"></script>
