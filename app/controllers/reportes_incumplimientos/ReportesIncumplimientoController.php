@@ -63,7 +63,7 @@ class ReportesIncumplimientoController extends BaseController
 			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){	
 				$data["tipo_documento_identidad"] = TipoDocumento::lists('nombre','idtipo_documento');
 				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
-				$data["servicios"] = Servicio::searchServiciosClinicos(1)->lists('nombre','idservicio');
+				$data["servicios"] = Servicio::searchServiciosClinicos(1)->orderBy('nombre','asc')->lists('nombre','idservicio');
 				$data["search"] = null;
 				$data["documento_info"] =null;
 				return View::make('reportes_incumplimiento/createReporteIncumplimiento',$data);
@@ -87,7 +87,7 @@ class ReportesIncumplimientoController extends BaseController
 				$data["tipo_documento_identidad"] = TipoDocumento::lists('nombre','idtipo_documento');
 				$data["reporte_data"] = ReporteIncumplimiento::getReporteIncumplimientoById($idreporte)->get();
 				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
-				$data["servicios"] = Servicio::searchServiciosClinicos(1)->lists('nombre','idservicio');
+				$data["servicios"] = Servicio::searchServiciosClinicos(1)->orderBy('nombre','asc')->lists('nombre','idservicio');
 				
 				if($data["reporte_data"]->isEmpty()){
 					return Redirect::to('reportes_incumplimiento/list_reportes');
@@ -127,7 +127,7 @@ class ReportesIncumplimientoController extends BaseController
 				$data["tipo_documento_identidad"] = TipoDocumento::lists('nombre','idtipo_documento');
 				$data["reporte_data"] = ReporteIncumplimiento::getReporteIncumplimientoById($idreporte)->get();
 				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
-				$data["servicios"] = Servicio::searchServiciosClinicos(1)->lists('nombre','idservicio');
+				$data["servicios"] = Servicio::searchServiciosClinicos(1)->orderBy('nombre','asc')->lists('nombre','idservicio');
 				
 				if($data["reporte_data"]->isEmpty()){
 					return Redirect::to('reportes_incumplimiento/list_reportes');

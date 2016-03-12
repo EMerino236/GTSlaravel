@@ -26,7 +26,7 @@ class ActivosController extends BaseController
 				$data["row_number"] = 10;
 
 				$data["grupos"] = Grupo::lists('nombre','idgrupo');
-				$data["servicio"] = Servicio::lists('nombre','idservicio');
+				$data["servicio"] = Servicio::orderBy('nombre','asc')->lists('nombre','idservicio');
 				$data["ubicacion"] = UbicacionFisica::lists('nombre','idubicacion_fisica');
 				$data["marca"] = Marca::lists('nombre','idmarca');
 				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
@@ -50,7 +50,7 @@ class ActivosController extends BaseController
 			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
 				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 				$data["grupos"] = Grupo::lists('nombre','idgrupo');
-				$data["servicio"] = Servicio::lists('nombre','idservicio');
+				$data["servicio"] = Servicio::orderBy('nombre','asc')->lists('nombre','idservicio');
 				$data["marca"] = Marca::lists('nombre','idmarca');
 				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
 				$data["ubicacion"] = UbicacionFisica::lists('nombre','idubicacion_fisica');
@@ -104,7 +104,7 @@ class ActivosController extends BaseController
 				$data["row_number"] = 10;				
 
 				$data["grupos"] = Grupo::lists('nombre','idgrupo');
-				$data["servicio"] = Servicio::lists('nombre','idservicio');
+				$data["servicio"] = Servicio::orderBy('nombre','asc')->lists('nombre','idservicio');
 				$data["ubicacion"] = UbicacionFisica::lists('nombre','idubicacion_fisica');
 				$data["marca"] = Marca::lists('nombre','idmarca');
 				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
@@ -145,7 +145,7 @@ class ActivosController extends BaseController
 			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
 				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 				$data["grupos"] = Grupo::lists('nombre','idgrupo');
-				$data["servicio"] = Servicio::lists('nombre','idservicio');
+				$data["servicio"] = Servicio::orderBy('nombre','asc')->lists('nombre','idservicio');
 				$data["marca"] = Marca::lists('nombre','idmarca');
 				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');
 				$data["ubicacion"] = UbicacionFisica::lists('nombre','idubicacion_fisica');
@@ -203,7 +203,7 @@ class ActivosController extends BaseController
 				$data["row_number"] = 10;				
 
 				$data["departamentos"] = Area::lists('nombre','idarea');
-				$data["servicios"] = Servicio::lists('nombre','idservicio');
+				$data["servicios"] = Servicio::orderBy('nombre','asc')->lists('nombre','idservicio');
 
 				$data["servicios_data"] = Servicio::getServiciosInfo()->paginate($data["row_number"]);								
 
@@ -225,7 +225,7 @@ class ActivosController extends BaseController
 			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
 				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 				$data["departamentos"] = Area::lists('nombre','idarea');
-				$data["servicios"] = Servicio::lists('nombre','idservicio');
+				$data["servicios"] = Servicio::orderBy('nombre','asc')->lists('nombre','idservicio');
 				
 				$data["search_departamento"] = Input::get('search_departamento');
 				$data["search_servicio"] = Input::get('search_servicio');
@@ -251,7 +251,7 @@ class ActivosController extends BaseController
 
 			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 				$data["grupos"] = Grupo::lists('nombre','idgrupo');
-				$data["servicios"] = Servicio::lists('nombre','idservicio');
+				$data["servicios"] = Servicio::orderBy('nombre','asc')->lists('nombre','idservicio');
 				$data["ubicacion"] = UbicacionFisica::lists('nombre','idubicacion_fisica');		
 				$data["marcas"]	= Marca::lists('nombre','idmarca');
 				$data["proveedor"] = Proveedor::lists('razon_social','idproveedor');			
@@ -392,7 +392,7 @@ class ActivosController extends BaseController
 
 				$data["equipo_info"] = $data["equipo_info"][0];
 				$data["grupos"] = Grupo::lists('nombre','idgrupo');
-				$data["servicios"] = Servicio::lists('nombre','idservicio');
+				$data["servicios"] = Servicio::orderBy('nombre','asc')->lists('nombre','idservicio');
 				$data["ubicaciones"] = UbicacionFisica::lists('nombre','idubicacion_fisica');
 				$data["nombre_equipo"] = FamiliaActivo::where('idmarca','=',$data["equipo_info"]->idmarca)->lists('nombre_equipo','idfamilia_activo');
 				$data["modelo_equipo"] = ModeloActivo::where('idfamilia_activo','=',$data["equipo_info"]->idfamilia_activo)->lists('nombre','idmodelo_equipo');
@@ -596,7 +596,7 @@ class ActivosController extends BaseController
 				}
 				$data["equipo_info"] = $data["equipo_info"][0];
 				$data["grupos"] = Grupo::lists('nombre','idgrupo');
-				$data["servicios"] = Servicio::lists('nombre','idservicio');
+				$data["servicios"] = Servicio::orderBy('nombre','asc')->lists('nombre','idservicio');
 				$data["ubicaciones"] = UbicacionFisica::lists('nombre','idubicacion_fisica');
 				$data["nombre_equipo"] = FamiliaActivo::where('idmarca','=',$data["equipo_info"]->idmarca)->lists('nombre_equipo','idfamilia_activo');
 				$data["modelo_equipo"] = ModeloActivo::where('idfamilia_activo','=',$data["equipo_info"]->idfamilia_activo)->lists('nombre','idmodelo_equipo');
@@ -664,7 +664,7 @@ class ActivosController extends BaseController
 				}
 				$data["equipo_info"] = $data["equipo_info"][0];
 				$data["grupos"] = Grupo::lists('nombre','idgrupo');
-				$data["servicios"] = Servicio::lists('nombre','idservicio');
+				$data["servicios"] = Servicio::orderBy('nombre','asc')->lists('nombre','idservicio');
 				$data["ubicaciones"] = UbicacionFisica::lists('nombre','idubicacion_fisica');
 				$data["nombre_equipo"] = FamiliaActivo::where('idmarca','=',$data["equipo_info"]->idmarca)->lists('nombre_equipo','idfamilia_activo');
 				$data["modelo_equipo"] = ModeloActivo::where('idfamilia_activo','=',$data["equipo_info"]->idfamilia_activo)->lists('nombre','idmodelo_equipo');

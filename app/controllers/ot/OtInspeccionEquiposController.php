@@ -20,7 +20,7 @@ class OtInspeccionEquiposController extends BaseController {
 				$data["search_fin"] = null;
 				$data["search_servicio"] = null;
 				$data["search_equipo"] = null;
-				$data["servicios"] = Servicio::lists('nombre','idservicio');
+				$data["servicios"] = Servicio::orderBy('nombre','asc')->lists('nombre','idservicio');
 				$data["inspecciones_equipos_data"] = OrdenesTrabajoInspeccionEquipo::getOtsInspecEquipoInfo()->paginate(10);
 				return View::make('ot/inspeccionEquipo/listOtInspecEquipos',$data);
 			}else{
@@ -44,7 +44,7 @@ class OtInspeccionEquiposController extends BaseController {
 				$data["trimestre_ini"] = null;
 				$data["trimestre_fin"] = null;
 				$this->calcular_trimestre($data["trimestre_ini"],$data["trimestre_fin"]);
-				$data['servicios'] = Servicio::lists('nombre','idservicio');
+				$data['servicios'] = Servicio::orderBy('nombre','asc')->lists('nombre','idservicio');
 				$data['ingenieros'] = User::getJefes()->get();
 				
 				return View::make('ot/inspeccionEquipo/createProgramOtInspecEquipos',$data);
@@ -290,7 +290,7 @@ class OtInspeccionEquiposController extends BaseController {
 				$data["search_fin"] = Input::get('search_fin');
 				$data["search_servicio"] = Input::get('search_servicio');
 				$data["search_equipo"] = Input::get('search_equipo');
-				$data["servicios"] = Servicio::lists('nombre','idservicio');
+				$data["servicios"] = Servicio::orderBy('nombre','asc')->lists('nombre','idservicio');
 				if($data["search_ing"]==null && $data["search_ot"]==null && $data["search_ini"]==null && $data["search_fin"]==null
 					&& $data["search_servicio"] == 0 && $data["search_equipo"]==null){
 					$data["inspecciones_equipos_data"] = OrdenesTrabajoInspeccionEquipo::getOtsInspecEquipoInfo()->paginate(10);

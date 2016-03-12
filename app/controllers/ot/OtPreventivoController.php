@@ -24,7 +24,7 @@ class OtPreventivoController extends BaseController {
 				$data["search_ini"] = null;
 				$data["search_fin"] = null;
 				$data["search_servicio"] = null;
-				$data["servicios"] = Servicio::lists('nombre','idservicio');
+				$data["servicios"] = Servicio::orderBy('nombre','asc')->lists('nombre','idservicio');
 				$data["mant_preventivos_data"] = OrdenesTrabajoPreventivo::getOtsMantPreventivoInfo()->paginate(10);
 				return View::make('ot/preventivo/listOtMantPreventivo',$data);
 			}else{
@@ -168,7 +168,7 @@ class OtPreventivoController extends BaseController {
 				$data["search_ini"] = Input::get('search_ini');
 				$data["search_fin"] = Input::get('search_fin');
 				$data["search_servicio"] = Input::get('search_servicio');
-				$data["servicios"] = Servicio::lists('nombre','idservicio');
+				$data["servicios"] = Servicio::orderBy('nombre','asc')->lists('nombre','idservicio');
 				if($data["search_ing"]==null && $data["search_cod_pat"] == null && $data["search_ubicacion"]==null && $data["search_ot"]==null &&
 					$data["search_equipo"]==null && $data["search_proveedor"]==null && $data["search_ini"] == null && $data["search_fin"]==null &&
 					$data["search_servicio"]==0){

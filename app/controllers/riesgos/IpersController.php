@@ -19,7 +19,7 @@ class IpersController extends BaseController
 				$data["search_servicio"] = null;
 				$data["search_entorno"] = null;
 				$data["tipo"] = $tipo;
-				$data["servicios"] = Servicio::lists('nombre','idservicio');
+				$data["servicios"] = Servicio::orderBy('nombre','asc')->lists('nombre','idservicio');
 				$data["entornos"] = EntornoAsistencial::lists('nombre','id');		
 				$data["ipers_data"] = Iper::getIpersInfo($tipo)->distinct()->paginate(10);
 
@@ -48,7 +48,7 @@ class IpersController extends BaseController
 				$data["search_servicio"] = Input::get('search_servicio');;
 				$data["search_usuario"] = Input::get('search_usuario');
 				$data["search_entorno"] = Input::get('search_entorno');
-				$data["servicios"] = Servicio::lists('nombre','idservicio');
+				$data["servicios"] = Servicio::orderBy('nombre','asc')->lists('nombre','idservicio');
 				$data["entornos"] = EntornoAsistencial::lists('nombre','id');
 				$tipo = Input::get('tipo');
 				$data["tipo"] = $tipo;
@@ -76,7 +76,7 @@ class IpersController extends BaseController
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 ){		
 				if($tipo == 1)	
-					$data["servicios"] = Servicio::lists('nombre','idservicio');
+					$data["servicios"] = Servicio::orderBy('nombre','asc')->lists('nombre','idservicio');
 				else
 					$data["entornos"] = EntornoAsistencial::lists('nombre','id');
 				$data["tipo"] = $tipo;
@@ -128,7 +128,7 @@ class IpersController extends BaseController
 				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
-					return Redirect::to('ipers/create_iper/'.$tipo)->withErrors($validator)->withInput(Input::all());
+					return Redirect::to('ipers/submit_create_iper/'.$tipo)->withErrors($validator)->withInput(Input::all());
 				}else{
 				   
 				    $iper = new Iper;
@@ -198,7 +198,7 @@ class IpersController extends BaseController
 			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 ) && $id){
 				
 				if($tipo == 1)
-					$data["servicios"] = Servicio::lists('nombre','idservicio');
+					$data["servicios"] = Servicio::orderBy('nombre','asc')->lists('nombre','idservicio');
 				else
 					$data["entornos"] = EntornoAsistencial::lists('nombre','id');
 
@@ -234,7 +234,7 @@ class IpersController extends BaseController
 			   || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12 ) && $id){
 				
 				if($tipo == 1)
-					$data["servicios"] = Servicio::lists('nombre','idservicio');
+					$data["servicios"] = Servicio::orderBy('nombre','asc')->lists('nombre','idservicio');
 				else
 					$data["entornos"] = EntornoAsistencial::lists('nombre','id');
 				
