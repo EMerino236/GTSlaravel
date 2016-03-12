@@ -407,5 +407,14 @@
 
 		</div>
 	</div>
+	
+	<div class="row">
+
+		<div class="form-group col-md-2">
+			<a class="btn-under" href="{{route('proyecto_documentacion.index')}}">
+				{{ Form::button('<span class="glyphicon glyphicon-repeat"></span> Regresar', array('class' => 'btn btn-primary btn-block')) }}
+			</a>
+		</div>
+	</div>
 
 @stop

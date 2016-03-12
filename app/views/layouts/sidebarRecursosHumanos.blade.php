@@ -18,7 +18,7 @@
                     <li>
                         <a href="#">Gestión interinstitucional para capacitación, financiamiento y difusión de los programas<span class="fa arrow"></span></a>
                         <ul class="nav nav-third-level">
-                            <li>{{ HTML::linkRoute('convenio.index','Acuerdos y convenios de asociación con entidades') }}</li>
+                            <li>{{ HTML::linkRoute('acuerdo_convenio.index','Acuerdos y convenios de asociación con entidades') }}</li>
                             <li>{{ HTML::linkRoute('planteamiento_difusion.index','Planteamiento de disfusión por programa') }}</li>
                         </ul>
                     </li>
@@ -48,13 +48,13 @@
                     <li>
                         <a href="#">Elaboración del presupuesto por actividad<span class="fa arrow"></span></a>
                         <ul class="nav nav-third-level">
-                            <li>{{ HTML::link('#','Presupuesto de capacitación formulado por actividad de capacitación') }}</li>                            
+                            <li>{{ HTML::linkRoute('presupuesto_capacitacion.index','Presupuesto de capacitación formulado por actividad de capacitación') }}</li>                            
                         </ul>
                     </li>
                     <li>
                         <a href="#">Gestión de internado / residentado / PSP en TS<span class="fa arrow"></span></a>
                         <ul class="nav nav-third-level">
-                            <li>{{ HTML::link('#','Programación por servicio clínico') }}</li>
+                            <li>{{ HTML::linkRoute('programacion_internado.index','Programación por servicio clínico') }}</li>
                             <li>{{ HTML::link('#','Indicadores de Gestión') }}</li>
                         </ul>
                     </li>

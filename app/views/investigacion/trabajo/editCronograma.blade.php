@@ -50,14 +50,14 @@
 
 					<div class="form-group col-md-4 @if($errors->first('departamento')) has-error has-feedback @endif">
 						{{ Form::label('departamento','Departamento') }}
-						{{ Form::select('departamento', $departamentos, $cronograma->id_departamento, ['id'=>'departamento','class'=>'form-control','onChange'=>'getServicios(this)']) }}
+						{{ Form::select('departamento', $departamentos, $cronograma->id_departamento, ['id'=>'departamento','class'=>'form-control','onChange'=>'getServicios(this)','disabled']) }}
 					</div>
 				</div>
 				
 				<div class="row">
 					<div class="form-group col-md-4 @if($errors->first('servicio_clinico')) has-error has-feedback @endif">
 						{{ Form::label('servicio_clinico','Servicio Clínico') }}
-						{{ Form::select('servicio_clinico', $servicios, $cronograma->id_servicio_clinico, ['id'=>'servicio_clinico','class'=>'form-control']) }}
+						{{ Form::select('servicio_clinico', $servicios, $cronograma->id_servicio_clinico, ['id'=>'servicio_clinico','class'=>'form-control','disabled']) }}
 					</div>
 
 					<div class="form-group col-md-4 @if($errors->first('responsable')) has-error has-feedback @endif">

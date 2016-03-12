@@ -344,7 +344,7 @@
 	</div>
 	
 	<div class="row">
-		@if($reporte->url=="")
+		@if($reporte->url=="" || $user->idrol == 1)
 		<div class="form-group col-md-2">
 			<a href="{{route('proyecto.edit',$reporte->id)}}">
 				{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Editar', array('class' => 'btn btn-primary btn-block')) }}
