@@ -18,7 +18,7 @@ class ReportesCalibracionController extends BaseController
 				$data["search_servicio"] = null;
 				$data["search_area"] = null;
 				$data["search_grupo"] = null;
-				$data["servicios"] = Servicio::lists('nombre','idservicio');
+				$data["servicios"] = Servicio::orderBy('nombre','asc')->lists('nombre','idservicio');
 				$data["areas"] = Area::lists('nombre','idarea');
 				$data["grupos"] = Grupo::lists('nombre','idgrupo');
 				$data["reportes_data"] = ReporteCalibracion::getReportesInfo()->distinct()->orderBy('id','asc')->paginate(10);
@@ -48,7 +48,7 @@ class ReportesCalibracionController extends BaseController
 				$data["search_servicio"] = Input::get('search_servicio');
 				$data["search_area"] = Input::get('search_area');
 				$data["search_grupo"] = Input::get('search_grupo');
-				$data["servicios"] = Servicio::lists('nombre','idservicio');
+				$data["servicios"] = Servicio::orderBy('nombre','asc')->lists('nombre','idservicio');
 				$data["areas"] = Area::lists('nombre','idarea');
 				$data["grupos"] = Grupo::lists('nombre','idgrupo');
 				
@@ -72,7 +72,7 @@ class ReportesCalibracionController extends BaseController
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 ){
 				
-				$data["servicios"] = Servicio::lists('nombre','idservicio');
+				$data["servicios"] = Servicio::orderBy('nombre','asc')->lists('nombre','idservicio');
 				$data["areas"] = Area::lists('nombre','idarea');
 				$data["grupos"] = Grupo::lists('nombre','idgrupo');
 
@@ -251,7 +251,7 @@ class ReportesCalibracionController extends BaseController
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  ){
 				
-				$data["servicios"] = Servicio::lists('nombre','idservicio');
+				$data["servicios"] = Servicio::orderBy('nombre','asc')->lists('nombre','idservicio');
 				$data["areas"] = Area::lists('nombre','idarea');
 				$data["grupos"] = Grupo::lists('nombre','idgrupo');
 

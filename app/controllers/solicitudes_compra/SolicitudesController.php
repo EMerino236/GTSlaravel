@@ -18,7 +18,7 @@ class SolicitudesController extends BaseController
 				$data["search_servicio"]=null;
 				$data["search_estado"]=null;
 				$data["search_nombre_equipo"]=null;
-				$data["servicios"] = Servicio::lists('nombre','idservicio');
+				$data["servicios"] = Servicio::orderBy('nombre','asc')->lists('nombre','idservicio');
 				$data["fecha_desde"] = null;
 				$data["fecha_hasta"] = null;
 				$data["solicitudes_data"] = SolicitudCompra::getSolicitudesInfo()->paginate(10);
@@ -39,7 +39,7 @@ class SolicitudesController extends BaseController
 			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 5 || $data["user"]->idrol == 6
 				 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 				$data["search_tipo_solicitud"] = Input::get('search_tipo_solicitud');				
-				$data["servicios"] = Servicio::lists('nombre','idservicio');
+				$data["servicios"] = Servicio::orderBy('nombre','asc')->lists('nombre','idservicio');
 				$data["tipos"] = TipoSolicitudCompra::lists('nombre','idtipo_solicitud_compra');
 				$data["search_servicio"]=Input::get('search_servicio');
 				$data["search_estado"]=Input::get('search_estado');
@@ -123,7 +123,7 @@ class SolicitudesController extends BaseController
 				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
 				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
 				$data["tipos"] = TipoSolicitudCompra::lists('nombre','idtipo_solicitud_compra');
-				$data["servicios"] = Servicio::searchServiciosClinicos(1)->lists('nombre','idservicio');
+				$data["servicios"] = Servicio::searchServiciosClinicos(1)->orderBy('nombre','asc')->lists('nombre','idservicio');
 				$data["marcas1"] = Marca::lists('nombre','idmarca');
 				$data["nombre_equipos1"] = array('0'=>'Seleccione');
 				$data["usuarios_responsable"] = User::getJefes()->get();
@@ -152,7 +152,7 @@ class SolicitudesController extends BaseController
 				$tabla = Tabla::getTablaByNombre(self::$nombre_tabla)->get();
 				$data["estados"] = Estado::where('idtabla','=',$tabla[0]->idtabla)->lists('nombre','idestado');
 				$data["tipos"] = TipoSolicitudCompra::lists('nombre','idtipo_solicitud_compra');
-				$data["servicios"] = Servicio::searchServiciosClinicos(1)->lists('nombre','idservicio');
+				$data["servicios"] = Servicio::searchServiciosClinicos(1)->orderBy('nombre','asc')->lists('nombre','idservicio');
 				$familia = FamiliaActivo::find($data["reporte_data"]->idfamilia_activo);
 				$data["marcas1"] = Marca::lists('nombre','idmarca');
 				$data["nombre_equipos1"] = FamiliaActivo::searchFamiliaActivoByMarca($familia->idmarca)->lists('nombre_equipo','idfamilia_activo');

@@ -169,7 +169,7 @@ class RetiroServicioController extends BaseController {
 			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 				$data["motivos"] = MotivoRetiro::lists('nombre','idmotivo_retiro');
 				$data["marcas"] = Marca::lists('nombre','idmarca');
-				$data["servicios"] = Servicio::lists('nombre','idservicio');
+				$data["servicios"] = Servicio::orderBy('nombre','asc')->lists('nombre','idservicio');
 				$data["proveedores"] = Proveedor::lists('razon_social','idproveedor');
 				$data["search_motivo"] = null;
 				$data["search_equipo"] = null;
@@ -197,7 +197,7 @@ class RetiroServicioController extends BaseController {
 			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 				$data["motivos"] = MotivoRetiro::lists('nombre','idmotivo_retiro');
 				$data["marcas"] = Marca::lists('nombre','idmarca');
-				$data["servicios"] = Servicio::lists('nombre','idservicio');
+				$data["servicios"] = Servicio::orderBy('nombre','asc')->lists('nombre','idservicio');
 				$data["proveedores"] = Proveedor::lists('razon_social','idproveedor');
 
 				$data["search_motivo"] = Input::get('search_motivo');
