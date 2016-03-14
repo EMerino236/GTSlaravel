@@ -90,20 +90,24 @@
 				</tr>
 				@foreach($reportes_data as $reporte_data)
 				<tr class="@if($reporte_data->deleted_at) bg-danger @endif">
-					<td>{{$reporte_data->nombre}}</td>
+					<td>
+						<a href="{{route('programacion_internado.show',$reporte_data->id)}}">
+							{{$reporte_data->nombre}}
+						</a>
+					</td>
 					<td>{{$reporte_data->departamento->nombre}}</td>
 					<td>{{$reporte_data->servicioClinico->nombre}}</td>
 					<td>{{$reporte_data->responsable->UserFullName}}</td>
-					<td>WIP</td>
-					<td>{{$reporte_data->proyecto->fecha_ini}}</td>
-					<td>{{$reporte_data->proyecto->fecha_fin}}</td>
+					<td>{{$reporte_data->num_horas}}</td>
+					<td>{{$reporte_data->fecha_ini}}</td>
+					<td>{{$reporte_data->fecha_fin}}</td>
 					<td class="text-nowrap text-center">
 						@if(true)
-						<a class="btn-under" href="{{route('programacion_internado.create')}}">
+						<a class="btn-under" href="{{route('rh_plan_aprendizaje.create',$reporte_data->id)}}">
 							{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Crear', ['class' => 'btn btn-success btn-block']) }}
 						</a>
 						@else
-						<a class="btn-under" href="{{route('programacion_internado.show',$reporte_data->id)}}">
+						<a class="btn-under" href="{{route('rh_plan_aprendizaje.show',$reporte_data->id)}}">
 							{{ Form::button('<span class="glyphicon glyphicon-search"></span> Ver', ['class' => 'btn btn-success btn-block']) }}
 						</a>
 						@endif

@@ -2,7 +2,7 @@
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Agregar Programacion de internado por servicio clinico</h3>
+            <h3 class="page-header">Editar Programacion de internado por servicio clinico</h3>
         </div>
     </div>
 
@@ -22,7 +22,7 @@
 		<div class="alert alert-danger">{{ Session::get('error') }}</div>
 	@endif
 	
-	{{ Form::open(array('route'=>'programacion_internado.store', 'role'=>'form','id'=>'form')) }}
+	{{ Form::open(array('route'=>['programacion_internado.update',$programacion->id], 'role'=>'form','id'=>'form')) }}
 	    <div class="row">
 	    	<div class="col-md-8">
 				<div class="panel panel-default">
@@ -31,27 +31,27 @@
 						<div class="row">
 							<div class="form-group col-md-6 @if($errors->first('nombre')) has-error has-feedback @endif">
 								{{ Form::label('nombre','Nombre') }}
-								{{ Form::text('nombre', Input::old('nombre'), ['class'=>'form-control']) }}
+								{{ Form::text('nombre', $programacion->nombre, ['class'=>'form-control']) }}
 							</div>
 
 							<div class="form-group col-md-6 @if($errors->first('departamento')) has-error has-feedback @endif">
 								{{ Form::label('departamento','Departamento') }}
-								{{ Form::select('departamento', $departamentos, Input::old('departamento'), ['id'=>'departamento','class'=>'form-control','onChange'=>'getServiciosProgInter(this)']) }}
+								{{ Form::select('departamento', $departamentos, $programacion->id_departamento, ['id'=>'departamento','class'=>'form-control','onChange'=>'getServiciosProgInter(this)']) }}
 							</div>
 
 							<div class="form-group col-md-6 @if($errors->first('servicio_clinico')) has-error has-feedback @endif">
 								{{ Form::label('servicio_clinico','Servicio Clínico') }}
-								{{ Form::select('servicio_clinico', $servicios, Input::old('servicio_clinico'), ['id'=>'servicio_clinico','class'=>'form-control','onChange'=>'getNumeroInternados(this)']) }}
+								{{ Form::select('servicio_clinico', $servicios, $programacion->id_servicio_clinico, ['id'=>'servicio_clinico','class'=>'form-control','onChange'=>'getNumeroInternados(this)']) }}
 							</div>
 
 							<div class="form-group col-md-6 @if($errors->first('responsable')) has-error has-feedback @endif">
 								{{ Form::label('responsable','Responsable') }}
-								{{ Form::select('responsable',$usuarios, Input::old('responsable'),['id'=>'responsable','class'=>'form-control'])}}
+								{{ Form::select('responsable',$usuarios, $programacion->id_responsable,['id'=>'responsable','class'=>'form-control'])}}
 							</div>
 
 							<div class="form-group col-md-6 @if($errors->first('numero_horas')) has-error has-feedback @endif">
 								{{ Form::label('numero_horas','Numero de horas') }}
-								{{ Form::number('numero_horas', Input::old('numero_horas'),['id'=>'numero_horas','class'=>'form-control'])}}
+								{{ Form::number('numero_horas', $programacion->num_horas,['id'=>'numero_horas','class'=>'form-control'])}}
 							</div>
 						</div>
 
@@ -59,7 +59,7 @@
 							<div class="form-group col-md-6 @if($errors->first('fecha_ini')) has-error has-feedback @endif">
 								{{ Form::label('fecha_ini','Fecha Inicio') }}
 								<div id="datetimepicker1" class="form-group input-group date">
-									{{ Form::text('fecha_ini',Input::old('fecha_ini'),array('class'=>'form-control', 'readonly'=>'')) }}
+									{{ Form::text('fecha_ini',date('dd-mm-YYYY',strtotime($programacion->fecha_ini)),array('class'=>'form-control', 'readonly'=>'')) }}
 									<span class="input-group-addon">
 				                        <span class="glyphicon glyphicon-calendar"></span>
 				                    </span>
@@ -68,7 +68,7 @@
 							<div class="form-group col-md-6 @if($errors->first('fecha_fin')) has-error has-feedback @endif">
 								{{ Form::label('fecha_fin','Fecha Fin') }}
 								<div id="datetimepicker2" class="form-group input-group date">
-									{{ Form::text('fecha_fin',Input::old('fecha_fin'),array('class'=>'form-control', 'readonly'=>'')) }}
+									{{ Form::text('fecha_fin',date('dd-mm-YYYY',strtotime($programacion->fecha_fin)),array('class'=>'form-control', 'readonly'=>'')) }}
 									<span class="input-group-addon">
 				                        <span class="glyphicon glyphicon-calendar"></span>
 				                    </span>
@@ -124,7 +124,7 @@
 
 		<div class="row">
 			<div class="form-group col-md-2">
-				{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Crear', array('id'=>'submit_create_ots','type'=>'submit', 'class' => 'btn btn-primary btn-block')) }}
+				{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit_create_ots','type'=>'submit', 'class' => 'btn btn-primary btn-block')) }}
 			</div>
 			<div class="form-group col-md-2 col-md-offset-8">
 				<a class="btn btn-default btn-block" href="{{route('programacion_internado.index')}}">Cancelar</a>				

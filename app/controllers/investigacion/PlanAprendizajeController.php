@@ -115,7 +115,6 @@ class PlanAprendizajeController extends \BaseController {
 	 */
 	public function store()
 	{
-		//dd(Input::all());
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');

@@ -1261,6 +1261,7 @@ Route::group(array('prefix'=>'programacion_internado','before'=>'auth'),function
 	Route::get('/edit/{id}',['uses'=>'ProgramacionInternadoController@edit','as'=>'programacion_internado.edit']);
 	Route::post('/edit/{id}',['uses'=>'ProgramacionInternadoController@update','as'=>'programacion_internado.update']);
 
+	Route::post('/getNumeroInternadosAjax',['uses'=>'ProgramacionInternadoController@getNumeroInternadosAjax','as'=>'programacion_internado.getNumeroInternados.ajax']);
 });
 
 
