@@ -31,7 +31,7 @@ function agregarPlanRec(){
     var competencia_generada = $("input[name=competencia_generada]").val();
     var indicador = $("input[name=indicador]").val();
 
-    if(nombre.length < 1 || descripcion.length < 1 || servicio.length < 1 || fecha.length < 1 || duracion.length < 1){
+    if(competencia_generada.length < 1 || indicador.length < 1){
         return BootstrapDialog.alert({
             title:  'Alerta',
             message: 'Debe llenar todos los campos',

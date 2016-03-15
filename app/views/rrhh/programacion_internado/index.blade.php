@@ -102,12 +102,12 @@
 					<td>{{$reporte_data->fecha_ini}}</td>
 					<td>{{$reporte_data->fecha_fin}}</td>
 					<td class="text-nowrap text-center">
-						@if(true)
+						@if($reporte_data->plan->isEmpty())
 						<a class="btn-under" href="{{route('rh_plan_aprendizaje.create',$reporte_data->id)}}">
 							{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Crear', ['class' => 'btn btn-success btn-block']) }}
 						</a>
 						@else
-						<a class="btn-under" href="{{route('rh_plan_aprendizaje.show',$reporte_data->id)}}">
+						<a class="btn-under" href="{{route('rh_plan_aprendizaje.show',$reporte_data->plan->first()->id)}}">
 							{{ Form::button('<span class="glyphicon glyphicon-search"></span> Ver', ['class' => 'btn btn-success btn-block']) }}
 						</a>
 						@endif

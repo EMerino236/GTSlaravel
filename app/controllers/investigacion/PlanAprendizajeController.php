@@ -415,7 +415,7 @@ class PlanAprendizajeController extends \BaseController {
 						}
 					}
 
-					Session::flash('message', 'Se edito correctamente el plan de aprendizaje.');
+					Session::flash('message', 'Se editó correctamente el plan de aprendizaje.');
 					return Redirect::to('plan_aprendizaje/edit/'.$id);
 				}
 			}else{

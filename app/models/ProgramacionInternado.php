@@ -23,6 +23,11 @@ class ProgramacionInternado extends Eloquent{
 		return $this->belongsTo('User', 'id_responsable');
 	}
 
+	public function plan()
+	{
+		return $this->hasMany('RHPlanAprendizaje','id_programacion');
+	}
+
 	public function scopeSearchReporte($query,$search_nombre,$search_servicio_clinico,$search_departamento,$search_responsable,$search_fecha_ini,$search_fecha_fin)
 	{
 		$query->withTrashed();
