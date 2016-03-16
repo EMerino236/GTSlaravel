@@ -1283,3 +1283,14 @@ Route::group(array('prefix'=>'rh_plan_aprendizaje','before'=>'auth'),function(){
 	Route::post('/recurso/edit/{id}',['uses'=>'RHPlanAprendizajeController@updateRecurso','as'=>'rh_plan_aprendizaje.recurso.update']);
 	Route::get('/recurso/delete/{id}',['uses'=>'RHPlanAprendizajeController@destroyRecurso','as'=>'rh_plan_aprendizaje.recurso.destroy']);
 });
+
+/* Registro de perfiles profesionales */
+Route::group(array('prefix'=>'registro_perfil','before'=>'auth'),function(){
+	Route::get('/index',['uses'=>'RegistroPerfilController@index','as'=>'registro_perfil.index']);
+	Route::get('/search',['uses'=>'RegistroPerfilController@search','as'=>'registro_perfil.search']);
+	Route::get('/create',['uses'=>'RegistroPerfilController@create','as'=>'registro_perfil.create']);
+	Route::post('/create',['uses'=>'RegistroPerfilController@store','as'=>'registro_perfil.store']);
+	Route::get('/show/{id}',['uses'=>'RegistroPerfilController@show','as'=>'registro_perfil.show']);
+	Route::get('/edit/{id}',['uses'=>'RegistroPerfilController@edit','as'=>'registro_perfil.edit']);
+	Route::post('/edit/{id}',['uses'=>'RegistroPerfilController@update','as'=>'registro_perfil.update']);
+});

@@ -42,7 +42,7 @@
                         <ul class="nav nav-third-level">
                             <li>{{ HTML::link('#','RRHH para capacitaciones y proyectos') }}</li>
                             <li>{{ HTML::link('#','Programación de docentes para capacitaciones') }}</li>
-                            <li>{{ HTML::link('#','Registro de perfiles profesionales') }}</li>                            
+                            <li>{{ HTML::linkRoute('registro_perfil.index','Registro de perfiles profesionales') }}</li>                            
                         </ul>
                     </li>
                     <li>
