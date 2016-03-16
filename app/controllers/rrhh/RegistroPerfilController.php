@@ -22,7 +22,7 @@ class RegistroPerfilController extends \BaseController {
 				$data["search_nombre"] = null;
 				$data["search_pais"] = null;
 
-				$data["paises"] = Area::all()->lists('nombre','idarea');
+				$data["paises"] = Pais::all()->lists('nombre','id');
 
 				$data["perfiles_data"] = PlanAprendizaje::withTrashed()->paginate(10);
 				
@@ -49,6 +49,7 @@ class RegistroPerfilController extends \BaseController {
 			// Verifico si el usuario es un Webmaster
 			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
 
+				$data["paises"] = Pais::all()->lists('nombre','id');
 
 				return View::make('rrhh.registro_perfiles.create',$data);
 			}else{
@@ -67,7 +68,7 @@ class RegistroPerfilController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+		dd(Input::all());
 	}
 
 
