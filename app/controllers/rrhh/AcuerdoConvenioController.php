@@ -106,7 +106,70 @@ class AcuerdoConvenioController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"]= Session::get('user');
+
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+
+				$attributes=array(
+					'nombre_convenio' => 'Nombre del Convenio',
+					'fecha_firma_convenio' => 'Fecha de Firma del Convenio',
+					'duracion_convenio' => 'Duración del Convenio',
+					'descripcion_convenio' => 'Descripción del Convenio',
+					'objetivo_convenio' => 'Objetivo del Convenio',
+					'archivo' => 'Documento del Convenio'
+					);
+
+				$messages=array(
+					);
+
+				$rules = array(
+					'nombre_convenio' => 'required|max:200',
+					'fecha_firma_convenio' => 'required',
+					'duracion_convenio' => 'required|numeric',
+					'descripcion_convenio' => 'required|max:200',
+					'objetivo_convenio' => 'required|max:200',									
+					'archivo' => 'required'				
+					);
+
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
+
+				if($validator->fails()){
+					return Redirect::to('acuerdo_convenio/create')->withErrors($validator)->withInput(Input::all());
+				}else{
+
+					$acuerdo_convenio = new AcuerdoConvenio;
+					$acuerdo_convenio->nombre = Input::get('nombre_convenio');
+					$acuerdo_convenio->fechafirma = date('Y-m-d',strtotime(Input::get('fecha_firma_convenio')));
+					$acuerdo_convenio->duracion = Input::get('duracion_convenio');
+					$acuerdo_convenio->descripcion = Input::get('descripcion_convenio');
+					$acuerdo_convenio->objetivo = Input::get('objetivo_convenio');
+					
+
+					if(Input::hasFile('archivo'))
+					{
+						$archivo = Input::file('archivo');
+				        $rutaDestino = 'uploads/documentos/RRHH/Acuerdo y Convenio/';
+				        $nombreArchivo = $archivo->getClientOriginalName();
+				        $nombreArchivoEncriptado = Str::random(27).'.'.pathinfo($nombreArchivo, PATHINFO_EXTENSION);
+				        $uploadSuccess = $archivo->move($rutaDestino, $nombreArchivoEncriptado);						
+						
+						$acuerdo_convenio->nombre_archivo = $nombreArchivo;
+						$acuerdo_convenio->nombre_archivo_encriptado = $nombreArchivoEncriptado;
+						$acuerdo_convenio->url = $rutaDestino;
+					}
+
+					$acuerdo_convenio->save();
+					
+					return Redirect::to('acuerdo_convenio/index')->with('message', 'Se registró correctamente el Convenio.');
+				}
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
 	}
 
 
@@ -161,7 +224,7 @@ class AcuerdoConvenioController extends \BaseController {
 			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
 				|| $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12 && $id)
 			{
-				$date["acuerdo_convenio"] = AcuerdoConvenio::find(id);
+				$data["acuerdo_convenio"] = AcuerdoConvenio::find($id);
 
 				if($data["acuerdo_convenio"] == null)
 					return Redirect::to('acuerdo_convenio/index');

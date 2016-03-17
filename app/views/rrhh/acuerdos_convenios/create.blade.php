@@ -22,11 +22,20 @@
 
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>			
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<p><strong>{{ $errors->first('nombre_convenio') }}</strong></p>
+			<p><strong>{{ $errors->first('fecha_firma_convenio') }}</strong></p>
+			<p><strong>{{ $errors->first('duracion_convenio') }}</strong></p>
+			<p><strong>{{ $errors->first('descripcion_convenio') }}</strong></p>
+			<p><strong>{{ $errors->first('objetivo_convenio') }}</strong></p>
+			<p><strong>{{ $errors->first('') }}</strong></p>
+			<p><strong>{{ $errors->first('') }}</strong></p>
+			<p><strong>{{ $errors->first('') }}</strong></p>
+			<p><strong>{{ $errors->first('archivo') }}</strong></p>		
 		</div>
 	@endif
 
-	{{ Form::open(array('url'=>'#', 'role'=>'form')) }}		
+	{{ Form::open(array('route'=>'acuerdo_convenio.store', 'role'=>'form', 'files'=>'true')) }}		
 	<div class="panel panel-default">
 	  	<div class="panel-heading">Datos Generales</div>
 		  	<div class="panel-body">	
@@ -37,7 +46,7 @@
 					</div>					
 				</div>
 				<div class="form-group row">
-					<div class="col-md-4">
+					<div class="col-md-4  @if($errors->first('fecha_firma_convenio')) has-error has-feedback @endif">
 						{{ Form::label('fecha_firma_convenio','Fecha de Firma') }}						
 						<div id="datetimepicker1" class="form-group input-group date">
 							{{ Form::text('fecha_firma_convenio',Input::old('fecha_firma_convenio'),array('class'=>'form-control','readonly'=>'')) }}
@@ -64,6 +73,17 @@
 					</div>
 				</div>			
 			</div>
+		</div>
+		<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">Adjuntar Archivo</h3>
+		</div>
+		<div class="panel-body">
+			<div class="col-md-8 @if($errors->first('archivo')) has-error has-feedback @endif">
+				<label class="control-label">Seleccione un Documento </label><span style='color:red'>*</span><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="Formatos Permitidos: png, jpe, jpeg, jpg, gif, bmp, zip, rar, pdf, doc, docx, xls, xlsx, ppt, pptx"></span>
+				<input name="archivo" id="input-file" type="file" class="file file-loading" data-show-upload="false">
+			</div>
+		</div>	
 		</div>
 		<div class="panel panel-default">
 			<div class="panel-heading">
@@ -185,17 +205,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="panel panel-default">
-		<div class="panel-heading">
-			<h3 class="panel-title">Adjuntar Archivo</h3>
-		</div>
-		<div class="panel-body">
-			<div class="col-md-8 @if($errors->first('archivo')) has-error has-feedback @endif">
-				<label class="control-label">Seleccione un Documento </label><span style='color:red'>*</span><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="Formatos Permitidos: png, jpe, jpeg, jpg, gif, bmp, zip, rar, pdf, doc, docx, xls, xlsx, ppt, pptx"></span>
-				<input name="archivo" id="input-file" type="file" class="file file-loading" data-show-upload="false">
-			</div>
-		</div>	
-	</div>
+		
 		
 		<div class="container-fluid row">
 			<div class="form-group col-md-2 col-md-offset-8">				

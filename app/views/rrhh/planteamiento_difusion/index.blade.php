@@ -138,11 +138,11 @@
 						<td class="text-nowrap">
 							{{$plan_difusion_data->responsable->apellido_pat}} {{$plan_difusion_data->responsable->apellido_mat}}, {{$plan_difusion_data->responsable->nombre}}
 						</td>
-						<td class="text-nowrap">
-							{{$plan_difusion_data->fechainicio}}
+						<td class="text-nowrap">							
+							{{ date('d-m-Y',strtotime($plan_difusion_data->fechainicio)) }}
 						</td>
-						<td class="text-nowrap">
-							{{$plan_difusion_data->fechafin}}
+						<td class="text-nowrap">							
+							{{ date('d-m-Y',strtotime($plan_difusion_data->fechafin)) }}
 						</td>
 						<td>
 							<a class="btn btn-success btn-block btn-sm" style="width:145px; float: right" href="{{route('planteamiento_difusion.download',$plan_difusion_data->id)}}">
