@@ -113,12 +113,5 @@
 	<div class="form-group col-md-2">
 		<a class="btn btn-primary btn-block" href="{{URL::to('/especificacion_tecnica/list_archivos_ECRI/')}}"><span class="glyphicon glyphicon-file"></span> Archivos ECRI</a>
 	</div>
-	<div class="row">
-		@if($search_familia_activo)
-			{{ $expedientes_tecnico_data->appends(array('search_familia_activo'=>$search_familia_activo))->links() }}
-		@else
-			{{ $expedientes_tecnico_data->links() }}
-		@endif
-	</div>
 
 @stop

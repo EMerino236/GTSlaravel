@@ -60,6 +60,13 @@ $( document ).ready(function(){
         $('#search_servicio').val("");
     });
 
+     $('#btnLlimpiar_criterios_list_cotizaciones').click(function(){
+        $('#search_nombre_equipo').val("");
+        $('#search_nombre_detallado').val("");
+        $('#search_marca').val("");
+        $('#search_modelo').val("");
+    });
+
      $('#btnLlimpiar_criterios_list_adjudicacion_expediente').click(function(){
         $('#search_codigo_compra').val("");
         $('#search_usuario').val("");
