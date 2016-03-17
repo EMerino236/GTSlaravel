@@ -76,7 +76,7 @@
 				{{ Form::button('<span class="glyphicon glyphicon-search"></span> Buscar', array('id'=>'submit-search-form','type' => 'submit', 'class' => 'btn btn-primary btn-block', 'style' => 'width:145px')) }}				
 			</div>
 			<div class="form-group col-md-2">
-				<div class="btn btn-default btn-block" style="width:145px" id="btnlimpiar_list_capacitaciones">Limpiar</div>				
+				<div class="btn btn-default btn-block" style="width:145px" onClick='limpiarCriteriosAcuerdoConvenio()'>Limpiar</div>				
 			</div>
 		</div>
 	  </div>

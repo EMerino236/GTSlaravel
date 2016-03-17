@@ -28,10 +28,10 @@
 			<p><strong>{{ $errors->first('duracion_convenio') }}</strong></p>
 			<p><strong>{{ $errors->first('descripcion_convenio') }}</strong></p>
 			<p><strong>{{ $errors->first('objetivo_convenio') }}</strong></p>
-			<p><strong>{{ $errors->first('') }}</strong></p>
-			<p><strong>{{ $errors->first('') }}</strong></p>
-			<p><strong>{{ $errors->first('') }}</strong></p>
 			<p><strong>{{ $errors->first('archivo') }}</strong></p>		
+			<p><strong>{{ $errors->first('') }}</strong></p>
+			<p><strong>{{ $errors->first('') }}</strong></p>
+			<p><strong>{{ $errors->first('') }}</strong></p>
 		</div>
 	@endif
 

@@ -275,7 +275,7 @@ class PlanteamientoDifusionController extends BaseController
 				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 
 				if($validator->fails()){
-					return Redirect::to('planteamiento_difusion/edit')->withErrors($validator)->withInput(Input::all());
+					return Redirect::to('planteamiento_difusion/edit/'.$id)->withErrors($validator)->withInput(Input::all());
 				}else{
 
 					$plan_difusion = PlanDifusion::find($id);
