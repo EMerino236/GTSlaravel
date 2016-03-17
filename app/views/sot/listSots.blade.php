@@ -3,12 +3,7 @@
 	<div class="row">
         <div class="col-lg-12">
             <h3 class="page-header">Historial de Solicitudes de Ordenes de Trabajo</h3>
-            <div class="container-fluid form-group row">
-				<div class="col-md-4 col-md-offset-8">
-            		<a class="btn btn-primary btn-block" href="{{URL::to('/sot/create_sot')}}">
-					<span class="glyphicon glyphicon-plus"></span> Generar Solicitud</a>
-				</div>
-			</div>
+            
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -72,8 +67,13 @@
 			</div>	
 			</div>
 		</div>
-	{{ Form::close() }}</br>
-
+	{{ Form::close() }}
+	<div class="container-fluid form-group row">
+				<div class="col-md-4 col-md-offset-8">
+            		<a class="btn btn-primary btn-block" href="{{URL::to('/sot/create_sot')}}">
+					<span class="glyphicon glyphicon-plus"></span> Generar Solicitud</a>
+				</div>
+			</div>
 	<div class="row">
 		<div class="col-md-12">
 			<div class="table-responsive">

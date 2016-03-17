@@ -19,12 +19,7 @@
 		</div>
 	@endif
 
-	<div class="container-fluid form-group row">
-		<div class="col-md-4 col-md-offset-8">
-			<a class="btn btn-primary btn-block" href="{{URL::to('/mant_preventivo/programacion')}}">
-			<span class="glyphicon glyphicon-plus"></span> Agregar Mantenimiento Preventivo</a>
-		</div>
-	</div>
+	
 
     {{ Form::open(array('url'=>'/mant_preventivo/search_ot_mant_preventivo','method'=>'get' ,'role'=>'form', 'id'=>'search-form','class' => 'form-group')) }}
 	<div class="container-fluid form-group row">
@@ -96,10 +91,17 @@
 	</div>
 	{{ Form::close() }}	
 	<div class="container-fluid form-group row">
+		<div class="col-md-4 col-md-offset-8">
+			<a class="btn btn-primary btn-block" href="{{URL::to('/mant_preventivo/programacion')}}">
+			<span class="glyphicon glyphicon-plus"></span> Agregar Mantenimiento Preventivo</a>
+		</div>
+	</div>
+	<div class="container-fluid form-group row">
 		<div class="col-md-12">
 			<div class="table-responsive">
 				<table class="table" id="table_ot">
-				<tr class="info">					
+				<tr class="info">
+					<th class="text-nowrap text-center">N°</th>					
 					<th class="text-nowrap text-center">Orden Trabajo Mantenimiento</th>
 					<th class="text-nowrap text-center">Fecha y hora</th>
 					<th class="text-nowrap text-center">Departamento</th>
@@ -111,7 +113,10 @@
 				</tr>
 				@foreach($mant_preventivos_data as $index => $mant_preventivo_data)
 				{{form::hidden('fila',$mant_preventivo_data->idot_preventivo,array('id'=>'fila'.$index))}}
-				<tr>					
+				<tr>
+					<td class="text-nowrap text-center">
+						{{$index+1}}
+					</td>					
 					<td class="text-nowrap text-center">
 					@if($user->idrol==1 || $user->idrol==2 || $user->idrol==3 || $user->idrol==4)
 						@if($mant_preventivo_data->idestado_ot==9)

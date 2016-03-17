@@ -33,11 +33,6 @@
 	{{ Form::open(array('url'=>'sot/submit_program_ot', 'role'=>'form','id'=>'submit_program_ot')) }}
 		{{ Form::hidden('sot_id', $sot_info->idsolicitud_orden_trabajo) }}
 		<div class="row">
-			<div class="form-group col-md-2 col-md-offset-10">
-				<a class="btn btn-default btn-block" href="{{URL::previous()}}"><span class="glyphicon glyphicon-menu-left"></span> Regresar</a>				
-			</div>	
-		</div>
-		<div class="row">
 			<div class="form-group col-md-6">
 				{{ Form::label('solicitante','Usuario solicitante') }}
 				{{ Form::text('solicitante',$sot_info->apellido_pat." ".$sot_info->apellido_mat.", ".$sot_info->nombre,array('class'=>'form-control','disabled'=>'')) }}
@@ -83,7 +78,7 @@
 			@if($sot_info->idestado == 14 && ($user->idrol == 1 || $user->idrol == 2 || $user->idrol == 7 || $user->idrol == 8 || $user->idrol == 9))
 				{{ Form::open(array('url'=>'sot/submit_disable_sot', 'role'=>'form','id'=>'disable_sot')) }}
 					{{ Form::hidden('sot_id', $sot_info->idsolicitud_orden_trabajo) }}
-					<div class="form-group col-md-3 col-md-offset-4">
+					<div class="form-group col-md-3">
 						{{ Form::button('<span class="glyphicon glyphicon-remove"></span> Marcar como Falsa Alarma', array('id'=>'submit-delete', 'class' => 'btn btn-danger btn-block')) }}
 					</div>
 				{{ Form::close() }}
@@ -93,6 +88,10 @@
 						{{ Form::button('<span class="glyphicon glyphicon-remove"></span> Marcar como Mal Ingreso', array('id'=>'submit-delete-false-alarm', 'class' => 'btn btn-danger btn-block')) }}
 					</div>
 				{{ Form::close() }}
-			@endif			
+			@endif	
+			<div class="form-group col-md-2 col-md-offset-2">
+				<a class="btn btn-default btn-block" href="{{URL::previous()}}"><span class="glyphicon glyphicon-menu-left"></span> Regresar</a>				
+			</div>	
+					
 		</div>
 @stop

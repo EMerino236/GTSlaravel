@@ -93,6 +93,7 @@
 			<div class="table-responsive">
 				<table class="table">
 					<tr class="info">
+						<th class="text-nowrap text-center">N°</th>
 						<th class="text-nowrap text-center">OT</th>
 						<th class="text-nowrap text-center">SOT</th>
 						<th class="text-nowrap text-center">Fecha y hora</th>
@@ -102,8 +103,11 @@
 						<th class="text-nowrap text-center">Ubicación</th>
 						<th class="text-nowrap text-center">Estado</th>
 					</tr>
-					@foreach($mant_correctivos_data as $mant_correctivo_data)
+					@foreach($mant_correctivos_data as $index => $mant_correctivo_data)
 					<tr>
+						<td class="text-nowrap text-center">
+							{{$index+1}}
+						</td>
 						<td class="text-nowrap text-center">
 							@if($user->idrol == 1 || $user->idrol==2 || $user->idrol==3 || $user->idrol==4)
 								@if($mant_correctivo_data->idestado_ot == 9)
