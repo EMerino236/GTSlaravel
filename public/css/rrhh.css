@@ -6,3 +6,8 @@
 a.btn-under{
 	text-decoration: none;
 }
+
+.fix{
+	table-layout:fixed;
+    width:100%;
+}
