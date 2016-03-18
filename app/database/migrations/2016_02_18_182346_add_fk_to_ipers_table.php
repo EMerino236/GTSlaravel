@@ -30,10 +30,10 @@ class AddFkToIpersTable extends Migration {
 	{
 		Schema::table('ipers', function(Blueprint $table)
 		{
-			$table->dropForeign('iper_idusuario_elaborador_foreign');
-			$table->dropForeign('iper_idservicio_foreign');
-			$table->dropForeign('iper_identorno_asistencial_foreign');
-			$table->dropForeign('iper_idtipo_iper_foreign');
+			$table->dropForeign('ipers_idusuario_elaborador_foreign');
+			$table->dropForeign('ipers_idservicio_foreign');
+			$table->dropForeign('ipers_identorno_asistencial_foreign');
+			$table->dropForeign('ipers_idtipo_iper_foreign');
 		});
 	}
 

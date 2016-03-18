@@ -2,9 +2,10 @@
 
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
-class Rol extends Eloquent{
+class Sesion extends Eloquent{
 	use SoftDeletingTrait;	
 	protected $softDelete = true;
-	protected $table = 'roles';
-	protected $primaryKey = "idrol";
+
+	protected $table = 'sesiones';
+	
 }

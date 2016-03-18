@@ -197,7 +197,7 @@ class OtController extends BaseController {
 				$data["search_proveedor"] = null;
 				$data["search_ini"] = null;
 				$data["search_fin"] = null;
-				$data["mant_correctivos_data"] = OtCorrectivo::getOtsMantCorrectivoInfo()->paginate(10);
+				$data["mant_correctivos_data"] = OtCorrectivo::getOtsMantCorrectivoInfo()->orderBy('idot_correctivo','asc')->paginate(10);
 				return View::make('ot/correctivo/listOtMantCorrectivo',$data);
 			}else{
 				return View::make('error/error',$data);
@@ -227,7 +227,7 @@ class OtController extends BaseController {
 				$data["search_proveedor"] = Input::get('search_proveedor');
 				$data["search_ini"] = Input::get('search_ini');
 				$data["search_fin"] = Input::get('search_fin');
-				$data["mant_correctivos_data"] = OtCorrectivo::searchOtsMantCorrectivo($data["search_ing"],$data["search_cod_pat"],$data["search_ubicacion"],$data["search_ot"],$data["search_equipo"],$data["search_proveedor"],$data["search_ini"],$data["search_fin"])->paginate(10);
+				$data["mant_correctivos_data"] = OtCorrectivo::searchOtsMantCorrectivo($data["search_ing"],$data["search_cod_pat"],$data["search_ubicacion"],$data["search_ot"],$data["search_equipo"],$data["search_proveedor"],$data["search_ini"],$data["search_fin"])->orderBy('idot_correctivo','asc')->paginate(10);
 				return View::make('ot/correctivo/listOtMantCorrectivo',$data);
 			}else{
 				return View::make('error/error',$data);

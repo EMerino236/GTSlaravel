@@ -25,7 +25,7 @@ class OtPreventivoController extends BaseController {
 				$data["search_fin"] = null;
 				$data["search_servicio"] = null;
 				$data["servicios"] = Servicio::orderBy('nombre','asc')->lists('nombre','idservicio');
-				$data["mant_preventivos_data"] = OrdenesTrabajoPreventivo::getOtsMantPreventivoInfo()->paginate(10);
+				$data["mant_preventivos_data"] = OrdenesTrabajoPreventivo::getOtsMantPreventivoInfo()->orderBy('idot_preventivo','asc')->paginate(10);
 				return View::make('ot/preventivo/listOtMantPreventivo',$data);
 			}else{
 				return View::make('error/error',$data);
@@ -172,9 +172,9 @@ class OtPreventivoController extends BaseController {
 				if($data["search_ing"]==null && $data["search_cod_pat"] == null && $data["search_ubicacion"]==null && $data["search_ot"]==null &&
 					$data["search_equipo"]==null && $data["search_proveedor"]==null && $data["search_ini"] == null && $data["search_fin"]==null &&
 					$data["search_servicio"]==0){
-					$data["mant_preventivos_data"] = OrdenesTrabajoPreventivo::getOtsMantPreventivoInfo()->paginate(10);
+					$data["mant_preventivos_data"] = OrdenesTrabajoPreventivo::getOtsMantPreventivoInfo()->orderBy('idot_preventivo','asc')->paginate(10);
 				}else{
-					$data["mant_preventivos_data"] = OrdenesTrabajoPreventivo::searchOtsMantPreventivo($data["search_ing"],$data["search_cod_pat"],$data["search_ubicacion"],$data["search_ot"],$data["search_equipo"],$data["search_proveedor"],$data["search_ini"],$data["search_fin"],$data["search_servicio"])->paginate(10);
+					$data["mant_preventivos_data"] = OrdenesTrabajoPreventivo::searchOtsMantPreventivo($data["search_ing"],$data["search_cod_pat"],$data["search_ubicacion"],$data["search_ot"],$data["search_equipo"],$data["search_proveedor"],$data["search_ini"],$data["search_fin"],$data["search_servicio"])->orderBy('idot_preventivo','asc')->paginate(10);
 				}			
 				return View::make('ot/preventivo/listOtMantPreventivo',$data);
 			}else{

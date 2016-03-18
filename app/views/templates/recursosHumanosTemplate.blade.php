@@ -54,6 +54,7 @@
     <script src="{{ asset('js/rrhh/presupuesto_capacitacion.js') }}"></script>
     <script src="{{ asset('js/rrhh/plan_difusion.js') }}"></script>
     <script src="{{ asset('js/rrhh/plan_aprendizaje.js') }}"></script>
+    <script src="{{ asset('js/rrhh/acuerdo_convenio.js') }}"></script>
     <script src="{{ asset('js/rrhh/programacion_internado.js') }}"></script>
     <script src="{{ asset('js/rrhh/registro_perfil.js') }}"></script>
     <script src="{{ asset('js/fileinput.min.js') }}"></script>

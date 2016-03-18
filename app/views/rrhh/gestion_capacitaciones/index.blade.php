@@ -106,6 +106,8 @@
 						<th class="text-nowrap text-center">Responsable</th>
 						<th class="text-nowrap text-center">Fecha Inicio</th>
 						<th class="text-nowrap text-center">Fecha Fin</th>
+						<th class="text-nowrap text-center">Ver Personal</th>
+						<th class="text-nowrap text-center">Plan de Capacitación</th>
 					</tr>
 					
 					@foreach($capacitaciones as $capacitacion)
@@ -117,7 +119,7 @@
 							{{$capacitacion->nombre}}
 						</td>
 						<td class="text-nowrap">
-							{{$capacitacion->departamento->nombre}}
+							{{$capacitacion->servicio->departamento->nombre}}
 						</td>						
 						<td>
 							{{$capacitacion->servicio->nombre}}
@@ -130,6 +132,13 @@
 						</td>
 						<td class="text-nowrap">
 							{{$capacitacion->fecha_fin}}
+						</td>
+						<td class="text-nowrap">
+							<a class="btn btn-info btn-block btn-sm" href="{{URL::to('/capacitacion/view_personal/')}}/{{$capacitacion->id}}">
+							<span class="glyphicon glyphicon-eye-open"></span></a>
+						</td>
+						<td class="text-nowrap">
+							<a class="btn btn-success btn-block btn-sm" href="{{URL::to('/capacitacion/download')}}/{{$capacitacion->id}}" ><span class="glyphicon glyphicon-download"></span> Descargar</a>
 						</td>
 					</tr>
 					@endforeach				

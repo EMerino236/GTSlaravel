@@ -40,7 +40,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		$query->withTrashed()
 			  ->where('users.id','=',$search_criteria);
 		return $query;
-	}
+	}	
 
 	public function scopeSearchUsers($query,$search_criteria,$search_area)
 	{

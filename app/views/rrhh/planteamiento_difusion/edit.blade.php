@@ -35,7 +35,7 @@
 		</div>
 	@endif
 
-	{{ Form::open(array('route'=>['planteamiento_difusion.update',$plan_difusion->id], 'role'=>'form', 'files'=>true)) }}		
+	{{ Form::open(array('route'=>['planteamiento_difusion.update',$plan_difusion->id], 'role'=>'form', 'files'=>'true')) }}		
 	<div class="panel panel-default">
 	  	<div class="panel-heading">Datos Generales</div>
 		  	<div class="panel-body">	

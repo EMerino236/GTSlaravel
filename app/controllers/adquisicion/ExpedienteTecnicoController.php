@@ -356,7 +356,19 @@ class ExpedienteTecnicoController extends BaseController {
 			   || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12  ) && $id){
 				$data["tipos_adquisicion_expediente"] = TipoAdquisicionExpediente::orderBy('nombre','asc')->lists('nombre','idtipo_adquisicion_expediente');
 				$data["tipos_compra_expediente"] = TipoCompraExpediente::orderBy('nombre','asc')->lists('nombre','idtipo_compra_expediente');
-				$data["expediente_tecnico_info"] = ExpedienteTecnico::withTrashed()->find($id);
+				$data["areas"] = Area::orderBy('nombre','asc')->lists('nombre','idarea');
+				$data["servicios"] = Servicio::orderBy('nombre','asc')->lists('nombre','idservicio');
+				$data["expediente_tecnico_info"] = ExpedienteTecnico::searchExpedienteTecnicoByNumeroExpediente($id)->get()[0];
+				$data["ofertas_expediente_data"] = OfertaExpediente::searchOfertaExpedienteByNumeroExpediente($id)->get();
+				$data["ofertas_evaluada_expediente_data"] = OfertaEvaluadaExpediente::select('oferta_evaluada_expediente.*')->get();
+				$data["observaciones_expediente_data"] = ObservacionExpediente::join('tipo_observacion_expediente',
+														'tipo_observacion_expediente.idtipo_observacion_expediente','=',
+														'observacion_expediente.idtipo_observacion_expediente')
+														->select('tipo_observacion_expediente.nombre as tipo_observacion','observacion_expediente.*')->get();
+				$data["presidente_data"] = User::withTrashed()->find($data["expediente_tecnico_info"]->idpresidente);
+				$data["miembro1_data"] = User::withTrashed()->find($data["expediente_tecnico_info"]->idmiembro1);
+				$data["miembro2_data"] = User::withTrashed()->find($data["expediente_tecnico_info"]->idmiembro2);
+				$data["miembro3_data"] = User::withTrashed()->find($data["expediente_tecnico_info"]->idmiembro3);
 				return View::make('expediente_tecnico/viewExpedienteTecnico',$data);
 			}else{
 				return View::make('error/error',$data);

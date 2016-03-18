@@ -1041,7 +1041,8 @@ Route::group(array('prefix'=>'capacitacion', 'before'=>'auth'),function(){
 	Route::get('/show/{id}',['uses'=>'CapacitacionesController@show','as'=>'capacitacion.show']);
 	Route::get('/edit/{id}',['uses'=>'CapacitacionesController@edit','as'=>'capacitacion.edit']);
 	Route::post('/edit/{id}',['uses'=>'CapacitacionesController@update','as'=>'capacitacion.update']);
-
+	Route::post('/search_equipo_ajax',['uses'=>'CapacitacionesController@search_equipo_ajax','as'=>'capacitacion.search_equipo_ajax']);
+	Route::get('/download/{id}',['uses'=>'CapacitacionesController@download','as'=>'capacitacion.download']);
 });
 
 /* Acuerdos y convenios*/
@@ -1055,6 +1056,8 @@ Route::group(array('prefix'=>'acuerdo_convenio', 'before'=>'auth'),function(){
 	Route::post('/edit/{id}',['uses'=>'AcuerdoConvenioController@update','as'=>'acuerdo_convenio.update']);
 	Route::post('/destoy',['uses' => 'AcuerdoConvenioController@destroy','as'=>'acuerdo_convenio.destroy']);
 	Route::get('/download/{id}',['uses'=>'AcuerdoConvenioController@download','as'=>'acuerdo_convenio.download']);
+
+	Route::post('/getUserAjax',['uses' => 'AcuerdoConvenioController@getUserAjax', 'as' => 'acuerdo_convenio.getUser.ajax']);
 });
 
 /* Planteamiento difusión*/

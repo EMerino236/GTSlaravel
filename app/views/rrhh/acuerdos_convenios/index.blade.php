@@ -76,7 +76,7 @@
 				{{ Form::button('<span class="glyphicon glyphicon-search"></span> Buscar', array('id'=>'submit-search-form','type' => 'submit', 'class' => 'btn btn-primary btn-block', 'style' => 'width:145px')) }}				
 			</div>
 			<div class="form-group col-md-2">
-				<div class="btn btn-default btn-block" style="width:145px" id="btnlimpiar_list_capacitaciones">Limpiar</div>				
+				<div class="btn btn-default btn-block" style="width:145px" onClick='limpiarCriteriosAcuerdoConvenio()'>Limpiar</div>				
 			</div>
 		</div>
 	  </div>
@@ -97,7 +97,7 @@
 				<table class="table">
 					<tr class="info">						
 						<th class="text-nowrap text-center">Nombre</th>
-						<th class="text-nowrap text-center">Duración</th>						
+						<th class="text-nowrap text-center">Duración (En Meses)</th>						
 						<th class="text-nowrap text-center">Fecha Firma</th>
 						<th class="text-nowrap text-center">Fecha de Creación</th>						
 						<th class="text-nowrap text-center"></th>
@@ -117,16 +117,16 @@
 					@foreach($acuerdos_convenios as $acuerdo_convenio_data)			
 					<tr class="@if(0) bg-danger @endif">			
 						<td class="text-nowrap">
-							
+							<a href="{{route('acuerdo_convenio.show',$acuerdo_convenio_data->id)}}">{{$acuerdo_convenio_data->nombre}}</a>
 						</td>	
-						<td class="text-nowrap">
-							
+						<td class="text-nowrap text-center">
+							{{$acuerdo_convenio_data->duracion}}
 						</td>
-						<td class="text-nowrap">
-							
+						<td class="text-nowrap text-center">
+							{{ date('d-m-Y',strtotime($acuerdo_convenio_data->fechafirma)) }}
 						</td>						
-						<td class="text-nowrap">
-							
+						<td class="text-nowrap  text-center">
+							{{$acuerdo_convenio_data->created_at->format('d-m-Y')}}
 						</td>
 						<td>
 							<a class="btn btn-success btn-block btn-sm" style="width:145px; float: right" href="{{route('acuerdo_convenio.download',$acuerdo_convenio_data->id)}}">

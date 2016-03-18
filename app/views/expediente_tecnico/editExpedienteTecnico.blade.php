@@ -120,6 +120,12 @@
 							</div>
 						</div>	
 						<div class="row">
+							<div class="form-group col-md-12 @if($errors->first('descripcion')) has-error has-feedback @endif">
+								{{ Form::label('descripcion','Descripción') }}<span style='color:red'>*</span>
+								{{ Form::textarea('descripcion',$expediente_tecnico_info->descripcion,['Placeholder'=>'Descripción','class' => 'form-control','maxlength'=>255]) }}
+							</div>
+						</div>
+						<div class="row">
 							<div class="form-group col-md-4">
 								{{ Form::label('nombre_doc_relacionado','Resolución') }}
 								{{ Form::text('nombre_doc_relacionado',$expediente_tecnico_info->nombre_archivo_resolucion,['class' => 'form-control','id'=>'nombre_doc_relacionado','disabled'=>'disabled'])}}
