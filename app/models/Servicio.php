@@ -59,4 +59,8 @@ class Servicio extends Eloquent{
 		return $query;
 	}
 
+	public function departamento(){
+		return $this->belongsTo('Area', 'idarea');
+	}
+
 }

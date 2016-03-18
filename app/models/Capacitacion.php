@@ -69,4 +69,8 @@ class Capacitacion extends Eloquent{
 		
 		return $query;
 	}
+
+	public function activo(){
+		return $this->belongsTo('Activo','id_activo');
+	}
 }

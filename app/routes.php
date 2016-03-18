@@ -1041,7 +1041,8 @@ Route::group(array('prefix'=>'capacitacion', 'before'=>'auth'),function(){
 	Route::get('/show/{id}',['uses'=>'CapacitacionesController@show','as'=>'capacitacion.show']);
 	Route::get('/edit/{id}',['uses'=>'CapacitacionesController@edit','as'=>'capacitacion.edit']);
 	Route::post('/edit/{id}',['uses'=>'CapacitacionesController@update','as'=>'capacitacion.update']);
-
+	Route::post('/search_equipo_ajax',['uses'=>'CapacitacionesController@search_equipo_ajax','as'=>'capacitacion.search_equipo_ajax']);
+	Route::get('/download/{id}',['uses'=>'CapacitacionesController@download','as'=>'capacitacion.download']);
 });
 
 /* Acuerdos y convenios*/
