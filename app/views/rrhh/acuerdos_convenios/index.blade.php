@@ -117,7 +117,7 @@
 					@foreach($acuerdos_convenios as $acuerdo_convenio_data)			
 					<tr class="@if(0) bg-danger @endif">			
 						<td class="text-nowrap">
-							{{$acuerdo_convenio_data->nombre}}
+							<a href="{{route('acuerdo_convenio.show',$acuerdo_convenio_data->id)}}">{{$acuerdo_convenio_data->nombre}}</a>
 						</td>	
 						<td class="text-nowrap text-center">
 							{{$acuerdo_convenio_data->duracion}}

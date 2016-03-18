@@ -32,15 +32,15 @@
 		  	<div class="panel-body">	
 				<div class="form-group row">
 					<div class="col-md-4 @if($errors->first('nombre_planteamiento_difusion')) has-error has-feedback @endif">
-						{{ Form::label('nombre_planteamiento_difusion','Nombre') }}<span style='color:red'>*</span>
+						{{ Form::label('nombre_planteamiento_difusion','Nombre') }}
 						{{ Form::text('nombre_planteamiento_difusion',$plan_difusion->nombre,['class' => 'form-control', 'readonly' => 'true'])}}						
 					</div>
 					<div class="col-md-4 @if($errors->first('departamento_planteamiento_difusion')) has-error has-feedback @endif">
-						{{ Form::label('departamento_planteamiento_difusion','Departamento') }}<span style='color:red'>*</span>
+						{{ Form::label('departamento_planteamiento_difusion','Departamento') }}
 						{{ Form::select('departamento_planteamiento_difusion', array('' => 'Seleccione') + $departamentos,$plan_difusion->iddepartamento,['class' => 'form-control', 'disabled' => 'true']) }}						
 					</div>
 					<div class="col-md-4 @if($errors->first('servicio_planteamiento_difusion')) has-error has-feedback @endif">
-						{{ Form::label('servicio_planteamiento_difusion','Servicio') }}<span style='color:red'>*</span>
+						{{ Form::label('servicio_planteamiento_difusion','Servicio') }}
 						{{ Form::select('servicio_planteamiento_difusion', array('' => 'Seleccione') + $servicios,$plan_difusion->idservicio,['class' => 'form-control', 'disabled' => 'true']) }}						
 					</div>					
 				</div>					
@@ -52,28 +52,28 @@
 				</div>
 				<div class="form-group row">					
 					<div class="col-md-4 @if($errors->first('dni_responsable_planteamiento_difusion')) has-error has-feedback @endif">
-						{{ Form::label('dni_responsable_planteamiento_difusion','Número de Documento del Responsable') }}<span style='color:red'>*</span>
+						{{ Form::label('dni_responsable_planteamiento_difusion','Número de Documento del Responsable') }}
 						{{ Form::text('dni_responsable_planteamiento_difusion',$plan_difusion->responsable->numero_doc_identidad,['class' => 'form-control', 'readonly' => 'true'])}}						
 					</div>
 					<div class="col-md-4 @if($errors->first('responsable_planteamiento_difusion')) has-error has-feedback @endif">
-						{{ Form::label('responsable_planteamiento_difusion','Nombre del Responsable') }}<span style='color:red'>*</span>
+						{{ Form::label('responsable_planteamiento_difusion','Nombre del Responsable') }}
 						{{ Form::text('responsable_planteamiento_difusion',$plan_difusion->responsable->apellido_pat . " " . $plan_difusion->responsable->apellido_mat . ", " . $plan_difusion->responsable->nombre,['class' => 'form-control', 'readonly' => 'true'])}}						
 					</div>
 				</div>			
 				<div class="form-group row">
 					<div class="col-md-4 @if($errors->first('fecha_ini_planteamiento_difusion')) has-error has-feedback @endif">
-						{{ Form::label('fecha_ini_planteamiento_difusion','Fecha Inicio') }}<span style="color:red">*</span>
+						{{ Form::label('fecha_ini_planteamiento_difusion','Fecha Inicio') }}
 						<div id="datetimepicker_create_plan_difusion_ini" class="form-group input-group date">
-							{{ Form::text('fecha_ini_planteamiento_difusion',date('d-m-Y',strtotime($plan_difusion->fechainicio)),array('class'=>'form-control','readonly'=>'')) }}
+							{{ Form::text('fecha_ini_planteamiento_difusion',date('d-m-Y',strtotime($plan_difusion->fechainicio)),array('class'=>'form-control','readonly'=>'','disabled'=>'true')) }}
 							<span class="input-group-addon">
 		                        <span class="glyphicon glyphicon-calendar"></span>
 		                    </span>
 						</div>
 					</div>
 					<div class="col-md-4 @if($errors->first('fecha_fin_planteamiento_difusion')) has-error has-feedback @endif">
-						{{ Form::label('fecha_fin_planteamiento_difusion','Fecha Fin') }}<span style="color:red">*</span>
+						{{ Form::label('fecha_fin_planteamiento_difusion','Fecha Fin') }}
 						<div id="datetimepicker_create_plan_difusion_fin" class="form-group input-group date">
-							{{ Form::text('fecha_fin_planteamiento_difusion',date('d-m-Y',strtotime($plan_difusion->fechafin)),array('class'=>'form-control','readonly'=>'')) }}
+							{{ Form::text('fecha_fin_planteamiento_difusion',date('d-m-Y',strtotime($plan_difusion->fechafin)),array('class'=>'form-control','readonly'=>'','disabled'=>'true')) }}
 							<span class="input-group-addon">
 		                        <span class="glyphicon glyphicon-calendar"></span>
 		                    </span>

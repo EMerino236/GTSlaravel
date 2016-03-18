@@ -47,7 +47,7 @@
 				</div>
 				<div class="form-group row">
 					<div class="col-md-4">
-						{{ Form::label('fecha_firma_convenio','Fecha de Firma') }}						
+						{{ Form::label('fecha_firma_convenio','Fecha de Firma') }}<span style='color:red'>*</span>					
 						<div id="datetimepicker1" class="form-group input-group date">
 							{{ Form::text('fecha_firma_convenio',date('d-m-Y',strtotime($acuerdo_convenio->fechafirma)),array('class'=>'form-control','readonly'=>'')) }}
 							<span class="input-group-addon">
@@ -62,19 +62,19 @@
 				</div>
 				<div class="form-group row">						
 					<div class="col-md-12 @if($errors->first('descripcion_convenio')) has-error has-feedback @endif">
-						{{ Form::label('descripcion_convenio','Descripción (MAX:200 Caracteres)') }}
+						{{ Form::label('descripcion_convenio','Descripción (MAX:200 Caracteres)') }}<span style='color:red'>*</span>
 						{{ Form::textarea('descripcion_convenio',$acuerdo_convenio->descripcion,['class' => 'form-control','maxlength'=>'200','rows'=>'4','style'=>'resize:none'])}}
 					</div>
 				</div>
 				<div class="form-group row">						
 					<div class="col-md-12 @if($errors->first('objetivo_convenio')) has-error has-feedback @endif">
-						{{ Form::label('objetivo_convenio','Principales Objetivos (MAX:200 Caracteres)') }}
+						{{ Form::label('objetivo_convenio','Principales Objetivos (MAX:200 Caracteres)') }}<span style='color:red'>*</span>
 						{{ Form::textarea('objetivo_convenio',$acuerdo_convenio->objetivo,['class' => 'form-control','maxlength'=>'200','rows'=>'4','style'=>'resize:none'])}}
 					</div>
 				</div>
 				<div class="form-group row">
 					<div class="col-md-4">
-						{{ Form::label('file_documento','Archivo') }}
+						{{ Form::label('file_documento','Archivo') }}<span style='color:red'>*</span>
 						{{ Form::text('file_documento',$acuerdo_convenio->nombre_archivo,['class' => 'form-control', 'readonly' => 'true'])}}						
 					</div>
 					<div class="col-md-2 hide">
@@ -137,7 +137,7 @@
 		</div>
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h3 class="panel-title">Representantes institucionales</h3>
+				<h3 class="panel-title">Representantes institucionales<span style='color:red'>*</span></h3>
 			</div>
 			<div class="panel-body">
 				<div class="form-group row">
@@ -167,7 +167,7 @@
 		</div>
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h3 class="panel-title">Representantes de entidad asociada</h3>
+				<h3 class="panel-title">Representantes de entidad asociada<span style='color:red'>*</span></h3>
 			</div>
 			<div class="panel-body">
 				<div class="form-group row">
