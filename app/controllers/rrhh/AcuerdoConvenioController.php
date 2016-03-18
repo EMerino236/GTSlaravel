@@ -529,7 +529,7 @@ class AcuerdoConvenioController extends \BaseController {
 
 			if($data != "")
 			{
-				$user = User::searchUserByNumDoc($data)->get();								
+				$user = User::searchUserByNumDoc($data)->get();										
 			}
 			else
 			{
