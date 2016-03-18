@@ -99,21 +99,20 @@ function agregarRepresentanteInstitucional()
 	    type: 'POST',
 	    data: { 'value' : val },
 	    beforeSend: function(){
-	        $("#delete-selected-profiles").addClass("disabled");
-	        $("#delete-selected-profiles").hide();
-	        $(".loader_container").show();
+	        
 	    },
 	    complete: function(){
-	        $(".loader_container").hide();
-	        $("#delete-selected-profiles").removeClass("disabled");
-	        $("#delete-selected-profiles").show();
-	        delete_selected_profiles = true;
+	        
 	    },
 	    success: function(response){	    	
 	        if(response.success)
 	        {	           
-	            var user = response['user'][0];
-	            console.log(user);	            
+	        	var user = response['user'][0];
+	            var area = response['area'];
+	            var rol = response['rol'];
+
+	            console.log(response['rol']);
+	            
 
 	            if(user != null)
 	            {
@@ -127,8 +126,8 @@ function agregarRepresentanteInstitucional()
 			                if(result)
 			                {   
 			                    var str = "<tr><td>" + user.apellido_pat + " " + user.apellido_mat + ", " + user.nombre +"</td>";
-			                    str += "<td>"+user.area+"</td>";
-			                    str += "<td>"+user.rol+"</td>";
+			                    str += "<td>"+area+"</td>";
+			                    str += "<td>"+rol+"</td>";
 			                    str += "<td class=\"hide\"><input style=\"border:0\" name='representantes_institucional[]' value='"+user.id+"' readonly/></td>";
 			                    str += "<td class=\"text-nowrap text-center\"><div class=\"btn btn-danger btn-block btn-sm\" style=\"width:145px; float: right\" onclick=\"deleteRow(event,this)\"><span class=\"glyphicon glyphicon-trash\"></span> Eliminar</a></div></tr>";	                    
 			                    $("#representante_institucional_convenio_table").append(str);	                    

@@ -529,14 +529,20 @@ class AcuerdoConvenioController extends \BaseController {
 
 			if($data != "")
 			{
-				$user = User::searchUserByNumDoc($data)->get();										
+				$user = User::where('numero_doc_identidad','=',$data)->get();				
+				$area = $user[0]->area->nombre;
+				$rol = $user[0]->rol->nombre;				
+				
+
 			}
 			else
 			{
-				$user = array();				
+				$user = array();
+				$area = array();
+				$rol = array();			
 			}
 
-			return Response::json(array( 'success' => true, 'user' => $user),200);
+			return Response::json(array( 'success' => true, 'user' => $user,'area' => $area,'rol' => $rol),200);
 		}else{
 			return Response::json(array( 'success' => false ),200);
 		}

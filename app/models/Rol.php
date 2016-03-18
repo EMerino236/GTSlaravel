@@ -6,4 +6,5 @@ class Rol extends Eloquent{
 	use SoftDeletingTrait;	
 	protected $softDelete = true;
 	protected $table = 'roles';
+	protected $primaryKey = "idrol";
 }
