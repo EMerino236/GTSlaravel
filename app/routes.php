@@ -1056,6 +1056,8 @@ Route::group(array('prefix'=>'acuerdo_convenio', 'before'=>'auth'),function(){
 	Route::post('/edit/{id}',['uses'=>'AcuerdoConvenioController@update','as'=>'acuerdo_convenio.update']);
 	Route::post('/destoy',['uses' => 'AcuerdoConvenioController@destroy','as'=>'acuerdo_convenio.destroy']);
 	Route::get('/download/{id}',['uses'=>'AcuerdoConvenioController@download','as'=>'acuerdo_convenio.download']);
+
+	Route::post('/getUserAjax',['uses' => 'AcuerdoConvenioController@getUserAjax', 'as' => 'acuerdo_convenio.getUser.ajax']);
 });
 
 /* Planteamiento difusión*/

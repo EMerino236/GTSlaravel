@@ -82,18 +82,18 @@
 		</div>
 		<div class="panel-body">				
 			<div class="row">
-				<div class="col-md-12">
+				<div class="col-md-6">
 					<div class="table-responsive">
 						<table class="table">
 							<tr class="info">												
-								<th class="text-nowrap text-center">Nombre</th>
-								<th></th>																				
-							</tr>								
+								<th class="text-nowrap">Nombre</th>
+																												
+							</tr>
+							@foreach($instituciones as $institucion)							
 							<tr>			
-								<td class="text-nowrap">							
-								</td>
-								<td></td>											
-							</tr>					
+								<td class="text-nowrap">{{$institucion->nombre}}</td>																		
+							</tr>
+							@endforeach					
 						</table>				
 					</div>
 				</div>
@@ -112,18 +112,17 @@
 					<div class="table-responsive">
 						<table class="table">
 							<tr class="info">												
-								<th class="text-nowrap text-center">Nombre</th>												
-								<th class="text-nowrap text-center">Departamento</th>												
-								<th class="text-nowrap text-center">Rol</th>
-								<th></th>												
-							</tr>								
+								<th class="text-nowrap">Nombre</th>												
+								<th class="text-nowrap">Departamento</th>												
+								<th class="text-nowrap">Rol</th>								
+							</tr>
+							@foreach($reprsentantes_institucionales as $reprsentante_institucional)								
 							<tr>			
-								<td class="text-nowrap">							
-								</td>
-								<td></td>
-								<td></td>
-								<td></td>
-							</tr>					
+								<td>{{$reprsentante_institucional->user->apellido_pat}} {{$reprsentante_institucional->user->apellido_mat}}, {{$reprsentante_institucional->user->nombre}}</td>
+								<td>{{$reprsentante_institucional->user->area->nombre}}</td>
+								<td>{{$reprsentante_institucional->user->rol->nombre}}</td>								
+							</tr>
+							@endforeach						
 						</table>				
 					</div>
 				</div>				
@@ -140,18 +139,17 @@
 					<div class="table-responsive">
 						<table class="table">
 							<tr class="info">												
-								<th class="text-nowrap text-center">Nombre</th>
-								<th class="text-nowrap text-center">Área</th>												
-								<th class="text-nowrap text-center">Rol</th>
-								<th></th>											
-							</tr>								
+								<th class="text-nowrap">Nombre</th>
+								<th class="text-nowrap">Área</th>												
+								<th class="text-nowrap">Rol</th>								
+							</tr>
+							@foreach($representantes_convenio as $representante_convenio)							
 							<tr>			
-								<td class="text-nowrap">							
-								</td>
-								<td></td>											
-								<td></td>
-								<td></td>
-							</tr>					
+								<td>{{$representante_convenio->ap_paterno}} {{$representante_convenio->ap_materno}}, {{$representante_convenio->nombre}}</td>
+								<td>{{$representante_convenio->area}}</td>											
+								<td>{{$representante_convenio->rol}}</td>								
+							</tr>
+							@endforeach					
 						</table>				
 					</div>
 				</div>				

@@ -12,6 +12,7 @@ $( document ).ready(function(){
 	});
 
 });
+var alphanumeric_pattern = /[^á-úÁ-Úa-zA-ZñÑüÜ0-9- _.]/;
 
 function limpiarCriteriosAcuerdoConvenio()
 {
@@ -24,4 +25,140 @@ function limpiarCriteriosAcuerdoConvenio()
 function showAdjuntarAcuerdoConvenio()
 {
 	$("#adjuntar_acuerdo_convenio").toggle();
+}
+
+function agregarInstitucion()
+{
+	var institucion = $("#institucion_convenio").val();
+
+	if(institucion != "")
+	{
+		BootstrapDialog.confirm({
+	            title: 'Mensaje de Confirmación',
+	            message: '¿Está seguro que desea agregar ' + institucion.bold() + ' como institución relacionada?', 
+	            type: BootstrapDialog.TYPE_INFO,
+	            btnCancelLabel: 'Cancelar', 
+	            btnOKLabel: 'Aceptar', 
+	            callback: function(result){
+	                if(result)
+	                {   
+	                    var str = "<tr><td class=\"text-nowrap\"><input style=\"border:0\" name='instituciones[]' value='"+institucion+"' readonly/></td>";	                    
+	                    str += "<td class=\"text-nowrap text-center\"><div class=\"btn btn-danger btn-block btn-sm\" style=\"width:145px; float: right\" onclick=\"deleteRow(event,this)\"><span class=\"glyphicon glyphicon-trash\"></span> Eliminar</a></div></tr>";	                    
+	                    $("#institucion_relacionada_table").append(str);	                    
+	                    $("#institucion_convenio").val('');	                    
+	                }
+	            }
+	        });		
+	}
+}
+
+function agregarRepresentanteAsociado()
+{
+	var nombre = $("#nombre_representante_convenio").val();
+	var appat = $("#appat_representante_convenio").val();
+	var apmat = $("#apmat_representante_convenio").val();
+	var area = $("#area_representante_convenio").val();
+	var rol = $("#rol_representante_convenio").val();
+
+	if(nombre != "" && appat != "" && apmat != "" && area != "" && rol != "")
+	{
+		BootstrapDialog.confirm({
+	            title: 'Mensaje de Confirmación',
+	            message: '¿Está seguro que desea agregar a ' + appat.bold() + ' ' + apmat.bold() + ', ' + nombre.bold() + ' como representante de una entidad asociada?', 
+	            type: BootstrapDialog.TYPE_INFO,
+	            btnCancelLabel: 'Cancelar', 
+	            btnOKLabel: 'Aceptar', 
+	            callback: function(result){
+	                if(result)
+	                {   
+	                    var str = "<tr><td>" + appat + " " + apmat + ", " + nombre +"</td>";
+	                    str += "<td class=\"hide\"><input style=\"border:0\" name='representantes_nombre[]' value='"+nombre+"' readonly/></td>";
+	                    str += "<td class=\"hide\"><input style=\"border:0\" name='representantes_appat[]' value='"+appat+"' readonly/></td>";
+	                    str += "<td class=\"hide\"><input style=\"border:0\" name='representantes_apmat[]' value='"+apmat+"' readonly/></td>";
+	                    str += "<td><input style=\"border:0\" name='representantes_area[]' value='"+area+"' readonly/></td>";
+	                    str += "<td><input style=\"border:0\" name='representantes_rol[]' value='"+rol+"' readonly/></td>";
+	                    str += "<td class=\"text-nowrap text-center\"><div class=\"btn btn-danger btn-block btn-sm\" style=\"width:145px; float: right\" onclick=\"deleteRow(event,this)\"><span class=\"glyphicon glyphicon-trash\"></span> Eliminar</a></div></tr>";	                    
+	                    $("#representante_asociado_table").append(str);	                    
+	                    $("#nombre_representante_convenio").val('');
+						$("#appat_representante_convenio").val('');
+						$("#apmat_representante_convenio").val('');
+						$("#area_representante_convenio").val('');
+						$("#rol_representante_convenio").val('');	                    
+	                }
+	            }
+	        });		
+	}
+}
+
+function agregarRepresentanteInstitucional()
+{
+	var val = $("#representante_institucional_convenio").val();
+
+	$.ajax({
+	    url: inside_url + 'acuerdo_convenio/getUserAjax',
+	    type: 'POST',
+	    data: { 'value' : val },
+	    beforeSend: function(){
+	        $("#delete-selected-profiles").addClass("disabled");
+	        $("#delete-selected-profiles").hide();
+	        $(".loader_container").show();
+	    },
+	    complete: function(){
+	        $(".loader_container").hide();
+	        $("#delete-selected-profiles").removeClass("disabled");
+	        $("#delete-selected-profiles").show();
+	        delete_selected_profiles = true;
+	    },
+	    success: function(response){	    	
+	        if(response.success)
+	        {	           
+	            var user = response['user'][0];
+	            console.log(user);	            
+
+	            if(user != null)
+	            {
+	            	BootstrapDialog.confirm({
+			            title: 'Mensaje de Confirmación',
+			            message: '¿Está seguro que desea agregar a ' + user.apellido_pat.bold() + ' ' + user.apellido_mat.bold() + ', ' + user.nombre.bold() + ' como representante institucional?', 
+			            type: BootstrapDialog.TYPE_INFO,
+			            btnCancelLabel: 'Cancelar', 
+			            btnOKLabel: 'Aceptar', 
+			            callback: function(result){
+			                if(result)
+			                {   
+			                    var str = "<tr><td>" + user.apellido_pat + " " + user.apellido_mat + ", " + user.nombre +"</td>";
+			                    str += "<td>"+user.area+"</td>";
+			                    str += "<td>"+user.rol+"</td>";
+			                    str += "<td class=\"hide\"><input style=\"border:0\" name='representantes_institucional[]' value='"+user.id+"' readonly/></td>";
+			                    str += "<td class=\"text-nowrap text-center\"><div class=\"btn btn-danger btn-block btn-sm\" style=\"width:145px; float: right\" onclick=\"deleteRow(event,this)\"><span class=\"glyphicon glyphicon-trash\"></span> Eliminar</a></div></tr>";	                    
+			                    $("#representante_institucional_convenio_table").append(str);	                    
+			                    $("#representante_institucional_convenio").val('');								                    
+			                }
+			            }
+			        });	
+	            }else
+	            {
+	            	dialog = BootstrapDialog.show({
+                            title: 'Advertencia',
+                            message: 'No existe usuario registrado con el número de documento ingresado',
+                            closable: false,
+                            type : BootstrapDialog.TYPE_DANGER,
+                            buttons: [{
+                                label: 'Aceptar',
+                                action: function(dialog) {
+                                    dialog.close();                        
+                                }
+                            }]
+                    });
+	            }
+	        }
+	        else
+	        {
+            	alert('La petición no se pudo completar, inténtelo de nuevo. asdasd');
+	        }
+	    },
+	    error: function(){
+	        alert('La petición no se pudo completar, inténtelo de nuevo.');
+		}
+	});
 }

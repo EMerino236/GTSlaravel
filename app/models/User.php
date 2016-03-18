@@ -42,6 +42,16 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $query;
 	}
 
+	public function scopeSearchUserByNumDoc($query,$numdoc)
+	{
+		$query->join('roles','roles.idrol','=','users.idrol')
+			  ->join('areas','areas.idarea','=','users.idarea');
+
+	    $query->where('users.numero_doc_identidad','=',$numdoc);
+		$query->select('roles.nombre as rol','areas.nombre as area','users.*');
+		return $query;
+	}
+
 	public function scopeSearchUsers($query,$search_criteria,$search_area)
 	{
 		$query->withTrashed()

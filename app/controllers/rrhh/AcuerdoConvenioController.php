@@ -161,7 +161,52 @@ class AcuerdoConvenioController extends \BaseController {
 					}
 
 					$acuerdo_convenio->save();
-					
+
+					$id = $acuerdo_convenio->id;
+
+					$instituciones =Input::get('instituciones');
+					$size = count($instituciones);
+
+					for($i=0 ;$i < $size ;$i++)
+					{
+						$institucion_acuerdo_convenio = new InstitucionAcuerdoConvenio;
+						$institucion_acuerdo_convenio->nombre = $instituciones[$i];										
+						$institucion_acuerdo_convenio->idacuerdo_convenio = $id;	
+						$institucion_acuerdo_convenio->save();
+
+					}
+
+					$representantes_nombre = Input::get('representantes_nombre');
+					$representantes_appat =	Input::get('representantes_appat');
+					$representantes_apmat = Input::get('representantes_apmat');
+					$representantes_area = Input::get('representantes_area');
+					$representantes_rol	= Input::get('representantes_rol');
+					$size2 = count($representantes_nombre);
+
+					for($j=0 ;$j < $size2 ;$j++)
+					{
+						$representante_acuerdos_convenios = new RepresentanteAcuerdoConvenio;
+						$representante_acuerdos_convenios->nombre = $representantes_nombre[$j];
+						$representante_acuerdos_convenios->ap_paterno = $representantes_appat[$j];
+						$representante_acuerdos_convenios->ap_materno = $representantes_apmat[$j];
+						$representante_acuerdos_convenios->area = $representantes_area[$j];
+						$representante_acuerdos_convenios->rol = $representantes_rol[$j];										
+						$representante_acuerdos_convenios->idacuerdo_convenio = $id;	
+						$representante_acuerdos_convenios->save();
+
+					}
+
+					$representantes_institucional = Input::get('representantes_institucional');
+					$size3 = count($representantes_institucional);
+					for($k=0 ;$k < $size3 ;$k++)
+					{
+						$user_acuerdos_convenios = new UserAcuerdoConvenio;
+						$user_acuerdos_convenios->iduser = $representantes_institucional[$k];																
+						$user_acuerdos_convenios->idacuerdo_convenio = $id;	
+						$user_acuerdos_convenios->save();
+
+					}
+
 					return Redirect::to('acuerdo_convenio/index')->with('message', 'Se registró correctamente el Convenio.');
 				}
 			}else{
@@ -190,6 +235,9 @@ class AcuerdoConvenioController extends \BaseController {
 				|| $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12 && $id)
 			{
 				$data["acuerdo_convenio"] = AcuerdoConvenio::find($id);
+				$data["instituciones"] = InstitucionAcuerdoConvenio::where('idacuerdo_convenio','=',$id)->get();
+				$data["reprsentantes_institucionales"] = UserAcuerdoConvenio::where('idacuerdo_convenio','=',$id)->get();
+				$data["representantes_convenio"] = RepresentanteAcuerdoConvenio::where('idacuerdo_convenio','=',$id)->get();
 
 				if($data["acuerdo_convenio"] == null)
 					return Redirect::to('acuerdo_convenio/index');
@@ -225,6 +273,9 @@ class AcuerdoConvenioController extends \BaseController {
 				|| $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12 && $id)
 			{
 				$data["acuerdo_convenio"] = AcuerdoConvenio::find($id);
+				$data["instituciones"] = InstitucionAcuerdoConvenio::where('idacuerdo_convenio','=',$id)->get();
+				$data["representantes_institucionales"] = UserAcuerdoConvenio::where('idacuerdo_convenio','=',$id)->get();
+				$data["representantes_convenio"] = RepresentanteAcuerdoConvenio::where('idacuerdo_convenio','=',$id)->get();
 
 				if($data["acuerdo_convenio"] == null)
 					return Redirect::to('acuerdo_convenio/index');
@@ -311,6 +362,56 @@ class AcuerdoConvenioController extends \BaseController {
 					}
 
 					$acuerdo_convenio->save();
+
+					InstitucionAcuerdoConvenio::where('idacuerdo_convenio','=',$id)->forcedelete();					
+
+					$id = $acuerdo_convenio->id;
+					$instituciones =Input::get('instituciones');
+					$size = count($instituciones);
+
+					for($i=0 ;$i < $size ;$i++)
+					{
+						$institucion_acuerdo_convenio = new InstitucionAcuerdoConvenio;
+						$institucion_acuerdo_convenio->nombre = $instituciones[$i];										
+						$institucion_acuerdo_convenio->idacuerdo_convenio = $id;	
+						$institucion_acuerdo_convenio->save();
+
+					}
+
+					RepresentanteAcuerdoConvenio::where('idacuerdo_convenio','=',$id)->forcedelete();
+
+					$representantes_nombre = Input::get('representantes_nombre');
+					$representantes_appat =	Input::get('representantes_appat');
+					$representantes_apmat = Input::get('representantes_apmat');
+					$representantes_area = Input::get('representantes_area');
+					$representantes_rol	= Input::get('representantes_rol');
+					$size2 = count($representantes_nombre);
+
+					for($j=0 ;$j < $size2 ;$j++)
+					{
+						$representante_acuerdos_convenios = new RepresentanteAcuerdoConvenio;
+						$representante_acuerdos_convenios->nombre = $representantes_nombre[$j];
+						$representante_acuerdos_convenios->ap_paterno = $representantes_appat[$j];
+						$representante_acuerdos_convenios->ap_materno = $representantes_apmat[$j];
+						$representante_acuerdos_convenios->area = $representantes_area[$j];
+						$representante_acuerdos_convenios->rol = $representantes_rol[$j];										
+						$representante_acuerdos_convenios->idacuerdo_convenio = $id;	
+						$representante_acuerdos_convenios->save();
+
+					}
+
+					UserAcuerdoConvenio::where('idacuerdo_convenio','=',$id)->forcedelete();
+
+					$representantes_institucional = Input::get('representantes_institucional');					
+					$size3 = count($representantes_institucional);
+					for($k=0 ;$k < $size3 ;$k++)
+					{
+						$user_acuerdos_convenios = new UserAcuerdoConvenio;
+						$user_acuerdos_convenios->iduser = $representantes_institucional[$k];																
+						$user_acuerdos_convenios->idacuerdo_convenio = $id;	
+						$user_acuerdos_convenios->save();
+
+					}
 					
 					return Redirect::to('acuerdo_convenio/index')->with('message', 'Se actualizó correctamente el Convenio.');
 				}
@@ -341,14 +442,30 @@ class AcuerdoConvenioController extends \BaseController {
 				$id = Input::get("id_acuerdo_convenio");
 
 				$acuerdo_convenio = AcuerdoConvenio::find($id);
-				
+				$instituciones = InstitucionAcuerdoConvenio::where('idacuerdo_convenio','=',$id)->get();
+				$reprsentantes_institucionales = UserAcuerdoConvenio::where('idacuerdo_convenio','=',$id)->get();
+				$representantes_convenio = RepresentanteAcuerdoConvenio::where('idacuerdo_convenio','=',$id)->get();				
 
 				if($acuerdo_convenio != null)
 				{
 					$acuerdo_convenio->delete();
-					return Redirect::to('acuerdo_convenio/index');
-				}
-					
+
+					foreach ($instituciones as $institucion_data)
+					{
+						$institucion_data->delete();
+					}
+
+					foreach ($reprsentantes_institucionales as $reprsentante_institucional_data)
+					{
+						$reprsentante_institucional_data->delete();
+					}
+
+					foreach ($representantes_convenio as $representante_convenio_data)
+					{
+						$representante_convenio_data->delete();
+					}
+
+				}	
 
 				return Redirect::to('acuerdo_convenio/index');
 			}
@@ -394,5 +511,38 @@ class AcuerdoConvenioController extends \BaseController {
 		}
 	}
 
+	public function getUserAjax()
+	{
+		if(!Request::ajax() || !Auth::check())
+		{
+			return Response::json(array( 'success' => false ),200);
+		}
+
+		$id = Auth::id();
+
+		$data["inside_url"] = Config::get('app.inside_url');
+		$data["user"] = Session::get('user');
+
+		if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4)
+		{			
+			$data = Input::get('value');			
+
+			if($data != "")
+			{
+				$user = User::searchUserByNumDoc($data)->get();								
+			}
+			else
+			{
+				$user = array();				
+			}
+
+			return Response::json(array( 'success' => true, 'user' => $user),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
 
 }
+
+

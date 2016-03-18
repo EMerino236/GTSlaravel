@@ -112,23 +112,31 @@
 					{{ Form::text('institucion_convenio',Input::old('institucion_convenio'),['class' => 'form-control'])}}
 					</div>
 					<div class="col-md-4">
-						<a class="btn btn-primary btn-block" style="width:145px; margin-top:25px">
+						<a class="btn btn-primary btn-block" style="width:145px; margin-top:25px" onClick="agregarInstitucion()">
 						<span class="glyphicon glyphicon-plus"></span> Agregar</a>
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-md-12">
+					<div class="col-md-6">
 						<div class="table-responsive">
-							<table class="table">
+							<table class="table" id="institucion_relacionada_table">
 								<tr class="info">												
 									<th class="text-nowrap text-center">Nombre</th>
 									<th></th>																				
-								</tr>								
+								</tr>
+								<?php 
+									$count = count($instituciones);	
+								?>	
+								<?php for($i=0;$i<$count;$i++){ ?>							
 								<tr>			
-									<td class="text-nowrap">							
+									<td class="text-nowrap">
+										<input style="border:0" name='instituciones[]' value='{{ $instituciones[$i]->nombre }}' readonly/>										
 									</td>
-									<td></td>											
-								</tr>					
+									<td>
+										<div class="btn btn-danger btn-block btn-sm" style="width:145px; float: right" onclick="deleteRow(event,this)"><span class="glyphicon glyphicon-trash" ></span> Eliminar</a></div>										
+									</td>											
+								</tr>
+								<?php } ?>				
 							</table>				
 						</div>
 					</div>
@@ -141,24 +149,37 @@
 			</div>
 			<div class="panel-body">
 				<div class="form-group row">
+					<div class="col-md-4">
+					{{ Form::label('representante_institucional_convenio','Número de Documento del Representante') }}
+					{{ Form::text('representante_institucional_convenio',Input::old('representante_institucional_convenio'),['class' => 'form-control'])}}
+					</div>
+					<div class="col-md-4">
+						<a class="btn btn-primary btn-block" style="width:145px; margin-top:25px" onClick="agregarRepresentanteInstitucional()">
+						<span class="glyphicon glyphicon-plus"></span> Agregar</a>
+					</div>
 				</div>
 				<div class="row">
 					<div class="col-md-12">
 						<div class="table-responsive">
-							<table class="table">
+							<table class="table" id="representante_institucional_convenio_table">
 								<tr class="info">												
 									<th class="text-nowrap text-center">Nombre</th>												
 									<th class="text-nowrap text-center">Departamento</th>												
 									<th class="text-nowrap text-center">Rol</th>
 									<th></th>												
-								</tr>								
-								<tr>			
-									<td class="text-nowrap">							
-									</td>
-									<td></td>
-									<td></td>
-									<td></td>
-								</tr>					
+								</tr>
+								<?php 									
+									$count = count($representantes_institucionales);	
+								?>
+								<?php for($i=0;$i<$count;$i++){ ?>								
+								<tr>
+									<td>{{$representantes_institucionales[$i]->user->apellido_pat}} {{$representantes_institucionales[$i]->user->apellido_mat}}, {{$representantes_institucionales[$i]->user->nombre}}</td>
+									<td>{{$representantes_institucionales[$i]->user->area->nombre}}</td>
+									<td>{{$representantes_institucionales[$i]->user->rol->nombre}}</td>
+									<td class="hide"><input style="border:0" name='representantes_institucional[]' value='{{ $representantes_institucionales[$i]->iduser }}' readonly/></td>
+									<td><div class="btn btn-danger btn-block btn-sm" style="width:145px; float: right" onclick="deleteRow(event,this)"><span class="glyphicon glyphicon-trash" ></span> Eliminar</a></div></td>
+								</tr>
+								<?php } ?>						
 							</table>				
 						</div>
 					</div>				
@@ -194,27 +215,34 @@
 					{{ Form::text('rol_representante_convenio',Input::old('rol_representante_convenio'),['class' => 'form-control'])}}
 					</div>
 					<div class="col-md-4">
-						<a class="btn btn-primary btn-block" style="width:145px; margin-top:25px">
+						<a class="btn btn-primary btn-block" style="width:145px; margin-top:25px" onClick="agregarRepresentanteAsociado()">
 						<span class="glyphicon glyphicon-plus"></span> Agregar</a>
 					</div>				
 				</div>
 				<div class="row">
 					<div class="col-md-12">
 						<div class="table-responsive">
-							<table class="table">
+							<table class="table" id="representante_asociado_table">
 								<tr class="info">												
 									<th class="text-nowrap text-center">Nombre</th>
 									<th class="text-nowrap text-center">Área</th>												
 									<th class="text-nowrap text-center">Rol</th>
 									<th></th>											
-								</tr>								
+								</tr>
+								<?php 									
+									$count = count($representantes_convenio);	
+								?>
+								<?php for($i=0;$i<$count;$i++){ ?>							
 								<tr>			
-									<td class="text-nowrap">							
-									</td>
-									<td></td>											
-									<td></td>
-									<td></td>
-								</tr>					
+									<td>{{ $representantes_convenio[$i]->ap_paterno}} {{ $representantes_convenio[$i]->ap_materno}}, {{$representantes_convenio[$i]->nombre}} </td>			
+									<td class="hide"><input style="border:0" name='representantes_nombre[]' value='{{ $representantes_convenio[$i]->nombre }}' readonly/></td>
+									<td class="hide"><input style="border:0" name='representantes_appat[]' value='{{ $representantes_convenio[$i]->ap_paterno }}' readonly/></td>
+									<td class="hide"><input style="border:0" name='representantes_apmat[]' value='{{ $representantes_convenio[$i]->ap_materno }}' readonly/></td>
+									<td><input style="border:0" name='representantes_area[]' value='{{ $representantes_convenio[$i]->area }}' readonly/></td>											
+									<td><input style="border:0" name='representantes_rol[]' value='{{ $representantes_convenio[$i]->rol }}' readonly/></td>
+									<td><div class="btn btn-danger btn-block btn-sm" style="width:145px; float: right" onclick="deleteRow(event,this)"><span class="glyphicon glyphicon-trash" ></span> Eliminar</a></div></td>
+								</tr>
+								<?php } ?>						
 							</table>				
 						</div>
 					</div>				
