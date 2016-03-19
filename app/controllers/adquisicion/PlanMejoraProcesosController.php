@@ -51,7 +51,7 @@ class PlanMejoraProcesosController extends BaseController {
 				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
-					return Redirect::to('plan_mejora_procesos/create_plan_mejora_procesos')->withErrors($validator)->withInput(Input::all());
+					return Redirect::to('plan_mejora_proceso/create_plan_mejora_proceso')->withErrors($validator)->withInput(Input::all());
 				}else{
 				    $data["tipo_documentos"] = TipoDocumentos::searchTipoDocumentosById(Input::get('idtipo_documento'))->get();	
 				    $rutaDestino ='';
