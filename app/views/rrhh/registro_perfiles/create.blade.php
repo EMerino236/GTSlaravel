@@ -53,17 +53,17 @@
 			<div class="form-group row">
 				<div class="col-md-4 @if($errors->first('dni')) has-error has-feedback @endif">
 					{{ Form::label('dni','DNI') }}
-					{{ Form::number('dni',Input::old('dni'),['class' => 'form-control'])}}
+					{{ Form::number('dni',Input::old('dni'),['class' => 'form-control','min'=>'10000000', 'max'=>'99999999'])}}
 				</div>
 
-				<div class="col-md-4 @if($errors->first('pais')) has-error has-feedback @endif">
-					{{ Form::label('pais','Pais de nacimiento') }}
+				<div class="col-md-4 @if($errors->first('pais_nacimiento')) has-error has-feedback @endif">
+					{{ Form::label('pais_nacimiento','Pais de nacimiento') }}
 					{{ Form::select('pais_nacimiento',$paises,Input::old('pais'),['class' => 'form-control'])}}
 				</div>
 
 				<div class="col-md-4 @if($errors->first('genero')) has-error has-feedback @endif">
 					{{ Form::label('genero','Genero') }}
-					{{ Form::select('genero',[0=>'Masculino',1=>'Femenino'],Input::old('genero'),['class' => 'form-control'])}}
+					{{ Form::select('genero',$generos,Input::old('genero'),['class' => 'form-control'])}}
 				</div>
 			</div>
 	
@@ -78,7 +78,7 @@
 					</div>
 				</div>
 
-				<div class="col-md-4 @if($errors->first('domicilio')) has-error has-feedback @endif">
+				<div class="col-md-4 @if($errors->first('pais_residencia')) has-error has-feedback @endif">
 					{{ Form::label('pais_residencia','Pais de residencia') }}
 					{{ Form::select('pais_residencia',$paises,Input::old('pais_residencia'),['class' => 'form-control'])}}
 				</div>
@@ -92,12 +92,12 @@
 			<div class="form-group row">
 				<div class="col-md-4 @if($errors->first('telefono')) has-error has-feedback @endif">
 					{{ Form::label('telefono','Telefono') }}
-					{{ Form::number('telefono',Input::old('telefono'),['class' => 'form-control'])}}
+					{{ Form::number('telefono',Input::old('telefono'),['class' => 'form-control','min'=>'1000000', 'max'=>'9999999'])}}
 				</div>
 
 				<div class="col-md-4 @if($errors->first('celular')) has-error has-feedback @endif">
 					{{ Form::label('celular','Celular') }}
-					{{ Form::number('celular',Input::old('celular'),['class' => 'form-control'])}}
+					{{ Form::number('celular',Input::old('celular'),['class' => 'form-control','min'=>'100000000', 'max'=>'999999999'])}}
 				</div>
 
 				<div class="col-md-4 @if($errors->first('email')) has-error has-feedback @endif">

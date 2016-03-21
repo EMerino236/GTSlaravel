@@ -58,23 +58,17 @@
 				</tr>
 				@foreach($perfiles_data as $reporte_data)
 				<tr class="@if($reporte_data->deleted_at) bg-danger @endif">
-					<td>WIP</td>
-					<td>WIP</td>
-					<td>WIP</td>
-					<td>WIP</td>
-					<td>WIP</td>
-					<td>WIP</td>
-					<td>WIP</td>
+					<td>{{$reporte_data->nombres}}</td>
+					<td>{{$reporte_data->apellido_paterno}}</td>
+					<td>{{$reporte_data->apellido_materno}}</td>
+					<td>{{$reporte_data->dni}}</td>
+					<td>{{$reporte_data->paisNacimiento->nombre}}</td>
+					<td>{{$reporte_data->institucion}}</td>
+					<td>{{$roles[$reporte_data->id_rol]}}</td>
 					<td>
-						@if(true)
 						<a href="{{route('registro_perfil.show',$reporte_data->id)}}">
-							VER
+							{{ Form::button('<span class="glyphicon glyphicon-search"></span> Ver', ['class' => 'btn btn-primary btn-block']) }}
 						</a>
-						@else
-						<a href="{{route('registro_perfil.edit',$reporte_data->id)}}">
-							EDITAR	
-						</a>
-						@endif
 					</td>
 				</tr>
 				@endforeach

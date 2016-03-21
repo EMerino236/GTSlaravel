@@ -1296,4 +1296,6 @@ Route::group(array('prefix'=>'registro_perfil','before'=>'auth'),function(){
 	Route::get('/show/{id}',['uses'=>'RegistroPerfilController@show','as'=>'registro_perfil.show']);
 	Route::get('/edit/{id}',['uses'=>'RegistroPerfilController@edit','as'=>'registro_perfil.edit']);
 	Route::post('/edit/{id}',['uses'=>'RegistroPerfilController@update','as'=>'registro_perfil.update']);
+	Route::get('/download/{id}',['uses'=>'RegistroPerfilController@download','as'=>'registro_perfil.download']);
+	Route::get('/formacion/download/{id}',['uses'=>'RegistroPerfilController@downloadFormacion','as'=>'registro_perfil.downloadFormacion']);
 });
