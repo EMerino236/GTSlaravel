@@ -275,7 +275,6 @@ class CapacitacionesController extends \BaseController {
 					$data["equipo_relacionado"] = null;
 				}
 				$data["details_personas"] = PersonalExternoCapacitacion::getDetallePersonasInvolucradas($data["capacitacion"]->id)->get();
-				
 				return View::make('rrhh.gestion_capacitaciones.show',$data);
 			}else{
 				return View::make('error/error',$data);
@@ -347,7 +346,6 @@ class CapacitacionesController extends \BaseController {
 					'modalidad_capacitacion' => 'required',
 					'descripcion' => 'required',
 					'codigo_patrimonial' => 'required_if:tipo_capacitacion,1|required_if:tipo_capacitacion,2',
-					'equipo_relacionado' => 'required_if:tipo_capacitacion,1|required_if:tipo_capacitacion,2',
 					'departamento' => 'required',
 					'responsable' => 'required',
 					'servicio_clinico' => 'required',
@@ -506,4 +504,393 @@ class CapacitacionesController extends \BaseController {
 		}
 	}
 
+	public function create_personal($id=null){
+
+		if(Auth::check())
+		{
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"]= Session::get('user');
+
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4)
+			{
+				$data["departamentos"] = Area::lists('nombre','idarea');
+				$data["servicios"] = Servicio::lists('nombre','idservicio');
+				$data["tipos_documentos"] = TipoDocumento::lists('nombre','idtipo_documento');
+				$data["id_capacitacion"] = $id;
+				
+				return View::make('rrhh/personal_capacitaciones/create',$data);
+			}
+			else
+			{
+				return View::make('error/error',$data);
+			}
+		}
+		else
+		{
+			return View::make('error/error',$data);
+		}
+	
+
+	}
+
+	public function store_personal(){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$dimensiones = Dimension::all()->count();
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+				// Validate the info, create rules for the inputs	
+				$id_capacitacion = Input::get('id_capacitacion');
+
+				$rules = array(
+					'nombre' => 'required|alpha_spaces',
+					'apellidos' => 'required|alpha_spaces',
+					'departamento' => 'required',
+					'servicio_clinico' => 'required',
+					'tipo_documento' => 'required',
+					'numero_documento' => 'required|numeric'
+				);
+
+				
+				// Run the validation rules on the inputs from the form
+				$validator = Validator::make(Input::all(), $rules);
+				// If the validator fails, redirect back to the form
+				if($validator->fails()){
+					return Redirect::to('capacitacion/create_personal/'.$id_capacitacion)->withErrors($validator)->withInput(Input::all());					
+				}else{
+						
+						$personal = new PersonalCapacitacion;
+						$personal->nombre = Input::get('nombre');
+						$personal->apellidos = Input::get('apellidos');
+						$personal->id_servicio = Input::get('servicio_clinico');
+						$personal->id_tipodocumento = Input::get('tipo_documento');
+						$personal->numero_documento = Input::get('numero_documento');
+						$personal->id_capacitacion = $id_capacitacion;
+						$personal->save();
+
+					Session::flash('message', 'Se registró correctamente al nuevo personal de la capacitación.');
+					return Redirect::to('capacitacion/show_personal/'.$id_capacitacion);
+				}
+			}else{
+				return View::make('error/error',$data);
+			}
+
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+	public function show_personal($id=null){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 ||
+				$data["user"]->idrol == 7 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 ||
+				$data["user"]->idrol == 12){
+
+				$data["capacitacion"] = Capacitacion::withTrashed()->find($id);
+				if($data["capacitacion"]->activo != null){
+					$data["codigo_patrimonial"] = $data["capacitacion"]->activo->codigo_patrimonial;
+					$data["equipo_relacionado"] = $data["capacitacion"]->activo->modelo->familiaActivo->nombre_equipo;
+				}else{
+					$data["codigo_patrimonial"] = null;
+					$data["equipo_relacionado"] = null;
+				}
+
+				$data["personal_data"] = PersonalCapacitacion::getPersonalByIdCapacitacion($data["capacitacion"]->id)->get(); 
+				return View::make('rrhh.personal_capacitaciones.show',$data);
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+	public function destroy_personal(){
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$id = Auth::id();
+		$data["inside_url"] = Config::get('app.inside_url');
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9){
+			// Check if the current user is the "System Admin"
+			$data = Input::get('selected_id');
+			$personal = PersonalCapacitacion::find($data);
+			$exito = 0;
+			if($personal != null){
+				$exito = 1;
+				$personal->delete();
+			}else
+				$exito = 0;
+				
+
+			return Response::json(array( 'success' => true, 'exito' => $exito ),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
+	public function show_sesiones($id=null){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 ||
+				$data["user"]->idrol == 7 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 ||
+				$data["user"]->idrol == 12){
+
+				$data["capacitacion"] = Capacitacion::withTrashed()->find($id);
+				if($data["capacitacion"]->id_activo != null){
+					$data["codigo_patrimonial"] = $data["capacitacion"]->activo->codigo_patrimonial;
+					$data["equipo_relacionado"] = $data["capacitacion"]->activo->modelo->familiaActivo->nombre_equipo;
+				}else{
+					$data["codigo_patrimonial"] = null;
+					$data["equipo_relacionado"] = null;
+				}
+
+				$data["sesiones_data"] = Sesion::getSesionesByIdCapacitacion($data["capacitacion"]->id)->get(); 
+				
+				return View::make('rrhh.sesiones_capacitaciones.show',$data);
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+	public function show_actividades($id=null){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 ||
+				$data["user"]->idrol == 7 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 ||
+				$data["user"]->idrol == 12){
+
+				
+
+				$data["actividades_data"] = ActividadCapacitacion::getActividadesByIdSesion($id)->get(); 
+				$data["sesion"] = Sesion::find($id);
+				
+				return View::make('rrhh.sesiones_capacitaciones.showActividades',$data);
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+	public function create_actividad($id=null){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 ||
+				$data["user"]->idrol == 7 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 ||
+				$data["user"]->idrol == 12){
+
+				
+
+				$data["servicios"] = Servicio::lists('nombre','idservicio');
+				$data["sesion"] = Sesion::find($id);
+				
+				return View::make('rrhh.sesiones_capacitaciones.createActividad',$data);
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+	public function store_actividad(){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$dimensiones = Dimension::all()->count();
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+				// Validate the info, create rules for the inputs	
+				$id_sesion = Input::get('id_sesion');
+
+				$rules = array(
+					'nombre' => 'required|alpha_num_spaces',
+					'descripcion' => 'required|alpha_num_spaces',
+					'servicio_clinico' => 'required',
+					'fecha' => 'required',
+					'duracion' => 'required|numeric'
+				);
+
+				
+				// Run the validation rules on the inputs from the form
+				$validator = Validator::make(Input::all(), $rules);
+				// If the validator fails, redirect back to the form
+				if($validator->fails()){
+					return Redirect::to('capacitacion/create_actividad/'.$id_sesion)->withErrors($validator)->withInput(Input::all());					
+				}else{
+						
+						$actividad = new ActividadCapacitacion;
+						$actividad->nombre = Input::get('nombre');
+						$actividad->descripcion = Input::get('descripcion');
+						$actividad->id_servicio = Input::get('servicio_clinico');
+						$actividad->fecha = date("Y-m-d",strtotime(Input::get('fecha')));
+						$actividad->duracion = Input::get('duracion');
+						$actividad->id_sesion = $id_sesion;
+						$actividad->save();
+
+					Session::flash('message', 'Se registró correctamente la nueva actividad de la sesión.');
+					return Redirect::to('capacitacion/show_actividades/'.$id_sesion);
+				}
+			}else{
+				return View::make('error/error',$data);
+			}
+
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+	public function destroy_actividad(){
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$id = Auth::id();
+		$data["inside_url"] = Config::get('app.inside_url');
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9){
+			// Check if the current user is the "System Admin"
+			$data = Input::get('selected_id');
+			$actividad = ActividadCapacitacion::find($data);
+			$exito = 0;
+			if($actividad != null){
+				$exito = 1;
+				$actividad->delete();
+			}else
+				$exito = 0;
+				
+
+			return Response::json(array( 'success' => true, 'exito' => $exito ),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
+	public function show_competencias($id=null){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 ||
+				$data["user"]->idrol == 7 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 ||
+				$data["user"]->idrol == 12){
+
+				
+
+				$data["competencias_data"] = CompetenciaCapacitacion::getCompetenciasByIdSesion($id)->get(); 
+				$data["sesion"] = Sesion::find($id);
+				
+				return View::make('rrhh.sesiones_capacitaciones.showCompetencias',$data);
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+	public function create_competencia($id=null){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 ||
+				$data["user"]->idrol == 7 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 ||
+				$data["user"]->idrol == 12){
+
+				
+
+				$data["sesion"] = Sesion::find($id);
+				
+				return View::make('rrhh.sesiones_capacitaciones.createCompetencia',$data);
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+	public function store_competencia(){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$dimensiones = Dimension::all()->count();
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+				// Validate the info, create rules for the inputs	
+				$id_sesion = Input::get('id_sesion');
+
+				$rules = array(
+					'nombre' => 'required|alpha_num_spaces',
+					'indicador' => 'required|alpha_num_spaces',
+				);
+
+				
+				// Run the validation rules on the inputs from the form
+				$validator = Validator::make(Input::all(), $rules);
+				// If the validator fails, redirect back to the form
+				if($validator->fails()){
+					return Redirect::to('capacitacion/create_competencia/'.$id_sesion)->withErrors($validator)->withInput(Input::all());					
+				}else{
+						
+						$competencia = new CompetenciaCapacitacion;
+						$competencia->nombre = Input::get('nombre');
+						$competencia->indicador = Input::get('indicador');
+						$competencia->id_sesion = $id_sesion;
+						$competencia->save();
+
+					Session::flash('message', 'Se registró correctamente la nueva competencia de la sesión.');
+					return Redirect::to('capacitacion/show_competencias/'.$id_sesion);
+				}
+			}else{
+				return View::make('error/error',$data);
+			}
+
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+	public function destroy_competencia(){
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+		$id = Auth::id();
+		$data["inside_url"] = Config::get('app.inside_url');
+		$data["user"] = Session::get('user');
+		if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9){
+			// Check if the current user is the "System Admin"
+			$data = Input::get('selected_id');
+			$competencia = CompetenciaCapacitacion::find($data);
+			$exito = 0;
+			if($competencia != null){
+				$exito = 1;
+				$competencia->delete();
+			}else
+				$exito = 0;
+				
+
+			return Response::json(array( 'success' => true, 'exito' => $exito ),200);
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
 }
+
+

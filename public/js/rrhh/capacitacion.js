@@ -165,3 +165,157 @@ function buscarEquipo(){
 	    });
 	}
 }
+
+function eliminar_personal(e,id_personal){
+	e.preventDefault();
+
+	BootstrapDialog.confirm({
+			title: 'Mensaje de Confirmación',
+			message: '¿Está seguro que desea realizar esta acción?', 
+			type: BootstrapDialog.TYPE_INFO,
+			btnCancelLabel: 'Cancelar', 
+    		btnOKLabel: 'Aceptar', 
+			callback: function(result){
+	        	if(result) {
+	        		$.ajax({
+				        url: inside_url+'capacitacion/eliminar_personal_ajax',
+				        type: 'POST',
+				        data: { 'selected_id' : id_personal,
+				            },
+				        beforeSend: function(){
+				            $(".loader_container").show();
+				        },
+				        complete: function(){
+				            $(".loader_container").hide();
+				        },
+				        success: function(response){
+				            if(response.success){
+				            	if(response["exito"]== 1 )
+				            	   	location.reload();
+				            	else{
+				            		dialog = BootstrapDialog.show({
+						            title: 'Advertencia',
+						            message: 'Error',
+						            type : BootstrapDialog.TYPE_DANGER,
+						            buttons: [{
+						                label: 'Aceptar',
+						                action: function(dialog) {
+						                    dialog.close();
+						                }
+						            }]
+						        });    
+				            	}
+				            }else{
+				                alert('La petición no se pudo completar, inténtelo de nuevo.');
+				            }
+				        },
+				        error: function(){
+				            alert('La petición no se pudo completar, inténtelo de nuevo.');
+				        }
+				    });
+	        	}
+	        }
+	});
+}
+
+function eliminar_actividad(e,id_actividad){
+	e.preventDefault();
+	BootstrapDialog.confirm({
+			title: 'Mensaje de Confirmación',
+			message: '¿Está seguro que desea realizar esta acción?', 
+			type: BootstrapDialog.TYPE_INFO,
+			btnCancelLabel: 'Cancelar', 
+    		btnOKLabel: 'Aceptar', 
+			callback: function(result){
+	        	if(result) {
+	        		$.ajax({
+				        url: inside_url+'capacitacion/eliminar_actividad_ajax',
+				        type: 'POST',
+				        data: { 'selected_id' : id_actividad,
+				            },
+				        beforeSend: function(){
+				            $(".loader_container").show();
+				        },
+				        complete: function(){
+				            $(".loader_container").hide();
+				        },
+				        success: function(response){
+				            if(response.success){
+				            	if(response["exito"]== 1 )
+				            	   	location.reload();
+				            	else{
+				            		dialog = BootstrapDialog.show({
+						            title: 'Advertencia',
+						            message: 'Error',
+						            type : BootstrapDialog.TYPE_DANGER,
+						            buttons: [{
+						                label: 'Aceptar',
+						                action: function(dialog) {
+						                    dialog.close();
+						                }
+						            }]
+						        });    
+				            	}
+				            }else{
+				                alert('La petición no se pudo completar, inténtelo de nuevo.');
+				            }
+				        },
+				        error: function(){
+				            alert('La petición no se pudo completar, inténtelo de nuevo.');
+				        }
+				    });
+	        	}
+	        }
+	});
+}
+
+function eliminar_competencia(e,id_competencia){
+	e.preventDefault();
+	BootstrapDialog.confirm({
+			title: 'Mensaje de Confirmación',
+			message: '¿Está seguro que desea realizar esta acción?', 
+			type: BootstrapDialog.TYPE_INFO,
+			btnCancelLabel: 'Cancelar', 
+    		btnOKLabel: 'Aceptar', 
+			callback: function(result){
+	        	if(result) {
+	        		$.ajax({
+				        url: inside_url+'capacitacion/eliminar_competencia_ajax',
+				        type: 'POST',
+				        data: { 'selected_id' : id_competencia,
+				            },
+				        beforeSend: function(){
+				            $(".loader_container").show();
+				        },
+				        complete: function(){
+				            $(".loader_container").hide();
+				        },
+				        success: function(response){
+				            if(response.success){
+				            	if(response["exito"]== 1 )
+				            	   	location.reload();
+				            	else{
+				            		dialog = BootstrapDialog.show({
+						            title: 'Advertencia',
+						            message: 'Error',
+						            type : BootstrapDialog.TYPE_DANGER,
+						            buttons: [{
+						                label: 'Aceptar',
+						                action: function(dialog) {
+						                    dialog.close();
+						                }
+						            }]
+						        });    
+				            	}
+				            }else{
+				                alert('La petición no se pudo completar, inténtelo de nuevo.');
+				            }
+				        },
+				        error: function(){
+				            alert('La petición no se pudo completar, inténtelo de nuevo.');
+				        }
+				    });
+	        	}
+	        }
+	});
+}

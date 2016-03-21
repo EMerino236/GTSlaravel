@@ -1043,6 +1043,19 @@ Route::group(array('prefix'=>'capacitacion', 'before'=>'auth'),function(){
 	Route::post('/edit/{id}',['uses'=>'CapacitacionesController@update','as'=>'capacitacion.update']);
 	Route::post('/search_equipo_ajax',['uses'=>'CapacitacionesController@search_equipo_ajax','as'=>'capacitacion.search_equipo_ajax']);
 	Route::get('/download/{id}',['uses'=>'CapacitacionesController@download','as'=>'capacitacion.download']);
+	Route::get('/show_personal/{id}',['uses'=>'CapacitacionesController@show_personal','as'=>'capacitacion.show_personal']);
+	Route::get('/create_personal/{id}',['uses'=>'CapacitacionesController@create_personal','as'=>'capacitacion.create_personal']);
+	Route::post('/create_personal/{id}',['uses'=>'CapacitacionesController@store_personal','as'=>'capacitacion.store_personal']);
+	Route::post('/eliminar_personal_ajax',['uses'=>'CapacitacionesController@destroy_personal','as'=>'capacitacion.destroy_personal']);	
+	Route::get('/show_sesiones/{id}',['uses'=>'CapacitacionesController@show_sesiones','as'=>'capacitacion.show_sesiones']);
+	Route::get('/show_actividades/{id}',['uses'=>'CapacitacionesController@show_actividades','as'=>'capacitacion.show_actividades']);
+	Route::get('/create_actividad/{id}',['uses'=>'CapacitacionesController@create_actividad','as'=>'capacitacion.create_actividad']);
+	Route::post('/create_actividad/{id}',['uses'=>'CapacitacionesController@store_actividad','as'=>'capacitacion.store_actividad']);
+	Route::post('/eliminar_actividad_ajax',['uses'=>'CapacitacionesController@destroy_actividad','as'=>'capacitacion.destroy_actividad']);
+	Route::get('/show_competencias/{id}',['uses'=>'CapacitacionesController@show_competencias','as'=>'capacitacion.show_competencias']);
+	Route::get('/create_competencia/{id}',['uses'=>'CapacitacionesController@create_competencia','as'=>'capacitacion.create_competencia']);
+	Route::post('/create_competencia/{id}',['uses'=>'CapacitacionesController@store_competencia','as'=>'capacitacion.store_competencia']);
+	Route::post('/eliminar_competencia_ajax',['uses'=>'CapacitacionesController@destroy_competencia','as'=>'capacitacion.destroy_competencia']);
 });
 
 /* Acuerdos y convenios*/

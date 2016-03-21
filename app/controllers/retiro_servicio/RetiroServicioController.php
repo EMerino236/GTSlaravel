@@ -85,10 +85,11 @@ class RetiroServicioController extends BaseController {
 	}
 
 	public function getCorrelativeReportNumber(){
-		$sot = ReporteRetiro::getReportesRetiro()->first();
+		$sot = ReporteRetiro::getReportesRetiro()->orderBy('idreporte_retiro','desc')->first();
+		
 		$string = "";
 		if($sot!=null){	
-			$numero = $sot->sot_correlativo;
+			$numero = $sot->reporte_correlativo;
 			$cantidad_digitos = strlen($numero+1);						
 			for($i=0;$i<4-$cantidad_digitos;$i++){
 				$string = $string."0";
@@ -206,7 +207,14 @@ class RetiroServicioController extends BaseController {
 				$data["search_marca"] = Input::get('search_marca');
 				$data["search_servicio"] = Input::get('search_servicio');
 				$data["search_proveedor"] = Input::get('search_proveedor');
-				$data["reporte_retiros_data"] = ReporteRetiro::searchReportesRetiroInfo($data["search_motivo"],$data["search_equipo"],$data["search_cod_pat"],$data["search_marca"],$data["search_servicio"],$data["search_proveedor"])->paginate(10);
+				if($data["search_motivo"]==0 && $data["search_equipo"]==null && $data["search_cod_pat"]==null &&
+					$data["search_marca"]==0 && $data["search_servicio"]==0 && $data["search_proveedor"]==0){
+					$data["reporte_retiros_data"] = ReporteRetiro::getReportesRetiroInfo()->paginate(10);
+				}else{
+					$data["reporte_retiros_data"] = ReporteRetiro::searchReportesRetiroInfo($data["search_motivo"],$data["search_equipo"],$data["search_cod_pat"],$data["search_marca"],$data["search_servicio"],$data["search_proveedor"])->paginate(10);
+				}
+
+				
 				return View::make('retiro_servicio/listReporteRetiroServicio',$data);
 			}else{
 				return View::make('error/error',$data);
@@ -368,10 +376,10 @@ class RetiroServicioController extends BaseController {
 	}
 
 	public function getOtCorrelativeReportNumber(){
-		$sot = OtRetiro::getOtsRetiro()->first();
+		$sot = OtRetiro::getOtsRetiro()->orderBy('idot_retiro','desc')->first();
 		$string = "";
 		if($sot!=null){	
-			$numero = $sot->sot_correlativo;
+			$numero = $sot->ot_correlativo;
 			$cantidad_digitos = strlen($numero+1);						
 			for($i=0;$i<4-$cantidad_digitos;$i++){
 				$string = $string."0";

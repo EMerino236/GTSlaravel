@@ -10,7 +10,7 @@ class TareasOtRetiro extends Eloquent{
 
 	public function scopeGetTareasXOtXActi($query,$idtareas_ot_retiro)
 	{
-		$query->where('idtareas_ot_retiro','=',$idtareas_ot_retiro);
+		$query->where('tareas_ot_retiros.idot_retiro','=',$idtareas_ot_retiro);
 		return $query;
 	}
 

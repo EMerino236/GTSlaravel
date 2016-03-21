@@ -3,12 +3,7 @@
 	<div class="row">
         <div class="col-lg-12">
             <h3 class="page-header">Reportes de Retiro de Servicios</h3>
-            <div class="container-fluid form-group row">
-				<div class="col-md-4 col-md-offset-8">
-            		<a class="btn btn-primary btn-block" href="{{URL::to('/retiro_servicio/create_reporte_retiro_servicio')}}">
-					<span class="glyphicon glyphicon-plus"></span> Agregar Reporte</a>
-				</div>
-			</div>
+            
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -61,13 +56,19 @@
 			</div>	
 		</div>
 	</div>	
-	{{ Form::close() }}</br>
+	{{ Form::close() }}
+	<div class="container-fluid form-group row">
+		<div class="col-md-4 col-md-offset-8">
+    		<a class="btn btn-primary btn-block" href="{{URL::to('/retiro_servicio/create_reporte_retiro_servicio')}}">
+			<span class="glyphicon glyphicon-plus"></span> Agregar Reporte</a>
+		</div>
+	</div>
 	<div class="row">
 		<div class="col-md-12">
 			<div class="table-responsive">
 				<table class="table">
 					<tr class="info">
-						<th class="text-nowrap text-center">Código de Reporte de Retiro</th>
+						<th class="text-nowrap text-center">Código de Reporte</th>
 						<th class="text-nowrap text-center">Código Patrimonial</th>
 						<th class="text-nowrap text-center">Nombre de Equipo</th>
 						<th class="text-nowrap text-center">Marca</th>

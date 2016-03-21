@@ -2,7 +2,7 @@
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Orden de trabajo de retiro de servicio</h3>
+            <h3 class="page-header">Orden de trabajo de retiro de servicio - {{$ot_info->ot_tipo_abreviatura}}{{$ot_info->ot_correlativo}}{{$ot_info->ot_activo_abreviatura}}</h3>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -148,24 +148,17 @@
 						{{ Form::label('idestado','Equipo No Intervenido') }}
 						{{ Form::select('idestado', $estados,$ot_info->idestado_ot,['class' => 'form-control']) }}
 					</div>
+						<div class="form-group col-md-4 @if($errors->first('idestado_inicial')) has-error has-feedback @endif">
+							{{ Form::label('idestado_inicial','Estado Inicial del Activo') }}
+							{{ Form::select('idestado_inicial', $estado_activo,$ot_info->idestado_inicial,array('class'=>'form-control')) }}
+						</div>
+							<div class="form-group col-md-4 @if($errors->first('idestado_final')) has-error has-feedback @endif">
+								{{ Form::label('idestado_final','Estado Final del Activo') }}
+								{{ Form::select('idestado_final', $estado_activo,$ot_info->idestado_final,array('class'=>'form-control')) }}
+							</div>
 				</div>
 			</div>
 		</div>
-
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<h3 class="panel-title">Datos del Diagnóstico y Programación</h3>
-			</div>
-			<div class="panel-body">
-				<div class="row">
-					<div class="form-group col-md-4 @if($errors->first('idestado_inicial')) has-error has-feedback @endif">
-						{{ Form::label('idestado_inicial','Estado Inicial del Activo') }}
-						{{ Form::select('idestado_inicial', $estado_activo,$ot_info->idestado_inicial,array('class'=>'form-control')) }}
-					</div>
-				</div>
-			</div>
-		</div>
-
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">Datos Generales de la Orden de Trabajo de Retiro de Servicio</h3>
@@ -204,12 +197,7 @@
 					</div>
 				</div>
 				
-				<div class="row">
-					<div class="form-group col-md-4 @if($errors->first('idestado_final')) has-error has-feedback @endif">
-						{{ Form::label('idestado_final','Estado Final del Activo') }}
-						{{ Form::select('idestado_final', $estado_activo,$ot_info->idestado_final,array('class'=>'form-control')) }}
-					</div>
-				</div>
+				
 			</div>
 		</div>
 		<div class="panel panel-default">
