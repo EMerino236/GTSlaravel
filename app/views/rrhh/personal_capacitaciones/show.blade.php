@@ -103,7 +103,7 @@
 	
 	<div class="panel panel-default">
 	  	<div class="panel-heading">
-	  		Personal
+	  		Personal  <strong>(Cantidad de Personas: {{count($personal_data)}} )</strong>
 	  	</div>
 	  	<div class="panel-body">	
 	  		<div class="row">
@@ -142,7 +142,8 @@
 										{{$personal->nombre_documento}}
 									</td>
 									<td  class="text-nowrap text-center">
-										{{$personal->numero_documento}}
+										<a href="{{URL::to('/capacitacion/show_info_personal')}}/{{$personal->id}}">
+										{{$personal->numero_documento}}</a>
 									</td>
 									<td  class="text-nowrap text-center">
 										<button class="btn btn-danger" onclick="eliminar_personal(event,{{$personal->id}})" type="button"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>

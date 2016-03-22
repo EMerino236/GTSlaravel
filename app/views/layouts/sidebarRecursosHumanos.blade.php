@@ -25,7 +25,7 @@
                     <li>
                         <a href="#">Gestión logística, seguimiento, control de las actividades de capacitación<span class="fa arrow"></span></a>
                         <ul class="nav nav-third-level">
-                            <li>{{ HTML::link('#','Materiales y herramientas para capacitaciones') }}</li>
+                            <li>{{ HTML::linkRoute('capacitacion.index','Materiales y herramientas para capacitaciones') }}</li>
                             <li>{{ HTML::link('#','Certificación del programa de capacitación') }}</li>
                             <li>{{ HTML::link('#','Indicadores de gestión logística, seguimiento y control de capacitaciones en TS actualizados ') }}</li>
                             <li>{{ HTML::link('#','Reporte de supervisión de ejecución de capacitación') }}</li>

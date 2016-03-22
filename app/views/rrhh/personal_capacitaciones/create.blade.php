@@ -47,20 +47,20 @@
 					{{ Form::text('apellidos',Input::old('apellidos'),['class' => 'form-control'])}}	
 				</div>
 				<div class="form-group col-md-4 @if($errors->first('departamento')) has-error has-feedback @endif">
-					{{ Form::label('departamento','Departamento') }}
+					{{ Form::label('departamento','Departamento') }}<span style='color:red'>*</span>
 					{{ Form::select('departamento', array('' => 'Seleccione') + $departamentos, Input::old('departamento'), ['id'=>'departamento','class'=>'form-control','onChange'=>'getServicios(this)']) }}
 				</div>
 
 				<div class="form-group col-md-4 @if($errors->first('servicio_clinico')) has-error has-feedback @endif">
-					{{ Form::label('servicio_clinico','Servicio Clínico') }}
+					{{ Form::label('servicio_clinico','Servicio Clínico') }}<span style='color:red'>*</span>
 					{{ Form::select('servicio_clinico', array('' => 'Seleccione') + $servicios, Input::old('servicio_clinico'), ['id'=>'servicio_clinico','class'=>'form-control']) }}
 				</div>
 				<div class="form-group col-md-4 @if($errors->first('tipo_documento')) has-error has-feedback @endif">
-					{{ Form::label('tipo_documento','Tipo Documento') }}
+					{{ Form::label('tipo_documento','Tipo Documento') }}<span style='color:red'>*</span>
 					{{ Form::select('tipo_documento', array('' => 'Seleccione') + $tipos_documentos, Input::old('tipo_documento'), ['class'=>'form-control']) }}
 				</div>
 				<div class="form-group col-md-4 @if($errors->first('numero_documento')) has-error has-feedback @endif">
-					{{ Form::label('numero_documento','Número de Documento') }}
+					{{ Form::label('numero_documento','Número de Documento') }}<span style='color:red'>*</span>
 					{{ Form::text('numero_documento',Input::old('numero_documento'),['class' => 'form-control'])}}
 				</div>
 			</div>

@@ -1056,6 +1056,23 @@ Route::group(array('prefix'=>'capacitacion', 'before'=>'auth'),function(){
 	Route::get('/create_competencia/{id}',['uses'=>'CapacitacionesController@create_competencia','as'=>'capacitacion.create_competencia']);
 	Route::post('/create_competencia/{id}',['uses'=>'CapacitacionesController@store_competencia','as'=>'capacitacion.store_competencia']);
 	Route::post('/eliminar_competencia_ajax',['uses'=>'CapacitacionesController@destroy_competencia','as'=>'capacitacion.destroy_competencia']);
+	Route::get('/edit_fecha_sesion/{id}',['uses'=>'CapacitacionesController@edit_fecha_sesion','as'=>'capacitacion.edit_fecha_sesion']);
+	Route::post('/edit_fecha_sesion/{id}',['uses'=>'CapacitacionesController@update_fecha_sesion','as'=>'capacitacion.update_fecha_sesion']);
+	Route::get('/show_fecha_sesion/{id}',['uses'=>'CapacitacionesController@show_fecha_sesion','as'=>'capacitacion.show_fecha_sesion']);
+	Route::get('/show_info_personal/{id}',['uses'=>'CapacitacionesController@show_info_personal','as'=>'capacitacion.show_info_personal']);
+	Route::get('/edit_info_personal/{id}',['uses'=>'CapacitacionesController@edit_info_personal','as'=>'capacitacion.edit_info_personal']);
+	Route::post('/edit_info_personal/{id}',['uses'=>'CapacitacionesController@update_info_personal','as'=>'capacitacion.update_info_personal']);
+	Route::get('/downloadCertificado/{id}',['uses'=>'CapacitacionesController@downloadCertificado','as'=>'capacitacion.downloadCertificado']);
+});
+
+/* Materiales Sesion*/
+Route::group(array('prefix' => 'material', 'before' => 'auth'),function(){
+	Route::get('/create',['uses' => 'MaterialSesionController@create', 'as' => 'material.create']);
+	Route::post('/store',['uses' => 'MaterialSesionController@store', 'as' => 'material.store']);
+	Route::get('/show/{id}',['uses'=>'MaterialSesionController@show','as'=>'material.show']);
+	Route::get('/edit/{id}',['uses' => 'MaterialSesionController@edit', 'as' => 'material.edit']);
+	Route::post('/edit/{id}',['uses' => 'MaterialSesionController@update', 'as' => 'material.update']);
+	Route::post('/destoy/{id}',['uses' => 'MaterialSesionController@destroy','as'=>'material.destroy']);
 });
 
 /* Acuerdos y convenios*/
