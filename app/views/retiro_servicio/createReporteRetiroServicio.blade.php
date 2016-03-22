@@ -2,7 +2,7 @@
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Agregar Reporte de Retiro de Servicio</h3>
+            <h3 class="page-header">Agregar Nuevo Reporte de Retiro de Servicio</h3>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -83,7 +83,7 @@
 				</div>
 				<div class="form-group col-md-4">
 					<div class="form-group @if($errors->first('costo')) has-error has-feedback @endif">
-						{{ Form::label('costo','Costo') }}
+						{{ Form::label('costo','Costo (S/.)') }}
 						{{ Form::text('costo',Input::old('costo'),array('class' => 'form-control')) }}
 					</div>
 				</div>

@@ -34,7 +34,7 @@ class ReporteRetiro extends Eloquent{
 			  if($search_equipo!="")
 			  	$query->where('familia_activos.nombre_equipo','LIKE',"%$search_equipo%");
 			  if($search_cod_pat!="")
-			  	$query->where('activos.codigo_patrimonial','LIKE',"%$search_cod_pat%");
+			  	$query->where('activos.codigo_patrimonial','=',$search_cod_pat);
 			  if($search_marca!="")
 			  	$query->where('marcas.idmarca','=',$search_marca);
 			  if($search_servicio!="")

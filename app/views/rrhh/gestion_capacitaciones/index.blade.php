@@ -106,8 +106,9 @@
 						<th class="text-nowrap text-center">Responsable</th>
 						<th class="text-nowrap text-center">Fecha Inicio</th>
 						<th class="text-nowrap text-center">Fecha Fin</th>
-						<th class="text-nowrap text-center">Ver Personal</th>
 						<th class="text-nowrap text-center">Plan de Capacitación</th>
+						<th class="text-nowrap text-center">Personal</th>
+						<th class="text-nowrap text-center">Sesiones</th>
 					</tr>
 					
 					@foreach($capacitaciones as $capacitacion)
@@ -134,11 +135,15 @@
 							{{$capacitacion->fecha_fin}}
 						</td>
 						<td class="text-nowrap">
-							<a class="btn btn-info btn-block btn-sm" href="{{URL::to('/capacitacion/view_personal/')}}/{{$capacitacion->id}}">
-							<span class="glyphicon glyphicon-eye-open"></span></a>
+							<a class="btn btn-success btn-block btn-sm"  href="{{URL::to('/capacitacion/download')}}/{{$capacitacion->id}}" ><span class="glyphicon glyphicon-download"></span> Descargar</a>
 						</td>
 						<td class="text-nowrap">
-							<a class="btn btn-success btn-block btn-sm" href="{{URL::to('/capacitacion/download')}}/{{$capacitacion->id}}" ><span class="glyphicon glyphicon-download"></span> Descargar</a>
+							<a class="btn btn-info btn-block btn-sm" style="width:135px;" href="{{URL::to('/capacitacion/show_personal/')}}/{{$capacitacion->id}}">
+							<span class="glyphicon glyphicon-eye-open"></span> Visualizar</a>
+						</td>
+						<td class="text-nowrap">
+							<a class="btn btn-info btn-block btn-sm" style="width:135px;" href="{{URL::to('/capacitacion/show_sesiones/')}}/{{$capacitacion->id}}">
+							<span class="glyphicon glyphicon-eye-open"></span> Visualizar</a>
 						</td>
 					</tr>
 					@endforeach				

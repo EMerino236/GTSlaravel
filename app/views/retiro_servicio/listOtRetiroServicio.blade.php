@@ -99,7 +99,7 @@
 						<th class="text-nowrap text-center">Ingeniero</th>
 						<th class="text-nowrap text-center">Ubicación</th>
 						<th class="text-nowrap text-center">Estado</th>
-						<th class="text-nowrap text-center">No. de reporte de retiro de servicio</th>
+						<th class="text-nowrap text-center">Reporte de retiro de servicio</th>
 					</tr>
 					@foreach($retiro_servicios_data as $retiro_servicio_data)
 					<tr>

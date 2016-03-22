@@ -84,7 +84,7 @@
 				</div>
 				<div class="form-group col-md-4">
 					{{ Form::label('fecha_baja','Fecha de Baja') }}
-					{{ Form::text('fecha_baja',date('d-m-Y H:i:s',strtotime($reporte_info->fecha_baja)),array('class' => 'form-control','readonly'=>'')) }}
+					{{ Form::text('fecha_baja',date('d-m-Y',strtotime($reporte_info->fecha_baja)),array('class' => 'form-control','readonly'=>'')) }}
 				</div>
 			</div>
 			<div class="row">

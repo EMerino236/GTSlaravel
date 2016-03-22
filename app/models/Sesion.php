@@ -7,5 +7,9 @@ class Sesion extends Eloquent{
 	protected $softDelete = true;
 
 	protected $table = 'sesiones';
+
+	public function scopeGetSesionesByIdCapacitacion($query,$id_capacitacion){
+		$query->where('id_capacitacion','=',$id_capacitacion);
+	}
 	
 }
