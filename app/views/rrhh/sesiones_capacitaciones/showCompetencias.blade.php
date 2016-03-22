@@ -47,7 +47,7 @@
 							@foreach($competencias_data as $index => $competencia)
 								<tr>
 									<td  class="text-nowrap text-center">
-										{{$competencia->nombre}}
+										<a href="{{route('capacitacion.editCompetencia',$competencia->id)}}">{{$competencia->nombre}}</a>
 									</td>
 									<td  class="text-nowrap text-center">
 										{{$competencia->indicador}}

@@ -40,8 +40,7 @@
 						<table class="table">
 							<tr class="info">				
 								<th class="text-nowrap text-center">Actividad</th>
-								<th class="text-nowrap text-center">Duración</th>								
-								<th class="text-nowrap text-center">Descripción</th>
+								<th class="text-nowrap text-center">Duración</th>
 								<th class="text-nowrap text-center">Servicio Involucrado</th>
 								<th class="text-nowrap text-center">Fecha</th>
 								<th class="text-nowrap text-center"></th>
@@ -50,19 +49,16 @@
 							@foreach($actividades_data as $index => $actividad)
 								<tr>
 									<td  class="text-nowrap text-center">
-										{{$actividad->nombre}}
+										<a href="{{route('capacitacion.editActividad',$actividad->id)}}">{{$actividad->nombre}}</a>
 									</td>
 									<td  class="text-nowrap text-center">
-										{{$actividad->descripcion}}
+										{{$actividad->duracion}} hora(s)
 									</td>
 									<td  class="text-nowrap text-center">
 										{{$actividad->nombre_servicio}}
 									</td>
 									<td  class="text-nowrap text-center">
 										{{$actividad->fecha}}
-									</td>
-									<td  class="text-nowrap text-center">
-										{{$actividad->duracion}}
 									</td>
 									<td  class="text-nowrap text-center">
 										<button class="btn btn-danger" onclick="eliminar_actividad(event,{{$actividad->id}})" type="button"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>

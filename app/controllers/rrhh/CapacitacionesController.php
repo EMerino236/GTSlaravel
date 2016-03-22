@@ -723,7 +723,7 @@ class CapacitacionesController extends \BaseController {
 				$id_sesion = Input::get('id_sesion');
 
 				$rules = array(
-					'nombre' => 'required|alpha_num_spaces',
+					'nombre' => 'required|alpha_num_spaces|unique:actividad_capacitaciones,nombre,NULL,id,id_sesion,'.$id_sesion,
 					'descripcion' => 'required|alpha_num_spaces',
 					'servicio_clinico' => 'required',
 					'fecha' => 'required',
@@ -749,6 +749,72 @@ class CapacitacionesController extends \BaseController {
 
 					Session::flash('message', 'Se registró correctamente la nueva actividad de la sesión.');
 					return Redirect::to('capacitacion/show_actividades/'.$id_sesion);
+				}
+			}else{
+				return View::make('error/error',$data);
+			}
+
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+	public function edit_actividad($id=null){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 ||
+				$data["user"]->idrol == 7 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 ||
+				$data["user"]->idrol == 12){
+
+				$data["actividad"] = ActividadCapacitacion::find($id);
+				$data["servicios"] = Servicio::lists('nombre','idservicio');
+				return View::make('rrhh.sesiones_capacitaciones.editActividad',$data);
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+	public function update_actividad(){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$dimensiones = Dimension::all()->count();
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+				// Validate the info, create rules for the inputs	
+				$id_actividad = Input::get('id_actividad');
+				$actividad = ActividadCapacitacion::find($id_actividad);
+				$rules = array(
+					'nombre' => 'required|alpha_num_spaces|unique:actividad_capacitaciones,nombre,'.$id_actividad.',id,id_sesion,'.$actividad->id_sesion,
+					'descripcion' => 'required|alpha_num_spaces',
+					'servicio_clinico' => 'required',
+					'fecha' => 'required',
+					'duracion' => 'required|numeric'
+				);
+
+				
+				// Run the validation rules on the inputs from the form
+				$validator = Validator::make(Input::all(), $rules);
+				// If the validator fails, redirect back to the form
+				if($validator->fails()){
+					return Redirect::to('capacitacion/edit_actividad/'.$id_actividad)->withErrors($validator)->withInput(Input::all());					
+				}else{
+						
+						$actividad = ActividadCapacitacion::find($id_actividad);
+						$actividad->nombre = Input::get('nombre');
+						$actividad->descripcion = Input::get('descripcion');
+						$actividad->id_servicio = Input::get('servicio_clinico');
+						$actividad->fecha = date("Y-m-d",strtotime(Input::get('fecha')));
+						$actividad->duracion = Input::get('duracion');
+						$actividad->save();
+
+					Session::flash('message', 'Se editó correctamente la actividad.');
+					return Redirect::to('capacitacion/show_actividades/'.$actividad->id_sesion);
 				}
 			}else{
 				return View::make('error/error',$data);
@@ -792,8 +858,6 @@ class CapacitacionesController extends \BaseController {
 			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 ||
 				$data["user"]->idrol == 7 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 ||
 				$data["user"]->idrol == 12){
-
-				
 
 				$data["competencias_data"] = CompetenciaCapacitacion::getCompetenciasByIdSesion($id)->get(); 
 				$data["sesion"] = Sesion::find($id);
@@ -840,7 +904,7 @@ class CapacitacionesController extends \BaseController {
 				$id_sesion = Input::get('id_sesion');
 
 				$rules = array(
-					'nombre' => 'required|alpha_num_spaces',
+					'nombre' => 'required|alpha_num_spaces|unique:competencias_generadas,nombre,NULL,id,id_sesion,'.$id_sesion,
 					'indicador' => 'required|alpha_num_spaces',
 				);
 
@@ -860,6 +924,65 @@ class CapacitacionesController extends \BaseController {
 
 					Session::flash('message', 'Se registró correctamente la nueva competencia de la sesión.');
 					return Redirect::to('capacitacion/show_competencias/'.$id_sesion);
+				}
+			}else{
+				return View::make('error/error',$data);
+			}
+
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+	public function edit_competencia($id=null){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 ||
+				$data["user"]->idrol == 7 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 ||
+				$data["user"]->idrol == 12){
+
+				$data["competencia"] = CompetenciaCapacitacion::find($id);
+				return View::make('rrhh.sesiones_capacitaciones.editCompetencia',$data);
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+	public function update_competencia(){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$dimensiones = Dimension::all()->count();
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+				// Validate the info, create rules for the inputs	
+				$id_competencia = Input::get('id_competencia');
+				$competencia = CompetenciaCapacitacion::find($id_competencia);
+				$rules = array(
+					'nombre' => 'required|alpha_num_spaces|unique:competencias_generadas,nombre,'.$id_competencia.',id,id_sesion,'.$competencia->id_sesion,
+					'indicador' => 'required|alpha_num_spaces',
+				);
+
+				
+				// Run the validation rules on the inputs from the form
+				$validator = Validator::make(Input::all(), $rules);
+				// If the validator fails, redirect back to the form
+				if($validator->fails()){
+					return Redirect::to('capacitacion/edit_competencia/'.$id_competencia)->withErrors($validator)->withInput(Input::all());					
+				}else{
+						
+						$competencia = CompetenciaCapacitacion::find($id_competencia);
+						$competencia->nombre = Input::get('nombre');
+						$competencia->indicador = Input::get('indicador');
+						$competencia->save();
+
+					Session::flash('message', 'Se editó correctamente la competencia.');
+					return Redirect::to('capacitacion/show_competencias/'.$competencia->id_sesion);
 				}
 			}else{
 				return View::make('error/error',$data);
