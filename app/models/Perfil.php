@@ -38,4 +38,9 @@ class Perfil extends Eloquent{
 		return $this->hasMany('PerfilIdioma', 'id_perfil');
 	}
 
+	public function getUserFullNameAttribute()
+	{
+	    return $this->attributes['nombres'] .' '. $this->attributes['apellido_paterno'] . ' ' . $this->attributes['apellido_materno'];
+	}
+
 }

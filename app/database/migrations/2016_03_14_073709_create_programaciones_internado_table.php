@@ -15,7 +15,7 @@ class CreateProgramacionesInternadoTable extends Migration {
 		Schema::create('programaciones_internado', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->string('nombre');
+			$table->integer('id_internista')->unsigned();
 			$table->integer('id_departamento');
 			$table->integer('id_servicio_clinico');
 			$table->integer('id_responsable');

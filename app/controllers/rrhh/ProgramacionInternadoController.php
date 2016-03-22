@@ -24,6 +24,7 @@ class ProgramacionInternadoController extends \BaseController {
 				$data["search_fecha_ini"] = null;
 				$data["search_fecha_fin"] = null;
 
+				$data["nombres"] = Perfil::where('id_rol',2)->orderBy('nombres')->get()->lists('UserFullName','id');
 				$data["servicios"] = Servicio::all()->lists('nombre','idservicio');
 				$data["departamentos"] = Area::all()->lists('nombre','idarea');
 				$data["usuarios"] = User::orderBy('nombre')->get()->lists('UserFullName','id');
@@ -62,6 +63,7 @@ class ProgramacionInternadoController extends \BaseController {
 				$data["search_fecha_ini"] = Input::get('search_fecha_ini');
 				$data["search_fecha_fin"] = Input::get('search_fecha_fin');
 
+				$data["nombres"] = Perfil::where('id_rol',2)->orderBy('nombres')->get()->lists('UserFullName','id');
 				$data["servicios"] = Servicio::all()->lists('nombre','idservicio');
 				$data["departamentos"] = Area::all()->lists('nombre','idarea');
 				$data["usuarios"] = User::orderBy('nombre')->get()->lists('UserFullName','id');
@@ -94,6 +96,7 @@ class ProgramacionInternadoController extends \BaseController {
 
 			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4)
 			{
+				$data["nombres"] = Perfil::where('id_rol',2)->orderBy('nombres')->get()->lists('UserFullName','id');
 				$data["tipos"] = RHTipo::all()->lists('nombre','id');
 				$data["modalidades"] = RHModalidad::all()->lists('nombre','id');
 				$data["departamentos"] = Area::lists('nombre','idarea');
@@ -166,7 +169,7 @@ class ProgramacionInternadoController extends \BaseController {
 				}else{
 
 					$programacion_internado = new ProgramacionInternado;
-					$programacion_internado->nombre = Input::get('nombre');
+					$programacion_internado->id_internista = Input::get('nombre');
 					$programacion_internado->id_departamento = Input::get('departamento');
 					$programacion_internado->id_servicio_clinico = Input::get('servicio_clinico');
 					$programacion_internado->id_responsable = Input::get('responsable');
@@ -258,6 +261,7 @@ class ProgramacionInternadoController extends \BaseController {
 
 			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4)
 			{
+				$data["nombres"] = Perfil::where('id_rol',2)->orderBy('nombres')->get()->lists('UserFullName','id');
 				$data["tipos"] = RHTipo::all()->lists('nombre','id');
 				$data["modalidades"] = RHModalidad::all()->lists('nombre','id');
 				$data["departamentos"] = Area::lists('nombre','idarea');

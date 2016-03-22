@@ -31,7 +31,7 @@
 						<div class="row">
 							<div class="form-group col-md-6 @if($errors->first('nombre')) has-error has-feedback @endif">
 								{{ Form::label('nombre','Nombre') }}
-								{{ Form::text('nombre', $programacion->nombre, ['class'=>'form-control']) }}
+								{{ Form::select('nombre', $nombres, $programacion->id_internista, ['class'=>'form-control']) }}
 							</div>
 
 							<div class="form-group col-md-6 @if($errors->first('departamento')) has-error has-feedback @endif">

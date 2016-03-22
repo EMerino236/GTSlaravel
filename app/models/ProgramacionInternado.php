@@ -8,6 +8,11 @@ class ProgramacionInternado extends Eloquent{
 
 	protected $table = 'programaciones_internado';
 
+	public function internista()
+	{
+		return $this->belongsTo('Perfil', 'id_internista');
+	}
+
 	public function servicioClinico()
 	{
 		return $this->belongsTo('Servicio', 'id_servicio_clinico');
@@ -32,9 +37,9 @@ class ProgramacionInternado extends Eloquent{
 	{
 		$query->withTrashed();
 		
-		if($search_nombre != "")
+		if($search_nombre != 0)
 		{
-			$query->where('programaciones_internado.nombre','LIKE',"%$search_nombre%");
+			$query->where('programaciones_internado.id_internista','=', $search_nombre);
 		}
 
 		if($search_servicio_clinico != 0)

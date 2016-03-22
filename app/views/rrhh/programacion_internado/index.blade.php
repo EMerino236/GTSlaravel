@@ -17,7 +17,7 @@
 	    <div class="form-group row">
 			<div class="col-xs-4">
 				{{ Form::label('search_nombre','Nombre') }}
-				{{ Form::text('search_nombre',$search_nombre,array('class'=>'form-control','placeholder'=>'Nombre')) }}
+				{{ Form::select('search_nombre',[0=>"Seleccione"]+$nombres,$search_nombre,array('class'=>'form-control','placeholder'=>'Nombre')) }}
 			</div>
 			
 			<div class="col-xs-4">
@@ -92,7 +92,7 @@
 				<tr class="@if($reporte_data->deleted_at) bg-danger @endif">
 					<td>
 						<a href="{{route('programacion_internado.show',$reporte_data->id)}}">
-							{{$reporte_data->nombre}}
+							{{$reporte_data->internista->UserFullName}}
 						</a>
 					</td>
 					<td>{{$reporte_data->departamento->nombre}}</td>

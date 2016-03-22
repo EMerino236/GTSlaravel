@@ -14,8 +14,6 @@ class AddFkToProgramacionGuiaGpcTable extends Migration {
 	{
 		Schema::table('programacion_guia_gpc', function(Blueprint $table)
 		{
-			$table->foreign('iduser')->references('id')->on('users');
-			$table->foreign('id_tipo')->references('id')->on('subtipo_documentosinf');
 			$table->foreign('id_estado')->references('idestado_programacion_reportes')->on('estado_programacion_reportes');
 		});
 	}
@@ -29,8 +27,6 @@ class AddFkToProgramacionGuiaGpcTable extends Migration {
 	{
 		Schema::table('programacion_guia_gpc', function(Blueprint $table)
 		{
-			$table->dropForeign('programacion_guia_gpc_iduser_foreign');
-			$table->dropForeign('programacion_guia_gpc_id_tipo_foreign');
 			$table->dropForeign('programacion_guia_gpc_id_estado_foreign');
 		});
 	}
