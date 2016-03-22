@@ -51,10 +51,13 @@ class MaterialSesionController extends \BaseController {
 			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
 				|| $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12 && $id)
 			{
-				$data["material_sesion"] = MaterialSesion::getMaterialByIdSesion($id)->get()[0];
-				if($data["material_sesion"] == null)
+				$data["material_sesion"] = MaterialSesion::where('idsesion','=',$id)->get();			
+
+				if($data["material_sesion"]->isEmpty())
 					return Redirect::to('capacitacion/index');
 
+				$data["material_sesion"]= $data["material_sesion"][0];
+				
 				return View::make('rrhh/material_sesion/show',$data);
 			}
 			else
@@ -85,11 +88,13 @@ class MaterialSesionController extends \BaseController {
 			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4  || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7
 				|| $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12 && $id)
 			{
-				$data["material_sesion"] = MaterialSesion::getMaterialByIdSesion($id)->get()[0];
+				$data["material_sesion"] = MaterialSesion::where('idsesion','=',$id)->get();				
 
-				if($data["material_sesion"] == null)
+				if($data["material_sesion"]->isEmpty())
 					return Redirect::to('capacitacion/index');
 
+				$data["material_sesion"]= $data["material_sesion"][0];
+								
 				return View::make('rrhh/material_sesion/edit',$data);
 			}
 			else

@@ -11,9 +11,5 @@ class MaterialSesion extends Eloquent{
 	public function sesion()
 	{
 		return $this->belongsTo('Sesion','idsesion');
-	}
-
-	public function scopeGetMaterialByIdSesion($query,$idsesion){
-		return $query->where('materiales_sesion.idsesion','=',$idsesion);
-	}
+	}	
 }
