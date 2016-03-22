@@ -37,6 +37,18 @@ $( document ).ready(function(){
 		format: 'DD-MM-YYYY'
 	});
 
+	$("#datetimepicker_fecha_sesion").datetimepicker({
+		ignoreReadonly: true,
+		format: 'DD-MM-YYYY'
+	});
+
+
+	$("#datetimepicker_hora_inicio").datetimepicker({
+		ignoreReadonly: true,
+		format: 'HH:ss'
+	});
+
+
 });
 
 function deleteRow(event,el)

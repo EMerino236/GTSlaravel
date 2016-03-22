@@ -111,7 +111,7 @@
 					<div class="table-responsive">
 						<table class="table">
 							<tr class="info">				
-								<th class="text-nowrap text-center">N de Sesión°</th>
+								<th class="text-nowrap text-center">N</th>
 								<th class="text-nowrap text-center">Actividades</th>
 								<th class="text-nowrap text-center">Competencias</th>
 							</tr>
@@ -119,7 +119,9 @@
 							@foreach($sesiones_data as $index => $sesion)
 								<tr>
 									<td  class="text-nowrap text-center">
-										{{$sesion->numero_sesion}}
+										<a href="{{URL::to('/capacitacion/show_fecha_sesion/')}}/{{$sesion->id}}">
+										Sesión N° {{$sesion->numero_sesion}}</a>
+
 									</td>
 									<td  class="text-nowrap text-center">
 										<a class="btn btn-info btn-block btn-sm" href="{{URL::to('/capacitacion/show_actividades/')}}/{{$sesion->id}}">

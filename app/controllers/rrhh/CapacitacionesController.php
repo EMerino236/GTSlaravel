@@ -549,7 +549,7 @@ class CapacitacionesController extends \BaseController {
 					'departamento' => 'required',
 					'servicio_clinico' => 'required',
 					'tipo_documento' => 'required',
-					'numero_documento' => 'required|numeric'
+					'numero_documento' => 'required|numeric|unique:personal_capacitaciones,numero_documento,NULL,id,id_capacitacion,'.$id_capacitacion
 				);
 
 				
@@ -695,7 +695,6 @@ class CapacitacionesController extends \BaseController {
 				$data["user"]->idrol == 7 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 ||
 				$data["user"]->idrol == 12){
 
-				
 
 				$data["servicios"] = Servicio::lists('nombre','idservicio');
 				$data["sesion"] = Sesion::find($id);
@@ -891,6 +890,235 @@ class CapacitacionesController extends \BaseController {
 			return Response::json(array( 'success' => false ),200);
 		}
 	}
+
+	public function show_fecha_sesion($id=null){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+
+				$data["sesion"] = Sesion::find($id);
+				$data["capacitacion"] = Capacitacion::find($data["sesion"]->id_capacitacion);
+				return View::make('rrhh.sesiones_capacitaciones.showFechaSesion',$data);
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+	public function edit_fecha_sesion($id=null){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+
+				$data["sesion"] = Sesion::find($id);
+				$data["capacitacion"] = Capacitacion::find($data["sesion"]->id_capacitacion);
+				return View::make('rrhh.sesiones_capacitaciones.editFechaSesion',$data);
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+	public function update_fecha_sesion(){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$dimensiones = Dimension::all()->count();
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+				// Validate the info, create rules for the inputs	
+				$id_sesion = Input::get('id_sesion');
+
+				$rules = array(
+					'fecha' => 'required',
+					'hora_inicio' => 'required',
+				);
+
+				
+				// Run the validation rules on the inputs from the form
+				$validator = Validator::make(Input::all(), $rules);
+				// If the validator fails, redirect back to the form
+				if($validator->fails()){
+					return Redirect::to('capacitacion/edit_fecha_sesion/'.$id_sesion)->withErrors($validator)->withInput(Input::all());					
+				}else{
+						
+						$sesion = Sesion::find($id_sesion);
+						$capacitacion = Capacitacion::find($sesion->id_capacitacion);
+						$fecha_sesion = date('Y-m-d',strtotime(Input::get('fecha')));
+						if(($fecha_sesion<=$capacitacion->fecha_fin) && ($fecha_sesion >= $capacitacion->fecha_ini)){
+							$sesion->fecha = date('Y-m-d H:i:s',strtotime($fecha_sesion." ".Input::get('hora_inicio')));
+							$sesion->save();
+						}else{
+							Session::flash('error', 'La fecha de la sesión debe estar comprendido entre las fechas de inicio y fin de la capacitación.');
+							return Redirect::to('capacitacion/show_fecha_sesion/'.$id_sesion);
+						}			
+
+					Session::flash('message', 'Se edito correctamente la fecha de la sesión.');
+					return Redirect::to('capacitacion/show_fecha_sesion/'.$id_sesion);
+				}
+			}else{
+				return View::make('error/error',$data);
+			}
+
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+	public function show_info_personal($id=null){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 ||
+				$data["user"]->idrol == 7 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 ||
+				$data["user"]->idrol == 12){
+
+				$data["personal"] = PersonalCapacitacion::find($id); 
+				$data["id_capacitacion"] = $data["personal"]->id_capacitacion;
+				$data["personal"]->nombre_area = Servicio::find($data["personal"]->id_servicio)->departamento->nombre;
+				$data["personal"]->nombre_servicio = Servicio::find($data["personal"]->id_servicio)->nombre;
+				$data["personal"]->nombre_tipo_documento = TipoDocumento::find($data["personal"]->id_tipodocumento)->nombre;
+
+				return View::make('rrhh.personal_capacitaciones.showInfoPersonal',$data);
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+	public function edit_info_personal($id=null){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 ||
+				$data["user"]->idrol == 7 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 ||
+				$data["user"]->idrol == 12){
+
+				$data["personal"] = PersonalCapacitacion::find($id); 
+				$data["id_capacitacion"] = $data["personal"]->id_capacitacion;
+				$data["personal"]->id_departamento = Servicio::find($data["personal"]->id_servicio)->departamento->idarea;
+				$data["departamentos"] = Area::lists('nombre','idarea');
+				$data["servicios"] = Servicio::lists('nombre','idservicio');
+				$data["tipos_documentos"] = TipoDocumento::lists('nombre','idtipo_documento');
+				return View::make('rrhh.personal_capacitaciones.editInfoPersonal',$data);
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+	public function update_info_personal($id=null){
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$dimensiones = Dimension::all()->count();
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4){
+				// Validate the info, create rules for the inputs	
+				$id_personal = Input::get('id_personal');
+				$id_capacitacion = Input::get('id_capacitacion');
+
+				$rules = array(
+					'nombre' => 'required|alpha_spaces',
+					'apellidos' => 'required|alpha_spaces',
+					'departamento' => 'required',
+					'servicio_clinico' => 'required',
+					'tipo_documento' => 'required',
+					'numero_documento' => 'required|numeric|unique:personal_capacitaciones,numero_documento,'.$id_personal.',id,id_capacitacion,'.$id_capacitacion,
+					'sesiones_asistidas' => 'numeric'
+				);
+				
+				// Run the validation rules on the inputs from the form
+				$validator = Validator::make(Input::all(), $rules);
+				// If the validator fails, redirect back to the form
+				if($validator->fails()){
+					return Redirect::to('capacitacion/edit_info_personal/'.$id_personal)->withErrors($validator)->withInput(Input::all());					
+				}else{
+						
+						$personal = PersonalCapacitacion::find($id_personal);
+						$capacitacion = Capacitacion::find($personal->id_capacitacion);
+						$personal->nombre = Input::get('nombre');
+						$personal->apellidos = Input::get('apellidos');
+						$personal->id_servicio = Input::get('servicio_clinico');
+						$personal->id_tipodocumento = Input::get('tipo_documento');
+						$personal->numero_documento = Input::get('numero_documento');
+
+						$sesiones_asistidas = Input::get('sesiones_asistidas');
+						$numero_sesiones = Capacitacion::find($personal->id_capacitacion)->numero_sesiones;
+						if($sesiones_asistidas > $numero_sesiones){
+							Session::flash('error', 'La cantidad de sesiones asistidas excede del número de sesiones totales.');
+							return Redirect::to('capacitacion/edit_info_personal/'.$id_personal);
+						}
+						$personal->sesiones_asistidas = $sesiones_asistidas;
+
+						if (Input::hasFile('archivo')) {
+					        $archivo            = Input::file('archivo');
+					        $rutaDestino = 'uploads/documentos/rrhh/Capacitaciones/' . $capacitacion->codigo.'/Personal Asistente/'. $personal->apellidos.' '.$personal->nombre .'/Certificado/';
+					        $nombreArchivo        = $archivo->getClientOriginalName();
+					        $nombreArchivoEncriptado = Str::random(27).'.'.pathinfo($nombreArchivo, PATHINFO_EXTENSION);
+					        $uploadSuccess = $archivo->move($rutaDestino, $nombreArchivoEncriptado);
+					    	if(!$personal->nombre_archivo == null){				    	
+					    		$rutaArchivoEliminar = $personal->url.$personal->nombre_archivo_encriptado;
+						        if(File::exists($rutaArchivoEliminar))
+						            File::delete($rutaArchivoEliminar);
+					    	}
+					    	$personal->nombre_archivo = $nombreArchivo;
+							$personal->nombre_archivo_encriptado = $nombreArchivoEncriptado;
+							$personal->url = $rutaDestino;
+					    }
+
+						$personal->save();
+
+					Session::flash('message', 'Se edito correctamente la información del personal.');
+					return Redirect::to('capacitacion/show_info_personal/'.$id_personal);
+				}
+			}else{
+				return View::make('error/error',$data);
+			}
+
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
+	public function downloadCertificado ($idPersonal=null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			
+			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 
+			   || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8
+			   || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
+				$personal = PersonalCapacitacion::find($idPersonal);
+				$rutaDestino = $personal->url.$personal->nombre_archivo_encriptado;
+		        $headers = array(
+		              'Content-Type',mime_content_type($rutaDestino),
+		            );
+		        return Response::download($rutaDestino,basename($personal->nombre_archivo),$headers);
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
+
 }
 
 

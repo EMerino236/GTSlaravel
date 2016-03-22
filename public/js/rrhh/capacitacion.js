@@ -319,3 +319,10 @@ function eliminar_competencia(e,id_competencia){
 	        }
 	});
 }
+
+function showAdjuntarCertificado()
+{
+		$("#adjuntar_certificado").toggle();
+		$('#input-file').fileinput('clear');   
+	
+}
