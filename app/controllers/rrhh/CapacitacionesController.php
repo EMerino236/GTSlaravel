@@ -203,6 +203,10 @@ class CapacitacionesController extends \BaseController {
 							$sesion->numero_sesion = $i;
 							$sesion->id_capacitacion = $capacitacion->id;
 							$sesion->save();
+
+							$material_sesion = new MaterialSesion;
+							$material_sesion->idsesion = $sesion->id;
+							$material_sesion->save();
 						}
 
 						$details_nombre =Input::get('details_nombre');

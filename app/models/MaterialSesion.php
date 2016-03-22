@@ -8,4 +8,8 @@ class MaterialSesion extends Eloquent{
 
 	protected $table = 'materiales_sesion';	
 	
+	public function sesion()
+	{
+		return $this->belongsTo('Sesion','id');
+	}
 }
