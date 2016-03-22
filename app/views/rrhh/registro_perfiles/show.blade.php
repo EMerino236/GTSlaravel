@@ -233,7 +233,9 @@
 
 	<div class="row">
 		<div class="form-group col-md-2">
-			{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Editar', array('id'=>'submit-create','class' => 'btn btn-primary btn-block')) }}
+			<a href="{{route('registro_perfil.edit',$perfil->id)}}">
+				{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Editar', array('id'=>'submit-create','class' => 'btn btn-primary btn-block')) }}
+			</a>
 		</div>
 		<div class="form-group col-md-offset-8 col-md-2">
 			<a class="btn btn-default btn-block" href="{{route('registro_perfil.index')}}">Regresar</a>				

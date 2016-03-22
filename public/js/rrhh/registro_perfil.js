@@ -1,3 +1,11 @@
+function limpiar_criterios_reg_perfil()
+{
+    $("#search_rol").val(-1);
+    $("#search_dni").val('');
+    $("#search_nombre").val('');
+    $("#search_pais").val(0);
+}
+
 function agregarFormacionAcademica(){
     var grado = $("#fa_grado :selected");
     var nombre_grado = $("input[name=fa_nombre_grado]").val();

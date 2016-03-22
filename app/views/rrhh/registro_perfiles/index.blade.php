@@ -17,7 +17,7 @@
 	    <div class="form-group row">
 			<div class="form-group col-xs-4">
 				{{ Form::label('search_rol','Rol Institucional') }}
-				{{ Form::text('search_rol',$search_rol,array('class'=>'form-control','placeholder'=>'Nombre')) }}
+				{{ Form::select('search_rol',[-1=>"Seleccione"]+$roles,$search_rol,array('class'=>'form-control','placeholder'=>'Nombre')) }}
 			</div>
 			<div class="form-group col-xs-4">
 				{{ Form::label('search_dni','DNI') }}
@@ -30,6 +30,14 @@
 			<div class="form-group col-xs-4">
 				{{ Form::label('search_pais','Pais de Nacimiento') }}
 				{{ Form::select('search_pais',[0=>"Seleccione"]+$paises,$search_pais,array('class'=>'form-control')) }}
+			</div>
+		</div>
+		<div class="row">
+			<div class="form-group col-md-2 col-md-offset-8">
+				{{ Form::button('<span class="glyphicon glyphicon-search"></span> Filtrar', array('id'=>'submit-search-form','type' => 'submit', 'class' => 'btn btn-primary btn-block')) }}				
+			</div>
+			<div class="form-group col-md-2">
+				<div class="btn btn-default btn-block" id="btnLimpiar" onclick="limpiar_criterios_reg_perfil()">Limpiar</div>				
 			</div>
 		</div>
 	  </div>

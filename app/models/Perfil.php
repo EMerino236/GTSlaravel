@@ -43,4 +43,30 @@ class Perfil extends Eloquent{
 	    return $this->attributes['nombres'] .' '. $this->attributes['apellido_paterno'] . ' ' . $this->attributes['apellido_materno'];
 	}
 
+	public function scopeSearchReporte($query,$search_rol,$search_dni,$search_nombre,$search_pais)
+	{
+		$query->withTrashed();
+		
+		if($search_rol != -1)
+		{
+			$query->where('perfiles.id_rol','=',$search_rol);
+		}
+
+		if($search_dni != "")
+		{
+			$query->where('perfiles.dni','LIKE',"%$search_dni%");
+		}
+
+		if($search_nombre != "")
+		{
+			$query->where('perfiles.nombres','LIKE', "%$search_nombre%");
+		}
+
+		if($search_pais != 0)
+		{
+			$query->where('perfiles.id_pais_nacimiento', '=' ,$search_pais);
+		}
+		
+		return $query;
+	}
 }

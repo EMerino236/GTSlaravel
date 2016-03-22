@@ -1311,4 +1311,17 @@ Route::group(array('prefix'=>'registro_perfil','before'=>'auth'),function(){
 	Route::post('/edit/{id}',['uses'=>'RegistroPerfilController@update','as'=>'registro_perfil.update']);
 	Route::get('/download/{id}',['uses'=>'RegistroPerfilController@download','as'=>'registro_perfil.download']);
 	Route::get('/formacion/download/{id}',['uses'=>'RegistroPerfilController@downloadFormacion','as'=>'registro_perfil.downloadFormacion']);
+
+	Route::get('/academica/edit/{id}',['uses'=>'RegistroPerfilController@editAcademica','as'=>'registro_perfil.academica.edit']);
+	Route::post('/academica/edit/{id}',['uses'=>'RegistroPerfilController@updateAcademica','as'=>'registro_perfil.academica.update']);
+	Route::get('/academica/delete/{id}',['uses'=>'RegistroPerfilController@destroyAcademica','as'=>'registro_perfil.academica.destroy']);
+
+	Route::get('/continua/edit/{id}',['uses'=>'RegistroPerfilController@editContinua','as'=>'registro_perfil.continua.edit']);
+	Route::post('/continua/edit/{id}',['uses'=>'RegistroPerfilController@updateContinua','as'=>'registro_perfil.continua.update']);
+	Route::get('/continua/delete/{id}',['uses'=>'RegistroPerfilController@destroyContinua','as'=>'registro_perfil.continua.destroy']);
+
+	Route::get('/idioma/edit/{id}',['uses'=>'RegistroPerfilController@editIdioma','as'=>'registro_perfil.idioma.edit']);
+	Route::post('/idioma/edit/{id}',['uses'=>'RegistroPerfilController@updateIdioma','as'=>'registro_perfil.idioma.update']);
+	Route::get('/idioma/delete/{id}',['uses'=>'RegistroPerfilController@destroyIdioma','as'=>'registro_perfil.idioma.destroy']);
+
 });

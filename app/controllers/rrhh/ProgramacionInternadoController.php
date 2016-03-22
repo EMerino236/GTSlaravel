@@ -337,7 +337,7 @@ class ProgramacionInternadoController extends \BaseController {
 				}else{
 
 					$programacion_internado = ProgramacionInternado::find($id);
-					$programacion_internado->nombre = Input::get('nombre');
+					$programacion_internado->id_internista = Input::get('nombre');
 					$programacion_internado->id_departamento = Input::get('departamento');
 					$programacion_internado->id_servicio_clinico = Input::get('servicio_clinico');
 					$programacion_internado->id_responsable = Input::get('responsable');
