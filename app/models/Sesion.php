@@ -11,5 +11,7 @@ class Sesion extends Eloquent{
 	public function scopeGetSesionesByIdCapacitacion($query,$id_capacitacion){
 		$query->where('id_capacitacion','=',$id_capacitacion);
 	}
+
+
 	
 }
