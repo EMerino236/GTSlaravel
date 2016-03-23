@@ -128,7 +128,7 @@ class IpersController extends BaseController
 				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
-					return Redirect::to('ipers/submit_create_iper/'.$tipo)->withErrors($validator)->withInput(Input::all());
+					return Redirect::to('ipers/create_iper/'.$tipo)->withErrors($validator)->withInput(Input::all());
 				}else{
 				   
 				    $iper = new Iper;
