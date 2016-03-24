@@ -105,15 +105,17 @@
 	  	<div class="panel-heading">
 	  		Sesiones
 	  	</div>
+	  	{{Form::hidden('idcapacitacion',$capacitacion->id)}}
 	  	<div class="panel-body">	
 	  		<div class="row">
-		    	<div class="col-md-6 col-md-offset-3">
+		    	<div class="col-md-8 col-md-offset-2">
 					<div class="table-responsive">
 						<table class="table">
 							<tr class="info">				
 								<th class="text-nowrap text-center">N</th>
 								<th class="text-nowrap text-center">Actividades</th>
 								<th class="text-nowrap text-center">Competencias</th>
+								<th class="text-nowrap text-center">Materiales</th>
 							</tr>
 
 							@foreach($sesiones_data as $index => $sesion)
@@ -121,7 +123,6 @@
 									<td  class="text-nowrap text-center">
 										<a href="{{URL::to('/capacitacion/show_fecha_sesion/')}}/{{$sesion->id}}">
 										Sesión N° {{$sesion->numero_sesion}}</a>
-
 									</td>
 									<td  class="text-nowrap text-center">
 										<a class="btn btn-info btn-block btn-sm" href="{{URL::to('/capacitacion/show_actividades/')}}/{{$sesion->id}}">
@@ -129,6 +130,10 @@
 									</td>
 									<td  class="text-nowrap text-center">
 										<a class="btn btn-info btn-block btn-sm" href="{{URL::to('/capacitacion/show_competencias/')}}/{{$sesion->id}}">
+											<span class="glyphicon glyphicon-eye-open"></span> Visualizar</a>
+									</td>
+									<td  class="text-nowrap text-center">
+										<a class="btn btn-info btn-block btn-sm" href="{{route('material.show',$sesion->id)}}">
 											<span class="glyphicon glyphicon-eye-open"></span> Visualizar</a>
 									</td>
 								</tr>	

@@ -1063,12 +1063,18 @@ Route::group(array('prefix'=>'capacitacion', 'before'=>'auth'),function(){
 	Route::get('/edit_info_personal/{id}',['uses'=>'CapacitacionesController@edit_info_personal','as'=>'capacitacion.edit_info_personal']);
 	Route::post('/edit_info_personal/{id}',['uses'=>'CapacitacionesController@update_info_personal','as'=>'capacitacion.update_info_personal']);
 	Route::get('/downloadCertificado/{id}',['uses'=>'CapacitacionesController@downloadCertificado','as'=>'capacitacion.downloadCertificado']);
+	Route::get('/edit_actividad/{id}',['uses'=>'CapacitacionesController@edit_actividad','as'=>'capacitacion.editActividad']);
+	Route::post('/edit_actividad/{id}',['uses'=>'CapacitacionesController@update_actividad','as'=>'capacitacion.update_actividad']);
+	Route::get('/edit_competencia/{id}',['uses'=>'CapacitacionesController@edit_competencia','as'=>'capacitacion.editCompetencia']);
+	Route::post('/edit_competencia/{id}',['uses'=>'CapacitacionesController@update_competencia','as'=>'capacitacion.update_competencia']);
+	
+
 });
 
 /* Materiales Sesion*/
 Route::group(array('prefix' => 'material', 'before' => 'auth'),function(){
-	Route::get('/create',['uses' => 'MaterialSesionController@create', 'as' => 'material.create']);
-	Route::post('/store',['uses' => 'MaterialSesionController@store', 'as' => 'material.store']);
+	//Route::get('/create',['uses' => 'MaterialSesionController@create', 'as' => 'material.create']);
+	//Route::post('/store',['uses' => 'MaterialSesionController@store', 'as' => 'material.store']);
 	Route::get('/show/{id}',['uses'=>'MaterialSesionController@show','as'=>'material.show']);
 	Route::get('/edit/{id}',['uses' => 'MaterialSesionController@edit', 'as' => 'material.edit']);
 	Route::post('/edit/{id}',['uses' => 'MaterialSesionController@update', 'as' => 'material.update']);

@@ -32,7 +32,7 @@
 		</div>
 	@endif
 
-	{{ Form::open(array('route'=>'material.store', 'role'=>'form')) }}
+	{{ Form::open(array('route'=>array('material.update',$material_sesion->id), 'role'=>'form')) }}
 	{{ Form::hidden('idcapacitacion')}}	
 	{{ Form::hidden('idsesion')}}	
 	<div class="panel panel-default">
@@ -41,37 +41,37 @@
 				<div class="form-group row">
 					<div class="col-md-12 @if($errors->first('infraestructura')) has-error has-feedback @endif">
 						{{ Form::label('infraestructura','Infraestructura (MAX:500 Caracteres)') }}<span style='color:red'>*</span>
-						{{ Form::textarea('infraestructura',Input::old('infraestructura'),['class' => 'form-control','maxlength'=>'500','style'=>'resize:none'])}}						
+						{{ Form::textarea('infraestructura',$material_sesion->infraestructura,['class' => 'form-control','maxlength'=>'500','style'=>'resize:none'])}}						
 					</div>								
 				</div>
 				<div class="form-group row">
 					<div class="col-md-12 @if($errors->first('equipo')) has-error has-feedback @endif">
 						{{ Form::label('equipo','Equipos (MAX:500 Caracteres)') }}<span style='color:red'>*</span>
-						{{ Form::textarea('equipo',Input::old('equipo'),['class' => 'form-control','maxlength'=>'500','style'=>'resize:none'])}}						
+						{{ Form::textarea('equipo',$material_sesion->equipos,['class' => 'form-control','maxlength'=>'500','style'=>'resize:none'])}}						
 					</div>
 				</div>
 				<div class="form-group row">
 					<div class="col-md-12 @if($errors->first('herramienta')) has-error has-feedback @endif">
 						{{ Form::label('herramienta','Herramientas (MAX:500 Caracteres)') }}<span style='color:red'>*</span>
-						{{ Form::textarea('herramienta',Input::old('herramienta'),['class' => 'form-control','maxlength'=>'500','style'=>'resize:none'])}}						
+						{{ Form::textarea('herramienta',$material_sesion->herramientas,['class' => 'form-control','maxlength'=>'500','style'=>'resize:none'])}}						
 					</div>
 				</div>
 				<div class="form-group row">						
 					<div class="col-md-12 @if($errors->first('insumo')) has-error has-feedback @endif">
-						{{ Form::label('insumo','Insumos (MAX:500 Caracteres)') }}
-						{{ Form::textarea('insumo',Input::old('insumo'),['class' => 'form-control','maxlength'=>'500','style'=>'resize:none'])}}
+						{{ Form::label('insumo','Insumos (MAX:500 Caracteres)') }}<span style='color:red'>*</span>
+						{{ Form::textarea('insumo',$material_sesion->insumos,['class' => 'form-control','maxlength'=>'500','style'=>'resize:none'])}}
 					</div>
 				</div>				
 				<div class="form-group row">						
 					<div class="col-md-12 @if($errors->first('equipo_personal')) has-error has-feedback @endif">
-						{{ Form::label('equipo_personal','Equipo Personal (MAX:500 Caracteres)') }}
-						{{ Form::textarea('equipo_personal',Input::old('equipo_personal'),['class' => 'form-control','maxlength'=>'500','style'=>'resize:none'])}}
+						{{ Form::label('equipo_personal','Equipo Personal (MAX:500 Caracteres)') }}<span style='color:red'>*</span>
+						{{ Form::textarea('equipo_personal',$material_sesion->equipopersonal,['class' => 'form-control','maxlength'=>'500','style'=>'resize:none'])}}
 					</div>
 				</div>
 				<div class="form-group row">						
 					<div class="col-md-12 @if($errors->first('condicion_seguridad')) has-error has-feedback @endif">
-						{{ Form::label('condicion_seguridad','Condiciones de Seguridad (MAX:500 Caracteres)') }}
-						{{ Form::textarea('condicion_seguridad',Input::old('condicion_seguridad'),['class' => 'form-control','maxlength'=>'500','style'=>'resize:none'])}}
+						{{ Form::label('condicion_seguridad','Condiciones de Seguridad (MAX:500 Caracteres)') }}<span style='color:red'>*</span>
+						{{ Form::textarea('condicion_seguridad',$material_sesion->condicionesseguridad,['class' => 'form-control','maxlength'=>'500','style'=>'resize:none'])}}
 					</div>
 				</div>								
 			</div>
@@ -79,10 +79,10 @@
 		
 		<div class="container-fluid row">
 			<div class="form-group col-md-2 col-md-offset-8">				
-				{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Crear', array('id'=>'submit-create', 'type' => 'submit', 'class' => 'btn btn-primary btn-block', 'style' => 'width:145px')) }}
+				{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Guardar', array('id'=>'submit-create', 'type' => 'submit', 'class' => 'btn btn-primary btn-block', 'style' => 'width:145px')) }}
 			</div>
 			<div class="form-group col-md-2">
-				<a class="btn btn-default btn-block" style="width:145px" href="{{route('capacitacion.index')}}">Cancelar</a>				
+				<a class="btn btn-default btn-block" style="width:145px" href="{{route('material.show',$material_sesion->idsesion)}}">Cancelar</a>				
 			</div>
 		</div>
 		{{ Form::close() }}	
