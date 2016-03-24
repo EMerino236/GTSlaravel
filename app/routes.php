@@ -1342,3 +1342,16 @@ Route::group(array('prefix'=>'registro_perfil','before'=>'auth'),function(){
 	Route::get('/idioma/delete/{id}',['uses'=>'RegistroPerfilController@destroyIdioma','as'=>'registro_perfil.idioma.destroy']);
 
 });
+
+/* Programacion Docentes */
+Route::group(array('prefix'=>'programacion_docente','before'=>'auth'),function(){
+	Route::get('/index',['uses'=>'ProgramacionDocenteController@index','as'=>'programacion_docente.index']);
+	Route::get('/search',['uses'=>'ProgramacionDocenteController@search','as'=>'programacion_docente.search']);
+	Route::get('/create',['uses'=>'ProgramacionDocenteController@create','as'=>'programacion_docente.create']);
+	Route::post('/create',['uses'=>'ProgramacionDocenteController@store','as'=>'programacion_docente.store']);
+	Route::get('/show/{id}',['uses'=>'ProgramacionDocenteController@show','as'=>'programacion_docente.show']);
+	Route::get('/edit/{id}',['uses'=>'ProgramacionDocenteController@edit','as'=>'programacion_docente.edit']);
+	Route::post('/edit/{id}',['uses'=>'ProgramacionDocenteController@update','as'=>'programacion_docente.update']);
+
+	Route::post('/validaCapacitacionAjax',['uses'=>'ProgramacionDocenteController@getNumeroInternadosAjax','as'=>'programacion_docente.validaCapacitacion.ajax']);
+});
