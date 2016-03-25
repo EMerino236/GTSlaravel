@@ -12,6 +12,9 @@ class Sesion extends Eloquent{
 		$query->where('id_capacitacion','=',$id_capacitacion);
 	}
 
+	public function getSesionNumeroAttribute()
+	{
+	    return $this->attributes['numero_sesion'] .' - '. $this->attributes['fecha'];
+	}
 
-	
 }

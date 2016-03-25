@@ -33,6 +33,11 @@ class Capacitacion extends Eloquent{
 		return $this->belongsTo('RHModalidad', 'id_modalidad');	
 	}
 
+	public function sesiones()
+	{
+		return $this->hasMany('Sesion', 'id_capacitacion');	
+	}
+
 	public function scopeSearchReporte($query,$search_nombre,$search_responsable,$search_departamento,$search_servicio_clinico,$search_fecha_ini,$search_fecha_fin)
 	{
 		$query->withTrashed();

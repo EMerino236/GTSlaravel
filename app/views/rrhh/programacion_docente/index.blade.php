@@ -91,13 +91,13 @@
 				</tr>
 				@foreach($reportes_data as $reporte_data)
 				<tr class="@if($reporte_data->deleted_at) bg-danger @endif">
-					<td>{{$reporte_data->id}}</td>
-					<td>WIP</td>
-					<td>WIP</td>
+					<td>{{$reporte_data->sesion->numero_sesion}}</td>
+					<td>{{$reporte_data->capacitacion->codigo}}</td>
+					<td>{{$reporte_data->capacitacion->nombre}}</td>
 					<td>{{$reporte_data->responsable->UserFullName}}</td>
 					<td>{{$reporte_data->departamento->nombre}}</td>
 					<td>{{$reporte_data->servicioClinico->nombre}}</td>
-					<td>{{$reporte_data->fecha_ini}}</td>
+					<td>{{$reporte_data->fecha}}</td>
 					<td class="text-nowrap text-center">
 						<a class="btn-under" href="{{route('programacion_docente.show',$reporte_data->id)}}">
 							{{ Form::button('<span class="glyphicon glyphicon-search"></span> Ver', ['class' => 'btn btn-success btn-block']) }}

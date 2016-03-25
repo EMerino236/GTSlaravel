@@ -1359,5 +1359,5 @@ Route::group(array('prefix'=>'programacion_docente','before'=>'auth'),function()
 	Route::get('/edit/{id}',['uses'=>'ProgramacionDocenteController@edit','as'=>'programacion_docente.edit']);
 	Route::post('/edit/{id}',['uses'=>'ProgramacionDocenteController@update','as'=>'programacion_docente.update']);
 
-	Route::post('/validaCapacitacionAjax',['uses'=>'ProgramacionDocenteController@getNumeroInternadosAjax','as'=>'programacion_docente.validaCapacitacion.ajax']);
+	Route::post('/validarCapacitacionAjax',['uses'=>'ProgramacionDocenteController@validarCapacitacionAjax','as'=>'programacion_docente.validarCapacitacion.ajax']);
 });

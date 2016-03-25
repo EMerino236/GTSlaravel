@@ -2,7 +2,7 @@
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Agregar Programacion de docente para capacitación</h3>
+            <h3 class="page-header">Editar Programacion de docente para capacitación</h3>
         </div>
     </div>
 
@@ -22,50 +22,38 @@
 		<div class="alert alert-danger">{{ Session::get('error') }}</div>
 	@endif
 	
-	{{ Form::open(array('route'=>'programacion_docente.store', 'role'=>'form','id'=>'form')) }}
+	{{ Form::open(array('route'=>['programacion_docente.update',$programacion->id], 'role'=>'form','id'=>'form')) }}
 	    <div class="row">
 	    	<div class="col-md-8">
 				<div class="panel panel-default">
 				  	<div class="panel-heading">Datos de la Programación</div>
 				  	<div class="panel-body">	
 						<div class="row">
-							<div class="form-group col-md-6">
-								{{ Form::label('id_capacitacion','Código de capacitación') }}
-								{{ Form::number('id_capacitacion', Input::old('id_capacitacion'), ['class'=>'form-control','min'=>1]) }}
-							</div>
-
-							<div class="form-group col-md-2">
-								{{ Form::label('','&zwnj;&zwnj;') }}
-								{{ Form::button('<span class="glyphicon glyphicon-check"></span> Validar', array('class' => 'btn btn-default btn-primary','onClick'=>'validarCapacitacion()')) }}			
-							</div>
-						</div>
-
-						<div class="row">
 							<div class="form-group col-md-6 @if($errors->first('nombre')) has-error has-feedback @endif">
 								{{ Form::label('nombre','Nombre de capacitación') }}
-								{{ Form::text('nombre', Input::old('nombre'),['id'=>'nombre','class'=>'form-control'])}}
+								{{ Form::text('nombre', $programacion->nombre,['id'=>'nombre','class'=>'form-control'])}}
 							</div>
 
 							<div class="form-group col-md-6 @if($errors->first('departamento')) has-error has-feedback @endif">
 								{{ Form::label('departamento','Departamento') }}
-								{{ Form::select('departamento', $departamentos, Input::old('departamento'), ['id'=>'departamento','class'=>'form-control','onChange'=>'getServicios(this)']) }}
+								{{ Form::select('departamento', $departamentos, $programacion->id_departamento, ['id'=>'departamento','class'=>'form-control','onChange'=>'getServicios(this)']) }}
 							</div>
 
 							<div class="form-group col-md-6 @if($errors->first('servicio_clinico')) has-error has-feedback @endif">
 								{{ Form::label('servicio_clinico','Servicio Clínico') }}
-								{{ Form::select('servicio_clinico', $servicios, Input::old('servicio_clinico'), ['id'=>'servicio_clinico','class'=>'form-control']) }}
+								{{ Form::select('servicio_clinico', $servicios, $programacion->id_servicio_clinico, ['id'=>'servicio_clinico','class'=>'form-control']) }}
 							</div>
 
 							<div class="form-group col-md-6 @if($errors->first('numero_sesion')) has-error has-feedback @endif">
 								{{ Form::label('numero_sesion','N° Sesión') }}
-								{{ Form::select('numero_sesion', [], Input::old('numero_sesion'),['id'=>'numero_sesion','class'=>'form-control'])}}
+								{{ Form::select('numero_sesion', $sesiones, $programacion->id_sesion,['id'=>'numero_sesion','class'=>'form-control'])}}
 							</div>
 						</div>
 
 						<div class="row">
 							<div class="form-group col-md-6 @if($errors->first('responsable')) has-error has-feedback @endif">
 								{{ Form::label('responsable','Responsable') }}
-								{{ Form::select('responsable',$nombres, Input::old('responsable'),['id'=>'responsable','class'=>'form-control'])}}
+								{{ Form::select('responsable',$nombres, $programacion->id_responsable,['id'=>'responsable','class'=>'form-control'])}}
 							</div>
 						</div>
 				    </div>				    
@@ -105,10 +93,10 @@
 
 		<div class="row">
 			<div class="form-group col-md-2">
-				{{ Form::button('<span class="glyphicon glyphicon-plus"></span> Crear', array('type'=>'submit', 'class' => 'btn btn-primary btn-block')) }}
+				{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Editar', array('type'=>'submit', 'class' => 'btn btn-primary btn-block')) }}
 			</div>
 			<div class="form-group col-md-2 col-md-offset-8">
-				<a class="btn btn-default btn-block" href="{{route('programacion_docente.index')}}">Cancelar</a>				
+				<a class="btn btn-default btn-block" href="{{route('programacion_docente.show',$programacion->id)}}">Cancelar</a>				
 			</div>
 		</div>
 	{{ Form::close()}}
