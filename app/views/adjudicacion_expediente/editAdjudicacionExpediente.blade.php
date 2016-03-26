@@ -9,8 +9,7 @@
 
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
-			<p><strong>{{ $errors->first('idproveedor_ganador') }}</strong></p>
-			<p><strong>{{ $errors->first('precio_ganador') }}</strong></p>
+			<p><strong>{{ $errors->first('idoferta_ganador') }}</strong></p>
 			<p><strong>{{ $errors->first('archivo_contrato') }}</strong></p>
 			<p><strong>{{ $errors->first('archivo_adicional') }}</strong></p>
 		</div>
@@ -41,7 +40,7 @@
 					</div>
 					<div class="form-group col-md-4 @if($errors->first('nombre_equipo')) has-error has-feedback @endif">
 						{{ Form::label('nombre_equipo','Nombre de Equipo') }}
-						@if($expediente_tecnico_data->nombre_equipo != 0)
+						@if($expediente_tecnico_data->nombre_equipo != '')
 							{{ Form::text('nombre_equipo',$expediente_tecnico_data->nombre_equipo,['disabled'=>'','class' => 'form-control']) }}
 						@else
 							{{ Form::text('nombre_equipo',$expediente_tecnico_data->otros_equipos,['disabled'=>'','class' => 'form-control']) }}
@@ -61,25 +60,18 @@
 				<h3 class="panel-title">Datos de la Adjudicación y Contrato Firmado</h3>
 			</div>
 			<div class="panel-body">
+				{{ Form::label('nombre_doc_relacionado','Seleccione Oferta ganadora:') }}<span style='color:red'>*</span>
+				{{ Form::hidden('idoferta_ganador',$expediente_tecnico_data->idoferta_ganador)}}
 				<div class="row">
-					<div class="form-group col-md-4 @if($errors->first('idproveedor_ganador')) has-error has-feedback @endif">
-						{{ Form::label('idproveedor_ganador','Proveedor') }}<span style='color:red'>*</span>						
-						{{ Form::hidden('proveedor_selected',$expediente_tecnico_data->idproveedor_ganador)}}
-						<select name="idproveedor_ganador" class="form-control">
-							<option value="">Seleccione</option>  
-						    <?php foreach($proveedores as $proveedor){ ?>
-			                    <option value="<?php echo $proveedor['idproveedor']; ?>" <?php if(Input::old("idproveedor_ganador") == $proveedor['idproveedor']){echo("selected");} elseif( $expediente_tecnico_data['idproveedor_ganador'] == $proveedor['idproveedor']){echo("selected");}?>><?php echo $proveedor['nombre_proveedor']; ?></option> 
-						    <?php } ?>						   
-    					</select>	
-					</div>
-					<div class="form-group col-md-4 @if($errors->first('precio_ganador')) has-error has-feedback @endif">
-						{{ Form::label('precio_ganador','Precio (S/.)') }}<span style='color:red'>*</span>
-						@if($expediente_tecnico_data->precio_ganador != '')
-							{{ Form::text('precio_ganador',$expediente_tecnico_data->precio_ganador,['Placeholder'=>'Precio','class' => 'form-control']) }}
-						@else
-							{{ Form::text('precio_ganador',Input::old('precio_ganador'),['Placeholder'=>'Precio','class' => 'form-control']) }}
-						@endif
-					</div>
+					@foreach($ofertas as $oferta)
+						<div class="form-group col-md-12 radio" id="radio_options">
+						 	<label><input type="radio" onclick="handleClick(this)" name="optradio" value="<?php echo $oferta->idoferta_expediente; ?>" <?php if($expediente_tecnico_data->idoferta_ganador == $oferta->idoferta_expediente){echo("checked");} ?>>
+							  	Oferta {{$oferta->correlativo_por_expediente}}
+							  	<br>Proveedor: {{$oferta->nombre_proveedor}}
+							  	<br>Precio: S/. {{$oferta->precio}}
+					  	 	</label>
+						</div>
+					@endforeach
 				</div>
 				<div class="row">
 					<div class="form-group col-md-4">

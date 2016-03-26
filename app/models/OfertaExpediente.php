@@ -72,14 +72,14 @@ class OfertaExpediente extends Eloquent{
 	  	return $query;
 	}
 
-	public function scopeSearchProveedorOfertaByNumeroExpediente($query,$expediente_tecnico)
+	public function scopeSearchOfertasByNumeroExpediente($query,$expediente_tecnico)
 	{
 		$query->withTrashed()
 			  ->join('expediente_tecnico','expediente_tecnico.idexpediente_tecnico','=','oferta_expediente.idexpediente_tecnico')			  
 			  ->join('proveedores','proveedores.idproveedor','=','oferta_expediente.idproveedor')
 			  ->where('oferta_expediente.idexpediente_tecnico','=',$expediente_tecnico)
 			  ->select('proveedores.razon_social as nombre_proveedor','oferta_expediente.*')
-			  ->orderBy('nombre_proveedor','asc');
+			  ->orderBy('correlativo_por_expediente','asc');
 	  	return $query;
 	}
 }

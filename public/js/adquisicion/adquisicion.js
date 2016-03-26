@@ -1,5 +1,4 @@
 $( document ).ready(function(){
-    //$('#idproveedor_ganador').val($('input[name=proveedor_selected]').val());
 
  	$('#search_datetimepicker1').datetimepicker({
         ignoreReadonly: true,
@@ -234,6 +233,9 @@ $( document ).ready(function(){
                     }
         });
     });
+
+    
+
 });
 
 function llenar_nombre_responsable(){
@@ -424,4 +426,10 @@ function limpiar_nombre_miembro_comite(tipo_miembro){
     $("#nombre_"+tipo_miembro_usuario).val('');
     $("#nombre_"+tipo_miembro_usuario).css('background-color','#eee');
     $('input[name=id'+tipo_miembro_usuario+']').val('');
+}
+
+var currentValue = 0;
+function handleClick(myRadio) {
+    currentValue = myRadio.value;
+    $('input[name=idoferta_ganador]').val(currentValue);
 }

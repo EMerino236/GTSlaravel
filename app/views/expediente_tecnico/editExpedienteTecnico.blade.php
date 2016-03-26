@@ -57,7 +57,7 @@
 				</div>
 				<div class="form-group col-md-4 @if($errors->first('nombre_equipo')) has-error has-feedback @endif">
 					{{ Form::label('nombre_equipo','Nombre de Equipo') }}
-					@if($expediente_tecnico_info->nombre_equipo != 0)
+					@if($expediente_tecnico_info->nombre_equipo != '')
 						{{ Form::text('nombre_equipo',$expediente_tecnico_info->nombre_equipo,['disabled'=>'','class' => 'form-control']) }}
 					@else
 						{{ Form::text('nombre_equipo',$expediente_tecnico_info->otros_equipos,['disabled'=>'','class' => 'form-control']) }}
@@ -532,13 +532,13 @@
 					</div>
 					<div class="panel-body">
 						<div class="row">
-							<div class="form-group col-md-4 @if($errors->first('idproveedor_ganador')) has-error has-feedback @endif">
+							<div class="form-group col-md-6 @if($errors->first('idproveedor_ganador')) has-error has-feedback @endif">
 								{{ Form::label('idproveedor_ganador','Proveedor') }}						
 								{{ Form::text('idproveedor_ganador',$expediente_tecnico_info->nombre_proveedor,['disabled' => '','class' => 'form-control']) }}
 							</div>
 							<div class="form-group col-md-4 @if($errors->first('precio_ganador')) has-error has-feedback @endif">
 								{{ Form::label('precio_ganador','Precio (S/.)') }}
-								{{ Form::text('precio_ganador',$expediente_tecnico_info->precio_ganador,['disabled' => '','class' => 'form-control']) }}								
+								{{ Form::text('precio_ganador',$expediente_tecnico_info->precio,['disabled' => '','class' => 'form-control']) }}								
 							</div>
 						</div>
 						<div class="row">
