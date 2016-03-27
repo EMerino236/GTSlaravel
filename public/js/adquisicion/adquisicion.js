@@ -197,7 +197,7 @@ $( document ).ready(function(){
         e.preventDefault();
         BootstrapDialog.confirm({
                 title: 'Mensaje de Confirmación',
-                message: '¿Está seguro que desea realizar esta acción? No se podrá agregar mas evaluaciones de oferta posteriormente.', 
+                message: '¿Está seguro que desea realizar esta acción? No se podrá agregar más evaluaciones de oferta posteriormente.', 
                 type: BootstrapDialog.TYPE_INFO,
                 btnCancelLabel: 'Cancelar', 
                 btnOKLabel: 'Aceptar', 
@@ -216,11 +216,60 @@ $( document ).ready(function(){
                                     //$(this).prop('disabled',false);
                                 },
                                 success: function(response){
-                                    if(response.success){
+                                    if(response.success){                                        
                                         BootstrapDialog.alert({
                                             title: 'Mensaje de confirmación',
                                             message: 'Se ha finalizado correctamente la evaluación de Ofertas para este Expediente Técnico.',
+                                            callback: function(result){
+                                                if(result)
+                                                    location.reload();
+                                            }
                                         })
+                                    }else{
+                                        alert('La petición no se pudo completar, inténtelo de nuevo1.');
+                                    }
+                                },
+                                error: function(){
+                                    alert('La petición no se pudo completar, inténtelo de nuevo2.');
+                                }
+                            });
+                        }
+                    }
+        });
+    });
+
+    $("#submit_reabrir_evaluacion_ofertas").click(function(e){
+        e.preventDefault();
+        BootstrapDialog.confirm({
+                title: 'Mensaje de Confirmación',
+                message: '¿Está seguro que desea realizar esta acción? Se podrá agregar más evaluaciones de oferta posteriormente.', 
+                type: BootstrapDialog.TYPE_INFO,
+                btnCancelLabel: 'Cancelar', 
+                btnOKLabel: 'Aceptar', 
+                    callback: function(result){
+                        if(result){
+                            $.ajax({
+                                url: inside_url+'oferta_evaluada_expediente/submit_reabrir_evaluacion',
+                                type: 'POST',
+                                data: { 
+                                    'idexpediente_tecnico' : $("input[name=idexpediente_tecnico]").val(),
+                                },
+                                beforeSend: function(){
+                                    //$(this).prop('disabled',true);
+                                },
+                                complete: function(){
+                                    //$(this).prop('disabled',false);
+                                },
+                                success: function(response){
+                                    if(response.success){                                        
+                                        BootstrapDialog.alert({
+                                            title: 'Mensaje de confirmación',
+                                            message: 'Se ha reabierto correctamente la evaluación de Ofertas para este Expediente Técnico.',
+                                            callback: function(result){
+                                                if(result)
+                                                    location.reload();
+                                            }
+                                        })                                        
                                     }else{
                                         alert('La petición no se pudo completar, inténtelo de nuevo1.');
                                     }

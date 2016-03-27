@@ -909,6 +909,7 @@ Route::group(array('prefix'=>'oferta_evaluada_expediente', 'before'=>'auth'),fun
 	Route::get('/view_oferta_evaluada_expediente/{idoferta_evaluada_expediente}','OfertaEvaluadaExpedienteController@render_view_oferta_evaluada_expediente');	
 	Route::get('/download/{id}','OfertaEvaluadaExpedienteController@download');
 	Route::post('/submit_finalizar_evaluacion','OfertaEvaluadaExpedienteController@submit_finalizar_evaluacion');
+	Route::post('/submit_reabrir_evaluacion','OfertaEvaluadaExpedienteController@submit_reabrir_evaluacion');
 });
 
 Route::group(array('prefix'=>'adjudicacion_expediente', 'before'=>'auth'),function(){

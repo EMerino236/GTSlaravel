@@ -90,9 +90,14 @@
 			</div>
 		</div>
 		<div class="row">
-			@if($user->id == $expediente_tecnico_data->idpresidente )
+			@if($user->id == $expediente_tecnico_data->idpresidente && $expediente_tecnico_data->estado_evaluacion_ofertas_finalizada == 0)
 				<div class="form-group col-md-6">
-					{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Finalizar Evaluación de Ofertas', array('id'=>'submit_finalizar_evaluacion_ofertas', 'type'=>'submit','class' => 'btn btn-primary btn-block')) }}
+					{{ Form::button('<span class="glyphicon glyphicon-check"></span> Finalizar Evaluación de Ofertas', array('id'=>'submit_finalizar_evaluacion_ofertas', 'type'=>'submit','class' => 'btn btn-danger btn-block')) }}
+				</div>
+			@endif
+			@if($user->id == $expediente_tecnico_data->idpresidente && $expediente_tecnico_data->estado_evaluacion_ofertas_finalizada == 1)
+				<div class="form-group col-md-6">
+					{{ Form::button('<span class="glyphicon glyphicon-edit"></span> Reabrir Evaluación de Ofertas', array('id'=>'submit_reabrir_evaluacion_ofertas', 'type'=>'submit','class' => 'btn btn-success btn-block')) }}
 				</div>
 			@endif
 		</div>	

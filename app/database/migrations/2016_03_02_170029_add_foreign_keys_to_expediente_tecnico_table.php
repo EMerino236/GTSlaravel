@@ -21,7 +21,6 @@ class AddForeignKeysToExpedienteTecnicoTable extends Migration {
 			$table->foreign('idmiembro2','fk_expediente_tecnico_users3_idx')->references('id')->on('users');
 			$table->foreign('idmiembro3','fk_expediente_tecnico_users4_idx')->references('id')->on('users');
 			$table->foreign('idresponsable','fk_expediente_tecnico_users5_idx')->references('id')->on('users');
-			$table->foreign('idproveedor_ganador','fk_expediente_tecnico_proveedores1_idx')->references('idproveedor')->on('proveedores');
 			$table->foreign('idservicio','fk_expediente_tecnico_servicios1_idx')->references('idservicio')->on('servicios');
 			$table->foreign('idarea','fk_expediente_tecnico_areas1_idx')->references('idarea')->on('areas');
 		});
@@ -43,7 +42,6 @@ class AddForeignKeysToExpedienteTecnicoTable extends Migration {
 			$table->dropforeign('fk_expediente_tecnico_users3_idx');
 			$table->dropforeign('fk_expediente_tecnico_users4_idx');
 			$table->dropforeign('fk_expediente_tecnico_users5_idx');
-			$table->dropforeign('fk_expediente_tecnico_proveedores1_idx');
 			$table->dropforeign('fk_expediente_tecnico_servicios1_idx');
 			$table->dropforeign('fk_expediente_tecnico_areas1_idx');
 		});

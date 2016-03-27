@@ -37,8 +37,7 @@ class CreateExpedienteTecnicoTable extends Migration {
 			$table->integer('idmiembro1')->index('fk_expediente_tecnico_users2_idx')->nullable();
 			$table->integer('idmiembro2')->index('fk_expediente_tecnico_users3_idx')->nullable();
 			$table->integer('idmiembro3')->index('fk_expediente_tecnico_users4_idx')->nullable();
-			$table->integer('idproveedor_ganador')->index('fk_expediente_tecnico_proveedores1_idx')->nullable();
-			$table->float('precio_ganador',10,2)->nullable();
+			$table->integer('idoferta_ganador')->nullable();
 			$table->string('url_contrato', 200)->nullable();
 			$table->string('nombre_archivo_contrato', 200)->nullable();
 			$table->string('nombre_archivo_encriptado_contrato', 200)->nullable();
