@@ -118,6 +118,7 @@
 								<th class="text-nowrap text-center">Departamento</th>
 								<th class="text-nowrap text-center">Tipo Documento Identidad</th>
 								<th class="text-nowrap text-center">Número de Documento</th>
+								<th class="text-nowrap text-center">N° Sesiones Asistidas</th>
 								<th class="text-nowrap text-center"></th>
 							</tr>
 
@@ -144,6 +145,9 @@
 									<td  class="text-nowrap text-center">
 										<a href="{{URL::to('/capacitacion/show_info_personal')}}/{{$personal->id}}">
 										{{$personal->numero_documento}}</a>
+									</td>
+									<td  class="text-nowrap text-center">
+										{{$personal->sesiones_asistidas}}
 									</td>
 									<td  class="text-nowrap text-center">
 										<button class="btn btn-danger" onclick="eliminar_personal(event,{{$personal->id}})" type="button"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>
