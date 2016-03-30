@@ -29,7 +29,7 @@
 		</div>
 	@endif
 
-	{{ Form::open(array('route'=>'capacitacion.update_info_personal', 'role'=>'form','files'=>'true')) }}		
+	{{ Form::open(array('route'=>'certificacion.update_info_personal', 'role'=>'form','files'=>'true')) }}		
 		{{Form::hidden('id_capacitacion',$id_capacitacion)}}
 		{{Form::hidden('id_personal',$personal->id)}}
 	<div class="panel panel-default">
@@ -41,34 +41,63 @@
 			<div class="form-group row">
 				<div class="col-md-4 @if($errors->first('nombre')) has-error has-feedback @endif">
 					{{ Form::label('nombre','Nombres') }}<span style='color:red'>*</span>
-					{{ Form::text('nombre',$personal->nombre,['class' => 'form-control'])}}						
+					{{ Form::text('nombre',$personal->nombre,['class' => 'form-control','readonly'=>''])}}						
 				</div>								
 				<div class="col-md-4 @if($errors->first('apellidos')) has-error has-feedback @endif">
 					{{ Form::label('apellidos','Apellidos') }}<span style='color:red'>*</span>
-					{{ Form::text('apellidos',$personal->apellidos,['class' => 'form-control'])}}	
+					{{ Form::text('apellidos',$personal->apellidos,['class' => 'form-control','readonly'=>''])}}	
 				</div>
 				<div class="form-group col-md-4 @if($errors->first('departamento')) has-error has-feedback @endif">
 					{{ Form::label('departamento','Departamento') }}<span style='color:red'>*</span>
-					{{ Form::select('departamento', array('' => 'Seleccione') + $departamentos, $personal->id_departamento, ['id'=>'departamento','class'=>'form-control','onChange'=>'getServicios(this)']) }}
+					{{ Form::select('departamento', array('' => 'Seleccione') + $departamentos, $personal->id_departamento, ['id'=>'departamento','class'=>'form-control','onChange'=>'getServicios(this)','readonly'=>'']) }}
 				</div>
 
 				<div class="form-group col-md-4 @if($errors->first('servicio_clinico')) has-error has-feedback @endif">
 					{{ Form::label('servicio_clinico','Servicio Clínico') }}<span style='color:red'>*</span>
-					{{ Form::select('servicio_clinico', array('' => 'Seleccione') + $servicios, $personal->id_servicio, ['id'=>'servicio_clinico','class'=>'form-control']) }}
+					{{ Form::select('servicio_clinico', array('' => 'Seleccione') + $servicios, $personal->id_servicio, ['id'=>'servicio_clinico','class'=>'form-control','readonly'=>'']) }}
 				</div>
 				<div class="form-group col-md-4 @if($errors->first('tipo_documento')) has-error has-feedback @endif">
 					{{ Form::label('tipo_documento','Tipo Documento') }}<span style='color:red'>*</span>
-					{{ Form::select('tipo_documento', array('' => 'Seleccione') + $tipos_documentos, $personal->id_tipodocumento, ['class'=>'form-control']) }}
+					{{ Form::select('tipo_documento', array('' => 'Seleccione') + $tipos_documentos, $personal->id_tipodocumento, ['class'=>'form-control','readonly'=>'']) }}
 				</div>
 				<div class="form-group col-md-4 @if($errors->first('numero_documento')) has-error has-feedback @endif">
 					{{ Form::label('numero_documento','Número de Documento') }}<span style='color:red'>*</span>
-					{{ Form::text('numero_documento',$personal->numero_documento,['class' => 'form-control'])}}
+					{{ Form::text('numero_documento',$personal->numero_documento,['class' => 'form-control','readonly'=>''])}}
 				</div>
 			</div>
 		</div>
 	</div>
 
-	
+	<div class="panel panel-default">
+	  	<div class="panel-heading">
+	  		Sesiones
+	  	</div>
+	  	<div class="panel-body">
+	  		<div class="form-group col-md-4 @if($errors->first('sesiones_asistidas')) has-error has-feedback @endif">
+				{{ Form::label('sesiones_asistidas','Sesiones Asistidas') }}
+				{{ Form::text('sesiones_asistidas',$personal->sesiones_asistidas,['class' => 'form-control'])}}
+			</div>
+	  	</div>
+	</div>
+
+	<div class="panel panel-default">
+	  	<div class="panel-heading">
+	  		Certificado
+	  	</div>
+	  	<div class="panel-body">
+	  		@if($personal->nombre_archivo == null)
+	  			<h4 style="color:red;text-align:center" >Personal no cuenta con certificado registrado</h4>
+	  		@else
+	  			<div class="form-group col-md-6 col-md-offset-2 @if($errors->first('archivo')) has-error has-feedback @endif">
+					{{ Form::label('archivo','Certificado de la Capacitacion') }}
+					{{ Form::text('archivo',$personal->nombre_archivo,['class' => 'form-control','readonly'=>''])}}
+				</div>
+				<div class="form-group col-md-2" style="margin-top:25px;">
+					<a class="btn btn-success btn-block btn-sm"  href="{{URL::to('/capacitacion/downloadCertificado')}}/{{$personal->id}}" ><span class="glyphicon glyphicon-download"></span> Descargar</a>
+				</div>
+	  		@endif
+	  	</div>
+	</div>
 		
 
 	<div class="container-fluid row">
@@ -76,7 +105,7 @@
 			{{ Form::button('<span class="glyphicon glyphicon-floppy-disk"></span> Editar', array('id'=>'submit-create', 'type' => 'submit', 'class' => 'btn btn-primary btn-block', 'style' => '145px')) }}
 		</div>
 		<div class="form-group col-md-2 col-md-offset-8">
-			<a class="btn btn-default btn-block" style="width:145px" href="{{URL::to('/capacitacion/show_info_personal')}}/{{$personal->id}}">Cancelar</a>				
+			<a class="btn btn-default btn-block" style="width:145px" href="{{URL::to('/certificacion/show_info_personal')}}/{{$personal->id}}">Cancelar</a>				
 		</div>
 	</div>
 	{{ Form::close() }}

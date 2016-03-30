@@ -1166,7 +1166,7 @@ class CapacitacionesController extends \BaseController {
 					'servicio_clinico' => 'required',
 					'tipo_documento' => 'required',
 					'numero_documento' => 'required|numeric|unique:personal_capacitaciones,numero_documento,'.$id_personal.',id,id_capacitacion,'.$id_capacitacion,
-					'sesiones_asistidas' => 'numeric'
+					
 				);
 				
 				// Run the validation rules on the inputs from the form
@@ -1184,30 +1184,7 @@ class CapacitacionesController extends \BaseController {
 						$personal->id_tipodocumento = Input::get('tipo_documento');
 						$personal->numero_documento = Input::get('numero_documento');
 
-						$sesiones_asistidas = Input::get('sesiones_asistidas');
-						$numero_sesiones = Capacitacion::find($personal->id_capacitacion)->numero_sesiones;
-						if($sesiones_asistidas > $numero_sesiones){
-							Session::flash('error', 'La cantidad de sesiones asistidas excede del número de sesiones totales.');
-							return Redirect::to('capacitacion/edit_info_personal/'.$id_personal);
-						}
-						$personal->sesiones_asistidas = $sesiones_asistidas;
-
-						if (Input::hasFile('archivo')) {
-					        $archivo            = Input::file('archivo');
-					        $rutaDestino = 'uploads/documentos/rrhh/Capacitaciones/' . $capacitacion->codigo.'/Personal Asistente/'. $personal->apellidos.' '.$personal->nombre .'/Certificado/';
-					        $nombreArchivo        = $archivo->getClientOriginalName();
-					        $nombreArchivoEncriptado = Str::random(27).'.'.pathinfo($nombreArchivo, PATHINFO_EXTENSION);
-					        $uploadSuccess = $archivo->move($rutaDestino, $nombreArchivoEncriptado);
-					    	if(!$personal->nombre_archivo == null){				    	
-					    		$rutaArchivoEliminar = $personal->url.$personal->nombre_archivo_encriptado;
-						        if(File::exists($rutaArchivoEliminar))
-						            File::delete($rutaArchivoEliminar);
-					    	}
-					    	$personal->nombre_archivo = $nombreArchivo;
-							$personal->nombre_archivo_encriptado = $nombreArchivoEncriptado;
-							$personal->url = $rutaDestino;
-					    }
-
+						
 						$personal->save();
 
 					Session::flash('message', 'Se edito correctamente la información del personal.');
