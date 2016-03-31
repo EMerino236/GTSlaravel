@@ -129,6 +129,38 @@ $( document ).ready(function(){
         disabledDates: [ayer]
     });
 
+    $('#idservicio').ready(function(){
+        var selectServicio = document.getElementById("idservicio");
+        var selectedId = selectServicio.options[selectServicio.selectedIndex].value;// will gives u 2
+        if(selectedId != ''){
+            $.ajax({
+                url: inside_url+'programacion_compra/return_area/'+selectedId,
+                type: 'POST',
+                data: { 'selected_id' : selectedId },
+                beforeSend: function(){
+                },
+                complete: function(){
+                },
+                success: function(response){
+                    if(response.success){
+                        var resp = response['servicio']; 
+                        document.getElementById("idarea_select").value = resp[0].idarea;    
+                        $('#idarea_select').prop('disabled','disabled');
+                        $('input[name=idarea]').val(resp[0].idarea);
+                    }else{
+                        alert('La petición no se pudo completar, inténtelo de nuevo1.');
+                    }
+                },
+                error: function(){
+                    alert('La petición no se pudo completar, inténtelo de nuevo2.');
+                }
+            }); 
+        }
+        else{
+            $('#idarea_select').prop('disabled',false);
+        }
+    });
+
     $('#idservicio').change(function(){
         var selectServicio = document.getElementById("idservicio");
         var selectedId = selectServicio.options[selectServicio.selectedIndex].value;// will gives u 2
@@ -173,8 +205,55 @@ $( document ).ready(function(){
                }
     });
 
+    $('#idarea_select').ready(function(){
+        var selectArea = document.getElementById("idarea_select");
+        var selectedId = selectArea.options[selectArea.selectedIndex].value;// will gives u 2
+        if(selectedId != ''){   
+            $('#idservicio').prop('disabled','disabled');
+            $('input[name=idarea]').val(selectedId);
+        }
+        else{
+            $('#idservicio').prop('disabled',false);
+               }
+    });
+
+    $('#idtipo_adquisicion_expediente').change(function(){
+        var selectTipoAdquisicion = document.getElementById("idtipo_adquisicion_expediente");
+        var selectedId = selectTipoAdquisicion.options[selectTipoAdquisicion.selectedIndex].value;// will gives u 2
+        if(selectedId != 1){   
+            $('#select_nombre_equipo').prop('disabled','disabled');
+        }
+        else{
+            $('#select_nombre_equipo').prop('disabled',false);
+               }
+    });
+
+    $('#idtipo_adquisicion_expediente').ready(function(){
+        var selectTipoAdquisicion = document.getElementById("idtipo_adquisicion_expediente");
+        var selectedId = selectTipoAdquisicion.options[selectTipoAdquisicion.selectedIndex].value;// will gives u 2
+        if(selectedId != 1){   
+            $('#select_nombre_equipo').prop('disabled','disabled');
+        }
+        else{
+            $('#select_nombre_equipo').prop('disabled',false);
+               }
+    });
+
     $('#select_nombre_equipo').change(function(){        
         var selectFamiliaActivo = document.getElementById("select_nombre_equipo");        
+        var selectedId = selectFamiliaActivo.options[selectFamiliaActivo.selectedIndex].value;// will gives u 2
+        if(selectedId != -1 || selectedId == ''){   
+            $('#otros_equipos').prop('disabled','disabled');
+            $('input[name=nombre_equipo]').val(selectFamiliaActivo.options[selectFamiliaActivo.selectedIndex].text);
+        }
+        else{
+            $('#otros_equipos').prop('disabled',false);
+            $('input[name=nombre_equipo]').val('xxxx');
+               }
+    });
+
+    $('#select_nombre_equipo').ready(function(){        
+        var selectFamiliaActivo = document.getElementById("select_nombre_equipo");               
         var selectedId = selectFamiliaActivo.options[selectFamiliaActivo.selectedIndex].value;// will gives u 2
         if(selectedId != -1 || selectedId == ''){   
             $('#otros_equipos').prop('disabled','disabled');

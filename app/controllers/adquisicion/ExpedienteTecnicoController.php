@@ -37,7 +37,6 @@ class ExpedienteTecnicoController extends BaseController {
 					'codigo_archivamiento' => 'Código de Archivamiento',
 					'idtipo_adquisicion_expediente' => 'Tipo de adquisicion',
 					'idtipo_compra_expediente' => 'Tipo de compra',
-					'select_nombre_equipo' => 'Nombre de Equipo',
 					'idarea' => 'Departamento',
 					'descripcion' => 'Descripción',
 					'archivo_resolucion' => 'Archivo adjunto Resolución',
@@ -52,7 +51,6 @@ class ExpedienteTecnicoController extends BaseController {
 					'codigo_archivamiento' => 'required',
 					'idtipo_adquisicion_expediente' => 'required',
 					'idtipo_compra_expediente' => 'required',
-					'select_nombre_equipo' => 'required',
 					'idarea' => 'required',
 					'descripcion' => 'required|max:255',
 					'archivo_resolucion' => 'required|max:15360',
@@ -65,85 +63,97 @@ class ExpedienteTecnicoController extends BaseController {
 				if($validator->fails()){
 					return Redirect::to('expediente_tecnico/create_expediente_tecnico')->withErrors($validator)->withInput(Input::all());
 				}else{
-					if(!(Input::get('select_nombre_equipo')==-1 && Input::get('otros_equipos')=='')){
-						$rutaDestino_resolucion = '';
-				        $nombre_archivo_resolucion = '';
-				        $nombre_archivo_resolucion_encriptado = '';
-				        $rutaDestino_tdr = '';
-				        $nombre_archivo_tdr = '';
-				        $nombre_archivo_tdr_encriptado = '';
-				        $rutaDestino_bases = '';
-				        $nombre_archivo_bases = '';
-				        $nombre_archivo_bases_encriptado = '';
-						if (Input::hasFile('archivo_resolucion')) {
-					        $archivo_resolucion = Input::file('archivo_resolucion');
-					        $rutaDestino_resolucion = 'uploads/documentos/adquisicion/resolucionExpediente/';
-					        $nombre_archivo_resolucion = $archivo_resolucion->getClientOriginalName();
-					        $nombre_archivo_resolucion_encriptado = Str::random(27).'.'.pathinfo($nombre_archivo_resolucion, PATHINFO_EXTENSION);
-					        $uploadSuccess = $archivo_resolucion->move($rutaDestino_resolucion, $nombre_archivo_resolucion_encriptado);
-					    }
+					$rutaDestino_resolucion = '';
+			        $nombre_archivo_resolucion = '';
+			        $nombre_archivo_resolucion_encriptado = '';
+			        $rutaDestino_tdr = '';
+			        $nombre_archivo_tdr = '';
+			        $nombre_archivo_tdr_encriptado = '';
+			        $rutaDestino_bases = '';
+			        $nombre_archivo_bases = '';
+			        $nombre_archivo_bases_encriptado = '';
+					if (Input::hasFile('archivo_resolucion')) {
+				        $archivo_resolucion = Input::file('archivo_resolucion');
+				        $rutaDestino_resolucion = 'uploads/documentos/adquisicion/resolucionExpediente/';
+				        $nombre_archivo_resolucion = $archivo_resolucion->getClientOriginalName();
+				        $nombre_archivo_resolucion_encriptado = Str::random(27).'.'.pathinfo($nombre_archivo_resolucion, PATHINFO_EXTENSION);
+				        $uploadSuccess = $archivo_resolucion->move($rutaDestino_resolucion, $nombre_archivo_resolucion_encriptado);
+				    }
 
-					    if (Input::hasFile('archivo_tdr')) {
-					        $archivo_tdr = Input::file('archivo_tdr');
-					        $rutaDestino_tdr = 'uploads/documentos/adquisicion/tdrExpediente/';
-					        $nombre_archivo_tdr = $archivo_tdr->getClientOriginalName();
-					        $nombre_archivo_tdr_encriptado = Str::random(27).'.'.pathinfo($nombre_archivo_tdr, PATHINFO_EXTENSION);
-					        $uploadSuccess = $archivo_tdr->move($rutaDestino_tdr, $nombre_archivo_tdr_encriptado);
+				    if (Input::hasFile('archivo_tdr')) {
+				        $archivo_tdr = Input::file('archivo_tdr');
+				        $rutaDestino_tdr = 'uploads/documentos/adquisicion/tdrExpediente/';
+				        $nombre_archivo_tdr = $archivo_tdr->getClientOriginalName();
+				        $nombre_archivo_tdr_encriptado = Str::random(27).'.'.pathinfo($nombre_archivo_tdr, PATHINFO_EXTENSION);
+				        $uploadSuccess = $archivo_tdr->move($rutaDestino_tdr, $nombre_archivo_tdr_encriptado);
 
-					        $documento_tdr = new Documento;
-							$documento_tdr->nombre = $nombre_archivo_tdr;
-							$documento_tdr->autor = '';
-							$documento_tdr->codigo_archivamiento = Input::get('codigo_archivamiento');
-							$documento_tdr->ubicacion = '';
-							$documento_tdr->idtipo_documento = 7;
-							$documento_tdr->idestado = 1;
-							$documento_tdr->url = $rutaDestino_tdr;
-							$documento_tdr->nombre_archivo = $nombre_archivo_tdr;
-							$documento_tdr->nombre_archivo_encriptado = $nombre_archivo_tdr_encriptado;
-							$documento_tdr->save();
-					    }
+				        $documento_tdr = new Documento;
+						$documento_tdr->nombre = $nombre_archivo_tdr;
+						$documento_tdr->autor = '';
+						$documento_tdr->codigo_archivamiento = Input::get('codigo_archivamiento');
+						$documento_tdr->ubicacion = '';
+						$documento_tdr->idtipo_documento = 7;
+						$documento_tdr->idestado = 1;
+						$documento_tdr->url = $rutaDestino_tdr;
+						$documento_tdr->nombre_archivo = $nombre_archivo_tdr;
+						$documento_tdr->nombre_archivo_encriptado = $nombre_archivo_tdr_encriptado;
+						$documento_tdr->save();
+				    }
 
-					    if (Input::hasFile('archivo_bases')) {
-					        $archivo_bases = Input::file('archivo_bases');
-					        $rutaDestino_bases = 'uploads/documentos/adquisicion/basesExpediente/';
-					        $nombre_archivo_bases = $archivo_bases->getClientOriginalName();
-					        $nombre_archivo_bases_encriptado = Str::random(27).'.'.pathinfo($nombre_archivo_bases, PATHINFO_EXTENSION);
-					        $uploadSuccess = $archivo_bases->move($rutaDestino_bases, $nombre_archivo_bases_encriptado);
-					    }
+				    if (Input::hasFile('archivo_bases')) {
+				        $archivo_bases = Input::file('archivo_bases');
+				        $rutaDestino_bases = 'uploads/documentos/adquisicion/basesExpediente/';
+				        $nombre_archivo_bases = $archivo_bases->getClientOriginalName();
+				        $nombre_archivo_bases_encriptado = Str::random(27).'.'.pathinfo($nombre_archivo_bases, PATHINFO_EXTENSION);
+				        $uploadSuccess = $archivo_bases->move($rutaDestino_bases, $nombre_archivo_bases_encriptado);
+				    }
 
 
-				    	$expediente_tecnico = new ExpedienteTecnico;
-				    	$expediente_tecnico->codigo_compra = Input::get('codigo_compra');
-				    	$expediente_tecnico->codigo_archivamiento = Input::get('codigo_archivamiento');
-				    	$expediente_tecnico->idtipo_adquisicion_expediente = Input::get('idtipo_adquisicion_expediente');
-				    	$expediente_tecnico->idtipo_compra_expediente = Input::get('idtipo_compra_expediente');				    	
-				    	if(Input::get('select_nombre_equipo')==-1){
-				    		$expediente_tecnico->otros_equipos = Input::get('otros_equipos');
-				    		$expediente_tecnico->nombre_equipo = '';
-				    	}else{
-				    		$expediente_tecnico->nombre_equipo = Input::get('nombre_equipo');
-				    	}
-				    	$expediente_tecnico->idarea = Input::get('idarea');
-						$expediente_tecnico->idservicio = Input::get('idservicio');
-				    	$expediente_tecnico->descripcion = Input::get('descripcion');
-				    	$expediente_tecnico->url_resolucion = $rutaDestino_resolucion;
-						$expediente_tecnico->nombre_archivo_resolucion = $nombre_archivo_resolucion;
-						$expediente_tecnico->nombre_archivo_encriptado_resolucion = $nombre_archivo_resolucion_encriptado;
-						$expediente_tecnico->url_tdr = $rutaDestino_tdr;
-						$expediente_tecnico->nombre_archivo_tdr = $nombre_archivo_tdr;
-						$expediente_tecnico->nombre_archivo_encriptado_tdr = $nombre_archivo_tdr_encriptado;
-						$expediente_tecnico->url_bases = $rutaDestino_bases;
-						$expediente_tecnico->nombre_archivo_bases = $nombre_archivo_bases;
-						$expediente_tecnico->nombre_archivo_encriptado_bases = $nombre_archivo_bases_encriptado;
-						$expediente_tecnico->idresponsable = $data["user"]->id;
-						$expediente_tecnico->estado_evaluacion_ofertas_finalizada = 0;
+			    	$expediente_tecnico = new ExpedienteTecnico;
+			    	$expediente_tecnico->codigo_compra = Input::get('codigo_compra');
+			    	$expediente_tecnico->codigo_archivamiento = Input::get('codigo_archivamiento');
+			    	$expediente_tecnico->idtipo_adquisicion_expediente = Input::get('idtipo_adquisicion_expediente');
+			    	$expediente_tecnico->idtipo_compra_expediente = Input::get('idtipo_compra_expediente');				    	
+			    	if(Input::get('select_nombre_equipo')==-1 || Input::get('select_nombre_equipo')===''){
+			    		$expediente_tecnico->otros_equipos = Input::get('otros_equipos');
+			    		$expediente_tecnico->nombre_equipo = '';
+			    	}else{
+			    		$expediente_tecnico->nombre_equipo = Input::get('nombre_equipo');
+			    	}
+			    	$expediente_tecnico->idarea = Input::get('idarea');
+					$expediente_tecnico->idservicio = Input::get('idservicio');
+			    	$expediente_tecnico->descripcion = Input::get('descripcion');
+			    	$expediente_tecnico->url_resolucion = $rutaDestino_resolucion;
+					$expediente_tecnico->nombre_archivo_resolucion = $nombre_archivo_resolucion;
+					$expediente_tecnico->nombre_archivo_encriptado_resolucion = $nombre_archivo_resolucion_encriptado;
+					$expediente_tecnico->url_tdr = $rutaDestino_tdr;
+					$expediente_tecnico->nombre_archivo_tdr = $nombre_archivo_tdr;
+					$expediente_tecnico->nombre_archivo_encriptado_tdr = $nombre_archivo_tdr_encriptado;
+					$expediente_tecnico->url_bases = $rutaDestino_bases;
+					$expediente_tecnico->nombre_archivo_bases = $nombre_archivo_bases;
+					$expediente_tecnico->nombre_archivo_encriptado_bases = $nombre_archivo_bases_encriptado;
+					$expediente_tecnico->idresponsable = $data["user"]->id;
+					$expediente_tecnico->estado_evaluacion_ofertas_finalizada = 0;
+					if(Input::get('idtipo_adquisicion_expediente')==1){// si se selecciona Bienes
+						if(Input::get('select_nombre_equipo')!=''){
+							if(!(Input::get('select_nombre_equipo')==-1 && Input::get('otros_equipos')=='')){						
+								$expediente_tecnico->save();					
+								
+								Session::flash('message', 'Se registró correctamente el Expediente Técnico.');				
+								return Redirect::to('expediente_tecnico/create_expediente_tecnico');
+							}else{
+								Session::flash('error', 'Debe especificar el Nombre de Equipo en el campo Otros Equipos.');	
+								return Redirect::to('expediente_tecnico/create_expediente_tecnico')->withInput(Input::all());
+							}
+						}else{
+							Session::flash('error', 'El campo Nombre de Equipo es requerido.');	
+							return Redirect::to('expediente_tecnico/create_expediente_tecnico')->withInput(Input::all());
+						}
+					}else{
 						$expediente_tecnico->save();					
-						
+							
 						Session::flash('message', 'Se registró correctamente el Expediente Técnico.');				
 						return Redirect::to('expediente_tecnico/create_expediente_tecnico');
-					}else{
-						Session::flash('error', 'Debe especificar el Nombre de Equipo en el campo Otros Equipos.');	
-						return Redirect::to('expediente_tecnico/create_expediente_tecnico')->withInput(Input::all());
 					}
 				}
 			}else{
