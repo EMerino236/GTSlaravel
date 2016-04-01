@@ -28,13 +28,13 @@ function validarCapacitacionExiste()
             {
 
                 if(response.reporte.length != 0){
-                    $('#nombre').val(response.reporte.nombre);
-                    $('#tipo').val(response.reporte.id_tipo);
-                    $('#modalidad').val(response.reporte.id_modalidad);
-                    $('#responsable').val(response.reporte.id_responsable);
+                    $('#nombre').val(response.reporte.capacitacion.nombre);
+                    $('#tipo').val(response.reporte.capacitacion.id_tipo);
+                    $('#modalidad').val(response.reporte.capacitacion.id_modalidad);
+                    $('#responsable').val(response.reporte.capacitacion.id_responsable);
                     $('#departamento').val(response.reporte.id_departamento);
                     getServicios();
-                    $('#servicio_clinico').val(response.reporte.id_servicio_clinico);
+                    $('#servicio_clinico').val(response.reporte.capacitacion.id_servicio_clinico);
                 }else{
                     limpiaCamposCapacitacion();
                     return BootstrapDialog.alert({

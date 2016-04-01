@@ -317,13 +317,13 @@ class PresupuestoCapacitacionController extends \BaseController {
 				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
 			
 			$id_capacitacion = Input::get('id_capacitacion');
-			
+			$arr_capacitacion = null;
 			if($id_capacitacion!=''){				
 				
 				$capacitacion = Capacitacion::find($id_capacitacion);
 
 				if($capacitacion){
-					$reporte = $capacitacion;
+					$reporte = ['capacitacion' => $capacitacion, 'id_departamento'=> $capacitacion->servicio->idarea];
 				}else{
 					$reporte = [];
 				}
