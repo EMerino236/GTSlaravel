@@ -27,6 +27,15 @@ INSERT INTO `tipo_observacion_expediente` (`idtipo_observacion_expediente`, `nom
 (2, 'Impugnaciones'),
 (3, 'Penalizaciones');
 
+INSERT INTO `unidad_medida` (`idunidad_medida`, `nombre`) VALUES
+(1, 'Unidad'),
+(2, 'Kit'),
+(3, 'Libras'),
+(4, 'Horas-Hombre'),
+(5, 'Litros'),
+(6, 'Onzas'),
+(7, 'Kilogramos');
+
 INSERT INTO `tipo_especificacion_tecnica` (`idtipo_especificacion_tecnica`, `nombre`) VALUES
 (1, 'Generales'),
 (2, 'Accesorios'),

@@ -47,9 +47,10 @@ class ExpedienteTecnico extends Eloquent{
 	public function scopeSearchExpedienteTecnicoByNumeroExpediente($query,$expediente_tecnico)
 	{
 		$query->withTrashed()
-			  ->leftjoin('proveedores','proveedores.idproveedor','=','expediente_tecnico.idproveedor_ganador')
+			  ->leftjoin('oferta_expediente','oferta_expediente.idoferta_expediente','=','expediente_tecnico.idoferta_ganador')
+			  ->leftjoin('proveedores','proveedores.idproveedor','=','oferta_expediente.idproveedor')
 			  ->where('expediente_tecnico.idexpediente_tecnico','=',$expediente_tecnico)			  		  
-			  ->select('proveedores.razon_social as nombre_proveedor','expediente_tecnico.*');
+			  ->select('oferta_expediente.precio','proveedores.razon_social as nombre_proveedor','expediente_tecnico.*');
 	  	return $query;
 	}
 

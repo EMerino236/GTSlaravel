@@ -16,6 +16,7 @@
 			<p><strong>{{ $errors->first('nombre_equipo') }}</strong></p>
 			<p><strong>{{ $errors->first('descripcion') }}</strong></p>
 			<p><strong>{{ $errors->first('idfamilia_activo') }}</strong></p>
+			<p><strong>{{ $errors->first('idarea') }}</strong></p>
 			<p><strong>{{ $errors->first('archivo_resolucion') }}</strong></p>
 			<p><strong>{{ $errors->first('archivo_tdr') }}</strong></p>
 			<p><strong>{{ $errors->first('archivo_bases') }}</strong></p>
@@ -57,7 +58,7 @@
 				</div>
 				<div class="row">
 					<div class="form-group col-md-4 @if($errors->first('nombre_equipo')) has-error has-feedback @endif">
-						{{ Form::label('nombre_equipo','Nombre de Equipo') }}<span style='color:red'>*</span>
+						{{ Form::label('nombre_equipo','Nombre de Equipo') }}
 						<select id="select_nombre_equipo" name="select_nombre_equipo" class="form-control">
 							<option value="">Seleccione</option>  
 						    <?php foreach($familia_activos as $index => $familia_activo){ ?>

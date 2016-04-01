@@ -119,7 +119,7 @@
 								<th class="text-nowrap text-center">Tipo Documento Identidad</th>
 								<th class="text-nowrap text-center">Número de Documento</th>
 								<th class="text-nowrap text-center">N° Sesiones Asistidas</th>
-								<th class="text-nowrap text-center"></th>
+								<th class="text-nowrap text-center">Certificado</th>
 							</tr>
 
 							@foreach($personal_data as $index => $personal)
@@ -143,14 +143,22 @@
 										{{$personal->nombre_documento}}
 									</td>
 									<td  class="text-nowrap text-center">
-										<a href="{{URL::to('/capacitacion/show_info_personal')}}/{{$personal->id}}">
+										<a href="{{URL::to('/certificacion/show_info_personal')}}/{{$personal->id}}">
 										{{$personal->numero_documento}}</a>
 									</td>
 									<td  class="text-nowrap text-center">
-										{{$personal->sesiones_asistidas}}
+										@if($personal->sesiones_asistidas == null)
+											-
+										@else
+											{{$personal->sesiones_asistidas}}
+										@endif
 									</td>
 									<td  class="text-nowrap text-center">
-										<button class="btn btn-danger" onclick="eliminar_personal(event,{{$personal->id}})" type="button"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>
+										@if(!$personal->nombre_archivo == null)
+											<a class="btn btn-warning" type="button" href="{{URL::to('certificacion/edit_certificado_personal')}}/{{$personal->id}}"><span class="glyphicon glyphicon-pencil"></span> Editar</button>
+										@else
+											<a class="btn btn-success" type="button" href="{{URL::to('certificacion/edit_certificado_personal')}}/{{$personal->id}}"><span class="glyphicon glyphicon-plus"></span> Agregar</button>
+										@endif
 									</td>
 								</tr>	
 							@endforeach
@@ -161,11 +169,8 @@
 	  	</div>
 	</div>
 	<div class="row">
-		<div class="form-group col-md-2">		
-			<a class="btn btn-primary btn-block" href="{{URL::to('/capacitacion/create_personal')}}/{{$capacitacion->id}}"><span class="glyphicon glyphicon-plus"></span> Nuevo Personal</a>
-		</div>
-		<div class="form-group col-md-2 col-md-offset-8">
-			<a class="btn btn-default btn-block" href="{{route('capacitacion.index')}}">Regresar</a>				
+		<div class="form-group col-md-2">
+			<a class="btn btn-default btn-block" href="{{route('certificacion.index')}}">Regresar</a>				
 		</div>
 	</div>
 	

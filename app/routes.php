@@ -909,6 +909,7 @@ Route::group(array('prefix'=>'oferta_evaluada_expediente', 'before'=>'auth'),fun
 	Route::get('/view_oferta_evaluada_expediente/{idoferta_evaluada_expediente}','OfertaEvaluadaExpedienteController@render_view_oferta_evaluada_expediente');	
 	Route::get('/download/{id}','OfertaEvaluadaExpedienteController@download');
 	Route::post('/submit_finalizar_evaluacion','OfertaEvaluadaExpedienteController@submit_finalizar_evaluacion');
+	Route::post('/submit_reabrir_evaluacion','OfertaEvaluadaExpedienteController@submit_reabrir_evaluacion');
 });
 
 Route::group(array('prefix'=>'adjudicacion_expediente', 'before'=>'auth'),function(){
@@ -1080,6 +1081,26 @@ Route::group(array('prefix' => 'material', 'before' => 'auth'),function(){
 	Route::post('/edit/{id}',['uses' => 'MaterialSesionController@update', 'as' => 'material.update']);
 	Route::post('/destoy/{id}',['uses' => 'MaterialSesionController@destroy','as'=>'material.destroy']);
 });
+
+/* Certificaciones Capacitacion */
+Route::group(array('prefix'=>'certificacion', 'before'=>'auth'),function(){
+	Route::get('/index',['uses' => 'CertificacionesController@index','as' => 'certificacion.index']);
+	Route::get('/search',['uses'=>'CertificacionesController@search','as'=>'certificacion.search']);
+	Route::get('/show/{id}',['uses'=>'CertificacionesController@show','as'=>'certificacion.showCapacitacion']);
+	Route::post('/search_equipo_ajax',['uses'=>'CertificacionesController@search_equipo_ajax','as'=>'certificacion.search_equipo_ajax']);
+	Route::get('/download/{id}',['uses'=>'CertificacionesController@download','as'=>'certificacion.download']);
+	Route::get('/show_personal/{id}',['uses'=>'CertificacionesController@show_personal','as'=>'certificacion.showPersonal']);
+	Route::get('/create_personal/{id}',['uses'=>'CertificacionesController@create_personal','as'=>'certificacion.create_personal']);
+	Route::post('/create_personal/{id}',['uses'=>'CertificacionesController@store_personal','as'=>'certificacion.store_personal']);
+	Route::post('/eliminar_personal_ajax',['uses'=>'CertificacionesController@destroy_personal','as'=>'certificacion.destroy_personal']);	
+	Route::get('/show_info_personal/{id}',['uses'=>'CertificacionesController@show_info_personal','as'=>'certificacion.show_info_personal']);
+	Route::get('/edit_certificado_personal/{id}',['uses'=>'CertificacionesController@edit_certificado_personal','as'=>'certificacion.edit_certificado_personal']);
+	Route::post('/edit_certificado_personal/{id}',['uses'=>'CertificacionesController@update_certificado_personal','as'=>'certificacion.update_certificado_personal']);
+	Route::get('/downloadCertificado/{id}',['uses'=>'CertificacionesController@downloadCertificado','as'=>'certificacion.downloadCertificado']);
+	Route::get('/edit_info_personal/{id}',['uses'=>'CertificacionesController@edit_info_personal','as'=>'certificacion.edit_info_personal']);
+	Route::post('/edit_info_personal/{id}',['uses'=>'CertificacionesController@update_info_personal','as'=>'certificacion.update_info_personal']);
+	
+	});
 
 /* Acuerdos y convenios*/
 Route::group(array('prefix'=>'acuerdo_convenio', 'before'=>'auth'),function(){

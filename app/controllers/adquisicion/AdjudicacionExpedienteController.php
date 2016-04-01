@@ -10,7 +10,7 @@ class AdjudicacionExpedienteController extends BaseController {
 			// Verifico si el usuario es un Webmaster
 			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 ) && $idexpediente_tecnico){
 				$data["expediente_tecnico_data"] = ExpedienteTecnico::searchExpedienteTecnicoByNumeroExpediente($idexpediente_tecnico)->get()[0];
-				$data["proveedores"] = OfertaExpediente::searchProveedorOfertaByNumeroExpediente($idexpediente_tecnico)->get();	
+				$data["ofertas"] = OfertaExpediente::searchOfertasByNumeroExpediente($idexpediente_tecnico)->get();	
 				return View::make('adjudicacion_expediente/editAdjudicacionExpediente',$data);
 			}else{
 				return View::make('error/error',$data);
@@ -29,8 +29,7 @@ class AdjudicacionExpedienteController extends BaseController {
 			if($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 ){
 				// Validate the info, create rules for the inputs
 				$attributes = array(
-					'idproveedor_ganador' => 'Proveedor',
-					'precio_ganador' => 'Precio',
+					'idoferta_ganador' => 'Oferta ganadora',
 					'archivo_contrato' => 'Archivo Adjunto Contrato',
 					'archivo_adicional' => 'Archivo Adjunto Adicional',
 				);
@@ -38,8 +37,7 @@ class AdjudicacionExpedienteController extends BaseController {
 				$messages = array();
 
 				$rules = array(	
-					'idproveedor_ganador' => 'required',
-					'precio_ganador' => 'required|numeric',
+					'idoferta_ganador' => 'required',
 					'archivo_contrato' => 'max:15360',
 					'archivo_adicional' => 'max:15360',
 				);
@@ -51,8 +49,7 @@ class AdjudicacionExpedienteController extends BaseController {
 					return Redirect::to($url)->withErrors($validator)->withInput(Input::all());
 				}else{		
 					$expediente_tecnico = ExpedienteTecnico::withTrashed()->find(Input::get('idexpediente_tecnico'));
-			    	$expediente_tecnico->idproveedor_ganador = Input::get('idproveedor_ganador');
-			    	$expediente_tecnico->precio_ganador = Input::get('precio_ganador');
+			    	$expediente_tecnico->idoferta_ganador = Input::get('idoferta_ganador');
 			    	if (Input::hasFile('archivo_contrato')) {
 				        $archivo_contrato = Input::file('archivo_contrato');
 				        $rutaDestino_contrato = 'uploads/documentos/adquisicion/contrato/';

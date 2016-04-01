@@ -2,7 +2,7 @@
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Personal de la Capacitación: {{$capacitacion->codigo}}</h3>
+            <h3 class="page-header">Capacitación: {{$capacitacion->codigo}}</h3>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -100,81 +100,116 @@
 
 		</div>
 	</div>
-	
+
 	<div class="panel panel-default">
 	  	<div class="panel-heading">
-	  		Personal  <strong>(Cantidad de Personas: {{count($personal_data)}} )</strong>
+	  		Datos de las Sesiones de la Capacitación
 	  	</div>
 	  	<div class="panel-body">	
-	  		<div class="row">
-		    	<div class="col-md-12">
+		  	<div class="form-group row">
+				<div class="form-group col-md-6 @if($errors->first('numero_sesiones')) has-error has-feedback @endif">
+					{{ Form::label('numero_sesiones','Número de Sesiones') }}
+					{{ Form::text('numero_sesiones',$capacitacion->numero_sesiones,['class' => 'form-control','readonly'=>''])}}
+				</div>
+				<div class="form-group col-md-6 @if($errors->first('horasxsesion')) has-error has-feedback @endif">
+					{{ Form::label('horasxsesion','Horas Por Sesión') }}
+					{{ Form::text('horasxsesion',$capacitacion->horasxsesiones,['class' => 'form-control','readonly'=>''])}}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel panel-default">
+	  	<div class="panel-heading">
+	  		Plan de Capacitación
+	  	</div>
+	  	<div class="panel-body">	
+		  	<div class="form-group row">
+				<div class="form-group col-md-12 @if($errors->first('objetivo')) has-error has-feedback @endif">
+					{{ Form::label('objetivo','Objetivo (MAX: 200 Caracteres)') }}
+					{{ Form::textarea('objetivo',$capacitacion->objetivo,['class' => 'form-control','maxlength'=>'200','rows'=>'4','style'=>'resize:none','readonly'=>''])}}
+				</div>
+			</div>
+			<div class="form-group row">
+				<div class="form-group col-md-12 @if($errors->first('personas_involucradas')) has-error has-feedback @endif">
+					{{ Form::label('personas_involucradas','Personas Involucradas (MAX: 200 Caracteres)') }}
+					{{ Form::textarea('personas_involucradas',$capacitacion->personal_involucrado,['class' => 'form-control','maxlength'=>'200','rows'=>'4','style'=>'resize:none','readonly'=>''])}}
+				</div>
+			</div>
+			<div class="form-group row">
+				<div class="form-group col-md-12 @if($errors->first('competencias_requeridas')) has-error has-feedback @endif">
+					{{ Form::label('competencias_requeridas','Competencias Requeridas (MAX: 200 Caracteres)') }}
+					{{ Form::textarea('competencias_requeridas',$capacitacion->competencia,['class' => 'form-control','maxlength'=>'200','rows'=>'4','style'=>'resize:none','readonly'=>''])}}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel panel-default">
+	  	<div class="panel-heading">
+	  		Personal Externo Involucrado
+	  	</div>
+	  	<div class="panel-body">
+			<div class="form-group row">
+				<div class="col-md-12">
 					<div class="table-responsive">
 						<table class="table">
-							<tr class="info">				
-								<th class="text-nowrap text-center">N°</th>
-								<th class="text-nowrap text-center">Nombres</th>
-								<th class="text-nowrap text-center">Apellidos</th>						
-								<th class="text-nowrap text-center">Servicio Clínico</th>
-								<th class="text-nowrap text-center">Departamento</th>
-								<th class="text-nowrap text-center">Tipo Documento Identidad</th>
-								<th class="text-nowrap text-center">Número de Documento</th>
-								<th class="text-nowrap text-center">N° Sesiones Asistidas</th>
-								<th class="text-nowrap text-center"></th>
+							<tr class="info">						
+								<th class="text-nowrap text-center">Nombre</th>
+								<th class="text-nowrap text-center">Descripción</th>						
+								<th class="text-nowrap text-center">Rol</th>
+								<th class="text-nowrap text-center">Institución</th>
+							</tr>	
+							<?php 								
+								$count = count($details_personas);	
+							?>	
+							<?php for($i=0;$i<$count;$i++){ ?>
+							<tr>
+								<td>
+									<input style="border:0" name='details_nombre[]' value='{{ $details_personas[$i]->nombre }}' readonly/>
+								</td>
+								<td>
+									<input style="border:0" name='details_descripcion[]' value='{{ $details_personas[$i]->descripcion }}' readonly/>
+								</td>
+								<td>
+									<input style="border:0" name='details_rol[]' value='{{ $details_personas[$i]->rol }}' readonly/>
+								</td>
+								<td>
+									<input style="border:0" name='details_institucion[]' value='{{ $details_personas[$i]->institucion }}' readonly/>
+								</td>					
 							</tr>
-
-							@foreach($personal_data as $index => $personal)
-								<tr>
-									<td  class="text-nowrap text-center">
-										{{$index+1}}
-									</td>
-									<td  class="text-nowrap text-center">
-										{{$personal->nombre}}
-									</td>
-									<td  class="text-nowrap text-center">
-										{{$personal->apellidos}}
-									</td>
-									<td  class="text-nowrap text-center">
-										{{$personal->nombre_servicio}}
-									</td>
-									<td  class="text-nowrap text-center">
-										{{$personal->nombre_area}}
-									</td>
-									<td  class="text-nowrap text-center">
-										{{$personal->nombre_documento}}
-									</td>
-									<td  class="text-nowrap text-center">
-										<a href="{{URL::to('/capacitacion/show_info_personal')}}/{{$personal->id}}">
-										{{$personal->numero_documento}}</a>
-									</td>
-									<td  class="text-nowrap text-center">
-										{{$personal->sesiones_asistidas}}
-									</td>
-									<td  class="text-nowrap text-center">
-										<button class="btn btn-danger" onclick="eliminar_personal(event,{{$personal->id}})" type="button"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>
-									</td>
-								</tr>	
-							@endforeach
-						</table>
+							<?php } ?>					
+						</table>				
 					</div>
 				</div>
 			</div>
+		</div>
+	</div>
+	
+	<div class="panel panel-default">
+	  	<div class="panel-heading">
+	  		Documento Adjunto del Plan de Capacitación
+	  	</div>
+	  	<div class="panel-body">
+	  		<div class="row" >
+    			<div class="col-md-5 col-md-offset-3 form-group">
+    				{{ Form::label('label_doc','Plan de Capacitación:') }}
+    				{{ Form::text('nombre_doc',$capacitacion->nombre_archivo,array('class'=>'form-control','id'=>'file','readonly'=>''))}}								
+   				</div>
+   				<div class="col-md-2" style="margin-top:25px;">
+   					@if($capacitacion->url != '')
+						<a class="btn btn-success btn-block" href="{{URL::to('/capacitacion/download')}}/{{$capacitacion->id}}" ><span class="glyphicon glyphicon-download"></span> Descargar</a>
+					@else
+						Sin archivo adjunto
+					@endif
+   				</div>
+   			</div>
 	  	</div>
 	</div>
+
 	<div class="row">
-		<div class="form-group col-md-2">		
-			<a class="btn btn-primary btn-block" href="{{URL::to('/capacitacion/create_personal')}}/{{$capacitacion->id}}"><span class="glyphicon glyphicon-plus"></span> Nuevo Personal</a>
-		</div>
-		<div class="form-group col-md-2 col-md-offset-8">
-			<a class="btn btn-default btn-block" href="{{route('capacitacion.index')}}">Regresar</a>				
+		<div class="form-group col-md-2">
+			<a class="btn btn-default btn-block" href="{{route('certificacion.index')}}">Regresar</a>				
 		</div>
 	</div>
-	
-	
-	<script type="text/javascript">
-
-		$( document ).ready(function(){
-			
-		});
-
-	</script>
 @stop

@@ -90,7 +90,7 @@
 				{{$expediente_tecnico_data->codigo_archivamiento}}
 			</td>
 			<td>
-				@if($expediente_tecnico_data->nombre_equipo == 0)
+				@if($expediente_tecnico_data->nombre_equipo == '')
 					{{$expediente_tecnico_data->otros_equipos}}
 				@else
 					{{$expediente_tecnico_data->nombre_equipo}}

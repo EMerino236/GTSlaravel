@@ -1,5 +1,4 @@
 $( document ).ready(function(){
-    //$('#idproveedor_ganador').val($('input[name=proveedor_selected]').val());
 
  	$('#search_datetimepicker1').datetimepicker({
         ignoreReadonly: true,
@@ -130,6 +129,38 @@ $( document ).ready(function(){
         disabledDates: [ayer]
     });
 
+    $('#idservicio').ready(function(){
+        var selectServicio = document.getElementById("idservicio");
+        var selectedId = selectServicio.options[selectServicio.selectedIndex].value;// will gives u 2
+        if(selectedId != ''){
+            $.ajax({
+                url: inside_url+'programacion_compra/return_area/'+selectedId,
+                type: 'POST',
+                data: { 'selected_id' : selectedId },
+                beforeSend: function(){
+                },
+                complete: function(){
+                },
+                success: function(response){
+                    if(response.success){
+                        var resp = response['servicio']; 
+                        document.getElementById("idarea_select").value = resp[0].idarea;    
+                        $('#idarea_select').prop('disabled','disabled');
+                        $('input[name=idarea]').val(resp[0].idarea);
+                    }else{
+                        alert('La petición no se pudo completar, inténtelo de nuevo1.');
+                    }
+                },
+                error: function(){
+                    alert('La petición no se pudo completar, inténtelo de nuevo2.');
+                }
+            }); 
+        }
+        else{
+            $('#idarea_select').prop('disabled',false);
+        }
+    });
+
     $('#idservicio').change(function(){
         var selectServicio = document.getElementById("idservicio");
         var selectedId = selectServicio.options[selectServicio.selectedIndex].value;// will gives u 2
@@ -174,8 +205,55 @@ $( document ).ready(function(){
                }
     });
 
+    $('#idarea_select').ready(function(){
+        var selectArea = document.getElementById("idarea_select");
+        var selectedId = selectArea.options[selectArea.selectedIndex].value;// will gives u 2
+        if(selectedId != ''){   
+            $('#idservicio').prop('disabled','disabled');
+            $('input[name=idarea]').val(selectedId);
+        }
+        else{
+            $('#idservicio').prop('disabled',false);
+               }
+    });
+
+    $('#idtipo_adquisicion_expediente').change(function(){
+        var selectTipoAdquisicion = document.getElementById("idtipo_adquisicion_expediente");
+        var selectedId = selectTipoAdquisicion.options[selectTipoAdquisicion.selectedIndex].value;// will gives u 2
+        if(selectedId != 1){   
+            $('#select_nombre_equipo').prop('disabled','disabled');
+        }
+        else{
+            $('#select_nombre_equipo').prop('disabled',false);
+               }
+    });
+
+    $('#idtipo_adquisicion_expediente').ready(function(){
+        var selectTipoAdquisicion = document.getElementById("idtipo_adquisicion_expediente");
+        var selectedId = selectTipoAdquisicion.options[selectTipoAdquisicion.selectedIndex].value;// will gives u 2
+        if(selectedId != 1){   
+            $('#select_nombre_equipo').prop('disabled','disabled');
+        }
+        else{
+            $('#select_nombre_equipo').prop('disabled',false);
+               }
+    });
+
     $('#select_nombre_equipo').change(function(){        
         var selectFamiliaActivo = document.getElementById("select_nombre_equipo");        
+        var selectedId = selectFamiliaActivo.options[selectFamiliaActivo.selectedIndex].value;// will gives u 2
+        if(selectedId != -1 || selectedId == ''){   
+            $('#otros_equipos').prop('disabled','disabled');
+            $('input[name=nombre_equipo]').val(selectFamiliaActivo.options[selectFamiliaActivo.selectedIndex].text);
+        }
+        else{
+            $('#otros_equipos').prop('disabled',false);
+            $('input[name=nombre_equipo]').val('xxxx');
+               }
+    });
+
+    $('#select_nombre_equipo').ready(function(){        
+        var selectFamiliaActivo = document.getElementById("select_nombre_equipo");               
         var selectedId = selectFamiliaActivo.options[selectFamiliaActivo.selectedIndex].value;// will gives u 2
         if(selectedId != -1 || selectedId == ''){   
             $('#otros_equipos').prop('disabled','disabled');
@@ -198,7 +276,7 @@ $( document ).ready(function(){
         e.preventDefault();
         BootstrapDialog.confirm({
                 title: 'Mensaje de Confirmación',
-                message: '¿Está seguro que desea realizar esta acción? No se podrá agregar mas evaluaciones de oferta posteriormente.', 
+                message: '¿Está seguro que desea realizar esta acción? No se podrá agregar más evaluaciones de oferta posteriormente.', 
                 type: BootstrapDialog.TYPE_INFO,
                 btnCancelLabel: 'Cancelar', 
                 btnOKLabel: 'Aceptar', 
@@ -217,10 +295,14 @@ $( document ).ready(function(){
                                     //$(this).prop('disabled',false);
                                 },
                                 success: function(response){
-                                    if(response.success){
+                                    if(response.success){                                        
                                         BootstrapDialog.alert({
                                             title: 'Mensaje de confirmación',
                                             message: 'Se ha finalizado correctamente la evaluación de Ofertas para este Expediente Técnico.',
+                                            callback: function(result){
+                                                if(result)
+                                                    location.reload();
+                                            }
                                         })
                                     }else{
                                         alert('La petición no se pudo completar, inténtelo de nuevo1.');
@@ -234,6 +316,54 @@ $( document ).ready(function(){
                     }
         });
     });
+
+    $("#submit_reabrir_evaluacion_ofertas").click(function(e){
+        e.preventDefault();
+        BootstrapDialog.confirm({
+                title: 'Mensaje de Confirmación',
+                message: '¿Está seguro que desea realizar esta acción? Se podrá agregar más evaluaciones de oferta posteriormente.', 
+                type: BootstrapDialog.TYPE_INFO,
+                btnCancelLabel: 'Cancelar', 
+                btnOKLabel: 'Aceptar', 
+                    callback: function(result){
+                        if(result){
+                            $.ajax({
+                                url: inside_url+'oferta_evaluada_expediente/submit_reabrir_evaluacion',
+                                type: 'POST',
+                                data: { 
+                                    'idexpediente_tecnico' : $("input[name=idexpediente_tecnico]").val(),
+                                },
+                                beforeSend: function(){
+                                    //$(this).prop('disabled',true);
+                                },
+                                complete: function(){
+                                    //$(this).prop('disabled',false);
+                                },
+                                success: function(response){
+                                    if(response.success){                                        
+                                        BootstrapDialog.alert({
+                                            title: 'Mensaje de confirmación',
+                                            message: 'Se ha reabierto correctamente la evaluación de Ofertas para este Expediente Técnico.',
+                                            callback: function(result){
+                                                if(result)
+                                                    location.reload();
+                                            }
+                                        })                                        
+                                    }else{
+                                        alert('La petición no se pudo completar, inténtelo de nuevo1.');
+                                    }
+                                },
+                                error: function(){
+                                    alert('La petición no se pudo completar, inténtelo de nuevo2.');
+                                }
+                            });
+                        }
+                    }
+        });
+    });
+
+    
+
 });
 
 function llenar_nombre_responsable(){
@@ -424,4 +554,10 @@ function limpiar_nombre_miembro_comite(tipo_miembro){
     $("#nombre_"+tipo_miembro_usuario).val('');
     $("#nombre_"+tipo_miembro_usuario).css('background-color','#eee');
     $('input[name=id'+tipo_miembro_usuario+']').val('');
+}
+
+var currentValue = 0;
+function handleClick(myRadio) {
+    currentValue = myRadio.value;
+    $('input[name=idoferta_ganador]').val(currentValue);
 }

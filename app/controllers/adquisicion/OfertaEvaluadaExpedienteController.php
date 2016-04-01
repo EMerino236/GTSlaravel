@@ -242,4 +242,24 @@ class OfertaEvaluadaExpedienteController extends BaseController {
 			return View::make('error/error',$data);
 		}
 	}
+
+	public function submit_reabrir_evaluacion()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			// Verifico si el usuario es un Webmaster
+			if($data["user"]->idrol == 1  || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 || $data["user"]->idrol == 7
+				 || $data["user"]->idrol == 8 || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12){
+				$expediente_tecnico = ExpedienteTecnico::find(Input::get('idexpediente_tecnico'));
+				$expediente_tecnico->estado_evaluacion_ofertas_finalizada = 0;
+				$expediente_tecnico->save();
+		        return Response::json(array( 'success' => true, 'expediente_tecnico' => $expediente_tecnico),200);
+			}else{
+				return View::make('error/error',$data);
+			}
+		}else{
+			return View::make('error/error',$data);
+		}
+	}
 }
