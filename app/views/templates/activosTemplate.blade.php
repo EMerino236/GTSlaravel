@@ -37,8 +37,8 @@
     <!-- Morris Charts JavaScript -->
     <script src="{{ asset('bower_components/raphael/raphael-min.js') }}"></script>
     <script src="{{ asset('bower_components/morrisjs/morris.min.js') }}"></script>
-    <!-- Custom Theme JavaScript -->
-    <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
+    <!-- Custom Theme JavaScript -->    
+    <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>   
     
 </head>
 
