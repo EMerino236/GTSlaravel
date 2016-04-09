@@ -49,6 +49,7 @@
     <script src="{{ asset('js/activos/editActivos.js') }}"></script>
     <script src="{{ asset('js/soporte_tecnico/listSoporteTecnico.js') }}"></script>
     <script src="{{ asset('js/soporte_tecnico/createSoporteTecnicoProveedor.js') }}"></script>
+    <script src="{{ asset('js/soporte_tecnico/createSoporteTecnicoActivo.js') }}"></script>
     <script src="{{ asset('js/reporte_instalacion/list_reporte_instalacion.js') }}"></script>
     <!--Bootstrap-Dialog Javascritp-->
     <script src="{{asset('js/bootstrap-dialog.min.js') }}"></script> 
