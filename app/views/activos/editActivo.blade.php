@@ -64,15 +64,15 @@
 						<div class="form-group row">							
 							<div class="col-md-4 @if($errors->first('marca')) has-error has-feedback @endif">
 								{{ Form::label('marca','Marca') }}<span style="color:red">*</span>
-								{{ Form::select('marca',array('' => 'Seleccione') + $marcas,$equipo_info->idmarca,['class' => 'form-control'])}}
+								{{ Form::select('marca',array('' => 'Seleccione') + $marcas,$equipo_info->idmarca,['class' => 'form-control', 'disabled' => true])}}
 							</div>
 							<div class="col-md-4 @if($errors->first('nombre_equipo')) has-error has-feedback @endif">
 								{{ Form::label('nombre_equipo','Nombre de Equipo') }}<span style="color:red">*</span>
-								{{ Form::select('nombre_equipo',array('' => 'Seleccione') + $nombre_equipo,$equipo_info->idfamilia_activo,array('class'=>'form-control'))}}								
+								{{ Form::select('nombre_equipo',array('' => 'Seleccione') + $nombre_equipo,$equipo_info->idfamilia_activo,array('class'=>'form-control', 'disabled' => true))}}								
 							</div>
 							<div class="col-md-4 @if($errors->first('modelo')) has-error has-feedback @endif">
 								{{ Form::label('modelo','Modelo') }}<span style="color:red">*</span>
-								{{ Form::select('modelo',array('' => 'Seleccione') + $modelo_equipo ,$equipo_info->modelo,array('class'=>'form-control'))}}								
+								{{ Form::select('modelo',array('' => 'Seleccione') + $modelo_equipo ,$equipo_info->modelo,array('class'=>'form-control', 'disabled' => true))}}								
 							</div>
 						</div>
 						<div class="form-group row">
@@ -86,13 +86,13 @@
 							</div>
 							<div class="col-md-4 @if($errors->first('codigo_patrimonial')) has-error has-feedback @endif">
 								{{ Form::label('codigo_patrimonial','Código Patrimonial') }}<span style="color:red">*</span>
-								{{ Form::text('codigo_patrimonial',$equipo_info->codigo_patrimonial,array('class'=>'form-control','placeholder'=>'Código Patrimonial'))}}
+								{{ Form::text('codigo_patrimonial',$equipo_info->codigo_patrimonial,array('class'=>'form-control','placeholder'=>'Código Patrimonial', 'readonly' => true))}}
 							</div>
 						</div>
 						<div class="form-group row">
 							<div class="col-md-4 @if($errors->first('codigo_compra')) has-error has-feedback @endif">
 								{{ Form::label('codigo_compra','Código de Compra') }}<span style="color:red">*</span>
-								{{ Form::text('codigo_compra',$equipo_info->codigo_compra,array('class'=>'form-control','placeholder'=>'Código de Compra'))}}
+								{{ Form::text('codigo_compra',$equipo_info->codigo_compra,array('class'=>'form-control','placeholder'=>'Código de Compra', 'readonly' => true))}}
 							</div>
 							<div class="col-md-4 @if($errors->first('fecha_adquisicion')) has-error has-feedback @endif">
 								{{ Form::label('fecha_adquisicion','Fecha de Adquisición') }}<span style="color:red">*</span>
@@ -130,10 +130,10 @@
 								{{ Form::text('reporte_instalacion_edit_activo',$reporte_instalacion->numero_reporte_abreviatura.$reporte_instalacion->numero_reporte_correlativo.'-'.$reporte_instalacion->numero_reporte_anho,['class' => 'form-control', 'placeholder'=>'Reporte de Instalación'])}}								
 							</div>
 							<div class="col-md-3">
-								<button id="btnValidarNumReporte_Edit" class="btn btn-primary btn-block" type="button" style="margin-top:25px"><span class="glyphicon glyphicon-search"></span> Buscar</button>
+								<button id="btnValidarNumReporte_Edit" class="btn btn-primary btn-block" type="button" style="margin-top:25px" disabled=true><span class="glyphicon glyphicon-search"></span> Buscar</button>
 							</div>
 							<div class="col-md-3">
-								<button id="btnLimpiarNumReporte_Edit" class="btn btn-default btn-block" type="button" style="margin-top:25px"><span class="glyphicon glyphicon-refresh"></span> Limpiar</button>						
+								<button id="btnLimpiarNumReporte_Edit" class="btn btn-default btn-block" type="button" style="margin-top:25px" disabled=true><span class="glyphicon glyphicon-refresh"></span> Limpiar</button>						
 							</div>
 							<div class="col-md-3">
 								{{ Form::label('mensaje_validacion','Validación') }}

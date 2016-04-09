@@ -449,17 +449,11 @@ class ActivosController extends BaseController
 				$rules = array(
 					'servicio_clinico' => 'required',
 					'ubicacion_fisica' => 'required',
-					'grupo' => 'required',
-					'marca' => 'required',
-					'nombre_equipo' => 'required',
-					'modelo' => 'required',
+					'grupo' => 'required',					
 					'numero_serie' => 'required',
-					'proveedor' => 'required',
-					'codigo_compra' => 'required',
-					'codigo_patrimonial' => 'required',
+					'proveedor' => 'required',										
 					'fecha_adquisicion' => 'required',
-					'garantia' => 'required',
-					'idreporte_instalacion' => 'required',
+					'garantia' => 'required',					
 					'costo' => 'required|numeric'
 					);
 				// Run the validation rules on the inputs from the form
@@ -473,17 +467,14 @@ class ActivosController extends BaseController
 					$equipo_id = Input::get('equipo_id');
 					//$url = "equipos/edit_equipo"."/".$equipo_id;
 					$activo = Activo::find($equipo_id);
-					$activo->codigo_patrimonial = Input::get('codigo_patrimonial');
+					
 					$activo->numero_serie = Input::get('numero_serie');
 					$activo->anho_adquisicion = date('Y-m-d',strtotime(Input::get('fecha_adquisicion')));
 					$activo->garantia = Input::get('garantia');
-					$activo->fecha_garantia_fin = Carbon\Carbon::createFromFormat('Y-m-d',$activo->anho_adquisicion)->addMonths($activo->garantia);
-					$activo->codigo_compra = Input::get('codigo_compra');
-					$activo->idgrupo = Input::get('grupo');
-					$activo->idmodelo_equipo = Input::get('modelo');
+					$activo->fecha_garantia_fin = Carbon\Carbon::createFromFormat('Y-m-d',$activo->anho_adquisicion)->addMonths($activo->garantia);					
+					$activo->idgrupo = Input::get('grupo');					
 					$activo->idservicio = Input::get('servicio_clinico');
 					$activo->idproveedor = Input::get('proveedor');
-					$activo->idreporte_instalacion = Input::get('idreporte_instalacion');
 					$activo->idestado = 1;
 					$activo->idubicacion_fisica = Input::get('ubicacion_fisica');
 					$activo->costo = Input::get('costo');
