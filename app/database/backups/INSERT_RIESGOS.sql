@@ -1078,3 +1078,7 @@ INSERT INTO tablas (nombre_tabla) VALUES ('estado_reporte_calibracion');
 INSERT INTO estados (nombre,idtabla) VALUES ('Pendiente','5');
 INSERT INTO estados (nombre,idtabla) VALUES ('Terminado','5');
 INSERT INTO estados (nombre,idtabla) VALUES ('Anulado','5');
+
+/*** TIPO IPER **/
+INSERT INTO tipo_iper(nombre) VALUES ('TS');
+INSERT INTO tipo_iper(nombre) VALUES ('Salud Ocupacional');
