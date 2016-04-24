@@ -111,7 +111,7 @@
 						<div class="form-group row">
 							<div class="col-md-4 @if($errors->first('garantia')) has-error has-feedback @endif">
 								{{ Form::label('garantia','Garantía (cantidad de meses)') }}<span style="color:red">*</span>
-								{{ Form::text('garantia',$equipo_info->garantia,array('class'=>'form-control','placeholder'=>'Garantía'))}}
+								{{ Form::number('garantia',$equipo_info->garantia,array('class'=>'form-control','placeholder'=>'Garantía'))}}
 							</div>
 						</div>
 					</div>

@@ -286,7 +286,7 @@ class ActivosController extends BaseController
 					'fecha_adquisicion' => 'Fecha de Adquisición',
 					'garantia' => 'Garantía',
 					'idreporte_instalacion' => 'Código de Reporte de Instalación',
-					'costo' => 'Costo',
+					'costo' => 'Precio de Compra',
 					'fecha_calibracion' => 'Fecha de Calibración',
 					'fecha_proximo' => 'Próxima Fecha de Calibración',
 					'input-file-0' => 'Certificado de Calibración',
@@ -440,7 +440,7 @@ class ActivosController extends BaseController
 					'fecha_adquisicion' => 'Fecha de Adquisición',
 					'garantia' => 'Garantía',
 					'idreporte_instalacion' => 'Código de Reporte de Instalación',
-					'costo' => 'Costo'
+					'costo' => 'Precio de Compra'
 					);
 
 				$messages=array(
@@ -453,7 +453,7 @@ class ActivosController extends BaseController
 					'numero_serie' => 'required',
 					'proveedor' => 'required',										
 					'fecha_adquisicion' => 'required',
-					'garantia' => 'required',					
+					'garantia' => 'required|numeric',					
 					'costo' => 'required|numeric'
 					);
 				// Run the validation rules on the inputs from the form
