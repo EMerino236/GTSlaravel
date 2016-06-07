@@ -152,7 +152,7 @@ class OfertaEvaluadaExpedienteController extends BaseController {
 		}
 	}
 
-	public function search_oferta_expediente()
+	public function search_oferta_evaluada_expediente()
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
@@ -169,9 +169,9 @@ class OfertaEvaluadaExpedienteController extends BaseController {
 				$data["search_servicio"] = Input::get('search_servicio');
 				$data["areas"] = Area::orderBy('nombre','asc')->lists('nombre','idarea');
 				$data["servicios"] = Servicio::orderBy('nombre','asc')->lists('nombre','idservicio');
-				$data["ofertas_expediente_data"] = OfertaExpediente::searchOfertaExpediente($data["search_codigo_compra"],$data["search_usuario"],$data["search_area"],$data["search_servicio"],
+				$data["ofertas_evaluada_expediente_data"] = OfertaEvaluadaExpediente::searchOfertaEvaluadaExpediente($data["search_codigo_compra"],$data["search_usuario"],$data["search_area"],$data["search_servicio"],
 					$data["search_fecha_ini"],$data["search_fecha_fin"])->paginate(10);	
-				return View::make('oferta_expediente/listOfertaExpediente',$data);
+				return View::make('oferta_evaluada_expediente/listOfertaEvaluadaExpediente',$data);
 			}else{
 				return View::make('error/error',$data);
 			}
@@ -180,7 +180,7 @@ class OfertaEvaluadaExpedienteController extends BaseController {
 		}
 	}
 
-	public function render_view_oferta_expediente($idoferta_expediente=null)
+	public function render_view_oferta_evaluada_expediente($idoferta_expediente=null)
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
@@ -189,9 +189,11 @@ class OfertaEvaluadaExpedienteController extends BaseController {
 			if(($data["user"]->idrol == 1 || $data["user"]->idrol == 2 || $data["user"]->idrol == 3 || $data["user"]->idrol == 4 
 			   || $data["user"]->idrol == 5 || $data["user"]->idrol == 6 || $data["user"]->idrol == 7 || $data["user"]->idrol == 8
 			   || $data["user"]->idrol == 9 || $data["user"]->idrol == 10 || $data["user"]->idrol == 11 || $data["user"]->idrol == 12  ) && $idoferta_expediente){
-				$data["oferta_expediente_data"] = OfertaExpediente::withTrashed()->find($idoferta_expediente);
-				$data["expediente_tecnico_data"] = ExpedienteTecnico::withTrashed()->find($data["oferta_expediente_data"]->idexpediente_tecnico);
-				$data["proveedores"] = Proveedor::orderBy('razon_social','asc')->lists('razon_social','idproveedor');							
+				$data["oferta_evaluada_expediente_data"] = OfertaEvaluadaExpediente::getOfertaEvaluadaExpedientePorUsuario($idoferta_expediente,$data["user"]->id)->get();
+				if($data["oferta_evaluada_expediente_data"]->isEmpty())
+					$data["oferta_evaluada_expediente_data"] = null;
+				else
+					$data["oferta_evaluada_expediente_data"] = $data["oferta_evaluada_expediente_data"][0];							
 				return View::make('oferta_expediente/viewOfertaExpediente',$data);
 			}else{
 				return View::make('error/error',$data);

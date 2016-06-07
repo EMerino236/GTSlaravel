@@ -30,7 +30,7 @@ class OfertaEvaluadaExpediente extends Eloquent{
 	public function scopeSearchOfertaEvaluadaExpediente($query,$search_codigo_compra,$search_usuario,$search_area,$search_servicio,$search_fecha_ini,$search_fecha_fin)
 	{
 		$query->withTrashed()
-			  ->rightjoin('oferta_expediente','oferta_expediente.idoferta_expediente','=','observacion_expediente.idoferta_expediente')
+			  ->rightjoin('oferta_expediente','oferta_expediente.idoferta_expediente','=','oferta_evaluada_expediente.idoferta_expediente')
 			  ->join('expediente_tecnico','expediente_tecnico.idexpediente_tecnico','=','oferta_expediente.idexpediente_tecnico')		  
 			  ->join('users','users.id','=','expediente_tecnico.idresponsable')
 			  ->leftjoin('servicios','servicios.idservicio','=','expediente_tecnico.idservicio')
